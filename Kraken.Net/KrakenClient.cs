@@ -670,10 +670,10 @@ namespace Kraken.Net
         {
             var result = await ExecuteRequest<KrakenResult<T>>(url, method, parameters, signed).ConfigureAwait(false);
             if (!result.Success)
-                return new WebCallResult<T>(result.ResponseStatusCode, result.ResponseHeaders, default, result.Error);
+                return new WebCallResult<T>(result.ResponseStatusCode, result.ResponseHeaders, default(T), result.Error);
 
             if (result.Data.Error.Any())
-                return new WebCallResult<T>(result.ResponseStatusCode, result.ResponseHeaders, default, new ServerError(string.Join(", ", result.Data.Error)));
+                return new WebCallResult<T>(result.ResponseStatusCode, result.ResponseHeaders, default(T), new ServerError(string.Join(", ", result.Data.Error)));
 
             return new WebCallResult<T>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Result, null);
         }
