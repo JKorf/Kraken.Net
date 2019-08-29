@@ -1,0 +1,147 @@
+﻿using System;
+using CryptoExchange.Net.Attributes;
+using CryptoExchange.Net.Converters;
+using Kraken.Net.Converters;
+using Newtonsoft.Json;
+
+namespace Kraken.Net.Objects
+{
+    /// <summary>
+    /// Order info
+    /// </summary>
+    public class KrakenOrder
+    {
+        /// <summary>
+        /// Reference id
+        /// </summary>
+        [JsonProperty("refid")]
+        public string ReferenceId { get; set; }
+        /// <summary>
+        /// Client reference id
+        /// </summary>
+        [JsonProperty("userref")]
+        public string ClientOrderId { get; set; }
+        /// <summary>
+        /// Status of the order
+        /// </summary>
+        public OrderStatus Status { get; set; }
+        /// <summary>
+        /// Open timestamp
+        /// </summary>
+        [JsonProperty("opentm"), JsonConverter(typeof(TimestampSecondsConverter))]
+        public DateTime OpenTime { get; set; }
+        /// <summary>
+        /// Start timestamp
+        /// </summary>
+        [JsonProperty("starttm"), JsonConverter(typeof(TimestampSecondsConverter))]
+        public DateTime StartTime { get; set; }
+        /// <summary>
+        /// Expire timestamp
+        /// </summary>
+        [JsonProperty("expiretm"), JsonConverter(typeof(TimestampSecondsConverter))]
+        public DateTime ExpireTime { get; set; }
+        /// <summary>
+        /// Close timestamp
+        /// </summary>
+        [JsonProperty("closedtm"), JsonConverter(typeof(TimestampSecondsConverter))]
+        public DateTime? ClosedTime { get; set; }
+        /// <summary>
+        /// Order details
+        /// </summary>
+        [JsonProperty("descr")]
+        public KrakenOrderInfo OrderDetails { get; set; }
+        /// <summary>
+        /// Quantity of the order
+        /// </summary>
+        [JsonProperty("vol")]
+        public decimal Quantity { get; set; }
+        /// <summary>
+        /// Filled quantity
+        /// </summary>
+        [JsonProperty("vol_exec")]
+        public decimal ExecutedQuantity { get; set; }
+        /// <summary>
+        /// Cost of the order
+        /// </summary>
+        public decimal Cost { get; set; }
+        /// <summary>
+        /// Fee
+        /// </summary>
+        public decimal Fee { get; set; }
+        /// <summary>
+        /// Average price of the order
+        /// </summary>
+        [JsonProperty("price")]
+        public decimal AveragePrice { get; set; }
+        /// <summary>
+        /// Stop price
+        /// </summary>
+        public decimal StopPrice { get; set; }
+        /// <summary>
+        /// Limit price
+        /// </summary>
+        public decimal LimitPrice { get; set; }
+        /// <summary>
+        /// Miscellaneous info
+        /// </summary>
+        public string Misc { get; set; }
+        /// <summary>
+        /// Order flags
+        /// </summary>
+        public string Oflags { get; set; }
+        /// <summary>
+        /// Reason of failure
+        /// </summary>
+        [JsonOptionalProperty]
+        public string Reason { get; set; }
+        /// <summary>
+        /// Trade ids
+        /// </summary>
+        [JsonProperty("trades")]
+        [JsonOptionalProperty]
+        public long[] TradeIds { get; set; }
+    }
+
+    /// <summary>
+    /// Order details
+    /// </summary>
+    public class KrakenOrderInfo
+    {
+        /// <summary>
+        /// The market of the order
+        /// </summary>
+        [JsonProperty("pair")]
+        public string Market { get; set; }
+        /// <summary>
+        /// Side of the order
+        /// </summary>
+        [JsonProperty("type"), JsonConverter(typeof(OrderSideConverter))]
+        public OrderSide Side { get; set; }
+        /// <summary>
+        /// Type of the order
+        /// </summary>
+        [JsonProperty("ordertype"), JsonConverter(typeof(OrderTypeConverter))]
+        public OrderType Type { get; set; }
+        /// <summary>
+        /// Price of the order
+        /// </summary>
+        public decimal Price { get; set; }
+        /// <summary>
+        /// Secondary price of the order (<see cref="KrakenClient.PlaceOrder"/> for details)
+        /// </summary>
+        [JsonProperty("price2")]
+        public decimal SecondaryPrice { get; set; }
+        /// <summary>
+        /// Amount of leverage
+        /// </summary>
+        public string Leverage { get; set; }
+        /// <summary>
+        /// Order description
+        /// </summary>
+        public string Order { get; set; }
+        /// <summary>
+        /// Conditional close order description
+        /// </summary>
+        public string Close { get; set; }
+    }
+}

@@ -1,0 +1,2574 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Kraken.Net</name>
+    </assembly>
+    <members>
+        <member name="T:Kraken.Net.Converters.KrakenDictionaryResult`1">
+            <summary>
+            Dictionary result
+            </summary>
+            <typeparam name="T">Type of the data</typeparam>
+        </member>
+        <member name="P:Kraken.Net.Converters.KrakenDictionaryResult`1.Data">
+            <summary>
+            The data
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Converters.KrakenDictionaryResult`1.Last">
+            <summary>
+            The timestamp of the data
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Converters.KrakenKlinesResult">
+            <summary>
+            Kline result
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Converters.KrakenTradesResult">
+            <summary>
+            Trade result
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Converters.KrakenSpreadsResult">
+            <summary>
+            Spread result
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Interfaces.IKrakenClient">
+            <summary>
+            Interface for the Kraken client
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetServerTime">
+            <summary>
+            Get the server time
+            </summary>
+            <returns>Server time</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetServerTimeAsync">
+            <summary>
+            Get the server time
+            </summary>
+            <returns>Server time</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetAssets(System.String[])">
+            <summary>
+            Get a list of assets and info about them
+            </summary>
+            <param name="assets">Filter list for specific assets</param>
+            <returns>Dictionary of asset info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetAssetsAsync(System.String[])">
+            <summary>
+            Get a list of assets and info about them
+            </summary>
+            <param name="assets">Filter list for specific assets</param>
+            <returns>Dictionary of asset info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetMarkets(System.String[])">
+            <summary>
+            Get a list of markets and info about them
+            </summary>
+            <param name="markets">Filter list for specific markets</param>
+            <returns>Dictionary of market info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetMarketsAsync(System.String[])">
+            <summary>
+            Get a list of markets and info about them
+            </summary>
+            <param name="markets">Filter list for specific markets</param>
+            <returns>Dictionary of market info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTickers(System.String[])">
+            <summary>
+            Get tickers for markets
+            </summary>
+            <param name="markets">Markets to get tickers for</param>
+            <returns>Dictionary with ticker info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTickersAsync(System.String[])">
+            <summary>
+            Get tickers for markets
+            </summary>
+            <param name="markets">Markets to get tickers for</param>
+            <returns>Dictionary with ticker info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetKlines(System.String,Kraken.Net.Objects.KlineInterval,System.Nullable{System.DateTime})">
+            <summary>
+            Gets kline data for a market
+            </summary>
+            <param name="market">The market to get data for</param>
+            <param name="interval">The interval of the klines</param>
+            <param name="since">Return klines since a secific time</param>
+            <returns>Kline data</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetKlinesAsync(System.String,Kraken.Net.Objects.KlineInterval,System.Nullable{System.DateTime})">
+            <summary>
+            Gets kline data for a market
+            </summary>
+            <param name="market">The market to get data for</param>
+            <param name="interval">The interval of the klines</param>
+            <param name="since">Return klines since a secific time</param>
+            <returns>Kline data</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOrderBook(System.String,System.Nullable{System.Int32})">
+            <summary>
+            Get the order book for a market
+            </summary>
+            <param name="market">Market to get the book for</param>
+            <param name="limit">Limit to book to the best x bids/asks</param>
+            <returns>Order book for the market</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOrderBookAsync(System.String,System.Nullable{System.Int32})">
+            <summary>
+            Get the order book for a market
+            </summary>
+            <param name="market">Market to get the book for</param>
+            <param name="limit">Limit to book to the best x bids/asks</param>
+            <returns>Order book for the market</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetRecentTrades(System.String,System.Nullable{System.DateTime})">
+            <summary>
+            Get a list of recent trades for a market
+            </summary>
+            <param name="market">Market to get trades for</param>
+            <param name="since">Return trades since a specific time</param>
+            <returns>Recent trades</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetRecentTradesAsync(System.String,System.Nullable{System.DateTime})">
+            <summary>
+            Get a list of recent trades for a market
+            </summary>
+            <param name="market">Market to get trades for</param>
+            <param name="since">Return trades since a specific time</param>
+            <returns>Recent trades</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetRecentSpread(System.String,System.Nullable{System.DateTime})">
+            <summary>
+            Get spread data for a market
+            </summary>
+            <param name="market">Market to get spread data for</param>
+            <param name="since">Return spread data since a specific time</param>
+            <returns>Spread data</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetRecentSpreadAsync(System.String,System.Nullable{System.DateTime})">
+            <summary>
+            Get spread data for a market
+            </summary>
+            <param name="market">Market to get spread data for</param>
+            <param name="since">Return spread data since a specific time</param>
+            <returns>Spread data</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetAccountBalance">
+            <summary>
+            Get balances
+            </summary>
+            <returns>Dictionary with balances for assets</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetAccountBalanceAsync">
+            <summary>
+            Get balances
+            </summary>
+            <returns>Dictionary with balances for assets</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeBalance(System.String)">
+            <summary>
+            Get trade balance
+            </summary>
+            <param name="baseAsset">Base asset to get trade balance for</param>
+            <returns>Trade balance data</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeBalanceAsync(System.String)">
+            <summary>
+            Get trade balance
+            </summary>
+            <param name="baseAsset">Base asset to get trade balance for</param>
+            <returns>Trade balance data</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOpenOrders(System.String)">
+            <summary>
+            Get a list of open orders
+            </summary>
+            <param name="clientOrderId">Filter by client order id</param>
+            <returns>List of open orders</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOpenOrdersAsync(System.String)">
+            <summary>
+            Get a list of open orders
+            </summary>
+            <param name="clientOrderId">Filter by client order id</param>
+            <returns>List of open orders</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetClosedOrders(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+            Get a list of closed orders
+            </summary>
+            <param name="clientOrderId">Filter by client order id</param>
+            <param name="startTime">Return data after this time</param>
+            <param name="endTime">Return data before this time</param>
+            <param name="resultOffset">Offset the results by</param>
+            <returns>Closed orders page</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetClosedOrdersAsync(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+            Get a list of closed orders
+            </summary>
+            <param name="clientOrderId">Filter by client order id</param>
+            <param name="startTime">Return data after this time</param>
+            <param name="endTime">Return data before this time</param>
+            <param name="resultOffset">Offset the results by</param>
+            <returns>Closed orders page</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOrders(System.String,System.String[])">
+            <summary>
+            Get info on specific orders
+            </summary>
+            <param name="clientOrderId">Get orders by clientOrderId</param>
+            <param name="orderIds">Get orders by their order ids</param>
+            <returns>Dictionary with order info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOrdersAsync(System.String,System.String[])">
+            <summary>
+            Get info on specific orders
+            </summary>
+            <param name="clientOrderId">Get orders by clientOrderId</param>
+            <param name="orderIds">Get orders by their order ids</param>
+            <returns>Dictionary with order info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeHistory(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+            Get trade history
+            </summary>
+            <param name="startTime">Return data after this time</param>
+            <param name="endTime">Return data before this time</param>
+            <param name="resultOffset">Offset the results by</param>
+            <returns>Trade history page</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeHistoryAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+            Get trade history
+            </summary>
+            <param name="startTime">Return data after this time</param>
+            <param name="endTime">Return data before this time</param>
+            <param name="resultOffset">Offset the results by</param>
+            <returns>Trade history page</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTrades(System.String[])">
+            <summary>
+            Get info on specific trades
+            </summary>
+            <param name="tradeIds">The trades to get info on</param>
+            <returns>Dictionary with trade info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradesAsync(System.String[])">
+            <summary>
+            Get info on specific trades
+            </summary>
+            <param name="tradeIds">The trades to get info on</param>
+            <returns>Dictionary with trade info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOpenPositions(System.String[])">
+            <summary>
+            Get a list of open positions
+            </summary>
+            <param name="transactionIds">Filter by transaction ids</param>
+            <returns>Dictionary with position info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOpenPositionsAsync(System.String[])">
+            <summary>
+            Get a list of open positions
+            </summary>
+            <param name="transactionIds">Filter by transaction ids</param>
+            <returns>Dictionary with position info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgerInfo(System.String[],Kraken.Net.Objects.LedgerEntryType[],System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+            Get ledger entries info
+            </summary>
+            <param name="assets">Filter list by asset names</param>
+            <param name="entryTypes">Filter list by entry types</param>
+            <param name="startTime">Return data after this time</param>
+            <param name="endTime">Return data before this time</param>
+            <param name="resultOffset">Offset the results by</param>
+            <returns>Ledger entries page</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgerInfoAsync(System.String[],Kraken.Net.Objects.LedgerEntryType[],System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+            Get ledger entries info
+            </summary>
+            <param name="assets">Filter list by asset names</param>
+            <param name="entryTypes">Filter list by entry types</param>
+            <param name="startTime">Return data after this time</param>
+            <param name="endTime">Return data before this time</param>
+            <param name="resultOffset">Offset the results by</param>
+            <returns>Ledger entries page</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgersEntry(System.String[])">
+            <summary>
+            Get info on specific ledger entries
+            </summary>
+            <param name="ledgerIds">The ids to get info for</param>
+            <returns>Dictionary with ledger entry info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgersEntryAsync(System.String[])">
+            <summary>
+            Get info on specific ledger entries
+            </summary>
+            <param name="ledgerIds">The ids to get info for</param>
+            <returns>Dictionary with ledger entry info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeVolume(System.String[])">
+            <summary>
+            Get trade volume
+            </summary>
+            <param name="markets">Markets to get data for</param>
+            <returns>Trade fee info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeVolumeAsync(System.String[])">
+            <summary>
+            Get trade volume
+            </summary>
+            <param name="markets">Markets to get data for</param>
+            <returns>Trade fee info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositMethods(System.String)">
+            <summary>
+            Get deposit methods
+            </summary>
+            <param name="asset">Asset to get methods for</param>
+            <returns>Array with methods for deposit</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositMethodsAsync(System.String)">
+            <summary>
+            Get deposit methods
+            </summary>
+            <param name="asset">Asset to get methods for</param>
+            <returns>Array with methods for deposit</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositAddresses(System.String,System.String,System.Boolean)">
+            <summary>
+            Get deposit addresses for an asset
+            </summary>
+            <param name="asset">The asset to get the deposit address for</param>
+            <param name="depositMethod">The method of deposit</param>
+            <param name="generateNew">Whether to generate a new address</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositAddressesAsync(System.String,System.String,System.Boolean)">
+            <summary>
+            Get deposit addresses for an asset
+            </summary>
+            <param name="asset">The asset to get the deposit address for</param>
+            <param name="depositMethod">The method of deposit</param>
+            <param name="generateNew">Whether to generate a new address</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositStatus(System.String,System.String)">
+            <summary>
+            Get status deposits for an asset
+            </summary>
+            <param name="asset">Asset to get deposit info for</param>
+            <param name="depositMethod">The deposit method</param>
+            <returns>Deposit status list</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositStatusAsync(System.String,System.String)">
+            <summary>
+            Get status deposits for an asset
+            </summary>
+            <param name="asset">Asset to get deposit info for</param>
+            <param name="depositMethod">The deposit method</param>
+            <returns>Deposit status list</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.PlaceOrder(System.String,Kraken.Net.Objects.OrderSide,Kraken.Net.Objects.OrderType,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean})">
+            <summary>
+            Place a new order
+            </summary>
+            <param name="market">The market the order is on</param>
+            <param name="side">The side of the order</param>
+            <param name="type">The type of the order</param>
+            <param name="quantity">The quantity of the order</param>
+            <param name="clientOrderId">A client id to reference the order by</param>
+            <param name="price">Price of the order:
+            Limit=limit price,
+            StopLoss=stop loss price,
+            TakeProfit=take profit price,
+            StopLossProfit=stop loss price,
+            StopLossProfitLimit=stop loss price,
+            StopLossLimit=stop loss trigger price,
+            TakeProfitLimit=take profit trigger price,
+            TrailingStop=trailing stop offset,
+            TrailingStopLimit=trailing stop offset,
+            StopLossAndLimit=stop loss price,
+            </param>
+            <param name="secondaryPrice">Secondary price of an order:
+            StopLossProfit/StopLossProfitLimit=take profit price,
+            StopLossLimit/TakeProfitLimit=triggered limit price,
+            TrailingStopLimit=triggered limit offset,
+            StopLossAndLimit=limit price</param>
+            <param name="leverage">Desired leverage</param>
+            <param name="startTime">Scheduled start time</param>
+            <param name="expireTime">Expiration time</param>
+            <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+            <returns>Placed order info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.PlaceOrderAsync(System.String,Kraken.Net.Objects.OrderSide,Kraken.Net.Objects.OrderType,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean})">
+            <summary>
+            Place a new order
+            </summary>
+            <param name="market">The market the order is on</param>
+            <param name="side">The side of the order</param>
+            <param name="type">The type of the order</param>
+            <param name="quantity">The quantity of the order</param>
+            <param name="clientOrderId">A client id to reference the order by</param>
+            <param name="price">Price of the order:
+            Limit=limit price,
+            StopLoss=stop loss price,
+            TakeProfit=take profit price,
+            StopLossProfit=stop loss price,
+            StopLossProfitLimit=stop loss price,
+            StopLossLimit=stop loss trigger price,
+            TakeProfitLimit=take profit trigger price,
+            TrailingStop=trailing stop offset,
+            TrailingStopLimit=trailing stop offset,
+            StopLossAndLimit=stop loss price,
+            </param>
+            <param name="secondaryPrice">Secondary price of an order:
+            StopLossProfit/StopLossProfitLimit=take profit price,
+            StopLossLimit/TakeProfitLimit=triggered limit price,
+            TrailingStopLimit=triggered limit offset,
+            StopLossAndLimit=limit price</param>
+            <param name="leverage">Desired leverage</param>
+            <param name="startTime">Scheduled start time</param>
+            <param name="expireTime">Expiration time</param>
+            <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+            <returns>Placed order info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.CancelOrder(System.String)">
+            <summary>
+            Cancel an order
+            </summary>
+            <param name="orderId">The id of the order to cancel</param>
+            <returns>Cancel result</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.CancelOrderAsync(System.String)">
+            <summary>
+            Cancel an order
+            </summary>
+            <param name="orderId">The id of the order to cancel</param>
+            <returns>Cancel result</returns>
+        </member>
+        <member name="T:Kraken.Net.Interfaces.IKrakenSocketClient">
+            <summary>
+            Interface for the Kraken socket client
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToTickerUpdates(System.String,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{Kraken.Net.Objects.KrakenStreamTick}})">
+            <summary>
+            Subscribe to ticker updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToTickerUpdatesAsync(System.String,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{Kraken.Net.Objects.KrakenStreamTick}})">
+            <summary>
+            Subscribe to ticker updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToKlineUpdates(System.String,Kraken.Net.Objects.KlineInterval,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{Kraken.Net.Objects.KrakenStreamKline}})">
+            <summary>
+            Subscribe to kline updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="interval">Kline interval</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToKlineUpdatesAsync(System.String,Kraken.Net.Objects.KlineInterval,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{Kraken.Net.Objects.KrakenStreamKline}})">
+            <summary>
+            Subscribe to kline updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="interval">Kline interval</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToTradeUpdates(System.String,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{System.Collections.Generic.List{Kraken.Net.Objects.KrakenTrade}}})">
+            <summary>
+            Subscribe to trade updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToTradeUpdatesAsync(System.String,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{System.Collections.Generic.List{Kraken.Net.Objects.KrakenTrade}}})">
+            <summary>
+            Subscribe to trade updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToSpreadUpdates(System.String,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{Kraken.Net.Objects.KrakenStreamSpread}})">
+            <summary>
+            Subscribe to spread updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToSpreadUpdatesAsync(System.String,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{Kraken.Net.Objects.KrakenStreamSpread}})">
+            <summary>
+            Subscribe to spread updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToDepthUpdates(System.String,System.Int32,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{Kraken.Net.Objects.KrakenStreamOrderBook}})">
+            <summary>
+            Subscribe to depth updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="depth">Depth of the initial order book snapshot</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToDepthUpdatesAsync(System.String,System.Int32,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{Kraken.Net.Objects.KrakenStreamOrderBook}})">
+            <summary>
+            Subscribe to depth updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="depth">Depth of the initial order book snapshot</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="T:Kraken.Net.KrakenClient">
+            <summary>
+            Client for the Kraken Rest API
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.#ctor">
+            <summary>
+            Create a new instance of KrakenClient using the default options
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.#ctor(Kraken.Net.KrakenClientOptions)">
+            <summary>
+            Create a new instance of KrakenClient using provided options
+            </summary>
+            <param name="options">The options to use for this client</param>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetServerTime">
+            <summary>
+            Get the server time
+            </summary>
+            <returns>Server time</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetServerTimeAsync">
+            <summary>
+            Get the server time
+            </summary>
+            <returns>Server time</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetAssets(System.String[])">
+            <summary>
+            Get a list of assets and info about them
+            </summary>
+            <param name="assets">Filter list for specific assets</param>
+            <returns>Dictionary of asset info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetAssetsAsync(System.String[])">
+            <summary>
+            Get a list of assets and info about them
+            </summary>
+            <param name="assets">Filter list for specific assets</param>
+            <returns>Dictionary of asset info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetMarkets(System.String[])">
+            <summary>
+            Get a list of markets and info about them
+            </summary>
+            <param name="markets">Filter list for specific markets</param>
+            <returns>Dictionary of market info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetMarketsAsync(System.String[])">
+            <summary>
+            Get a list of markets and info about them
+            </summary>
+            <param name="markets">Filter list for specific markets</param>
+            <returns>Dictionary of market info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetTickers(System.String[])">
+            <summary>
+            Get tickers for markets
+            </summary>
+            <param name="markets">Markets to get tickers for</param>
+            <returns>Dictionary with ticker info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetTickersAsync(System.String[])">
+            <summary>
+            Get tickers for markets
+            </summary>
+            <param name="markets">Markets to get tickers for</param>
+            <returns>Dictionary with ticker info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetKlines(System.String,Kraken.Net.Objects.KlineInterval,System.Nullable{System.DateTime})">
+            <summary>
+            Gets kline data for a market
+            </summary>
+            <param name="market">The market to get data for</param>
+            <param name="interval">The interval of the klines</param>
+            <param name="since">Return klines since a secific time</param>
+            <returns>Kline data</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetKlinesAsync(System.String,Kraken.Net.Objects.KlineInterval,System.Nullable{System.DateTime})">
+            <summary>
+            Gets kline data for a market
+            </summary>
+            <param name="market">The market to get data for</param>
+            <param name="interval">The interval of the klines</param>
+            <param name="since">Return klines since a secific time</param>
+            <returns>Kline data</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetOrderBook(System.String,System.Nullable{System.Int32})">
+            <summary>
+            Get the order book for a market
+            </summary>
+            <param name="market">Market to get the book for</param>
+            <param name="limit">Limit to book to the best x bids/asks</param>
+            <returns>Order book for the market</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetOrderBookAsync(System.String,System.Nullable{System.Int32})">
+            <summary>
+            Get the order book for a market
+            </summary>
+            <param name="market">Market to get the book for</param>
+            <param name="limit">Limit to book to the best x bids/asks</param>
+            <returns>Order book for the market</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetRecentTrades(System.String,System.Nullable{System.DateTime})">
+            <summary>
+            Get a list of recent trades for a market
+            </summary>
+            <param name="market">Market to get trades for</param>
+            <param name="since">Return trades since a specific time</param>
+            <returns>Recent trades</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetRecentTradesAsync(System.String,System.Nullable{System.DateTime})">
+            <summary>
+            Get a list of recent trades for a market
+            </summary>
+            <param name="market">Market to get trades for</param>
+            <param name="since">Return trades since a specific time</param>
+            <returns>Recent trades</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetRecentSpread(System.String,System.Nullable{System.DateTime})">
+            <summary>
+            Get spread data for a market
+            </summary>
+            <param name="market">Market to get spread data for</param>
+            <param name="since">Return spread data since a specific time</param>
+            <returns>Spread data</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetRecentSpreadAsync(System.String,System.Nullable{System.DateTime})">
+            <summary>
+            Get spread data for a market
+            </summary>
+            <param name="market">Market to get spread data for</param>
+            <param name="since">Return spread data since a specific time</param>
+            <returns>Spread data</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetAccountBalance">
+            <summary>
+            Get balances
+            </summary>
+            <returns>Dictionary with balances for assets</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetAccountBalanceAsync">
+            <summary>
+            Get balances
+            </summary>
+            <returns>Dictionary with balances for assets</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetTradeBalance(System.String)">
+            <summary>
+            Get trade balance
+            </summary>
+            <param name="baseAsset">Base asset to get trade balance for</param>
+            <returns>Trade balance data</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetTradeBalanceAsync(System.String)">
+            <summary>
+            Get trade balance
+            </summary>
+            <param name="baseAsset">Base asset to get trade balance for</param>
+            <returns>Trade balance data</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetOpenOrders(System.String)">
+            <summary>
+            Get a list of open orders
+            </summary>
+            <param name="clientOrderId">Filter by client order id</param>
+            <returns>List of open orders</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetOpenOrdersAsync(System.String)">
+            <summary>
+            Get a list of open orders
+            </summary>
+            <param name="clientOrderId">Filter by client order id</param>
+            <returns>List of open orders</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetClosedOrders(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+            Get a list of closed orders
+            </summary>
+            <param name="clientOrderId">Filter by client order id</param>
+            <param name="startTime">Return data after this time</param>
+            <param name="endTime">Return data before this time</param>
+            <param name="resultOffset">Offset the results by</param>
+            <returns>Closed orders page</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetClosedOrdersAsync(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+            Get a list of closed orders
+            </summary>
+            <param name="clientOrderId">Filter by client order id</param>
+            <param name="startTime">Return data after this time</param>
+            <param name="endTime">Return data before this time</param>
+            <param name="resultOffset">Offset the results by</param>
+            <returns>Closed orders page</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetOrders(System.String,System.String[])">
+            <summary>
+            Get info on specific orders
+            </summary>
+            <param name="clientOrderId">Get orders by clientOrderId</param>
+            <param name="orderIds">Get orders by their order ids</param>
+            <returns>Dictionary with order info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetOrdersAsync(System.String,System.String[])">
+            <summary>
+            Get info on specific orders
+            </summary>
+            <param name="clientOrderId">Get orders by clientOrderId</param>
+            <param name="orderIds">Get orders by their order ids</param>
+            <returns>Dictionary with order info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetTradeHistory(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+            Get trade history
+            </summary>
+            <param name="startTime">Return data after this time</param>
+            <param name="endTime">Return data before this time</param>
+            <param name="resultOffset">Offset the results by</param>
+            <returns>Trade history page</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetTradeHistoryAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+            Get trade history
+            </summary>
+            <param name="startTime">Return data after this time</param>
+            <param name="endTime">Return data before this time</param>
+            <param name="resultOffset">Offset the results by</param>
+            <returns>Trade history page</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetTrades(System.String[])">
+            <summary>
+            Get info on specific trades
+            </summary>
+            <param name="tradeIds">The trades to get info on</param>
+            <returns>Dictionary with trade info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetTradesAsync(System.String[])">
+            <summary>
+            Get info on specific trades
+            </summary>
+            <param name="tradeIds">The trades to get info on</param>
+            <returns>Dictionary with trade info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetOpenPositions(System.String[])">
+            <summary>
+            Get a list of open positions
+            </summary>
+            <param name="transactionIds">Filter by transaction ids</param>
+            <returns>Dictionary with position info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetOpenPositionsAsync(System.String[])">
+            <summary>
+            Get a list of open positions
+            </summary>
+            <param name="transactionIds">Filter by transaction ids</param>
+            <returns>Dictionary with position info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetLedgerInfo(System.String[],Kraken.Net.Objects.LedgerEntryType[],System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+            Get ledger entries info
+            </summary>
+            <param name="assets">Filter list by asset names</param>
+            <param name="entryTypes">Filter list by entry types</param>
+            <param name="startTime">Return data after this time</param>
+            <param name="endTime">Return data before this time</param>
+            <param name="resultOffset">Offset the results by</param>
+            <returns>Ledger entries page</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetLedgerInfoAsync(System.String[],Kraken.Net.Objects.LedgerEntryType[],System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+            Get ledger entries info
+            </summary>
+            <param name="assets">Filter list by asset names</param>
+            <param name="entryTypes">Filter list by entry types</param>
+            <param name="startTime">Return data after this time</param>
+            <param name="endTime">Return data before this time</param>
+            <param name="resultOffset">Offset the results by</param>
+            <returns>Ledger entries page</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetLedgersEntry(System.String[])">
+            <summary>
+            Get info on specific ledger entries
+            </summary>
+            <param name="ledgerIds">The ids to get info for</param>
+            <returns>Dictionary with ledger entry info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetLedgersEntryAsync(System.String[])">
+            <summary>
+            Get info on specific ledger entries
+            </summary>
+            <param name="ledgerIds">The ids to get info for</param>
+            <returns>Dictionary with ledger entry info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetTradeVolume(System.String[])">
+            <summary>
+            Get trade volume
+            </summary>
+            <param name="markets">Markets to get data for</param>
+            <returns>Trade fee info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetTradeVolumeAsync(System.String[])">
+            <summary>
+            Get trade volume
+            </summary>
+            <param name="markets">Markets to get data for</param>
+            <returns>Trade fee info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetDepositMethods(System.String)">
+            <summary>
+            Get deposit methods
+            </summary>
+            <param name="asset">Asset to get methods for</param>
+            <returns>Array with methods for deposit</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetDepositMethodsAsync(System.String)">
+            <summary>
+            Get deposit methods
+            </summary>
+            <param name="asset">Asset to get methods for</param>
+            <returns>Array with methods for deposit</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetDepositAddresses(System.String,System.String,System.Boolean)">
+            <summary>
+            Get deposit addresses for an asset
+            </summary>
+            <param name="asset">The asset to get the deposit address for</param>
+            <param name="depositMethod">The method of deposit</param>
+            <param name="generateNew">Whether to generate a new address</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetDepositAddressesAsync(System.String,System.String,System.Boolean)">
+            <summary>
+            Get deposit addresses for an asset
+            </summary>
+            <param name="asset">The asset to get the deposit address for</param>
+            <param name="depositMethod">The method of deposit</param>
+            <param name="generateNew">Whether to generate a new address</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetDepositStatus(System.String,System.String)">
+            <summary>
+            Get status deposits for an asset
+            </summary>
+            <param name="asset">Asset to get deposit info for</param>
+            <param name="depositMethod">The deposit method</param>
+            <returns>Deposit status list</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetDepositStatusAsync(System.String,System.String)">
+            <summary>
+            Get status deposits for an asset
+            </summary>
+            <param name="asset">Asset to get deposit info for</param>
+            <param name="depositMethod">The deposit method</param>
+            <returns>Deposit status list</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.PlaceOrder(System.String,Kraken.Net.Objects.OrderSide,Kraken.Net.Objects.OrderType,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean})">
+            <summary>
+            Place a new order
+            </summary>
+            <param name="market">The market the order is on</param>
+            <param name="side">The side of the order</param>
+            <param name="type">The type of the order</param>
+            <param name="quantity">The quantity of the order</param>
+            <param name="clientOrderId">A client id to reference the order by</param>
+            <param name="price">Price of the order:
+            Limit=limit price,
+            StopLoss=stop loss price,
+            TakeProfit=take profit price,
+            StopLossProfit=stop loss price,
+            StopLossProfitLimit=stop loss price,
+            StopLossLimit=stop loss trigger price,
+            TakeProfitLimit=take profit trigger price,
+            TrailingStop=trailing stop offset,
+            TrailingStopLimit=trailing stop offset,
+            StopLossAndLimit=stop loss price,
+            </param>
+            <param name="secondaryPrice">Secondary price of an order:
+            StopLossProfit/StopLossProfitLimit=take profit price,
+            StopLossLimit/TakeProfitLimit=triggered limit price,
+            TrailingStopLimit=triggered limit offset,
+            StopLossAndLimit=limit price</param>
+            <param name="leverage">Desired leverage</param>
+            <param name="startTime">Scheduled start time</param>
+            <param name="expireTime">Expiration time</param>
+            <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+            <returns>Placed order info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.PlaceOrderAsync(System.String,Kraken.Net.Objects.OrderSide,Kraken.Net.Objects.OrderType,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean})">
+            <summary>
+            Place a new order
+            </summary>
+            <param name="market">The market the order is on</param>
+            <param name="side">The side of the order</param>
+            <param name="type">The type of the order</param>
+            <param name="quantity">The quantity of the order</param>
+            <param name="clientOrderId">A client id to reference the order by</param>
+            <param name="price">Price of the order:
+            Limit=limit price,
+            StopLoss=stop loss price,
+            TakeProfit=take profit price,
+            StopLossProfit=stop loss price,
+            StopLossProfitLimit=stop loss price,
+            StopLossLimit=stop loss trigger price,
+            TakeProfitLimit=take profit trigger price,
+            TrailingStop=trailing stop offset,
+            TrailingStopLimit=trailing stop offset,
+            StopLossAndLimit=stop loss price,
+            </param>
+            <param name="secondaryPrice">Secondary price of an order:
+            StopLossProfit/StopLossProfitLimit=take profit price,
+            StopLossLimit/TakeProfitLimit=triggered limit price,
+            TrailingStopLimit=triggered limit offset,
+            StopLossAndLimit=limit price</param>
+            <param name="leverage">Desired leverage</param>
+            <param name="startTime">Scheduled start time</param>
+            <param name="expireTime">Expiration time</param>
+            <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+            <returns>Placed order info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.CancelOrder(System.String)">
+            <summary>
+            Cancel an order
+            </summary>
+            <param name="orderId">The id of the order to cancel</param>
+            <returns>Cancel result</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.CancelOrderAsync(System.String)">
+            <summary>
+            Cancel an order
+            </summary>
+            <param name="orderId">The id of the order to cancel</param>
+            <returns>Cancel result</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.WriteParamBody(CryptoExchange.Net.Interfaces.IRequest,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <inheritdoc />
+        </member>
+        <member name="T:Kraken.Net.KrakenClientOptions">
+            <summary>
+            Options for the Kraken client
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.KrakenClientOptions.#ctor">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.KrakenSocketClientOptions">
+            <summary>
+            Options for the Kraken socket client
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClientOptions.#ctor">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.KrakenOrderBookOptions">
+            <summary>
+            Options for the Kraken symbol order book
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.KrakenOrderBookOptions.SocketClient">
+            <summary>
+            The client to use for the socket connection. When using the same client for multiple order books the connection can be shared.
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.KrakenOrderBookOptions.#ctor(Kraken.Net.Interfaces.IKrakenSocketClient)">
+            <summary>
+            </summary>
+            <param name="client">The client to use for the socket connection. When using the same client for multiple order books the connection can be shared.</param>
+        </member>
+        <member name="T:Kraken.Net.KrakenSocketClient">
+            <summary>
+            Client for the Kraken websocket API
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.#ctor">
+            <summary>
+            Create a new instance of KrakenSocketClient using the default options
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.#ctor(Kraken.Net.KrakenSocketClientOptions)">
+            <summary>
+            Create a new instance of KrakenSocketClient using provided options
+            </summary>
+            <param name="options">The options to use for this client</param>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToTickerUpdates(System.String,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{Kraken.Net.Objects.KrakenStreamTick}})">
+            <summary>
+            Subscribe to ticker updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToTickerUpdatesAsync(System.String,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{Kraken.Net.Objects.KrakenStreamTick}})">
+            <summary>
+            Subscribe to ticker updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToKlineUpdates(System.String,Kraken.Net.Objects.KlineInterval,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{Kraken.Net.Objects.KrakenStreamKline}})">
+            <summary>
+            Subscribe to kline updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="interval">Kline interval</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToKlineUpdatesAsync(System.String,Kraken.Net.Objects.KlineInterval,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{Kraken.Net.Objects.KrakenStreamKline}})">
+            <summary>
+            Subscribe to kline updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="interval">Kline interval</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToTradeUpdates(System.String,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{System.Collections.Generic.List{Kraken.Net.Objects.KrakenTrade}}})">
+            <summary>
+            Subscribe to trade updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToTradeUpdatesAsync(System.String,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{System.Collections.Generic.List{Kraken.Net.Objects.KrakenTrade}}})">
+            <summary>
+            Subscribe to trade updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToSpreadUpdates(System.String,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{Kraken.Net.Objects.KrakenStreamSpread}})">
+            <summary>
+            Subscribe to spread updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToSpreadUpdatesAsync(System.String,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{Kraken.Net.Objects.KrakenStreamSpread}})">
+            <summary>
+            Subscribe to spread updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToDepthUpdates(System.String,System.Int32,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{Kraken.Net.Objects.KrakenStreamOrderBook}})">
+            <summary>
+            Subscribe to depth updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="depth">Depth of the initial order book snapshot</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToDepthUpdatesAsync(System.String,System.Int32,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{Kraken.Net.Objects.KrakenStreamOrderBook}})">
+            <summary>
+            Subscribe to depth updates
+            </summary>
+            <param name="market">Market to subscribe to</param>
+            <param name="depth">Depth of the initial order book snapshot</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.HandleQueryResponse``1(CryptoExchange.Net.Sockets.SocketConnection,System.Object,Newtonsoft.Json.Linq.JToken,CryptoExchange.Net.Objects.CallResult{``0}@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.HandleSubscriptionResponse(CryptoExchange.Net.Sockets.SocketConnection,CryptoExchange.Net.Sockets.SocketSubscription,System.Object,Newtonsoft.Json.Linq.JToken,CryptoExchange.Net.Objects.CallResult{System.Object}@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.MessageMatchesHandler(Newtonsoft.Json.Linq.JToken,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.MessageMatchesHandler(Newtonsoft.Json.Linq.JToken,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.AuthenticateSocket(CryptoExchange.Net.Sockets.SocketConnection)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.Unsubscribe(CryptoExchange.Net.Sockets.SocketConnection,CryptoExchange.Net.Sockets.SocketSubscription)">
+            <inheritdoc />
+        </member>
+        <member name="T:Kraken.Net.KrakenSymbolOrderBook">
+            <summary>
+            Live order book implementation
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.KrakenSymbolOrderBook.#ctor(System.String,System.Int32,Kraken.Net.KrakenOrderBookOptions)">
+            <summary>
+            Create a new order book instance
+            </summary>
+            <param name="market">The symbol the order book is for</param>
+            <param name="limit">The initial limit of entries in the order book</param>
+            <param name="options">Options for the order book</param>
+        </member>
+        <member name="M:Kraken.Net.KrakenSymbolOrderBook.DoStart">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenSymbolOrderBook.DoReset">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenSymbolOrderBook.DoResync">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenSymbolOrderBook.Dispose">
+            <summary>
+            Dispose
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KlineInterval">
+            <summary>
+            The time interval of kline data
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.KlineInterval.OneMinute">
+            <summary>
+            1m
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.KlineInterval.FiveMinutes">
+            <summary>
+            5m
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.KlineInterval.FifteenMinutes">
+            <summary>
+            15m
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.KlineInterval.ThirtyMinutes">
+            <summary>
+            30m
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.KlineInterval.OneHour">
+            <summary>
+            1h
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.KlineInterval.FourHour">
+            <summary>
+            4h
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.KlineInterval.OneDay">
+            <summary>
+            1d
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.KlineInterval.OneWeek">
+            <summary>
+            1w
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.KlineInterval.FifteenDays">
+            <summary>
+            15d
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.OrderSide">
+            <summary>
+            Side of an order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderSide.Buy">
+            <summary>
+            Buy
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderSide.Sell">
+            <summary>
+            Sell
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.OrderTypeMinimal">
+            <summary>
+            Order type, limited to market or limit
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderTypeMinimal.Limit">
+            <summary>
+            Limit order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderTypeMinimal.Market">
+            <summary>
+            Market order
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.OrderType">
+            <summary>
+            Order type
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderType.Limit">
+            <summary>
+            Limit order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderType.Market">
+            <summary>
+            Market order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderType.StopLoss">
+            <summary>
+            Stop loss order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderType.TakeProfit">
+            <summary>
+            Take profit order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderType.StopLossProfit">
+            <summary>
+            Stop loss profit order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderType.StopLossProfitLimit">
+            <summary>
+            Stop loss profit limit order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderType.StopLossLimit">
+            <summary>
+            Stop loss limit order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderType.TakeProfitLimit">
+            <summary>
+            Take profit limit order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderType.TrailingStop">
+            <summary>
+            Trailing stop order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderType.TrailingStopLimit">
+            <summary>
+            Trailing stop limit order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderType.StopLossAndLimit">
+            <summary>
+            Stop loss and limit order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderType.SettlePosition">
+            <summary>
+            Settle position
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.OrderStatus">
+            <summary>
+            Status of an order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderStatus.Pending">
+            <summary>
+            Pending
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderStatus.Open">
+            <summary>
+            Active, not (fully) filled
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderStatus.Closed">
+            <summary>
+            Fully filled
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderStatus.Canceled">
+            <summary>
+            Canceled
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderStatus.Expired">
+            <summary>
+            Expired
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.LedgerEntryType">
+            <summary>
+            The type of a ledger entry
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.LedgerEntryType.Deposit">
+            <summary>
+            Deposit
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.LedgerEntryType.Withdrawal">
+            <summary>
+            Withdrawal
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.LedgerEntryType.Trade">
+            <summary>
+            Trade change
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.LedgerEntryType.Margin">
+            <summary>
+            Margin
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenAssetInfo">
+            <summary>
+            Info on an asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenAssetInfo.AlternateName">
+            <summary>
+            Alternative name
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenAssetInfo.AssetClass">
+            <summary>
+            Class of the asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenAssetInfo.Decimals">
+            <summary>
+            Decimal precision of the asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenAssetInfo.DisplayDecimals">
+            <summary>
+            Decimals to display
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenCancelResult">
+            <summary>
+            Result of a cancel request
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenCancelResult.Count">
+            <summary>
+            Amount of canceled orders
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenCancelResult.Pending">
+            <summary>
+            Pending cancellation orders
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenDepositAddress">
+            <summary>
+            Deposit address
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositAddress.Address">
+            <summary>
+            The actual address
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositAddress.ExpireTime">
+            <summary>
+            The expire time of the address
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositAddress.IsNew">
+            <summary>
+            If the address has been used before
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenDepositMethod">
+            <summary>
+            Info about a deposit method
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositMethod.Method">
+            <summary>
+            Name of the method
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositMethod.Limit">
+            <summary>
+            Deposit limit (max) of the method
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositMethod.Fee">
+            <summary>
+            The deposit fee for the method
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositMethod.AddressSetupFee">
+            <summary>
+            The fee for setting up an address
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositMethod.GenerateAddress">
+            <summary>
+            Generate address
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenDepositStatus">
+            <summary>
+            Deposit status info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositStatus.Method">
+            <summary>
+            The name of the deposit method
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositStatus.AssetClass">
+            <summary>
+            The class of the asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositStatus.Asset">
+            <summary>
+            The asset name
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositStatus.ReferenceId">
+            <summary>
+            Reference id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositStatus.TransactionId">
+            <summary>
+            Transaction id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositStatus.TransactionInfo">
+            <summary>
+            Info about the transaction
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositStatus.Amount">
+            <summary>
+            The amount involved in the deposit
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositStatus.Fee">
+            <summary>
+            The fee paid for the deposit
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositStatus.Timestamp">
+            <summary>
+            The timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenDepositStatus.Status">
+            <summary>
+            Status of the transaction
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenFeeEntry">
+            <summary>
+            Fee level details
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenFeeEntry.Volume">
+            <summary>
+            The minimal volume for this level
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenFeeEntry.FeePercentage">
+            <summary>
+            The fee percentage for this level
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenKline">
+            <summary>
+            Kline data
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenKline.Timestamp">
+            <summary>
+            Timestamp of the kline
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenKline.Open">
+            <summary>
+            The open price for this kline
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenKline.High">
+            <summary>
+            The highest price during this kline
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenKline.Low">
+            <summary>
+            The lowest price during this kline
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenKline.Close">
+            <summary>
+            The close price of this kline (or price of last trade if kline isn't closed yet)
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenKline.VolumeWeightedAveragePrice">
+            <summary>
+            The volume weighted average price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenKline.Volume">
+            <summary>
+            Volume during this kline
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenKline.TradeCount">
+            <summary>
+            The number of trades during this kline
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenStreamKline">
+            <summary>
+            Kline data from stream
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamKline.Timestamp">
+            <summary>
+            Timestamp of the kline
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamKline.EndTimestamp">
+            <summary>
+            The end time for the kline
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamKline.Open">
+            <summary>
+            The open price for this kline
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamKline.High">
+            <summary>
+            The highest price during this kline
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamKline.Low">
+            <summary>
+            The lowest price during this kline
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamKline.Close">
+            <summary>
+            The close price of this kline (or price of last trade if kline isn't closed yet)
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamKline.VolumeWeightedAveragePrice">
+            <summary>
+            The volume weighted average price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamKline.Volume">
+            <summary>
+            Volume during this kline
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamKline.TradeCount">
+            <summary>
+            The number of trades during this kline
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenLedgerEntry">
+            <summary>
+            Ledger entry info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenLedgerEntry.ReferenceId">
+            <summary>
+            Reference id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenLedgerEntry.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenLedgerEntry.Type">
+            <summary>
+            The type of entry
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenLedgerEntry.AssetClass">
+            <summary>
+            Class of the asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenLedgerEntry.Asset">
+            <summary>
+            Name of the asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenLedgerEntry.Quantity">
+            <summary>
+            The quantity of the entry
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenLedgerEntry.Fee">
+            <summary>
+            Fee paid
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenLedgerEntry.BalanceAfter">
+            <summary>
+            Resulting balance
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenMarket">
+            <summary>
+            Market info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenMarket.AlternateName">
+            <summary>
+            Alternative name
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenMarket.WebsocketName">
+            <summary>
+            Name to use for the socket client subscriptions
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenMarket.BaseAssetClass">
+            <summary>
+            Class of the base asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenMarket.BaseAsset">
+            <summary>
+            Name of the base asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenMarket.QuoteAssetClass">
+            <summary>
+            Class of the quote asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenMarket.QuoteAsset">
+            <summary>
+            Name of the quote asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenMarket.VolumeLotSize">
+            <summary>
+            Let size
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenMarket.Decimals">
+            <summary>
+            Decimals of the market
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenMarket.LotDecimals">
+            <summary>
+            Lot decimals
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenMarket.LotMultiplier">
+            <summary>
+            Lot multiplier
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenMarket.LeverageBuy">
+            <summary>
+            Buy leverage amounts
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenMarket.LeverageSell">
+            <summary>
+            Sell leverage amounts
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenMarket.Fees">
+            <summary>
+            Fee structure
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenMarket.FeesMaker">
+            <summary>
+            Maker fee structure
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenMarket.FeeCurrency">
+            <summary>
+            The currency the fee is deducted from
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenMarket.MarginCall">
+            <summary>
+            Margin call level
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenMarket.MarginStop">
+            <summary>
+            Stop-out/liquidation margin level
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenOrder">
+            <summary>
+            Order info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.ReferenceId">
+            <summary>
+            Reference id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.ClientOrderId">
+            <summary>
+            Client reference id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.Status">
+            <summary>
+            Status of the order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.OpenTime">
+            <summary>
+            Open timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.StartTime">
+            <summary>
+            Start timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.ExpireTime">
+            <summary>
+            Expire timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.ClosedTime">
+            <summary>
+            Close timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.OrderDetails">
+            <summary>
+            Order details
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.Quantity">
+            <summary>
+            Quantity of the order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.ExecutedQuantity">
+            <summary>
+            Filled quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.Cost">
+            <summary>
+            Cost of the order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.Fee">
+            <summary>
+            Fee
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.AveragePrice">
+            <summary>
+            Average price of the order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.StopPrice">
+            <summary>
+            Stop price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.LimitPrice">
+            <summary>
+            Limit price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.Misc">
+            <summary>
+            Miscellaneous info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.Oflags">
+            <summary>
+            Order flags
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.Reason">
+            <summary>
+            Reason of failure
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrder.TradeIds">
+            <summary>
+            Trade ids
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenOrderInfo">
+            <summary>
+            Order details
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrderInfo.Market">
+            <summary>
+            The market of the order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrderInfo.Side">
+            <summary>
+            Side of the order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrderInfo.Type">
+            <summary>
+            Type of the order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrderInfo.Price">
+            <summary>
+            Price of the order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrderInfo.SecondaryPrice">
+            <summary>
+            Secondary price of the order (<see cref="M:Kraken.Net.KrakenClient.PlaceOrder(System.String,Kraken.Net.Objects.OrderSide,Kraken.Net.Objects.OrderType,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean})"/> for details)
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrderInfo.Leverage">
+            <summary>
+            Amount of leverage
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrderInfo.Order">
+            <summary>
+            Order description
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrderInfo.Close">
+            <summary>
+            Conditional close order description
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenOrderBook">
+            <summary>
+            Order book
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrderBook.Asks">
+            <summary>
+            Asks in the book
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrderBook.Bids">
+            <summary>
+            Bids in the book
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenOrderBookEntry">
+            <summary>
+            Order book entry
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrderBookEntry.Price">
+            <summary>
+            Price of the entry
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrderBookEntry.Quantity">
+            <summary>
+            Quantity of the entry
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrderBookEntry.Timestamp">
+            <summary>
+            Timestamp of change
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenStreamOrderBook">
+            <summary>
+            Stream order book
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamOrderBook.Asks">
+            <summary>
+            Asks
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamOrderBook.Bids">
+            <summary>
+            Bids
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.Objects.KrakenStreamOrderBook.#ctor">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenStreamOrderBookEntry">
+            <summary>
+            Stream order book entry
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamOrderBookEntry.Price">
+            <summary>
+            Price of the entry
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamOrderBookEntry.Quantity">
+            <summary>
+            Quantity of the entry
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamOrderBookEntry.Timestamp">
+            <summary>
+            Timestamp of the entry
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamOrderBookEntry.UpdateType">
+            <summary>
+            Type of update
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenPageData">
+            <summary>
+            Base page data
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPageData.Count">
+            <summary>
+            Total number of records
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.OpenOrdersPage">
+            <summary>
+            Open orders page
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.OpenOrdersPage.Open">
+            <summary>
+            Open orders
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenClosedOrdersPage">
+            <summary>
+            Closed orders page
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenClosedOrdersPage.Closed">
+            <summary>
+            Closed orders
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenUserTradesPage">
+            <summary>
+            User trades page
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTradesPage.Trades">
+            <summary>
+            Trades
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenLedgerPage">
+            <summary>
+            Ledger page
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenLedgerPage.Ledger">
+            <summary>
+            Ledger entries
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenPlacedOrder">
+            <summary>
+            Placed order info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPlacedOrder.OrderIds">
+            <summary>
+            Order ids
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPlacedOrder.Descriptions">
+            <summary>
+            Descriptions
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenPlacedOrderDescription">
+            <summary>
+            Order descriptions
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPlacedOrderDescription.OrderDescription">
+            <summary>
+            Order description
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPlacedOrderDescription.CloseOrderDescription">
+            <summary>
+            Close order description
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenPosition">
+            <summary>
+            Position info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPosition.OrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPosition.Market">
+            <summary>
+            Market
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPosition.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPosition.Side">
+            <summary>
+            Side
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPosition.Type">
+            <summary>
+            Type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPosition.Cost">
+            <summary>
+            Cost
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPosition.Fee">
+            <summary>
+            Fee
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPosition.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPosition.QuantityClosed">
+            <summary>
+            Closed quantity 
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPosition.Margin">
+            <summary>
+            Margin
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPosition.Value">
+            <summary>
+            Value
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPosition.ProfitLoss">
+            <summary>
+            Net profit/loss
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPosition.Misc">
+            <summary>
+            Misc info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenPosition.OFlags">
+            <summary>
+            Flags
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenSpread">
+            <summary>
+            Spread info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenSpread.Timestamp">
+            <summary>
+            Timestamp of the data
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenSpread.Bid">
+            <summary>
+            Best bid price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenSpread.Ask">
+            <summary>
+            Best ask price
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenStreamSpread">
+            <summary>
+            Stream spread data
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamSpread.Bid">
+            <summary>
+            Best bid price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamSpread.Ask">
+            <summary>
+            Best ask price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamSpread.Timestamp">
+            <summary>
+            Timestamp of the data
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamSpread.BidVolume">
+            <summary>
+            Best bid volume
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamSpread.AskVolume">
+            <summary>
+            Best ask volume
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenTick">
+            <summary>
+            Tick info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTick.High">
+            <summary>
+            High price info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTick.Low">
+            <summary>
+            Low price info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTick.LastTrade">
+            <summary>
+            Last trade info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTick.BestAsks">
+            <summary>
+            Best ask info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTick.BestBids">
+            <summary>
+            Best bid info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTick.Trades">
+            <summary>
+            Trade count info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTick.VolumeWeightedAveragePrice">
+            <summary>
+            Volume weighted average price info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTick.Volume">
+            <summary>
+            Volume info
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenRestTick">
+            <summary>
+            Tick info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenRestTick.Open">
+            <summary>
+            Open price
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenStreamTick">
+            <summary>
+            Tick info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamTick.Open">
+            <summary>
+            Open price info
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenTickInfo">
+            <summary>
+            Tick detail info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTickInfo.ValueToday">
+            <summary>
+            Value for today
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTickInfo.Value24H">
+            <summary>
+            Rolling 24h window value
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenLastTrade">
+            <summary>
+            Last trade details
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenLastTrade.Price">
+            <summary>
+            Price of last trade
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenLastTrade.Quantity">
+            <summary>
+            Quantity of last trade
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenBestEntry">
+            <summary>
+            Best entry info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenBestEntry.Price">
+            <summary>
+            Price of best entry
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenBestEntry.LotQuantity">
+            <summary>
+            Lot quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenBestEntry.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenTrade">
+            <summary>
+            Trade info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTrade.Price">
+            <summary>
+            Price of the trade
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTrade.Quantity">
+            <summary>
+            Quantity of the trade
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTrade.Timestamp">
+            <summary>
+            Timestamp of trade
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTrade.Side">
+            <summary>
+            Side
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTrade.Type">
+            <summary>
+            Order type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTrade.Misc">
+            <summary>
+            Misc info
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenTradeBalance">
+            <summary>
+            Trade balance info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTradeBalance.CombinedBalance">
+            <summary>
+            Combined balance
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTradeBalance.TradeBalance">
+            <summary>
+            Trade balance
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTradeBalance.MarginOpenPositions">
+            <summary>
+            Margin open positions
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTradeBalance.OpenPositionsUnrealizedNetProfit">
+            <summary>
+            Unrealized net profit in open positions
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTradeBalance.OpenPositionsCostBasis">
+            <summary>
+            Cost basis for open positions
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTradeBalance.OpenPositionsValuation">
+            <summary>
+            Open positions valuation
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTradeBalance.Equity">
+            <summary>
+            Equity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTradeBalance.FreeMargin">
+            <summary>
+            Free margin
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTradeBalance.MarginLevel">
+            <summary>
+            Margin level
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenTradeVolume">
+            <summary>
+            Trade volume info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTradeVolume.Currency">
+            <summary>
+            Currency
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTradeVolume.Volume">
+            <summary>
+            Volume
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTradeVolume.Fees">
+            <summary>
+            Fees structure
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenTradeVolume.MakerFees">
+            <summary>
+            Maker fees structure
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenFeeStruct">
+            <summary>
+            Fee level info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenFeeStruct.Fee">
+            <summary>
+            Fee
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenFeeStruct.MinimalFee">
+            <summary>
+            Minimal fee
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenFeeStruct.MaximumFee">
+            <summary>
+            Maximal fee
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenFeeStruct.NextFee">
+            <summary>
+            Next fee
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenFeeStruct.NextVolume">
+            <summary>
+            Next volume
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenFeeStruct.TierVolume">
+            <summary>
+            Tier volume
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenUserTrade">
+            <summary>
+            User trade info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.OrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.Market">
+            <summary>
+            Market
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.Timestamp">
+            <summary>
+            Timestamp of trade
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.Side">
+            <summary>
+            Side
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.Type">
+            <summary>
+            Order type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.Price">
+            <summary>
+            Price of the trade
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.Cost">
+            <summary>
+            Cost of the trade
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.Fee">
+            <summary>
+            Fee paid for trade
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.Quantity">
+            <summary>
+            Quantity of the trade
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.Margin">
+            <summary>
+            Margin
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.Misc">
+            <summary>
+            Misc info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.PositionStatus">
+            <summary>
+            Position status
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.ClosedAveragePrice">
+            <summary>
+            Closed average price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.ClosedCost">
+            <summary>
+            Closed cost
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.ClosedFee">
+            <summary>
+            Closed fee
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.ClosedQuantity">
+            <summary>
+            Closed quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.ClosedMargin">
+            <summary>
+            Closed margin
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.ClosedProfitLoss">
+            <summary>
+            Closed net profit/loss
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenUserTrade.Trades">
+            <summary>
+            Trade ids
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Socket.KrakenSocketEvent`1">
+            <summary>
+            Event received from the socket
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenSocketEvent`1.ChannelId">
+            <summary>
+            Id of the channel
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenSocketEvent`1.Data">
+            <summary>
+            The data
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenSocketEvent`1.Topic">
+            <summary>
+            The topic of the data
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenSocketEvent`1.Market">
+            <summary>
+            The market the data is for
+            </summary>
+        </member>
+    </members>
+</doc>

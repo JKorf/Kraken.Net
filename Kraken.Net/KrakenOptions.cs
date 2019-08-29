@@ -1,0 +1,54 @@
+﻿using CryptoExchange.Net.Objects;
+using Kraken.Net.Interfaces;
+
+namespace Kraken.Net
+{
+    /// <summary>
+    /// Options for the Kraken client
+    /// </summary>
+    public class KrakenClientOptions : RestClientOptions
+    {
+        /// <summary>
+        /// ctor
+        /// </summary>
+        public KrakenClientOptions()
+        {
+            BaseAddress = "https://api.kraken.com";
+        }
+    }
+
+    /// <summary>
+    /// Options for the Kraken socket client
+    /// </summary>
+    public class KrakenSocketClientOptions : SocketClientOptions
+    {
+        /// <summary>
+        /// ctor
+        /// </summary>
+        public KrakenSocketClientOptions()
+        {
+            BaseAddress = "wss://ws.kraken.com";
+            SocketSubscriptionsCombineTarget = 10;
+        }
+    }
+
+    /// <summary>
+    /// Options for the Kraken symbol order book
+    /// </summary>
+    public class KrakenOrderBookOptions : OrderBookOptions
+    {
+        /// <summary>
+        /// The client to use for the socket connection. When using the same client for multiple order books the connection can be shared.
+        /// </summary>
+        public IKrakenSocketClient SocketClient { get; }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="client">The client to use for the socket connection. When using the same client for multiple order books the connection can be shared.</param>
+        public KrakenOrderBookOptions(IKrakenSocketClient client = null) : base("Kraken", false)
+        {
+            SocketClient = client;
+        }
+    }
+}
+
