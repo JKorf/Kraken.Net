@@ -3,7 +3,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <PropertyGroup>
-    <PackageId>Kraken.Net</PackageId>
+    <PackageId>KrakenExchange.Net</PackageId>
     <Authors>JKorf</Authors>
     <PackageVersion>0.0.1</PackageVersion>
     <Description>Kraken.Net is a .Net wrapper for the Kraken API. It includes all features the API provides, REST API and Websocket, using clear and readable objects including but not limited to Reading market info, Placing and managing orders and Reading balances and funds</Description>
