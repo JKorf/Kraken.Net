@@ -15,6 +15,13 @@ namespace Kraken.Net.Interfaces
     public interface IKrakenClient: IRestClient
     {
         /// <summary>
+        /// Set the API key and secret
+        /// </summary>
+        /// <param name="apiKey">The api key</param>
+        /// <param name="apiSecret">The api secret</param>
+        void SetApiCredentials(string apiKey, string apiSecret);
+
+        /// <summary>
         /// Get the server time
         /// </summary>
         /// <returns>Server time</returns>

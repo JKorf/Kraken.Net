@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CryptoExchange.Net;
+using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Converters;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
@@ -44,7 +45,25 @@ namespace Kraken.Net
         #endregion
 
         #region methods
+        /// <summary>
+        /// Set the default options to be used when creating new clients
+        /// </summary>
+        /// <param name="options"></param>
+        public static void SetDefaultOptions(KrakenClientOptions options)
+        {
+            defaultOptions = options;
+        }
 
+        /// <summary>
+        /// Set the API key and secret
+        /// </summary>
+        /// <param name="apiKey">The api key</param>
+        /// <param name="apiSecret">The api secret</param>
+        public void SetApiCredentials(string apiKey, string apiSecret)
+        {
+            SetAuthenticationProvider(new KrakenAuthenticationProvider(new ApiCredentials(apiKey, apiSecret)));
+        }
+        
         /// <summary>
         /// Get the server time
         /// </summary>

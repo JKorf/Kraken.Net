@@ -40,6 +40,13 @@
             Interface for the Kraken client
             </summary>
         </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.SetApiCredentials(System.String,System.String)">
+            <summary>
+            Set the API key and secret
+            </summary>
+            <param name="apiKey">The api key</param>
+            <param name="apiSecret">The api secret</param>
+        </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetServerTime">
             <summary>
             Get the server time
@@ -562,6 +569,19 @@
             Create a new instance of KrakenClient using provided options
             </summary>
             <param name="options">The options to use for this client</param>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.SetDefaultOptions(Kraken.Net.KrakenClientOptions)">
+            <summary>
+            Set the default options to be used when creating new clients
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.SetApiCredentials(System.String,System.String)">
+            <summary>
+            Set the API key and secret
+            </summary>
+            <param name="apiKey">The api key</param>
+            <param name="apiSecret">The api secret</param>
         </member>
         <member name="M:Kraken.Net.KrakenClient.GetServerTime">
             <summary>
