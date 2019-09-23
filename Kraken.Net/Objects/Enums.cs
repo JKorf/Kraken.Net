@@ -93,6 +93,10 @@ namespace Kraken.Net.Objects
         /// </summary>
         Market,
         /// <summary>
+        /// Stop market order
+        /// </summary>
+        StopMarket,
+        /// <summary>
         /// Stop loss order
         /// </summary>
         StopLoss,
