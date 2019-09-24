@@ -97,6 +97,10 @@ namespace Kraken.Net.Objects
         /// </summary>
         StopMarket,
         /// <summary>
+        /// Stop limit order
+        /// </summary>
+        StopLimit,
+        /// <summary>
         /// Stop loss order
         /// </summary>
         StopLoss,
@@ -187,6 +191,18 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Margin
         /// </summary>
-        Margin
+        Margin,
+        /// <summary>
+        /// Adjustment
+        /// </summary>
+        Adjustment,
+        /// <summary>
+        /// Transfer
+        /// </summary>
+        Transfer,
+        /// <summary>
+        /// Rollover
+        /// </summary>
+        Rollover
     }
 }

@@ -1279,6 +1279,16 @@
             Market order
             </summary>
         </member>
+        <member name="F:Kraken.Net.Objects.OrderType.StopMarket">
+            <summary>
+            Stop market order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.OrderType.StopLimit">
+            <summary>
+            Stop limit order
+            </summary>
+        </member>
         <member name="F:Kraken.Net.Objects.OrderType.StopLoss">
             <summary>
             Stop loss order
@@ -1382,6 +1392,21 @@
         <member name="F:Kraken.Net.Objects.LedgerEntryType.Margin">
             <summary>
             Margin
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.LedgerEntryType.Adjustment">
+            <summary>
+            Adjustment
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.LedgerEntryType.Transfer">
+            <summary>
+            Transfer
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.LedgerEntryType.Rollover">
+            <summary>
+            Rollover
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.KrakenAssetInfo">
