@@ -14,7 +14,7 @@ namespace Kraken.Net.Objects.Socket
         public KrakenSubscriptionDetails Details { get; set; }
 
         [JsonIgnore]
-        public int ChannelId { get; set; }
+        public int? ChannelId { get; set; }
 
         public KrakenSubscribeRequest(string topic,  int requestId, params string[] markets)
         {
