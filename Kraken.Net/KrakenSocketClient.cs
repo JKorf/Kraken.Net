@@ -220,7 +220,10 @@ namespace Kraken.Net
         protected override async Task<bool> Unsubscribe(SocketConnection connection, SocketSubscription subscription)
         {
             var channelId = ((KrakenSubscribeRequest)subscription.Request).ChannelId;
-            var unsub = new KrakenUnsubscribeRequest(NextId(), channelId.GetValueOrDefault(-1));
+            if (!channelId.HasValue)
+                return true; // No channel id assigned, nothing to unsub
+
+            var unsub = new KrakenUnsubscribeRequest(NextId(), channelId.Value);
             var result = false;
             await connection.SendAndWait(unsub, ResponseTimeout, data =>
             {

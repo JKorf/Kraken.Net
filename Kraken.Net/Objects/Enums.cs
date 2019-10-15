@@ -49,7 +49,7 @@ namespace Kraken.Net.Objects
     /// <summary>
     /// Side of an order
     /// </summary>
-    [JsonConverter(typeof(OrderSideConverter))]
+    [JsonConverter(typeof(OrderSideConverter), false)]
     public enum OrderSide
     {
         /// <summary>
@@ -65,7 +65,7 @@ namespace Kraken.Net.Objects
     /// <summary>
     /// Order type, limited to market or limit
     /// </summary>
-    [JsonConverter(typeof(OrderTypeMinimalConverter))]
+    [JsonConverter(typeof(OrderTypeMinimalConverter), false)]
     public enum OrderTypeMinimal
     {
         /// <summary>
@@ -81,7 +81,7 @@ namespace Kraken.Net.Objects
     /// <summary>
     /// Order type
     /// </summary>
-    [JsonConverter(typeof(OrderTypeConverter))]
+    [JsonConverter(typeof(OrderTypeConverter), false)]
     public enum OrderType
     {
         /// <summary>
@@ -145,7 +145,7 @@ namespace Kraken.Net.Objects
     /// <summary>
     /// Status of an order
     /// </summary>
-    [JsonConverter(typeof(OrderStatusConverter))]
+    [JsonConverter(typeof(OrderStatusConverter), false)]
     public enum OrderStatus
     {
         /// <summary>
@@ -173,7 +173,7 @@ namespace Kraken.Net.Objects
     /// <summary>
     /// The type of a ledger entry
     /// </summary>
-    [JsonConverter(typeof(LedgerEntryTypeConverter))]
+    [JsonConverter(typeof(LedgerEntryTypeConverter), false)]
     public enum LedgerEntryType
     {
         /// <summary>
