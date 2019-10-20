@@ -70,6 +70,21 @@ namespace Kraken.Net.UnitTests
             Assert.IsTrue(result.Error.Message.Contains("another error"));
         }
 
+        [TestCase()]
+        public void TestHttpError_Should_ResultInFailedCall()
+        {
+            // arrange
+            var client = TestHelpers.CreateAuthResponseClient($"Error request", System.Net.HttpStatusCode.BadRequest);
+
+            // act
+            var result = client.GetMarkets();
+
+            // assert
+            Assert.IsFalse(result.Success);
+            Assert.IsTrue(result.ResponseStatusCode == System.Net.HttpStatusCode.BadRequest);
+            Assert.IsTrue(result.Error.ToString().Contains("Error request"));
+        }
+
         public string SerializeExpected<T>(T data)
         {
             var result = new KrakenResult<T>()

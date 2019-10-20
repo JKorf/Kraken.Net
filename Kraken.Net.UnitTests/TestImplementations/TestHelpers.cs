@@ -127,10 +127,10 @@ namespace Kraken.Net.UnitTests.TestImplementations
             return client;
         }
 
-        public static IKrakenClient CreateAuthResponseClient(string response)
+        public static IKrakenClient CreateAuthResponseClient(string response, HttpStatusCode code = HttpStatusCode.OK)
         {
             var client = (KrakenClient)CreateClient(new KrakenClientOptions(){ ApiCredentials = new ApiCredentials("Test", "Test")});
-            SetResponse(client, response);
+            SetResponse(client, response, code);
             return client;
         }
 
@@ -149,7 +149,7 @@ namespace Kraken.Net.UnitTests.TestImplementations
             return client;
         }
 
-        public static void SetResponse(RestClient client, string responseData)
+        public static void SetResponse(RestClient client, string responseData, HttpStatusCode code = HttpStatusCode.OK)
         {
             var expectedBytes = Encoding.UTF8.GetBytes(responseData);
             var responseStream = new MemoryStream();
@@ -157,7 +157,8 @@ namespace Kraken.Net.UnitTests.TestImplementations
             responseStream.Seek(0, SeekOrigin.Begin);
 
             var response = new Mock<IResponse>();
-            response.Setup(c => c.IsSuccessStatusCode).Returns(true);
+            response.Setup(c => c.IsSuccessStatusCode).Returns(code == HttpStatusCode.OK);
+            response.Setup(c => c.StatusCode).Returns(code);
             response.Setup(c => c.GetResponseStream()).Returns(Task.FromResult((Stream)responseStream));
 
             var request = new Mock<IRequest>();
