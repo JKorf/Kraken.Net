@@ -1,4 +1,5 @@
-﻿using Kraken.Net.Objects;
+﻿using System.Collections.Generic;
+using Kraken.Net.Objects;
 using Kraken.Net.Objects.Socket;
 using Newtonsoft.Json.Linq;
 
@@ -18,18 +19,18 @@ namespace Kraken.Net.Converters
                 if (innerObject["as"] != null)
                 {
                     // snapshot
-                    orderBook.Asks = innerObject["as"].ToObject<KrakenStreamOrderBookEntry[]>();
-                    orderBook.Bids = innerObject["bs"].ToObject<KrakenStreamOrderBookEntry[]>();
+                    orderBook.Asks = innerObject["as"].ToObject<IEnumerable<KrakenStreamOrderBookEntry>>();
+                    orderBook.Bids = innerObject["bs"].ToObject< IEnumerable<KrakenStreamOrderBookEntry>>();
                 }
                 else if (innerObject["a"] != null)
                 {
                     // Only asks
-                    orderBook.Asks = innerObject["a"].ToObject<KrakenStreamOrderBookEntry[]>();
+                    orderBook.Asks = innerObject["a"].ToObject<IEnumerable<KrakenStreamOrderBookEntry>>();
                 }
                 else
                 {
                     // Only bids
-                    orderBook.Bids = innerObject["b"].ToObject<KrakenStreamOrderBookEntry[]>();
+                    orderBook.Bids = innerObject["b"].ToObject<IEnumerable<KrakenStreamOrderBookEntry>>();
                 }
 
                 result.Topic = (string)arr[2];
@@ -37,8 +38,8 @@ namespace Kraken.Net.Converters
             }
             else
             {
-                orderBook.Asks = arr[1]["a"].ToObject<KrakenStreamOrderBookEntry[]>();
-                orderBook.Bids = arr[2]["b"].ToObject<KrakenStreamOrderBookEntry[]>();
+                orderBook.Asks = arr[1]["a"].ToObject<IEnumerable<KrakenStreamOrderBookEntry>>();
+                orderBook.Bids = arr[2]["b"].ToObject<IEnumerable<KrakenStreamOrderBookEntry>>();
                 result.Topic = (string)arr[3];
                 result.Market = (string)arr[4];
             }

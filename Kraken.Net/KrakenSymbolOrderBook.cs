@@ -25,7 +25,7 @@ namespace Kraken.Net
         /// <param name="market">The symbol the order book is for</param>
         /// <param name="limit">The initial limit of entries in the order book</param>
         /// <param name="options">Options for the order book</param>
-        public KrakenSymbolOrderBook(string market, int limit, KrakenOrderBookOptions options = null) : base(market, options ?? new KrakenOrderBookOptions())
+        public KrakenSymbolOrderBook(string market, int limit, KrakenOrderBookOptions? options = null) : base(market, options ?? new KrakenOrderBookOptions())
         {
             socketClient = options?.SocketClient ?? new KrakenSocketClient();
 
@@ -36,7 +36,7 @@ namespace Kraken.Net
         protected override async Task<CallResult<UpdateSubscription>> DoStart()
         {
             var result = await socketClient.SubscribeToDepthUpdatesAsync(Symbol, limit, ProcessUpdate).ConfigureAwait(false);
-            if (!result.Success)
+            if (!result)
                 return result;
 
             Status = OrderBookStatus.Syncing;

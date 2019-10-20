@@ -1,6 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+	<Nullable>enable</Nullable>
+	<LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <PackageId>KrakenExchange.Net</PackageId>
@@ -10,7 +12,7 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>Kraken Kraken.Net C# .Net CryptoCurrency Exchange API wrapper</PackageTags>
     <PackageProjectUrl>https://github.com/JKorf/Kraken.Net</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/JKorf/Kraken.Net/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl>https://raw.githubusercontent.com/JKorf/Kraken.Net/master/Resources/icon.png</PackageIconUrl>
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -20,6 +22,6 @@
     <DocumentationFile>Kraken.Net.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CryptoExchange.Net" Version="2.1.8" />
+    <ProjectReference Include="..\..\CryptoExchange.Net\CryptoExchange.Net\CryptoExchange.Net.csproj" />
   </ItemGroup>
 </Project>

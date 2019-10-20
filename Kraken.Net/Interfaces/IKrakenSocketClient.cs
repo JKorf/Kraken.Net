@@ -54,7 +54,7 @@ namespace Kraken.Net.Interfaces
         /// <param name="market">Market to subscribe to</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        CallResult<UpdateSubscription> SubscribeToTradeUpdates(string market, Action<KrakenSocketEvent<List<KrakenTrade>>> handler);
+        CallResult<UpdateSubscription> SubscribeToTradeUpdates(string market, Action<KrakenSocketEvent<IEnumerable<KrakenTrade>>> handler);
 
         /// <summary>
         /// Subscribe to trade updates
@@ -62,7 +62,7 @@ namespace Kraken.Net.Interfaces
         /// <param name="market">Market to subscribe to</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string market, Action<KrakenSocketEvent<List<KrakenTrade>>> handler);
+        Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string market, Action<KrakenSocketEvent<IEnumerable<KrakenTrade>>> handler);
 
         /// <summary>
         /// Subscribe to spread updates

@@ -23,7 +23,7 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Open orders
         /// </summary>
-        public Dictionary<string, KrakenOrder> Open { get; set; }
+        public Dictionary<string, KrakenOrder> Open { get; set; } = new Dictionary<string, KrakenOrder>();
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Closed orders
         /// </summary>
-        public Dictionary<string, KrakenOrder> Closed { get; set; }
+        public Dictionary<string, KrakenOrder> Closed { get; set; } = new Dictionary<string, KrakenOrder>();
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Trades
         /// </summary>
-        public Dictionary<string, KrakenUserTrade> Trades { get; set; }
+        public Dictionary<string, KrakenUserTrade> Trades { get; set; } = new Dictionary<string, KrakenUserTrade>();
     }
 
     /// <summary>
@@ -56,6 +56,6 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Ledger entries
         /// </summary>
-        public Dictionary<string, KrakenLedgerEntry> Ledger { get; set; }
+        public Dictionary<string, KrakenLedgerEntry> Ledger { get; set; } = new Dictionary<string, KrakenLedgerEntry>();
     }
 }

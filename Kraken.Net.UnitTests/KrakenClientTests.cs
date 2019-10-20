@@ -34,6 +34,7 @@ namespace Kraken.Net.UnitTests
             var callResultMethods = methods.Where(m => m.ReturnType.IsGenericType && m.ReturnType.GetGenericTypeDefinition() == typeof(WebCallResult<>));
             foreach (var method in callResultMethods)
             {
+                var name = method.Name;
                 if (ignoreMethods.Contains(method.Name))
                     continue;
 

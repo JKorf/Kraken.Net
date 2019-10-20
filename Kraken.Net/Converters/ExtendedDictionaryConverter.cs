@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CryptoExchange.Net.Converters;
 using Kraken.Net.Objects;
 using Newtonsoft.Json;
@@ -49,7 +50,7 @@ namespace Kraken.Net.Converters
         /// <summary>
         /// The data
         /// </summary>
-        public T Data { get; set; }
+        public T Data { get; set; } = default!;
         /// <summary>
         /// The timestamp of the data
         /// </summary>
@@ -60,24 +61,24 @@ namespace Kraken.Net.Converters
     /// <summary>
     /// Kline result
     /// </summary>
-    [JsonConverter(typeof(ExtendedDictionaryConverter<KrakenKline[]>))]
-    public class KrakenKlinesResult : KrakenDictionaryResult<KrakenKline[]>
+    [JsonConverter(typeof(ExtendedDictionaryConverter<IEnumerable<KrakenKline>>))]
+    public class KrakenKlinesResult : KrakenDictionaryResult<IEnumerable<KrakenKline>>
     {
     }
 
     /// <summary>
     /// Trade result
     /// </summary>
-    [JsonConverter(typeof(ExtendedDictionaryConverter<KrakenTrade[]>))]
-    public class KrakenTradesResult : KrakenDictionaryResult<KrakenTrade[]>
+    [JsonConverter(typeof(ExtendedDictionaryConverter<IEnumerable<KrakenTrade>>))]
+    public class KrakenTradesResult : KrakenDictionaryResult<IEnumerable<KrakenTrade>>
     {
     }
 
     /// <summary>
     /// Spread result
     /// </summary>
-    [JsonConverter(typeof(ExtendedDictionaryConverter<KrakenSpread[]>))]
-    public class KrakenSpreadsResult : KrakenDictionaryResult<KrakenSpread[]>
+    [JsonConverter(typeof(ExtendedDictionaryConverter<IEnumerable<KrakenSpread>>))]
+    public class KrakenSpreadsResult : KrakenDictionaryResult<IEnumerable<KrakenSpread>>
     {
     }
 }

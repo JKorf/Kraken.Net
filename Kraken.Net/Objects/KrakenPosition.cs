@@ -1,5 +1,6 @@
 ﻿using System;
 using CryptoExchange.Net.Converters;
+using Kraken.Net.Converters;
 using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects
@@ -13,12 +14,12 @@ namespace Kraken.Net.Objects
         /// Order id
         /// </summary>
         [JsonProperty("ordertxid")]
-        public string OrderId { get; set; }
+        public string OrderId { get; set; } = "";
         /// <summary>
         /// Market
         /// </summary>
         [JsonProperty("pair")]
-        public string Market { get; set; }
+        public string Market { get; set; } = "";
         /// <summary>
         /// Timestamp
         /// </summary>
@@ -27,12 +28,12 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Side
         /// </summary>
-        [JsonProperty("type")]
+        [JsonProperty("type"), JsonConverter(typeof(OrderSideConverter))]
         public OrderSide Side { get; set; }
         /// <summary>
         /// Type
         /// </summary>
-        [JsonProperty("ordertype")]
+        [JsonProperty("ordertype"), JsonConverter(typeof(OrderTypeConverter))]
         public OrderType Type { get; set; }
         /// <summary>
         /// Cost
@@ -68,10 +69,10 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Misc info
         /// </summary>
-        public string Misc { get; set; }
+        public string Misc { get; set; } = "";
         /// <summary>
         /// Flags
         /// </summary>
-        public string OFlags { get; set; }
+        public string OFlags { get; set; } = "";
     }
 }

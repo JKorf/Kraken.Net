@@ -12,42 +12,42 @@ namespace Kraken.Net.Objects
         /// High price info
         /// </summary>
         [JsonProperty("h")]
-        public KrakenTickInfo High { get; set; }
+        public KrakenTickInfo High { get; set; } = default!;
         /// <summary>
         /// Low price info
         /// </summary>
         [JsonProperty("l")]
-        public KrakenTickInfo Low { get; set; }
+        public KrakenTickInfo Low { get; set; } = default!;
         /// <summary>
         /// Last trade info
         /// </summary>
         [JsonProperty("c")]
-        public KrakenLastTrade LastTrade { get; set; }
+        public KrakenLastTrade LastTrade { get; set; } = default!;
         /// <summary>
         /// Best ask info
         /// </summary>
         [JsonProperty("a")]
-        public KrakenBestEntry BestAsks { get; set; }
+        public KrakenBestEntry BestAsks { get; set; } = default!;
         /// <summary>
         /// Best bid info
         /// </summary>
         [JsonProperty("b")]
-        public KrakenBestEntry BestBids { get; set; }
+        public KrakenBestEntry BestBids { get; set; } = default!;
         /// <summary>
         /// Trade count info
         /// </summary>
         [JsonProperty("t")]
-        public KrakenTickInfo Trades { get; set; }
+        public KrakenTickInfo Trades { get; set; } = default!;
         /// <summary>
         /// Volume weighted average price info
         /// </summary>
         [JsonProperty("p")]
-        public KrakenTickInfo VolumeWeightedAveragePrice { get; set; }
+        public KrakenTickInfo VolumeWeightedAveragePrice { get; set; } = default!;
         /// <summary>
         /// Volume info
         /// </summary>
         [JsonProperty("v")]
-        public KrakenTickInfo Volume { get; set; }
+        public KrakenTickInfo Volume { get; set; } = default!;
     }
 
     /// <summary>
@@ -71,7 +71,7 @@ namespace Kraken.Net.Objects
         /// Open price info
         /// </summary>
         [JsonProperty("o")]
-        public KrakenTickInfo Open { get; set; }
+        public KrakenTickInfo Open { get; set; } = default!;
 
     }
 

@@ -20,7 +20,7 @@ namespace Kraken.Net
     public class KrakenSocketClient: SocketClient, IKrakenSocketClient
     {
         #region fields
-        private static KrakenSocketClientOptions defaultOptions = new KrakenSocketClientOptions();
+        private static readonly KrakenSocketClientOptions defaultOptions = new KrakenSocketClientOptions();
         private static KrakenSocketClientOptions DefaultOptions => defaultOptions.Copy<KrakenSocketClientOptions>();
         #endregion
 
@@ -38,8 +38,6 @@ namespace Kraken.Net
         /// <param name="options">The options to use for this client</param>
         public KrakenSocketClient(KrakenSocketClientOptions options) : base(options, options.ApiCredentials == null ? null : new KrakenAuthenticationProvider(options.ApiCredentials))
         {
-            Configure(options);
-
             AddGenericHandler("Connection", (connection, token) => { });
             AddGenericHandler("HeartBeat", (connection, token) => { });
         }
@@ -91,14 +89,14 @@ namespace Kraken.Net
         /// <param name="market">Market to subscribe to</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        public CallResult<UpdateSubscription> SubscribeToTradeUpdates(string market, Action<KrakenSocketEvent<List<KrakenTrade>>> handler) => SubscribeToTradeUpdatesAsync(market, handler).Result;
+        public CallResult<UpdateSubscription> SubscribeToTradeUpdates(string market, Action<KrakenSocketEvent<IEnumerable<KrakenTrade>>> handler) => SubscribeToTradeUpdatesAsync(market, handler).Result;
         /// <summary>
         /// Subscribe to trade updates
         /// </summary>
         /// <param name="market">Market to subscribe to</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string market, Action<KrakenSocketEvent<List<KrakenTrade>>> handler)
+        public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string market, Action<KrakenSocketEvent<IEnumerable<KrakenTrade>>> handler)
         {
             return await Subscribe(new KrakenSubscribeRequest("trade", NextId(), market), null, false, handler).ConfigureAwait(false);
         }
@@ -161,7 +159,7 @@ namespace Kraken.Net
         }
 
         /// <inheritdoc />
-        protected override bool HandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object> callResult)
+        protected override bool HandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object>? callResult)
         {
             callResult = null;
             if (message.Type != JTokenType.Object)
@@ -170,14 +168,14 @@ namespace Kraken.Net
             if (message["reqid"] == null)
                 return false;
 
-            int requestId = (int) message["reqid"];
+            var requestId = (int) message["reqid"];
             var kRequest = (KrakenSubscribeRequest) request;
             if (requestId != kRequest.RequestId)
                 return false;
             
             var response = message.ToObject<KrakenSubscriptionEvent>();
             kRequest.ChannelId = response.ChannelId;
-            callResult = new CallResult<object>(response, response.Status == "subscribed" ? null: new ServerError(response.ErrorMessage));
+            callResult = new CallResult<object>(response, response.Status == "subscribed" ? null: new ServerError(response.ErrorMessage ?? "-"));
             return true;
         }
 
@@ -219,7 +217,7 @@ namespace Kraken.Net
         /// <inheritdoc />
         protected override async Task<bool> Unsubscribe(SocketConnection connection, SocketSubscription subscription)
         {
-            var channelId = ((KrakenSubscribeRequest)subscription.Request).ChannelId;
+            var channelId = ((KrakenSubscribeRequest)subscription.Request!).ChannelId;
             if (!channelId.HasValue)
                 return true; // No channel id assigned, nothing to unsub
 
@@ -233,7 +231,7 @@ namespace Kraken.Net
                 if (data["reqid"] == null)
                     return false;
 
-                int requestId = (int)data["reqid"];
+                var requestId = (int)data["reqid"];
                 if (requestId != unsub.RequestId)
                     return false;
 
