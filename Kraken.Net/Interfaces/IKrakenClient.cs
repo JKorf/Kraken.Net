@@ -63,18 +63,18 @@ namespace Kraken.Net.Interfaces
         /// <summary>
         /// Get a list of markets and info about them
         /// </summary>
-        /// <param name="markets">Filter list for specific markets</param>
+        /// <param name="symbols">Filter list for specific markets</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary of market info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenMarket>>> GetMarketsAsync(CancellationToken ct = default, params string[] markets);
+        Task<WebCallResult<Dictionary<string, KrakenMarket>>> GetMarketsAsync(CancellationToken ct = default, params string[] symbols);
 
         /// <summary>
         /// Get tickers for markets
         /// </summary>
-        /// <param name="markets">Markets to get tickers for</param>
+        /// <param name="symbols">Markets to get tickers for</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with ticker info</returns>
-        WebCallResult<Dictionary<string, KrakenRestTick>> GetTickers(CancellationToken ct = default, params string[] markets);
+        WebCallResult<Dictionary<string, KrakenRestTick>> GetTickers(CancellationToken ct = default, params string[] symbols);
 
         /// <summary>
         /// Get tickers for markets
@@ -87,76 +87,76 @@ namespace Kraken.Net.Interfaces
         /// <summary>
         /// Gets kline data for a market
         /// </summary>
-        /// <param name="market">The market to get data for</param>
+        /// <param name="symbol">The market to get data for</param>
         /// <param name="interval">The interval of the klines</param>
         /// <param name="since">Return klines since a specific time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Kline data</returns>
-        WebCallResult<KrakenKlinesResult> GetKlines(string market, KlineInterval interval, DateTime? since = null, CancellationToken ct = default);
+        WebCallResult<KrakenKlinesResult> GetKlines(string symbol, KlineInterval interval, DateTime? since = null, CancellationToken ct = default);
 
         /// <summary>
         /// Gets kline data for a market
         /// </summary>
-        /// <param name="market">The market to get data for</param>
+        /// <param name="symbol">The market to get data for</param>
         /// <param name="interval">The interval of the klines</param>
         /// <param name="since">Return klines since a specific time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Kline data</returns>
-        Task<WebCallResult<KrakenKlinesResult>> GetKlinesAsync(string market, KlineInterval interval, DateTime? since = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenKlinesResult>> GetKlinesAsync(string symbol, KlineInterval interval, DateTime? since = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get the order book for a market
         /// </summary>
-        /// <param name="market">Market to get the book for</param>
+        /// <param name="symbol">Market to get the book for</param>
         /// <param name="limit">Limit to book to the best x bids/asks</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Order book for the market</returns>
-        WebCallResult<KrakenOrderBook> GetOrderBook(string market, int? limit = null, CancellationToken ct = default);
+        WebCallResult<KrakenOrderBook> GetOrderBook(string symbol, int? limit = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get the order book for a market
         /// </summary>
-        /// <param name="market">Market to get the book for</param>
+        /// <param name="symbol">Market to get the book for</param>
         /// <param name="limit">Limit to book to the best x bids/asks</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Order book for the market</returns>
-        Task<WebCallResult<KrakenOrderBook>> GetOrderBookAsync(string market, int? limit = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenOrderBook>> GetOrderBookAsync(string symbol, int? limit = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get a list of recent trades for a market
         /// </summary>
-        /// <param name="market">Market to get trades for</param>
+        /// <param name="symbol">Market to get trades for</param>
         /// <param name="since">Return trades since a specific time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Recent trades</returns>
-        WebCallResult<KrakenTradesResult> GetRecentTrades(string market, DateTime? since = null, CancellationToken ct = default);
+        WebCallResult<KrakenTradesResult> GetRecentTrades(string symbol, DateTime? since = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get a list of recent trades for a market
         /// </summary>
-        /// <param name="market">Market to get trades for</param>
+        /// <param name="symbol">Market to get trades for</param>
         /// <param name="since">Return trades since a specific time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Recent trades</returns>
-        Task<WebCallResult<KrakenTradesResult>> GetRecentTradesAsync(string market, DateTime? since = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenTradesResult>> GetRecentTradesAsync(string symbol, DateTime? since = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get spread data for a market
         /// </summary>
-        /// <param name="market">Market to get spread data for</param>
+        /// <param name="symbol">Market to get spread data for</param>
         /// <param name="since">Return spread data since a specific time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Spread data</returns>
-        WebCallResult<KrakenSpreadsResult> GetRecentSpread(string market, DateTime? since = null, CancellationToken ct = default);
+        WebCallResult<KrakenSpreadsResult> GetRecentSpread(string symbol, DateTime? since = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get spread data for a market
         /// </summary>
-        /// <param name="market">Market to get spread data for</param>
+        /// <param name="symbol">Market to get spread data for</param>
         /// <param name="since">Return spread data since a specific time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Spread data</returns>
-        Task<WebCallResult<KrakenSpreadsResult>> GetRecentSpreadAsync(string market, DateTime? since = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenSpreadsResult>> GetRecentSpreadAsync(string symbol, DateTime? since = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get balances
@@ -306,7 +306,7 @@ namespace Kraken.Net.Interfaces
         /// <param name="resultOffset">Offset the results by</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Ledger entries page</returns>
-        WebCallResult<KrakenLedgerPage> GetLedgerInfo(string[]? assets = null, LedgerEntryType[]? entryTypes = null, DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, CancellationToken ct = default);
+        WebCallResult<KrakenLedgerPage> GetLedgerInfo(IEnumerable<string>? assets = null, IEnumerable<LedgerEntryType>? entryTypes = null, DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get ledger entries info
@@ -318,7 +318,7 @@ namespace Kraken.Net.Interfaces
         /// <param name="resultOffset">Offset the results by</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Ledger entries page</returns>
-        Task<WebCallResult<KrakenLedgerPage>> GetLedgerInfoAsync(string[]? assets = null, LedgerEntryType[]? entryTypes = null, DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenLedgerPage>> GetLedgerInfoAsync(IEnumerable<string>? assets = null, IEnumerable<LedgerEntryType>? entryTypes = null, DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get info on specific ledger entries
@@ -409,7 +409,7 @@ namespace Kraken.Net.Interfaces
         /// <summary>
         /// Place a new order
         /// </summary>
-        /// <param name="market">The market the order is on</param>
+        /// <param name="symbol">The market the order is on</param>
         /// <param name="side">The side of the order</param>
         /// <param name="type">The type of the order</param>
         /// <param name="quantity">The quantity of the order</param>
@@ -438,7 +438,7 @@ namespace Kraken.Net.Interfaces
         /// <param name="ct">Cancellation token</param>
         /// <returns>Placed order info</returns>
         WebCallResult<KrakenPlacedOrder> PlaceOrder(
-            string market, 
+            string symbol, 
             OrderSide side, 
             OrderType type, 
             decimal quantity, 
@@ -454,7 +454,7 @@ namespace Kraken.Net.Interfaces
         /// <summary>
         /// Place a new order
         /// </summary>
-        /// <param name="market">The market the order is on</param>
+        /// <param name="symbol">The market the order is on</param>
         /// <param name="side">The side of the order</param>
         /// <param name="type">The type of the order</param>
         /// <param name="quantity">The quantity of the order</param>
@@ -483,7 +483,7 @@ namespace Kraken.Net.Interfaces
         /// <param name="ct">Cancellation token</param>
         /// <returns>Placed order info</returns>
         Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(
-            string market,
+            string symbol,
             OrderSide side,
             OrderType type,
             decimal quantity,

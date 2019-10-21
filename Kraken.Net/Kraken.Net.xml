@@ -89,7 +89,7 @@
             <summary>
             Get a list of markets and info about them
             </summary>
-            <param name="markets">Filter list for specific markets</param>
+            <param name="symbols">Filter list for specific markets</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary of market info</returns>
         </member>
@@ -97,7 +97,7 @@
             <summary>
             Get tickers for markets
             </summary>
-            <param name="markets">Markets to get tickers for</param>
+            <param name="symbols">Markets to get tickers for</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with ticker info</returns>
         </member>
@@ -113,7 +113,7 @@
             <summary>
             Gets kline data for a market
             </summary>
-            <param name="market">The market to get data for</param>
+            <param name="symbol">The market to get data for</param>
             <param name="interval">The interval of the klines</param>
             <param name="since">Return klines since a specific time</param>
             <param name="ct">Cancellation token</param>
@@ -123,7 +123,7 @@
             <summary>
             Gets kline data for a market
             </summary>
-            <param name="market">The market to get data for</param>
+            <param name="symbol">The market to get data for</param>
             <param name="interval">The interval of the klines</param>
             <param name="since">Return klines since a specific time</param>
             <param name="ct">Cancellation token</param>
@@ -133,7 +133,7 @@
             <summary>
             Get the order book for a market
             </summary>
-            <param name="market">Market to get the book for</param>
+            <param name="symbol">Market to get the book for</param>
             <param name="limit">Limit to book to the best x bids/asks</param>
             <param name="ct">Cancellation token</param>
             <returns>Order book for the market</returns>
@@ -142,7 +142,7 @@
             <summary>
             Get the order book for a market
             </summary>
-            <param name="market">Market to get the book for</param>
+            <param name="symbol">Market to get the book for</param>
             <param name="limit">Limit to book to the best x bids/asks</param>
             <param name="ct">Cancellation token</param>
             <returns>Order book for the market</returns>
@@ -151,7 +151,7 @@
             <summary>
             Get a list of recent trades for a market
             </summary>
-            <param name="market">Market to get trades for</param>
+            <param name="symbol">Market to get trades for</param>
             <param name="since">Return trades since a specific time</param>
             <param name="ct">Cancellation token</param>
             <returns>Recent trades</returns>
@@ -160,7 +160,7 @@
             <summary>
             Get a list of recent trades for a market
             </summary>
-            <param name="market">Market to get trades for</param>
+            <param name="symbol">Market to get trades for</param>
             <param name="since">Return trades since a specific time</param>
             <param name="ct">Cancellation token</param>
             <returns>Recent trades</returns>
@@ -169,7 +169,7 @@
             <summary>
             Get spread data for a market
             </summary>
-            <param name="market">Market to get spread data for</param>
+            <param name="symbol">Market to get spread data for</param>
             <param name="since">Return spread data since a specific time</param>
             <param name="ct">Cancellation token</param>
             <returns>Spread data</returns>
@@ -178,7 +178,7 @@
             <summary>
             Get spread data for a market
             </summary>
-            <param name="market">Market to get spread data for</param>
+            <param name="symbol">Market to get spread data for</param>
             <param name="since">Return spread data since a specific time</param>
             <param name="ct">Cancellation token</param>
             <returns>Spread data</returns>
@@ -321,7 +321,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with position info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgerInfo(System.String[],Kraken.Net.Objects.LedgerEntryType[],System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgerInfo(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Objects.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <summary>
             Get ledger entries info
             </summary>
@@ -333,7 +333,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Ledger entries page</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgerInfoAsync(System.String[],Kraken.Net.Objects.LedgerEntryType[],System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgerInfoAsync(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Objects.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <summary>
             Get ledger entries info
             </summary>
@@ -435,7 +435,7 @@
             <summary>
             Place a new order
             </summary>
-            <param name="market">The market the order is on</param>
+            <param name="symbol">The market the order is on</param>
             <param name="side">The side of the order</param>
             <param name="type">The type of the order</param>
             <param name="quantity">The quantity of the order</param>
@@ -468,7 +468,7 @@
             <summary>
             Place a new order
             </summary>
-            <param name="market">The market the order is on</param>
+            <param name="symbol">The market the order is on</param>
             <param name="side">The side of the order</param>
             <param name="type">The type of the order</param>
             <param name="quantity">The quantity of the order</param>
@@ -681,7 +681,7 @@
             <summary>
             Get tickers for markets
             </summary>
-            <param name="markets">Markets to get tickers for</param>
+            <param name="symbols">Markets to get tickers for</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with ticker info</returns>
         </member>
@@ -689,7 +689,7 @@
             <summary>
             Get tickers for markets
             </summary>
-            <param name="markets">Markets to get tickers for</param>
+            <param name="symbols">Markets to get tickers for</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with ticker info</returns>
         </member>
@@ -697,7 +697,7 @@
             <summary>
             Gets kline data for a market
             </summary>
-            <param name="market">The market to get data for</param>
+            <param name="symbol">The market to get data for</param>
             <param name="interval">The interval of the klines</param>
             <param name="since">Return klines since a specific time</param>
             <param name="ct">Cancellation token</param>
@@ -707,7 +707,7 @@
             <summary>
             Gets kline data for a market
             </summary>
-            <param name="market">The market to get data for</param>
+            <param name="symbol">The market to get data for</param>
             <param name="interval">The interval of the klines</param>
             <param name="since">Return klines since a specific time</param>
             <param name="ct">Cancellation token</param>
@@ -717,7 +717,7 @@
             <summary>
             Get the order book for a market
             </summary>
-            <param name="market">Market to get the book for</param>
+            <param name="symbol">Market to get the book for</param>
             <param name="limit">Limit to book to the best x bids/asks</param>
             <param name="ct">Cancellation token</param>
             <returns>Order book for the market</returns>
@@ -726,7 +726,7 @@
             <summary>
             Get the order book for a market
             </summary>
-            <param name="market">Market to get the book for</param>
+            <param name="symbol">Market to get the book for</param>
             <param name="limit">Limit to book to the best x bids/asks</param>
             <param name="ct">Cancellation token</param>
             <returns>Order book for the market</returns>
@@ -735,7 +735,7 @@
             <summary>
             Get a list of recent trades for a market
             </summary>
-            <param name="market">Market to get trades for</param>
+            <param name="symbol">Market to get trades for</param>
             <param name="since">Return trades since a specific time</param>
             <param name="ct">Cancellation token</param>
             <returns>Recent trades</returns>
@@ -744,7 +744,7 @@
             <summary>
             Get a list of recent trades for a market
             </summary>
-            <param name="market">Market to get trades for</param>
+            <param name="symbol">Market to get trades for</param>
             <param name="since">Return trades since a specific time</param>
             <param name="ct">Cancellation token</param>
             <returns>Recent trades</returns>
@@ -753,7 +753,7 @@
             <summary>
             Get spread data for a market
             </summary>
-            <param name="market">Market to get spread data for</param>
+            <param name="symbol">Market to get spread data for</param>
             <param name="since">Return spread data since a specific time</param>
             <param name="ct">Cancellation token</param>
             <returns>Spread data</returns>
@@ -762,7 +762,7 @@
             <summary>
             Get spread data for a market
             </summary>
-            <param name="market">Market to get spread data for</param>
+            <param name="symbol">Market to get spread data for</param>
             <param name="since">Return spread data since a specific time</param>
             <param name="ct">Cancellation token</param>
             <returns>Spread data</returns>
@@ -905,7 +905,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with position info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetLedgerInfo(System.String[],Kraken.Net.Objects.LedgerEntryType[],System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetLedgerInfo(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Objects.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <summary>
             Get ledger entries info
             </summary>
@@ -917,7 +917,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Ledger entries page</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetLedgerInfoAsync(System.String[],Kraken.Net.Objects.LedgerEntryType[],System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetLedgerInfoAsync(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Objects.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <summary>
             Get ledger entries info
             </summary>
@@ -1019,7 +1019,7 @@
             <summary>
             Place a new order
             </summary>
-            <param name="market">The market the order is on</param>
+            <param name="symbol">The market the order is on</param>
             <param name="side">The side of the order</param>
             <param name="type">The type of the order</param>
             <param name="quantity">The quantity of the order</param>
@@ -1052,7 +1052,7 @@
             <summary>
             Place a new order
             </summary>
-            <param name="market">The market the order is on</param>
+            <param name="symbol">The market the order is on</param>
             <param name="side">The side of the order</param>
             <param name="type">The type of the order</param>
             <param name="quantity">The quantity of the order</param>
@@ -1099,6 +1099,18 @@
         </member>
         <member name="M:Kraken.Net.KrakenClient.WriteParamBody(CryptoExchange.Net.Interfaces.IRequest,System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
             <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenHelpers.ValidateKrakenSymbol(System.String)">
+            <summary>
+            Validate the string is a valid Kraken symbol.
+            </summary>
+            <param name="symbolString">string to validate</param>
+        </member>
+        <member name="M:Kraken.Net.KrakenHelpers.ValidateKrakenWebsocketSymbol(System.String)">
+            <summary>
+            Validate the string is a valid Kraken websocket symbol.
+            </summary>
+            <param name="symbolString">string to validate</param>
         </member>
         <member name="T:Kraken.Net.KrakenClientOptions">
             <summary>
@@ -1155,7 +1167,7 @@
             <summary>
             Subscribe to ticker updates
             </summary>
-            <param name="market">Market to subscribe to</param>
+            <param name="symbol">Market to subscribe to</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
@@ -1163,7 +1175,7 @@
             <summary>
             Subscribe to ticker updates
             </summary>
-            <param name="market">Market to subscribe to</param>
+            <param name="symbol">Market to subscribe to</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
@@ -1171,7 +1183,7 @@
             <summary>
             Subscribe to kline updates
             </summary>
-            <param name="market">Market to subscribe to</param>
+            <param name="symbol">Market to subscribe to</param>
             <param name="interval">Kline interval</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -1180,7 +1192,7 @@
             <summary>
             Subscribe to kline updates
             </summary>
-            <param name="market">Market to subscribe to</param>
+            <param name="symbol">Market to subscribe to</param>
             <param name="interval">Kline interval</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -1189,7 +1201,7 @@
             <summary>
             Subscribe to trade updates
             </summary>
-            <param name="market">Market to subscribe to</param>
+            <param name="symbol">Market to subscribe to</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
@@ -1197,7 +1209,7 @@
             <summary>
             Subscribe to trade updates
             </summary>
-            <param name="market">Market to subscribe to</param>
+            <param name="symbol">Market to subscribe to</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
@@ -1205,7 +1217,7 @@
             <summary>
             Subscribe to spread updates
             </summary>
-            <param name="market">Market to subscribe to</param>
+            <param name="symbol">Market to subscribe to</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
@@ -1213,7 +1225,7 @@
             <summary>
             Subscribe to spread updates
             </summary>
-            <param name="market">Market to subscribe to</param>
+            <param name="symbol">Market to subscribe to</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
@@ -1221,7 +1233,7 @@
             <summary>
             Subscribe to depth updates
             </summary>
-            <param name="market">Market to subscribe to</param>
+            <param name="symbol">Market to subscribe to</param>
             <param name="depth">Depth of the initial order book snapshot</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -1230,7 +1242,7 @@
             <summary>
             Subscribe to depth updates
             </summary>
-            <param name="market">Market to subscribe to</param>
+            <param name="symbol">Market to subscribe to</param>
             <param name="depth">Depth of the initial order book snapshot</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>

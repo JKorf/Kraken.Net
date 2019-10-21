@@ -47,96 +47,106 @@ namespace Kraken.Net
         /// <summary>
         /// Subscribe to ticker updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Market to subscribe to</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        public CallResult<UpdateSubscription> SubscribeToTickerUpdates(string market, Action<KrakenSocketEvent<KrakenStreamTick>> handler) => SubscribeToTickerUpdatesAsync(market, handler).Result;
+        public CallResult<UpdateSubscription> SubscribeToTickerUpdates(string symbol, Action<KrakenSocketEvent<KrakenStreamTick>> handler) => SubscribeToTickerUpdatesAsync(symbol, handler).Result;
         /// <summary>
         /// Subscribe to ticker updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Market to subscribe to</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string market, Action<KrakenSocketEvent<KrakenStreamTick>> handler)
+        public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<KrakenSocketEvent<KrakenStreamTick>> handler)
         {
-            return await Subscribe(new KrakenSubscribeRequest("ticker", NextId(), market), null, false, handler).ConfigureAwait(false);
+            symbol.ValidateKrakenWebsocketSymbol();
+
+            return await Subscribe(new KrakenSubscribeRequest("ticker", NextId(), symbol), null, false, handler).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Subscribe to kline updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Market to subscribe to</param>
         /// <param name="interval">Kline interval</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        public CallResult<UpdateSubscription> SubscribeToKlineUpdates(string market, KlineInterval interval, Action<KrakenSocketEvent<KrakenStreamKline>> handler) => SubscribeToKlineUpdatesAsync(market, interval, handler).Result;
+        public CallResult<UpdateSubscription> SubscribeToKlineUpdates(string symbol, KlineInterval interval, Action<KrakenSocketEvent<KrakenStreamKline>> handler) => SubscribeToKlineUpdatesAsync(symbol, interval, handler).Result;
         /// <summary>
         /// Subscribe to kline updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Market to subscribe to</param>
         /// <param name="interval">Kline interval</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        public async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string market, KlineInterval interval, Action<KrakenSocketEvent<KrakenStreamKline>> handler)
+        public async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, KlineInterval interval, Action<KrakenSocketEvent<KrakenStreamKline>> handler)
         {
+            symbol.ValidateKrakenWebsocketSymbol();
+
             var intervalMinutes = int.Parse(JsonConvert.SerializeObject(interval, new KlineIntervalConverter(false)));
-            return await Subscribe(new KrakenSubscribeRequest("ohlc", NextId(), market) { Details = new KrakenOHLCSubscriptionDetails(intervalMinutes) }, null, false, handler).ConfigureAwait(false);
+            return await Subscribe(new KrakenSubscribeRequest("ohlc", NextId(), symbol) { Details = new KrakenOHLCSubscriptionDetails(intervalMinutes) }, null, false, handler).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Subscribe to trade updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Market to subscribe to</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        public CallResult<UpdateSubscription> SubscribeToTradeUpdates(string market, Action<KrakenSocketEvent<IEnumerable<KrakenTrade>>> handler) => SubscribeToTradeUpdatesAsync(market, handler).Result;
+        public CallResult<UpdateSubscription> SubscribeToTradeUpdates(string symbol, Action<KrakenSocketEvent<IEnumerable<KrakenTrade>>> handler) => SubscribeToTradeUpdatesAsync(symbol, handler).Result;
         /// <summary>
         /// Subscribe to trade updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Market to subscribe to</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string market, Action<KrakenSocketEvent<IEnumerable<KrakenTrade>>> handler)
+        public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<KrakenSocketEvent<IEnumerable<KrakenTrade>>> handler)
         {
-            return await Subscribe(new KrakenSubscribeRequest("trade", NextId(), market), null, false, handler).ConfigureAwait(false);
+            symbol.ValidateKrakenWebsocketSymbol();
+
+            return await Subscribe(new KrakenSubscribeRequest("trade", NextId(), symbol), null, false, handler).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Subscribe to spread updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Market to subscribe to</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        public CallResult<UpdateSubscription> SubscribeToSpreadUpdates(string market, Action<KrakenSocketEvent<KrakenStreamSpread>> handler) => SubscribeToSpreadUpdatesAsync(market, handler).Result;
+        public CallResult<UpdateSubscription> SubscribeToSpreadUpdates(string symbol, Action<KrakenSocketEvent<KrakenStreamSpread>> handler) => SubscribeToSpreadUpdatesAsync(symbol, handler).Result;
         /// <summary>
         /// Subscribe to spread updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Market to subscribe to</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        public async Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(string market, Action<KrakenSocketEvent<KrakenStreamSpread>> handler)
+        public async Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(string symbol, Action<KrakenSocketEvent<KrakenStreamSpread>> handler)
         {
-            return await Subscribe(new KrakenSubscribeRequest("spread", NextId(), market), null, false, handler).ConfigureAwait(false);
+            symbol.ValidateKrakenWebsocketSymbol();
+
+            return await Subscribe(new KrakenSubscribeRequest("spread", NextId(), symbol), null, false, handler).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Subscribe to depth updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Market to subscribe to</param>
         /// <param name="depth">Depth of the initial order book snapshot</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        public CallResult<UpdateSubscription> SubscribeToDepthUpdates(string market, int depth, Action<KrakenSocketEvent<KrakenStreamOrderBook>> handler) => SubscribeToDepthUpdatesAsync(market, depth, handler).Result;
+        public CallResult<UpdateSubscription> SubscribeToDepthUpdates(string symbol, int depth, Action<KrakenSocketEvent<KrakenStreamOrderBook>> handler) => SubscribeToDepthUpdatesAsync(symbol, depth, handler).Result;
 
         /// <summary>
         /// Subscribe to depth updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Market to subscribe to</param>
         /// <param name="depth">Depth of the initial order book snapshot</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        public async Task<CallResult<UpdateSubscription>> SubscribeToDepthUpdatesAsync(string market, int depth, Action<KrakenSocketEvent<KrakenStreamOrderBook>> handler)
+        public async Task<CallResult<UpdateSubscription>> SubscribeToDepthUpdatesAsync(string symbol, int depth, Action<KrakenSocketEvent<KrakenStreamOrderBook>> handler)
         {
+            symbol.ValidateKrakenWebsocketSymbol();
+
             var innerHandler = new Action<string>(data =>
             {
                 var token = data.ToJToken(log);
@@ -148,7 +158,7 @@ namespace Kraken.Net
                 handler(StreamOrderBookConverter.Convert((JArray) token));
             });
 
-            return await Subscribe(new KrakenSubscribeRequest("book", NextId(), market) { Details = new KrakenDepthSubscriptionDetails(depth)}, null, false, innerHandler).ConfigureAwait(false);
+            return await Subscribe(new KrakenSubscribeRequest("book", NextId(), symbol) { Details = new KrakenDepthSubscriptionDetails(depth)}, null, false, innerHandler).ConfigureAwait(false);
         }
         #endregion
 

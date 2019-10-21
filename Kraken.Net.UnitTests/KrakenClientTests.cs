@@ -27,6 +27,7 @@ namespace Kraken.Net.UnitTests
             var defaultParameterValues = new Dictionary<string, object>
             {
                 { "assets", new [] { "XBTUSD" } },
+                { "symbol", "XBTUSD" },
                 {"clientOrderId", null }
             };
 
@@ -94,6 +95,39 @@ namespace Kraken.Net.UnitTests
             };
 
             return JsonConvert.SerializeObject(result);
+        }
+
+        [TestCase("BTC-USDT", false)]
+        [TestCase("NANO-USDT", false)]
+        [TestCase("NANO-BTC", false)]
+        [TestCase("ETH-BTC", false)]
+        [TestCase("BE-ETC", false)]
+        [TestCase("NANO-USDTD", false)]
+        [TestCase("BTCUSDT", true)]
+        [TestCase("BTCUSD", true)]
+        [TestCase("NANOUSDT", true)]
+        public void CheckValidKrakenSymbol(string symbol, bool isValid)
+        {
+            if (isValid)
+                Assert.DoesNotThrow(() => symbol.ValidateKrakenSymbol());
+            else
+                Assert.Throws(typeof(ArgumentException), () => symbol.ValidateKrakenSymbol());
+        }
+
+        [TestCase("BTC/USDT", true)]
+        [TestCase("NANO/USDT", true)]
+        [TestCase("NANO/BTC", true)]
+        [TestCase("ETH/BTC", true)]
+        [TestCase("BE/ETC", false)]
+        [TestCase("NANO/USDTD", false)]
+        [TestCase("BTCUSDT", false)]
+        [TestCase("BTCUSD", false)]
+        public void CheckValidKrakenWebsocketSymbol(string symbol, bool isValid)
+        {
+            if (isValid)
+                Assert.DoesNotThrow(() => symbol.ValidateKrakenWebsocketSymbol());
+            else
+                Assert.Throws(typeof(ArgumentException), () => symbol.ValidateKrakenWebsocketSymbol());
         }
     }
 }
