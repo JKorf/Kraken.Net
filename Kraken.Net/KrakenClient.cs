@@ -540,6 +540,7 @@ namespace Kraken.Net
         /// <returns>Array with methods for deposit</returns>
         public async Task<WebCallResult<IEnumerable<KrakenDepositMethod>>> GetDepositMethodsAsync(string asset, CancellationToken ct = default)
         {
+            asset.ValidateNotNull(nameof(asset));
             var parameters = new Dictionary<string, object>()
             {
                 {"asset", asset}
@@ -567,6 +568,8 @@ namespace Kraken.Net
         /// <returns></returns>
         public async Task<WebCallResult<IEnumerable<KrakenDepositAddress>>> GetDepositAddressesAsync(string asset, string depositMethod, bool generateNew = false, CancellationToken ct = default)
         {
+            asset.ValidateNotNull(nameof(asset));
+            depositMethod.ValidateNotNull(nameof(depositMethod));
             var parameters = new Dictionary<string, object>()
             {
                 {"asset", asset},
@@ -597,6 +600,8 @@ namespace Kraken.Net
         /// <returns>Deposit status list</returns>
         public async Task<WebCallResult<IEnumerable<KrakenDepositStatus>>> GetDepositStatusAsync(string asset, string depositMethod, CancellationToken ct = default)
         {
+            asset.ValidateNotNull(nameof(asset));
+            depositMethod.ValidateNotNull(nameof(depositMethod));
             var parameters = new Dictionary<string, object>()
             {
                 {"asset", asset},
@@ -728,6 +733,7 @@ namespace Kraken.Net
         /// <returns>Cancel result</returns>
         public async Task<WebCallResult<KrakenCancelResult>> CancelOrderAsync(string orderId, CancellationToken ct = default)
         {
+            orderId.ValidateNotNull(nameof(orderId));
             var parameters = new Dictionary<string, object>()
             {
                 {"txid", orderId}

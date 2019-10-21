@@ -62,13 +62,7 @@ namespace Kraken.Net
             }
             else
             {
-                var processEntries = new List<ProcessEntry>();
-                foreach (var entry in data.Data.Asks)
-                    processEntries.Add(new ProcessEntry(OrderBookEntryType.Ask, new OrderBookEntry(entry.Price, entry.Quantity)));
-                foreach (var entry in data.Data.Bids)
-                    processEntries.Add(new ProcessEntry(OrderBookEntryType.Bid, new OrderBookEntry(entry.Price, entry.Quantity)));
-                
-                UpdateOrderBook(DateTime.UtcNow.Ticks, DateTime.UtcNow.Ticks, processEntries);
+                UpdateOrderBook(DateTime.UtcNow.Ticks, DateTime.UtcNow.Ticks, data.Data.Bids, data.Data.Asks);
             }
         }
 
