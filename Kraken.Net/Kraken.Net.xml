@@ -37,7 +37,7 @@
         </member>
         <member name="T:Kraken.Net.Interfaces.IKrakenClient">
             <summary>
-            Interface for Kraken client
+            Interface for the Kraken rest client
             </summary>
         </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenClient.SetApiCredentials(System.String,System.String)">
@@ -91,7 +91,7 @@
             </summary>
             <param name="symbols">Filter list for specific symbols</param>
             <param name="ct">Cancellation token</param>
-            <returns>Dictionary of market info</returns>
+            <returns>Dictionary of symbol info</returns>
         </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTickers(System.Threading.CancellationToken,System.String[])">
             <summary>
@@ -105,15 +105,15 @@
             <summary>
             Get tickers for symbols
             </summary>
-            <param name="markets">Symbols to get tickers for</param>
+            <param name="symbols">Symbols to get tickers for</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with ticker info</returns>
         </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetKlines(System.String,Kraken.Net.Objects.KlineInterval,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <summary>
-            Gets kline data for a market
+            Gets kline data for a symbol
             </summary>
-            <param name="symbol">The market to get data for</param>
+            <param name="symbol">The symbol to get data for</param>
             <param name="interval">The interval of the klines</param>
             <param name="since">Return klines since a specific time</param>
             <param name="ct">Cancellation token</param>
@@ -121,9 +121,9 @@
         </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetKlinesAsync(System.String,Kraken.Net.Objects.KlineInterval,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <summary>
-            Gets kline data for a market
+            Gets kline data for a symbol
             </summary>
-            <param name="symbol">The market to get data for</param>
+            <param name="symbol">The symbol to get data for</param>
             <param name="interval">The interval of the klines</param>
             <param name="since">Return klines since a specific time</param>
             <param name="ct">Cancellation token</param>
@@ -131,25 +131,25 @@
         </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOrderBook(System.String,System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <summary>
-            Get the order book for a market
+            Get the order book for a symbol
             </summary>
             <param name="symbol">Symbol to get the book for</param>
             <param name="limit">Limit to book to the best x bids/asks</param>
             <param name="ct">Cancellation token</param>
-            <returns>Order book for the market</returns>
+            <returns>Order book for the symbol</returns>
         </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOrderBookAsync(System.String,System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <summary>
-            Get the order book for a market
+            Get the order book for a symbol
             </summary>
             <param name="symbol">Symbol to get the book for</param>
             <param name="limit">Limit to book to the best x bids/asks</param>
             <param name="ct">Cancellation token</param>
-            <returns>Order book for the market</returns>
+            <returns>Order book for the symbol</returns>
         </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetRecentTrades(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <summary>
-            Get a list of recent trades for a market
+            Get a list of recent trades for a symbol
             </summary>
             <param name="symbol">Symbol to get trades for</param>
             <param name="since">Return trades since a specific time</param>
@@ -158,7 +158,7 @@
         </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetRecentTradesAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <summary>
-            Get a list of recent trades for a market
+            Get a list of recent trades for a symbol
             </summary>
             <param name="symbol">Symbol to get trades for</param>
             <param name="since">Return trades since a specific time</param>
@@ -167,7 +167,7 @@
         </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetRecentSpread(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <summary>
-            Get spread data for a market
+            Get spread data for a symbol
             </summary>
             <param name="symbol">Symbol to get spread data for</param>
             <param name="since">Return spread data since a specific time</param>
@@ -176,21 +176,21 @@
         </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetRecentSpreadAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <summary>
-            Get spread data for a market
+            Get spread data for a symbol
             </summary>
             <param name="symbol">Symbol to get spread data for</param>
             <param name="since">Return spread data since a specific time</param>
             <param name="ct">Cancellation token</param>
             <returns>Spread data</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetAccountBalance(System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetBalances(System.Threading.CancellationToken)">
             <summary>
             Get balances
             </summary>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with balances for assets</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetAccountBalanceAsync(System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetBalancesAsync(System.Threading.CancellationToken)">
             <summary>
             Get balances
             </summary>
@@ -365,7 +365,7 @@
             <summary>
             Get trade volume
             </summary>
-            <param name="markets">Symbols to get data for</param>
+            <param name="symbols">Symbols to get data for</param>
             <param name="ct">Cancellation token</param>
             <returns>Trade fee info</returns>
         </member>
@@ -373,7 +373,7 @@
             <summary>
             Get trade volume
             </summary>
-            <param name="markets">Symbols to get data for</param>
+            <param name="symbols">Symbols to get data for</param>
             <param name="ct">Cancellation token</param>
             <returns>Trade fee info</returns>
         </member>
@@ -435,7 +435,7 @@
             <summary>
             Place a new order
             </summary>
-            <param name="symbol">The market the order is on</param>
+            <param name="symbol">The symbol the order is on</param>
             <param name="side">The side of the order</param>
             <param name="type">The type of the order</param>
             <param name="quantity">The quantity of the order</param>
@@ -468,7 +468,7 @@
             <summary>
             Place a new order
             </summary>
-            <param name="symbol">The market the order is on</param>
+            <param name="symbol">The symbol the order is on</param>
             <param name="side">The side of the order</param>
             <param name="type">The type of the order</param>
             <param name="quantity">The quantity of the order</param>
@@ -522,7 +522,7 @@
             <summary>
             Subscribe to ticker updates
             </summary>
-            <param name="market">Symbol to subscribe to</param>
+            <param name="symbol">Symbol to subscribe to</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
@@ -530,7 +530,7 @@
             <summary>
             Subscribe to ticker updates
             </summary>
-            <param name="market">Symbol to subscribe to</param>
+            <param name="symbol">Symbol to subscribe to</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
@@ -538,7 +538,7 @@
             <summary>
             Subscribe to kline updates
             </summary>
-            <param name="market">Symbol to subscribe to</param>
+            <param name="symbol">Symbol to subscribe to</param>
             <param name="interval">Kline interval</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -547,7 +547,7 @@
             <summary>
             Subscribe to kline updates
             </summary>
-            <param name="market">Symbol to subscribe to</param>
+            <param name="symbol">Symbol to subscribe to</param>
             <param name="interval">Kline interval</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -556,7 +556,7 @@
             <summary>
             Subscribe to trade updates
             </summary>
-            <param name="market">Symbol to subscribe to</param>
+            <param name="symbol">Symbol to subscribe to</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
@@ -564,7 +564,7 @@
             <summary>
             Subscribe to trade updates
             </summary>
-            <param name="market">Symbol to subscribe to</param>
+            <param name="symbol">Symbol to subscribe to</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
@@ -572,7 +572,7 @@
             <summary>
             Subscribe to spread updates
             </summary>
-            <param name="market">Symbol to subscribe to</param>
+            <param name="symbol">Symbol to subscribe to</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
@@ -580,7 +580,7 @@
             <summary>
             Subscribe to spread updates
             </summary>
-            <param name="market">Symbol to subscribe to</param>
+            <param name="symbol">Symbol to subscribe to</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
@@ -588,7 +588,7 @@
             <summary>
             Subscribe to depth updates
             </summary>
-            <param name="market">Symbol to subscribe to</param>
+            <param name="symbol">Symbol to subscribe to</param>
             <param name="depth">Depth of the initial order book snapshot</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -597,7 +597,7 @@
             <summary>
             Subscribe to depth updates
             </summary>
-            <param name="market">Symbol to subscribe to</param>
+            <param name="symbol">Symbol to subscribe to</param>
             <param name="depth">Depth of the initial order book snapshot</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -767,14 +767,14 @@
             <param name="ct">Cancellation token</param>
             <returns>Spread data</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetAccountBalance(System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetBalances(System.Threading.CancellationToken)">
             <summary>
             Get balances
             </summary>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with balances for assets</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetAccountBalanceAsync(System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetBalancesAsync(System.Threading.CancellationToken)">
             <summary>
             Get balances
             </summary>

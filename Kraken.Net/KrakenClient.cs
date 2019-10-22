@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Converters;
@@ -270,13 +269,13 @@ namespace Kraken.Net
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with balances for assets</returns>
-        public WebCallResult<Dictionary<string, decimal>> GetAccountBalance(CancellationToken ct = default) => GetAccountBalanceAsync(ct).Result;
+        public WebCallResult<Dictionary<string, decimal>> GetBalances(CancellationToken ct = default) => GetBalancesAsync(ct).Result;
         /// <summary>
         /// Get balances
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with balances for assets</returns>
-        public async Task<WebCallResult<Dictionary<string, decimal>>> GetAccountBalanceAsync(CancellationToken ct = default)
+        public async Task<WebCallResult<Dictionary<string, decimal>>> GetBalancesAsync(CancellationToken ct = default)
         {
             return await Execute<Dictionary<string, decimal>>(GetUri("/0/private/Balance"), HttpMethod.Post, ct, null, true).ConfigureAwait(false);
         }

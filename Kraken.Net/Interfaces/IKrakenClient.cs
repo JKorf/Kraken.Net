@@ -11,7 +11,7 @@ using Kraken.Net.Objects;
 namespace Kraken.Net.Interfaces
 {
     /// <summary>
-    /// Interface for Kraken client
+    /// Interface for the Kraken rest client
     /// </summary>
     public interface IKrakenClient: IRestClient
     {
@@ -65,7 +65,7 @@ namespace Kraken.Net.Interfaces
         /// </summary>
         /// <param name="symbols">Filter list for specific symbols</param>
         /// <param name="ct">Cancellation token</param>
-        /// <returns>Dictionary of market info</returns>
+        /// <returns>Dictionary of symbol info</returns>
         Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(CancellationToken ct = default, params string[] symbols);
 
         /// <summary>
@@ -79,15 +79,15 @@ namespace Kraken.Net.Interfaces
         /// <summary>
         /// Get tickers for symbols
         /// </summary>
-        /// <param name="markets">Symbols to get tickers for</param>
+        /// <param name="symbols">Symbols to get tickers for</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with ticker info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(CancellationToken ct = default, params string[] markets);
+        Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(CancellationToken ct = default, params string[] symbols);
 
         /// <summary>
-        /// Gets kline data for a market
+        /// Gets kline data for a symbol
         /// </summary>
-        /// <param name="symbol">The market to get data for</param>
+        /// <param name="symbol">The symbol to get data for</param>
         /// <param name="interval">The interval of the klines</param>
         /// <param name="since">Return klines since a specific time</param>
         /// <param name="ct">Cancellation token</param>
@@ -95,9 +95,9 @@ namespace Kraken.Net.Interfaces
         WebCallResult<KrakenKlinesResult> GetKlines(string symbol, KlineInterval interval, DateTime? since = null, CancellationToken ct = default);
 
         /// <summary>
-        /// Gets kline data for a market
+        /// Gets kline data for a symbol
         /// </summary>
-        /// <param name="symbol">The market to get data for</param>
+        /// <param name="symbol">The symbol to get data for</param>
         /// <param name="interval">The interval of the klines</param>
         /// <param name="since">Return klines since a specific time</param>
         /// <param name="ct">Cancellation token</param>
@@ -105,25 +105,25 @@ namespace Kraken.Net.Interfaces
         Task<WebCallResult<KrakenKlinesResult>> GetKlinesAsync(string symbol, KlineInterval interval, DateTime? since = null, CancellationToken ct = default);
 
         /// <summary>
-        /// Get the order book for a market
+        /// Get the order book for a symbol
         /// </summary>
         /// <param name="symbol">Symbol to get the book for</param>
         /// <param name="limit">Limit to book to the best x bids/asks</param>
         /// <param name="ct">Cancellation token</param>
-        /// <returns>Order book for the market</returns>
+        /// <returns>Order book for the symbol</returns>
         WebCallResult<KrakenOrderBook> GetOrderBook(string symbol, int? limit = null, CancellationToken ct = default);
 
         /// <summary>
-        /// Get the order book for a market
+        /// Get the order book for a symbol
         /// </summary>
         /// <param name="symbol">Symbol to get the book for</param>
         /// <param name="limit">Limit to book to the best x bids/asks</param>
         /// <param name="ct">Cancellation token</param>
-        /// <returns>Order book for the market</returns>
+        /// <returns>Order book for the symbol</returns>
         Task<WebCallResult<KrakenOrderBook>> GetOrderBookAsync(string symbol, int? limit = null, CancellationToken ct = default);
 
         /// <summary>
-        /// Get a list of recent trades for a market
+        /// Get a list of recent trades for a symbol
         /// </summary>
         /// <param name="symbol">Symbol to get trades for</param>
         /// <param name="since">Return trades since a specific time</param>
@@ -132,7 +132,7 @@ namespace Kraken.Net.Interfaces
         WebCallResult<KrakenTradesResult> GetRecentTrades(string symbol, DateTime? since = null, CancellationToken ct = default);
 
         /// <summary>
-        /// Get a list of recent trades for a market
+        /// Get a list of recent trades for a symbol
         /// </summary>
         /// <param name="symbol">Symbol to get trades for</param>
         /// <param name="since">Return trades since a specific time</param>
@@ -141,7 +141,7 @@ namespace Kraken.Net.Interfaces
         Task<WebCallResult<KrakenTradesResult>> GetRecentTradesAsync(string symbol, DateTime? since = null, CancellationToken ct = default);
 
         /// <summary>
-        /// Get spread data for a market
+        /// Get spread data for a symbol
         /// </summary>
         /// <param name="symbol">Symbol to get spread data for</param>
         /// <param name="since">Return spread data since a specific time</param>
@@ -150,7 +150,7 @@ namespace Kraken.Net.Interfaces
         WebCallResult<KrakenSpreadsResult> GetRecentSpread(string symbol, DateTime? since = null, CancellationToken ct = default);
 
         /// <summary>
-        /// Get spread data for a market
+        /// Get spread data for a symbol
         /// </summary>
         /// <param name="symbol">Symbol to get spread data for</param>
         /// <param name="since">Return spread data since a specific time</param>
@@ -163,14 +163,14 @@ namespace Kraken.Net.Interfaces
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with balances for assets</returns>
-        WebCallResult<Dictionary<string, decimal>> GetAccountBalance(CancellationToken ct = default);
+        WebCallResult<Dictionary<string, decimal>> GetBalances(CancellationToken ct = default);
 
         /// <summary>
         /// Get balances
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with balances for assets</returns>
-        Task<WebCallResult<Dictionary<string, decimal>>> GetAccountBalanceAsync(CancellationToken ct = default);
+        Task<WebCallResult<Dictionary<string, decimal>>> GetBalancesAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get trade balance
@@ -339,18 +339,18 @@ namespace Kraken.Net.Interfaces
         /// <summary>
         /// Get trade volume
         /// </summary>
-        /// <param name="markets">Symbols to get data for</param>
+        /// <param name="symbols">Symbols to get data for</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade fee info</returns>
-        WebCallResult<KrakenTradeVolume> GetTradeVolume(CancellationToken ct = default, params string[] markets);
+        WebCallResult<KrakenTradeVolume> GetTradeVolume(CancellationToken ct = default, params string[] symbols);
 
         /// <summary>
         /// Get trade volume
         /// </summary>
-        /// <param name="markets">Symbols to get data for</param>
+        /// <param name="symbols">Symbols to get data for</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade fee info</returns>
-        Task<WebCallResult<KrakenTradeVolume>> GetTradeVolumeAsync(CancellationToken ct = default, params string[] markets);
+        Task<WebCallResult<KrakenTradeVolume>> GetTradeVolumeAsync(CancellationToken ct = default, params string[] symbols);
 
         /// <summary>
         /// Get deposit methods
@@ -409,7 +409,7 @@ namespace Kraken.Net.Interfaces
         /// <summary>
         /// Place a new order
         /// </summary>
-        /// <param name="symbol">The market the order is on</param>
+        /// <param name="symbol">The symbol the order is on</param>
         /// <param name="side">The side of the order</param>
         /// <param name="type">The type of the order</param>
         /// <param name="quantity">The quantity of the order</param>
@@ -454,7 +454,7 @@ namespace Kraken.Net.Interfaces
         /// <summary>
         /// Place a new order
         /// </summary>
-        /// <param name="symbol">The market the order is on</param>
+        /// <param name="symbol">The symbol the order is on</param>
         /// <param name="side">The side of the order</param>
         /// <param name="type">The type of the order</param>
         /// <param name="quantity">The quantity of the order</param>
