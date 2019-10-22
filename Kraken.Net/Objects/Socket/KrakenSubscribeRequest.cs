@@ -9,17 +9,17 @@ namespace Kraken.Net.Objects.Socket
         [JsonProperty("reqid")]
         public int RequestId { get; set; }
         [JsonProperty("pair")]
-        public string[] Markets { get; set; }
+        public string[] Symbols { get; set; }
         [JsonProperty("subscription")]
         public KrakenSubscriptionDetails Details { get; set; }
 
         [JsonIgnore]
         public int? ChannelId { get; set; }
 
-        public KrakenSubscribeRequest(string topic,  int requestId, params string[] markets)
+        public KrakenSubscribeRequest(string topic,  int requestId, params string[] symbols)
         {
             RequestId = requestId;
-            Markets = markets;
+            Symbols = symbols;
             Details = new KrakenSubscriptionDetails(topic);
         }
     }

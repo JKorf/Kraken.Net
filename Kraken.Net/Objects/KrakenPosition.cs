@@ -16,10 +16,10 @@ namespace Kraken.Net.Objects
         [JsonProperty("ordertxid")]
         public string OrderId { get; set; } = "";
         /// <summary>
-        /// Market
+        /// Symbol
         /// </summary>
         [JsonProperty("pair")]
-        public string Market { get; set; } = "";
+        public string Symbol { get; set; } = "";
         /// <summary>
         /// Timestamp
         /// </summary>

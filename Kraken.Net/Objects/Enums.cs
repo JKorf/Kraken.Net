@@ -68,7 +68,7 @@
         /// </summary>
         Limit,
         /// <summary>
-        /// Market order
+        /// Symbol order
         /// </summary>
         Market
     }
@@ -83,7 +83,7 @@
         /// </summary>
         Limit,
         /// <summary>
-        /// Market order
+        /// Symbol order
         /// </summary>
         Market,
         /// <summary>

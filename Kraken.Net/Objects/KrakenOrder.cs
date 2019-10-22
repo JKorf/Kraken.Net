@@ -111,10 +111,10 @@ namespace Kraken.Net.Objects
     public class KrakenOrderInfo
     {
         /// <summary>
-        /// The market of the order
+        /// The symbol of the order
         /// </summary>
         [JsonProperty("pair")]
-        public string Market { get; set; } = "";
+        public string Symbol { get; set; } = "";
         /// <summary>
         /// Side of the order
         /// </summary>

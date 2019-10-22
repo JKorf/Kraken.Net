@@ -4,9 +4,9 @@ using Newtonsoft.Json;
 namespace Kraken.Net.Objects
 {
     /// <summary>
-    /// Market info
+    /// Symbol info
     /// </summary>
-    public class KrakenMarket
+    public class KrakenSymbol
     {
         /// <summary>
         /// Alternative name
@@ -44,7 +44,7 @@ namespace Kraken.Net.Objects
         [JsonProperty("lot")]
         public string VolumeLotSize { get; set; } = "";
         /// <summary>
-        /// Decimals of the market
+        /// Decimals of the symbol
         /// </summary>
         [JsonProperty("pair_decimals")]
         public int Decimals { get; set; }

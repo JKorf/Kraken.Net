@@ -53,33 +53,33 @@ namespace Kraken.Net.Interfaces
         Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(CancellationToken ct = default, params string[] assets);
 
         /// <summary>
-        /// Get a list of markets and info about them
+        /// Get a list of symbols and info about them
         /// </summary>
-        /// <param name="markets">Filter list for specific markets</param>
+        /// <param name="symbols">Filter list for specific symbols</param>
         /// <param name="ct">Cancellation token</param>
-        /// <returns>Dictionary of market info</returns>
-        WebCallResult<Dictionary<string, KrakenMarket>> GetMarkets(CancellationToken ct = default, params string[] markets);
+        /// <returns>Dictionary of symbol info</returns>
+        WebCallResult<Dictionary<string, KrakenSymbol>> GetSymbols(CancellationToken ct = default, params string[] symbols);
 
         /// <summary>
-        /// Get a list of markets and info about them
+        /// Get a list of symbols and info about them
         /// </summary>
-        /// <param name="symbols">Filter list for specific markets</param>
+        /// <param name="symbols">Filter list for specific symbols</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary of market info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenMarket>>> GetMarketsAsync(CancellationToken ct = default, params string[] symbols);
+        Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(CancellationToken ct = default, params string[] symbols);
 
         /// <summary>
-        /// Get tickers for markets
+        /// Get tickers for symbols
         /// </summary>
-        /// <param name="symbols">Markets to get tickers for</param>
+        /// <param name="symbols">Symbols to get tickers for</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with ticker info</returns>
         WebCallResult<Dictionary<string, KrakenRestTick>> GetTickers(CancellationToken ct = default, params string[] symbols);
 
         /// <summary>
-        /// Get tickers for markets
+        /// Get tickers for symbols
         /// </summary>
-        /// <param name="markets">Markets to get tickers for</param>
+        /// <param name="markets">Symbols to get tickers for</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with ticker info</returns>
         Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(CancellationToken ct = default, params string[] markets);
@@ -107,7 +107,7 @@ namespace Kraken.Net.Interfaces
         /// <summary>
         /// Get the order book for a market
         /// </summary>
-        /// <param name="symbol">Market to get the book for</param>
+        /// <param name="symbol">Symbol to get the book for</param>
         /// <param name="limit">Limit to book to the best x bids/asks</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Order book for the market</returns>
@@ -116,7 +116,7 @@ namespace Kraken.Net.Interfaces
         /// <summary>
         /// Get the order book for a market
         /// </summary>
-        /// <param name="symbol">Market to get the book for</param>
+        /// <param name="symbol">Symbol to get the book for</param>
         /// <param name="limit">Limit to book to the best x bids/asks</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Order book for the market</returns>
@@ -125,7 +125,7 @@ namespace Kraken.Net.Interfaces
         /// <summary>
         /// Get a list of recent trades for a market
         /// </summary>
-        /// <param name="symbol">Market to get trades for</param>
+        /// <param name="symbol">Symbol to get trades for</param>
         /// <param name="since">Return trades since a specific time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Recent trades</returns>
@@ -134,7 +134,7 @@ namespace Kraken.Net.Interfaces
         /// <summary>
         /// Get a list of recent trades for a market
         /// </summary>
-        /// <param name="symbol">Market to get trades for</param>
+        /// <param name="symbol">Symbol to get trades for</param>
         /// <param name="since">Return trades since a specific time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Recent trades</returns>
@@ -143,7 +143,7 @@ namespace Kraken.Net.Interfaces
         /// <summary>
         /// Get spread data for a market
         /// </summary>
-        /// <param name="symbol">Market to get spread data for</param>
+        /// <param name="symbol">Symbol to get spread data for</param>
         /// <param name="since">Return spread data since a specific time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Spread data</returns>
@@ -152,7 +152,7 @@ namespace Kraken.Net.Interfaces
         /// <summary>
         /// Get spread data for a market
         /// </summary>
-        /// <param name="symbol">Market to get spread data for</param>
+        /// <param name="symbol">Symbol to get spread data for</param>
         /// <param name="since">Return spread data since a specific time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Spread data</returns>
@@ -339,7 +339,7 @@ namespace Kraken.Net.Interfaces
         /// <summary>
         /// Get trade volume
         /// </summary>
-        /// <param name="markets">Markets to get data for</param>
+        /// <param name="markets">Symbols to get data for</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade fee info</returns>
         WebCallResult<KrakenTradeVolume> GetTradeVolume(CancellationToken ct = default, params string[] markets);
@@ -347,7 +347,7 @@ namespace Kraken.Net.Interfaces
         /// <summary>
         /// Get trade volume
         /// </summary>
-        /// <param name="markets">Markets to get data for</param>
+        /// <param name="markets">Symbols to get data for</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade fee info</returns>
         Task<WebCallResult<KrakenTradeVolume>> GetTradeVolumeAsync(CancellationToken ct = default, params string[] markets);

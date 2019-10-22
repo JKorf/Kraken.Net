@@ -21,7 +21,7 @@ namespace Kraken.Net.UnitTests
         {
             var ignoreMethods = new string[]
             {
-                "GetMarkets",
+                "GetSymbols",
                 "GetOrderBook",
             };
             var defaultParameterValues = new Dictionary<string, object>
@@ -63,7 +63,7 @@ namespace Kraken.Net.UnitTests
             var client = TestHelpers.CreateAuthResponseClient($"{{\"error\": [\"first error\", \"another error\"], \"result\": null}}");
 
             // act
-            var result = client.GetMarkets();
+            var result = client.GetSymbols();
 
             // assert
             Assert.IsFalse(result.Success);
@@ -78,7 +78,7 @@ namespace Kraken.Net.UnitTests
             var client = TestHelpers.CreateAuthResponseClient($"Error request", System.Net.HttpStatusCode.BadRequest);
 
             // act
-            var result = client.GetMarkets();
+            var result = client.GetSymbols();
 
             // assert
             Assert.IsFalse(result.Success);

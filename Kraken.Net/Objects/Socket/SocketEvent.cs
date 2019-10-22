@@ -30,9 +30,9 @@ namespace Kraken.Net.Objects.Socket
         public string Topic { get; set; } = "";
 
         /// <summary>
-        /// The market the data is for
+        /// The symbol the data is for
         /// </summary>
         [ArrayProperty(3)]
-        public string Market { get; set; } = "";
+        public string Symbol { get; set; } = "";
     }
 }
