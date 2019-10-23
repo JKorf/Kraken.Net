@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Kraken.Net
 {
-    internal static class KrakenHelpers
+    public static class KrakenHelpers
     {
         /// <summary>
         /// Validate the string is a valid Kraken symbol.
@@ -13,7 +13,7 @@ namespace Kraken.Net
         {
             if (string.IsNullOrEmpty(symbolString))
                 throw new ArgumentException("Symbol is not provided");
-            if (!Regex.IsMatch(symbolString, "^([A-Z]{6,8})$"))
+            if (!Regex.IsMatch(symbolString, "^(([a-z]|[A-Z]|\\.){5,10})$"))
                 throw new ArgumentException($"{symbolString} is not a valid Kraken symbol. Should be [QuoteCurrency][BaseCurrency], e.g. ETHXBT");
             return symbolString;
         }

@@ -103,8 +103,11 @@ namespace Kraken.Net.UnitTests
         [TestCase("BE-ETC", false)]
         [TestCase("NANO-USDTD", false)]
         [TestCase("BTCUSDT", true)]
+        [TestCase("BTCUSDTA", true)]
+        [TestCase("BTCUSDTAF", true)]
+        [TestCase("BTCUSDTAFDA", false)]
         [TestCase("BTCUSD", true)]
-        [TestCase("NANOUSDT", true)]
+        [TestCase("NANOUSDT.d", true)]
         public void CheckValidKrakenSymbol(string symbol, bool isValid)
         {
             if (isValid)
