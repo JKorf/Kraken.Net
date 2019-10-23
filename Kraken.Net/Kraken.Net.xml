@@ -1100,6 +1100,11 @@
         <member name="M:Kraken.Net.KrakenClient.WriteParamBody(CryptoExchange.Net.Interfaces.IRequest,System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
             <inheritdoc />
         </member>
+        <member name="T:Kraken.Net.KrakenHelpers">
+            <summary>
+            Helper methods for Kraken
+            </summary>
+        </member>
         <member name="M:Kraken.Net.KrakenHelpers.ValidateKrakenSymbol(System.String)">
             <summary>
             Validate the string is a valid Kraken symbol.
