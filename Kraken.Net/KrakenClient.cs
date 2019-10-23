@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -705,12 +706,12 @@ namespace Kraken.Net
                 { "pair", symbol },
                 { "type", JsonConvert.SerializeObject(side, new OrderSideConverter(false)) },
                 { "ordertype", JsonConvert.SerializeObject(type, new OrderTypeConverter(false)) },
-                { "volume", quantity },
+                { "volume", quantity.ToString(CultureInfo.InvariantCulture) },
             };
-            parameters.AddOptionalParameter("price", price);
+            parameters.AddOptionalParameter("price", price?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("userref", clientOrderId);
             parameters.AddOptionalParameter("price2", secondaryPrice);
-            parameters.AddOptionalParameter("leverage", leverage);
+            parameters.AddOptionalParameter("leverage", leverage?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("starttm", startTime.HasValue ? JsonConvert.SerializeObject(startTime.Value, new TimestampSecondsConverter()) : null);
             parameters.AddOptionalParameter("expiretm", expireTime.HasValue ? JsonConvert.SerializeObject(expireTime.Value, new TimestampSecondsConverter()) : null);
             parameters.AddOptionalParameter("validate", validateOnly);
