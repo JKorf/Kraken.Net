@@ -1,4 +1,4 @@
-# ![Icon](https://github.com/JKorf/Kraken.Net/blob/master/Resources/icon.png?raw=true) Kraken.Net 
+# ![Icon](https://github.com/JKorf/Kraken.Net/blob/master/Kraken.Net/Icon/icon.png?raw=true) Kraken.Net 
 
 ![Build status](https://travis-ci.org/JKorf/Kraken.Net.svg?branch=master)
 
@@ -82,6 +82,14 @@ After installing it's time to actually use it. To get started you have to add th
 Kraken.Net provides two clients to interact with the Kraken API. The `KrakenClient` provides all rest API calls. The  `KrakenSocketClient`  provides functions to interact with the websocket provided by the Kraken API. Both clients are disposable and as such can be used in a `using` statement.
 
 ## Release notes
+* Version 1.0.0 - 23 Oct 2019
+	* See CryptoExchange.Net 3.0 release notes
+	* Added input validation
+	* Added CancellationToken support to all requests
+	* Now using IEnumerable<> for collections
+	* Renamed Market -> Symbol
+	* Renamed GetAccountBalance -> GetBalances
+
 * Version 0.0.4 - 15 Oct 2019
     * Fixed placing orders
     * Fixed possible missmatch in stream subscriptions
