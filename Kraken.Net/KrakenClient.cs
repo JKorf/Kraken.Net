@@ -714,7 +714,8 @@ namespace Kraken.Net
             parameters.AddOptionalParameter("leverage", leverage?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("starttm", startTime.HasValue ? JsonConvert.SerializeObject(startTime.Value, new TimestampSecondsConverter()) : null);
             parameters.AddOptionalParameter("expiretm", expireTime.HasValue ? JsonConvert.SerializeObject(expireTime.Value, new TimestampSecondsConverter()) : null);
-            parameters.AddOptionalParameter("validate", validateOnly);
+            if (validateOnly == true)
+                parameters.AddOptionalParameter("validate", true);
             return await Execute<KrakenPlacedOrder>(GetUri("/0/private/AddOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
