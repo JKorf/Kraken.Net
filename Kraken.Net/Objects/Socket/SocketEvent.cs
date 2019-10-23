@@ -16,20 +16,23 @@ namespace Kraken.Net.Objects.Socket
         /// </summary>
         [ArrayProperty(0)]
         public int ChannelId { get; set; }
+
         /// <summary>
         /// The data
         /// </summary>
         [ArrayProperty(1), JsonConversion]
-        public T Data { get; set; }
+        public T Data { get; set; } = default!;
+
         /// <summary>
         /// The topic of the data
         /// </summary>
         [ArrayProperty(2)]
-        public string Topic { get; set; }
+        public string Topic { get; set; } = "";
+
         /// <summary>
-        /// The market the data is for
+        /// The symbol the data is for
         /// </summary>
         [ArrayProperty(3)]
-        public string Market { get; set; }
+        public string Symbol { get; set; } = "";
     }
 }

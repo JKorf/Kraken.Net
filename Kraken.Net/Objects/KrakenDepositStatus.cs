@@ -12,31 +12,31 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// The name of the deposit method
         /// </summary>
-        public string Method { get; set; }
+        public string Method { get; set; } = "";
         /// <summary>
         /// The class of the asset
         /// </summary>
         [JsonProperty("aclass")]
-        public string AssetClass { get; set; }
+        public string AssetClass { get; set; } = "";
         /// <summary>
         /// The asset name
         /// </summary>
-        public string Asset { get; set; }
+        public string Asset { get; set; } = "";
         /// <summary>
         /// Reference id
         /// </summary>
         [JsonProperty("refid")]
-        public string ReferenceId { get; set; }
+        public string ReferenceId { get; set; } = "";
         /// <summary>
         /// Transaction id
         /// </summary>
         [JsonProperty("txid")]
-        public string TransactionId { get; set; }
+        public string TransactionId { get; set; } = "";
         /// <summary>
         /// Info about the transaction
         /// </summary>
         [JsonProperty("info")]
-        public string TransactionInfo { get; set; }
+        public string TransactionInfo { get; set; } = "";
         /// <summary>
         /// The amount involved in the deposit
         /// </summary>
@@ -54,7 +54,7 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Status of the transaction
         /// </summary>
-        public string Status { get; set; }
+        public string Status { get; set; } = "";
 
     }
 }

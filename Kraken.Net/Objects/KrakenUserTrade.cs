@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using CryptoExchange.Net.Converters;
+using Kraken.Net.Converters;
 using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects
@@ -13,12 +15,13 @@ namespace Kraken.Net.Objects
         /// Order id
         /// </summary>
         [JsonProperty("ordertxid")]
-        public string OrderId { get; set; }
+        public string OrderId { get; set; } = "";
+
         /// <summary>
-        /// Market
+        /// Symbol
         /// </summary>
         [JsonProperty("pair")]
-        public string Market { get; set; }
+        public string Symbol { get; set; } = "";
         /// <summary>
         /// Timestamp of trade
         /// </summary>
@@ -27,12 +30,12 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Side
         /// </summary>
-        [JsonProperty("type")]
+        [JsonProperty("type"), JsonConverter(typeof(OrderSideConverter))]
         public OrderSide Side { get; set; }
         /// <summary>
         /// Order type
         /// </summary>
-        [JsonProperty("ordertype")]
+        [JsonProperty("ordertype"), JsonConverter(typeof(OrderTypeConverter))]
         public OrderType Type { get; set; }
         /// <summary>
         /// Price of the trade
@@ -55,16 +58,17 @@ namespace Kraken.Net.Objects
         /// Margin
         /// </summary>
         public decimal Margin { get; set; }
+
         /// <summary>
         /// Misc info
         /// </summary>
-        public string Misc { get; set; }
+        public string Misc { get; set; } = "";
 
         /// <summary>
         /// Position status
         /// </summary>
         [JsonProperty("posstatus")]
-        public string PositionStatus { get; set; }
+        public string PositionStatus { get; set; } = "";
         /// <summary>
         /// Closed average price
         /// </summary>
@@ -98,6 +102,6 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Trade ids
         /// </summary>
-        public string[] Trades { get; set; }
+        public IEnumerable<string> Trades { get; set; } = new List<string>();
     }
 }

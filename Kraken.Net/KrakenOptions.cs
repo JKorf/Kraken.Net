@@ -11,9 +11,8 @@ namespace Kraken.Net
         /// <summary>
         /// ctor
         /// </summary>
-        public KrakenClientOptions()
+        public KrakenClientOptions(): base("https://api.kraken.com")
         {
-            BaseAddress = "https://api.kraken.com";
         }
     }
 
@@ -25,9 +24,8 @@ namespace Kraken.Net
         /// <summary>
         /// ctor
         /// </summary>
-        public KrakenSocketClientOptions()
+        public KrakenSocketClientOptions(): base("wss://ws.kraken.com")
         {
-            BaseAddress = "wss://ws.kraken.com";
             SocketSubscriptionsCombineTarget = 10;
         }
     }
@@ -40,12 +38,12 @@ namespace Kraken.Net
         /// <summary>
         /// The client to use for the socket connection. When using the same client for multiple order books the connection can be shared.
         /// </summary>
-        public IKrakenSocketClient SocketClient { get; }
+        public IKrakenSocketClient? SocketClient { get; }
 
         /// <summary>
         /// </summary>
         /// <param name="client">The client to use for the socket connection. When using the same client for multiple order books the connection can be shared.</param>
-        public KrakenOrderBookOptions(IKrakenSocketClient client = null) : base("Kraken", false)
+        public KrakenOrderBookOptions(IKrakenSocketClient? client = null) : base("Kraken", false)
         {
             SocketClient = client;
         }

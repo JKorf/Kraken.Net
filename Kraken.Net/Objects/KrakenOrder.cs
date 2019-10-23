@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CryptoExchange.Net.Attributes;
 using CryptoExchange.Net.Converters;
 using Kraken.Net.Converters;
@@ -15,15 +16,16 @@ namespace Kraken.Net.Objects
         /// Reference id
         /// </summary>
         [JsonProperty("refid")]
-        public string ReferenceId { get; set; }
+        public string ReferenceId { get; set; } = "";
         /// <summary>
         /// Client reference id
         /// </summary>
         [JsonProperty("userref")]
-        public string ClientOrderId { get; set; }
+        public string ClientOrderId { get; set; } = "";
         /// <summary>
         /// Status of the order
         /// </summary>
+        [JsonConverter(typeof(OrderStatusConverter))]
         public OrderStatus Status { get; set; }
         /// <summary>
         /// Open timestamp
@@ -45,11 +47,12 @@ namespace Kraken.Net.Objects
         /// </summary>
         [JsonProperty("closedtm"), JsonConverter(typeof(TimestampSecondsConverter))]
         public DateTime? ClosedTime { get; set; }
+
         /// <summary>
         /// Order details
         /// </summary>
         [JsonProperty("descr")]
-        public KrakenOrderInfo OrderDetails { get; set; }
+        public KrakenOrderInfo OrderDetails { get; set; } = default!;
         /// <summary>
         /// Quantity of the order
         /// </summary>
@@ -84,22 +87,22 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Miscellaneous info
         /// </summary>
-        public string Misc { get; set; }
+        public string Misc { get; set; } = "";
         /// <summary>
         /// Order flags
         /// </summary>
-        public string Oflags { get; set; }
+        public string Oflags { get; set; } = "";
         /// <summary>
         /// Reason of failure
         /// </summary>
         [JsonOptionalProperty]
-        public string Reason { get; set; }
+        public string Reason { get; set; } = "";
         /// <summary>
         /// Trade ids
         /// </summary>
         [JsonProperty("trades")]
         [JsonOptionalProperty]
-        public long[] TradeIds { get; set; }
+        public IEnumerable<long> TradeIds { get; set; } = new List<long>();
     }
 
     /// <summary>
@@ -108,10 +111,10 @@ namespace Kraken.Net.Objects
     public class KrakenOrderInfo
     {
         /// <summary>
-        /// The market of the order
+        /// The symbol of the order
         /// </summary>
         [JsonProperty("pair")]
-        public string Market { get; set; }
+        public string Symbol { get; set; } = "";
         /// <summary>
         /// Side of the order
         /// </summary>
@@ -134,14 +137,14 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Amount of leverage
         /// </summary>
-        public string Leverage { get; set; }
+        public string Leverage { get; set; } = "";
         /// <summary>
         /// Order description
         /// </summary>
-        public string Order { get; set; }
+        public string Order { get; set; } = "";
         /// <summary>
         /// Conditional close order description
         /// </summary>
-        public string Close { get; set; }
+        public string Close { get; set; } = "";
     }
 }

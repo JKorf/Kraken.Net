@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using CryptoExchange.Net.Converters;
-using CryptoExchange.Net.OrderBook;
+using CryptoExchange.Net.Interfaces;
 using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects
@@ -13,11 +14,11 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Asks in the book
         /// </summary>
-        public KrakenOrderBookEntry[] Asks { get; set; }
+        public IEnumerable<KrakenOrderBookEntry> Asks { get; set; } = new List<KrakenOrderBookEntry>();
         /// <summary>
         /// Bids in the book
         /// </summary>
-        public KrakenOrderBookEntry[] Bids { get; set; }
+        public IEnumerable<KrakenOrderBookEntry> Bids { get; set; } = new List<KrakenOrderBookEntry>();
     }
 
     /// <summary>
@@ -52,20 +53,20 @@ namespace Kraken.Net.Objects
         /// Asks
         /// </summary>
         [JsonProperty("as")]
-        public KrakenStreamOrderBookEntry[] Asks { get; set; }
+        public IEnumerable<KrakenStreamOrderBookEntry> Asks { get; set; }
         /// <summary>
         /// Bids
         /// </summary>
         [JsonProperty("bs")]
-        public KrakenStreamOrderBookEntry[] Bids { get; set; }
+        public IEnumerable<KrakenStreamOrderBookEntry> Bids { get; set; }
 
         /// <summary>
         /// ctor
         /// </summary>
         public KrakenStreamOrderBook()
         {
-            Asks = new KrakenStreamOrderBookEntry[0];
-            Bids = new KrakenStreamOrderBookEntry[0];
+            Asks = new List<KrakenStreamOrderBookEntry>();
+            Bids = new List<KrakenStreamOrderBookEntry>();
         }
     }
 
@@ -90,10 +91,11 @@ namespace Kraken.Net.Objects
         /// </summary>
         [ArrayProperty(2), JsonConverter(typeof(TimestampSecondsConverter))]
         public DateTime Timestamp { get; set; }
+
         /// <summary>
         /// Type of update
         /// </summary>
         [ArrayProperty(3)]
-        public string UpdateType { get; set; }
+        public string UpdateType { get; set; } = "";
     }
 }

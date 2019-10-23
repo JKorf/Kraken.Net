@@ -36,10 +36,11 @@ namespace Kraken.Net.Objects
         /// </summary>
         [ArrayProperty(4), JsonConverter(typeof(OrderTypeMinimalConverter))]
         public OrderTypeMinimal Type { get; set; }
+
         /// <summary>
         /// Misc info
         /// </summary>
         [ArrayProperty(5)]
-        public string Misc { get; set; }
+        public string Misc { get; set; } = "";
     }
 }

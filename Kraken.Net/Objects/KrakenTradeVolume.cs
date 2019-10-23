@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects
 {
@@ -10,20 +11,21 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Currency
         /// </summary>
-        public string Currency { get; set; }
+        public string Currency { get; set; } = "";
         /// <summary>
         /// Volume
         /// </summary>
         public decimal Volume { get; set; }
+
         /// <summary>
         /// Fees structure
         /// </summary>
-        public KrakenFeeStruct[] Fees { get; set; }
+        public IEnumerable<KrakenFeeStruct> Fees { get; set; } = new List<KrakenFeeStruct>();
         /// <summary>
         /// Maker fees structure
         /// </summary>
         [JsonProperty("fees_maker")]
-        public KrakenFeeStruct[] MakerFees { get; set; }
+        public IEnumerable<KrakenFeeStruct> MakerFees { get; set; } = new List<KrakenFeeStruct>();
     }
 
     /// <summary>

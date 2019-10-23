@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Logging;
 using CryptoExchange.Net.Objects;
@@ -21,12 +20,13 @@ namespace Kraken.Net.UnitTests
         {
             var ignoreMethods = new string[]
             {
-                "GetMarkets",
+                "GetSymbols",
                 "GetOrderBook",
             };
             var defaultParameterValues = new Dictionary<string, object>
             {
                 { "assets", new [] { "XBTUSD" } },
+                { "symbol", "XBTUSD" },
                 {"clientOrderId", null }
             };
 
@@ -34,6 +34,7 @@ namespace Kraken.Net.UnitTests
             var callResultMethods = methods.Where(m => m.ReturnType.IsGenericType && m.ReturnType.GetGenericTypeDefinition() == typeof(WebCallResult<>));
             foreach (var method in callResultMethods)
             {
+                var name = method.Name;
                 if (ignoreMethods.Contains(method.Name))
                     continue;
 
@@ -61,12 +62,27 @@ namespace Kraken.Net.UnitTests
             var client = TestHelpers.CreateAuthResponseClient($"{{\"error\": [\"first error\", \"another error\"], \"result\": null}}");
 
             // act
-            var result = client.GetMarkets();
+            var result = client.GetSymbols();
 
             // assert
             Assert.IsFalse(result.Success);
             Assert.IsTrue(result.Error.Message.Contains("first error"));
             Assert.IsTrue(result.Error.Message.Contains("another error"));
+        }
+
+        [TestCase()]
+        public void TestHttpError_Should_ResultInFailedCall()
+        {
+            // arrange
+            var client = TestHelpers.CreateAuthResponseClient($"Error request", System.Net.HttpStatusCode.BadRequest);
+
+            // act
+            var result = client.GetSymbols();
+
+            // assert
+            Assert.IsFalse(result.Success);
+            Assert.IsTrue(result.ResponseStatusCode == System.Net.HttpStatusCode.BadRequest);
+            Assert.IsTrue(result.Error.ToString().Contains("Error request"));
         }
 
         public string SerializeExpected<T>(T data)
@@ -78,6 +94,39 @@ namespace Kraken.Net.UnitTests
             };
 
             return JsonConvert.SerializeObject(result);
+        }
+
+        [TestCase("BTC-USDT", false)]
+        [TestCase("NANO-USDT", false)]
+        [TestCase("NANO-BTC", false)]
+        [TestCase("ETH-BTC", false)]
+        [TestCase("BE-ETC", false)]
+        [TestCase("NANO-USDTD", false)]
+        [TestCase("BTCUSDT", true)]
+        [TestCase("BTCUSD", true)]
+        [TestCase("NANOUSDT", true)]
+        public void CheckValidKrakenSymbol(string symbol, bool isValid)
+        {
+            if (isValid)
+                Assert.DoesNotThrow(() => symbol.ValidateKrakenSymbol());
+            else
+                Assert.Throws(typeof(ArgumentException), () => symbol.ValidateKrakenSymbol());
+        }
+
+        [TestCase("BTC/USDT", true)]
+        [TestCase("NANO/USDT", true)]
+        [TestCase("NANO/BTC", true)]
+        [TestCase("ETH/BTC", true)]
+        [TestCase("BE/ETC", false)]
+        [TestCase("NANO/USDTD", false)]
+        [TestCase("BTCUSDT", false)]
+        [TestCase("BTCUSD", false)]
+        public void CheckValidKrakenWebsocketSymbol(string symbol, bool isValid)
+        {
+            if (isValid)
+                Assert.DoesNotThrow(() => symbol.ValidateKrakenWebsocketSymbol());
+            else
+                Assert.Throws(typeof(ArgumentException), () => symbol.ValidateKrakenWebsocketSymbol());
         }
     }
 }

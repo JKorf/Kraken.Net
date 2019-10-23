@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using CryptoExchange.Net;
-using CryptoExchange.Net.Objects;
+﻿using CryptoExchange.Net;
 using Kraken.Net.UnitTests.TestImplementations;
 using Kucoin.Net.UnitTests.TestImplementations;
-using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace Kraken.Net.UnitTests
@@ -28,7 +17,7 @@ namespace Kraken.Net.UnitTests
             var client = TestHelpers.CreateSocketClient(socket);
 
             // act
-            var subTask = client.SubscribeToTickerUpdatesAsync("test", test => { });
+            var subTask = client.SubscribeToTickerUpdatesAsync("XBT/EUR", test => { });
             socket.InvokeMessage($"{{\"channelID\": 1, \"status\": \"subscribed\", \"reqid\":\"{BaseClient.LastId}\"}}");
             var subResult = subTask.Result;
 
@@ -45,7 +34,7 @@ namespace Kraken.Net.UnitTests
             var client = TestHelpers.CreateSocketClient(socket);
 
             // act
-            var subTask = client.SubscribeToTickerUpdatesAsync("test", test => { });
+            var subTask = client.SubscribeToTickerUpdatesAsync("XBT/EUR", test => { });
             socket.InvokeMessage($"{{\"channelID\": 1, \"status\": \"error\", \"errormessage\": \"Failed to sub\", \"reqid\":\"{BaseClient.LastId}\"}}");
             var subResult = subTask.Result;
 

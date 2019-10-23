@@ -1,5 +1,6 @@
 ﻿using System;
 using CryptoExchange.Net.Converters;
+using Kraken.Net.Converters;
 using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects
@@ -13,7 +14,7 @@ namespace Kraken.Net.Objects
         /// Reference id
         /// </summary>
         [JsonProperty("refid")]
-        public string ReferenceId { get; set; }
+        public string ReferenceId { get; set; } = "";
         /// <summary>
         /// Timestamp
         /// </summary>
@@ -22,16 +23,19 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// The type of entry
         /// </summary>
+        [JsonConverter(typeof(LedgerEntryTypeConverter))]
         public LedgerEntryType Type { get; set; }
+
         /// <summary>
         /// Class of the asset
         /// </summary>
         [JsonProperty("aclass")]
-        public string AssetClass { get; set; }
+        public string AssetClass { get; set; } = "";
+
         /// <summary>
         /// Name of the asset
         /// </summary>
-        public string Asset { get; set; }
+        public string Asset { get; set; } = "";
         /// <summary>
         /// The quantity of the entry
         /// </summary>

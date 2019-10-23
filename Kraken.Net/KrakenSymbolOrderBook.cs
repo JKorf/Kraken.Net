@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.OrderBook;
@@ -22,10 +21,10 @@ namespace Kraken.Net
         /// <summary>
         /// Create a new order book instance
         /// </summary>
-        /// <param name="market">The symbol the order book is for</param>
+        /// <param name="symbol">The symbol the order book is for</param>
         /// <param name="limit">The initial limit of entries in the order book</param>
         /// <param name="options">Options for the order book</param>
-        public KrakenSymbolOrderBook(string market, int limit, KrakenOrderBookOptions options = null) : base(market, options ?? new KrakenOrderBookOptions())
+        public KrakenSymbolOrderBook(string symbol, int limit, KrakenOrderBookOptions? options = null) : base(symbol, options ?? new KrakenOrderBookOptions())
         {
             socketClient = options?.SocketClient ?? new KrakenSocketClient();
 
@@ -36,15 +35,13 @@ namespace Kraken.Net
         protected override async Task<CallResult<UpdateSubscription>> DoStart()
         {
             var result = await socketClient.SubscribeToDepthUpdatesAsync(Symbol, limit, ProcessUpdate).ConfigureAwait(false);
-            if (!result.Success)
+            if (!result)
                 return result;
 
             Status = OrderBookStatus.Syncing;
 
-            while (!initialSnapshotDone)
-                await Task.Delay(10).ConfigureAwait(false); // Wait for first update to fill the order book
-
-            return result;
+            var setResult = await WaitForSetOrderBook(10000).ConfigureAwait(false);
+            return setResult ? result : new CallResult<UpdateSubscription>(null, setResult.Error);
         }
 
         /// <inheritdoc />
@@ -57,28 +54,19 @@ namespace Kraken.Net
         {
             if (!initialSnapshotDone)
             {
-                SetInitialOrderBook(DateTime.UtcNow.Ticks, data.Data.Asks, data.Data.Bids);
+                SetInitialOrderBook(DateTime.UtcNow.Ticks, data.Data.Bids, data.Data.Asks);
                 initialSnapshotDone = true;
             }
             else
             {
-                var processEntries = new List<ProcessEntry>();
-                foreach (var entry in data.Data.Asks)
-                    processEntries.Add(new ProcessEntry(OrderBookEntryType.Ask, new OrderBookEntry(entry.Price, entry.Quantity)));
-                foreach (var entry in data.Data.Bids)
-                    processEntries.Add(new ProcessEntry(OrderBookEntryType.Bid, new OrderBookEntry(entry.Price, entry.Quantity)));
-                
-                UpdateOrderBook(DateTime.UtcNow.Ticks, DateTime.UtcNow.Ticks, processEntries);
+                UpdateOrderBook(DateTime.UtcNow.Ticks, data.Data.Bids, data.Data.Asks);
             }
         }
 
         /// <inheritdoc />
         protected override async Task<CallResult<bool>> DoResync()
         {
-            while (!initialSnapshotDone)
-                await Task.Delay(10).ConfigureAwait(false); // Wait for first update to fill the order book
-
-            return new CallResult<bool>(true, null);
+            return await WaitForSetOrderBook(10000).ConfigureAwait(false);
         }
 
         /// <summary>

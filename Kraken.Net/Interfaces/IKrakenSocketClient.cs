@@ -17,85 +17,86 @@ namespace Kraken.Net.Interfaces
         /// <summary>
         /// Subscribe to ticker updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Symbol to subscribe to</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        CallResult<UpdateSubscription> SubscribeToTickerUpdates(string market, Action<KrakenSocketEvent<KrakenStreamTick>> handler);
+        CallResult<UpdateSubscription> SubscribeToTickerUpdates(string symbol, Action<KrakenSocketEvent<KrakenStreamTick>> handler);
 
         /// <summary>
         /// Subscribe to ticker updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Symbol to subscribe to</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string market, Action<KrakenSocketEvent<KrakenStreamTick>> handler);
+        Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<KrakenSocketEvent<KrakenStreamTick>> handler);
 
         /// <summary>
         /// Subscribe to kline updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Symbol to subscribe to</param>
         /// <param name="interval">Kline interval</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        CallResult<UpdateSubscription> SubscribeToKlineUpdates(string market, KlineInterval interval, Action<KrakenSocketEvent<KrakenStreamKline>> handler);
+        CallResult<UpdateSubscription> SubscribeToKlineUpdates(string symbol, KlineInterval interval, Action<KrakenSocketEvent<KrakenStreamKline>> handler);
 
         /// <summary>
         /// Subscribe to kline updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Symbol to subscribe to</param>
         /// <param name="interval">Kline interval</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string market, KlineInterval interval, Action<KrakenSocketEvent<KrakenStreamKline>> handler);
+        Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, KlineInterval interval, Action<KrakenSocketEvent<KrakenStreamKline>> handler);
 
         /// <summary>
         /// Subscribe to trade updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Symbol to subscribe to</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        CallResult<UpdateSubscription> SubscribeToTradeUpdates(string market, Action<KrakenSocketEvent<List<KrakenTrade>>> handler);
+        CallResult<UpdateSubscription> SubscribeToTradeUpdates(string symbol, Action<KrakenSocketEvent<IEnumerable<KrakenTrade>>> handler);
 
         /// <summary>
         /// Subscribe to trade updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Symbol to subscribe to</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string market, Action<KrakenSocketEvent<List<KrakenTrade>>> handler);
+        Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<KrakenSocketEvent<IEnumerable<KrakenTrade>>> handler);
 
         /// <summary>
         /// Subscribe to spread updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Symbol to subscribe to</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        CallResult<UpdateSubscription> SubscribeToSpreadUpdates(string market, Action<KrakenSocketEvent<KrakenStreamSpread>> handler);
+        CallResult<UpdateSubscription> SubscribeToSpreadUpdates(string symbol, Action<KrakenSocketEvent<KrakenStreamSpread>> handler);
 
         /// <summary>
         /// Subscribe to spread updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Symbol to subscribe to</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(string market, Action<KrakenSocketEvent<KrakenStreamSpread>> handler);
+        Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(string symbol, Action<KrakenSocketEvent<KrakenStreamSpread>> handler);
 
         /// <summary>
         /// Subscribe to depth updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Symbol to subscribe to</param>
         /// <param name="depth">Depth of the initial order book snapshot</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        CallResult<UpdateSubscription> SubscribeToDepthUpdates(string market, int depth, Action<KrakenSocketEvent<KrakenStreamOrderBook>> handler);
+        CallResult<UpdateSubscription> SubscribeToDepthUpdates(string symbol, int depth, Action<KrakenSocketEvent<KrakenStreamOrderBook>> handler);
 
         /// <summary>
         /// Subscribe to depth updates
         /// </summary>
-        /// <param name="market">Market to subscribe to</param>
+        /// <param name="symbol">Symbol to subscribe to</param>
         /// <param name="depth">Depth of the initial order book snapshot</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToDepthUpdatesAsync(string market, int depth, Action<KrakenSocketEvent<KrakenStreamOrderBook>> handler);
+        Task<CallResult<UpdateSubscription>> SubscribeToDepthUpdatesAsync(string symbol, int depth, Action<KrakenSocketEvent<KrakenStreamOrderBook>> handler);
+
     }
 }
