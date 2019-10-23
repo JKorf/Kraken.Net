@@ -28,7 +28,7 @@ namespace Kraken.Net
                 throw new ArgumentException("Symbol is not provided");
             if (!Regex.IsMatch(symbolString, "^([A-Z]{3,4})[/]([A-Z]{3,4})$"))
                 throw new ArgumentException($"{symbolString} is not a valid Kraken websocket symbol. Should be [QuoteCurrency]/[BaseCurrency] in ISO 4217-A3 standardized names, e.g. ETH/XBT" +
-                                            $"Websocket names for pairs are returned in the GetSymbols method in the WebsocketName property.");
+                                            "Websocket names for pairs are returned in the GetSymbols method in the WebsocketName property.");
             return symbolString;
         }
     }

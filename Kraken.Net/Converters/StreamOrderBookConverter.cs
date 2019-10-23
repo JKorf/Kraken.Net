@@ -9,8 +9,7 @@ namespace Kraken.Net.Converters
     {
         public static KrakenSocketEvent<KrakenStreamOrderBook> Convert(JArray arr)
         {
-            var result = new KrakenSocketEvent<KrakenStreamOrderBook>();
-            result.ChannelId = (int)arr[0];
+            var result = new KrakenSocketEvent<KrakenStreamOrderBook> {ChannelId = (int) arr[0]};
 
             var orderBook = new KrakenStreamOrderBook();
             if (arr.Count == 4)

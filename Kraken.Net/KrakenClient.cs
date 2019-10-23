@@ -577,7 +577,7 @@ namespace Kraken.Net
 
             if(generateNew)
                 // If False is send it will still generate new, so only add it when it's true
-                parameters.Add("new", generateNew);
+                parameters.Add("new", true);
 
             return await Execute<IEnumerable<KrakenDepositAddress>>(GetUri("/0/private/DepositAddresses"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
