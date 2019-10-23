@@ -3,6 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace Kraken.Net
 {
+    /// <summary>
+    /// Helper methods for Kraken
+    /// </summary>
     public static class KrakenHelpers
     {
         /// <summary>

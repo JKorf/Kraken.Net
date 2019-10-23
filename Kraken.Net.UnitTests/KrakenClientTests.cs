@@ -120,8 +120,10 @@ namespace Kraken.Net.UnitTests
         [TestCase("NANO/USDT", true)]
         [TestCase("NANO/BTC", true)]
         [TestCase("ETH/BTC", true)]
-        [TestCase("BE/ETC", false)]
-        [TestCase("NANO/USDTD", false)]
+        [TestCase("BE/ETC", true)]
+        [TestCase("B/ETC", false)]
+        [TestCase("NANO/USDTD", true)]
+        [TestCase("NANO/USDTDD", false)]
         [TestCase("BTCUSDT", false)]
         [TestCase("BTCUSD", false)]
         public void CheckValidKrakenWebsocketSymbol(string symbol, bool isValid)
