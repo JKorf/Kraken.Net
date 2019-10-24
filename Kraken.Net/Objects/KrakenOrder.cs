@@ -102,7 +102,7 @@ namespace Kraken.Net.Objects
         /// </summary>
         [JsonProperty("trades")]
         [JsonOptionalProperty]
-        public IEnumerable<long> TradeIds { get; set; } = new List<long>();
+        public IEnumerable<string> TradeIds { get; set; } = new List<string>();
     }
 
     /// <summary>
