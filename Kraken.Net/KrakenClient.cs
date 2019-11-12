@@ -707,6 +707,7 @@ namespace Kraken.Net
                 { "type", JsonConvert.SerializeObject(side, new OrderSideConverter(false)) },
                 { "ordertype", JsonConvert.SerializeObject(type, new OrderTypeConverter(false)) },
                 { "volume", quantity.ToString(CultureInfo.InvariantCulture) },
+                { "trading_agreement", "agree" }
             };
             parameters.AddOptionalParameter("price", price?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("userref", clientOrderId);
