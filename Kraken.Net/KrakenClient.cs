@@ -299,7 +299,7 @@ namespace Kraken.Net
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("aclass", "currency");
             parameters.AddOptionalParameter("asset", baseAsset);
-            return await Execute<KrakenTradeBalance>(GetUri("/0/private/TradeBalance"), HttpMethod.Post, ct, null, true).ConfigureAwait(false);
+            return await Execute<KrakenTradeBalance>(GetUri("/0/private/TradeBalance"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
