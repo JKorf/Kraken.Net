@@ -50,6 +50,10 @@ Implementations from third parties:
 <br />
 <a href="https://github.com/ridicoulous/LiquidQuoine.Net">Liquid</a>
 </td>
+<td><a href="https://github.com/burakoner/OKEx.Net"><img src="https://github.com/rburakoner/OKEx.Net/blob/master/Icon/icon.png?raw=true"></a>
+<br />
+<a href="https://github.com/burakoner/OKEx.Net">OKEx</a>
+</td>
 </tr>
 </table>
 
@@ -83,6 +87,9 @@ After installing it's time to actually use it. To get started you have to add th
 Kraken.Net provides two clients to interact with the Kraken API. The `KrakenClient` provides all rest API calls. The  `KrakenSocketClient`  provides functions to interact with the websocket provided by the Kraken API. Both clients are disposable and as such can be used in a `using` statement.
 
 ## Release notes
+* Version 1.0.4 - 27 Jan 2020
+    * Updated CryptoExchange.Net
+
 * Version 1.0.3 - 12 Nov 2019
     * Added TradingAgreement parameter for placing orders for German accounts
 
