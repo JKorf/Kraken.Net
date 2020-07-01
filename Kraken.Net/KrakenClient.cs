@@ -235,7 +235,7 @@ namespace Kraken.Net
             {
                 {"pair", symbol},
             };
-            parameters.AddOptionalParameter("since", since.HasValue ? JsonConvert.SerializeObject(since, new TimestampSecondsConverter()) : null);
+            parameters.AddOptionalParameter("since", since.HasValue ? JsonConvert.SerializeObject(since, new TimestampNanoSecondsConverter()) : null);
             return await Execute<KrakenTradesResult>(GetUri("/0/public/Trades"), HttpMethod.Get, ct, parameters: parameters).ConfigureAwait(false);
         }
 
@@ -299,7 +299,7 @@ namespace Kraken.Net
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("aclass", "currency");
             parameters.AddOptionalParameter("asset", baseAsset);
-            return await Execute<KrakenTradeBalance>(GetUri("/0/private/TradeBalance"), HttpMethod.Post, ct, null, true).ConfigureAwait(false);
+            return await Execute<KrakenTradeBalance>(GetUri("/0/private/TradeBalance"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -707,6 +707,7 @@ namespace Kraken.Net
                 { "type", JsonConvert.SerializeObject(side, new OrderSideConverter(false)) },
                 { "ordertype", JsonConvert.SerializeObject(type, new OrderTypeConverter(false)) },
                 { "volume", quantity.ToString(CultureInfo.InvariantCulture) },
+                { "trading_agreement", "agree" }
             };
             parameters.AddOptionalParameter("price", price?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("userref", clientOrderId);

@@ -43,7 +43,7 @@ namespace Kraken.Net
         /// <summary>
         /// </summary>
         /// <param name="client">The client to use for the socket connection. When using the same client for multiple order books the connection can be shared.</param>
-        public KrakenOrderBookOptions(IKrakenSocketClient? client = null) : base("Kraken", false)
+        public KrakenOrderBookOptions(IKrakenSocketClient? client = null) : base("Kraken", false, true)
         {
             SocketClient = client;
         }

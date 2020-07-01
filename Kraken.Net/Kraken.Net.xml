@@ -2047,6 +2047,11 @@
             Type of update
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamOrderBookEntry.Sequence">
+            <summary>
+            Sequence
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.KrakenPageData">
             <summary>
             Base page data

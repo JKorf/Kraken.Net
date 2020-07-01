@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
+using CryptoExchange.Net.Objects;
 
 namespace Kraken.Net
 {
@@ -40,7 +41,7 @@ namespace Kraken.Net
             encryptor = new HMACSHA512(Convert.FromBase64String(credentials.Secret.GetString()));
         }
 
-        public override Dictionary<string, object> AddAuthenticationToParameters(string uri, HttpMethod method, Dictionary<string, object> parameters, bool signed)
+        public override Dictionary<string, object> AddAuthenticationToParameters(string uri, HttpMethod method, Dictionary<string, object> parameters, bool signed, PostParameters postParameterPosition, ArrayParametersSerialization arraySerialization)
         {
             if (!signed)
                 return parameters;
@@ -49,7 +50,7 @@ namespace Kraken.Net
             return parameters;
         }
 
-        public override Dictionary<string, string> AddAuthenticationToHeaders(string uri, HttpMethod method, Dictionary<string, object> parameters, bool signed)
+        public override Dictionary<string, string> AddAuthenticationToHeaders(string uri, HttpMethod method, Dictionary<string, object> parameters, bool signed, PostParameters postParameterPosition, ArrayParametersSerialization arraySerialization)
         {
             if(!signed)
                 return new Dictionary<string, string>();
