@@ -9,6 +9,11 @@ namespace Kraken.Net
     public class KrakenClientOptions : RestClientOptions
     {
         /// <summary>
+        /// The static password configured as two-factor authentication for the API key. Will be send as otp parameter on private requests.
+        /// </summary>
+        public string StaticTwoFactorAuthenticationPassword { get; set; }
+
+        /// <summary>
         /// ctor
         /// </summary>
         public KrakenClientOptions(): base("https://api.kraken.com")
