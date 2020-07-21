@@ -61,6 +61,11 @@ namespace Kraken.Net.Objects
         public IEnumerable<KrakenStreamOrderBookEntry> Bids { get; set; }
 
         /// <summary>
+        /// Checksum
+        /// </summary>
+        public uint Checksum { get; set; }
+
+        /// <summary>
         /// ctor
         /// </summary>
         public KrakenStreamOrderBook()

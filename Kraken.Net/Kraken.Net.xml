@@ -2086,6 +2086,11 @@
             Bids
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamOrderBook.Checksum">
+            <summary>
+            Checksum
+            </summary>
+        </member>
         <member name="M:Kraken.Net.Objects.KrakenStreamOrderBook.#ctor">
             <summary>
             ctor

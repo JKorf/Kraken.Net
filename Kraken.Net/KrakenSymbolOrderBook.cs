@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.OrderBook;
 using CryptoExchange.Net.Sockets;
+using Force.Crc32;
 using Kraken.Net.Interfaces;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Socket;
@@ -61,7 +65,43 @@ namespace Kraken.Net
             else
             {
                 UpdateOrderBook(data.Data.Bids, data.Data.Asks);
+                AddChecksum((int)data.Data.Checksum);
             }
+        }
+
+        /// <inheritdoc />
+        protected override bool DoChecksum(int checksum)
+        {
+            var checksumValues = new List<string>();
+            for (var i = 0; i < 10; i++)
+            {
+                checksumValues.Add(ToChecksumString(asks.ElementAt(i).Value.Price));
+                checksumValues.Add(ToChecksumString(asks.ElementAt(i).Value.Quantity));
+            }
+            for (var i = 0; i < 10; i++)
+            {
+                checksumValues.Add(ToChecksumString(bids.ElementAt(i).Value.Price));
+                checksumValues.Add(ToChecksumString(bids.ElementAt(i).Value.Quantity));
+            }
+
+            var checksumString = string.Join("", checksumValues);
+            var ourChecksumUtf = (int)Crc32Algorithm.Compute(Encoding.UTF8.GetBytes(checksumString));
+
+            if (ourChecksumUtf != checksum)
+            {
+                log.Write(CryptoExchange.Net.Logging.LogVerbosity.Warning, $"Invalid checksum. Received from server: {checksum}, calculated local: {ourChecksumUtf}");
+                return false;
+            }
+
+            return true;
+        }
+
+        private string ToChecksumString(decimal value)
+        {
+            var str = value.ToString(CultureInfo.InvariantCulture);
+            str = str.Replace(".", "");
+            str = str.TrimStart('0');
+            return str;
         }
 
         /// <inheritdoc />
