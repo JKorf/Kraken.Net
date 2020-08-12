@@ -26,7 +26,7 @@ namespace Kraken.Net
         private static KrakenClientOptions defaultOptions = new KrakenClientOptions();
         private static KrakenClientOptions DefaultOptions => defaultOptions.Copy<KrakenClientOptions>();
 
-        private string _otp;
+        private readonly string? _otp;
         #endregion
 
         #region ctor

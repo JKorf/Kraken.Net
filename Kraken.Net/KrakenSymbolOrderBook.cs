@@ -38,7 +38,7 @@ namespace Kraken.Net
         /// <inheritdoc />
         protected override async Task<CallResult<UpdateSubscription>> DoStart()
         {
-            var result = await socketClient.SubscribeToDepthUpdatesAsync(Symbol, Levels.Value, ProcessUpdate).ConfigureAwait(false);
+            var result = await socketClient.SubscribeToDepthUpdatesAsync(Symbol, Levels!.Value, ProcessUpdate).ConfigureAwait(false);
             if (!result)
                 return result;
 
