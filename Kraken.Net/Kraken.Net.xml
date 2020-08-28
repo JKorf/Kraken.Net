@@ -37,7 +37,7 @@
         </member>
         <member name="T:Kraken.Net.Interfaces.IKrakenClient">
             <summary>
-            Interface for the Kraken rest client
+            Interface for Kraken Rest API
             </summary>
         </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenClient.SetApiCredentials(System.String,System.String)">
@@ -183,53 +183,59 @@
             <param name="ct">Cancellation token</param>
             <returns>Spread data</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetBalances(System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetBalances(System.String,System.Threading.CancellationToken)">
             <summary>
             Get balances
             </summary>
             <param name="ct">Cancellation token</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <returns>Dictionary with balances for assets</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetBalancesAsync(System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetBalancesAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             Get balances
             </summary>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with balances for assets</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeBalance(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeBalance(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade balance
             </summary>
             <param name="baseAsset">Base asset to get trade balance for</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Trade balance data</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeBalanceAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeBalanceAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade balance
             </summary>
             <param name="baseAsset">Base asset to get trade balance for</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Trade balance data</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOpenOrders(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOpenOrders(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of open orders
             </summary>
             <param name="clientOrderId">Filter by client order id</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>List of open orders</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOpenOrdersAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOpenOrdersAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of open orders
             </summary>
             <param name="clientOrderId">Filter by client order id</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>List of open orders</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetClosedOrders(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetClosedOrders(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of closed orders
             </summary>
@@ -237,10 +243,11 @@
             <param name="startTime">Return data after this time</param>
             <param name="endTime">Return data before this time</param>
             <param name="resultOffset">Offset the results by</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Closed orders page</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetClosedOrdersAsync(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetClosedOrdersAsync(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of closed orders
             </summary>
@@ -248,80 +255,89 @@
             <param name="startTime">Return data after this time</param>
             <param name="endTime">Return data before this time</param>
             <param name="resultOffset">Offset the results by</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Closed orders page</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOrders(System.String,System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOrders(System.String,System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get info on specific orders
             </summary>
             <param name="clientOrderId">Get orders by clientOrderId</param>
             <param name="orderIds">Get orders by their order ids</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with order info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOrdersAsync(System.String,System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOrdersAsync(System.String,System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get info on specific orders
             </summary>
             <param name="clientOrderId">Get orders by clientOrderId</param>
             <param name="orderIds">Get orders by their order ids</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with order info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeHistory(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeHistory(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade history
             </summary>
             <param name="startTime">Return data after this time</param>
             <param name="endTime">Return data before this time</param>
             <param name="resultOffset">Offset the results by</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Trade history page</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeHistoryAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeHistoryAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade history
             </summary>
             <param name="startTime">Return data after this time</param>
             <param name="endTime">Return data before this time</param>
             <param name="resultOffset">Offset the results by</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Trade history page</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTrades(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTrades(System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get info on specific trades
             </summary>
             <param name="tradeIds">The trades to get info on</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with trade info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradesAsync(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradesAsync(System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get info on specific trades
             </summary>
             <param name="tradeIds">The trades to get info on</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with trade info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOpenPositions(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOpenPositions(System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get a list of open positions
             </summary>
             <param name="transactionIds">Filter by transaction ids</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with position info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOpenPositionsAsync(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOpenPositionsAsync(System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get a list of open positions
             </summary>
             <param name="transactionIds">Filter by transaction ids</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with position info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgerInfo(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Objects.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgerInfo(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Objects.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get ledger entries info
             </summary>
@@ -330,10 +346,11 @@
             <param name="startTime">Return data after this time</param>
             <param name="endTime">Return data before this time</param>
             <param name="resultOffset">Offset the results by</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Ledger entries page</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgerInfoAsync(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Objects.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgerInfoAsync(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Objects.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get ledger entries info
             </summary>
@@ -342,96 +359,107 @@
             <param name="startTime">Return data after this time</param>
             <param name="endTime">Return data before this time</param>
             <param name="resultOffset">Offset the results by</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Ledger entries page</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgersEntry(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgersEntry(System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get info on specific ledger entries
             </summary>
             <param name="ledgerIds">The ids to get info for</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with ledger entry info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgersEntryAsync(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgersEntryAsync(System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get info on specific ledger entries
             </summary>
             <param name="ledgerIds">The ids to get info for</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with ledger entry info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeVolume(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeVolume(System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get trade volume
             </summary>
             <param name="symbols">Symbols to get data for</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Trade fee info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeVolumeAsync(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeVolumeAsync(System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get trade volume
             </summary>
             <param name="symbols">Symbols to get data for</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Trade fee info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositMethods(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositMethods(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get deposit methods
             </summary>
             <param name="asset">Asset to get methods for</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Array with methods for deposit</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositMethodsAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositMethodsAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get deposit methods
             </summary>
             <param name="asset">Asset to get methods for</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Array with methods for deposit</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositAddresses(System.String,System.String,System.Boolean,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositAddresses(System.String,System.String,System.Boolean,System.String,System.Threading.CancellationToken)">
             <summary>
             Get deposit addresses for an asset
             </summary>
             <param name="asset">The asset to get the deposit address for</param>
             <param name="depositMethod">The method of deposit</param>
             <param name="generateNew">Whether to generate a new address</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositAddressesAsync(System.String,System.String,System.Boolean,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositAddressesAsync(System.String,System.String,System.Boolean,System.String,System.Threading.CancellationToken)">
             <summary>
             Get deposit addresses for an asset
             </summary>
             <param name="asset">The asset to get the deposit address for</param>
             <param name="depositMethod">The method of deposit</param>
             <param name="generateNew">Whether to generate a new address</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositStatus(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositStatus(System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get status deposits for an asset
             </summary>
             <param name="asset">Asset to get deposit info for</param>
             <param name="depositMethod">The deposit method</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Deposit status list</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositStatusAsync(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetDepositStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get status deposits for an asset
             </summary>
             <param name="asset">Asset to get deposit info for</param>
             <param name="depositMethod">The deposit method</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Deposit status list</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.PlaceOrder(System.String,Kraken.Net.Objects.OrderSide,Kraken.Net.Objects.OrderType,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.PlaceOrder(System.String,Kraken.Net.Objects.OrderSide,Kraken.Net.Objects.OrderType,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <summary>
             Place a new order
             </summary>
@@ -461,10 +489,11 @@
             <param name="startTime">Scheduled start time</param>
             <param name="expireTime">Expiration time</param>
             <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Placed order info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.PlaceOrderAsync(System.String,Kraken.Net.Objects.OrderSide,Kraken.Net.Objects.OrderType,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.PlaceOrderAsync(System.String,Kraken.Net.Objects.OrderSide,Kraken.Net.Objects.OrderType,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <summary>
             Place a new order
             </summary>
@@ -494,22 +523,25 @@
             <param name="startTime">Scheduled start time</param>
             <param name="expireTime">Expiration time</param>
             <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Placed order info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.CancelOrder(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.CancelOrder(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Cancel an order
             </summary>
             <param name="orderId">The id of the order to cancel</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Cancel result</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.CancelOrderAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.CancelOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Cancel an order
             </summary>
             <param name="orderId">The id of the order to cancel</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Cancel result</returns>
         </member>
@@ -767,53 +799,59 @@
             <param name="ct">Cancellation token</param>
             <returns>Spread data</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetBalances(System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetBalances(System.String,System.Threading.CancellationToken)">
             <summary>
             Get balances
             </summary>
             <param name="ct">Cancellation token</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <returns>Dictionary with balances for assets</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetBalancesAsync(System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetBalancesAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             Get balances
             </summary>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with balances for assets</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetTradeBalance(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetTradeBalance(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade balance
             </summary>
             <param name="baseAsset">Base asset to get trade balance for</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Trade balance data</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetTradeBalanceAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetTradeBalanceAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade balance
             </summary>
             <param name="baseAsset">Base asset to get trade balance for</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Trade balance data</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetOpenOrders(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetOpenOrders(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of open orders
             </summary>
             <param name="clientOrderId">Filter by client order id</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>List of open orders</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetOpenOrdersAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetOpenOrdersAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of open orders
             </summary>
             <param name="clientOrderId">Filter by client order id</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>List of open orders</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetClosedOrders(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetClosedOrders(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of closed orders
             </summary>
@@ -821,10 +859,11 @@
             <param name="startTime">Return data after this time</param>
             <param name="endTime">Return data before this time</param>
             <param name="resultOffset">Offset the results by</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Closed orders page</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetClosedOrdersAsync(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetClosedOrdersAsync(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of closed orders
             </summary>
@@ -832,80 +871,89 @@
             <param name="startTime">Return data after this time</param>
             <param name="endTime">Return data before this time</param>
             <param name="resultOffset">Offset the results by</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Closed orders page</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetOrders(System.String,System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetOrders(System.String,System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get info on specific orders
             </summary>
             <param name="clientOrderId">Get orders by clientOrderId</param>
             <param name="orderIds">Get orders by their order ids</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with order info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetOrdersAsync(System.String,System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetOrdersAsync(System.String,System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get info on specific orders
             </summary>
             <param name="clientOrderId">Get orders by clientOrderId</param>
             <param name="orderIds">Get orders by their order ids</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with order info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetTradeHistory(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetTradeHistory(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade history
             </summary>
             <param name="startTime">Return data after this time</param>
             <param name="endTime">Return data before this time</param>
             <param name="resultOffset">Offset the results by</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Trade history page</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetTradeHistoryAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetTradeHistoryAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade history
             </summary>
             <param name="startTime">Return data after this time</param>
             <param name="endTime">Return data before this time</param>
             <param name="resultOffset">Offset the results by</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Trade history page</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetTrades(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetTrades(System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get info on specific trades
             </summary>
             <param name="tradeIds">The trades to get info on</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with trade info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetTradesAsync(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetTradesAsync(System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get info on specific trades
             </summary>
             <param name="tradeIds">The trades to get info on</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with trade info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetOpenPositions(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetOpenPositions(System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get a list of open positions
             </summary>
             <param name="transactionIds">Filter by transaction ids</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with position info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetOpenPositionsAsync(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetOpenPositionsAsync(System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get a list of open positions
             </summary>
             <param name="transactionIds">Filter by transaction ids</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with position info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetLedgerInfo(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Objects.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetLedgerInfo(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Objects.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get ledger entries info
             </summary>
@@ -914,10 +962,11 @@
             <param name="startTime">Return data after this time</param>
             <param name="endTime">Return data before this time</param>
             <param name="resultOffset">Offset the results by</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Ledger entries page</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetLedgerInfoAsync(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Objects.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetLedgerInfoAsync(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Objects.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get ledger entries info
             </summary>
@@ -926,96 +975,107 @@
             <param name="startTime">Return data after this time</param>
             <param name="endTime">Return data before this time</param>
             <param name="resultOffset">Offset the results by</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Ledger entries page</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetLedgersEntry(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetLedgersEntry(System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get info on specific ledger entries
             </summary>
             <param name="ledgerIds">The ids to get info for</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with ledger entry info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetLedgersEntryAsync(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetLedgersEntryAsync(System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get info on specific ledger entries
             </summary>
             <param name="ledgerIds">The ids to get info for</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with ledger entry info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetTradeVolume(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetTradeVolume(System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get trade volume
             </summary>
             <param name="symbols">Symbols to get data for</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Trade fee info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetTradeVolumeAsync(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetTradeVolumeAsync(System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get trade volume
             </summary>
             <param name="symbols">Symbols to get data for</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Trade fee info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetDepositMethods(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetDepositMethods(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get deposit methods
             </summary>
             <param name="asset">Asset to get methods for</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Array with methods for deposit</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetDepositMethodsAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetDepositMethodsAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get deposit methods
             </summary>
             <param name="asset">Asset to get methods for</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Array with methods for deposit</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetDepositAddresses(System.String,System.String,System.Boolean,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetDepositAddresses(System.String,System.String,System.Boolean,System.String,System.Threading.CancellationToken)">
             <summary>
             Get deposit addresses for an asset
             </summary>
             <param name="asset">The asset to get the deposit address for</param>
             <param name="depositMethod">The method of deposit</param>
             <param name="generateNew">Whether to generate a new address</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetDepositAddressesAsync(System.String,System.String,System.Boolean,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetDepositAddressesAsync(System.String,System.String,System.Boolean,System.String,System.Threading.CancellationToken)">
             <summary>
             Get deposit addresses for an asset
             </summary>
             <param name="asset">The asset to get the deposit address for</param>
             <param name="depositMethod">The method of deposit</param>
             <param name="generateNew">Whether to generate a new address</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetDepositStatus(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetDepositStatus(System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get status deposits for an asset
             </summary>
             <param name="asset">Asset to get deposit info for</param>
             <param name="depositMethod">The deposit method</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Deposit status list</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetDepositStatusAsync(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetDepositStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get status deposits for an asset
             </summary>
             <param name="asset">Asset to get deposit info for</param>
             <param name="depositMethod">The deposit method</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Deposit status list</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.PlaceOrder(System.String,Kraken.Net.Objects.OrderSide,Kraken.Net.Objects.OrderType,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.PlaceOrder(System.String,Kraken.Net.Objects.OrderSide,Kraken.Net.Objects.OrderType,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <summary>
             Place a new order
             </summary>
@@ -1045,10 +1105,11 @@
             <param name="startTime">Scheduled start time</param>
             <param name="expireTime">Expiration time</param>
             <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Placed order info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.PlaceOrderAsync(System.String,Kraken.Net.Objects.OrderSide,Kraken.Net.Objects.OrderType,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.PlaceOrderAsync(System.String,Kraken.Net.Objects.OrderSide,Kraken.Net.Objects.OrderType,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <summary>
             Place a new order
             </summary>
@@ -1078,22 +1139,25 @@
             <param name="startTime">Scheduled start time</param>
             <param name="expireTime">Expiration time</param>
             <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Placed order info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.CancelOrder(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.CancelOrder(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Cancel an order
             </summary>
             <param name="orderId">The id of the order to cancel</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Cancel result</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.CancelOrderAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.CancelOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Cancel an order
             </summary>
             <param name="orderId">The id of the order to cancel</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Cancel result</returns>
         </member>
@@ -1122,10 +1186,28 @@
             Options for the Kraken client
             </summary>
         </member>
+        <member name="P:Kraken.Net.KrakenClientOptions.StaticTwoFactorAuthenticationPassword">
+            <summary>
+            The static password configured as two-factor authentication for the API key. Will be send as otp parameter on private requests.
+            </summary>
+        </member>
         <member name="M:Kraken.Net.KrakenClientOptions.#ctor">
             <summary>
-            ctor
+            Create new client options
             </summary>
+        </member>
+        <member name="M:Kraken.Net.KrakenClientOptions.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Create new client options
+            </summary>
+            <param name="client">HttpClient to use for requests from this client</param>
+        </member>
+        <member name="M:Kraken.Net.KrakenClientOptions.#ctor(System.Net.Http.HttpClient,System.String)">
+            <summary>
+            Create new client options
+            </summary>
+            <param name="apiAddress">Custom API address to use</param>
+            <param name="client">HttpClient to use for requests from this client</param>
         </member>
         <member name="T:Kraken.Net.KrakenSocketClientOptions">
             <summary>
@@ -1287,6 +1369,9 @@
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.KrakenSymbolOrderBook.DoReset">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenSymbolOrderBook.DoChecksum(System.Int32)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.KrakenSymbolOrderBook.DoResync">
@@ -1949,7 +2034,7 @@
         </member>
         <member name="P:Kraken.Net.Objects.KrakenOrderInfo.SecondaryPrice">
             <summary>
-            Secondary price of the order (<see cref="M:Kraken.Net.KrakenClient.PlaceOrder(System.String,Kraken.Net.Objects.OrderSide,Kraken.Net.Objects.OrderType,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Threading.CancellationToken)"/> for details)
+            Secondary price of the order (<see cref="M:Kraken.Net.KrakenClient.PlaceOrder(System.String,Kraken.Net.Objects.OrderSide,Kraken.Net.Objects.OrderType,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)"/> for details)
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.KrakenOrderInfo.Leverage">
@@ -2017,6 +2102,11 @@
             Bids
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamOrderBook.Checksum">
+            <summary>
+            Checksum
+            </summary>
+        </member>
         <member name="M:Kraken.Net.Objects.KrakenStreamOrderBook.#ctor">
             <summary>
             ctor
@@ -2045,6 +2135,11 @@
         <member name="P:Kraken.Net.Objects.KrakenStreamOrderBookEntry.UpdateType">
             <summary>
             Type of update
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamOrderBookEntry.Sequence">
+            <summary>
+            Sequence
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.KrakenPageData">

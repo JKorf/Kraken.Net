@@ -61,6 +61,11 @@ namespace Kraken.Net.Objects
         public IEnumerable<KrakenStreamOrderBookEntry> Bids { get; set; }
 
         /// <summary>
+        /// Checksum
+        /// </summary>
+        public uint Checksum { get; set; }
+
+        /// <summary>
         /// ctor
         /// </summary>
         public KrakenStreamOrderBook()
@@ -74,7 +79,7 @@ namespace Kraken.Net.Objects
     /// Stream order book entry
     /// </summary>
     [JsonConverter(typeof(ArrayConverter))]
-    public class KrakenStreamOrderBookEntry : ISymbolOrderBookEntry
+    public class KrakenStreamOrderBookEntry : ISymbolOrderSequencedBookEntry
     {
         /// <summary>
         /// Price of the entry
@@ -86,6 +91,7 @@ namespace Kraken.Net.Objects
         /// </summary>
         [ArrayProperty(1)]
         public decimal Quantity { get; set; }
+
         /// <summary>
         /// Timestamp of the entry
         /// </summary>
@@ -97,5 +103,15 @@ namespace Kraken.Net.Objects
         /// </summary>
         [ArrayProperty(3)]
         public string UpdateType { get; set; } = "";
+        
+        /// <summary>
+        /// Sequence
+        /// </summary>
+        [JsonIgnore]
+        public long Sequence
+        {
+            get => Timestamp.Ticks;
+            set => Timestamp = new DateTime(value);
+        }
     }
 }

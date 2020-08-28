@@ -1,4 +1,5 @@
-﻿using CryptoExchange.Net.Objects;
+﻿using System.Net.Http;
+using CryptoExchange.Net.Objects;
 using Kraken.Net.Interfaces;
 
 namespace Kraken.Net
@@ -9,10 +10,33 @@ namespace Kraken.Net
     public class KrakenClientOptions : RestClientOptions
     {
         /// <summary>
-        /// ctor
+        /// The static password configured as two-factor authentication for the API key. Will be send as otp parameter on private requests.
         /// </summary>
-        public KrakenClientOptions(): base("https://api.kraken.com")
+        public string? StaticTwoFactorAuthenticationPassword { get; set; }
+
+        /// <summary>
+        /// Create new client options
+        /// </summary>
+        public KrakenClientOptions() : this(null, "https://api.kraken.com")
         {
+        }
+
+        /// <summary>
+        /// Create new client options
+        /// </summary>
+        /// <param name="client">HttpClient to use for requests from this client</param>
+        public KrakenClientOptions(HttpClient client) : this(client, "https://api.kraken.com")
+        {
+        }
+
+        /// <summary>
+        /// Create new client options
+        /// </summary>
+        /// <param name="apiAddress">Custom API address to use</param>
+        /// <param name="client">HttpClient to use for requests from this client</param>
+        public KrakenClientOptions(HttpClient? client, string apiAddress) : base(apiAddress)
+        {
+            HttpClient = client;
         }
     }
 
@@ -43,7 +67,7 @@ namespace Kraken.Net
         /// <summary>
         /// </summary>
         /// <param name="client">The client to use for the socket connection. When using the same client for multiple order books the connection can be shared.</param>
-        public KrakenOrderBookOptions(IKrakenSocketClient? client = null) : base("Kraken", false)
+        public KrakenOrderBookOptions(IKrakenSocketClient? client = null) : base("Kraken", false, true)
         {
             SocketClient = client;
         }
