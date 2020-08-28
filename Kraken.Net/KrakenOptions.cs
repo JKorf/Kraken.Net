@@ -1,4 +1,5 @@
-﻿using CryptoExchange.Net.Objects;
+﻿using System.Net.Http;
+using CryptoExchange.Net.Objects;
 using Kraken.Net.Interfaces;
 
 namespace Kraken.Net
@@ -14,10 +15,28 @@ namespace Kraken.Net
         public string? StaticTwoFactorAuthenticationPassword { get; set; }
 
         /// <summary>
-        /// ctor
+        /// Create new client options
         /// </summary>
-        public KrakenClientOptions(): base("https://api.kraken.com")
+        public KrakenClientOptions() : this(null, "https://api.kraken.com")
         {
+        }
+
+        /// <summary>
+        /// Create new client options
+        /// </summary>
+        /// <param name="client">HttpClient to use for requests from this client</param>
+        public KrakenClientOptions(HttpClient client) : this(client, "https://api.kraken.com")
+        {
+        }
+
+        /// <summary>
+        /// Create new client options
+        /// </summary>
+        /// <param name="apiAddress">Custom API address to use</param>
+        /// <param name="client">HttpClient to use for requests from this client</param>
+        public KrakenClientOptions(HttpClient? client, string apiAddress) : base(apiAddress)
+        {
+            HttpClient = client;
         }
     }
 
