@@ -45,7 +45,7 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Close timestamp
         /// </summary>
-        [JsonProperty("closedtm"), JsonConverter(typeof(TimestampSecondsConverter))]
+        [JsonProperty("closetm"), JsonConverter(typeof(TimestampSecondsConverter))]
         public DateTime? ClosedTime { get; set; }
 
         /// <summary>

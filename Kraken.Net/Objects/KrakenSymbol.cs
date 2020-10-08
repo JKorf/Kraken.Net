@@ -93,5 +93,11 @@ namespace Kraken.Net.Objects
         /// </summary>
         [JsonProperty("margin_stop")]
         public int MarginStop { get; set; }
+        /// <summary>
+        /// The minimum order volume for pair
+        /// </summary>
+        /// <value></value>
+        [JsonProperty("ordermin")]
+        public decimal OrderMin { get; set; }
     }
 }

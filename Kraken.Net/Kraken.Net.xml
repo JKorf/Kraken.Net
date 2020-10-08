@@ -2437,6 +2437,12 @@
             Stop-out/liquidation margin level
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.KrakenSymbol.OrderMin">
+            <summary>
+            The minimum order volume for pair
+            </summary>
+            <value></value>
+        </member>
         <member name="T:Kraken.Net.Objects.KrakenTick">
             <summary>
             Tick info
