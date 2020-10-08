@@ -827,7 +827,7 @@ namespace Kraken.Net
             {
                 {"asset", asset},
                 {"key", key},
-                {"amount", amount}
+                {"amount", amount.ToString(CultureInfo.InvariantCulture)}
             };
             parameters.AddOptionalParameter("otp", twoFactorPassword);
 
