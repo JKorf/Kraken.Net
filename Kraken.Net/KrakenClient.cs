@@ -831,7 +831,7 @@ namespace Kraken.Net
             };
             parameters.AddOptionalParameter("otp", twoFactorPassword);
 
-            return await Execute<KrakenWithdraw>(GetUri("/0/private/Withdraw"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await Execute<KrakenWithdraw>(GetUri("0/private/Withdraw"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         #endregion
