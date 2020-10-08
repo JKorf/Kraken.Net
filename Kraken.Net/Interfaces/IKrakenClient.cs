@@ -544,5 +544,27 @@ namespace Kraken.Net.Interfaces
         /// <param name="ct">Cancellation token</param>
         /// <returns>Cancel result</returns>
         Task<WebCallResult<KrakenCancelResult>> CancelOrderAsync(string orderId, string? twoFactorPassword = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Withdraw funds
+        /// </summary>
+        /// <param name="asset">The asset being withdrawn</param>
+        /// <param name="key">The withdrawal key name, as set up on your account</param>
+        /// <param name="amount">The amount to withdraw, including fees</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Withdraw reference id</returns>
+        WebCallResult<KrakenWithdraw> WithdrawFunds(string asset, string key, decimal amount, string? twoFactorPassword = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Withdraw funds
+        /// </summary>
+        /// <param name="asset">The asset being withdrawn</param>
+        /// <param name="key">The withdrawal key name, as set up on your account</param>
+        /// <param name="amount">The amount to withdraw, including fees</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Withdraw reference id</returns>
+        Task<WebCallResult<KrakenWithdraw>> WithdrawFundsAsync(string asset, string key, decimal amount, string? twoFactorPassword = null, CancellationToken ct = default);
     }
 }

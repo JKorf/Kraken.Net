@@ -798,6 +798,42 @@ namespace Kraken.Net
             return await Execute<KrakenCancelResult>(GetUri("/0/private/CancelOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Withdraw funds
+        /// </summary>
+        /// <param name="asset">The asset being withdrawn</param>
+        /// <param name="key">The withdrawal key name, as set up on your account</param>
+        /// <param name="amount">The amount to withdraw, including fees</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Withdraw reference id</returns>
+        public WebCallResult<KrakenWithdraw> WithdrawFunds(string asset, string key, decimal amount, string? twoFactorPassword = null, CancellationToken ct = default) =>
+            WithdrawFundsAsync(asset, key, amount, twoFactorPassword, ct).Result;
+        /// <summary>
+        /// Withdraw funds
+        /// </summary>
+        /// <param name="asset">The asset being withdrawn</param>
+        /// <param name="key">The withdrawal key name, as set up on your account</param>
+        /// <param name="amount">The amount to withdraw, including fees</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Withdraw reference id</returns>
+        public async Task<WebCallResult<KrakenWithdraw>> WithdrawFundsAsync(string asset, string key, decimal amount, string? twoFactorPassword = null, CancellationToken ct = default)
+        {
+            asset.ValidateNotNull(nameof(asset));
+            key.ValidateNotNull(nameof(key));
+
+            var parameters = new Dictionary<string, object>
+            {
+                {"asset", asset},
+                {"key", key},
+                {"amount", amount}
+            };
+            parameters.AddOptionalParameter("otp", twoFactorPassword);
+
+            return await Execute<KrakenWithdraw>(GetUri("/0/private/Withdraw"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        }
+
         #endregion
         /// <inheritdoc />
         protected override void WriteParamBody(IRequest request, Dictionary<string, object> parameters, string contentType)
