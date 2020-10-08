@@ -82,7 +82,7 @@ namespace Kraken.Net
         /// <returns>Server time</returns>
         public async Task<CallResult<DateTime>> GetServerTimeAsync(CancellationToken ct = default)
         {
-            var result = await Execute<KrakenServerTime>(GetUri("/0/public/Time"), HttpMethod.Get, ct).ConfigureAwait(false);
+            var result = await Execute<KrakenServerTime>(GetUri("0/public/Time"), HttpMethod.Get, ct).ConfigureAwait(false);
             if (!result)
                 return WebCallResult<DateTime>.CreateErrorResult(result.Error!);
             return new CallResult<DateTime>(result.Data.UnixTime, null);
@@ -107,7 +107,7 @@ namespace Kraken.Net
             if(assets.Any())
                 parameters.AddOptionalParameter("asset", string.Join(",", assets));
 
-            return await Execute<Dictionary<string, KrakenAssetInfo>>(GetUri("/0/public/Assets"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await Execute<Dictionary<string, KrakenAssetInfo>>(GetUri("0/public/Assets"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Kraken.Net
             if (symbols.Any())
                 parameters.AddOptionalParameter("pair", string.Join(",", symbols));
 
-            return await Execute<Dictionary<string, KrakenSymbol>>(GetUri("/0/public/AssetPairs"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await Execute<Dictionary<string, KrakenSymbol>>(GetUri("0/public/AssetPairs"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace Kraken.Net
             var parameters = new Dictionary<string, object>();
             parameters.AddParameter("pair", string.Join(",", symbols));
 
-            return await Execute<Dictionary<string, KrakenRestTick>>(GetUri("/0/public/Ticker"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await Execute<Dictionary<string, KrakenRestTick>>(GetUri("0/public/Ticker"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace Kraken.Net
                 {"interval", JsonConvert.SerializeObject(interval, new KlineIntervalConverter(false))}
             };
             parameters.AddOptionalParameter("since", since.HasValue ? JsonConvert.SerializeObject(since, new TimestampSecondsConverter()): null);
-            return await Execute<KrakenKlinesResult>(GetUri("/0/public/OHLC"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await Execute<KrakenKlinesResult>(GetUri("0/public/OHLC"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace Kraken.Net
                 {"pair", symbol},
             };
             parameters.AddOptionalParameter("count", limit);
-            var result = await Execute<Dictionary<string, KrakenOrderBook>>(GetUri("/0/public/Depth"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            var result = await Execute<Dictionary<string, KrakenOrderBook>>(GetUri("0/public/Depth"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if(!result)
                 return new WebCallResult<KrakenOrderBook>(result.ResponseStatusCode, result.ResponseHeaders, null, result.Error);
             return new WebCallResult<KrakenOrderBook>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.First().Value, result.Error);
@@ -239,7 +239,7 @@ namespace Kraken.Net
                 {"pair", symbol},
             };
             parameters.AddOptionalParameter("since", since.HasValue ? JsonConvert.SerializeObject(since, new TimestampNanoSecondsConverter()) : null);
-            return await Execute<KrakenTradesResult>(GetUri("/0/public/Trades"), HttpMethod.Get, ct, parameters: parameters).ConfigureAwait(false);
+            return await Execute<KrakenTradesResult>(GetUri("0/public/Trades"), HttpMethod.Get, ct, parameters: parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace Kraken.Net
                 {"pair", symbol},
             };
             parameters.AddOptionalParameter("since", since.HasValue ? JsonConvert.SerializeObject(since, new TimestampSecondsConverter()) : null);
-            return await Execute<KrakenSpreadsResult>(GetUri("/0/public/Spread"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await Execute<KrakenSpreadsResult>(GetUri("0/public/Spread"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace Kraken.Net
         {
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
-            return await Execute<Dictionary<string, decimal>>(GetUri("/0/private/Balance"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await Execute<Dictionary<string, decimal>>(GetUri("0/private/Balance"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace Kraken.Net
             parameters.AddOptionalParameter("aclass", "currency");
             parameters.AddOptionalParameter("asset", baseAsset);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
-            return await Execute<KrakenTradeBalance>(GetUri("/0/private/TradeBalance"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await Execute<KrakenTradeBalance>(GetUri("0/private/TradeBalance"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -333,7 +333,7 @@ namespace Kraken.Net
             parameters.AddOptionalParameter("trades", true);
             parameters.AddOptionalParameter("userref", clientOrderId);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
-            return await Execute<OpenOrdersPage>(GetUri("/0/private/OpenOrders"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await Execute<OpenOrdersPage>(GetUri("0/private/OpenOrders"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -367,7 +367,7 @@ namespace Kraken.Net
             parameters.AddOptionalParameter("end", endTime.HasValue ? JsonConvert.SerializeObject(endTime.Value, new TimestampSecondsConverter()) : null);
             parameters.AddOptionalParameter("ofs", resultOffset);
             parameters.AddOptionalParameter("otp", twoFactorPassword);
-            return await Execute<KrakenClosedOrdersPage>(GetUri("/0/private/ClosedOrders"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await Execute<KrakenClosedOrdersPage>(GetUri("0/private/ClosedOrders"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -397,7 +397,7 @@ namespace Kraken.Net
             parameters.AddOptionalParameter("userref", clientOrderId);
             parameters.AddOptionalParameter("txid", orderIds.Any() ? string.Join(",", orderIds): null);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
-            return await Execute<Dictionary<string, KrakenOrder>>(GetUri("/0/private/QueryOrders"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await Execute<Dictionary<string, KrakenOrder>>(GetUri("0/private/QueryOrders"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -428,7 +428,7 @@ namespace Kraken.Net
             parameters.AddOptionalParameter("end", endTime.HasValue ? JsonConvert.SerializeObject(endTime.Value, new TimestampSecondsConverter()) : null);
             parameters.AddOptionalParameter("ofs", resultOffset);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
-            return await Execute<KrakenUserTradesPage>(GetUri("/0/private/TradesHistory"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await Execute<KrakenUserTradesPage>(GetUri("0/private/TradesHistory"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -452,7 +452,7 @@ namespace Kraken.Net
             parameters.AddOptionalParameter("trades", true);
             parameters.AddOptionalParameter("txid", tradeIds.Any() ? string.Join(",", tradeIds) : null);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
-            return await Execute<Dictionary<string, KrakenUserTrade>>(GetUri("/0/private/QueryTrades"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await Execute<Dictionary<string, KrakenUserTrade>>(GetUri("0/private/QueryTrades"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -476,7 +476,7 @@ namespace Kraken.Net
             parameters.AddOptionalParameter("docalcs", true);
             parameters.AddOptionalParameter("txid", transactionIds.Any() ? string.Join(",", transactionIds) : null);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
-            return await Execute<Dictionary<string, KrakenPosition>>(GetUri("/0/private/OpenPositions"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await Execute<Dictionary<string, KrakenPosition>>(GetUri("0/private/OpenPositions"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -512,7 +512,7 @@ namespace Kraken.Net
             parameters.AddOptionalParameter("end", endTime.HasValue ? JsonConvert.SerializeObject(endTime.Value, new TimestampSecondsConverter()) : null);
             parameters.AddOptionalParameter("ofs", resultOffset);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
-            return await Execute<KrakenLedgerPage>(GetUri("/0/private/Ledgers"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await Execute<KrakenLedgerPage>(GetUri("0/private/Ledgers"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -535,7 +535,7 @@ namespace Kraken.Net
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("id", ledgerIds.Any() ? string.Join(",", ledgerIds) : null);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
-            return await Execute<Dictionary<string, KrakenLedgerEntry>>(GetUri("/0/private/QueryLedgers"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await Execute<Dictionary<string, KrakenLedgerEntry>>(GetUri("0/private/QueryLedgers"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -559,7 +559,7 @@ namespace Kraken.Net
             parameters.AddOptionalParameter("fee-info", true);
             parameters.AddOptionalParameter("pair", symbols.Any() ? string.Join(",", symbols) : null);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
-            return await Execute<KrakenTradeVolume>(GetUri("/0/private/TradeVolume"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await Execute<KrakenTradeVolume>(GetUri("0/private/TradeVolume"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -585,7 +585,7 @@ namespace Kraken.Net
                 {"asset", asset}
             };
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
-            return await Execute< IEnumerable<KrakenDepositMethod>>(GetUri("/0/private/DepositMethods"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await Execute< IEnumerable<KrakenDepositMethod>>(GetUri("0/private/DepositMethods"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -624,7 +624,7 @@ namespace Kraken.Net
 
             parameters.AddOptionalParameter("otp",  twoFactorPassword);
 
-            return await Execute<IEnumerable<KrakenDepositAddress>>(GetUri("/0/private/DepositAddresses"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await Execute<IEnumerable<KrakenDepositAddress>>(GetUri("0/private/DepositAddresses"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -655,7 +655,7 @@ namespace Kraken.Net
             };
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
 
-            return await Execute<IEnumerable<KrakenDepositStatus>>(GetUri("/0/private/DepositStatus"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await Execute<IEnumerable<KrakenDepositStatus>>(GetUri("0/private/DepositStatus"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -769,7 +769,7 @@ namespace Kraken.Net
             parameters.AddOptionalParameter("expiretm", expireTime.HasValue ? JsonConvert.SerializeObject(expireTime.Value, new TimestampSecondsConverter()) : null);
             if (validateOnly == true)
                 parameters.AddOptionalParameter("validate", true);
-            return await Execute<KrakenPlacedOrder>(GetUri("/0/private/AddOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await Execute<KrakenPlacedOrder>(GetUri("0/private/AddOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -795,7 +795,7 @@ namespace Kraken.Net
                 {"txid", orderId}
             };
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
-            return await Execute<KrakenCancelResult>(GetUri("/0/private/CancelOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await Execute<KrakenCancelResult>(GetUri("0/private/CancelOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         #endregion
