@@ -545,6 +545,28 @@
             <param name="ct">Cancellation token</param>
             <returns>Cancel result</returns>
         </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.WithdrawFunds(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Withdraw funds
+            </summary>
+            <param name="asset">The asset being withdrawn</param>
+            <param name="key">The withdrawal key name, as set up on your account</param>
+            <param name="amount">The amount to withdraw, including fees</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Withdraw reference id</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.WithdrawFundsAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Withdraw funds
+            </summary>
+            <param name="asset">The asset being withdrawn</param>
+            <param name="key">The withdrawal key name, as set up on your account</param>
+            <param name="amount">The amount to withdraw, including fees</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Withdraw reference id</returns>
+        </member>
         <member name="T:Kraken.Net.Interfaces.IKrakenSocketClient">
             <summary>
             Interface for the Kraken socket client
@@ -1160,6 +1182,28 @@
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Cancel result</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.WithdrawFunds(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Withdraw funds
+            </summary>
+            <param name="asset">The asset being withdrawn</param>
+            <param name="key">The withdrawal key name, as set up on your account</param>
+            <param name="amount">The amount to withdraw, including fees</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Withdraw reference id</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.WithdrawFundsAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Withdraw funds
+            </summary>
+            <param name="asset">The asset being withdrawn</param>
+            <param name="key">The withdrawal key name, as set up on your account</param>
+            <param name="amount">The amount to withdraw, including fees</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Withdraw reference id</returns>
         </member>
         <member name="M:Kraken.Net.KrakenClient.WriteParamBody(CryptoExchange.Net.Interfaces.IRequest,System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
             <inheritdoc />
@@ -2801,6 +2845,16 @@
         <member name="P:Kraken.Net.Objects.KrakenUserTrade.Trades">
             <summary>
             Trade ids
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenWithdraw">
+            <summary>
+            Order info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenWithdraw.ReferenceId">
+            <summary>
+            Reference id
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Socket.KrakenSocketEvent`1">
