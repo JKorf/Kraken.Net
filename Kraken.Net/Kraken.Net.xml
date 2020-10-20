@@ -2166,11 +2166,17 @@
             Price of the entry
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamOrderBookEntry.PriceLiteral">
+            <summary>
+            Price of the entry as a string literal
+            </summary>
+        </member>
         <member name="P:Kraken.Net.Objects.KrakenStreamOrderBookEntry.Quantity">
             <summary>
             Quantity of the entry
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "P:Kraken.Net.Objects.KrakenStreamOrderBookEntry.QuantityLiteral" -->
         <member name="P:Kraken.Net.Objects.KrakenStreamOrderBookEntry.Timestamp">
             <summary>
             Timestamp of the entry
