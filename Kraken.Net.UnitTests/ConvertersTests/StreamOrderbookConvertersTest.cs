@@ -59,8 +59,8 @@ namespace Kraken.Net.UnitTests.ConvertersTests.StreamOrderbookConvertersTests
             Assert.AreEqual("book-10", testObj.Topic);
             Assert.AreEqual("XBT/USD", testObj.Symbol);
 
-            Assert.AreEqual("0.40100000", testObj.Data.Asks.ElementAt(1).QuantityLiteral);
-            Assert.AreEqual("5542.50000", testObj.Data.Asks.ElementAt(1).PriceLiteral);
+            Assert.AreEqual("0.40100000", testObj.Data.Asks.ElementAt(1).RawQuantity);
+            Assert.AreEqual("5542.50000", testObj.Data.Asks.ElementAt(1).RawPrice);
         }
     }
 }

@@ -33,10 +33,20 @@ namespace Kraken.Net.Objects
         [ArrayProperty(0)]
         public decimal Price { get; set; }
         /// <summary>
+        /// Price of the entry as a string literal
+        /// </summary>
+        [ArrayProperty(0)]
+        public string RawPrice { get; set; }
+        /// <summary>
         /// Quantity of the entry
         /// </summary>
         [ArrayProperty(1)]
         public decimal Quantity { get; set; }
+        // <summary>
+        /// Quantity of the entry as a string literal
+        /// </summary>
+        [ArrayProperty(1)]
+        public string RawQuantity { get; set; }
         /// <summary>
         /// Timestamp of change
         /// </summary>
@@ -91,7 +101,7 @@ namespace Kraken.Net.Objects
         /// Price of the entry as a string literal
         /// </summary>
         [ArrayProperty(0)]
-        public string PriceLiteral { get; set; }
+        public string RawPrice { get; set; }
 
         /// <summary>
         /// Quantity of the entry
@@ -103,7 +113,7 @@ namespace Kraken.Net.Objects
         /// Quantity of the entry as a string literal
         /// </summary>
         [ArrayProperty(1)]
-        public string QuantityLiteral { get; set; }
+        public string RawQuantity { get; set; }
 
         /// <summary>
         /// Timestamp of the entry
