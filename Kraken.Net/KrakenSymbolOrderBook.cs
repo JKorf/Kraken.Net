@@ -75,13 +75,15 @@ namespace Kraken.Net
             var checksumValues = new List<string>();
             for (var i = 0; i < 10; i++)
             {
-                checksumValues.Add(ToChecksumString(asks.ElementAt(i).Value.Price));
-                checksumValues.Add(ToChecksumString(asks.ElementAt(i).Value.Quantity));
+                var ask = (KrakenOrderBookEntry)asks.ElementAt(i).Value;
+                checksumValues.Add(ToChecksumString(ask.RawPrice));
+                checksumValues.Add(ToChecksumString(ask.RawQuantity));
             }
             for (var i = 0; i < 10; i++)
             {
-                checksumValues.Add(ToChecksumString(bids.ElementAt(i).Value.Price));
-                checksumValues.Add(ToChecksumString(bids.ElementAt(i).Value.Quantity));
+                var bid = (KrakenOrderBookEntry)bids.ElementAt(i).Value;
+                checksumValues.Add(ToChecksumString(bid.RawPrice));
+                checksumValues.Add(ToChecksumString(bid.RawQuantity));
             }
 
             var checksumString = string.Join("", checksumValues);
@@ -96,12 +98,9 @@ namespace Kraken.Net
             return true;
         }
 
-        private string ToChecksumString(decimal value)
+        private string ToChecksumString(string value)
         {
-            var str = value.ToString(CultureInfo.InvariantCulture);
-            str = str.Replace(".", "");
-            str = str.TrimStart('0');
-            return str;
+            return value.Replace(".", "").TrimStart('0');
         }
 
         /// <inheritdoc />
