@@ -25,7 +25,7 @@ namespace Kraken.Net.Objects
     /// Order book entry
     /// </summary>
     [JsonConverter(typeof(ArrayConverter))]
-    public class KrakenOrderBookEntry: ISymbolOrderBookEntry
+    public class KrakenOrderBookEntry : ISymbolOrderBookEntry
     {
         /// <summary>
         /// Price of the entry
@@ -33,10 +33,20 @@ namespace Kraken.Net.Objects
         [ArrayProperty(0)]
         public decimal Price { get; set; }
         /// <summary>
+        /// Price of the entry as a string literal
+        /// </summary>
+        [ArrayProperty(0)]
+        public string RawPrice { get; set; }
+        /// <summary>
         /// Quantity of the entry
         /// </summary>
         [ArrayProperty(1)]
         public decimal Quantity { get; set; }
+        // <summary>
+        /// Quantity of the entry as a string literal
+        /// </summary>
+        [ArrayProperty(1)]
+        public string RawQuantity { get; set; }
         /// <summary>
         /// Timestamp of change
         /// </summary>
@@ -86,11 +96,24 @@ namespace Kraken.Net.Objects
         /// </summary>
         [ArrayProperty(0)]
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// Price of the entry as a string literal
+        /// </summary>
+        [ArrayProperty(0)]
+        public string RawPrice { get; set; }
+
         /// <summary>
         /// Quantity of the entry
         /// </summary>
         [ArrayProperty(1)]
         public decimal Quantity { get; set; }
+
+        // <summary>
+        /// Quantity of the entry as a string literal
+        /// </summary>
+        [ArrayProperty(1)]
+        public string RawQuantity { get; set; }
 
         /// <summary>
         /// Timestamp of the entry
@@ -103,7 +126,7 @@ namespace Kraken.Net.Objects
         /// </summary>
         [ArrayProperty(3)]
         public string UpdateType { get; set; } = "";
-        
+
         /// <summary>
         /// Sequence
         /// </summary>

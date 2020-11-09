@@ -2121,11 +2121,17 @@
             Price of the entry
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrderBookEntry.RawPrice">
+            <summary>
+            Price of the entry as a string literal
+            </summary>
+        </member>
         <member name="P:Kraken.Net.Objects.KrakenOrderBookEntry.Quantity">
             <summary>
             Quantity of the entry
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "P:Kraken.Net.Objects.KrakenOrderBookEntry.RawQuantity" -->
         <member name="P:Kraken.Net.Objects.KrakenOrderBookEntry.Timestamp">
             <summary>
             Timestamp of change
@@ -2166,11 +2172,17 @@
             Price of the entry
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamOrderBookEntry.RawPrice">
+            <summary>
+            Price of the entry as a string literal
+            </summary>
+        </member>
         <member name="P:Kraken.Net.Objects.KrakenStreamOrderBookEntry.Quantity">
             <summary>
             Quantity of the entry
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "P:Kraken.Net.Objects.KrakenStreamOrderBookEntry.RawQuantity" -->
         <member name="P:Kraken.Net.Objects.KrakenStreamOrderBookEntry.Timestamp">
             <summary>
             Timestamp of the entry
