@@ -75,13 +75,13 @@ namespace Kraken.Net
             var checksumValues = new List<string>();
             for (var i = 0; i < 10; i++)
             {
-                var ask = (KrakenOrderBookEntry)asks.ElementAt(i).Value;
+                var ask = (KrakenStreamOrderBookEntry)asks.ElementAt(i).Value;
                 checksumValues.Add(ToChecksumString(ask.RawPrice));
                 checksumValues.Add(ToChecksumString(ask.RawQuantity));
             }
             for (var i = 0; i < 10; i++)
             {
-                var bid = (KrakenOrderBookEntry)bids.ElementAt(i).Value;
+                var bid = (KrakenStreamOrderBookEntry)bids.ElementAt(i).Value;
                 checksumValues.Add(ToChecksumString(bid.RawPrice));
                 checksumValues.Add(ToChecksumString(bid.RawQuantity));
             }
