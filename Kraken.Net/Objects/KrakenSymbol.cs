@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CryptoExchange.Net.ExchangeInterfaces;
 using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects
@@ -6,7 +7,7 @@ namespace Kraken.Net.Objects
     /// <summary>
     /// Symbol info
     /// </summary>
-    public class KrakenSymbol
+    public class KrakenSymbol: ICommonSymbol
     {
         /// <summary>
         /// Alternative name
@@ -99,5 +100,8 @@ namespace Kraken.Net.Objects
         /// <value></value>
         [JsonProperty("ordermin")]
         public decimal OrderMin { get; set; }
+
+        string ICommonSymbol.CommonName => QuoteAsset + BaseAsset;
+        decimal ICommonSymbol.CommonMinimumTradeSize => OrderMin;
     }
 }

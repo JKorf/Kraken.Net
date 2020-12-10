@@ -26,14 +26,14 @@ namespace Kraken.Net.Interfaces
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Server time</returns>
-        CallResult<DateTime> GetServerTime(CancellationToken ct = default);
+        WebCallResult<DateTime> GetServerTime(CancellationToken ct = default);
 
         /// <summary>
         /// Get the server time
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Server time</returns>
-        Task<CallResult<DateTime>> GetServerTimeAsync(CancellationToken ct = default);
+        Task<WebCallResult<DateTime>> GetServerTimeAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get a list of assets and info about them

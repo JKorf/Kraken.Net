@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Converters;
+using CryptoExchange.Net.ExchangeInterfaces;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
 using Kraken.Net.Converters;
@@ -20,7 +22,7 @@ namespace Kraken.Net
     /// <summary>
     /// Client for the Kraken Rest API
     /// </summary>
-    public class KrakenClient: RestClient, IKrakenClient
+    public class KrakenClient: RestClient, IKrakenClient, IExchangeClient
     {
         #region fields
         private static KrakenClientOptions defaultOptions = new KrakenClientOptions();
@@ -41,7 +43,7 @@ namespace Kraken.Net
         /// Create a new instance of KrakenClient using provided options
         /// </summary>
         /// <param name="options">The options to use for this client</param>
-        public KrakenClient(KrakenClientOptions options) : base(options, options.ApiCredentials == null ? null : new KrakenAuthenticationProvider(options.ApiCredentials))
+        public KrakenClient(KrakenClientOptions options) : base("Kraken", options, options.ApiCredentials == null ? null : new KrakenAuthenticationProvider(options.ApiCredentials))
         {
             _otp = options.StaticTwoFactorAuthenticationPassword;
             postParametersPosition = PostParameters.InBody;
@@ -74,18 +76,18 @@ namespace Kraken.Net
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Server time</returns>
-        public CallResult<DateTime> GetServerTime(CancellationToken ct = default) => GetServerTimeAsync(ct).Result;
+        public WebCallResult<DateTime> GetServerTime(CancellationToken ct = default) => GetServerTimeAsync(ct).Result;
         /// <summary>
         /// Get the server time
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Server time</returns>
-        public async Task<CallResult<DateTime>> GetServerTimeAsync(CancellationToken ct = default)
+        public async Task<WebCallResult<DateTime>> GetServerTimeAsync(CancellationToken ct = default)
         {
             var result = await Execute<KrakenServerTime>(GetUri("0/public/Time"), HttpMethod.Get, ct).ConfigureAwait(false);
             if (!result)
                 return WebCallResult<DateTime>.CreateErrorResult(result.Error!);
-            return new CallResult<DateTime>(result.Data.UnixTime, null);
+            return new WebCallResult<DateTime>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.UnixTime, null);
         }
 
         /// <summary>
@@ -153,7 +155,14 @@ namespace Kraken.Net
             var parameters = new Dictionary<string, object>();
             parameters.AddParameter("pair", string.Join(",", symbols));
 
-            return await Execute<Dictionary<string, KrakenRestTick>>(GetUri("0/public/Ticker"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            var result = await Execute<Dictionary<string, KrakenRestTick>>(GetUri("0/public/Ticker"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            if (!result)
+                return result;
+
+            foreach (var item in result.Data)
+                item.Value.Symbol = item.Key;
+
+            return result;
         }
 
         /// <summary>
@@ -428,7 +437,14 @@ namespace Kraken.Net
             parameters.AddOptionalParameter("end", endTime.HasValue ? JsonConvert.SerializeObject(endTime.Value, new TimestampSecondsConverter()) : null);
             parameters.AddOptionalParameter("ofs", resultOffset);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
-            return await Execute<KrakenUserTradesPage>(GetUri("0/private/TradesHistory"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            var result = await Execute<KrakenUserTradesPage>(GetUri("0/private/TradesHistory"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (result)
+            {
+                foreach (var item in result.Data.Trades)
+                    item.Value.TradeId = item.Key;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -835,6 +851,97 @@ namespace Kraken.Net
         }
 
         #endregion
+
+        #region common interface
+        
+        async Task<WebCallResult<IEnumerable<ICommonSymbol>>> IExchangeClient.GetSymbolsAsync()
+        {
+            var exchangeInfo = await GetSymbolsAsync();
+            return new WebCallResult<IEnumerable<ICommonSymbol>>(exchangeInfo.ResponseStatusCode,
+                exchangeInfo.ResponseHeaders, exchangeInfo.Data?.Select(d => d.Value), exchangeInfo.Error);
+        }
+
+        async Task<WebCallResult<IEnumerable<ICommonTicker>>> IExchangeClient.GetTickersAsync()
+        {
+            var assets = await GetSymbolsAsync();
+            if(!assets)
+                return new WebCallResult<IEnumerable<ICommonTicker>>(assets.ResponseStatusCode, assets.ResponseHeaders, null, assets.Error);
+
+            var ticker = await GetTickersAsync(default, assets.Data.Select(d => d.Key).ToArray());
+            return new WebCallResult<IEnumerable<ICommonTicker>>(ticker.ResponseStatusCode,
+                ticker.ResponseHeaders, ticker.Data?.Select(d => d.Value), ticker.Error);
+        }
+
+        async Task<WebCallResult<IEnumerable<ICommonKline>>> IExchangeClient.GetKlinesAsync(string symbol, TimeSpan timespan)
+        {
+            var klines = await GetKlinesAsync(symbol, GetKlineIntervalFromTimespan(timespan));
+            if (!klines.Success)
+                return WebCallResult<IEnumerable<ICommonKline>>.CreateErrorResult(klines.ResponseStatusCode, klines.ResponseHeaders, klines.Error!);
+            return new WebCallResult<IEnumerable<ICommonKline>>(klines.ResponseStatusCode, klines.ResponseHeaders, klines.Data.Data, klines.Error);
+        }
+        
+        async Task<WebCallResult<ICommonOrderBook>> IExchangeClient.GetOrderBookAsync(string symbol)
+        {
+            var book = await GetOrderBookAsync(symbol);
+            return WebCallResult<ICommonOrderBook>.CreateFrom(book);
+        }
+
+        async Task<WebCallResult<IEnumerable<ICommonRecentTrade>>> IExchangeClient.GetRecentTradesAsync(string symbol)
+        {
+            var tradesResult = await GetRecentTradesAsync(symbol, null);
+            if (!tradesResult.Success)
+                return WebCallResult<IEnumerable<ICommonRecentTrade>>.CreateErrorResult(tradesResult.ResponseStatusCode, tradesResult.ResponseHeaders, tradesResult.Error!);
+
+            return new WebCallResult<IEnumerable<ICommonRecentTrade>>(tradesResult.ResponseStatusCode,
+                tradesResult.ResponseHeaders, tradesResult.Data?.Data, tradesResult.Error);
+        }
+
+        async Task<WebCallResult<ICommonOrderId>> IExchangeClient.PlaceOrderAsync(string symbol, IExchangeClient.OrderSide side, IExchangeClient.OrderType type, decimal quantity, decimal? price = null, string? accountId = null)
+        {
+            var result = await PlaceOrderAsync(symbol, GetOrderSide(side), GetOrderType(type), quantity, price: price);
+            return WebCallResult<ICommonOrderId>.CreateFrom(result);
+        }
+
+        async Task<WebCallResult<ICommonOrder>> IExchangeClient.GetOrderAsync(string orderId, string? symbol)
+        {
+            var result = await GetOrdersAsync(orderIds: orderId);
+            return new WebCallResult<ICommonOrder> (result.ResponseStatusCode,
+                result.ResponseHeaders, result.Data?.FirstOrDefault().Value, result.Error);
+        }
+
+        async Task<WebCallResult<IEnumerable<ICommonTrade>>> IExchangeClient.GetTradesAsync(string orderId, string? symbol = null)
+        {
+            var result = await GetTradeHistoryAsync();
+            return new WebCallResult<IEnumerable<ICommonTrade>>(result.ResponseStatusCode,
+                result.ResponseHeaders, 
+                result.Data?.Trades.Where(t => t.Value.OrderId == orderId).Select(o => (ICommonTrade)o.Value), result.Error);
+        }
+
+        async Task<WebCallResult<IEnumerable<ICommonOrder>>> IExchangeClient.GetOpenOrdersAsync(string? symbol)
+        {
+            var result = await GetOpenOrdersAsync();
+            return new WebCallResult<IEnumerable<ICommonOrder>>(result.ResponseStatusCode,
+                result.ResponseHeaders, result.Data?.Open.Select(d => d.Value), result.Error);
+        }
+
+        async Task<WebCallResult<IEnumerable<ICommonOrder>>> IExchangeClient.GetClosedOrdersAsync(string? symbol)
+        {
+            var result = await GetClosedOrdersAsync();
+            return new WebCallResult<IEnumerable<ICommonOrder>>(result.ResponseStatusCode,
+                result.ResponseHeaders, result.Data?.Closed.Select(d => d.Value), result.Error);
+        }
+
+        async Task<WebCallResult<ICommonOrderId>> IExchangeClient.CancelOrderAsync(string orderId, string? symbol)
+        {
+            var result = await CancelOrderAsync(orderId);
+            if(result.Data?.Pending.Any() != true)
+                return WebCallResult<ICommonOrderId>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error ?? new ServerError("No orders cancelled"));
+
+            return new WebCallResult<ICommonOrderId>(result.ResponseStatusCode, result.ResponseHeaders, 
+                result? new KrakenOrder(){ ReferenceId  = result.Data.Pending.First().ToString() } : null, result.Error);
+        }
+
+        #endregion
         /// <inheritdoc />
         protected override void WriteParamBody(IRequest request, Dictionary<string, object> parameters, string contentType)
         {
@@ -857,6 +964,40 @@ namespace Kraken.Net
                 return new WebCallResult<T>(result.ResponseStatusCode, result.ResponseHeaders, default, new ServerError(string.Join(", ", result.Data.Error)));
 
             return new WebCallResult<T>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Result, null);
+        }
+
+
+        public string GetSymbolName(string baseAsset, string quoteAsset) => (baseAsset + quoteAsset).ToUpperInvariant();
+
+        private static KlineInterval GetKlineIntervalFromTimespan(TimeSpan timeSpan)
+        {
+            if (timeSpan == TimeSpan.FromMinutes(1)) return KlineInterval.OneMinute;
+            if (timeSpan == TimeSpan.FromMinutes(5)) return KlineInterval.FiveMinutes;
+            if (timeSpan == TimeSpan.FromMinutes(15)) return KlineInterval.FifteenMinutes;
+            if (timeSpan == TimeSpan.FromMinutes(30)) return KlineInterval.ThirtyMinutes;
+            if (timeSpan == TimeSpan.FromHours(1)) return KlineInterval.OneHour;
+            if (timeSpan == TimeSpan.FromHours(4)) return KlineInterval.FourHour;
+            if (timeSpan == TimeSpan.FromDays(1)) return KlineInterval.OneDay;
+            if (timeSpan == TimeSpan.FromDays(7)) return KlineInterval.OneWeek;
+            if (timeSpan == TimeSpan.FromDays(15)) return KlineInterval.FifteenDays;
+
+            throw new ArgumentException("Unsupported timespan for Kraken Klines, check supported intervals using Kraken.Net.Objects.KlineInterval");
+        }
+
+        private static OrderSide GetOrderSide(IExchangeClient.OrderSide side)
+        {
+            if (side == IExchangeClient.OrderSide.Sell) return OrderSide.Sell;
+            if (side == IExchangeClient.OrderSide.Buy) return OrderSide.Buy;
+
+            throw new ArgumentException("Unsupported order side for Kraken order: " + side);
+        }
+
+        private static OrderType GetOrderType(IExchangeClient.OrderType type)
+        {
+            if (type == IExchangeClient.OrderType.Limit) return OrderType.Limit;
+            if (type == IExchangeClient.OrderType.Market) return OrderType.Market;
+
+            throw new ArgumentException("Unsupported order type for Kraken order: " + type);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Kraken.Net
         /// Create a new instance of KrakenSocketClient using provided options
         /// </summary>
         /// <param name="options">The options to use for this client</param>
-        public KrakenSocketClient(KrakenSocketClientOptions options) : base(options, options.ApiCredentials == null ? null : new KrakenAuthenticationProvider(options.ApiCredentials))
+        public KrakenSocketClient(KrakenSocketClientOptions options) : base("Kraken", options, options.ApiCredentials == null ? null : new KrakenAuthenticationProvider(options.ApiCredentials))
         {
             AddGenericHandler("Connection", (connection, token) => { });
             AddGenericHandler("HeartBeat", (connection, token) => { });

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CryptoExchange.Net.Converters;
+using CryptoExchange.Net.ExchangeInterfaces;
 using CryptoExchange.Net.Interfaces;
 using Newtonsoft.Json;
 
@@ -9,16 +10,19 @@ namespace Kraken.Net.Objects
     /// <summary>
     /// Order book
     /// </summary>
-    public class KrakenOrderBook
+    public class KrakenOrderBook: ICommonOrderBook
     {
         /// <summary>
         /// Asks in the book
         /// </summary>
-        public IEnumerable<KrakenOrderBookEntry> Asks { get; set; } = new List<KrakenOrderBookEntry>();
+        public IEnumerable<ISymbolOrderBookEntry> Asks { get; set; } = new List<KrakenOrderBookEntry>();
         /// <summary>
         /// Bids in the book
         /// </summary>
-        public IEnumerable<KrakenOrderBookEntry> Bids { get; set; } = new List<KrakenOrderBookEntry>();
+        public IEnumerable<ISymbolOrderBookEntry> Bids { get; set; } = new List<KrakenOrderBookEntry>();
+
+        IEnumerable<ISymbolOrderBookEntry> ICommonOrderBook.CommonBids => Bids;
+        IEnumerable<ISymbolOrderBookEntry> ICommonOrderBook.CommonAsks => Asks;
     }
 
     /// <summary>

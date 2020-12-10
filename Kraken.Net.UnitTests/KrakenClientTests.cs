@@ -22,6 +22,7 @@ namespace Kraken.Net.UnitTests
             {
                 "GetSymbols",
                 "GetOrderBook",
+                "GetServerTime"
             };
             var defaultParameterValues = new Dictionary<string, object>
             {

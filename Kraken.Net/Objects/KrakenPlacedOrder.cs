@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CryptoExchange.Net.Attributes;
+using CryptoExchange.Net.ExchangeInterfaces;
 using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects
@@ -7,7 +9,7 @@ namespace Kraken.Net.Objects
     /// <summary>
     /// Placed order info
     /// </summary>
-    public class KrakenPlacedOrder
+    public class KrakenPlacedOrder: ICommonOrderId
     {
         /// <summary>
         /// Order ids
@@ -19,6 +21,8 @@ namespace Kraken.Net.Objects
         /// </summary>
         [JsonProperty("descr")]
         public KrakenPlacedOrderDescription Descriptions { get; set; } = default!;
+
+        string ICommonOrderId.CommonId => OrderIds.First();
     }
 
     /// <summary>

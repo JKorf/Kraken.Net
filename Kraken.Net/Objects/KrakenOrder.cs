@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CryptoExchange.Net.Attributes;
 using CryptoExchange.Net.Converters;
+using CryptoExchange.Net.ExchangeInterfaces;
 using Kraken.Net.Converters;
 using Newtonsoft.Json;
 
@@ -10,7 +11,7 @@ namespace Kraken.Net.Objects
     /// <summary>
     /// Order info
     /// </summary>
-    public class KrakenOrder
+    public class KrakenOrder: ICommonOrder
     {
         /// <summary>
         /// Reference id
@@ -103,6 +104,27 @@ namespace Kraken.Net.Objects
         [JsonProperty("trades")]
         [JsonOptionalProperty]
         public IEnumerable<string> TradeIds { get; set; } = new List<string>();
+
+        string ICommonOrderId.CommonId => ReferenceId;
+        string ICommonOrder.CommonSymbol => OrderDetails.Symbol;
+        decimal ICommonOrder.CommonPrice => OrderDetails.Price;
+        decimal ICommonOrder.CommonQuantity => Quantity;
+        string ICommonOrder.CommonStatus => Status.ToString();
+        bool ICommonOrder.IsActive => Status == OrderStatus.Open;
+
+        IExchangeClient.OrderSide ICommonOrder.CommonSide => OrderDetails.Side == OrderSide.Sell
+            ? IExchangeClient.OrderSide.Sell
+            : IExchangeClient.OrderSide.Buy;
+
+        IExchangeClient.OrderType ICommonOrder.CommonType
+        {
+            get
+            {
+                if (OrderDetails.Type == OrderType.Limit) return IExchangeClient.OrderType.Limit;
+                if (OrderDetails.Type == OrderType.Market) return IExchangeClient.OrderType.Market;
+                return IExchangeClient.OrderType.Other;
+            }
+        }
     }
 
     /// <summary>
