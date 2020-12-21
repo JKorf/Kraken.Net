@@ -861,6 +861,13 @@ namespace Kraken.Net
                 exchangeInfo.ResponseHeaders, exchangeInfo.Data?.Select(d => d.Value), exchangeInfo.Error);
         }
 
+        async Task<WebCallResult<ICommonTicker>> IExchangeClient.GetTickerAsync(string symbol)
+        {
+            var ticker = await GetTickersAsync(default, symbol);
+            return new WebCallResult<ICommonTicker>(ticker.ResponseStatusCode,
+                ticker.ResponseHeaders, ticker.Data?.Select(d => d.Value).FirstOrDefault(), ticker.Error);
+        }
+
         async Task<WebCallResult<IEnumerable<ICommonTicker>>> IExchangeClient.GetTickersAsync()
         {
             var assets = await GetSymbolsAsync();
@@ -872,9 +879,17 @@ namespace Kraken.Net
                 ticker.ResponseHeaders, ticker.Data?.Select(d => d.Value), ticker.Error);
         }
 
-        async Task<WebCallResult<IEnumerable<ICommonKline>>> IExchangeClient.GetKlinesAsync(string symbol, TimeSpan timespan)
+        async Task<WebCallResult<IEnumerable<ICommonKline>>> IExchangeClient.GetKlinesAsync(string symbol, TimeSpan timespan, DateTime? startTime = null, DateTime? endTime = null, int? limit = null)
         {
-            var klines = await GetKlinesAsync(symbol, GetKlineIntervalFromTimespan(timespan));
+            if(endTime != null)
+                return WebCallResult<IEnumerable<ICommonKline>>.CreateErrorResult(new ArgumentError(
+                    $"Kraken doesn't support the {nameof(endTime)} parameter for the method {nameof(IExchangeClient.GetKlinesAsync)}"));
+
+            if (limit != null)
+                return WebCallResult<IEnumerable<ICommonKline>>.CreateErrorResult(new ArgumentError(
+                    $"Kraken doesn't support the {nameof(limit)} parameter for the method {nameof(IExchangeClient.GetKlinesAsync)}"));
+
+            var klines = await GetKlinesAsync(symbol, GetKlineIntervalFromTimespan(timespan), since: startTime);
             if (!klines.Success)
                 return WebCallResult<IEnumerable<ICommonKline>>.CreateErrorResult(klines.ResponseStatusCode, klines.ResponseHeaders, klines.Error!);
             return new WebCallResult<IEnumerable<ICommonKline>>(klines.ResponseStatusCode, klines.ResponseHeaders, klines.Data.Data, klines.Error);
@@ -939,6 +954,13 @@ namespace Kraken.Net
 
             return new WebCallResult<ICommonOrderId>(result.ResponseStatusCode, result.ResponseHeaders, 
                 result? new KrakenOrder(){ ReferenceId  = result.Data.Pending.First().ToString() } : null, result.Error);
+        }
+
+        async Task<WebCallResult<IEnumerable<ICommonBalance>>> IExchangeClient.GetBalancesAsync(string? accountId = null)
+        {
+            var result = await GetBalancesAsync();
+            return new WebCallResult<IEnumerable<ICommonBalance>>(result.ResponseStatusCode,
+                result.ResponseHeaders, result.Data?.Select(d => new KrakenBalance() { Asset = d.Key, Balance = d.Value}), result.Error);
         }
 
         #endregion

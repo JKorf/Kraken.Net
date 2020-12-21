@@ -1676,6 +1676,21 @@
             Decimals to display
             </summary>
         </member>
+        <member name="T:Kraken.Net.Objects.KrakenBalance">
+            <summary>
+            Balance info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenBalance.Asset">
+            <summary>
+            Asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenBalance.Balance">
+            <summary>
+            Balance
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.KrakenCancelResult">
             <summary>
             Result of a cancel request
