@@ -20,7 +20,7 @@ namespace Kraken.Net
     public class KrakenSocketClient: SocketClient, IKrakenSocketClient
     {
         #region fields
-        private static readonly KrakenSocketClientOptions defaultOptions = new KrakenSocketClientOptions();
+        private static KrakenSocketClientOptions defaultOptions = new KrakenSocketClientOptions();
         private static KrakenSocketClientOptions DefaultOptions => defaultOptions.Copy<KrakenSocketClientOptions>();
         #endregion
 
@@ -44,6 +44,15 @@ namespace Kraken.Net
         #endregion
 
         #region methods
+        /// <summary>
+        /// Set the default options to be used when creating new socket clients
+        /// </summary>
+        /// <param name="options">The options to use for new clients</param>
+        public static void SetDefaultOptions(KrakenSocketClientOptions options)
+        {
+            defaultOptions = options;
+        }
+
         /// <summary>
         /// Subscribe to ticker updates
         /// </summary>
