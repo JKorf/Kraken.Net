@@ -1294,6 +1294,12 @@
             </summary>
             <param name="options">The options to use for this client</param>
         </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SetDefaultOptions(Kraken.Net.KrakenSocketClientOptions)">
+            <summary>
+            Set the default options to be used when creating new socket clients
+            </summary>
+            <param name="options">The options to use for new clients</param>
+        </member>
         <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToTickerUpdates(System.String,System.Action{Kraken.Net.Objects.Socket.KrakenSocketEvent{Kraken.Net.Objects.KrakenStreamTick}})">
             <summary>
             Subscribe to ticker updates
