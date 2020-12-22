@@ -7,7 +7,7 @@
   <PropertyGroup>
     <PackageId>KrakenExchange.Net</PackageId>
     <Authors>JKorf</Authors>
-    <PackageVersion>1.2.0</PackageVersion>
+    <PackageVersion>1.2.1</PackageVersion>
     <AssemblyVersion>1.2.0</AssemblyVersion>
     <Description>Kraken.Net is a .Net wrapper for the Kraken API. It includes all features the API provides, REST API and Websocket, using clear and readable objects including but not limited to Reading market info, Placing and managing orders and Reading balances and funds</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -17,7 +17,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>1.2.0 - Update CryptoExchange.Net, Updated to latest IExchangeClient</PackageReleaseNotes>
+    <PackageReleaseNotes>1.2.1 - Added missing SetDefaultOptions for socket client, Fixed symbol name check for ETH2.S/ETH</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup>
     <DocumentationFile>Kraken.Net.xml</DocumentationFile>
