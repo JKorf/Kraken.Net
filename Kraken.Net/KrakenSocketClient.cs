@@ -73,6 +73,15 @@ namespace Kraken.Net
             return await Subscribe(new KrakenSubscribeRequest("ticker", NextId(), symbol), null, false, handler).ConfigureAwait(false);
         }
 
+        public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string[] symbols, Action<KrakenSocketEvent<KrakenStreamTick>> handler)
+        {
+            foreach(var symbol in symbols)
+                symbol.ValidateKrakenWebsocketSymbol();
+
+            return await Subscribe(new KrakenSubscribeRequest("ticker", NextId(), symbols), null, false, handler).ConfigureAwait(false);
+        }
+
+
         /// <summary>
         /// Subscribe to kline updates
         /// </summary>
