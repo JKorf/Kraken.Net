@@ -56,6 +56,8 @@ namespace Kraken.Net.Objects
         decimal ICommonKline.CommonLow => Low;
         decimal ICommonKline.CommonOpen => Open;
         decimal ICommonKline.CommonClose => Close;
+        decimal ICommonKline.CommonVolume => Volume;
+        DateTime ICommonKline.CommonOpenTime => Timestamp;
     }
 
     /// <summary>
