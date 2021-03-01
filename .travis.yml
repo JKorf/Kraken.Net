@@ -1,7 +1,7 @@
 language: csharp
 mono: none
 solution: Kraken.Net.sln
-dotnet: 3.0
+dotnet: 5.0
 script:
  - dotnet build Kraken.Net/Kraken.Net.csproj --framework "netstandard2.1"
  - dotnet test Kraken.Net.UnitTests/Kraken.Net.UnitTests.csproj
