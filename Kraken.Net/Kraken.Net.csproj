@@ -39,7 +39,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="icon\icon.png" Pack="true" PackagePath="\" />
+    <None Include="Icon\icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Crc32.NET" Version="1.2.0" />
