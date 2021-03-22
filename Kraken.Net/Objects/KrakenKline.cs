@@ -64,7 +64,7 @@ namespace Kraken.Net.Objects
     /// Kline data from stream
     /// </summary>
     [JsonConverter(typeof(ArrayConverter))]
-    public class KrakenStreamKline
+    public class KrakenStreamKline : ICommonKline
     {
         /// <summary>
         /// Timestamp of the kline
@@ -111,5 +111,12 @@ namespace Kraken.Net.Objects
         /// </summary>
         [ArrayProperty(8)]
         public int TradeCount { get; set; }
+
+        public decimal CommonHigh => High;
+        public decimal CommonLow => Low;
+        public decimal CommonOpen => Open;
+        public decimal CommonClose => Close;
+        public DateTime CommonOpenTime => Timestamp;
+        public decimal CommonVolume => Volume;
     }
 }
