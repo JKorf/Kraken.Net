@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Linq;
+using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects.Socket
 {
@@ -8,7 +9,7 @@ namespace Kraken.Net.Objects.Socket
         public string Event { get; set; } = "subscribe";
         [JsonProperty("reqid")]
         public int RequestId { get; set; }
-        [JsonProperty("pair")]
+        [JsonProperty("pair", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string[] Symbols { get; set; }
         [JsonProperty("subscription")]
         public KrakenSubscriptionDetails Details { get; set; }
@@ -16,13 +17,15 @@ namespace Kraken.Net.Objects.Socket
         [JsonIgnore]
         public int? ChannelId { get; set; }
 
-        public KrakenSubscribeRequest(string topic,  int requestId, params string[] symbols)
+        public KrakenSubscribeRequest(string topic, int requestId, params string[] symbols)
         {
             RequestId = requestId;
-            Symbols = symbols;
             Details = new KrakenSubscriptionDetails(topic);
+            if(symbols.Any())
+                Symbols = symbols;
         }
     }
+
 
     internal class KrakenSubscriptionDetails
     {
@@ -32,6 +35,28 @@ namespace Kraken.Net.Objects.Socket
         public KrakenSubscriptionDetails(string topic)
         {
             Topic = topic;
+        }
+    }
+
+    internal class KrakenOpenOrdersSubscriptionDetails : KrakenSubscriptionDetails
+    {
+        [JsonProperty("token")]
+        public string Token { get; set; }
+
+        public KrakenOpenOrdersSubscriptionDetails(string token) : base("openOrders")
+        {
+            Token = token;
+        }
+    }
+
+    internal class KrakenOwnTradesSubscriptionDetails : KrakenSubscriptionDetails
+    {
+        [JsonProperty("token")]
+        public string Token { get; set; }
+
+        public KrakenOwnTradesSubscriptionDetails(string token) : base("ownTrades")
+        {
+            Token = token;
         }
     }
 

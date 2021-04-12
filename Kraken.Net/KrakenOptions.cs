@@ -45,6 +45,22 @@ namespace Kraken.Net
     /// </summary>
     public class KrakenSocketClientOptions : SocketClientOptions
     {
+        private string _authBaseAddress = "wss://ws-auth.kraken.com/";
+        /// <summary>
+        /// The base address for authenticated subscriptions
+        /// </summary>
+        public string AuthBaseAddress
+        {
+            get => _authBaseAddress;
+            set
+            {
+                var newValue = value;
+                if (!newValue.EndsWith("/"))
+                    newValue += "/";
+                _authBaseAddress = newValue;
+            }
+        }
+
         /// <summary>
         /// ctor
         /// </summary>

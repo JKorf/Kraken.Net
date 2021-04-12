@@ -545,6 +545,28 @@
             <param name="ct">Cancellation token</param>
             <returns>Cancel result</returns>
         </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetWithdrawInfo(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get info before a withdrawal
+            </summary>
+            <param name="asset">The asset</param>
+            <param name="key">The withdrawal key name</param>
+            <param name="amount">The amount to withdraw</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetWithdrawInfoAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get info before a withdrawal
+            </summary>
+            <param name="asset">The asset</param>
+            <param name="key">The withdrawal key name</param>
+            <param name="amount">The amount to withdraw</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenClient.WithdrawFunds(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
             <summary>
             Withdraw funds
@@ -566,6 +588,20 @@
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Withdraw reference id</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetWebsocketToken(System.Threading.CancellationToken)">
+            <summary>
+            Get the token to connect to the private websocket streams
+            </summary>
+            <param name="ct"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetWebsocketTokenAsync(System.Threading.CancellationToken)">
+            <summary>
+            Get the token to connect to the private websocket streams
+            </summary>
+            <param name="ct"></param>
+            <returns></returns>
         </member>
         <member name="T:Kraken.Net.Interfaces.IKrakenSocketClient">
             <summary>
@@ -653,6 +689,38 @@
             </summary>
             <param name="symbol">Symbol to subscribe to</param>
             <param name="depth">Depth of the initial order book snapshot</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToOrderUpdates(System.String,System.Action{System.Collections.Generic.Dictionary{System.String,Kraken.Net.Objects.KrakenOrder}})">
+            <summary>
+            Subscribe to open order updates
+            </summary>
+            <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToOrderUpdatesAsync(System.String,System.Action{System.Collections.Generic.Dictionary{System.String,Kraken.Net.Objects.KrakenOrder}})">
+            <summary>
+            Subscribe to open order updates
+            </summary>
+            <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToOwnTradeUpdates(System.String,System.Action{System.Collections.Generic.Dictionary{System.String,Kraken.Net.Objects.KrakenUserTrade}})">
+            <summary>
+            Subscribe to own trade updates
+            </summary>
+            <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToOwnTradeUpdatesAsync(System.String,System.Action{System.Collections.Generic.Dictionary{System.String,Kraken.Net.Objects.KrakenUserTrade}})">
+            <summary>
+            Subscribe to own trade updates
+            </summary>
+            <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
@@ -1183,6 +1251,28 @@
             <param name="ct">Cancellation token</param>
             <returns>Cancel result</returns>
         </member>
+        <member name="M:Kraken.Net.KrakenClient.GetWithdrawInfo(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get info before a withdrawal
+            </summary>
+            <param name="asset">The asset</param>
+            <param name="key">The withdrawal key name</param>
+            <param name="amount">The amount to withdraw</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetWithdrawInfoAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get info before a withdrawal
+            </summary>
+            <param name="asset">The asset</param>
+            <param name="key">The withdrawal key name</param>
+            <param name="amount">The amount to withdraw</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
         <member name="M:Kraken.Net.KrakenClient.WithdrawFunds(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
             <summary>
             Withdraw funds
@@ -1204,6 +1294,20 @@
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Withdraw reference id</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetWebsocketToken(System.Threading.CancellationToken)">
+            <summary>
+            Get the token to connect to the private websocket streams
+            </summary>
+            <param name="ct"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetWebsocketTokenAsync(System.Threading.CancellationToken)">
+            <summary>
+            Get the token to connect to the private websocket streams
+            </summary>
+            <param name="ct"></param>
+            <returns></returns>
         </member>
         <member name="M:Kraken.Net.KrakenClient.WriteParamBody(CryptoExchange.Net.Interfaces.IRequest,System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
             <inheritdoc />
@@ -1256,6 +1360,11 @@
         <member name="T:Kraken.Net.KrakenSocketClientOptions">
             <summary>
             Options for the Kraken socket client
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.KrakenSocketClientOptions.AuthBaseAddress">
+            <summary>
+            The base address for authenticated subscriptions
             </summary>
         </member>
         <member name="M:Kraken.Net.KrakenSocketClientOptions.#ctor">
@@ -1381,6 +1490,38 @@
             </summary>
             <param name="symbol">Symbol to subscribe to</param>
             <param name="depth">Depth of the initial order book snapshot</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToOrderUpdates(System.String,System.Action{System.Collections.Generic.Dictionary{System.String,Kraken.Net.Objects.KrakenOrder}})">
+            <summary>
+            Subscribe to open order updates
+            </summary>
+            <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToOrderUpdatesAsync(System.String,System.Action{System.Collections.Generic.Dictionary{System.String,Kraken.Net.Objects.KrakenOrder}})">
+            <summary>
+            Subscribe to open order updates
+            </summary>
+            <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToOwnTradeUpdates(System.String,System.Action{System.Collections.Generic.Dictionary{System.String,Kraken.Net.Objects.KrakenUserTrade}})">
+            <summary>
+            Subscribe to own trade updates
+            </summary>
+            <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToOwnTradeUpdatesAsync(System.String,System.Action{System.Collections.Generic.Dictionary{System.String,Kraken.Net.Objects.KrakenUserTrade}})">
+            <summary>
+            Subscribe to own trade updates
+            </summary>
+            <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
@@ -2906,6 +3047,41 @@
         <member name="P:Kraken.Net.Objects.KrakenWithdraw.ReferenceId">
             <summary>
             Reference id
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenWithdrawInfo">
+            <summary>
+            Withdraw info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenWithdrawInfo.Method">
+            <summary>
+            Method that will be used
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenWithdrawInfo.Limit">
+            <summary>
+            Limit to what can be withdrawn right now
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenWithdrawInfo.Fee">
+            <summary>
+            Fee that will be paid
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Socket.KrakenWebSocketToken">
+            <summary>
+            Socket token
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenWebSocketToken.Token">
+            <summary>
+            Token to use for connecting to private websockets
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenWebSocketToken.Expires">
+            <summary>
+            Expires after x seconds
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Socket.KrakenSocketEvent`1">

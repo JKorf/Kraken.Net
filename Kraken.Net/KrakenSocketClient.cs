@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CryptoExchange.Net;
 using CryptoExchange.Net.Logging;
@@ -22,6 +23,8 @@ namespace Kraken.Net
         #region fields
         private static KrakenSocketClientOptions defaultOptions = new KrakenSocketClientOptions();
         private static KrakenSocketClientOptions DefaultOptions => defaultOptions.Copy<KrakenSocketClientOptions>();
+
+        private string _authBaseAddress;
         #endregion
 
         #region ctor
@@ -40,6 +43,7 @@ namespace Kraken.Net
         {
             AddGenericHandler("Connection", (connection, token) => { });
             AddGenericHandler("HeartBeat", (connection, token) => { });
+            _authBaseAddress = options.AuthBaseAddress;
         }
         #endregion
 
@@ -178,6 +182,98 @@ namespace Kraken.Net
 
             return await Subscribe(new KrakenSubscribeRequest("book", NextId(), symbol) { Details = new KrakenDepthSubscriptionDetails(depth)}, null, false, innerHandler).ConfigureAwait(false);
         }
+
+        /// <summary>
+        /// Subscribe to open order updates
+        /// </summary>
+        /// <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+        /// <param name="handler">Data handler</param>
+        /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        public CallResult<UpdateSubscription> SubscribeToOrderUpdates(string socketToken,
+            Action<Dictionary<string, KrakenOrder>> handler)
+            => SubscribeToOrderUpdatesAsync(socketToken, handler).Result;
+
+        /// <summary>
+        /// Subscribe to open order updates
+        /// </summary>
+        /// <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+        /// <param name="handler">Data handler</param>
+        /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        public async Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(string socketToken, Action<Dictionary<string, KrakenOrder>> handler)
+        {
+            var innerHandler = new Action<string>(data =>
+            {
+                var token = data.ToJToken(log);
+                if (token != null && token.Any())
+                {
+                    if (token[0]!.Type == JTokenType.Array)
+                    {
+                        var dataArray = (JArray) token[0]!;
+                        var deserialized = Deserialize<Dictionary<string, KrakenOrder>[]>(dataArray);
+                        if (deserialized)
+                        {
+                            foreach(var entry in deserialized.Data)
+                                handler?.Invoke(entry);
+                            return;
+                        }
+                    }
+                }
+
+                log.Write(LogVerbosity.Warning, "Failed to deserialize stream order");
+            });
+
+            return await Subscribe(_authBaseAddress, new KrakenSubscribeRequest("openOrders", NextId())
+            {
+                Details = new KrakenOpenOrdersSubscriptionDetails(socketToken)
+            }, null, false, innerHandler).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Subscribe to own trade updates
+        /// </summary>
+        /// <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+        /// <param name="handler">Data handler</param>
+        /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        public CallResult<UpdateSubscription> SubscribeToOwnTradeUpdates(string socketToken,
+            Action<Dictionary<string, KrakenUserTrade>> handler)
+            => SubscribeToOwnTradeUpdatesAsync(socketToken, handler).Result;
+
+        /// <summary>
+        /// Subscribe to own trade updates
+        /// </summary>
+        /// <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+        /// <param name="handler">Data handler</param>
+        /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        public async Task<CallResult<UpdateSubscription>> SubscribeToOwnTradeUpdatesAsync(string socketToken, Action<Dictionary<string, KrakenUserTrade>> handler)
+        {
+            var innerHandler = new Action<string>(data =>
+            {
+                var token = data.ToJToken(log);
+                if (token != null && token.Any())
+                {
+                    if (token[0]!.Type == JTokenType.Array)
+                    {
+                        var dataArray = (JArray)token[0]!;
+                        var deserialized = Deserialize<Dictionary<string, KrakenUserTrade>[]>(dataArray);
+                        if (deserialized)
+                        {
+                            var result = new Dictionary<string, KrakenUserTrade>();
+                            foreach (var entry in deserialized.Data)
+                                result.Add(entry.First().Key, entry.First().Value);
+                            handler?.Invoke(result);
+                            return;
+                        }
+                    }
+                }
+
+                log.Write(LogVerbosity.Warning, "Failed to deserialize stream order");
+            });
+
+            return await Subscribe(_authBaseAddress, new KrakenSubscribeRequest("openOrders", NextId())
+            {
+                Details = new KrakenOwnTradesSubscriptionDetails(socketToken)
+            }, null, false, innerHandler).ConfigureAwait(false);
+        }
         #endregion
 
         /// <inheritdoc />
@@ -213,10 +309,19 @@ namespace Kraken.Net
             if (message.Type != JTokenType.Array)
                 return false;
 
-            var kRequest = (KrakenSubscribeRequest) request;
+            var kRequest = (KrakenSubscribeRequest)request;
             var arr = (JArray) message;
+
             if (!int.TryParse(arr[0].ToString(), out var channelId))
+            {
+                if (arr.Count > 1)
+                {
+                    var topic = arr[1].ToString();
+                    if (topic == kRequest.Details.Topic)
+                        return true;
+                }
                 return false;
+            }
 
             return kRequest.ChannelId == channelId;
         }

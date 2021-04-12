@@ -67,7 +67,7 @@ namespace Kraken.Net
             byte[] nonceParamsBytes;
             using (var sha = SHA256.Create())
                 nonceParamsBytes = sha.ComputeHash(Encoding.UTF8.GetBytes(np));
-            var pathBytes = Encoding.UTF8.GetBytes(uri.Split(new[] { ".com" }, StringSplitOptions.None)[1]);
+            var pathBytes = Encoding.UTF8.GetBytes(uri.Split(new[] { ".com" }, StringSplitOptions.None)[1].Split('?')[0]);
             var allBytes = pathBytes.Concat(nonceParamsBytes).ToArray();
             var sign = encryptor.ComputeHash(allBytes);
 

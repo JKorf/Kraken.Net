@@ -15,6 +15,7 @@ using CryptoExchange.Net.Objects;
 using Kraken.Net.Converters;
 using Kraken.Net.Interfaces;
 using Kraken.Net.Objects;
+using Kraken.Net.Objects.Socket;
 using Newtonsoft.Json;
 
 namespace Kraken.Net
@@ -815,6 +816,43 @@ namespace Kraken.Net
         }
 
         /// <summary>
+        /// Get info before a withdrawal
+        /// </summary>
+        /// <param name="asset">The asset</param>
+        /// <param name="key">The withdrawal key name</param>
+        /// <param name="amount">The amount to withdraw</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns></returns>
+        public WebCallResult<KrakenWithdrawInfo> GetWithdrawInfo(string asset, string key, decimal amount, string? twoFactorPassword = null, CancellationToken ct = default) =>
+            GetWithdrawInfoAsync(asset, key, amount, twoFactorPassword, ct).Result;
+
+        /// <summary>
+        /// Get info before a withdrawal
+        /// </summary>
+        /// <param name="asset">The asset</param>
+        /// <param name="key">The withdrawal key name</param>
+        /// <param name="amount">The amount to withdraw</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns></returns>
+        public async Task<WebCallResult<KrakenWithdrawInfo>> GetWithdrawInfoAsync(string asset, string key, decimal amount, string? twoFactorPassword = null, CancellationToken ct = default)
+        {
+            asset.ValidateNotNull(nameof(asset));
+            key.ValidateNotNull(nameof(key));
+
+            var parameters = new Dictionary<string, object>
+            {
+                { "asset", asset },
+                { "key", key },
+                { "amount", amount.ToString(CultureInfo.InvariantCulture) },
+            };
+
+            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
+            return await Execute<KrakenWithdrawInfo>(GetUri("0/private/WithdrawInfo"), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Withdraw funds
         /// </summary>
         /// <param name="asset">The asset being withdrawn</param>
@@ -852,8 +890,29 @@ namespace Kraken.Net
 
         #endregion
 
+        #region Get websocket token
+
+        /// <summary>
+        /// Get the token to connect to the private websocket streams
+        /// </summary>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        public WebCallResult<KrakenWebSocketToken> GetWebsocketToken(CancellationToken ct = default) =>
+            GetWebsocketTokenAsync(ct).Result;
+
+        /// <summary>
+        /// Get the token to connect to the private websocket streams
+        /// </summary>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        public async Task<WebCallResult<KrakenWebSocketToken>> GetWebsocketTokenAsync(CancellationToken ct = default)
+        {
+            return await Execute<KrakenWebSocketToken>(GetUri("0/private/GetWebSocketsToken"), HttpMethod.Post, ct, null, true).ConfigureAwait(false);
+        }
+        #endregion
+
         #region common interface
-        
+
         async Task<WebCallResult<IEnumerable<ICommonSymbol>>> IExchangeClient.GetSymbolsAsync()
         {
             var exchangeInfo = await GetSymbolsAsync();

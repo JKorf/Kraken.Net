@@ -6,6 +6,7 @@ using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
 using Kraken.Net.Converters;
 using Kraken.Net.Objects;
+using Kraken.Net.Objects.Socket;
 
 namespace Kraken.Net.Interfaces
 {
@@ -546,6 +547,30 @@ namespace Kraken.Net.Interfaces
         Task<WebCallResult<KrakenCancelResult>> CancelOrderAsync(string orderId, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
+        /// Get info before a withdrawal
+        /// </summary>
+        /// <param name="asset">The asset</param>
+        /// <param name="key">The withdrawal key name</param>
+        /// <param name="amount">The amount to withdraw</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns></returns>
+        WebCallResult<KrakenWithdrawInfo> GetWithdrawInfo(string asset, string key, decimal amount,
+            string? twoFactorPassword = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get info before a withdrawal
+        /// </summary>
+        /// <param name="asset">The asset</param>
+        /// <param name="key">The withdrawal key name</param>
+        /// <param name="amount">The amount to withdraw</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns></returns>
+        Task<WebCallResult<KrakenWithdrawInfo>> GetWithdrawInfoAsync(string asset, string key, decimal amount,
+            string? twoFactorPassword = null, CancellationToken ct = default);
+
+        /// <summary>
         /// Withdraw funds
         /// </summary>
         /// <param name="asset">The asset being withdrawn</param>
@@ -566,5 +591,19 @@ namespace Kraken.Net.Interfaces
         /// <param name="ct">Cancellation token</param>
         /// <returns>Withdraw reference id</returns>
         Task<WebCallResult<KrakenWithdraw>> WithdrawFundsAsync(string asset, string key, decimal amount, string? twoFactorPassword = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get the token to connect to the private websocket streams
+        /// </summary>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        WebCallResult<KrakenWebSocketToken> GetWebsocketToken(CancellationToken ct = default);
+
+        /// <summary>
+        /// Get the token to connect to the private websocket streams
+        /// </summary>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<WebCallResult<KrakenWebSocketToken>> GetWebsocketTokenAsync(CancellationToken ct = default);
     }
 }
