@@ -101,7 +101,7 @@ namespace Kraken.Net.Objects
         [JsonProperty("ordermin")]
         public decimal OrderMin { get; set; }
 
-        string ICommonSymbol.CommonName => QuoteAsset + BaseAsset;
+        string ICommonSymbol.CommonName => BaseAsset + QuoteAsset;
         decimal ICommonSymbol.CommonMinimumTradeSize => OrderMin;
     }
 }

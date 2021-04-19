@@ -115,6 +115,10 @@ After installing it's time to actually use it. To get started you have to add th
 Kraken.Net provides two clients to interact with the Kraken API. The `KrakenClient` provides all rest API calls. The  `KrakenSocketClient`  provides functions to interact with the websocket provided by the Kraken API. Both clients are disposable and as such can be used in a `using` statement.
 
 ## Release notes
+* Version 1.4.1 - 19 apr 2021
+	* Fixed ICommonSymbol.CommonName implementation on KrakenSymbol
+    * Updated CryptoExchange.Net
+
 * Version 1.4.0 - 12 apr 2021
     * Added GetWithdrawInfo endpoint
     * Added authenticated SubscribeToOrderUpdates and SubscribeToOwnTradeUpdates subscriptions on socket client
