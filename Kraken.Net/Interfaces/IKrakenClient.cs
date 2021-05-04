@@ -175,6 +175,22 @@ namespace Kraken.Net.Interfaces
         Task<WebCallResult<Dictionary<string, decimal>>> GetBalancesAsync(string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
+        /// Get balances including amount in holding
+        /// </summary>
+        /// <param name="ct">Cancellation token</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <returns>Dictionary with balances for assets</returns>
+        WebCallResult<Dictionary<string, KrakenBalanceAvailable>> GetAvailableBalances(string? twoFactorPassword = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get balances including amount in holding
+        /// </summary>
+        /// <param name="ct">Cancellation token</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <returns>Dictionary with balances for assets</returns>
+        Task<WebCallResult<Dictionary<string, KrakenBalanceAvailable>>> GetAvailableBalancesAsync(string? twoFactorPassword = null, CancellationToken ct = default);
+
+        /// <summary>
         /// Get trade balance
         /// </summary>
         /// <param name="baseAsset">Base asset to get trade balance for</param>

@@ -299,6 +299,26 @@ namespace Kraken.Net
         }
 
         /// <summary>
+        /// Get balances including amount in holding
+        /// </summary>
+        /// <param name="ct">Cancellation token</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <returns>Dictionary with balances for assets</returns>
+        public WebCallResult<Dictionary<string, KrakenBalanceAvailable>> GetAvailableBalances(string? twoFactorPassword = null, CancellationToken ct = default) => GetAvailableBalancesAsync(twoFactorPassword, ct).Result;
+        /// <summary>
+        /// Get balances including amount in holding
+        /// </summary>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Dictionary with balances for assets</returns>
+        public async Task<WebCallResult<Dictionary<string, KrakenBalanceAvailable>>> GetAvailableBalancesAsync(string? twoFactorPassword = null, CancellationToken ct = default)
+        {
+            var parameters = new Dictionary<string, object>();
+            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
+            return await Execute<Dictionary<string, KrakenBalanceAvailable>>(GetUri("0/private/BalanceEx"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Get trade balance
         /// </summary>
         /// <param name="baseAsset">Base asset to get trade balance for</param>

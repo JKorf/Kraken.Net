@@ -905,6 +905,22 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with balances for assets</returns>
         </member>
+        <member name="M:Kraken.Net.KrakenClient.GetAvailableBalances(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get balances including amount in holding
+            </summary>
+            <param name="ct">Cancellation token</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <returns>Dictionary with balances for assets</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetAvailableBalancesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get balances including amount in holding
+            </summary>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Dictionary with balances for assets</returns>
+        </member>
         <member name="M:Kraken.Net.KrakenClient.GetTradeBalance(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade balance
@@ -1836,6 +1852,31 @@
         <member name="P:Kraken.Net.Objects.KrakenBalance.Balance">
             <summary>
             Balance
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenBalanceAvailable">
+            <summary>
+            Balance info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenBalanceAvailable.Asset">
+            <summary>
+            Asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenBalanceAvailable.Balance">
+            <summary>
+            Balance
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenBalanceAvailable.Locked">
+            <summary>
+            The amount currently locked into a trade
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenBalanceAvailable.Available">
+            <summary>
+            The amount available
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.KrakenCancelResult">
