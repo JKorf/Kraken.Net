@@ -199,6 +199,22 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with balances for assets</returns>
         </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetAvailableBalances(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get balances including amount in holding
+            </summary>
+            <param name="ct">Cancellation token</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <returns>Dictionary with balances for assets</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetAvailableBalancesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get balances including amount in holding
+            </summary>
+            <param name="ct">Cancellation token</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <returns>Dictionary with balances for assets</returns>
+        </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeBalance(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade balance
