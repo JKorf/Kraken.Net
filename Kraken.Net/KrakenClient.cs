@@ -915,25 +915,25 @@ namespace Kraken.Net
 
         async Task<WebCallResult<IEnumerable<ICommonSymbol>>> IExchangeClient.GetSymbolsAsync()
         {
-            var exchangeInfo = await GetSymbolsAsync();
+            var exchangeInfo = await GetSymbolsAsync().ConfigureAwait(false);
             return new WebCallResult<IEnumerable<ICommonSymbol>>(exchangeInfo.ResponseStatusCode,
                 exchangeInfo.ResponseHeaders, exchangeInfo.Data?.Select(d => d.Value), exchangeInfo.Error);
         }
 
         async Task<WebCallResult<ICommonTicker>> IExchangeClient.GetTickerAsync(string symbol)
         {
-            var ticker = await GetTickersAsync(default, symbol);
+            var ticker = await GetTickersAsync(default, symbol).ConfigureAwait(false);
             return new WebCallResult<ICommonTicker>(ticker.ResponseStatusCode,
                 ticker.ResponseHeaders, ticker.Data?.Select(d => d.Value).FirstOrDefault(), ticker.Error);
         }
 
         async Task<WebCallResult<IEnumerable<ICommonTicker>>> IExchangeClient.GetTickersAsync()
         {
-            var assets = await GetSymbolsAsync();
+            var assets = await GetSymbolsAsync().ConfigureAwait(false);
             if(!assets)
                 return new WebCallResult<IEnumerable<ICommonTicker>>(assets.ResponseStatusCode, assets.ResponseHeaders, null, assets.Error);
 
-            var ticker = await GetTickersAsync(default, assets.Data.Select(d => d.Key).ToArray());
+            var ticker = await GetTickersAsync(default, assets.Data.Select(d => d.Key).ToArray()).ConfigureAwait(false);
             return new WebCallResult<IEnumerable<ICommonTicker>>(ticker.ResponseStatusCode,
                 ticker.ResponseHeaders, ticker.Data?.Select(d => d.Value), ticker.Error);
         }
@@ -948,7 +948,7 @@ namespace Kraken.Net
                 return WebCallResult<IEnumerable<ICommonKline>>.CreateErrorResult(new ArgumentError(
                     $"Kraken doesn't support the {nameof(limit)} parameter for the method {nameof(IExchangeClient.GetKlinesAsync)}"));
 
-            var klines = await GetKlinesAsync(symbol, GetKlineIntervalFromTimespan(timespan), since: startTime);
+            var klines = await GetKlinesAsync(symbol, GetKlineIntervalFromTimespan(timespan), since: startTime).ConfigureAwait(false);
             if (!klines.Success)
                 return WebCallResult<IEnumerable<ICommonKline>>.CreateErrorResult(klines.ResponseStatusCode, klines.ResponseHeaders, klines.Error!);
             return new WebCallResult<IEnumerable<ICommonKline>>(klines.ResponseStatusCode, klines.ResponseHeaders, klines.Data.Data, klines.Error);
@@ -956,13 +956,13 @@ namespace Kraken.Net
         
         async Task<WebCallResult<ICommonOrderBook>> IExchangeClient.GetOrderBookAsync(string symbol)
         {
-            var book = await GetOrderBookAsync(symbol);
+            var book = await GetOrderBookAsync(symbol).ConfigureAwait(false);
             return WebCallResult<ICommonOrderBook>.CreateFrom(book);
         }
 
         async Task<WebCallResult<IEnumerable<ICommonRecentTrade>>> IExchangeClient.GetRecentTradesAsync(string symbol)
         {
-            var tradesResult = await GetRecentTradesAsync(symbol, null);
+            var tradesResult = await GetRecentTradesAsync(symbol, null).ConfigureAwait(false);
             if (!tradesResult.Success)
                 return WebCallResult<IEnumerable<ICommonRecentTrade>>.CreateErrorResult(tradesResult.ResponseStatusCode, tradesResult.ResponseHeaders, tradesResult.Error!);
 
@@ -972,20 +972,20 @@ namespace Kraken.Net
 
         async Task<WebCallResult<ICommonOrderId>> IExchangeClient.PlaceOrderAsync(string symbol, IExchangeClient.OrderSide side, IExchangeClient.OrderType type, decimal quantity, decimal? price = null, string? accountId = null)
         {
-            var result = await PlaceOrderAsync(symbol, GetOrderSide(side), GetOrderType(type), quantity, price: price);
+            var result = await PlaceOrderAsync(symbol, GetOrderSide(side), GetOrderType(type), quantity, price: price).ConfigureAwait(false);
             return WebCallResult<ICommonOrderId>.CreateFrom(result);
         }
 
         async Task<WebCallResult<ICommonOrder>> IExchangeClient.GetOrderAsync(string orderId, string? symbol)
         {
-            var result = await GetOrdersAsync(orderIds: orderId);
+            var result = await GetOrdersAsync(orderIds: orderId).ConfigureAwait(false);
             return new WebCallResult<ICommonOrder> (result.ResponseStatusCode,
                 result.ResponseHeaders, result.Data?.FirstOrDefault().Value, result.Error);
         }
 
         async Task<WebCallResult<IEnumerable<ICommonTrade>>> IExchangeClient.GetTradesAsync(string orderId, string? symbol = null)
         {
-            var result = await GetTradeHistoryAsync();
+            var result = await GetTradeHistoryAsync().ConfigureAwait(false);
             return new WebCallResult<IEnumerable<ICommonTrade>>(result.ResponseStatusCode,
                 result.ResponseHeaders, 
                 result.Data?.Trades.Where(t => t.Value.OrderId == orderId).Select(o => (ICommonTrade)o.Value), result.Error);
@@ -993,21 +993,21 @@ namespace Kraken.Net
 
         async Task<WebCallResult<IEnumerable<ICommonOrder>>> IExchangeClient.GetOpenOrdersAsync(string? symbol)
         {
-            var result = await GetOpenOrdersAsync();
+            var result = await GetOpenOrdersAsync().ConfigureAwait(false);
             return new WebCallResult<IEnumerable<ICommonOrder>>(result.ResponseStatusCode,
                 result.ResponseHeaders, result.Data?.Open.Select(d => d.Value), result.Error);
         }
 
         async Task<WebCallResult<IEnumerable<ICommonOrder>>> IExchangeClient.GetClosedOrdersAsync(string? symbol)
         {
-            var result = await GetClosedOrdersAsync();
+            var result = await GetClosedOrdersAsync().ConfigureAwait(false);
             return new WebCallResult<IEnumerable<ICommonOrder>>(result.ResponseStatusCode,
                 result.ResponseHeaders, result.Data?.Closed.Select(d => d.Value), result.Error);
         }
 
         async Task<WebCallResult<ICommonOrderId>> IExchangeClient.CancelOrderAsync(string orderId, string? symbol)
         {
-            var result = await CancelOrderAsync(orderId);
+            var result = await CancelOrderAsync(orderId).ConfigureAwait(false);
             if(result.Data?.Pending.Any() != true)
                 return WebCallResult<ICommonOrderId>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error ?? new ServerError("No orders cancelled"));
 
@@ -1017,7 +1017,7 @@ namespace Kraken.Net
 
         async Task<WebCallResult<IEnumerable<ICommonBalance>>> IExchangeClient.GetBalancesAsync(string? accountId = null)
         {
-            var result = await GetBalancesAsync();
+            var result = await GetBalancesAsync().ConfigureAwait(false);
             return new WebCallResult<IEnumerable<ICommonBalance>>(result.ResponseStatusCode,
                 result.ResponseHeaders, result.Data?.Select(d => new KrakenBalance() { Asset = d.Key, Balance = d.Value}), result.Error);
         }

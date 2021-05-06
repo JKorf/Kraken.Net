@@ -24,7 +24,7 @@ namespace Kraken.Net
         private static KrakenSocketClientOptions defaultOptions = new KrakenSocketClientOptions();
         private static KrakenSocketClientOptions DefaultOptions => defaultOptions.Copy<KrakenSocketClientOptions>();
 
-        private string _authBaseAddress;
+        private readonly string _authBaseAddress;
         #endregion
 
         #region ctor
