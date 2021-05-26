@@ -11,6 +11,7 @@ using Force.Crc32;
 using Kraken.Net.Interfaces;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Socket;
+using Microsoft.Extensions.Logging;
 
 namespace Kraken.Net
 {
@@ -54,7 +55,7 @@ namespace Kraken.Net
             initialSnapshotDone = false;
         }
 
-        private void ProcessUpdate(KrakenSocketEvent<KrakenStreamOrderBook> data)
+        private void ProcessUpdate(DataEvent<KrakenStreamOrderBook> data)
         {
             if (!initialSnapshotDone)
             {
@@ -91,7 +92,7 @@ namespace Kraken.Net
 
             if (ourChecksumUtf != checksum)
             {
-                log.Write(CryptoExchange.Net.Logging.LogVerbosity.Warning, $"Invalid checksum. Received from server: {checksum}, calculated local: {ourChecksumUtf}");
+                log.Write(LogLevel.Warning, $"Invalid checksum. Received from server: {checksum}, calculated local: {ourChecksumUtf}");
                 return false;
             }
 

@@ -14,6 +14,7 @@ using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Logging;
 using Kraken.Net.Interfaces;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Newtonsoft.Json;
 
@@ -104,7 +105,7 @@ namespace Kraken.Net.UnitTests.TestImplementations
         public static KrakenSocketClient CreateSocketClient(IWebsocket socket, KrakenSocketClientOptions options = null)
         {
             KrakenSocketClient client;
-            client = options != null ? new KrakenSocketClient(options) : new KrakenSocketClient(new KrakenSocketClientOptions() { LogVerbosity = LogVerbosity.Debug, ApiCredentials = new ApiCredentials("Test", "Test") });
+            client = options != null ? new KrakenSocketClient(options) : new KrakenSocketClient(new KrakenSocketClientOptions() { LogLevel = LogLevel.Debug, ApiCredentials = new ApiCredentials("Test", "Test") });
             client.SocketFactory = Mock.Of<IWebsocketFactory>();
             Mock.Get(client.SocketFactory).Setup(f => f.CreateWebsocket(It.IsAny<Log>(), It.IsAny<string>())).Returns(socket);
             return client;
@@ -113,7 +114,7 @@ namespace Kraken.Net.UnitTests.TestImplementations
         public static KrakenSocketClient CreateAuthenticatedSocketClient(IWebsocket socket, KrakenSocketClientOptions options = null)
         {
             KrakenSocketClient client;
-            client = options != null ? new KrakenSocketClient(options) : new KrakenSocketClient(new KrakenSocketClientOptions(){ LogVerbosity = LogVerbosity.Debug, ApiCredentials = new ApiCredentials("Test", "Test")});
+            client = options != null ? new KrakenSocketClient(options) : new KrakenSocketClient(new KrakenSocketClientOptions(){ LogLevel = LogLevel.Debug, ApiCredentials = new ApiCredentials("Test", "Test")});
             client.SocketFactory = Mock.Of<IWebsocketFactory>();
             Mock.Get(client.SocketFactory).Setup(f => f.CreateWebsocket(It.IsAny<Log>(), It.IsAny<string>())).Returns(socket);
             return client;
@@ -122,7 +123,7 @@ namespace Kraken.Net.UnitTests.TestImplementations
         public static IKrakenClient CreateClient(KrakenClientOptions options = null)
         {
             IKrakenClient client;
-            client = options != null ? new KrakenClient(options) : new KrakenClient(new KrakenClientOptions(){LogVerbosity = LogVerbosity.Debug});
+            client = options != null ? new KrakenClient(options) : new KrakenClient(new KrakenClientOptions(){LogLevel = LogLevel.Debug});
             client.RequestFactory = Mock.Of<IRequestFactory>();
             return client;
         }

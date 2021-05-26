@@ -14,6 +14,11 @@ namespace Kraken.Net.Objects
     public class KrakenOrder: ICommonOrder
     {
         /// <summary>
+        /// The id of the order
+        /// </summary>
+        [JsonIgnore]
+        public string OrderId { get; set; }
+        /// <summary>
         /// Reference id
         /// </summary>
         [JsonProperty("refid")]
