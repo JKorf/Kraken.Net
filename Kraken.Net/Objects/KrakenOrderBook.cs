@@ -78,7 +78,7 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Checksum
         /// </summary>
-        public uint Checksum { get; set; }
+        public uint? Checksum { get; set; }
 
         /// <summary>
         /// ctor
