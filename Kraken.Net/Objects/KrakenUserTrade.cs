@@ -116,5 +116,6 @@ namespace Kraken.Net.Objects
         decimal ICommonTrade.CommonQuantity => Quantity;
         decimal ICommonTrade.CommonFee => Fee;
         string? ICommonTrade.CommonFeeAsset => null;
+        DateTime ICommonTrade.CommonTradeTime => Timestamp;
     }
 }

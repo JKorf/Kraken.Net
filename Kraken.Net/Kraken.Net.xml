@@ -393,6 +393,16 @@
             Client for the Kraken Rest API
             </summary>
         </member>
+        <member name="E:Kraken.Net.KrakenClient.OnOrderPlaced">
+            <summary>
+            Event triggered when an order is placed via this client
+            </summary>
+        </member>
+        <member name="E:Kraken.Net.KrakenClient.OnOrderCanceled">
+            <summary>
+            Event triggered when an order is cancelled via this client
+            </summary>
+        </member>
         <member name="M:Kraken.Net.KrakenClient.#ctor">
             <summary>
             Create a new instance of KrakenClient using the default options

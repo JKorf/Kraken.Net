@@ -32,6 +32,15 @@ namespace Kraken.Net
         private readonly string? _otp;
         #endregion
 
+        /// <summary>
+        /// Event triggered when an order is placed via this client
+        /// </summary>
+        public event Action<ICommonOrderId> OnOrderPlaced;
+        /// <summary>
+        /// Event triggered when an order is cancelled via this client
+        /// </summary>
+        public event Action<ICommonOrderId> OnOrderCanceled;
+
         #region ctor
         /// <summary>
         /// Create a new instance of KrakenClient using the default options
@@ -550,7 +559,10 @@ namespace Kraken.Net
             parameters.AddOptionalParameter("expiretm", expireTime.HasValue ? JsonConvert.SerializeObject(expireTime.Value, new TimestampSecondsConverter()) : null);
             if (validateOnly == true)
                 parameters.AddOptionalParameter("validate", true);
-            return await Execute<KrakenPlacedOrder>(GetUri("0/private/AddOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            var result = await Execute<KrakenPlacedOrder>(GetUri("0/private/AddOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (result)
+                OnOrderPlaced?.Invoke(result.Data);
+            return result;
         }
 
         /// <summary>
@@ -568,7 +580,10 @@ namespace Kraken.Net
                 {"txid", orderId}
             };
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
-            return await Execute<KrakenCancelResult>(GetUri("0/private/CancelOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            var result = await Execute<KrakenCancelResult>(GetUri("0/private/CancelOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (result)
+                OnOrderCanceled?.Invoke(new KrakenOrder { OrderId = orderId });
+            return result;
         }
 
         /// <summary>

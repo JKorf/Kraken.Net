@@ -114,8 +114,11 @@ namespace Kraken.Net.Objects
         string ICommonOrder.CommonSymbol => OrderDetails.Symbol;
         decimal ICommonOrder.CommonPrice => OrderDetails.Price;
         decimal ICommonOrder.CommonQuantity => Quantity;
-        string ICommonOrder.CommonStatus => Status.ToString();
+        IExchangeClient.OrderStatus ICommonOrder.CommonStatus => Status == OrderStatus.Canceled || Status == OrderStatus.Expired ? IExchangeClient.OrderStatus.Canceled:
+            Status == OrderStatus.Pending || Status == OrderStatus.Open ? IExchangeClient.OrderStatus.Active:
+            IExchangeClient.OrderStatus.Filled;
         bool ICommonOrder.IsActive => Status == OrderStatus.Open;
+        DateTime ICommonOrder.CommonOrderTime => StartTime;
 
         IExchangeClient.OrderSide ICommonOrder.CommonSide => OrderDetails.Side == OrderSide.Sell
             ? IExchangeClient.OrderSide.Sell
