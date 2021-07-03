@@ -271,7 +271,8 @@ namespace Kraken.Net
                 return false;
             
             var response = message.ToObject<KrakenSubscriptionEvent>();
-            kRequest.ChannelId = response.ChannelId;
+            if(response.ChannelId != 0)
+                kRequest.ChannelId = response.ChannelId;
             callResult = new CallResult<object>(response, response.Status == "subscribed" ? null: new ServerError(response.ErrorMessage ?? "-"));
             return true;
         }
@@ -323,13 +324,33 @@ namespace Kraken.Net
         /// <inheritdoc />
         protected override async Task<bool> Unsubscribe(SocketConnection connection, SocketSubscription subscription)
         {
-            var channelId = ((KrakenSubscribeRequest)subscription.Request!).ChannelId;
-            if (!channelId.HasValue)
-                return true; // No channel id assigned, nothing to unsub
-
-            var unsub = new KrakenUnsubscribeRequest(NextId(), channelId.Value);
+            var kRequest = ((KrakenSubscribeRequest)subscription.Request!);
+            KrakenUnsubscribeRequest unsubRequest;
+            if (!kRequest.ChannelId.HasValue)
+            {
+                if(kRequest.Details?.Topic == "ownTrades")
+                {
+                    unsubRequest = new KrakenUnsubscribeRequest(NextId(), new KrakenUnsubscribeSubscription
+                    {
+                        Name = "ownTrades",
+                        Token = ((KrakenOwnTradesSubscriptionDetails)kRequest.Details).Token
+                    });
+                }
+                else if (kRequest.Details?.Topic == "openOrders")
+                {
+                    unsubRequest = new KrakenUnsubscribeRequest(NextId(), new KrakenUnsubscribeSubscription
+                    {
+                        Name = "openOrders",
+                        Token = ((KrakenOpenOrdersSubscriptionDetails)kRequest.Details).Token
+                    });
+                }
+                else
+                    return true; // No channel id assigned, nothing to unsub
+            }
+            else
+                unsubRequest = new KrakenUnsubscribeRequest(NextId(), kRequest.ChannelId.Value);
             var result = false;
-            await connection.SendAndWait(unsub, ResponseTimeout, data =>
+            await connection.SendAndWait(unsubRequest, ResponseTimeout, data =>
             {
                 if (data.Type != JTokenType.Object)
                     return false;
@@ -338,7 +359,7 @@ namespace Kraken.Net
                     return false;
 
                 var requestId = (int)data["reqid"];
-                if (requestId != unsub.RequestId)
+                if (requestId != unsubRequest.RequestId)
                     return false;
 
                 var response = data.ToObject<KrakenSubscriptionEvent>();
