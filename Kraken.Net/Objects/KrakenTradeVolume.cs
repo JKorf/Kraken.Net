@@ -20,12 +20,13 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Fees structure
         /// </summary>
-        public IEnumerable<KrakenFeeStruct> Fees { get; set; } = new List<KrakenFeeStruct>();
+        public Dictionary<string, KrakenFeeStruct> Fees { get; set; } = new Dictionary<string, KrakenFeeStruct>();
+
         /// <summary>
         /// Maker fees structure
         /// </summary>
         [JsonProperty("fees_maker")]
-        public IEnumerable<KrakenFeeStruct> MakerFees { get; set; } = new List<KrakenFeeStruct>();
+        public Dictionary<string, KrakenFeeStruct> MakerFees { get; set; } = new Dictionary<string, KrakenFeeStruct>();
     }
 
     /// <summary>
