@@ -51,11 +51,11 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Next fee
         /// </summary>
-        public decimal NextFee { get; set; }
+        public decimal? NextFee { get; set; }
         /// <summary>
         /// Next volume
         /// </summary>
-        public decimal NextVolume { get; set; }
+        public decimal? NextVolume { get; set; }
         /// <summary>
         /// Tier volume
         /// </summary>
