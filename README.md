@@ -89,6 +89,11 @@ For the basic client options see also the CryptoExchange.Net [docs](https://gith
 |`AuthBaseAddress`|The base address for authenticated subscriptions|`wss://ws-auth.kraken.com/`
 
 ## Release notes
+* Version 2.0.0-beta1 - 09 Jul 2021
+    * Fixed unsubscribing user streams
+    * Added Async postfix for async methods
+    * Updated CryptoExchange.Net
+
 * Version 1.4.3 - 04 mei 2021
     * Added GetAvailableBalances endpoint
 
