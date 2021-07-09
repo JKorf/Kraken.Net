@@ -37,7 +37,7 @@ namespace Kraken.Net
         }
 
         /// <inheritdoc />
-        protected override async Task<CallResult<UpdateSubscription>> DoStart()
+        protected override async Task<CallResult<UpdateSubscription>> DoStartAsync()
         {
             var result = await socketClient.SubscribeToDepthUpdatesAsync(Symbol, Levels!.Value, ProcessUpdate).ConfigureAwait(false);
             if (!result)
@@ -45,7 +45,7 @@ namespace Kraken.Net
 
             Status = OrderBookStatus.Syncing;
 
-            var setResult = await WaitForSetOrderBook(10000).ConfigureAwait(false);
+            var setResult = await WaitForSetOrderBookAsync(10000).ConfigureAwait(false);
             return setResult ? result : new CallResult<UpdateSubscription>(null, setResult.Error);
         }
 
@@ -105,9 +105,9 @@ namespace Kraken.Net
         }
 
         /// <inheritdoc />
-        protected override async Task<CallResult<bool>> DoResync()
+        protected override async Task<CallResult<bool>> DoResyncAsync()
         {
-            return await WaitForSetOrderBook(10000).ConfigureAwait(false);
+            return await WaitForSetOrderBookAsync(10000).ConfigureAwait(false);
         }
 
         /// <summary>

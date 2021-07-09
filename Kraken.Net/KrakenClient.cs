@@ -766,7 +766,7 @@ namespace Kraken.Net
 
         private async Task<WebCallResult<T>> Execute<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false)
         {
-            var result = await SendRequest<KrakenResult<T>>(url, method, ct, parameters, signed).ConfigureAwait(false);
+            var result = await SendRequestAsync<KrakenResult<T>>(url, method, ct, parameters, signed).ConfigureAwait(false);
             if (!result)
                 return new WebCallResult<T>(result.ResponseStatusCode, result.ResponseHeaders, default, result.Error);
 

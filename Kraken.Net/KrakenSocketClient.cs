@@ -71,7 +71,7 @@ namespace Kraken.Net
             {
                 handler(data.As(data.Data.Data, data.Data.Symbol));
             });
-            return await Subscribe(new KrakenSubscribeRequest("ticker", NextId(), symbol), null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("ticker", NextId(), symbol), null, false, internalHandler).ConfigureAwait(false);
         }
 
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string[] symbols, Action<DataEvent<KrakenStreamTick>> handler)
@@ -84,7 +84,7 @@ namespace Kraken.Net
                 handler(data.As(data.Data.Data, data.Data.Symbol));
             });
 
-            return await Subscribe(new KrakenSubscribeRequest("ticker", NextId(), symbols), null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("ticker", NextId(), symbols), null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Kraken.Net
                 handler(data.As(data.Data.Data, data.Data.Symbol));
             });
 
-            return await Subscribe(new KrakenSubscribeRequest("ohlc", NextId(), symbol) { Details = new KrakenOHLCSubscriptionDetails(intervalMinutes) }, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("ohlc", NextId(), symbol) { Details = new KrakenOHLCSubscriptionDetails(intervalMinutes) }, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Kraken.Net
             {
                 handler(data.As(data.Data.Data, data.Data.Symbol));
             });
-            return await Subscribe(new KrakenSubscribeRequest("trade", NextId(), symbol), null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("trade", NextId(), symbol), null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Kraken.Net
             {
                 handler(data.As(data.Data.Data, data.Data.Symbol));
             });
-            return await Subscribe(new KrakenSubscribeRequest("spread", NextId(), symbol), null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("spread", NextId(), symbol), null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Kraken.Net
                 handler(data.As(evnt.Data, evnt.Symbol));
             });
 
-            return await Subscribe(new KrakenSubscribeRequest("book", NextId(), symbol) { Details = new KrakenDepthSubscriptionDetails(depth)}, null, false, innerHandler).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("book", NextId(), symbol) { Details = new KrakenDepthSubscriptionDetails(depth)}, null, false, innerHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace Kraken.Net
                 log.Write(LogLevel.Warning, "Failed to deserialize stream order");
             });
 
-            return await Subscribe(_authBaseAddress, new KrakenSubscribeRequest("openOrders", NextId())
+            return await SubscribeAsync(_authBaseAddress, new KrakenSubscribeRequest("openOrders", NextId())
             {
                 Details = new KrakenOpenOrdersSubscriptionDetails(socketToken)
             }, null, false, innerHandler).ConfigureAwait(false);
@@ -242,7 +242,7 @@ namespace Kraken.Net
                 log.Write(LogLevel.Warning, "Failed to deserialize stream order");
             });
 
-            return await Subscribe(_authBaseAddress, new KrakenSubscribeRequest("openOrders", NextId())
+            return await SubscribeAsync(_authBaseAddress, new KrakenSubscribeRequest("openOrders", NextId())
             {
                 Details = new KrakenOwnTradesSubscriptionDetails(socketToken)
             }, null, false, innerHandler).ConfigureAwait(false);
@@ -316,13 +316,13 @@ namespace Kraken.Net
         }
 
         /// <inheritdoc />
-        protected override Task<CallResult<bool>> AuthenticateSocket(SocketConnection s)
+        protected override Task<CallResult<bool>> AuthenticateSocketAsync(SocketConnection s)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        protected override async Task<bool> Unsubscribe(SocketConnection connection, SocketSubscription subscription)
+        protected override async Task<bool> UnsubscribeAsync(SocketConnection connection, SocketSubscription subscription)
         {
             var kRequest = ((KrakenSubscribeRequest)subscription.Request!);
             KrakenUnsubscribeRequest unsubRequest;
@@ -350,7 +350,7 @@ namespace Kraken.Net
             else
                 unsubRequest = new KrakenUnsubscribeRequest(NextId(), kRequest.ChannelId.Value);
             var result = false;
-            await connection.SendAndWait(unsubRequest, ResponseTimeout, data =>
+            await connection.SendAndWaitAsync(unsubRequest, ResponseTimeout, data =>
             {
                 if (data.Type != JTokenType.Object)
                     return false;

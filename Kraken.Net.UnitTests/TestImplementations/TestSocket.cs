@@ -35,7 +35,7 @@ namespace Kucoin.Net.UnitTests.TestImplementations
         public string Origin { get; set; }
         public bool Reconnecting { get; set; }
 
-        public Task<bool> Connect()
+        public Task<bool> ConnectAsync()
         {
             Connected = CanConnect;
             return Task.FromResult(CanConnect);
@@ -52,7 +52,7 @@ namespace Kucoin.Net.UnitTests.TestImplementations
             
         }
 
-        public Task Close()
+        public Task CloseAsync()
         {
             Connected = false;
             return Task.FromResult(0);

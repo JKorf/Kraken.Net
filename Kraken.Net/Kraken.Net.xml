@@ -863,10 +863,10 @@
         <member name="M:Kraken.Net.KrakenSocketClient.MessageMatchesHandler(Newtonsoft.Json.Linq.JToken,System.String)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.KrakenSocketClient.AuthenticateSocket(CryptoExchange.Net.Sockets.SocketConnection)">
+        <member name="M:Kraken.Net.KrakenSocketClient.AuthenticateSocketAsync(CryptoExchange.Net.Sockets.SocketConnection)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.KrakenSocketClient.Unsubscribe(CryptoExchange.Net.Sockets.SocketConnection,CryptoExchange.Net.Sockets.SocketSubscription)">
+        <member name="M:Kraken.Net.KrakenSocketClient.UnsubscribeAsync(CryptoExchange.Net.Sockets.SocketConnection,CryptoExchange.Net.Sockets.SocketSubscription)">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.KrakenSymbolOrderBook">
@@ -882,7 +882,7 @@
             <param name="limit">The initial limit of entries in the order book</param>
             <param name="options">Options for the order book</param>
         </member>
-        <member name="M:Kraken.Net.KrakenSymbolOrderBook.DoStart">
+        <member name="M:Kraken.Net.KrakenSymbolOrderBook.DoStartAsync">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.KrakenSymbolOrderBook.DoReset">
@@ -891,7 +891,7 @@
         <member name="M:Kraken.Net.KrakenSymbolOrderBook.DoChecksum(System.Int32)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.KrakenSymbolOrderBook.DoResync">
+        <member name="M:Kraken.Net.KrakenSymbolOrderBook.DoResyncAsync">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.KrakenSymbolOrderBook.Dispose">
