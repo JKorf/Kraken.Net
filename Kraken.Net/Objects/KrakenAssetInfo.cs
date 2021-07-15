@@ -11,12 +11,12 @@ namespace Kraken.Net.Objects
         /// Alternative name
         /// </summary>
         [JsonProperty("altname")]
-        public string AlternateName { get; set; } = "";
+        public string AlternateName { get; set; } = string.Empty;
         /// <summary>
         /// Class of the asset
         /// </summary>
         [JsonProperty("aclass")]
-        public string AssetClass { get; set; } = "";
+        public string AssetClass { get; set; } = string.Empty;
         /// <summary>
         /// Decimal precision of the asset
         /// </summary>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -35,11 +34,11 @@ namespace Kraken.Net
         /// <summary>
         /// Event triggered when an order is placed via this client
         /// </summary>
-        public event Action<ICommonOrderId> OnOrderPlaced;
+        public event Action<ICommonOrderId>? OnOrderPlaced;
         /// <summary>
         /// Event triggered when an order is cancelled via this client
         /// </summary>
-        public event Action<ICommonOrderId> OnOrderCanceled;
+        public event Action<ICommonOrderId>? OnOrderCanceled;
 
         #region ctor
         /// <summary>
@@ -372,7 +371,7 @@ namespace Kraken.Net
             return await Execute<Dictionary<string, KrakenPosition>>(GetUri("0/private/OpenPositions"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
-        //// <summary>
+        /// <summary>
         /// Get ledger entries info
         /// </summary>
         /// <param name="assets">Filter list by asset names</param>
@@ -776,7 +775,12 @@ namespace Kraken.Net
             return result.As<T>(result.Data.Result);
         }
 
-
+        /// <summary>
+        /// Get the name of a symbol for Kraken based on the base and quote asset
+        /// </summary>
+        /// <param name="baseAsset"></param>
+        /// <param name="quoteAsset"></param>
+        /// <returns></returns>
         public string GetSymbolName(string baseAsset, string quoteAsset) => (baseAsset + quoteAsset).ToUpperInvariant();
 
         private static KlineInterval GetKlineIntervalFromTimespan(TimeSpan timeSpan)

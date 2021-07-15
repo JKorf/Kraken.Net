@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CryptoExchange.Net;
-using CryptoExchange.Net.Logging;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Converters;
@@ -74,6 +73,12 @@ namespace Kraken.Net
             return await SubscribeAsync(new KrakenSubscribeRequest("ticker", NextId(), symbol), null, false, internalHandler).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Subscribe to ticker updates
+        /// </summary>
+        /// <param name="symbols">Symbols to subscribe to</param>
+        /// <param name="handler">Data handler</param>
+        /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string[] symbols, Action<DataEvent<KrakenStreamTick>> handler)
         {
             foreach(var symbol in symbols)

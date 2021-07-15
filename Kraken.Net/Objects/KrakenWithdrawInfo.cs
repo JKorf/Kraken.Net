@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kraken.Net.Objects
+﻿namespace Kraken.Net.Objects
 {
     /// <summary>
     /// Withdraw info
@@ -12,7 +8,7 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Method that will be used
         /// </summary>
-        public string Method { get; set; } = "";
+        public string Method { get; set; } = string.Empty;
         /// <summary>
         /// Limit to what can be withdrawn right now
         /// </summary>

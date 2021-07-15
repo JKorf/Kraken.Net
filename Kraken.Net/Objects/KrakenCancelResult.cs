@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CryptoExchange.Net.Attributes;
 
 namespace Kraken.Net.Objects
@@ -16,6 +17,6 @@ namespace Kraken.Net.Objects
         /// Pending cancellation orders
         /// </summary>
         [JsonOptionalProperty]
-        public IEnumerable<long> Pending { get; set; } = new List<long>();
+        public IEnumerable<long> Pending { get; set; } = Array.Empty<long>();
     }
 }

@@ -42,7 +42,7 @@ namespace Kraken.Net.Objects
         /// Misc info
         /// </summary>
         [ArrayProperty(5)]
-        public string Misc { get; set; } = "";
+        public string Misc { get; set; } = string.Empty;
 
         decimal ICommonRecentTrade.CommonPrice => Price;
         decimal ICommonRecentTrade.CommonQuantity => Quantity;

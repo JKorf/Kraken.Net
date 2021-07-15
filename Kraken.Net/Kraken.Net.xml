@@ -572,7 +572,19 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with position info</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Kraken.Net.KrakenClient.GetLedgerInfoAsync(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Objects.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)" -->
+        <member name="M:Kraken.Net.KrakenClient.GetLedgerInfoAsync(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Objects.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get ledger entries info
+            </summary>
+            <param name="assets">Filter list by asset names</param>
+            <param name="entryTypes">Filter list by entry types</param>
+            <param name="startTime">Return data after this time</param>
+            <param name="endTime">Return data before this time</param>
+            <param name="resultOffset">Offset the results by</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Ledger entries page</returns>
+        </member>
         <member name="M:Kraken.Net.KrakenClient.GetLedgersEntryAsync(System.String,System.Threading.CancellationToken,System.String[])">
             <summary>
             Get info on specific ledger entries
@@ -696,6 +708,14 @@
         <member name="M:Kraken.Net.KrakenClient.WriteParamBody(CryptoExchange.Net.Interfaces.IRequest,System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
             <inheritdoc />
         </member>
+        <member name="M:Kraken.Net.KrakenClient.GetSymbolName(System.String,System.String)">
+            <summary>
+            Get the name of a symbol for Kraken based on the base and quote asset
+            </summary>
+            <param name="baseAsset"></param>
+            <param name="quoteAsset"></param>
+            <returns></returns>
+        </member>
         <member name="T:Kraken.Net.KrakenHelpers">
             <summary>
             Helper methods for Kraken
@@ -798,6 +818,14 @@
             Subscribe to ticker updates
             </summary>
             <param name="symbol">Symbol to subscribe to</param>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToTickerUpdatesAsync(System.String[],System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.KrakenStreamTick}})">
+            <summary>
+            Subscribe to ticker updates
+            </summary>
+            <param name="symbols">Symbols to subscribe to</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
@@ -1571,7 +1599,7 @@
         </member>
         <member name="P:Kraken.Net.Objects.KrakenOrderInfo.SecondaryPrice">
             <summary>
-            Secondary price of the order (<see cref="!:KrakenClient.PlaceOrder"/> for details)
+            Secondary price of the order (<see cref="M:Kraken.Net.KrakenClient.PlaceOrderAsync(System.String,Kraken.Net.Objects.OrderSide,Kraken.Net.Objects.OrderType,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)"/> for details)
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.KrakenOrderInfo.Leverage">
@@ -1652,11 +1680,6 @@
         <member name="P:Kraken.Net.Objects.KrakenStreamOrderBook.Checksum">
             <summary>
             Checksum
-            </summary>
-        </member>
-        <member name="M:Kraken.Net.Objects.KrakenStreamOrderBook.#ctor">
-            <summary>
-            ctor
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.KrakenStreamOrderBookEntry">

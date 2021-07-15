@@ -16,19 +16,19 @@ namespace Kraken.Net.Objects
         /// Order id
         /// </summary>
         [JsonProperty("ordertxid")]
-        public string OrderId { get; set; } = "";
+        public string OrderId { get; set; } = string.Empty;
 
         /// <summary>
         /// Trade id
         /// </summary>
         [JsonIgnore]
-        public string TradeId { get; set; }
+        public string TradeId { get; set; } = string.Empty;
 
         /// <summary>
         /// Symbol
         /// </summary>
         [JsonProperty("pair")]
-        public string Symbol { get; set; } = "";
+        public string Symbol { get; set; } = string.Empty;
         /// <summary>
         /// Timestamp of trade
         /// </summary>
@@ -69,13 +69,13 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Misc info
         /// </summary>
-        public string Misc { get; set; } = "";
+        public string Misc { get; set; } = string.Empty;
 
         /// <summary>
         /// Position status
         /// </summary>
         [JsonProperty("posstatus")]
-        public string PositionStatus { get; set; } = "";
+        public string PositionStatus { get; set; } = string.Empty;
         /// <summary>
         /// Closed average price
         /// </summary>
@@ -109,7 +109,7 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Trade ids
         /// </summary>
-        public IEnumerable<string> Trades { get; set; } = new List<string>();
+        public IEnumerable<string> Trades { get; set; } = Array.Empty<string>();
 
         string ICommonTrade.CommonId => TradeId;
         decimal ICommonTrade.CommonPrice => Price;

@@ -27,12 +27,12 @@ namespace Kraken.Net.Objects.Socket
         /// The topic of the data
         /// </summary>
         [ArrayProperty(2)]
-        public string Topic { get; set; } = "";
+        public string Topic { get; set; } = string.Empty;
 
         /// <summary>
         /// The symbol the data is for
         /// </summary>
         [ArrayProperty(3)]
-        public string Symbol { get; set; } = "";
+        public string Symbol { get; set; } = string.Empty;
     }
 }

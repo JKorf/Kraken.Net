@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +9,6 @@ using CryptoExchange.Net.Sockets;
 using Force.Crc32;
 using Kraken.Net.Interfaces;
 using Kraken.Net.Objects;
-using Kraken.Net.Objects.Socket;
 using Microsoft.Extensions.Logging;
 
 namespace Kraken.Net
@@ -66,7 +64,7 @@ namespace Kraken.Net
             else
             {
                 UpdateOrderBook(data.Data.Bids, data.Data.Asks);
-                AddChecksum((int)data.Data.Checksum);
+                AddChecksum((int)data.Data.Checksum!);
             }
         }
 
@@ -99,7 +97,7 @@ namespace Kraken.Net
             return true;
         }
 
-        private string ToChecksumString(string value)
+        private static string ToChecksumString(string value)
         {
             return value.Replace(".", "").TrimStart('0');
         }

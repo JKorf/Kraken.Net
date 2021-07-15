@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects
@@ -11,7 +12,7 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Currency
         /// </summary>
-        public string Currency { get; set; } = "";
+        public string Currency { get; set; } = string.Empty;
         /// <summary>
         /// Volume
         /// </summary>
@@ -20,12 +21,12 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Fees structure
         /// </summary>
-        public IEnumerable<KrakenFeeStruct> Fees { get; set; } = new List<KrakenFeeStruct>();
+        public IEnumerable<KrakenFeeStruct> Fees { get; set; } = Array.Empty<KrakenFeeStruct>();
         /// <summary>
         /// Maker fees structure
         /// </summary>
         [JsonProperty("fees_maker")]
-        public IEnumerable<KrakenFeeStruct> MakerFees { get; set; } = new List<KrakenFeeStruct>();
+        public IEnumerable<KrakenFeeStruct> MakerFees { get; set; } = Array.Empty<KrakenFeeStruct>();
     }
 
     /// <summary>

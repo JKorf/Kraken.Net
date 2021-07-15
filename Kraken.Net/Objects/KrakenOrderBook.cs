@@ -15,11 +15,11 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Asks in the book
         /// </summary>
-        public IEnumerable<ISymbolOrderBookEntry> Asks { get; set; } = new List<KrakenOrderBookEntry>();
+        public IEnumerable<ISymbolOrderBookEntry> Asks { get; set; } = Array.Empty<KrakenOrderBookEntry>();
         /// <summary>
         /// Bids in the book
         /// </summary>
-        public IEnumerable<ISymbolOrderBookEntry> Bids { get; set; } = new List<KrakenOrderBookEntry>();
+        public IEnumerable<ISymbolOrderBookEntry> Bids { get; set; } = Array.Empty<KrakenOrderBookEntry>();
 
         IEnumerable<ISymbolOrderBookEntry> ICommonOrderBook.CommonBids => Bids;
         IEnumerable<ISymbolOrderBookEntry> ICommonOrderBook.CommonAsks => Asks;
@@ -41,7 +41,7 @@ namespace Kraken.Net.Objects
         /// Price of the entry as a string literal
         /// </summary>
         [ArrayProperty(0)]
-        public string RawPrice { get; set; } = "";
+        public string RawPrice { get; set; } = string.Empty;
         /// <summary>
         /// Quantity of the entry
         /// </summary>
@@ -51,7 +51,7 @@ namespace Kraken.Net.Objects
         /// Quantity of the entry as a string literal
         /// </summary>
         [ArrayProperty(1)]
-        public string RawQuantity { get; set; } = "";
+        public string RawQuantity { get; set; } = string.Empty;
         /// <summary>
         /// Timestamp of change
         /// </summary>
@@ -68,26 +68,17 @@ namespace Kraken.Net.Objects
         /// Asks
         /// </summary>
         [JsonProperty("as")]
-        public IEnumerable<KrakenStreamOrderBookEntry> Asks { get; set; }
+        public IEnumerable<KrakenStreamOrderBookEntry> Asks { get; set; } = Array.Empty<KrakenStreamOrderBookEntry>();
         /// <summary>
         /// Bids
         /// </summary>
         [JsonProperty("bs")]
-        public IEnumerable<KrakenStreamOrderBookEntry> Bids { get; set; }
+        public IEnumerable<KrakenStreamOrderBookEntry> Bids { get; set; } = Array.Empty<KrakenStreamOrderBookEntry>();
 
         /// <summary>
         /// Checksum
         /// </summary>
         public uint? Checksum { get; set; }
-
-        /// <summary>
-        /// ctor
-        /// </summary>
-        public KrakenStreamOrderBook()
-        {
-            Asks = new List<KrakenStreamOrderBookEntry>();
-            Bids = new List<KrakenStreamOrderBookEntry>();
-        }
     }
 
     /// <summary>
@@ -106,7 +97,7 @@ namespace Kraken.Net.Objects
         /// Price of the entry as a string literal
         /// </summary>
         [ArrayProperty(0)]
-        public string RawPrice { get; set; } = "";
+        public string RawPrice { get; set; } = string.Empty;
 
         /// <summary>
         /// Quantity of the entry
@@ -118,7 +109,7 @@ namespace Kraken.Net.Objects
         /// Quantity of the entry as a string literal
         /// </summary>
         [ArrayProperty(1)]
-        public string RawQuantity { get; set; } = "";
+        public string RawQuantity { get; set; } = string.Empty;
 
         /// <summary>
         /// Timestamp of the entry
@@ -130,7 +121,7 @@ namespace Kraken.Net.Objects
         /// Type of update
         /// </summary>
         [ArrayProperty(3)]
-        public string UpdateType { get; set; } = "";
+        public string UpdateType { get; set; } = string.Empty;
 
         /// <summary>
         /// Sequence

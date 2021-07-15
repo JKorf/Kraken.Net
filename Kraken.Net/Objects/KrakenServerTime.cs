@@ -9,6 +9,6 @@ namespace Kraken.Net.Objects
         [JsonConverter(typeof(TimestampSecondsConverter))]
         public DateTime UnixTime { get; set; }
         [JsonProperty("rfc1123")]
-        public string RfcTime { get; set; } = "";
+        public string RfcTime { get; set; } = string.Empty;
     }
 }

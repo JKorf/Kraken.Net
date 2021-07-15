@@ -29,8 +29,8 @@ namespace Kraken.Net.Objects.Socket
     internal class KrakenUnsubscribeSubscription
     {
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         [JsonProperty("token")]
-        public string Token { get; set; }
+        public string Token { get; set; } = string.Empty;
     }
 }

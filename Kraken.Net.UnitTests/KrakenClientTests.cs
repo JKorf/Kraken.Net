@@ -1,12 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using CryptoExchange.Net.Authentication;
-using CryptoExchange.Net.Logging;
-using CryptoExchange.Net.Objects;
 using Kraken.Net.Objects;
 using Kraken.Net.UnitTests.TestImplementations;
 using System.Threading.Tasks;

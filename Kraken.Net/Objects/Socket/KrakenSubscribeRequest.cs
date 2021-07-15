@@ -10,7 +10,7 @@ namespace Kraken.Net.Objects.Socket
         [JsonProperty("reqid")]
         public int RequestId { get; set; }
         [JsonProperty("pair", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string[] Symbols { get; set; }
+        public string[]? Symbols { get; set; }
         [JsonProperty("subscription")]
         public KrakenSubscriptionDetails Details { get; set; }
 

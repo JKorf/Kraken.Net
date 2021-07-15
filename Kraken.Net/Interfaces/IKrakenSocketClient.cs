@@ -5,7 +5,6 @@ using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Objects;
-using Kraken.Net.Objects.Socket;
 
 namespace Kraken.Net.Interfaces
 {

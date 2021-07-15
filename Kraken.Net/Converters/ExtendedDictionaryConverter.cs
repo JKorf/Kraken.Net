@@ -9,7 +9,7 @@ namespace Kraken.Net.Converters
 {
     internal class ExtendedDictionaryConverter<T>: JsonConverter
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
             var data = (KrakenDictionaryResult<T>) value;
             writer.WriteStartObject();
@@ -20,7 +20,7 @@ namespace Kraken.Net.Converters
             writer.WriteEndObject();
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
             var obj = JObject.Load(reader);
             var inner = obj.First;
