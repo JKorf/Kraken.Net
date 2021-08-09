@@ -181,7 +181,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with order info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetUserTradeHistoryAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetUserTradesAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade history
             </summary>
@@ -588,7 +588,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with order info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetUserTradeHistoryAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetUserTradesAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade history
             </summary>

@@ -341,7 +341,7 @@ namespace Kraken.Net
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade history page</returns>
-        public async Task<WebCallResult<KrakenUserTradesPage>> GetUserTradeHistoryAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("trades", true);
@@ -750,7 +750,7 @@ namespace Kraken.Net
 
         async Task<WebCallResult<IEnumerable<ICommonTrade>>> IExchangeClient.GetTradesAsync(string orderId, string? symbol = null)
         {
-            var result = await GetUserTradeHistoryAsync().ConfigureAwait(false);
+            var result = await GetUserTradesAsync().ConfigureAwait(false);
             return result.As<IEnumerable<ICommonTrade>>(result.Data?.Trades.Where(t => t.Value.OrderId == orderId).Select(o => (ICommonTrade)o.Value));
         }
 
