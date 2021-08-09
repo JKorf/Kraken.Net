@@ -54,7 +54,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Server time</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetAssetsAsync(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetAssetsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
             Get a list of assets and info about them
             </summary>
@@ -62,7 +62,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary of asset info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetSymbolsAsync(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
             Get a list of symbols and info about them
             </summary>
@@ -70,7 +70,15 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary of symbol info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTickersAsync(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTickersAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get tickers for symbol
+            </summary>
+            <param name="symbol">Symbol to get tickers for</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Dictionary with ticker info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTickersAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
             Get tickers for symbols
             </summary>
@@ -97,7 +105,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Order book for the symbol</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetRecentTradesAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeHistoryAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <summary>
             Get a list of recent trades for a symbol
             </summary>
@@ -153,7 +161,17 @@
             <param name="ct">Cancellation token</param>
             <returns>Closed orders page</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOrdersAsync(System.String,System.String,System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOrderAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get info on specific order
+            </summary>
+            <param name="clientOrderId">Get orders by clientOrderId</param>
+            <param name="orderId">Get order by its order id</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Dictionary with order info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get info on specific orders
             </summary>
@@ -163,7 +181,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with order info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeHistoryAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetUserTradeHistoryAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade history
             </summary>
@@ -174,7 +192,16 @@
             <param name="ct">Cancellation token</param>
             <returns>Trade history page</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradesAsync(System.String,System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetUserTradeDetailsAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get info on specific trades
+            </summary>
+            <param name="tradeId">The trade to get info on</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Dictionary with trade info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetUserTradeDetailsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <summary>
             Get info on specific trades
             </summary>
@@ -183,7 +210,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with trade info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOpenPositionsAsync(System.String,System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOpenPositionsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of open positions
             </summary>
@@ -205,7 +232,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Ledger entries page</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgersEntryAsync(System.String,System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetLedgersEntryAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <summary>
             Get info on specific ledger entries
             </summary>
@@ -214,7 +241,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with ledger entry info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeVolumeAsync(System.String,System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetTradeVolumeAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade volume
             </summary>
@@ -307,7 +334,7 @@
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.WithdrawFundsAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.WithdrawAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
             <summary>
             Withdraw funds
             </summary>
@@ -434,7 +461,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Server time</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetAssetsAsync(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetAssetsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
             Get a list of assets and info about them
             </summary>
@@ -442,7 +469,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary of asset info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetSymbolsAsync(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
             Get a list of symbols and info about them
             </summary>
@@ -450,7 +477,15 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary of symbol info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetTickersAsync(System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetTickersAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get tickers for symbol
+            </summary>
+            <param name="symbol">Symbol to get tickers for</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Dictionary with ticker info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetTickersAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
             Get tickers for symbols
             </summary>
@@ -477,7 +512,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Order book for the symbol</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetRecentTradesAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetTradeHistoryAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <summary>
             Get a list of recent trades for a symbol
             </summary>
@@ -533,7 +568,17 @@
             <param name="ct">Cancellation token</param>
             <returns>Closed orders page</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetOrdersAsync(System.String,System.String,System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetOrderAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get info on specific order
+            </summary>
+            <param name="clientOrderId">Get orders by clientOrderId</param>
+            <param name="orderId">Get order by its order id</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Dictionary with order info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get info on specific orders
             </summary>
@@ -543,7 +588,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with order info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetTradeHistoryAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetUserTradeHistoryAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade history
             </summary>
@@ -554,7 +599,16 @@
             <param name="ct">Cancellation token</param>
             <returns>Trade history page</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetTradesAsync(System.String,System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetUserTradeDetailsAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get info on specific trades
+            </summary>
+            <param name="tradeId">The trade to get info on</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Dictionary with trade info</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetUserTradeDetailsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <summary>
             Get info on specific trades
             </summary>
@@ -563,7 +617,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with trade info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetOpenPositionsAsync(System.String,System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetOpenPositionsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of open positions
             </summary>
@@ -585,7 +639,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Ledger entries page</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetLedgersEntryAsync(System.String,System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetLedgersEntryAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <summary>
             Get info on specific ledger entries
             </summary>
@@ -594,7 +648,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with ledger entry info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetTradeVolumeAsync(System.String,System.Threading.CancellationToken,System.String[])">
+        <member name="M:Kraken.Net.KrakenClient.GetTradeVolumeAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade volume
             </summary>
@@ -687,9 +741,9 @@
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.WithdrawFundsAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.WithdrawAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
             <summary>
-            Withdraw funds
+            Place a withdraw request
             </summary>
             <param name="asset">The asset being withdrawn</param>
             <param name="key">The withdrawal key name, as set up on your account</param>
