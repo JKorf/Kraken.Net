@@ -89,6 +89,15 @@ For the basic client options see also the CryptoExchange.Net [docs](https://gith
 |`AuthBaseAddress`|The base address for authenticated subscriptions|`wss://ws-auth.kraken.com/`
 
 ## Release notes
+* Version 2.0.0-beta3 - 09 Aug 2021
+    * Fixed deserialization error in GetTradeVolumeAsync
+    * Fixed error message invalid symbol
+    * Now uses IEnumerable<T> instead of params T in various methods
+    * Renamed GetRecentTradesAsync to GetTradeHistoryAsync
+    * Renamed GetTradeHistoryAsync to GetUserTradesAsync
+    * Renamed GetTradesAsync to GetUserTradeDetailsAsync
+    * Renamed WithdrawFundsAsync to WithdrawAsync
+
 * Version 2.0.0-beta2 - 26 Jul 2021
     * Updated CryptoExchange.Net
 
