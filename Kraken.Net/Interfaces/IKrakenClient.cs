@@ -35,7 +35,7 @@ namespace Kraken.Net.Interfaces
         /// <param name="assets">Filter list for specific assets</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary of asset info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(CancellationToken ct = default, params string[] assets);
+        Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(IEnumerable<string>? assets = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get a list of symbols and info about them
@@ -43,7 +43,15 @@ namespace Kraken.Net.Interfaces
         /// <param name="symbols">Filter list for specific symbols</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary of symbol info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(CancellationToken ct = default, params string[] symbols);
+        Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get tickers for symbol
+        /// </summary>
+        /// <param name="symbol">Symbol to get tickers for</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Dictionary with ticker info</returns>
+        Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(string symbol, CancellationToken ct = default);
 
         /// <summary>
         /// Get tickers for symbols
@@ -51,7 +59,7 @@ namespace Kraken.Net.Interfaces
         /// <param name="symbols">Symbols to get tickers for</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with ticker info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(CancellationToken ct = default, params string[] symbols);
+        Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(IEnumerable<string> symbols, CancellationToken ct = default);
 
         /// <summary>
         /// Gets kline data for a symbol
@@ -79,7 +87,7 @@ namespace Kraken.Net.Interfaces
         /// <param name="since">Return trades since a specific time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Recent trades</returns>
-        Task<WebCallResult<KrakenTradesResult>> GetRecentTradesAsync(string symbol, DateTime? since = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenTradesResult>> GetTradeHistoryAsync(string symbol, DateTime? since = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get spread data for a symbol
@@ -129,6 +137,16 @@ namespace Kraken.Net.Interfaces
         Task<WebCallResult<KrakenClosedOrdersPage>> GetClosedOrdersAsync(string? clientOrderId = null, DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
+        /// Get info on specific order
+        /// </summary>
+        /// <param name="clientOrderId">Get orders by clientOrderId</param>
+        /// <param name="orderId">Get order by its order id</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Dictionary with order info</returns>
+        Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? orderId = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default);
+
+        /// <summary>
         /// Get info on specific orders
         /// </summary>
         /// <param name="clientOrderId">Get orders by clientOrderId</param>
@@ -136,7 +154,7 @@ namespace Kraken.Net.Interfaces
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with order info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default, params string[] orderIds);
+        Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get trade history
@@ -147,7 +165,16 @@ namespace Kraken.Net.Interfaces
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade history page</returns>
-        Task<WebCallResult<KrakenUserTradesPage>> GetTradeHistoryAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenUserTradesPage>> GetUserTradeHistoryAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get info on specific trades
+        /// </summary>
+        /// <param name="tradeId">The trade to get info on</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Dictionary with trade info</returns>
+        Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsync(string tradeId, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get info on specific trades
@@ -156,7 +183,7 @@ namespace Kraken.Net.Interfaces
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with trade info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetTradesAsync(string? twoFactorPassword = null, CancellationToken ct = default, params string[] tradeIds);
+        Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsync(IEnumerable<string> tradeIds, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get a list of open positions
@@ -165,7 +192,7 @@ namespace Kraken.Net.Interfaces
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with position info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenPosition>>> GetOpenPositionsAsync(string? twoFactorPassword = null, CancellationToken ct = default, params string[] transactionIds);
+        Task<WebCallResult<Dictionary<string, KrakenPosition>>> GetOpenPositionsAsync(IEnumerable<string>? transactionIds = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get ledger entries info
@@ -187,7 +214,7 @@ namespace Kraken.Net.Interfaces
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with ledger entry info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenLedgerEntry>>> GetLedgersEntryAsync(string? twoFactorPassword = null, CancellationToken ct = default, params string[] ledgerIds);
+        Task<WebCallResult<Dictionary<string, KrakenLedgerEntry>>> GetLedgersEntryAsync(IEnumerable<string>? ledgerIds = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get trade volume
@@ -196,7 +223,7 @@ namespace Kraken.Net.Interfaces
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade fee info</returns>
-        Task<WebCallResult<KrakenTradeVolume>> GetTradeVolumeAsync(string? twoFactorPassword = null, CancellationToken ct = default, params string[] symbols);
+        Task<WebCallResult<KrakenTradeVolume>> GetTradeVolumeAsync(IEnumerable<string>? symbols = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get deposit methods
@@ -305,7 +332,7 @@ namespace Kraken.Net.Interfaces
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Withdraw reference id</returns>
-        Task<WebCallResult<KrakenWithdraw>> WithdrawFundsAsync(string asset, string key, decimal amount, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenWithdraw>> WithdrawAsync(string asset, string key, decimal amount, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get the token to connect to the private websocket streams

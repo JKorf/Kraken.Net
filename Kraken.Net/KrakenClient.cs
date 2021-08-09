@@ -99,10 +99,10 @@ namespace Kraken.Net
         /// <param name="assets">Filter list for specific assets</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary of asset info</returns>
-        public async Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(CancellationToken ct = default, params string[] assets)
+        public async Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(IEnumerable<string>? assets = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
-            if(assets.Any())
+            if(assets?.Any() == true)
                 parameters.AddOptionalParameter("asset", string.Join(",", assets));
 
             return await Execute<Dictionary<string, KrakenAssetInfo>>(GetUri("0/public/Assets"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
@@ -114,14 +114,23 @@ namespace Kraken.Net
         /// <param name="symbols">Filter list for specific symbols</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary of symbol info</returns>
-        public async Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(CancellationToken ct = default, params string[] symbols)
+        public async Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
-            if (symbols.Any())
+            if (symbols?.Any() == true)
                 parameters.AddOptionalParameter("pair", string.Join(",", symbols));
 
             return await Execute<Dictionary<string, KrakenSymbol>>(GetUri("0/public/AssetPairs"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
+
+        /// <summary>
+        /// Get tickers for symbol
+        /// </summary>
+        /// <param name="symbol">Symbol to get tickers for</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Dictionary with ticker info</returns>
+        public Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(string symbol, CancellationToken ct = default)
+            => GetTickersAsync(new string[] {symbol}, ct);
 
         /// <summary>
         /// Get tickers for symbols
@@ -129,7 +138,7 @@ namespace Kraken.Net
         /// <param name="symbols">Symbols to get tickers for</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with ticker info</returns>
-        public async Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(CancellationToken ct = default, params string[] symbols)
+        public async Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(IEnumerable<string> symbols, CancellationToken ct = default)
         {
             if (!symbols.Any())
                 throw new ArgumentException("No symbols defined to get ticker data for");
@@ -195,7 +204,7 @@ namespace Kraken.Net
         /// <param name="since">Return trades since a specific time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Recent trades</returns>
-        public async Task<WebCallResult<KrakenTradesResult>> GetRecentTradesAsync(string symbol, DateTime? since = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenTradesResult>> GetTradeHistoryAsync(string symbol, DateTime? since = null, CancellationToken ct = default)
         {
             symbol.ValidateKrakenSymbol();
             var parameters = new Dictionary<string, object>()
@@ -292,6 +301,17 @@ namespace Kraken.Net
         }
 
         /// <summary>
+        /// Get info on specific order
+        /// </summary>
+        /// <param name="clientOrderId">Get orders by clientOrderId</param>
+        /// <param name="orderId">Get order by its order id</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Dictionary with order info</returns>
+        public Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? orderId = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default)
+            => GetOrdersAsync(orderId == null? null: new[] { orderId }, clientOrderId, twoFactorPassword, ct);
+
+        /// <summary>
         /// Get info on specific orders
         /// </summary>
         /// <param name="clientOrderId">Get orders by clientOrderId</param>
@@ -299,7 +319,7 @@ namespace Kraken.Net
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with order info</returns>
-        public async Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default, params string[] orderIds)
+        public async Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             if((string.IsNullOrEmpty(clientOrderId) && !orderIds.Any()) || (!string.IsNullOrEmpty(clientOrderId) && orderIds.Any()))
                 throw new ArgumentException("Either clientOrderId or ordersIds should be provided");
@@ -307,7 +327,7 @@ namespace Kraken.Net
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("trades", true);
             parameters.AddOptionalParameter("userref", clientOrderId);
-            parameters.AddOptionalParameter("txid", orderIds.Any() ? string.Join(",", orderIds): null);
+            parameters.AddOptionalParameter("txid", orderIds?.Any() == true ? string.Join(",", orderIds): null);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
             return await Execute<Dictionary<string, KrakenOrder>>(GetUri("0/private/QueryOrders"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
@@ -321,7 +341,7 @@ namespace Kraken.Net
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade history page</returns>
-        public async Task<WebCallResult<KrakenUserTradesPage>> GetTradeHistoryAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenUserTradesPage>> GetUserTradeHistoryAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("trades", true);
@@ -342,15 +362,26 @@ namespace Kraken.Net
         /// <summary>
         /// Get info on specific trades
         /// </summary>
+        /// <param name="tradeId">The trade to get info on</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Dictionary with trade info</returns>
+        public Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsync(string tradeId, string? twoFactorPassword = null, CancellationToken ct = default)
+            => GetUserTradeDetailsAsync(new string[] { tradeId }, twoFactorPassword, ct);
+
+
+        /// <summary>
+        /// Get info on specific trades
+        /// </summary>
         /// <param name="tradeIds">The trades to get info on</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with trade info</returns>
-        public async Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetTradesAsync(string? twoFactorPassword = null, CancellationToken ct = default, params string[] tradeIds)
+        public async Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsync(IEnumerable<string> tradeIds, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("trades", true);
-            parameters.AddOptionalParameter("txid", tradeIds.Any() ? string.Join(",", tradeIds) : null);
+            parameters.AddOptionalParameter("txid", tradeIds?.Any() == true ? string.Join(",", tradeIds) : null);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
             return await Execute<Dictionary<string, KrakenUserTrade>>(GetUri("0/private/QueryTrades"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
@@ -362,11 +393,11 @@ namespace Kraken.Net
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with position info</returns>
-        public async Task<WebCallResult<Dictionary<string, KrakenPosition>>> GetOpenPositionsAsync(string? twoFactorPassword = null, CancellationToken ct = default, params string[] transactionIds)
+        public async Task<WebCallResult<Dictionary<string, KrakenPosition>>> GetOpenPositionsAsync(IEnumerable<string>? transactionIds = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("docalcs", true);
-            parameters.AddOptionalParameter("txid", transactionIds.Any() ? string.Join(",", transactionIds) : null);
+            parameters.AddOptionalParameter("txid", transactionIds?.Any() == true ? string.Join(",", transactionIds) : null);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
             return await Execute<Dictionary<string, KrakenPosition>>(GetUri("0/private/OpenPositions"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
@@ -401,10 +432,10 @@ namespace Kraken.Net
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with ledger entry info</returns>
-        public async Task<WebCallResult<Dictionary<string, KrakenLedgerEntry>>> GetLedgersEntryAsync(string? twoFactorPassword = null, CancellationToken ct = default, params string[] ledgerIds)
+        public async Task<WebCallResult<Dictionary<string, KrakenLedgerEntry>>> GetLedgersEntryAsync(IEnumerable<string>? ledgerIds = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
-            parameters.AddOptionalParameter("id", ledgerIds.Any() ? string.Join(",", ledgerIds) : null);
+            parameters.AddOptionalParameter("id", ledgerIds?.Any() == true ? string.Join(",", ledgerIds) : null);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
             return await Execute<Dictionary<string, KrakenLedgerEntry>>(GetUri("0/private/QueryLedgers"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
@@ -416,11 +447,11 @@ namespace Kraken.Net
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade fee info</returns>
-        public async Task<WebCallResult<KrakenTradeVolume>> GetTradeVolumeAsync(string? twoFactorPassword = null, CancellationToken ct = default, params string[] symbols)
+        public async Task<WebCallResult<KrakenTradeVolume>> GetTradeVolumeAsync(IEnumerable<string>? symbols = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("fee-info", true);
-            parameters.AddOptionalParameter("pair", symbols.Any() ? string.Join(",", symbols) : null);
+            parameters.AddOptionalParameter("pair", symbols?.Any() == true ? string.Join(",", symbols) : null);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
             return await Execute<KrakenTradeVolume>(GetUri("0/private/TradeVolume"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
@@ -611,7 +642,7 @@ namespace Kraken.Net
         }
 
         /// <summary>
-        /// Withdraw funds
+        /// Place a withdraw request
         /// </summary>
         /// <param name="asset">The asset being withdrawn</param>
         /// <param name="key">The withdrawal key name, as set up on your account</param>
@@ -619,7 +650,7 @@ namespace Kraken.Net
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Withdraw reference id</returns>
-        public async Task<WebCallResult<KrakenWithdraw>> WithdrawFundsAsync(string asset, string key, decimal amount, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenWithdraw>> WithdrawAsync(string asset, string key, decimal amount, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             asset.ValidateNotNull(nameof(asset));
             key.ValidateNotNull(nameof(key));
@@ -660,7 +691,7 @@ namespace Kraken.Net
 
         async Task<WebCallResult<ICommonTicker>> IExchangeClient.GetTickerAsync(string symbol)
         {
-            var ticker = await GetTickersAsync(default, symbol).ConfigureAwait(false);
+            var ticker = await GetTickersAsync(symbol, default).ConfigureAwait(false);
             return ticker.As<ICommonTicker>(ticker.Data?.Select(d => d.Value).FirstOrDefault());
         }
 
@@ -670,7 +701,7 @@ namespace Kraken.Net
             if(!assets)
                 return new WebCallResult<IEnumerable<ICommonTicker>>(assets.ResponseStatusCode, assets.ResponseHeaders, null, assets.Error);
 
-            var ticker = await GetTickersAsync(default, assets.Data.Select(d => d.Key).ToArray()).ConfigureAwait(false);
+            var ticker = await GetTickersAsync(assets.Data.Select(d => d.Key).ToArray(), default).ConfigureAwait(false);
             return ticker.As<IEnumerable<ICommonTicker>>(ticker.Data?.Select(d => d.Value));
         }
 
@@ -698,7 +729,7 @@ namespace Kraken.Net
 
         async Task<WebCallResult<IEnumerable<ICommonRecentTrade>>> IExchangeClient.GetRecentTradesAsync(string symbol)
         {
-            var tradesResult = await GetRecentTradesAsync(symbol, null).ConfigureAwait(false);
+            var tradesResult = await GetTradeHistoryAsync(symbol, null).ConfigureAwait(false);
             if (!tradesResult.Success)
                 return WebCallResult<IEnumerable<ICommonRecentTrade>>.CreateErrorResult(tradesResult.ResponseStatusCode, tradesResult.ResponseHeaders, tradesResult.Error!);
 
@@ -713,13 +744,13 @@ namespace Kraken.Net
 
         async Task<WebCallResult<ICommonOrder>> IExchangeClient.GetOrderAsync(string orderId, string? symbol)
         {
-            var result = await GetOrdersAsync(orderIds: orderId).ConfigureAwait(false);
+            var result = await GetOrderAsync(orderId).ConfigureAwait(false);
             return result.As<ICommonOrder> (result.Data?.FirstOrDefault().Value);
         }
 
         async Task<WebCallResult<IEnumerable<ICommonTrade>>> IExchangeClient.GetTradesAsync(string orderId, string? symbol = null)
         {
-            var result = await GetTradeHistoryAsync().ConfigureAwait(false);
+            var result = await GetUserTradeHistoryAsync().ConfigureAwait(false);
             return result.As<IEnumerable<ICommonTrade>>(result.Data?.Trades.Where(t => t.Value.OrderId == orderId).Select(o => (ICommonTrade)o.Value));
         }
 
