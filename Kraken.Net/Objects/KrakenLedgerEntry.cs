@@ -14,7 +14,7 @@ namespace Kraken.Net.Objects
         /// Reference id
         /// </summary>
         [JsonProperty("refid")]
-        public string ReferenceId { get; set; } = "";
+        public string ReferenceId { get; set; } = string.Empty;
         /// <summary>
         /// Timestamp
         /// </summary>
@@ -30,12 +30,12 @@ namespace Kraken.Net.Objects
         /// Class of the asset
         /// </summary>
         [JsonProperty("aclass")]
-        public string AssetClass { get; set; } = "";
+        public string AssetClass { get; set; } = string.Empty;
 
         /// <summary>
         /// Name of the asset
         /// </summary>
-        public string Asset { get; set; } = "";
+        public string Asset { get; set; } = string.Empty;
         /// <summary>
         /// The quantity of the entry
         /// </summary>

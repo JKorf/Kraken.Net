@@ -11,6 +11,6 @@ namespace Kraken.Net.Objects
 		/// Reference id
 		/// </summary>
 		[JsonProperty("refid")]
-		public string ReferenceId { get; set; } = "";
+		public string ReferenceId { get; set; } = string.Empty;
 	}
 }

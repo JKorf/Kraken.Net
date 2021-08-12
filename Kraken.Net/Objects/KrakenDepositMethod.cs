@@ -11,11 +11,11 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Name of the method
         /// </summary>
-        public string Method { get; set; } = "";
+        public string Method { get; set; } = string.Empty;
         /// <summary>
         /// Deposit limit (max) of the method
         /// </summary>
-        public string Limit { get; set; } = "";
+        public string Limit { get; set; } = string.Empty;
         /// <summary>
         /// The deposit fee for the method
         /// </summary>

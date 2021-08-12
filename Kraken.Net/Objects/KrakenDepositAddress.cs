@@ -12,7 +12,7 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// The actual address
         /// </summary>
-        public string Address { get; set; } = "";
+        public string Address { get; set; } = string.Empty;
         /// <summary>
         /// The expire time of the address
         /// </summary>

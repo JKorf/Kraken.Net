@@ -42,6 +42,7 @@ namespace Kraken.Net.Converters
             {
                 orderBook.Asks = arr[1]["a"].ToObject<IEnumerable<KrakenStreamOrderBookEntry>>();
                 orderBook.Bids = arr[2]["b"].ToObject<IEnumerable<KrakenStreamOrderBookEntry>>();
+                orderBook.Checksum = (uint)arr[2]["c"];
                 result.Topic = (string)arr[3];
                 result.Symbol = (string)arr[4];
             }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CryptoExchange.Net.Attributes;
 using CryptoExchange.Net.ExchangeInterfaces;
@@ -15,7 +16,7 @@ namespace Kraken.Net.Objects
         /// Order ids
         /// </summary>
         [JsonProperty("txid")]
-        public IEnumerable<string> OrderIds { get; set; } = new List<string>();
+        public IEnumerable<string> OrderIds { get; set; } = Array.Empty<string>();
         /// <summary>
         /// Descriptions
         /// </summary>
@@ -34,12 +35,12 @@ namespace Kraken.Net.Objects
         /// Order description
         /// </summary>
         [JsonProperty("order")]
-        public string OrderDescription { get; set; } = "";
+        public string OrderDescription { get; set; } = string.Empty;
         /// <summary>
         /// Close order description
         /// </summary>
         [JsonProperty("close")]
         [JsonOptionalProperty]
-        public string CloseOrderDescription { get; set; } = "";
+        public string CloseOrderDescription { get; set; } = string.Empty;
     }
 }

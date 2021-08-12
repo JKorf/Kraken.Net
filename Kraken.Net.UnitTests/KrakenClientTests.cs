@@ -1,14 +1,9 @@
 ﻿using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using CryptoExchange.Net.Authentication;
-using CryptoExchange.Net.Logging;
-using CryptoExchange.Net.Objects;
 using Kraken.Net.Objects;
 using Kraken.Net.UnitTests.TestImplementations;
+using System.Threading.Tasks;
 
 namespace Kraken.Net.UnitTests
 {
@@ -44,7 +39,7 @@ namespace Kraken.Net.UnitTests
         //        var expectedType = method.ReturnType.GetGenericArguments()[0];
         //        var expected = typeof(TestHelpers).GetMethod("CreateObjectWithTestParameters").MakeGenericMethod(expectedType).Invoke(null, null);
         //        var parameters = TestHelpers.CreateParametersForMethod(method, defaultParameterValues);
-        //        var client = TestHelpers.CreateResponseClient(SerializeExpected(expected), new KrakenClientOptions() { ApiCredentials = new ApiCredentials("Test", "Test"), LogVerbosity = LogVerbosity.Debug });
+        //        var client = TestHelpers.CreateResponseClient(SerializeExpected(expected), new KrakenClientOptions() { ApiCredentials = new ApiCredentials("Test", "Test"), LogLevel = LogLevel.Debug });
 
         //        act
         //       var result = method.Invoke(client, parameters);
@@ -59,13 +54,13 @@ namespace Kraken.Net.UnitTests
 
 
         [TestCase()]
-        public void TestErrorResult_Should_ResultInFailedCall()
+        public async Task TestErrorResult_Should_ResultInFailedCall()
         {
             // arrange
             var client = TestHelpers.CreateAuthResponseClient($"{{\"error\": [\"first error\", \"another error\"], \"result\": null}}");
 
             // act
-            var result = client.GetSymbols();
+            var result = await client.GetSymbolsAsync();
 
             // assert
             Assert.IsFalse(result.Success);
@@ -74,13 +69,13 @@ namespace Kraken.Net.UnitTests
         }
 
         [TestCase()]
-        public void TestHttpError_Should_ResultInFailedCall()
+        public async Task TestHttpError_Should_ResultInFailedCall()
         {
             // arrange
             var client = TestHelpers.CreateAuthResponseClient($"Error request", System.Net.HttpStatusCode.BadRequest);
 
             // act
-            var result = client.GetSymbols();
+            var result = await client.GetSymbolsAsync();
 
             // assert
             Assert.IsFalse(result.Success);

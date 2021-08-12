@@ -14,12 +14,12 @@ namespace Kraken.Net.Objects
         /// Order id
         /// </summary>
         [JsonProperty("ordertxid")]
-        public string OrderId { get; set; } = "";
+        public string OrderId { get; set; } = string.Empty;
         /// <summary>
         /// Symbol
         /// </summary>
         [JsonProperty("pair")]
-        public string Symbol { get; set; } = "";
+        public string Symbol { get; set; } = string.Empty;
         /// <summary>
         /// Timestamp
         /// </summary>
@@ -69,10 +69,10 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Misc info
         /// </summary>
-        public string Misc { get; set; } = "";
+        public string Misc { get; set; } = string.Empty;
         /// <summary>
         /// Flags
         /// </summary>
-        public string OFlags { get; set; } = "";
+        public string OFlags { get; set; } = string.Empty;
     }
 }

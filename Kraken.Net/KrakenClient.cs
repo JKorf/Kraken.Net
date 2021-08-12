@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -31,6 +30,15 @@ namespace Kraken.Net
 
         private readonly string? _otp;
         #endregion
+
+        /// <summary>
+        /// Event triggered when an order is placed via this client
+        /// </summary>
+        public event Action<ICommonOrderId>? OnOrderPlaced;
+        /// <summary>
+        /// Event triggered when an order is cancelled via this client
+        /// </summary>
+        public event Action<ICommonOrderId>? OnOrderCanceled;
 
         #region ctor
         /// <summary>
@@ -77,12 +85,6 @@ namespace Kraken.Net
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Server time</returns>
-        public WebCallResult<DateTime> GetServerTime(CancellationToken ct = default) => GetServerTimeAsync(ct).Result;
-        /// <summary>
-        /// Get the server time
-        /// </summary>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Server time</returns>
         public async Task<WebCallResult<DateTime>> GetServerTimeAsync(CancellationToken ct = default)
         {
             var result = await Execute<KrakenServerTime>(GetUri("0/public/Time"), HttpMethod.Get, ct).ConfigureAwait(false);
@@ -97,17 +99,10 @@ namespace Kraken.Net
         /// <param name="assets">Filter list for specific assets</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary of asset info</returns>
-        public WebCallResult<Dictionary<string, KrakenAssetInfo>> GetAssets(CancellationToken ct = default, params string[] assets) => GetAssetsAsync(ct, assets).Result;
-        /// <summary>
-        /// Get a list of assets and info about them
-        /// </summary>
-        /// <param name="assets">Filter list for specific assets</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Dictionary of asset info</returns>
-        public async Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(CancellationToken ct = default, params string[] assets)
+        public async Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(IEnumerable<string>? assets = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
-            if(assets.Any())
+            if(assets?.Any() == true)
                 parameters.AddOptionalParameter("asset", string.Join(",", assets));
 
             return await Execute<Dictionary<string, KrakenAssetInfo>>(GetUri("0/public/Assets"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
@@ -119,36 +114,31 @@ namespace Kraken.Net
         /// <param name="symbols">Filter list for specific symbols</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary of symbol info</returns>
-        public WebCallResult<Dictionary<string, KrakenSymbol>> GetSymbols(CancellationToken ct = default, params string[] symbols) => GetSymbolsAsync(ct, symbols).Result;
-        /// <summary>
-        /// Get a list of symbols and info about them
-        /// </summary>
-        /// <param name="symbols">Filter list for specific symbols</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Dictionary of symbol info</returns>
-        public async Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(CancellationToken ct = default, params string[] symbols)
+        public async Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
-            if (symbols.Any())
+            if (symbols?.Any() == true)
                 parameters.AddOptionalParameter("pair", string.Join(",", symbols));
 
             return await Execute<Dictionary<string, KrakenSymbol>>(GetUri("0/public/AssetPairs"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
-        /// Get tickers for symbols
+        /// Get tickers for symbol
         /// </summary>
-        /// <param name="symbols">Symbols to get tickers for</param>
+        /// <param name="symbol">Symbol to get tickers for</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with ticker info</returns>
-        public WebCallResult<Dictionary<string, KrakenRestTick>> GetTickers(CancellationToken ct = default, params string[] symbols) => GetTickersAsync(ct, symbols).Result;
+        public Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(string symbol, CancellationToken ct = default)
+            => GetTickersAsync(new string[] {symbol}, ct);
+
         /// <summary>
         /// Get tickers for symbols
         /// </summary>
         /// <param name="symbols">Symbols to get tickers for</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with ticker info</returns>
-        public async Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(CancellationToken ct = default, params string[] symbols)
+        public async Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(IEnumerable<string> symbols, CancellationToken ct = default)
         {
             if (!symbols.Any())
                 throw new ArgumentException("No symbols defined to get ticker data for");
@@ -166,16 +156,6 @@ namespace Kraken.Net
             return result;
         }
 
-        /// <summary>
-        /// Gets kline data for a symbol
-        /// </summary>
-        /// <param name="symbol">The symbol to get data for</param>
-        /// <param name="interval">The interval of the klines</param>
-        /// <param name="since">Return klines since a specific time</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Kline data</returns>
-        public WebCallResult<KrakenKlinesResult> GetKlines(string symbol, KlineInterval interval, DateTime? since = null, CancellationToken ct = default) =>
-            GetKlinesAsync(symbol, interval, since, ct).Result;
         /// <summary>
         /// Gets kline data for a symbol
         /// </summary>
@@ -203,15 +183,6 @@ namespace Kraken.Net
         /// <param name="limit">Limit to book to the best x bids/asks</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Order book for the symbol</returns>
-        public WebCallResult<KrakenOrderBook> GetOrderBook(string symbol, int? limit = null, CancellationToken ct = default) => 
-            GetOrderBookAsync(symbol, limit, ct).Result;
-        /// <summary>
-        /// Get the order book for a symbol
-        /// </summary>
-        /// <param name="symbol">Symbol to get the book for</param>
-        /// <param name="limit">Limit to book to the best x bids/asks</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Order book for the symbol</returns>
         public async Task<WebCallResult<KrakenOrderBook>> GetOrderBookAsync(string symbol, int? limit = null, CancellationToken ct = default)
         {
             symbol.ValidateKrakenSymbol();
@@ -223,7 +194,7 @@ namespace Kraken.Net
             var result = await Execute<Dictionary<string, KrakenOrderBook>>(GetUri("0/public/Depth"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if(!result)
                 return new WebCallResult<KrakenOrderBook>(result.ResponseStatusCode, result.ResponseHeaders, null, result.Error);
-            return new WebCallResult<KrakenOrderBook>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.First().Value, result.Error);
+            return result.As(result.Data.First().Value);
         }
 
         /// <summary>
@@ -233,15 +204,7 @@ namespace Kraken.Net
         /// <param name="since">Return trades since a specific time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Recent trades</returns>
-        public WebCallResult<KrakenTradesResult> GetRecentTrades(string symbol, DateTime? since = null, CancellationToken ct = default) => GetRecentTradesAsync(symbol, since, ct).Result;
-        /// <summary>
-        /// Get a list of recent trades for a symbol
-        /// </summary>
-        /// <param name="symbol">Symbol to get trades for</param>
-        /// <param name="since">Return trades since a specific time</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Recent trades</returns>
-        public async Task<WebCallResult<KrakenTradesResult>> GetRecentTradesAsync(string symbol, DateTime? since = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenTradesResult>> GetTradeHistoryAsync(string symbol, DateTime? since = null, CancellationToken ct = default)
         {
             symbol.ValidateKrakenSymbol();
             var parameters = new Dictionary<string, object>()
@@ -252,14 +215,6 @@ namespace Kraken.Net
             return await Execute<KrakenTradesResult>(GetUri("0/public/Trades"), HttpMethod.Get, ct, parameters: parameters).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Get spread data for a symbol
-        /// </summary>
-        /// <param name="symbol">Symbol to get spread data for</param>
-        /// <param name="since">Return spread data since a specific time</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Spread data</returns>
-        public WebCallResult<KrakenSpreadsResult> GetRecentSpread(string symbol, DateTime? since = null, CancellationToken ct = default) => GetRecentSpreadAsync(symbol, since, ct).Result;
         /// <summary>
         /// Get spread data for a symbol
         /// </summary>
@@ -278,13 +233,6 @@ namespace Kraken.Net
             return await Execute<KrakenSpreadsResult>(GetUri("0/public/Spread"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Get balances
-        /// </summary>
-        /// <param name="ct">Cancellation token</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-        /// <returns>Dictionary with balances for assets</returns>
-        public WebCallResult<Dictionary<string, decimal>> GetBalances(string? twoFactorPassword = null, CancellationToken ct = default) => GetBalancesAsync(twoFactorPassword, ct).Result;
         /// <summary>
         /// Get balances
         /// </summary>
@@ -325,14 +273,6 @@ namespace Kraken.Net
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade balance data</returns>
-        public WebCallResult<KrakenTradeBalance> GetTradeBalance(string? baseAsset = null, string? twoFactorPassword = null, CancellationToken ct = default) => GetTradeBalanceAsync(baseAsset, twoFactorPassword, ct).Result;
-        /// <summary>
-        /// Get trade balance
-        /// </summary>
-        /// <param name="baseAsset">Base asset to get trade balance for</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Trade balance data</returns>
         public async Task<WebCallResult<KrakenTradeBalance>> GetTradeBalanceAsync(string? baseAsset = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
@@ -342,14 +282,6 @@ namespace Kraken.Net
             return await Execute<KrakenTradeBalance>(GetUri("0/private/TradeBalance"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Get a list of open orders
-        /// </summary>
-        /// <param name="clientOrderId">Filter by client order id</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>List of open orders</returns>
-        public WebCallResult<OpenOrdersPage> GetOpenOrders(string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default) => GetOpenOrdersAsync(clientOrderId, twoFactorPassword, ct).Result;
         /// <summary>
         /// Get a list of open orders
         /// </summary>
@@ -376,18 +308,6 @@ namespace Kraken.Net
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Closed orders page</returns>
-        public WebCallResult<KrakenClosedOrdersPage> GetClosedOrders(string? clientOrderId = null, DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default) => 
-            GetClosedOrdersAsync(clientOrderId, startTime, endTime, resultOffset, twoFactorPassword, ct).Result;
-        /// <summary>
-        /// Get a list of closed orders
-        /// </summary>
-        /// <param name="clientOrderId">Filter by client order id</param>
-        /// <param name="startTime">Return data after this time</param>
-        /// <param name="endTime">Return data before this time</param>
-        /// <param name="resultOffset">Offset the results by</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Closed orders page</returns>
         public async Task<WebCallResult<KrakenClosedOrdersPage>> GetClosedOrdersAsync(string? clientOrderId = null, DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
@@ -401,14 +321,16 @@ namespace Kraken.Net
         }
 
         /// <summary>
-        /// Get info on specific orders
+        /// Get info on specific order
         /// </summary>
         /// <param name="clientOrderId">Get orders by clientOrderId</param>
-        /// <param name="orderIds">Get orders by their order ids</param>
+        /// <param name="orderId">Get order by its order id</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with order info</returns>
-        public WebCallResult<Dictionary<string, KrakenOrder>> GetOrders(string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default, params string[] orderIds) => GetOrdersAsync(clientOrderId, twoFactorPassword, ct, orderIds).Result;
+        public Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? orderId = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default)
+            => GetOrdersAsync(orderId == null? null: new[] { orderId }, clientOrderId, twoFactorPassword, ct);
+
         /// <summary>
         /// Get info on specific orders
         /// </summary>
@@ -417,7 +339,7 @@ namespace Kraken.Net
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with order info</returns>
-        public async Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default, params string[] orderIds)
+        public async Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             if((string.IsNullOrEmpty(clientOrderId) && !orderIds.Any()) || (!string.IsNullOrEmpty(clientOrderId) && orderIds.Any()))
                 throw new ArgumentException("Either clientOrderId or ordersIds should be provided");
@@ -425,7 +347,7 @@ namespace Kraken.Net
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("trades", true);
             parameters.AddOptionalParameter("userref", clientOrderId);
-            parameters.AddOptionalParameter("txid", orderIds.Any() ? string.Join(",", orderIds): null);
+            parameters.AddOptionalParameter("txid", orderIds?.Any() == true ? string.Join(",", orderIds): null);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
             return await Execute<Dictionary<string, KrakenOrder>>(GetUri("0/private/QueryOrders"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
@@ -439,18 +361,7 @@ namespace Kraken.Net
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade history page</returns>
-        public WebCallResult<KrakenUserTradesPage> GetTradeHistory(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default) => 
-            GetTradeHistoryAsync(startTime, endTime, resultOffset, twoFactorPassword, ct).Result;
-        /// <summary>
-        /// Get trade history
-        /// </summary>
-        /// <param name="startTime">Return data after this time</param>
-        /// <param name="endTime">Return data before this time</param>
-        /// <param name="resultOffset">Offset the results by</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Trade history page</returns>
-        public async Task<WebCallResult<KrakenUserTradesPage>> GetTradeHistoryAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("trades", true);
@@ -471,11 +382,14 @@ namespace Kraken.Net
         /// <summary>
         /// Get info on specific trades
         /// </summary>
-        /// <param name="tradeIds">The trades to get info on</param>
+        /// <param name="tradeId">The trade to get info on</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with trade info</returns>
-        public WebCallResult<Dictionary<string, KrakenUserTrade>> GetTrades(string? twoFactorPassword = null, CancellationToken ct = default, params string[] tradeIds) => GetTradesAsync(twoFactorPassword, ct, tradeIds).Result;
+        public Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsync(string tradeId, string? twoFactorPassword = null, CancellationToken ct = default)
+            => GetUserTradeDetailsAsync(new string[] { tradeId }, twoFactorPassword, ct);
+
+
         /// <summary>
         /// Get info on specific trades
         /// </summary>
@@ -483,11 +397,11 @@ namespace Kraken.Net
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with trade info</returns>
-        public async Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetTradesAsync(string? twoFactorPassword = null, CancellationToken ct = default, params string[] tradeIds)
+        public async Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsync(IEnumerable<string> tradeIds, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("trades", true);
-            parameters.AddOptionalParameter("txid", tradeIds.Any() ? string.Join(",", tradeIds) : null);
+            parameters.AddOptionalParameter("txid", tradeIds?.Any() == true ? string.Join(",", tradeIds) : null);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
             return await Execute<Dictionary<string, KrakenUserTrade>>(GetUri("0/private/QueryTrades"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
@@ -499,36 +413,15 @@ namespace Kraken.Net
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with position info</returns>
-        public WebCallResult<Dictionary<string, KrakenPosition>> GetOpenPositions(string? twoFactorPassword = null, CancellationToken ct = default, params string[] transactionIds) => GetOpenPositionsAsync(twoFactorPassword, ct, transactionIds).Result;
-        /// <summary>
-        /// Get a list of open positions
-        /// </summary>
-        /// <param name="transactionIds">Filter by transaction ids</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Dictionary with position info</returns>
-        public async Task<WebCallResult<Dictionary<string, KrakenPosition>>> GetOpenPositionsAsync(string? twoFactorPassword = null, CancellationToken ct = default, params string[] transactionIds)
+        public async Task<WebCallResult<Dictionary<string, KrakenPosition>>> GetOpenPositionsAsync(IEnumerable<string>? transactionIds = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("docalcs", true);
-            parameters.AddOptionalParameter("txid", transactionIds.Any() ? string.Join(",", transactionIds) : null);
+            parameters.AddOptionalParameter("txid", transactionIds?.Any() == true ? string.Join(",", transactionIds) : null);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
             return await Execute<Dictionary<string, KrakenPosition>>(GetUri("0/private/OpenPositions"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Get ledger entries info
-        /// </summary>
-        /// <param name="assets">Filter list by asset names</param>
-        /// <param name="entryTypes">Filter list by entry types</param>
-        /// <param name="startTime">Return data after this time</param>
-        /// <param name="endTime">Return data before this time</param>
-        /// <param name="resultOffset">Offset the results by</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Ledger entries page</returns>
-        public WebCallResult<KrakenLedgerPage> GetLedgerInfo(IEnumerable<string>? assets = null, IEnumerable<LedgerEntryType>? entryTypes = null, DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default) => 
-            GetLedgerInfoAsync(assets, entryTypes, startTime, endTime, resultOffset, twoFactorPassword, ct).Result;
         /// <summary>
         /// Get ledger entries info
         /// </summary>
@@ -559,18 +452,10 @@ namespace Kraken.Net
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with ledger entry info</returns>
-        public WebCallResult<Dictionary<string, KrakenLedgerEntry>> GetLedgersEntry(string? twoFactorPassword = null, CancellationToken ct = default, params string[] ledgerIds) => GetLedgersEntryAsync(twoFactorPassword, ct, ledgerIds).Result;
-        /// <summary>
-        /// Get info on specific ledger entries
-        /// </summary>
-        /// <param name="ledgerIds">The ids to get info for</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Dictionary with ledger entry info</returns>
-        public async Task<WebCallResult<Dictionary<string, KrakenLedgerEntry>>> GetLedgersEntryAsync(string? twoFactorPassword = null, CancellationToken ct = default, params string[] ledgerIds)
+        public async Task<WebCallResult<Dictionary<string, KrakenLedgerEntry>>> GetLedgersEntryAsync(IEnumerable<string>? ledgerIds = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
-            parameters.AddOptionalParameter("id", ledgerIds.Any() ? string.Join(",", ledgerIds) : null);
+            parameters.AddOptionalParameter("id", ledgerIds?.Any() == true ? string.Join(",", ledgerIds) : null);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
             return await Execute<Dictionary<string, KrakenLedgerEntry>>(GetUri("0/private/QueryLedgers"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
@@ -582,31 +467,15 @@ namespace Kraken.Net
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade fee info</returns>
-        public WebCallResult<KrakenTradeVolume> GetTradeVolume(string? twoFactorPassword = null, CancellationToken ct = default, params string[] symbols) => GetTradeVolumeAsync(twoFactorPassword, ct, symbols).Result;
-        /// <summary>
-        /// Get trade volume
-        /// </summary>
-        /// <param name="symbols">Symbols to get data for</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Trade fee info</returns>
-        public async Task<WebCallResult<KrakenTradeVolume>> GetTradeVolumeAsync(string? twoFactorPassword = null, CancellationToken ct = default, params string[] symbols)
+        public async Task<WebCallResult<KrakenTradeVolume>> GetTradeVolumeAsync(IEnumerable<string>? symbols = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("fee-info", true);
-            parameters.AddOptionalParameter("pair", symbols.Any() ? string.Join(",", symbols) : null);
+            parameters.AddOptionalParameter("pair", symbols?.Any() == true ? string.Join(",", symbols) : null);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
             return await Execute<KrakenTradeVolume>(GetUri("0/private/TradeVolume"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Get deposit methods
-        /// </summary>
-        /// <param name="asset">Asset to get methods for</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Array with methods for deposit</returns>
-        public WebCallResult<IEnumerable<KrakenDepositMethod>> GetDepositMethods(string asset, string? twoFactorPassword = null, CancellationToken ct = default) => GetDepositMethodsAsync(asset, twoFactorPassword, ct).Result;
         /// <summary>
         /// Get deposit methods
         /// </summary>
@@ -625,17 +494,6 @@ namespace Kraken.Net
             return await Execute< IEnumerable<KrakenDepositMethod>>(GetUri("0/private/DepositMethods"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Get deposit addresses for an asset
-        /// </summary>
-        /// <param name="asset">The asset to get the deposit address for</param>
-        /// <param name="depositMethod">The method of deposit</param>
-        /// <param name="generateNew">Whether to generate a new address</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns></returns>
-        public WebCallResult<IEnumerable<KrakenDepositAddress>> GetDepositAddresses(string asset, string depositMethod, bool generateNew = false, string? twoFactorPassword = null, CancellationToken ct = default) => 
-            GetDepositAddressesAsync(asset, depositMethod, generateNew, twoFactorPassword, ct).Result;
         /// <summary>
         /// Get deposit addresses for an asset
         /// </summary>
@@ -672,15 +530,6 @@ namespace Kraken.Net
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Deposit status list</returns>
-        public WebCallResult<IEnumerable<KrakenDepositStatus>> GetDepositStatus(string asset, string depositMethod, string? twoFactorPassword = null, CancellationToken ct = default) => GetDepositStatusAsync(asset, depositMethod, twoFactorPassword, ct).Result;
-        /// <summary>
-        /// Get status deposits for an asset
-        /// </summary>
-        /// <param name="asset">Asset to get deposit info for</param>
-        /// <param name="depositMethod">The deposit method</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Deposit status list</returns>
         public async Task<WebCallResult<IEnumerable<KrakenDepositStatus>>> GetDepositStatusAsync(string asset, string depositMethod, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             asset.ValidateNotNull(nameof(asset));
@@ -695,52 +544,6 @@ namespace Kraken.Net
             return await Execute<IEnumerable<KrakenDepositStatus>>(GetUri("0/private/DepositStatus"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Place a new order
-        /// </summary>
-        /// <param name="symbol">The symbol the order is on</param>
-        /// <param name="side">The side of the order</param>
-        /// <param name="type">The type of the order</param>
-        /// <param name="quantity">The quantity of the order</param>
-        /// <param name="clientOrderId">A client id to reference the order by</param>
-        /// <param name="price">Price of the order:
-        /// Limit=limit price,
-        /// StopLoss=stop loss price,
-        /// TakeProfit=take profit price,
-        /// StopLossProfit=stop loss price,
-        /// StopLossProfitLimit=stop loss price,
-        /// StopLossLimit=stop loss trigger price,
-        /// TakeProfitLimit=take profit trigger price,
-        /// TrailingStop=trailing stop offset,
-        /// TrailingStopLimit=trailing stop offset,
-        /// StopLossAndLimit=stop loss price,
-        /// </param>
-        /// <param name="secondaryPrice">Secondary price of an order:
-        /// StopLossProfit/StopLossProfitLimit=take profit price,
-        /// StopLossLimit/TakeProfitLimit=triggered limit price,
-        /// TrailingStopLimit=triggered limit offset,
-        /// StopLossAndLimit=limit price</param>
-        /// <param name="leverage">Desired leverage</param>
-        /// <param name="startTime">Scheduled start time</param>
-        /// <param name="expireTime">Expiration time</param>
-        /// <param name="validateOnly">Only validate inputs, don't actually place the order</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Placed order info</returns>
-        public WebCallResult<KrakenPlacedOrder> PlaceOrder(
-            string symbol, 
-            OrderSide side, 
-            OrderType type, 
-            decimal quantity, 
-            uint? clientOrderId = null,
-            decimal? price = null,
-            decimal? secondaryPrice = null,
-            decimal? leverage = null,
-            DateTime? startTime = null,
-            DateTime? expireTime = null,
-            bool? validateOnly = null, 
-            string? twoFactorPassword = null,
-            CancellationToken ct = default) => PlaceOrderAsync(symbol, side, type, quantity, clientOrderId, price, secondaryPrice, leverage, startTime, expireTime, validateOnly, twoFactorPassword, ct).Result;
         /// <summary>
         /// Place a new order
         /// </summary>
@@ -806,17 +609,12 @@ namespace Kraken.Net
             parameters.AddOptionalParameter("expiretm", expireTime.HasValue ? JsonConvert.SerializeObject(expireTime.Value, new TimestampSecondsConverter()) : null);
             if (validateOnly == true)
                 parameters.AddOptionalParameter("validate", true);
-            return await Execute<KrakenPlacedOrder>(GetUri("0/private/AddOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            var result = await Execute<KrakenPlacedOrder>(GetUri("0/private/AddOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (result)
+                OnOrderPlaced?.Invoke(result.Data);
+            return result;
         }
 
-        /// <summary>
-        /// Cancel an order
-        /// </summary>
-        /// <param name="orderId">The id of the order to cancel</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Cancel result</returns>
-        public WebCallResult<KrakenCancelResult> CancelOrder(string orderId, string? twoFactorPassword = null, CancellationToken ct = default) => CancelOrderAsync(orderId, twoFactorPassword, ct).Result;
         /// <summary>
         /// Cancel an order
         /// </summary>
@@ -832,20 +630,11 @@ namespace Kraken.Net
                 {"txid", orderId}
             };
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
-            return await Execute<KrakenCancelResult>(GetUri("0/private/CancelOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            var result = await Execute<KrakenCancelResult>(GetUri("0/private/CancelOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (result)
+                OnOrderCanceled?.Invoke(new KrakenOrder { OrderId = orderId });
+            return result;
         }
-
-        /// <summary>
-        /// Get info before a withdrawal
-        /// </summary>
-        /// <param name="asset">The asset</param>
-        /// <param name="key">The withdrawal key name</param>
-        /// <param name="amount">The amount to withdraw</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns></returns>
-        public WebCallResult<KrakenWithdrawInfo> GetWithdrawInfo(string asset, string key, decimal amount, string? twoFactorPassword = null, CancellationToken ct = default) =>
-            GetWithdrawInfoAsync(asset, key, amount, twoFactorPassword, ct).Result;
 
         /// <summary>
         /// Get info before a withdrawal
@@ -869,11 +658,11 @@ namespace Kraken.Net
             };
 
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
-            return await Execute<KrakenWithdrawInfo>(GetUri("0/private/WithdrawInfo"), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            return await Execute<KrakenWithdrawInfo>(GetUri("0/private/WithdrawInfo"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <summary>
-        /// Withdraw funds
+        /// Place a withdraw request
         /// </summary>
         /// <param name="asset">The asset being withdrawn</param>
         /// <param name="key">The withdrawal key name, as set up on your account</param>
@@ -881,18 +670,7 @@ namespace Kraken.Net
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Withdraw reference id</returns>
-        public WebCallResult<KrakenWithdraw> WithdrawFunds(string asset, string key, decimal amount, string? twoFactorPassword = null, CancellationToken ct = default) =>
-            WithdrawFundsAsync(asset, key, amount, twoFactorPassword, ct).Result;
-        /// <summary>
-        /// Withdraw funds
-        /// </summary>
-        /// <param name="asset">The asset being withdrawn</param>
-        /// <param name="key">The withdrawal key name, as set up on your account</param>
-        /// <param name="amount">The amount to withdraw, including fees</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Withdraw reference id</returns>
-        public async Task<WebCallResult<KrakenWithdraw>> WithdrawFundsAsync(string asset, string key, decimal amount, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenWithdraw>> WithdrawAsync(string asset, string key, decimal amount, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             asset.ValidateNotNull(nameof(asset));
             key.ValidateNotNull(nameof(key));
@@ -917,14 +695,6 @@ namespace Kraken.Net
         /// </summary>
         /// <param name="ct"></param>
         /// <returns></returns>
-        public WebCallResult<KrakenWebSocketToken> GetWebsocketToken(CancellationToken ct = default) =>
-            GetWebsocketTokenAsync(ct).Result;
-
-        /// <summary>
-        /// Get the token to connect to the private websocket streams
-        /// </summary>
-        /// <param name="ct"></param>
-        /// <returns></returns>
         public async Task<WebCallResult<KrakenWebSocketToken>> GetWebsocketTokenAsync(CancellationToken ct = default)
         {
             return await Execute<KrakenWebSocketToken>(GetUri("0/private/GetWebSocketsToken"), HttpMethod.Post, ct, null, true).ConfigureAwait(false);
@@ -935,27 +705,24 @@ namespace Kraken.Net
 
         async Task<WebCallResult<IEnumerable<ICommonSymbol>>> IExchangeClient.GetSymbolsAsync()
         {
-            var exchangeInfo = await GetSymbolsAsync();
-            return new WebCallResult<IEnumerable<ICommonSymbol>>(exchangeInfo.ResponseStatusCode,
-                exchangeInfo.ResponseHeaders, exchangeInfo.Data?.Select(d => d.Value), exchangeInfo.Error);
+            var exchangeInfo = await GetSymbolsAsync().ConfigureAwait(false);
+            return exchangeInfo.As<IEnumerable<ICommonSymbol>>(exchangeInfo.Data?.Select(d => d.Value));
         }
 
         async Task<WebCallResult<ICommonTicker>> IExchangeClient.GetTickerAsync(string symbol)
         {
-            var ticker = await GetTickersAsync(default, symbol);
-            return new WebCallResult<ICommonTicker>(ticker.ResponseStatusCode,
-                ticker.ResponseHeaders, ticker.Data?.Select(d => d.Value).FirstOrDefault(), ticker.Error);
+            var ticker = await GetTickersAsync(symbol, default).ConfigureAwait(false);
+            return ticker.As<ICommonTicker>(ticker.Data?.Select(d => d.Value).FirstOrDefault());
         }
 
         async Task<WebCallResult<IEnumerable<ICommonTicker>>> IExchangeClient.GetTickersAsync()
         {
-            var assets = await GetSymbolsAsync();
+            var assets = await GetSymbolsAsync().ConfigureAwait(false);
             if(!assets)
                 return new WebCallResult<IEnumerable<ICommonTicker>>(assets.ResponseStatusCode, assets.ResponseHeaders, null, assets.Error);
 
-            var ticker = await GetTickersAsync(default, assets.Data.Select(d => d.Key).ToArray());
-            return new WebCallResult<IEnumerable<ICommonTicker>>(ticker.ResponseStatusCode,
-                ticker.ResponseHeaders, ticker.Data?.Select(d => d.Value), ticker.Error);
+            var ticker = await GetTickersAsync(assets.Data.Select(d => d.Key).ToArray(), default).ConfigureAwait(false);
+            return ticker.As<IEnumerable<ICommonTicker>>(ticker.Data?.Select(d => d.Value));
         }
 
         async Task<WebCallResult<IEnumerable<ICommonKline>>> IExchangeClient.GetKlinesAsync(string symbol, TimeSpan timespan, DateTime? startTime = null, DateTime? endTime = null, int? limit = null)
@@ -968,78 +735,70 @@ namespace Kraken.Net
                 return WebCallResult<IEnumerable<ICommonKline>>.CreateErrorResult(new ArgumentError(
                     $"Kraken doesn't support the {nameof(limit)} parameter for the method {nameof(IExchangeClient.GetKlinesAsync)}"));
 
-            var klines = await GetKlinesAsync(symbol, GetKlineIntervalFromTimespan(timespan), since: startTime);
+            var klines = await GetKlinesAsync(symbol, GetKlineIntervalFromTimespan(timespan), since: startTime).ConfigureAwait(false);
             if (!klines.Success)
                 return WebCallResult<IEnumerable<ICommonKline>>.CreateErrorResult(klines.ResponseStatusCode, klines.ResponseHeaders, klines.Error!);
-            return new WebCallResult<IEnumerable<ICommonKline>>(klines.ResponseStatusCode, klines.ResponseHeaders, klines.Data.Data, klines.Error);
+            return klines.As<IEnumerable<ICommonKline>>(klines.Data.Data);
         }
         
         async Task<WebCallResult<ICommonOrderBook>> IExchangeClient.GetOrderBookAsync(string symbol)
         {
-            var book = await GetOrderBookAsync(symbol);
-            return WebCallResult<ICommonOrderBook>.CreateFrom(book);
+            var book = await GetOrderBookAsync(symbol).ConfigureAwait(false);
+            return book.As<ICommonOrderBook>(book.Data);
         }
 
         async Task<WebCallResult<IEnumerable<ICommonRecentTrade>>> IExchangeClient.GetRecentTradesAsync(string symbol)
         {
-            var tradesResult = await GetRecentTradesAsync(symbol, null);
+            var tradesResult = await GetTradeHistoryAsync(symbol, null).ConfigureAwait(false);
             if (!tradesResult.Success)
                 return WebCallResult<IEnumerable<ICommonRecentTrade>>.CreateErrorResult(tradesResult.ResponseStatusCode, tradesResult.ResponseHeaders, tradesResult.Error!);
 
-            return new WebCallResult<IEnumerable<ICommonRecentTrade>>(tradesResult.ResponseStatusCode,
-                tradesResult.ResponseHeaders, tradesResult.Data?.Data, tradesResult.Error);
+            return tradesResult.As<IEnumerable<ICommonRecentTrade>>(tradesResult.Data?.Data);
         }
 
         async Task<WebCallResult<ICommonOrderId>> IExchangeClient.PlaceOrderAsync(string symbol, IExchangeClient.OrderSide side, IExchangeClient.OrderType type, decimal quantity, decimal? price = null, string? accountId = null)
         {
-            var result = await PlaceOrderAsync(symbol, GetOrderSide(side), GetOrderType(type), quantity, price: price);
-            return WebCallResult<ICommonOrderId>.CreateFrom(result);
+            var result = await PlaceOrderAsync(symbol, GetOrderSide(side), GetOrderType(type), quantity, price: price).ConfigureAwait(false);
+            return result.As<ICommonOrderId>(result.Data);
         }
 
         async Task<WebCallResult<ICommonOrder>> IExchangeClient.GetOrderAsync(string orderId, string? symbol)
         {
-            var result = await GetOrdersAsync(orderIds: orderId);
-            return new WebCallResult<ICommonOrder> (result.ResponseStatusCode,
-                result.ResponseHeaders, result.Data?.FirstOrDefault().Value, result.Error);
+            var result = await GetOrderAsync(orderId).ConfigureAwait(false);
+            return result.As<ICommonOrder> (result.Data?.FirstOrDefault().Value);
         }
 
         async Task<WebCallResult<IEnumerable<ICommonTrade>>> IExchangeClient.GetTradesAsync(string orderId, string? symbol = null)
         {
-            var result = await GetTradeHistoryAsync();
-            return new WebCallResult<IEnumerable<ICommonTrade>>(result.ResponseStatusCode,
-                result.ResponseHeaders, 
-                result.Data?.Trades.Where(t => t.Value.OrderId == orderId).Select(o => (ICommonTrade)o.Value), result.Error);
+            var result = await GetUserTradesAsync().ConfigureAwait(false);
+            return result.As<IEnumerable<ICommonTrade>>(result.Data?.Trades.Where(t => t.Value.OrderId == orderId).Select(o => (ICommonTrade)o.Value));
         }
 
         async Task<WebCallResult<IEnumerable<ICommonOrder>>> IExchangeClient.GetOpenOrdersAsync(string? symbol)
         {
-            var result = await GetOpenOrdersAsync();
-            return new WebCallResult<IEnumerable<ICommonOrder>>(result.ResponseStatusCode,
-                result.ResponseHeaders, result.Data?.Open.Select(d => d.Value), result.Error);
+            var result = await GetOpenOrdersAsync().ConfigureAwait(false);
+            return result.As<IEnumerable<ICommonOrder>>(result.Data?.Open.Select(d => d.Value));
         }
 
         async Task<WebCallResult<IEnumerable<ICommonOrder>>> IExchangeClient.GetClosedOrdersAsync(string? symbol)
         {
-            var result = await GetClosedOrdersAsync();
-            return new WebCallResult<IEnumerable<ICommonOrder>>(result.ResponseStatusCode,
-                result.ResponseHeaders, result.Data?.Closed.Select(d => d.Value), result.Error);
+            var result = await GetClosedOrdersAsync().ConfigureAwait(false);
+            return result.As<IEnumerable<ICommonOrder>>(result.Data?.Closed.Select(d => d.Value));
         }
 
         async Task<WebCallResult<ICommonOrderId>> IExchangeClient.CancelOrderAsync(string orderId, string? symbol)
         {
-            var result = await CancelOrderAsync(orderId);
+            var result = await CancelOrderAsync(orderId).ConfigureAwait(false);
             if(result.Data?.Pending.Any() != true)
                 return WebCallResult<ICommonOrderId>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error ?? new ServerError("No orders cancelled"));
 
-            return new WebCallResult<ICommonOrderId>(result.ResponseStatusCode, result.ResponseHeaders, 
-                result? new KrakenOrder(){ ReferenceId  = result.Data.Pending.First().ToString() } : null, result.Error);
+            return result.As<ICommonOrderId>(result? new KrakenOrder(){ ReferenceId  = result.Data.Pending.First().ToString() } : null);
         }
 
         async Task<WebCallResult<IEnumerable<ICommonBalance>>> IExchangeClient.GetBalancesAsync(string? accountId = null)
         {
-            var result = await GetBalancesAsync();
-            return new WebCallResult<IEnumerable<ICommonBalance>>(result.ResponseStatusCode,
-                result.ResponseHeaders, result.Data?.Select(d => new KrakenBalance() { Asset = d.Key, Balance = d.Value}), result.Error);
+            var result = await GetBalancesAsync().ConfigureAwait(false);
+            return result.As<IEnumerable<ICommonBalance>>(result.Data?.Select(d => new KrakenBalance() { Asset = d.Key, Balance = d.Value}));
         }
 
         #endregion
@@ -1057,17 +816,22 @@ namespace Kraken.Net
 
         private async Task<WebCallResult<T>> Execute<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false)
         {
-            var result = await SendRequest<KrakenResult<T>>(url, method, ct, parameters, signed).ConfigureAwait(false);
+            var result = await SendRequestAsync<KrakenResult<T>>(url, method, ct, parameters, signed).ConfigureAwait(false);
             if (!result)
                 return new WebCallResult<T>(result.ResponseStatusCode, result.ResponseHeaders, default, result.Error);
 
             if (result.Data.Error.Any())
                 return new WebCallResult<T>(result.ResponseStatusCode, result.ResponseHeaders, default, new ServerError(string.Join(", ", result.Data.Error)));
 
-            return new WebCallResult<T>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Result, null);
+            return result.As<T>(result.Data.Result);
         }
 
-
+        /// <summary>
+        /// Get the name of a symbol for Kraken based on the base and quote asset
+        /// </summary>
+        /// <param name="baseAsset"></param>
+        /// <param name="quoteAsset"></param>
+        /// <returns></returns>
         public string GetSymbolName(string baseAsset, string quoteAsset) => (baseAsset + quoteAsset).ToUpperInvariant();
 
         private static KlineInterval GetKlineIntervalFromTimespan(TimeSpan timeSpan)

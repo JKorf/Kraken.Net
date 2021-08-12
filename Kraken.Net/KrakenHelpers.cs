@@ -17,7 +17,7 @@ namespace Kraken.Net
             if (string.IsNullOrEmpty(symbolString))
                 throw new ArgumentException("Symbol is not provided");
             if (!Regex.IsMatch(symbolString, "^(([a-z]|[A-Z]|[0-9]|\\.){5,})$"))
-                throw new ArgumentException($"{symbolString} is not a valid Kraken symbol. Should be [QuoteCurrency][BaseCurrency], e.g. ETHXBT");
+                throw new ArgumentException($"{symbolString} is not a valid Kraken symbol. Should be [BaseCurrency][QuoteCurrency], e.g. ETHXBT");
             return symbolString;
         }
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kraken.Net.Objects.Socket
+﻿namespace Kraken.Net.Objects.Socket
 {
     /// <summary>
     /// Socket token
@@ -12,7 +8,7 @@ namespace Kraken.Net.Objects.Socket
         /// <summary>
         /// Token to use for connecting to private websockets
         /// </summary>
-        public string Token { get; set; } = "";
+        public string Token { get; set; } = string.Empty;
         /// <summary>
         /// Expires after x seconds
         /// </summary>
