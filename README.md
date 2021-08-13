@@ -83,6 +83,7 @@ For the basic client options see also the CryptoExchange.Net [docs](https://gith
 | Property | Description | Default |
 | ----------- | ----------- | ---------|
 |`StaticTwoFactorAuthenticationPassword`|The static password to be sent as `otp` parameter in requests |`null`
+
 **KrakenSocketClientOptions**  
 | Property | Description | Default |
 | ----------- | ----------- | ---------|
