@@ -106,7 +106,7 @@ namespace Kraken.Net
             var intervalMinutes = int.Parse(JsonConvert.SerializeObject(interval, new KlineIntervalConverter(false)));
             var internalHandler = new Action<DataEvent<KrakenSocketEvent<KrakenStreamKline>>>(data =>
             {
-                handler(data.As(data.Data.Data, data.Data.Symbol));
+                handler(data.As(data.Data.Data, data.Data.Topic));
             });
 
             return await SubscribeAsync(new KrakenSubscribeRequest("ohlc", NextId(), symbol) { Details = new KrakenOHLCSubscriptionDetails(intervalMinutes) }, null, false, internalHandler).ConfigureAwait(false);
