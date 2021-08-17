@@ -1,5 +1,5 @@
 # Kraken.Net
-![Build status](https://travis-ci.org/JKorf/Kraken.Net.svg?branch=master) ![Nuget version](https://img.shields.io/nuget/v/KrakenExchange.net.svg)  ![Nuget downloads](https://img.shields.io/nuget/dt/KrakenExchange.Net.svg)
+![Build status](https://travis-ci.com/JKorf/Kraken.Net.svg?branch=master) ![Nuget version](https://img.shields.io/nuget/v/KrakenExchange.net.svg)  ![Nuget downloads](https://img.shields.io/nuget/dt/KrakenExchange.Net.svg)
 
 Kraken.Net is a wrapper around the Kraken API as described on [Kraken](https://www.kraken.com/features/api), including all features the API provides using clear and readable objects, both for the REST  as the websocket API's.
 
@@ -83,12 +83,17 @@ For the basic client options see also the CryptoExchange.Net [docs](https://gith
 | Property | Description | Default |
 | ----------- | ----------- | ---------|
 |`StaticTwoFactorAuthenticationPassword`|The static password to be sent as `otp` parameter in requests |`null`
+
 **KrakenSocketClientOptions**  
 | Property | Description | Default |
 | ----------- | ----------- | ---------|
 |`AuthBaseAddress`|The base address for authenticated subscriptions|`wss://ws-auth.kraken.com/`
 
 ## Release notes
+* Version 2.0.1 - 13 Aug 2021
+    * Fix for OperationCancelledException being thrown when closing a socket from a .net framework project
+    * Fixed deserialization issue in KrakenTradeVolume
+
 * Version 2.0.0 - 12 Aug 2021
 	* Release version with new CryptoExchange.Net version 4.0.0
 		* Multiple changes regarding logging and socket connection, see [CryptoExchange.Net release notes](https://github.com/JKorf/CryptoExchange.Net#release-notes)
