@@ -32,6 +32,9 @@ namespace Kraken.Net.Objects.Socket
         [JsonProperty("name")]
         public string Topic { get; set; }
 
+        [JsonIgnore]
+        public virtual string ChannelName => Topic;
+
         public KrakenSubscriptionDetails(string topic)
         {
             Topic = topic;
@@ -64,6 +67,8 @@ namespace Kraken.Net.Objects.Socket
     {
         [JsonProperty("interval")]
         public int Interval { get; set; }
+        [JsonIgnore]
+        public override string ChannelName => "ohlc-"+Interval;
 
         public KrakenOHLCSubscriptionDetails(int interval) : base("ohlc")
         {
@@ -75,6 +80,8 @@ namespace Kraken.Net.Objects.Socket
     {
         [JsonProperty("depth")]
         public int Depth { get; set; }
+        [JsonIgnore]
+        public override string ChannelName => "book-" + Depth;
 
         public KrakenDepthSubscriptionDetails(int depth) : base("book")
         {

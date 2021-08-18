@@ -438,6 +438,73 @@
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.PlaceOrderAsync(System.String,System.String,Kraken.Net.Objects.OrderType,Kraken.Net.Objects.OrderSide,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Objects.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal})">
+            <summary>
+            Place a new order
+            </summary>
+            <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="symbol">The symbol the order is on</param>
+            <param name="side">The side of the order</param>
+            <param name="type">The type of the order</param>
+            <param name="quantity">The quantity of the order</param>
+            <param name="clientOrderId">A client id to reference the order by</param>
+            <param name="price">Price of the order:
+            Limit=limit price,
+            StopLoss=stop loss price,
+            TakeProfit=take profit price,
+            StopLossProfit=stop loss price,
+            StopLossProfitLimit=stop loss price,
+            StopLossLimit=stop loss trigger price,
+            TakeProfitLimit=take profit trigger price,
+            TrailingStop=trailing stop offset,
+            TrailingStopLimit=trailing stop offset,
+            StopLossAndLimit=stop loss price,
+            </param>
+            <param name="secondaryPrice">Secondary price of an order:
+            StopLossProfit/StopLossProfitLimit=take profit price,
+            StopLossLimit/TakeProfitLimit=triggered limit price,
+            TrailingStopLimit=triggered limit offset,
+            StopLossAndLimit=limit price</param>
+            <param name="leverage">Desired leverage</param>
+            <param name="startTime">Scheduled start time</param>
+            <param name="expireTime">Expiration time</param>
+            <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+            <param name="closeOrderType">Close order type</param>
+            <param name="closePrice">Close order price</param>
+            <param name="secondaryClosePrice">Close order secondary price</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.CancelOrderAsync(System.String,System.String)">
+            <summary>
+            Cancel an order
+            </summary>
+            <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="orderId">Id of the order to cancel</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.CancelOrdersAsync(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Cancel multiple orders
+            </summary>
+            <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="orderIds">Id of the orders to cancel</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.CancelAllOrdersAsync(System.String)">
+            <summary>
+            Cancel all open orders
+            </summary>
+            <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.CancelAllOrdersAfterAsync(System.String,System.TimeSpan)">
+            <summary>
+            Cancel all open orders after the timeout
+            </summary>
+            <param name="timeout"></param>
+            <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <returns></returns>
+        </member>
         <member name="T:Kraken.Net.KrakenClient">
             <summary>
             Client for the Kraken Rest API
@@ -989,46 +1056,61 @@
         </member>
         <member name="M:Kraken.Net.KrakenSocketClient.PlaceOrderAsync(System.String,System.String,Kraken.Net.Objects.OrderType,Kraken.Net.Objects.OrderSide,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Objects.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal})">
             <summary>
-            
+            Place a new order
             </summary>
-            <param name="websocketToken"></param>
-            <param name="symbol"></param>
-            <param name="type"></param>
-            <param name="side"></param>
-            <param name="quantity"></param>
-            <param name="clientOrderId"></param>
-            <param name="price"></param>
-            <param name="secondaryPrice"></param>
-            <param name="leverage"></param>
-            <param name="startTime"></param>
-            <param name="expireTime"></param>
-            <param name="validateOnly"></param>
-            <param name="closeOrderType"></param>
-            <param name="closePrice"></param>
-            <param name="secondaryClosePrice"></param>
+            <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="symbol">The symbol the order is on</param>
+            <param name="side">The side of the order</param>
+            <param name="type">The type of the order</param>
+            <param name="quantity">The quantity of the order</param>
+            <param name="clientOrderId">A client id to reference the order by</param>
+            <param name="price">Price of the order:
+            Limit=limit price,
+            StopLoss=stop loss price,
+            TakeProfit=take profit price,
+            StopLossProfit=stop loss price,
+            StopLossProfitLimit=stop loss price,
+            StopLossLimit=stop loss trigger price,
+            TakeProfitLimit=take profit trigger price,
+            TrailingStop=trailing stop offset,
+            TrailingStopLimit=trailing stop offset,
+            StopLossAndLimit=stop loss price,
+            </param>
+            <param name="secondaryPrice">Secondary price of an order:
+            StopLossProfit/StopLossProfitLimit=take profit price,
+            StopLossLimit/TakeProfitLimit=triggered limit price,
+            TrailingStopLimit=triggered limit offset,
+            StopLossAndLimit=limit price</param>
+            <param name="leverage">Desired leverage</param>
+            <param name="startTime">Scheduled start time</param>
+            <param name="expireTime">Expiration time</param>
+            <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+            <param name="closeOrderType">Close order type</param>
+            <param name="closePrice">Close order price</param>
+            <param name="secondaryClosePrice">Close order secondary price</param>
             <returns></returns>
         </member>
         <member name="M:Kraken.Net.KrakenSocketClient.CancelOrderAsync(System.String,System.String)">
             <summary>
             Cancel an order
             </summary>
-            <param name="websocketToken"></param>
-            <param name="orderId"></param>
+            <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="orderId">Id of the order to cancel</param>
             <returns></returns>
         </member>
         <member name="M:Kraken.Net.KrakenSocketClient.CancelOrdersAsync(System.String,System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             Cancel multiple orders
             </summary>
-            <param name="websocketToken"></param>
-            <param name="orderIds"></param>
+            <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="orderIds">Id of the orders to cancel</param>
             <returns></returns>
         </member>
         <member name="M:Kraken.Net.KrakenSocketClient.CancelAllOrdersAsync(System.String)">
             <summary>
             Cancel all open orders
             </summary>
-            <param name="websocketToken"></param>
+            <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
             <returns></returns>
         </member>
         <member name="M:Kraken.Net.KrakenSocketClient.CancelAllOrdersAfterAsync(System.String,System.TimeSpan)">
@@ -1036,7 +1118,7 @@
             Cancel all open orders after the timeout
             </summary>
             <param name="timeout"></param>
-            <param name="websocketToken"></param>
+            <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
             <returns></returns>
         </member>
         <member name="M:Kraken.Net.KrakenSocketClient.HandleQueryResponse``1(CryptoExchange.Net.Sockets.SocketConnection,System.Object,Newtonsoft.Json.Linq.JToken,CryptoExchange.Net.Objects.CallResult{``0}@)">

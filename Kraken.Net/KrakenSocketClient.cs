@@ -93,9 +93,9 @@ namespace Kraken.Net
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string[] symbols, Action<DataEvent<KrakenStreamTick>> handler)
         {
-            foreach(var symbol in symbols)
+            foreach(var symbol in symbols)                
                 symbol.ValidateKrakenWebsocketSymbol();
-
+            
             var internalHandler = new Action<DataEvent<KrakenSocketEvent<KrakenStreamTick>>>(data =>
             {
                 handler(data.As(data.Data.Data, data.Data.Symbol));
@@ -118,7 +118,7 @@ namespace Kraken.Net
             var intervalMinutes = int.Parse(JsonConvert.SerializeObject(interval, new KlineIntervalConverter(false)));
             var internalHandler = new Action<DataEvent<KrakenSocketEvent<KrakenStreamKline>>>(data =>
             {
-                handler(data.As(data.Data.Data, data.Data.Symbol));
+                handler(data.As(data.Data.Data, data.Data.Topic));
             });
 
             return await SubscribeAsync(new KrakenSubscribeRequest("ohlc", NextId(), symbol) { Details = new KrakenOHLCSubscriptionDetails(intervalMinutes) }, null, false, internalHandler).ConfigureAwait(false);
@@ -463,18 +463,46 @@ namespace Kraken.Net
             var kRequest = (KrakenSubscribeRequest)request;
             var arr = (JArray) message;
 
-            if (!int.TryParse(arr[0].ToString(), out var channelId))
+            if(arr.Count == 4)
             {
-                if (arr.Count > 1)
+                // Public update
+                var channelName = arr[2].ToString();
+                var pair = arr[3].ToString();
+                if (kRequest.Details.ChannelName != channelName)
+                    return false;
+
+                if (kRequest.Symbols == null)
+                    return false;
+
+                foreach (var symbol in kRequest.Symbols)
                 {
-                    var topic = arr[1].ToString();
-                    if (topic == kRequest.Details.Topic)
+                    var check = symbol;
+                    var baseQuote = check.Split('/');
+                    if (baseQuote[0] == "BTC")
+                        check = "XBT/" + baseQuote[1];
+                    else if (baseQuote[1] == "BTC")
+                        check = baseQuote[0] + "/XBT";
+
+                    if (check == pair)
+                    {
+                        arr[3] = symbol;
+                        return true;
+                    }
+
+                    if (symbol == pair)
                         return true;
                 }
                 return false;
             }
+            else if(arr.Count == 3)
+            {
+                // Private update
+                var topic = arr[1].ToString();
+                if (topic == kRequest.Details.Topic)
+                    return true;
+            }
 
-            return kRequest.ChannelId == channelId;
+            return false;
         }
 
         /// <inheritdoc />
