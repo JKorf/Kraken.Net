@@ -915,7 +915,8 @@
         </member>
         <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToSystemStatusUpdatesAsync(System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Socket.KrakenStreamSystemStatus}})">
             <summary>
-            Subscribe to system status updates
+            Subscribe to system status updates. Gets fired when the socket is connected or when the system status changes. Note that if this is not the first subscription
+            on the socket connection it does not fire the initial system status event
             </summary>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -985,6 +986,58 @@
             <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.PlaceOrderAsync(System.String,System.String,Kraken.Net.Objects.OrderType,Kraken.Net.Objects.OrderSide,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Objects.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal})">
+            <summary>
+            
+            </summary>
+            <param name="websocketToken"></param>
+            <param name="symbol"></param>
+            <param name="type"></param>
+            <param name="side"></param>
+            <param name="quantity"></param>
+            <param name="clientOrderId"></param>
+            <param name="price"></param>
+            <param name="secondaryPrice"></param>
+            <param name="leverage"></param>
+            <param name="startTime"></param>
+            <param name="expireTime"></param>
+            <param name="validateOnly"></param>
+            <param name="closeOrderType"></param>
+            <param name="closePrice"></param>
+            <param name="secondaryClosePrice"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.CancelOrderAsync(System.String,System.String)">
+            <summary>
+            Cancel an order
+            </summary>
+            <param name="websocketToken"></param>
+            <param name="orderId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.CancelOrdersAsync(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Cancel multiple orders
+            </summary>
+            <param name="websocketToken"></param>
+            <param name="orderIds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.CancelAllOrdersAsync(System.String)">
+            <summary>
+            Cancel all open orders
+            </summary>
+            <param name="websocketToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.CancelAllOrdersAfterAsync(System.String,System.TimeSpan)">
+            <summary>
+            Cancel all open orders after the timeout
+            </summary>
+            <param name="timeout"></param>
+            <param name="websocketToken"></param>
+            <returns></returns>
         </member>
         <member name="M:Kraken.Net.KrakenSocketClient.HandleQueryResponse``1(CryptoExchange.Net.Sockets.SocketConnection,System.Object,Newtonsoft.Json.Linq.JToken,CryptoExchange.Net.Objects.CallResult{``0}@)">
             <inheritdoc />
@@ -2593,6 +2646,106 @@
         <member name="P:Kraken.Net.Objects.KrakenWithdrawInfo.Fee">
             <summary>
             Fee that will be paid
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Socket.KrakenSocketCancelAfterRequest">
+            <summary>
+            Place order request
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenSocketCancelAfterRequest.Timeout">
+            <summary>
+            Timeout
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Socket.KrakenSocketCancelOrdersRequest">
+            <summary>
+            Cancel orders request
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Socket.KrakenSocketPlaceOrderRequest">
+            <summary>
+            Place order request
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Socket.KrakenSocketRequestBase">
+            <summary>
+            Socket request base
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenSocketRequestBase.RequestId">
+            <summary>
+            Request id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenSocketRequestBase.Event">
+            <summary>
+            Event
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenSocketRequestBase.Token">
+            <summary>
+            Token
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Socket.KrakenSocketResponseBase">
+            <summary>
+            Response info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenSocketResponseBase.Event">
+            <summary>
+            Event type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenSocketResponseBase.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenSocketResponseBase.ErrorMessage">
+            <summary>
+            Error message if not successful
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Socket.KrakenStreamCancelAfterResult">
+            <summary>
+            Cancel after result
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenStreamCancelAfterResult.CurrentTime">
+            <summary>
+            Current time
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenStreamCancelAfterResult.TriggerTime">
+            <summary>
+            Trigger time
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Socket.KrakenStreamCancelAllResult">
+            <summary>
+            Cancel all result
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenStreamCancelAllResult.Count">
+            <summary>
+            Number of orders cancelled
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Socket.KrakenStreamPlacedOrder">
+            <summary>
+            Placed order result
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenStreamPlacedOrder.Description">
+            <summary>
+            Order description
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenStreamPlacedOrder.OrderId">
+            <summary>
+            Placed order id
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Socket.KrakenStreamSystemStatus">

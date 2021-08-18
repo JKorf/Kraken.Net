@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using CryptoExchange.Net;
@@ -263,12 +264,172 @@ namespace Kraken.Net
                 Details = new KrakenOwnTradesSubscriptionDetails(socketToken)
             }, null, false, innerHandler).ConfigureAwait(false);
         }
+
+        /// <summary>
+        /// Place a new order
+        /// </summary>
+        /// <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+        /// <param name="symbol">The symbol the order is on</param>
+        /// <param name="side">The side of the order</param>
+        /// <param name="type">The type of the order</param>
+        /// <param name="quantity">The quantity of the order</param>
+        /// <param name="clientOrderId">A client id to reference the order by</param>
+        /// <param name="price">Price of the order:
+        /// Limit=limit price,
+        /// StopLoss=stop loss price,
+        /// TakeProfit=take profit price,
+        /// StopLossProfit=stop loss price,
+        /// StopLossProfitLimit=stop loss price,
+        /// StopLossLimit=stop loss trigger price,
+        /// TakeProfitLimit=take profit trigger price,
+        /// TrailingStop=trailing stop offset,
+        /// TrailingStopLimit=trailing stop offset,
+        /// StopLossAndLimit=stop loss price,
+        /// </param>
+        /// <param name="secondaryPrice">Secondary price of an order:
+        /// StopLossProfit/StopLossProfitLimit=take profit price,
+        /// StopLossLimit/TakeProfitLimit=triggered limit price,
+        /// TrailingStopLimit=triggered limit offset,
+        /// StopLossAndLimit=limit price</param>
+        /// <param name="leverage">Desired leverage</param>
+        /// <param name="startTime">Scheduled start time</param>
+        /// <param name="expireTime">Expiration time</param>
+        /// <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+        /// <param name="closeOrderType">Close order type</param>
+        /// <param name="closePrice">Close order price</param>
+        /// <param name="secondaryClosePrice">Close order secondary price</param>
+        /// <returns></returns>
+        public async Task<CallResult<KrakenStreamPlacedOrder>> PlaceOrderAsync(
+            string websocketToken, 
+            string symbol,
+            OrderType type,
+            OrderSide side,
+            decimal quantity,
+            uint? clientOrderId = null,
+            decimal? price = null,
+            decimal? secondaryPrice = null, 
+            decimal? leverage = null,
+            DateTime? startTime = null,
+            DateTime? expireTime = null,
+            bool? validateOnly = null,
+            OrderType? closeOrderType = null,
+            decimal? closePrice = null,
+            decimal? secondaryClosePrice = null)
+        {
+            var request = new KrakenSocketPlaceOrderRequest
+            {
+                Event = "addOrder",
+                Token = websocketToken,
+                Symbol = symbol,
+                Type = side,
+                OrderType = type,
+                Volume = quantity.ToString(CultureInfo.InvariantCulture),
+                ClientOrderId = clientOrderId?.ToString(),
+                Price = price?.ToString(CultureInfo.InvariantCulture),
+                SecondaryPrice = secondaryPrice?.ToString(CultureInfo.InvariantCulture),
+                Leverage = leverage?.ToString(CultureInfo.InvariantCulture),
+                StartTime = startTime,
+                ExpireTime = expireTime,
+                ValidateOnly = validateOnly,
+                CloseOrderType = closeOrderType,
+                ClosePrice = closePrice?.ToString(CultureInfo.InvariantCulture),
+                SecondaryClosePrice = secondaryClosePrice?.ToString(CultureInfo.InvariantCulture),
+                RequestId = NextId()
+            };
+
+            return await QueryAsync<KrakenStreamPlacedOrder>(_authBaseAddress, request, false).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Cancel an order
+        /// </summary>
+        /// <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+        /// <param name="orderId">Id of the order to cancel</param>
+        /// <returns></returns>
+        public Task<CallResult<bool>> CancelOrderAsync(string websocketToken, string orderId)
+            => CancelOrdersAsync(websocketToken, new[] { orderId });
+
+        /// <summary>
+        /// Cancel multiple orders
+        /// </summary>
+        /// <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+        /// <param name="orderIds">Id of the orders to cancel</param>
+        /// <returns></returns>
+        public async Task<CallResult<bool>> CancelOrdersAsync(string websocketToken, IEnumerable<string> orderIds)
+        {
+            var request = new KrakenSocketCancelOrdersRequest
+            {
+                Event = "cancelOrder",
+                OrderIds = orderIds,
+                Token = websocketToken,
+                RequestId = NextId()
+            };
+            var result = await QueryAsync<KrakenSocketResponseBase>(_authBaseAddress, request, false).ConfigureAwait(false);
+            if (result)
+                return new CallResult<bool>(true, null);
+            return new CallResult<bool>(false, result.Error);
+        }
+
+        /// <summary>
+        /// Cancel all open orders
+        /// </summary>
+        /// <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+        /// <returns></returns>
+        public async Task<CallResult<KrakenStreamCancelAllResult>> CancelAllOrdersAsync(string websocketToken)
+        {
+            var request = new KrakenSocketRequestBase
+            {
+                Event = "cancelAll",
+                Token = websocketToken,
+                RequestId = NextId()
+            };
+            return await QueryAsync<KrakenStreamCancelAllResult>(_authBaseAddress, request, false).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Cancel all open orders after the timeout
+        /// </summary>
+        /// <param name="timeout"></param>
+        /// <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+        /// <returns></returns>
+        public async Task<CallResult<KrakenStreamCancelAfterResult>> CancelAllOrdersAfterAsync(string websocketToken, TimeSpan timeout)
+        {
+            var request = new KrakenSocketCancelAfterRequest
+            {
+                Event = "cancelAllOrdersAfter",
+                Token = websocketToken,
+                Timeout = (int)Math.Round(timeout.TotalSeconds),
+                RequestId = NextId()
+            };
+            return await QueryAsync<KrakenStreamCancelAfterResult>(_authBaseAddress, request, false).ConfigureAwait(false);
+        }
         #endregion
 
         /// <inheritdoc />
         protected override bool HandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
         {
-            throw new NotImplementedException();
+            callResult = null;
+
+            if (data.Type != JTokenType.Object)
+                return false;
+
+            var kRequest = (KrakenSocketRequestBase)request;
+            var responseId = data["reqid"];
+            if (responseId == null)
+                return false;
+
+            if (kRequest.RequestId != int.Parse(responseId.ToString()))
+                return false;
+
+            var error = data["errorMessage"]?.ToString();
+            if (!string.IsNullOrEmpty(error)) {
+                callResult = new CallResult<T>(default, new ServerError(error));
+                return true;
+            }
+
+            var response = data.ToObject<T>();
+            callResult = new CallResult<T>(response, null);
+            return true;
         }
 
         /// <inheritdoc />
