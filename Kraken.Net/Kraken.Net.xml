@@ -54,6 +54,13 @@
             <param name="ct">Cancellation token</param>
             <returns>Server time</returns>
         </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetSystemStatusAsync(System.Threading.CancellationToken)">
+            <summary>
+            Get the system status
+            </summary>
+            <param name="ct">Cancellation token</param>
+            <returns>System status</returns>
+        </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetAssetsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
             Get a list of assets and info about them
@@ -476,6 +483,13 @@
             </summary>
             <param name="ct">Cancellation token</param>
             <returns>Server time</returns>
+        </member>
+        <member name="M:Kraken.Net.KrakenClient.GetSystemStatusAsync(System.Threading.CancellationToken)">
+            <summary>
+            Get the system status
+            </summary>
+            <param name="ct">Cancellation token</param>
+            <returns>System status</returns>
         </member>
         <member name="M:Kraken.Net.KrakenClient.GetAssetsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
@@ -1236,6 +1250,31 @@
         <member name="F:Kraken.Net.Objects.LedgerEntryType.Rollover">
             <summary>
             Rollover
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.SystemStatus">
+            <summary>
+            System status info
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.SystemStatus.Online">
+            <summary>
+            Kraken is operating normally. All order types may be submitted and trades can occur.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.SystemStatus.Maintenance">
+            <summary>
+            The exchange is offline. No new orders or cancellations may be submitted.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.SystemStatus.CancelOnly">
+            <summary>
+            Resting (open) orders can be cancelled but no new orders may be submitted. No trades will occur.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Objects.SystemStatus.PostOnly">
+            <summary>
+            Only post-only limit orders can be submitted. Existing orders may still be cancelled. No trades will occur.
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.KrakenAssetInfo">
@@ -2133,6 +2172,21 @@
             The minimum order volume for pair
             </summary>
             <value></value>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenSystemStatus">
+            <summary>
+            System status
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenSystemStatus.Status">
+            <summary>
+            Platform status
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenSystemStatus.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
         </member>
         <member name="T:Kraken.Net.Objects.KrakenTick">
             <summary>

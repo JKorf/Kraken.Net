@@ -197,4 +197,27 @@
         /// </summary>
         Rollover
     }
+
+    /// <summary>
+    /// System status info
+    /// </summary>
+    public enum SystemStatus
+    {
+        /// <summary>
+        /// Kraken is operating normally. All order types may be submitted and trades can occur.
+        /// </summary>
+        Online,
+        /// <summary>
+        /// The exchange is offline. No new orders or cancellations may be submitted.
+        /// </summary>
+        Maintenance,
+        /// <summary>
+        /// Resting (open) orders can be cancelled but no new orders may be submitted. No trades will occur.
+        /// </summary>
+        CancelOnly,
+        /// <summary>
+        /// Only post-only limit orders can be submitted. Existing orders may still be cancelled. No trades will occur.
+        /// </summary>
+        PostOnly
+    }
 }

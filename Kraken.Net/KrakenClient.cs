@@ -94,6 +94,16 @@ namespace Kraken.Net
         }
 
         /// <summary>
+        /// Get the system status
+        /// </summary>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>System status</returns>
+        public async Task<WebCallResult<KrakenSystemStatus>> GetSystemStatusAsync(CancellationToken ct = default)
+        {
+            return await Execute<KrakenSystemStatus>(GetUri("0/public/SystemStatus"), HttpMethod.Get, ct).ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Get a list of assets and info about them
         /// </summary>
         /// <param name="assets">Filter list for specific assets</param>

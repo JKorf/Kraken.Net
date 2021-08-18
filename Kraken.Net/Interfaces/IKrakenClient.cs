@@ -30,6 +30,13 @@ namespace Kraken.Net.Interfaces
         Task<WebCallResult<DateTime>> GetServerTimeAsync(CancellationToken ct = default);
 
         /// <summary>
+        /// Get the system status
+        /// </summary>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>System status</returns>
+        Task<WebCallResult<KrakenSystemStatus>> GetSystemStatusAsync(CancellationToken ct = default);
+
+        /// <summary>
         /// Get a list of assets and info about them
         /// </summary>
         /// <param name="assets">Filter list for specific assets</param>
