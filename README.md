@@ -90,6 +90,12 @@ For the basic client options see also the CryptoExchange.Net [docs](https://gith
 |`AuthBaseAddress`|The base address for authenticated subscriptions|`wss://ws-auth.kraken.com/`
 
 ## Release notes
+* Version 2.0.2 - 18 Aug 2021
+    * Added GetSystemStatusAsync endpoint
+    * Added SubscribeToSystemStatusUpdatesAsync subscription
+    * Added Place/Cancel order requests on socket client
+    * Fixed multiple symbols ticker subscriptions
+
 * Version 2.0.1 - 13 Aug 2021
     * Fix for OperationCancelledException being thrown when closing a socket from a .net framework project
     * Fixed deserialization issue in KrakenTradeVolume
