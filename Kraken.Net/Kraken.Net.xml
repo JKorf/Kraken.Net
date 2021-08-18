@@ -913,6 +913,13 @@
             </summary>
             <param name="options">The options to use for new clients</param>
         </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToSystemStatusUpdatesAsync(System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Socket.KrakenStreamSystemStatus}})">
+            <summary>
+            Subscribe to system status updates
+            </summary>
+            <param name="handler">Data handler</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
         <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.KrakenStreamTick}})">
             <summary>
             Subscribe to ticker updates
@@ -2586,6 +2593,21 @@
         <member name="P:Kraken.Net.Objects.KrakenWithdrawInfo.Fee">
             <summary>
             Fee that will be paid
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Socket.KrakenStreamSystemStatus">
+            <summary>
+            System status
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenStreamSystemStatus.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Socket.KrakenStreamSystemStatus.Version">
+            <summary>
+            Version
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Socket.KrakenWebSocketToken">

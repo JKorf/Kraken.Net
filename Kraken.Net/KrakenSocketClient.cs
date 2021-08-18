@@ -23,7 +23,7 @@ namespace Kraken.Net
         #region fields
         private static KrakenSocketClientOptions defaultOptions = new KrakenSocketClientOptions();
         private static KrakenSocketClientOptions DefaultOptions => defaultOptions.Copy<KrakenSocketClientOptions>();
-
+                
         private readonly string _authBaseAddress;
         #endregion
 
@@ -41,8 +41,8 @@ namespace Kraken.Net
         /// <param name="options">The options to use for this client</param>
         public KrakenSocketClient(KrakenSocketClientOptions options) : base("Kraken", options, options.ApiCredentials == null ? null : new KrakenAuthenticationProvider(options.ApiCredentials))
         {
-            AddGenericHandler("Connection", (messageEvent) => { });
             AddGenericHandler("HeartBeat", (messageEvent) => { });
+            AddGenericHandler("SystemStatus", (messageEvent) => { });
             _authBaseAddress = options.AuthBaseAddress;
         }
         #endregion
@@ -55,6 +55,17 @@ namespace Kraken.Net
         public static void SetDefaultOptions(KrakenSocketClientOptions options)
         {
             defaultOptions = options;
+        }
+
+        /// <summary>
+        /// Subscribe to system status updates. Gets fired when the socket is connected or when the system status changes. Note that if this is not the first subscription
+        /// on the socket connection it does not fire the initial system status event
+        /// </summary>
+        /// <param name="handler">Data handler</param>
+        /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        public async Task<CallResult<UpdateSubscription>> SubscribeToSystemStatusUpdatesAsync(Action<DataEvent<KrakenStreamSystemStatus>> handler)
+        {
+            return await SubscribeAsync(null, "SystemStatus", false, handler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -314,7 +325,7 @@ namespace Kraken.Net
             if (identifier == "HeartBeat" && message["event"] != null && (string)message["event"] == "heartbeat")
                 return true;
 
-            if (identifier == "Connection" && message["event"] != null && (string)message["event"] == "systemStatus")
+            if (identifier == "SystemStatus" && message["event"] != null && (string)message["event"] == "systemStatus")
                 return true;
 
             return false;
