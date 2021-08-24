@@ -463,45 +463,53 @@ namespace Kraken.Net
             var kRequest = (KrakenSubscribeRequest)request;
             var arr = (JArray) message;
 
-            if(arr.Count == 4)
+            string channel;
+            string symbol;
+            int symbolIndex;
+            if (arr.Count == 5)
+            {
+                channel = arr[3].ToString();
+                symbol = arr[4].ToString();
+                symbolIndex = 4;
+            }
+            else if (arr.Count == 4)
             {
                 // Public update
-                var channelName = arr[2].ToString();
-                var pair = arr[3].ToString();
-                if (kRequest.Details.ChannelName != channelName)
-                    return false;
-
-                if (kRequest.Symbols == null)
-                    return false;
-
-                foreach (var symbol in kRequest.Symbols)
-                {
-                    var check = symbol;
-                    var baseQuote = check.Split('/');
-                    if (baseQuote[0] == "BTC")
-                        check = "XBT/" + baseQuote[1];
-                    else if (baseQuote[1] == "BTC")
-                        check = baseQuote[0] + "/XBT";
-
-                    if (check == pair)
-                    {
-                        arr[3] = symbol;
-                        return true;
-                    }
-
-                    if (symbol == pair)
-                        return true;
-                }
-                return false;
+                channel = arr[2].ToString();
+                symbol = arr[3].ToString();
+                symbolIndex = 3;
             }
-            else if(arr.Count == 3)
+            else
             {
                 // Private update
                 var topic = arr[1].ToString();
-                if (topic == kRequest.Details.Topic)
-                    return true;
+                return topic == kRequest.Details.Topic;
             }
 
+            if (kRequest.Details.ChannelName != channel)
+                return false;
+
+            if (kRequest.Symbols == null)
+                return false;
+
+            foreach (var subSymbol in kRequest.Symbols)
+            {
+                var check = subSymbol;
+                var baseQuote = check.Split('/');
+                if (baseQuote[0] == "BTC")
+                    check = "XBT/" + baseQuote[1];
+                else if (baseQuote[1] == "BTC")
+                    check = baseQuote[0] + "/XBT";
+
+                if (check == symbol)
+                {
+                    arr[symbolIndex] = subSymbol;
+                    return true;
+                }
+
+                if (subSymbol == symbol)
+                    return true;
+            }
             return false;
         }
 

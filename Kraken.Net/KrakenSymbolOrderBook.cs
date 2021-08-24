@@ -29,7 +29,10 @@ namespace Kraken.Net
         /// <param name="options">Options for the order book</param>
         public KrakenSymbolOrderBook(string symbol, int limit, KrakenOrderBookOptions? options = null) : base(symbol, options ?? new KrakenOrderBookOptions())
         {
-            socketClient = options?.SocketClient ?? new KrakenSocketClient();
+            socketClient = options?.SocketClient ?? new KrakenSocketClient(new KrakenSocketClientOptions
+            {
+                LogLevel = options?.LogLevel ?? LogLevel.Information
+            });
 
             Levels = limit;
         }
