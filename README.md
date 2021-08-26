@@ -90,6 +90,10 @@ For the basic client options see also the CryptoExchange.Net [docs](https://gith
 |`AuthBaseAddress`|The base address for authenticated subscriptions|`wss://ws-auth.kraken.com/`
 
 ## Release notes
+* Version 2.0.4 - 26 Aug 2021
+    * Added SequenceNumber to order/trade socket updates
+    * Changed all clientOrderId parameters to uint
+
 * Version 2.0.3 - 24 Aug 2021
     * Updated CryptoExchange.Net, improving websocket and SymbolOrderBook performance
     * Fix for order book subscription
