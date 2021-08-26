@@ -63,7 +63,7 @@ namespace Kraken.Net.Interfaces
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(string socketToken,
-            Action<DataEvent<KrakenOrder>> handler);
+            Action<DataEvent<KrakenStreamOrder>> handler);
 
         /// <summary>
         /// Subscribe to own trade updates
@@ -72,7 +72,7 @@ namespace Kraken.Net.Interfaces
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         Task<CallResult<UpdateSubscription>> SubscribeToOwnTradeUpdatesAsync(string socketToken,
-            Action<DataEvent<KrakenUserTrade>> handler);
+            Action<DataEvent<KrakenStreamUserTrade>> handler);
 
         /// <summary>
         /// Place a new order

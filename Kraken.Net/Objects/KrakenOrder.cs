@@ -177,4 +177,15 @@ namespace Kraken.Net.Objects
         /// </summary>
         public string Close { get; set; } = string.Empty;
     }
+
+    /// <summary>
+    /// Stream order update
+    /// </summary>
+    public class KrakenStreamOrder: KrakenOrder
+    {
+        /// <summary>
+        /// The update sequence number
+        /// </summary>
+        public int SequenceNumber { get; set; }
+    }
 }

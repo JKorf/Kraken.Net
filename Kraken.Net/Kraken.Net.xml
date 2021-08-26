@@ -163,7 +163,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Trade balance data</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOpenOrdersAsync(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOpenOrdersAsync(System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of open orders
             </summary>
@@ -172,7 +172,7 @@
             <param name="ct">Cancellation token</param>
             <returns>List of open orders</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetClosedOrdersAsync(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetClosedOrdersAsync(System.Nullable{System.UInt32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of closed orders
             </summary>
@@ -184,7 +184,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Closed orders page</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOrderAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOrderAsync(System.String,System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get info on specific order
             </summary>
@@ -194,7 +194,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with order info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get info on specific orders
             </summary>
@@ -422,7 +422,7 @@
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToOrderUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.KrakenOrder}})">
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToOrderUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.KrakenStreamOrder}})">
             <summary>
             Subscribe to open order updates
             </summary>
@@ -430,7 +430,7 @@
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToOwnTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.KrakenUserTrade}})">
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToOwnTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.KrakenStreamUserTrade}})">
             <summary>
             Subscribe to own trade updates
             </summary>
@@ -660,7 +660,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Trade balance data</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetOpenOrdersAsync(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetOpenOrdersAsync(System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of open orders
             </summary>
@@ -669,7 +669,7 @@
             <param name="ct">Cancellation token</param>
             <returns>List of open orders</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetClosedOrdersAsync(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetClosedOrdersAsync(System.Nullable{System.UInt32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of closed orders
             </summary>
@@ -681,7 +681,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Closed orders page</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetOrderAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetOrderAsync(System.String,System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get info on specific order
             </summary>
@@ -691,7 +691,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with order info</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.GetOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.KrakenClient.GetOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get info on specific orders
             </summary>
@@ -1038,7 +1038,7 @@
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToOrderUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.KrakenOrder}})">
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToOrderUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.KrakenStreamOrder}})">
             <summary>
             Subscribe to open order updates
             </summary>
@@ -1046,7 +1046,7 @@
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToOwnTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.KrakenUserTrade}})">
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToOwnTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.KrakenStreamUserTrade}})">
             <summary>
             Subscribe to own trade updates
             </summary>
@@ -1909,6 +1909,16 @@
             Conditional close order description
             </summary>
         </member>
+        <member name="T:Kraken.Net.Objects.KrakenStreamOrder">
+            <summary>
+            Stream order update
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamOrder.SequenceNumber">
+            <summary>
+            The update sequence number
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.KrakenOrderBook">
             <summary>
             Order book
@@ -2698,6 +2708,16 @@
         <member name="P:Kraken.Net.Objects.KrakenUserTrade.Trades">
             <summary>
             Trade ids
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.KrakenStreamUserTrade">
+            <summary>
+            Stream trade update
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenStreamUserTrade.SequenceNumber">
+            <summary>
+            The update sequence number
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.KrakenWithdraw">

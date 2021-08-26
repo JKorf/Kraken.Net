@@ -118,4 +118,15 @@ namespace Kraken.Net.Objects
         string? ICommonTrade.CommonFeeAsset => null;
         DateTime ICommonTrade.CommonTradeTime => Timestamp;
     }
+
+    /// <summary>
+    /// Stream trade update
+    /// </summary>
+    public class KrakenStreamUserTrade: KrakenUserTrade
+    {
+        /// <summary>
+        /// The update sequence number
+        /// </summary>
+        public int SequenceNumber { get; set; }
+    }
 }

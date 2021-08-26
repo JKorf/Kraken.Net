@@ -188,17 +188,18 @@ namespace Kraken.Net
         /// <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        public async Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(string socketToken, Action<DataEvent<KrakenOrder>> handler)
+        public async Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(string socketToken, Action<DataEvent<KrakenStreamOrder>> handler)
         {
             var innerHandler = new Action<DataEvent<string>>(data =>
             {
                 var token = data.Data.ToJToken(log);
                 if (token != null && token.Any())
                 {
+                    var sequence = token[2]["sequence"].Value<int>();
                     if (token[0]!.Type == JTokenType.Array)
                     {
                         var dataArray = (JArray) token[0]!;
-                        var deserialized = Deserialize<Dictionary<string, KrakenOrder>[]>(dataArray);
+                        var deserialized = Deserialize<Dictionary<string, KrakenStreamOrder>[]>(dataArray);
                         if (deserialized)
                         {
                             foreach (var entry in deserialized.Data)
@@ -206,6 +207,7 @@ namespace Kraken.Net
                                 foreach(var dEntry in entry)
                                 {
                                     dEntry.Value.OrderId = dEntry.Key;
+                                    dEntry.Value.SequenceNumber = sequence;
                                     handler?.Invoke(data.As(dEntry.Value, dEntry.Value.OrderDetails?.Symbol));
                                 }
                             }
@@ -229,17 +231,18 @@ namespace Kraken.Net
         /// <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        public async Task<CallResult<UpdateSubscription>> SubscribeToOwnTradeUpdatesAsync(string socketToken, Action<DataEvent<KrakenUserTrade>> handler)
+        public async Task<CallResult<UpdateSubscription>> SubscribeToOwnTradeUpdatesAsync(string socketToken, Action<DataEvent<KrakenStreamUserTrade>> handler)
         {
             var innerHandler = new Action<DataEvent<string>>(data =>
             {
                 var token = data.Data.ToJToken(log);
                 if (token != null && token.Any())
                 {
+                    var sequence = token[2]["sequence"].Value<int>();
                     if (token[0]!.Type == JTokenType.Array)
                     {
                         var dataArray = (JArray)token[0]!;
-                        var deserialized = Deserialize<Dictionary<string, KrakenUserTrade>[]>(dataArray);
+                        var deserialized = Deserialize<Dictionary<string, KrakenStreamUserTrade>[]>(dataArray);
                         if (deserialized)
                         {
                             foreach (var entry in deserialized.Data)
@@ -247,6 +250,7 @@ namespace Kraken.Net
                                 foreach(var item in entry)
                                 {
                                     item.Value.TradeId = item.Key;
+                                    item.Value.SequenceNumber = sequence;
                                     handler?.Invoke(data.As(item.Value, item.Value.Symbol));
                                 }
                             }
