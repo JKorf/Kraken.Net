@@ -34,6 +34,7 @@ namespace Kucoin.Net.UnitTests.TestImplementations
         public TimeSpan Timeout { get; set; }
         public string Origin { get; set; }
         public bool Reconnecting { get; set; }
+        public int? RatelimitPerSecond { get; set; }
 
         public Task<bool> ConnectAsync()
         {
