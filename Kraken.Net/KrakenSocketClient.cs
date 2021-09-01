@@ -263,7 +263,7 @@ namespace Kraken.Net
                 log.Write(LogLevel.Warning, "Failed to deserialize stream order");
             });
 
-            return await SubscribeAsync(_authBaseAddress, new KrakenSubscribeRequest("openOrders", NextId())
+            return await SubscribeAsync(_authBaseAddress, new KrakenSubscribeRequest("ownTrades", NextId())
             {
                 Details = new KrakenOwnTradesSubscriptionDetails(socketToken)
             }, null, false, innerHandler).ConfigureAwait(false);
