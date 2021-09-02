@@ -19,6 +19,7 @@ namespace Kraken.Net
     public class KrakenSymbolOrderBook : SymbolOrderBook
     {
         private readonly IKrakenSocketClient socketClient;
+        private readonly bool _socketOwner;
         private bool initialSnapshotDone;
 
         /// <summary>
@@ -33,6 +34,7 @@ namespace Kraken.Net
             {
                 LogLevel = options?.LogLevel ?? LogLevel.Information
             });
+            _socketOwner = options?.SocketClient == null;
 
             Levels = limit;
         }
@@ -120,7 +122,8 @@ namespace Kraken.Net
             asks.Clear();
             bids.Clear();
 
-            socketClient?.Dispose();
+            if(_socketOwner)
+                socketClient?.Dispose();
         }
     }
 }
