@@ -90,6 +90,10 @@ For the basic client options see also the CryptoExchange.Net [docs](https://gith
 |`AuthBaseAddress`|The base address for authenticated subscriptions|`wss://ws-auth.kraken.com/`
 
 ## Release notes
+* Version 2.0.7 - 02 Sep 2021
+    * Fixed secondaryPrice parameter serialization in PlaceOrderAsync
+    * Added snapshot parameter to SubscribeToOwnTradeUpdatesAsync
+
 * Version 2.0.6 - 01 Sep 2021
     * Fix for user trades subscription topic
 
