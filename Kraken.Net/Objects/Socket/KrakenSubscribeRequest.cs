@@ -56,10 +56,13 @@ namespace Kraken.Net.Objects.Socket
     {
         [JsonProperty("token")]
         public string Token { get; set; }
+        [JsonProperty("snapshot")]
+        public bool Snapshot { get; set; }
 
-        public KrakenOwnTradesSubscriptionDetails(string token) : base("ownTrades")
+        public KrakenOwnTradesSubscriptionDetails(string token, bool snapshot) : base("ownTrades")
         {
             Token = token;
+            Snapshot = snapshot;
         }
     }
 

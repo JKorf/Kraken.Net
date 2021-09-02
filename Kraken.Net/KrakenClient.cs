@@ -612,7 +612,7 @@ namespace Kraken.Net
             };
             parameters.AddOptionalParameter("price", price?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("userref", clientOrderId);
-            parameters.AddOptionalParameter("price2", secondaryPrice);
+            parameters.AddOptionalParameter("price2", secondaryPrice?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _otp);
             parameters.AddOptionalParameter("leverage", leverage?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("starttm", startTime.HasValue ? JsonConvert.SerializeObject(startTime.Value, new TimestampSecondsConverter()) : null);

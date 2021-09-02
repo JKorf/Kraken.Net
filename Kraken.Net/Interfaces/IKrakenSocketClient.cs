@@ -75,6 +75,16 @@ namespace Kraken.Net.Interfaces
             Action<DataEvent<KrakenStreamUserTrade>> handler);
 
         /// <summary>
+        /// Subscribe to own trade updates
+        /// </summary>
+        /// <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+        /// <param name="snapshot">Whether or not to receive a snapshot of the data upon subscribing</param>
+        /// <param name="handler">Data handler</param>
+        /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        Task<CallResult<UpdateSubscription>> SubscribeToOwnTradeUpdatesAsync(string socketToken, bool snapshot,
+            Action<DataEvent<KrakenStreamUserTrade>> handler);
+
+        /// <summary>
         /// Place a new order
         /// </summary>
         /// <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
