@@ -350,10 +350,7 @@ namespace Kraken.Net
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with order info</returns>
         public async Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, uint? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default)
-        {
-            if((clientOrderId == null && !orderIds.Any()) || (clientOrderId != null && orderIds.Any()))
-                throw new ArgumentException("Either clientOrderId or ordersIds should be provided");
-
+        {          
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("trades", true);
             parameters.AddOptionalParameter("userref", clientOrderId);
