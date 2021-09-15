@@ -90,6 +90,9 @@ For the basic client options see also the CryptoExchange.Net [docs](https://gith
 |`AuthBaseAddress`|The base address for authenticated subscriptions|`wss://ws-auth.kraken.com/`
 
 ## Release notes
+* Version 2.0.11 - 15 Sep 2021
+    * Updated CryptoExchange.Net
+
 * Version 2.0.10 - 09 Sep 2021
     * Removed invalid check GetOrdersAsync
 
