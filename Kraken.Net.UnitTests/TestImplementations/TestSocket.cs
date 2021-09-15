@@ -35,6 +35,7 @@ namespace Kucoin.Net.UnitTests.TestImplementations
         public string Origin { get; set; }
         public bool Reconnecting { get; set; }
         public int? RatelimitPerSecond { get; set; }
+        public string? LastSendMessage { get; set; }
 
         public Task<bool> ConnectAsync()
         {
@@ -46,6 +47,7 @@ namespace Kucoin.Net.UnitTests.TestImplementations
         {
             if(!Connected)
                 throw new Exception("Socket not connected");
+            LastSendMessage = data;
         }
 
         public void Reset()

@@ -1,7 +1,9 @@
 ﻿using CryptoExchange.Net;
 using Kraken.Net.UnitTests.TestImplementations;
 using Kucoin.Net.UnitTests.TestImplementations;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace Kraken.Net.UnitTests
 {
@@ -9,7 +11,7 @@ namespace Kraken.Net.UnitTests
     public class KrakenSocketClientTests
     {
         [Test]
-        public void Subscribe_Should_SucceedIfAckResponse()
+        public async Task Subscribe_Should_SucceedIfAckResponse()
         {
             // arrange
             var socket = new TestSocket();
@@ -18,7 +20,9 @@ namespace Kraken.Net.UnitTests
 
             // act
             var subTask = client.SubscribeToTickerUpdatesAsync("XBT/EUR", test => { });
-            socket.InvokeMessage($"{{\"channelID\": 1, \"status\": \"subscribed\", \"reqid\":\"{BaseClient.LastId}\"}}");
+            await Task.Delay(10);
+            var id = JToken.Parse(socket.LastSendMessage)["reqid"];
+            socket.InvokeMessage($"{{\"channelID\": 1, \"status\": \"subscribed\", \"reqid\":{id}}}");
             var subResult = subTask.Result;
 
             // assert
@@ -26,7 +30,7 @@ namespace Kraken.Net.UnitTests
         }
 
         [Test]
-        public void Subscribe_Should_FailIfNotAckResponse()
+        public async Task Subscribe_Should_FailIfNotAckResponse()
         {
             // arrange
             var socket = new TestSocket();
@@ -35,7 +39,9 @@ namespace Kraken.Net.UnitTests
 
             // act
             var subTask = client.SubscribeToTickerUpdatesAsync("XBT/EUR", test => { });
-            socket.InvokeMessage($"{{\"channelID\": 1, \"status\": \"error\", \"errormessage\": \"Failed to sub\", \"reqid\":\"{BaseClient.LastId}\"}}");
+            await Task.Delay(10);
+            var id = JToken.Parse(socket.LastSendMessage)["reqid"];
+            socket.InvokeMessage($"{{\"channelID\": 1, \"status\": \"error\", \"errormessage\": \"Failed to sub\", \"reqid\":{id}}}");
             var subResult = subTask.Result;
 
             // assert

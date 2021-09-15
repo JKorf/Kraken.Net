@@ -55,7 +55,6 @@ namespace Kraken.Net
         public KrakenClient(KrakenClientOptions options) : base("Kraken", options, options.ApiCredentials == null ? null : new KrakenAuthenticationProvider(options.ApiCredentials))
         {
             _otp = options.StaticTwoFactorAuthenticationPassword;
-            postParametersPosition = PostParameters.InBody;
             requestBodyFormat = RequestBodyFormat.FormData;
         }
         #endregion
