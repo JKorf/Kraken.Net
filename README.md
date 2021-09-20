@@ -90,6 +90,11 @@ For the basic client options see also the CryptoExchange.Net [docs](https://gith
 |`AuthBaseAddress`|The base address for authenticated subscriptions|`wss://ws-auth.kraken.com/`
 
 ## Release notes
+* Version 2.1.0 - 20 Sep 2021
+    * Added custom nonce provider support
+    * Added missing SetApiCredentials method
+    * Updated CryptoExchange.Net
+
 * Version 2.0.11 - 15 Sep 2021
     * Updated CryptoExchange.Net
 
