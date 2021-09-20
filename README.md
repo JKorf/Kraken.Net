@@ -91,6 +91,7 @@ For the basic client options see also the CryptoExchange.Net [docs](https://gith
 
 ## Release notes
 * Version 2.1.0 - 20 Sep 2021
+    * Fix for not recognizing DOGE/BTC because Kraken renames them to XDG/XBT in update messages
     * Added custom nonce provider support
     * Added missing SetApiCredentials method
     * Updated CryptoExchange.Net
