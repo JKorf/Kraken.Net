@@ -26,7 +26,7 @@ namespace Kraken.Net
     {
         #region fields
         private static KrakenClientOptions defaultOptions = new KrakenClientOptions();
-        private static KrakenClientOptions DefaultOptions => defaultOptions.Copy<KrakenClientOptions>();
+        private static KrakenClientOptions DefaultOptions => defaultOptions.Copy();
 
         private readonly string? _otp;
         #endregion
@@ -52,7 +52,7 @@ namespace Kraken.Net
         /// Create a new instance of KrakenClient using provided options
         /// </summary>
         /// <param name="options">The options to use for this client</param>
-        public KrakenClient(KrakenClientOptions options) : base("Kraken", options, options.ApiCredentials == null ? null : new KrakenAuthenticationProvider(options.ApiCredentials))
+        public KrakenClient(KrakenClientOptions options) : base("Kraken", options, options.ApiCredentials == null ? null : new KrakenAuthenticationProvider(options.ApiCredentials, options.NonceProvider))
         {
             _otp = options.StaticTwoFactorAuthenticationPassword;
             requestBodyFormat = RequestBodyFormat.FormData;
@@ -74,9 +74,10 @@ namespace Kraken.Net
         /// </summary>
         /// <param name="apiKey">The api key</param>
         /// <param name="apiSecret">The api secret</param>
-        public void SetApiCredentials(string apiKey, string apiSecret)
+        /// <param name="nonceProvider">Optional nonce provider. Careful providing a custom provider; once a nonce is sent to the server, every request after that needs a higher nonce than that</param>
+        public void SetApiCredentials(string apiKey, string apiSecret, INonceProvider? nonceProvider = null)
         {
-            SetAuthenticationProvider(new KrakenAuthenticationProvider(new ApiCredentials(apiKey, apiSecret)));
+            SetAuthenticationProvider(new KrakenAuthenticationProvider(new ApiCredentials(apiKey, apiSecret), nonceProvider));
         }
 
         /// <summary>

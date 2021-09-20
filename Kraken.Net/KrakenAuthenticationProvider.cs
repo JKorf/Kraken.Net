@@ -7,37 +7,23 @@ using System.Security.Cryptography;
 using System.Text;
 using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
+using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
 
 namespace Kraken.Net
 {
     internal class KrakenAuthenticationProvider: AuthenticationProvider
     {
-        private static readonly object nonceLock = new object();
-        private static long lastNonce;
-        internal static string Nonce
-        {
-            get
-            {
-                lock (nonceLock)
-                {
-                    var nonce = DateTime.UtcNow.Ticks;
-                    if (nonce == lastNonce)
-                        nonce += 1;
-
-                    lastNonce = nonce;
-                    return lastNonce.ToString(CultureInfo.InvariantCulture);
-                }
-            }
-        }
+        private INonceProvider _nonceProvider;
 
         private readonly HMACSHA512 encryptor;
 
-        public KrakenAuthenticationProvider(ApiCredentials credentials) : base(credentials)
+        public KrakenAuthenticationProvider(ApiCredentials credentials, INonceProvider? nonceProvider) : base(credentials)
         {
             if(credentials.Secret == null)
                 throw new ArgumentException("ApiKey/Secret needed");
 
+            _nonceProvider = nonceProvider ?? new DefaultNonceProvider();
             encryptor = new HMACSHA512(Convert.FromBase64String(credentials.Secret.GetString()));
         }
 
@@ -46,7 +32,7 @@ namespace Kraken.Net
             if (!signed)
                 return parameters;
 
-            parameters.Add("nonce", Nonce);
+            parameters.Add("nonce", _nonceProvider.GetNonce());
             return parameters;
         }
 

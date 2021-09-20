@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
 using Kraken.Net.Interfaces;
 
@@ -13,6 +14,11 @@ namespace Kraken.Net
         /// The static password configured as two-factor authentication for the API key. Will be send as otp parameter on private requests.
         /// </summary>
         public string? StaticTwoFactorAuthenticationPassword { get; set; }
+
+        /// <summary>
+        /// Optional nonce provider for signing requests. Careful providing a custom provider; once a nonce is sent to the server, every request after that needs a higher nonce than that
+        /// </summary>
+        public INonceProvider? NonceProvider { get; set; }
 
         /// <summary>
         /// Create new client options
@@ -37,6 +43,18 @@ namespace Kraken.Net
         public KrakenClientOptions(HttpClient? client, string apiAddress) : base(apiAddress)
         {
             HttpClient = client;
+        }
+
+        /// <summary>
+        /// Copy this instance
+        /// </summary>
+        /// <returns></returns>
+        public KrakenClientOptions Copy()
+        {
+            var copy = Copy<KrakenClientOptions>();
+            copy.StaticTwoFactorAuthenticationPassword = StaticTwoFactorAuthenticationPassword;
+            copy.NonceProvider = NonceProvider;
+            return copy;
         }
     }
 
@@ -67,6 +85,17 @@ namespace Kraken.Net
         public KrakenSocketClientOptions(): base("wss://ws.kraken.com")
         {
             SocketSubscriptionsCombineTarget = 10;
+        }
+
+        /// <summary>
+        /// Copy this instance
+        /// </summary>
+        /// <returns></returns>
+        public KrakenSocketClientOptions Copy()
+        {
+            var copy = Copy<KrakenSocketClientOptions>();
+            copy.AuthBaseAddress = AuthBaseAddress;
+            return copy;
         }
     }
 

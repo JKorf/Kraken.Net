@@ -40,12 +40,13 @@
             Interface for Kraken Rest API
             </summary>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenClient.SetApiCredentials(System.String,System.String)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenClient.SetApiCredentials(System.String,System.String,CryptoExchange.Net.Interfaces.INonceProvider)">
             <summary>
             Set the API key and secret
             </summary>
             <param name="apiKey">The api key</param>
             <param name="apiSecret">The api secret</param>
+            <param name="nonceProvider">Optional nonce provider. Careful providing a custom provider; once a nonce is sent to the server, every request after that needs a higher nonce than that</param>
         </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenClient.GetServerTimeAsync(System.Threading.CancellationToken)">
             <summary>
@@ -380,6 +381,14 @@
             Interface for the Kraken socket client
             </summary>
         </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SetApiCredentials(System.String,System.String,CryptoExchange.Net.Interfaces.INonceProvider)">
+            <summary>
+            Set the API key and secret
+            </summary>
+            <param name="apiKey">The api key</param>
+            <param name="apiSecret">The api secret</param>
+            <param name="nonceProvider">Optional nonce provider. Careful providing a custom provider; once a nonce is sent to the server, every request after that needs a higher nonce than that</param>
+        </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.KrakenStreamTick}})">
             <summary>
             Subscribe to ticker updates
@@ -546,12 +555,13 @@
             </summary>
             <param name="options"></param>
         </member>
-        <member name="M:Kraken.Net.KrakenClient.SetApiCredentials(System.String,System.String)">
+        <member name="M:Kraken.Net.KrakenClient.SetApiCredentials(System.String,System.String,CryptoExchange.Net.Interfaces.INonceProvider)">
             <summary>
             Set the API key and secret
             </summary>
             <param name="apiKey">The api key</param>
             <param name="apiSecret">The api secret</param>
+            <param name="nonceProvider">Optional nonce provider. Careful providing a custom provider; once a nonce is sent to the server, every request after that needs a higher nonce than that</param>
         </member>
         <member name="M:Kraken.Net.KrakenClient.GetServerTimeAsync(System.Threading.CancellationToken)">
             <summary>
@@ -919,6 +929,11 @@
             The static password configured as two-factor authentication for the API key. Will be send as otp parameter on private requests.
             </summary>
         </member>
+        <member name="P:Kraken.Net.KrakenClientOptions.NonceProvider">
+            <summary>
+            Optional nonce provider for signing requests. Careful providing a custom provider; once a nonce is sent to the server, every request after that needs a higher nonce than that
+            </summary>
+        </member>
         <member name="M:Kraken.Net.KrakenClientOptions.#ctor">
             <summary>
             Create new client options
@@ -937,6 +952,12 @@
             <param name="apiAddress">Custom API address to use</param>
             <param name="client">HttpClient to use for requests from this client</param>
         </member>
+        <member name="M:Kraken.Net.KrakenClientOptions.Copy">
+            <summary>
+            Copy this instance
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Kraken.Net.KrakenSocketClientOptions">
             <summary>
             Options for the Kraken socket client
@@ -951,6 +972,12 @@
             <summary>
             ctor
             </summary>
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClientOptions.Copy">
+            <summary>
+            Copy this instance
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Kraken.Net.KrakenOrderBookOptions">
             <summary>
@@ -983,6 +1010,14 @@
             </summary>
             <param name="options">The options to use for this client</param>
         </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SetApiCredentials(System.String,System.String,CryptoExchange.Net.Interfaces.INonceProvider)">
+            <summary>
+            Set the API key and secret
+            </summary>
+            <param name="apiKey">The api key</param>
+            <param name="apiSecret">The api secret</param>
+            <param name="nonceProvider">Optional nonce provider. Careful providing a custom provider; once a nonce is sent to the server, every request after that needs a higher nonce than that</param>
+        </member>
         <member name="M:Kraken.Net.KrakenSocketClient.SetDefaultOptions(Kraken.Net.KrakenSocketClientOptions)">
             <summary>
             Set the default options to be used when creating new socket clients
@@ -1005,7 +1040,7 @@
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToTickerUpdatesAsync(System.String[],System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.KrakenStreamTick}})">
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.KrakenStreamTick}})">
             <summary>
             Subscribe to ticker updates
             </summary>
@@ -1156,6 +1191,13 @@
         </member>
         <member name="M:Kraken.Net.KrakenSocketClient.UnsubscribeAsync(CryptoExchange.Net.Sockets.SocketConnection,CryptoExchange.Net.Sockets.SocketSubscription)">
             <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenSocketClient.SymbolToServer(System.String)">
+            <summary>
+            Maps an input symbol to a server symbol
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
         </member>
         <member name="T:Kraken.Net.KrakenSymbolOrderBook">
             <summary>

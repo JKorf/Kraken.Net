@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using CryptoExchange.Net;
+using CryptoExchange.Net.Authentication;
+using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Converters;
@@ -23,9 +25,10 @@ namespace Kraken.Net
     {
         #region fields
         private static KrakenSocketClientOptions defaultOptions = new KrakenSocketClientOptions();
-        private static KrakenSocketClientOptions DefaultOptions => defaultOptions.Copy<KrakenSocketClientOptions>();
+        private static KrakenSocketClientOptions DefaultOptions => defaultOptions.Copy();
                 
         private readonly string _authBaseAddress;
+        private Dictionary<string, string> _symbolSynonyms;
         #endregion
 
         #region ctor
@@ -40,15 +43,32 @@ namespace Kraken.Net
         /// Create a new instance of KrakenSocketClient using provided options
         /// </summary>
         /// <param name="options">The options to use for this client</param>
-        public KrakenSocketClient(KrakenSocketClientOptions options) : base("Kraken", options, options.ApiCredentials == null ? null : new KrakenAuthenticationProvider(options.ApiCredentials))
+        public KrakenSocketClient(KrakenSocketClientOptions options) : base("Kraken", options, options.ApiCredentials == null ? null : new KrakenAuthenticationProvider(options.ApiCredentials, null))
         {
             AddGenericHandler("HeartBeat", (messageEvent) => { });
             AddGenericHandler("SystemStatus", (messageEvent) => { });
             _authBaseAddress = options.AuthBaseAddress;
+
+            _symbolSynonyms = new Dictionary<string, string>
+            {
+                { "BTC", "XBT"},
+                { "DOGE", "XDG" }
+            };
         }
         #endregion
 
         #region methods
+        /// <summary>
+        /// Set the API key and secret
+        /// </summary>
+        /// <param name="apiKey">The api key</param>
+        /// <param name="apiSecret">The api secret</param>
+        /// <param name="nonceProvider">Optional nonce provider. Careful providing a custom provider; once a nonce is sent to the server, every request after that needs a higher nonce than that</param>
+        public void SetApiCredentials(string apiKey, string apiSecret, INonceProvider? nonceProvider = null)
+        {
+            SetAuthenticationProvider(new KrakenAuthenticationProvider(new ApiCredentials(apiKey, apiSecret), nonceProvider));
+        }
+
         /// <summary>
         /// Set the default options to be used when creating new socket clients
         /// </summary>
@@ -78,11 +98,12 @@ namespace Kraken.Net
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenStreamTick>> handler)
         {
             symbol.ValidateKrakenWebsocketSymbol();
+            var subSymbol = SymbolToServer(symbol);
             var internalHandler = new Action<DataEvent<KrakenSocketEvent<KrakenStreamTick>>>(data =>
             {
-                handler(data.As(data.Data.Data, data.Data.Symbol));
+                handler(data.As(data.Data.Data, symbol));
             });
-            return await SubscribeAsync(new KrakenSubscribeRequest("ticker", NextId(), symbol), null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("ticker", NextId(), subSymbol), null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -91,17 +112,20 @@ namespace Kraken.Net
         /// <param name="symbols">Symbols to subscribe to</param>
         /// <param name="handler">Data handler</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string[] symbols, Action<DataEvent<KrakenStreamTick>> handler)
+        public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenStreamTick>> handler)
         {
-            foreach(var symbol in symbols)                
-                symbol.ValidateKrakenWebsocketSymbol();
-            
+            var symbolArray = symbols.ToArray();
+            for (var i = 0; i< symbolArray.Length; i++)
+            {
+                symbolArray[i].ValidateKrakenWebsocketSymbol();
+                symbolArray[i] = SymbolToServer(symbolArray[i]);
+            }
             var internalHandler = new Action<DataEvent<KrakenSocketEvent<KrakenStreamTick>>>(data =>
             {
                 handler(data.As(data.Data.Data, data.Data.Symbol));
             });
 
-            return await SubscribeAsync(new KrakenSubscribeRequest("ticker", NextId(), symbols), null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("ticker", NextId(), symbolArray), null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -114,14 +138,15 @@ namespace Kraken.Net
         public async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, KlineInterval interval, Action<DataEvent<KrakenStreamKline>> handler)
         {
             symbol.ValidateKrakenWebsocketSymbol();
+            var subSymbol = SymbolToServer(symbol);
 
             var intervalMinutes = int.Parse(JsonConvert.SerializeObject(interval, new KlineIntervalConverter(false)));
             var internalHandler = new Action<DataEvent<KrakenSocketEvent<KrakenStreamKline>>>(data =>
             {
-                handler(data.As(data.Data.Data, data.Data.Topic));
+                handler(data.As(data.Data.Data, symbol));
             });
 
-            return await SubscribeAsync(new KrakenSubscribeRequest("ohlc", NextId(), symbol) { Details = new KrakenOHLCSubscriptionDetails(intervalMinutes) }, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("ohlc", NextId(), subSymbol) { Details = new KrakenOHLCSubscriptionDetails(intervalMinutes) }, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -133,11 +158,13 @@ namespace Kraken.Net
         public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<IEnumerable<KrakenTrade>>> handler)
         {
             symbol.ValidateKrakenWebsocketSymbol();
+            var subSymbol = SymbolToServer(symbol);
+
             var internalHandler = new Action<DataEvent<KrakenSocketEvent<IEnumerable<KrakenTrade>>>>(data =>
             {
-                handler(data.As(data.Data.Data, data.Data.Symbol));
+                handler(data.As(data.Data.Data, symbol));
             });
-            return await SubscribeAsync(new KrakenSubscribeRequest("trade", NextId(), symbol), null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("trade", NextId(), subSymbol), null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -149,11 +176,12 @@ namespace Kraken.Net
         public async Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(string symbol, Action<DataEvent<KrakenStreamSpread>> handler)
         {
             symbol.ValidateKrakenWebsocketSymbol();
+            var subSymbol = SymbolToServer(symbol);
             var internalHandler = new Action<DataEvent<KrakenSocketEvent<KrakenStreamSpread>>>(data =>
             {
-                handler(data.As(data.Data.Data, data.Data.Symbol));
+                handler(data.As(data.Data.Data, symbol));
             });
-            return await SubscribeAsync(new KrakenSubscribeRequest("spread", NextId(), symbol), null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("spread", NextId(), subSymbol), null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -166,6 +194,7 @@ namespace Kraken.Net
         public async Task<CallResult<UpdateSubscription>> SubscribeToDepthUpdatesAsync(string symbol, int depth, Action<DataEvent<KrakenStreamOrderBook>> handler)
         {
             symbol.ValidateKrakenWebsocketSymbol();
+            var subSymbol = SymbolToServer(symbol);
 
             var innerHandler = new Action<DataEvent<string>>(data =>
             {
@@ -176,10 +205,10 @@ namespace Kraken.Net
                     return;
                 }
                 var evnt = StreamOrderBookConverter.Convert((JArray)token);
-                handler(data.As(evnt.Data, evnt.Symbol));
+                handler(data.As(evnt.Data, symbol));
             });
 
-            return await SubscribeAsync(new KrakenSubscribeRequest("book", NextId(), symbol) { Details = new KrakenDepthSubscriptionDetails(depth)}, null, false, innerHandler).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("book", NextId(), subSymbol) { Details = new KrakenDepthSubscriptionDetails(depth)}, null, false, innerHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -479,19 +508,16 @@ namespace Kraken.Net
 
             string channel;
             string symbol;
-            int symbolIndex;
             if (arr.Count == 5)
             {
                 channel = arr[3].ToString();
                 symbol = arr[4].ToString();
-                symbolIndex = 4;
             }
             else if (arr.Count == 4)
             {
                 // Public update
                 channel = arr[2].ToString();
                 symbol = arr[3].ToString();
-                symbolIndex = 3;
             }
             else
             {
@@ -508,19 +534,6 @@ namespace Kraken.Net
 
             foreach (var subSymbol in kRequest.Symbols)
             {
-                var check = subSymbol;
-                var baseQuote = check.Split('/');
-                if (baseQuote[0] == "BTC")
-                    check = "XBT/" + baseQuote[1];
-                else if (baseQuote[1] == "BTC")
-                    check = baseQuote[0] + "/XBT";
-
-                if (check == symbol)
-                {
-                    arr[symbolIndex] = subSymbol;
-                    return true;
-                }
-
                 if (subSymbol == symbol)
                     return true;
             }
@@ -594,6 +607,23 @@ namespace Kraken.Net
                 return true;
             }).ConfigureAwait(false);
             return result;
+        }
+
+        /// <summary>
+        /// Maps an input symbol to a server symbol
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        protected string SymbolToServer(string input)
+        {
+            var split = input.Split('/');
+            var baseAsset = split[0];
+            var quoteAsset = split[1];
+            if (_symbolSynonyms.TryGetValue(baseAsset.ToUpperInvariant(), out var baseOutput))
+                baseAsset = baseOutput;
+            if (_symbolSynonyms.TryGetValue(baseAsset.ToUpperInvariant(), out var quoteOutput))
+                quoteAsset = quoteOutput;
+            return baseAsset + "/" + quoteAsset;
         }
     }
 }
