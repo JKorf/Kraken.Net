@@ -9,6 +9,7 @@ using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
+using Kraken.Net.Objects;
 
 namespace Kraken.Net
 {
@@ -23,7 +24,7 @@ namespace Kraken.Net
             if(credentials.Secret == null)
                 throw new ArgumentException("ApiKey/Secret needed");
 
-            _nonceProvider = nonceProvider ?? new DefaultNonceProvider();
+            _nonceProvider = nonceProvider ?? new KrakenNonceProvider();
             encryptor = new HMACSHA512(Convert.FromBase64String(credentials.Secret.GetString()));
         }
 

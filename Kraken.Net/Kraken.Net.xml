@@ -1819,6 +1819,9 @@
             Resulting balance
             </summary>
         </member>
+        <member name="M:Kraken.Net.Objects.KrakenNonceProvider.GetNonce">
+            <inheritdoc />
+        </member>
         <member name="T:Kraken.Net.Objects.KrakenOrder">
             <summary>
             Order info
