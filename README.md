@@ -90,6 +90,9 @@ For the basic client options see also the CryptoExchange.Net [docs](https://gith
 |`AuthBaseAddress`|The base address for authenticated subscriptions|`wss://ws-auth.kraken.com/`
 
 ## Release notes
+* Version 2.1.1 - 21 Sep 2021
+    * Fix for nonce provider not working correctly in combination with other exchanges
+
 * Version 2.1.0 - 20 Sep 2021
     * Fix for not recognizing DOGE/BTC because Kraken renames them to XDG/XBT in update messages
     * Added custom nonce provider support
