@@ -1,5 +1,4 @@
-﻿using CryptoExchange.Net.Authentication;
-using CryptoExchange.Net.Interfaces;
+﻿using CryptoExchange.Net.Interfaces;
 using System;
 
 namespace Kraken.Net.Objects
@@ -14,10 +13,8 @@ namespace Kraken.Net.Objects
         {
             lock (nonceLock)
             {
-                long nonce;
-                if (lastNonce == null)
-                    nonce = DateTime.UtcNow.Ticks;
-                else
+                var nonce = DateTime.UtcNow.Ticks;
+                if (lastNonce.HasValue && nonce <= lastNonce.Value)
                     nonce = lastNonce.Value + 1;
                 lastNonce = nonce;
                 return nonce;
