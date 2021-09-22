@@ -812,6 +812,8 @@ namespace Kraken.Net
         /// <inheritdoc />
         protected override void WriteParamBody(IRequest request, Dictionary<string, object> parameters, string contentType)
         {
+            if (parameters.TryGetValue("nonce", out var nonce))
+                log.Write(Microsoft.Extensions.Logging.LogLevel.Trace, $"[{request.RequestId}] Nonce: " + nonce);
             var stringData = string.Join("&", parameters.OrderBy(p => p.Key != "nonce").Select(p => $"{p.Key}={p.Value}"));
             request.SetContent(stringData, contentType);
         }
