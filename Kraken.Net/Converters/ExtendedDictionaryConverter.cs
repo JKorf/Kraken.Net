@@ -11,7 +11,7 @@ namespace Kraken.Net.Converters
     {
         public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
-            var data = (KrakenDictionaryResult<T>) value;
+            var data = (KrakenDictionaryResult<T>) value!;
             writer.WriteStartObject();
             writer.WritePropertyName("data");
             writer.WriteRawValue(JsonConvert.SerializeObject(data.Data));
@@ -20,18 +20,25 @@ namespace Kraken.Net.Converters
             writer.WriteEndObject();
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
             var obj = JObject.Load(reader);
             var inner = obj.First;
+            if (inner == default || inner.First == default)
+                return null;
+
             var data = inner.First.ToObject<T>();
             var result = (KrakenDictionaryResult<T>)Activator.CreateInstance(objectType);
-            result.Data = data;
-            var timestamp = (long)obj["last"];
-            if(timestamp > 1000000000000000000)
-                result.Last = obj["last"].ToObject<DateTime>(new JsonSerializer() {Converters = {new TimestampNanoSecondsConverter()}});
-            else
-                result.Last = obj["last"].ToObject<DateTime>(new JsonSerializer() {Converters = {new TimestampSecondsConverter()}});
+            result.Data = data!;
+            var lastValue = obj["last"];
+            if (lastValue != null)
+            {
+                var timestamp = lastValue.Value<long>();
+                if (timestamp > 1000000000000000000)
+                    result.Last = lastValue.ToObject<DateTime>(new JsonSerializer() { Converters = { new TimestampNanoSecondsConverter() } });
+                else
+                    result.Last = lastValue.ToObject<DateTime>(new JsonSerializer() { Converters = { new TimestampSecondsConverter() } });
+            }
             return Convert.ChangeType(result, objectType);
         }
 

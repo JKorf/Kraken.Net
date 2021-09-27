@@ -28,7 +28,7 @@ namespace Kraken.Net
         private static KrakenSocketClientOptions DefaultOptions => defaultOptions.Copy();
                 
         private readonly string _authBaseAddress;
-        private Dictionary<string, string> _symbolSynonyms;
+        private readonly Dictionary<string, string> _symbolSynonyms;
         #endregion
 
         #region ctor
@@ -205,6 +205,12 @@ namespace Kraken.Net
                     return;
                 }
                 var evnt = StreamOrderBookConverter.Convert((JArray)token);
+                if (evnt == null)
+                {
+                    log.Write(LogLevel.Warning, "Failed to deserialize stream order book");
+                    return;
+                }
+
                 handler(data.As(evnt.Data, symbol));
             });
 
@@ -222,9 +228,13 @@ namespace Kraken.Net
             var innerHandler = new Action<DataEvent<string>>(data =>
             {
                 var token = data.Data.ToJToken(log);
-                if (token != null && token.Any())
+                if (token != null && token.Count() > 2)
                 {
-                    var sequence = token[2]["sequence"].Value<int>();
+                    var seq = token[2]!["sequence"];
+                    if(seq == null)
+                        log.Write(LogLevel.Warning, "Failed to deserialize stream order, no sequence");
+
+                    var sequence = seq!.Value<int>();
                     if (token[0]!.Type == JTokenType.Array)
                     {
                         var dataArray = (JArray) token[0]!;
@@ -275,9 +285,13 @@ namespace Kraken.Net
             var innerHandler = new Action<DataEvent<string>>(data =>
             {
                 var token = data.Data.ToJToken(log);
-                if (token != null && token.Any())
+                if (token != null && token.Count() > 2)
                 {
-                    var sequence = token[2]["sequence"].Value<int>();
+                    var seq = token[2]!["sequence"];
+                    if (seq == null)
+                        log.Write(LogLevel.Warning, "Failed to deserialize stream order, no sequence");
+
+                    var sequence = seq!.Value<int>();
                     if (token[0]!.Type == JTokenType.Array)
                     {
                         var dataArray = (JArray)token[0]!;
@@ -451,7 +465,7 @@ namespace Kraken.Net
         /// <inheritdoc />
         protected override bool HandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
         {
-            callResult = null;
+            callResult = null!;
 
             if (data.Type != JTokenType.Object)
                 return false;
@@ -466,7 +480,7 @@ namespace Kraken.Net
 
             var error = data["errorMessage"]?.ToString();
             if (!string.IsNullOrEmpty(error)) {
-                callResult = new CallResult<T>(default, new ServerError(error));
+                callResult = new CallResult<T>(default, new ServerError(error!));
                 return true;
             }
 
@@ -485,12 +499,18 @@ namespace Kraken.Net
             if (message["reqid"] == null)
                 return false;
 
-            var requestId = (int) message["reqid"];
+            var requestId = message["reqid"]!.Value<int>();
             var kRequest = (KrakenSubscribeRequest) request;
             if (requestId != kRequest.RequestId)
                 return false;
             
             var response = message.ToObject<KrakenSubscriptionEvent>();
+            if (response == null)
+            {
+                callResult = new CallResult<object>(response, new UnknownError("Failed to parse subscription response"));
+                return true;
+            }
+
             if(response.ChannelId != 0)
                 kRequest.ChannelId = response.ChannelId;
             callResult = new CallResult<object>(response, response.Status == "subscribed" ? null: new ServerError(response.ErrorMessage ?? "-"));
@@ -546,10 +566,10 @@ namespace Kraken.Net
             if (message.Type != JTokenType.Object)
                 return false;
 
-            if (identifier == "HeartBeat" && message["event"] != null && (string)message["event"] == "heartbeat")
+            if (identifier == "HeartBeat" && message["event"] != null && message["event"]!.ToString() == "heartbeat")
                 return true;
 
-            if (identifier == "SystemStatus" && message["event"] != null && (string)message["event"] == "systemStatus")
+            if (identifier == "SystemStatus" && message["event"] != null && message["event"]!.ToString() == "systemStatus")
                 return true;
 
             return false;
@@ -598,12 +618,12 @@ namespace Kraken.Net
                 if (data["reqid"] == null)
                     return false;
 
-                var requestId = (int)data["reqid"];
+                var requestId = data["reqid"]!.Value<int>();
                 if (requestId != unsubRequest.RequestId)
                     return false;
 
                 var response = data.ToObject<KrakenSubscriptionEvent>();
-                result = response.Status == "unsubscribed";
+                result = response!.Status == "unsubscribed";
                 return true;
             }).ConfigureAwait(false);
             return result;

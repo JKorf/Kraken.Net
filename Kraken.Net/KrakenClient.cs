@@ -710,6 +710,7 @@ namespace Kraken.Net
 
         #region common interface
 
+#pragma warning disable 1066
         async Task<WebCallResult<IEnumerable<ICommonSymbol>>> IExchangeClient.GetSymbolsAsync()
         {
             var exchangeInfo = await GetSymbolsAsync().ConfigureAwait(false);
@@ -834,6 +835,7 @@ namespace Kraken.Net
 
             return result.As<T>(result.Data.Result);
         }
+#pragma warning restore 1066
 
         /// <summary>
         /// Get the name of a symbol for Kraken based on the base and quote asset

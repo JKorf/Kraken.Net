@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CryptoExchange.Net.ExchangeInterfaces;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects
 {
@@ -14,7 +10,7 @@ namespace Kraken.Net.Objects
         /// <summary>
         /// Asset
         /// </summary>
-        public string Asset { get; set; }
+        public string Asset { get; set; } = string.Empty;
         /// <summary>
         /// Balance
         /// </summary>

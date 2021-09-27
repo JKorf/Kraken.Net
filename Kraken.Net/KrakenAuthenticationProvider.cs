@@ -15,7 +15,7 @@ namespace Kraken.Net
 {
     internal class KrakenAuthenticationProvider: AuthenticationProvider
     {
-        private INonceProvider _nonceProvider;
+        private readonly INonceProvider _nonceProvider;
 
         private readonly HMACSHA512 encryptor;
 
