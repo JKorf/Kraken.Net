@@ -41,7 +41,7 @@ namespace Kraken.Net.Objects
         [JsonProperty("quote")]
         public string QuoteAsset { get; set; } = string.Empty;
         /// <summary>
-        /// Let size
+        /// Lot size
         /// </summary>
         [JsonProperty("lot")]
         public string VolumeLotSize { get; set; } = string.Empty;

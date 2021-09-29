@@ -422,12 +422,12 @@
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToDepthUpdatesAsync(System.String,System.Int32,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.KrakenStreamOrderBook}})">
+        <member name="M:Kraken.Net.Interfaces.IKrakenSocketClient.SubscribeToOrderBookUpdatesAsync(System.String,System.Int32,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.KrakenStreamOrderBook}})">
             <summary>
             Subscribe to depth updates
             </summary>
             <param name="symbol">Symbol to subscribe to</param>
-            <param name="depth">Depth of the initial order book snapshot</param>
+            <param name="depth">Depth of the initial order book snapshot. 10, 25, 100, 500 or 1000</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
@@ -1073,12 +1073,12 @@
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToDepthUpdatesAsync(System.String,System.Int32,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.KrakenStreamOrderBook}})">
+        <member name="M:Kraken.Net.KrakenSocketClient.SubscribeToOrderBookUpdatesAsync(System.String,System.Int32,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.KrakenStreamOrderBook}})">
             <summary>
             Subscribe to depth updates
             </summary>
             <param name="symbol">Symbol to subscribe to</param>
-            <param name="depth">Depth of the initial order book snapshot</param>
+            <param name="depth">Depth of the initial order book snapshot. 10, 25, 100, 500 or 1000</param>
             <param name="handler">Data handler</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
@@ -2329,7 +2329,7 @@
         </member>
         <member name="P:Kraken.Net.Objects.KrakenSymbol.VolumeLotSize">
             <summary>
-            Let size
+            Lot size
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.KrakenSymbol.Decimals">
