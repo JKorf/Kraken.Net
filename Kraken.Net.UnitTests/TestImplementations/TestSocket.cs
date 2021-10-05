@@ -13,18 +13,20 @@ namespace Kucoin.Net.UnitTests.TestImplementations
         public bool CanConnect { get; set; }
         public bool Connected { get; set; }
 
+#pragma warning disable 8618
         public event Action OnClose;
         public event Action<string> OnMessage;
         public event Action<Exception> OnError;
         public event Action OnOpen;
+#pragma warning restore 8618
 
         public int Id { get; }
         public bool ShouldReconnect { get; set; }
-        public Func<string, string> DataInterpreterString { get; set; }
-        public Func<byte[], string> DataInterpreterBytes { get; set; }
+        public Func<string, string>? DataInterpreterString { get; set; }
+        public Func<byte[], string>? DataInterpreterBytes { get; set; }
         public DateTime? DisconnectTime { get; set; }
-        public string Url { get; }
-        public Encoding Encoding { get; set; }
+        public string Url { get; } = "";
+        public Encoding? Encoding { get; set; }
 
         public bool IsClosed => !Connected;
         public bool IsOpen => Connected;
@@ -32,7 +34,7 @@ namespace Kucoin.Net.UnitTests.TestImplementations
         public TimeSpan PingInterval { get; set; }
         public SslProtocols SSLProtocols { get; set; }
         public TimeSpan Timeout { get; set; }
-        public string Origin { get; set; }
+        public string? Origin { get; set; }
         public bool Reconnecting { get; set; }
         public int? RatelimitPerSecond { get; set; }
         public string? LastSendMessage { get; set; }
@@ -89,6 +91,11 @@ namespace Kucoin.Net.UnitTests.TestImplementations
         public void InvokeMessage<T>(T data)
         {
             OnMessage?.Invoke(JsonConvert.SerializeObject(data));
+        }
+
+        public void InvokeError(Exception error)
+        {
+            OnError?.Invoke(error);
         }
     }
 }

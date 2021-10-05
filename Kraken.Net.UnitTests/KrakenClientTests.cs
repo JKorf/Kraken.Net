@@ -64,8 +64,8 @@ namespace Kraken.Net.UnitTests
 
             // assert
             Assert.IsFalse(result.Success);
-            Assert.IsTrue(result.Error.Message.Contains("first error"));
-            Assert.IsTrue(result.Error.Message.Contains("another error"));
+            Assert.IsTrue(result.Error!.Message.Contains("first error"));
+            Assert.IsTrue(result.Error!.Message.Contains("another error"));
         }
 
         [TestCase()]
@@ -80,7 +80,7 @@ namespace Kraken.Net.UnitTests
             // assert
             Assert.IsFalse(result.Success);
             Assert.IsTrue(result.ResponseStatusCode == System.Net.HttpStatusCode.BadRequest);
-            Assert.IsTrue(result.Error.ToString().Contains("Error request"));
+            Assert.IsTrue(result.Error!.ToString().Contains("Error request"));
         }
 
         public string SerializeExpected<T>(T data)

@@ -21,7 +21,7 @@ namespace Kraken.Net.UnitTests
             // act
             var subTask = client.SubscribeToTickerUpdatesAsync("XBT/EUR", test => { });
             await Task.Delay(10);
-            var id = JToken.Parse(socket.LastSendMessage)["reqid"];
+            var id = JToken.Parse(socket.LastSendMessage!)["reqid"];
             socket.InvokeMessage($"{{\"channelID\": 1, \"status\": \"subscribed\", \"reqid\":{id}}}");
             var subResult = subTask.Result;
 
@@ -40,13 +40,13 @@ namespace Kraken.Net.UnitTests
             // act
             var subTask = client.SubscribeToTickerUpdatesAsync("XBT/EUR", test => { });
             await Task.Delay(10);
-            var id = JToken.Parse(socket.LastSendMessage)["reqid"];
+            var id = JToken.Parse(socket.LastSendMessage!)["reqid"];
             socket.InvokeMessage($"{{\"channelID\": 1, \"status\": \"error\", \"errormessage\": \"Failed to sub\", \"reqid\":{id}}}");
             var subResult = subTask.Result;
 
             // assert
             Assert.IsFalse(subResult.Success);
-            Assert.IsTrue(subResult.Error.Message.Contains("Failed to sub"));
+            Assert.IsTrue(subResult.Error!.Message.Contains("Failed to sub"));
         }
     }
 }

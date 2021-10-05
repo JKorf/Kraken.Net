@@ -8,7 +8,7 @@ namespace Kraken.Net.UnitTests.ConvertersTests.StreamOrderbookConvertersTests
     [TestFixture]
     public class StreamOrderbookConvertersTests
     {
-        private JArray fiveElements;
+        private JArray? fiveElements;
 
         [OneTimeSetUp]
         public void SetupData()
@@ -51,9 +51,9 @@ namespace Kraken.Net.UnitTests.ConvertersTests.StreamOrderbookConvertersTests
         [Test]
         public void Event_Should_ParseCountOfFour()
         {
-            var testObj = StreamOrderBookConverter.Convert(this.fiveElements);
+            var testObj = StreamOrderBookConverter.Convert(this.fiveElements!);
 
-            Assert.AreEqual(2, testObj.Data.Asks.Count());
+            Assert.AreEqual(2, testObj!.Data.Asks.Count());
             Assert.AreEqual(1, testObj.Data.Bids.Count());
             Assert.AreEqual(1234, testObj.ChannelId);
             Assert.AreEqual("book-10", testObj.Topic);
