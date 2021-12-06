@@ -18,6 +18,9 @@ namespace Kraken.Net.Converters
             new KeyValuePair<LedgerEntryType, string>(LedgerEntryType.Adjustment, "adjustment"),
             new KeyValuePair<LedgerEntryType, string>(LedgerEntryType.Transfer, "transfer"),
             new KeyValuePair<LedgerEntryType, string>(LedgerEntryType.Rollover, "rollover"),
+            new KeyValuePair<LedgerEntryType, string>(LedgerEntryType.Spend, "spend"),
+            new KeyValuePair<LedgerEntryType, string>(LedgerEntryType.Receive, "receive"),
+            new KeyValuePair<LedgerEntryType, string>(LedgerEntryType.Settled, "settled"),
         };
     }
 }
