@@ -92,6 +92,10 @@ For the basic client options see also the CryptoExchange.Net [docs](https://gith
 |`AuthBaseAddress`|The base address for authenticated subscriptions|`wss://ws-auth.kraken.com/`
 
 ## Release notes
+* Version 2.2.4 - 06 Dec 2021
+    * Added missing ledger entry types
+    * Fixed threading issue when signing requests
+
 * Version 2.2.3 - 08 Oct 2021
     * Updated CryptoExchange.Net to fix some socket issues
 
