@@ -13,6 +13,7 @@ Changes related to `IExchangeClient`, options and client structure are also (par
 
 ### Namespaces
 There are a few namespace changes:  
+ 
 |Type|Old|New|
 |----|---|---|
 |Enums|`Kraken.Net.Objects`|`Kraken.Net.Enums`  |
@@ -80,6 +81,7 @@ var sub = krakenSocket.SpotStreams.SubscribeToTickerUpdatesAsync("XBT/USD", Data
 
 ### Definitions
 Some names have been changed to a common definition. This includes where the name is part of a bigger name  
+
 |Old|New||
 |----|---|---|
 |`Currency`|`Asset`||
@@ -103,6 +105,3 @@ var book = new KrakenSpotSymbolOrderBook("XBT/USD", new KrakenOrderBookOptions
 	Limit = 25
 });
 ```
-
-### Changed methods
-
