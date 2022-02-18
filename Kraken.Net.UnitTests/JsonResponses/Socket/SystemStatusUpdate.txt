@@ -1,0 +1,6 @@
+{
+  "connectionID": 8628615390848610000,
+  "event": "systemStatus",
+  "status": "online",
+  "version": "1.0.0"
+}

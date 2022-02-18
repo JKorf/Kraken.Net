@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CryptoExchange.Net.Converters;
-using Kraken.Net.Objects;
+using Kraken.Net.Objects.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -16,7 +16,7 @@ namespace Kraken.Net.Converters
             writer.WritePropertyName("data");
             writer.WriteRawValue(JsonConvert.SerializeObject(data.Data));
             writer.WritePropertyName("last");
-            writer.WriteValue(JsonConvert.SerializeObject(data.Last, new TimestampSecondsConverter()));
+            writer.WriteValue(DateTimeConverter.ConvertToSeconds(data.LastUpdateTime));
             writer.WriteEndObject();
         }
 
@@ -24,7 +24,7 @@ namespace Kraken.Net.Converters
         {
             var obj = JObject.Load(reader);
             var inner = obj.First;
-            if (inner == default || inner.First == default)
+            if (inner?.First == null)
                 return null;
 
             var data = inner.First.ToObject<T>();
@@ -33,11 +33,7 @@ namespace Kraken.Net.Converters
             var lastValue = obj["last"];
             if (lastValue != null)
             {
-                var timestamp = lastValue.Value<long>();
-                if (timestamp > 1000000000000000000)
-                    result.Last = lastValue.ToObject<DateTime>(new JsonSerializer() { Converters = { new TimestampNanoSecondsConverter() } });
-                else
-                    result.Last = lastValue.ToObject<DateTime>(new JsonSerializer() { Converters = { new TimestampSecondsConverter() } });
+                result.LastUpdateTime = lastValue.ToObject<DateTime>(new JsonSerializer() { Converters = { new DateTimeConverter() } });
             }
             return Convert.ChangeType(result, objectType);
         }
@@ -61,8 +57,9 @@ namespace Kraken.Net.Converters
         /// <summary>
         /// The timestamp of the data
         /// </summary>
-        [JsonConverter(typeof(TimestampSecondsConverter))]
-        public DateTime Last { get; set; }
+        [JsonConverter(typeof(DateTimeConverter))]
+        [JsonProperty("last")]
+        public DateTime LastUpdateTime { get; set; }
     }
 
     /// <summary>

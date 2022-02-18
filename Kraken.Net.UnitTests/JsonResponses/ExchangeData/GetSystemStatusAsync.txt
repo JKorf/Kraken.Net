@@ -1,0 +1,7 @@
+{
+  "error": [],
+  "result": {
+    "status": "online",
+    "timestamp": "2021-03-21T15:33:02Z"
+  }
+}

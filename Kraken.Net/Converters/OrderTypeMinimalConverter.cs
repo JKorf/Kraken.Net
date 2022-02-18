@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using CryptoExchange.Net.Converters;
-using Kraken.Net.Objects;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Converters
 {

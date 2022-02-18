@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using CryptoExchange.Net.Converters;
-using Kraken.Net.Objects;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Converters
 {
@@ -14,7 +14,7 @@ namespace Kraken.Net.Converters
             new KeyValuePair<OrderType, string>(OrderType.Limit, "limit"),
             new KeyValuePair<OrderType, string>(OrderType.Market, "market"),
             new KeyValuePair<OrderType, string>(OrderType.StopMarket, "stop market"),
-            new KeyValuePair<OrderType, string>(OrderType.StopMarket, "stop limit"),
+            new KeyValuePair<OrderType, string>(OrderType.StopLimit, "stop limit"),
             new KeyValuePair<OrderType, string>(OrderType.StopLoss, "stop-loss"),
             new KeyValuePair<OrderType, string>(OrderType.TakeProfit, "take-profit"),
             new KeyValuePair<OrderType, string>(OrderType.StopLossProfit, "stop-loss-profit"),

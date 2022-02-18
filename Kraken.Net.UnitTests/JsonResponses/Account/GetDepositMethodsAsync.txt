@@ -1,0 +1,11 @@
+{
+  "error": [],
+  "result": [
+    {
+      "method": "Bitcoin",
+      "limit": 0,
+      "fee": "0.0000000000",
+      "gen-address": true
+    }
+  ]
+}

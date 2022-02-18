@@ -1,0 +1,28 @@
+{
+  "error": [],
+  "result": [
+    {
+      "method": "Bitcoin",
+      "aclass": "currency",
+      "asset": "XXBT",
+      "refid": "QGBCOYA-UNP53O-F2JDNS",
+      "txid": "6544b41b607d8b2512baf801755a3a87b6890eacdb451be8a94059fb11f0a8d9",
+      "info": "2Myd4eaAW96ojk38A2uDK4FbioCayvkEgVq",
+      "amount": "0.78125000",
+      "fee": "0.0000000000",
+      "time": 1546992722,
+      "status": "Success"
+    },
+    {
+      "method": "Bitcoin",
+      "aclass": "currency",
+      "asset": "XXBT",
+      "refid": "QGBHU3O-73ARA5-IFCFZT",
+      "txid": "fe12122222fe7fb1bc756a10ecd25f93015e959810ff1daf56535b9b01a803af",
+      "info": "2Myd4eaAW96ojk38A2uDK4FbioCayvkEgVq",
+      "amount": "0.78125000",
+      "time": 1546992722,
+      "status": "Settled"
+    }
+  ]
+}

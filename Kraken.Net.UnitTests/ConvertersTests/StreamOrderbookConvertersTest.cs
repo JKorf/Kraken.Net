@@ -8,7 +8,7 @@ namespace Kraken.Net.UnitTests.ConvertersTests.StreamOrderbookConvertersTests
     [TestFixture]
     public class StreamOrderbookConvertersTests
     {
-        private JArray? fiveElements;
+        private JArray fiveElements;
 
         [OneTimeSetUp]
         public void SetupData()

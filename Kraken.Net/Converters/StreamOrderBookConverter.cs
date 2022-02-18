@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Kraken.Net.Objects;
-using Kraken.Net.Objects.Socket;
+using Kraken.Net.Objects.Internal;
+using Kraken.Net.Objects.Models;
 using Newtonsoft.Json.Linq;
 
 namespace Kraken.Net.Converters

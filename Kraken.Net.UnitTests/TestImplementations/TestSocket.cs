@@ -22,11 +22,11 @@ namespace Kucoin.Net.UnitTests.TestImplementations
 
         public int Id { get; }
         public bool ShouldReconnect { get; set; }
-        public Func<string, string>? DataInterpreterString { get; set; }
-        public Func<byte[], string>? DataInterpreterBytes { get; set; }
+        public Func<string, string> DataInterpreterString { get; set; }
+        public Func<byte[], string> DataInterpreterBytes { get; set; }
         public DateTime? DisconnectTime { get; set; }
         public string Url { get; } = "";
-        public Encoding? Encoding { get; set; }
+        public Encoding Encoding { get; set; }
 
         public bool IsClosed => !Connected;
         public bool IsOpen => Connected;
@@ -34,10 +34,10 @@ namespace Kucoin.Net.UnitTests.TestImplementations
         public TimeSpan PingInterval { get; set; }
         public SslProtocols SSLProtocols { get; set; }
         public TimeSpan Timeout { get; set; }
-        public string? Origin { get; set; }
+        public string Origin { get; set; }
         public bool Reconnecting { get; set; }
         public int? RatelimitPerSecond { get; set; }
-        public string? LastSendMessage { get; set; }
+        public string LastSendMessage { get; set; }
         public double IncomingKbps => 0;
 
         public Task<bool> ConnectAsync()

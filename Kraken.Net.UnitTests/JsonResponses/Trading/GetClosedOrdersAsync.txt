@@ -1,0 +1,66 @@
+{
+  "error": [],
+  "result": {
+    "closed": {
+      "O37652-RJWRT-IMO74O": {
+        "refid": null,
+        "userref": 36493663,
+        "status": "canceled",
+        "reason": "User requested",
+        "opentm": 1616148493.7708,
+        "closetm": 1616148610.0482,
+        "starttm": 0,
+        "expiretm": 0,
+        "descr": {
+          "pair": "XBTGBP",
+          "type": "buy",
+          "ordertype": "limit",
+          "price": "2506.0",
+          "price2": "0",
+          "leverage": "none",
+          "order": "buy 0.00100000 XBTGBP @ limit 2506.0",
+          "close": ""
+        },
+        "vol": "0.00100000",
+        "vol_exec": "0.00000000",
+        "cost": "0.00000",
+        "fee": "0.00000",
+        "price": "0.00000",
+        "stopprice": "0.00000",
+        "limitprice": "0.00000",
+        "misc": "",
+        "oflags": "fciq"
+      },
+      "O6YDQ5-LOMWU-37YKEE": {
+        "refid": null,
+        "userref": 36493663,
+        "status": "canceled",
+        "reason": "User requested",
+        "opentm": 1616148493.7708,
+        "closetm": 1616148610.0477,
+        "starttm": 0,
+        "expiretm": 0,
+        "descr": {
+          "pair": "XBTGBP",
+          "type": "buy",
+          "ordertype": "limit",
+          "price": "2518.0",
+          "price2": "0",
+          "leverage": "none",
+          "order": "buy 0.00100000 XBTGBP @ limit 2518.0",
+          "close": ""
+        },
+        "vol": "0.00100000",
+        "vol_exec": "0.00000000",
+        "cost": "0.00000",
+        "fee": "0.00000",
+        "price": "0.00000",
+        "stopprice": "0.00000",
+        "limitprice": "0.00000",
+        "misc": "",
+        "oflags": "fciq"
+      }
+    },
+    "count": 2
+  }
+}

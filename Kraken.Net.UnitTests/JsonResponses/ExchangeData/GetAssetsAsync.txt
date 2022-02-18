@@ -1,0 +1,23 @@
+{
+  "error": [],
+  "result": {
+    "XXBT": {
+      "aclass": "currency",
+      "altname": "XBT",
+      "decimals": 10,
+      "display_decimals": 5
+    },
+    "ZEUR": {
+      "aclass": "currency",
+      "altname": "EUR",
+      "decimals": 4,
+      "display_decimals": 2
+    },
+    "ZUSD": {
+      "aclass": "currency",
+      "altname": "USD",
+      "decimals": 4,
+      "display_decimals": 2
+    }
+  }
+}

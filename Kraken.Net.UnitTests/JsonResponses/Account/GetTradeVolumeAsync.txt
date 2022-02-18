@@ -1,0 +1,27 @@
+{
+  "error": [],
+  "result": {
+    "currency": "ZUSD",
+    "volume": "200709587.4223",
+    "fees": {
+      "XXBTZUSD": {
+        "fee": "0.1000",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": null,
+        "nextvolume": null,
+        "tiervolume": "10000000.0000"
+      }
+    },
+    "fees_maker": {
+      "XXBTZUSD": {
+        "fee": "0.0000",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": null,
+        "nextvolume": null,
+        "tiervolume": "10000000.0000"
+      }
+    }
+  }
+}

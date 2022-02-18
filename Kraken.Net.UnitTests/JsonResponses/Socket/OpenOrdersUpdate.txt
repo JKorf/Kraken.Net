@@ -1,0 +1,118 @@
+﻿[
+    {
+      "OGTT3Y-C6I3P-XRI6HX": {
+        "avg_price": "34.50000",
+        "cost": "0.00000",
+        "descr": {
+          "close": "",
+          "leverage": "0:1",
+          "order": "sell 10.00345345 XBT/EUR @ limit 34.50000 with 0:1 leverage",
+          "ordertype": "limit",
+          "pair": "XBT/EUR",
+          "price": "34.50000",
+          "price2": "0.00000",
+          "type": "sell"
+        },
+        "expiretm": "0.000000",
+        "fee": "0.00000",
+        "limitprice": "34.50000",
+        "misc": "",
+        "oflags": "fcib",
+        "opentm": "0.000000",
+        "refid": "OKIVMP-5GVZN-Z2D2UA",
+        "starttm": "0.000000",
+        "status": "open",
+        "stopprice": "0.000000",
+        "userref": 0,
+        "vol": "10.00345345",
+        "vol_exec": "0.00000000"
+      }
+    },
+    {
+      "OGTT3Y-C6I3P-XRI6HX": {
+        "avg_price": "5334.60000",
+        "cost": "0.00000",
+        "descr": {
+          "close": "",
+          "leverage": "0:1",
+          "order": "sell 0.00000010 XBT/EUR @ limit 5334.60000 with 0:1 leverage",
+          "ordertype": "limit",
+          "pair": "XBT/EUR",
+          "price": "5334.60000",
+          "price2": "0.00000",
+          "type": "sell"
+        },
+        "expiretm": "0.000000",
+        "fee": "0.00000",
+        "limitprice": "5334.60000",
+        "misc": "",
+        "oflags": "fcib",
+        "opentm": "0.000000",
+        "refid": "OKIVMP-5GVZN-Z2D2UA",
+        "starttm": "0.000000",
+        "status": "open",
+        "stopprice": "0.000000",
+        "userref": 0,
+        "vol": "0.00000010",
+        "vol_exec": "0.00000000"
+      }
+    },
+    {
+      "OGTT3Y-C6I3P-XRI6HX": {
+        "avg_price": "90.40000",
+        "cost": "0.00000",
+        "descr": {
+          "close": "",
+          "leverage": "0:1",
+          "order": "sell 0.00001000 XBT/EUR @ limit 90.40000 with 0:1 leverage",
+          "ordertype": "limit",
+          "pair": "XBT/EUR",
+          "price": "90.40000",
+          "price2": "0.00000",
+          "type": "sell"
+        },
+        "expiretm": "0.000000",
+        "fee": "0.00000",
+        "limitprice": "90.40000",
+        "misc": "",
+        "oflags": "fcib",
+        "opentm": "0.000000",
+        "refid": "OKIVMP-5GVZN-Z2D2UA",
+        "starttm": "0.000000",
+        "status": "open",
+        "stopprice": "0.000000",
+        "userref": 0,
+        "vol": "0.00001000",
+        "vol_exec": "0.00000000"
+      }
+    },
+    {
+      "OGTT3Y-C6I3P-XRI6HX": {
+        "avg_price": "9.00000",
+        "cost": "0.00000",
+        "descr": {
+          "close": "",
+          "leverage": "0:1",
+          "order": "sell 0.00001000 XBT/EUR @ limit 9.00000 with 0:1 leverage",
+          "ordertype": "limit",
+          "pair": "XBT/EUR",
+          "price": "9.00000",
+          "price2": "0.00000",
+          "type": "sell"
+        },
+        "expiretm": "0.000000",
+        "fee": "0.00000",
+        "limitprice": "9.00000",
+        "misc": "",
+        "oflags": "fcib",
+        "opentm": "0.000000",
+        "refid": "OKIVMP-5GVZN-Z2D2UA",
+        "starttm": "0.000000",
+        "status": "open",
+        "stopprice": "0.000000",
+        "userref": 0,
+        "vol": "0.00001000",
+        "vol_exec": "0.00000000"
+      }
+    }
+    ]
