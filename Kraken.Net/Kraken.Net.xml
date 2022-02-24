@@ -1339,16 +1339,14 @@
         </member>
         <member name="M:Kraken.Net.Objects.KrakenClientOptions.#ctor">
             <summary>
-            Ctor
+            ctor
             </summary>
         </member>
-        <member name="M:Kraken.Net.Objects.KrakenClientOptions.Copy``1(``0,``0)">
+        <member name="M:Kraken.Net.Objects.KrakenClientOptions.#ctor(Kraken.Net.Objects.KrakenClientOptions)">
             <summary>
-            Copy the values of the def to the input
+            ctor
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="input"></param>
-            <param name="def"></param>
+            <param name="baseOn">Base the new options on other options</param>
         </member>
         <member name="T:Kraken.Net.Objects.KrakenSocketClientOptions">
             <summary>
@@ -1372,16 +1370,14 @@
         </member>
         <member name="M:Kraken.Net.Objects.KrakenSocketClientOptions.#ctor">
             <summary>
-            Ctor
+            ctor
             </summary>
         </member>
-        <member name="M:Kraken.Net.Objects.KrakenSocketClientOptions.Copy``1(``0,``0)">
+        <member name="M:Kraken.Net.Objects.KrakenSocketClientOptions.#ctor(Kraken.Net.Objects.KrakenSocketClientOptions)">
             <summary>
-            Copy the values of the def to the input
+            ctor
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="input"></param>
-            <param name="def"></param>
+            <param name="baseOn">Base the new options on other options</param>
         </member>
         <member name="T:Kraken.Net.Objects.KrakenSocketApiClientOptions">
             <summary>
@@ -1405,14 +1401,12 @@
             <param name="baseAddress"></param>
             <param name="baseAddressAuthenticated"></param>
         </member>
-        <member name="M:Kraken.Net.Objects.KrakenSocketApiClientOptions.#ctor(Kraken.Net.Objects.KrakenSocketApiClientOptions)">
+        <member name="M:Kraken.Net.Objects.KrakenSocketApiClientOptions.#ctor(Kraken.Net.Objects.KrakenSocketApiClientOptions,Kraken.Net.Objects.KrakenSocketApiClientOptions)">
             <summary>
             ctor
             </summary>
             <param name="baseOn"></param>
-        </member>
-        <member name="M:Kraken.Net.Objects.KrakenSocketApiClientOptions.Copy``1(``0,``0)">
-            <inheritdoc />
+            <param name="newValues"></param>
         </member>
         <member name="T:Kraken.Net.Objects.KrakenOrderBookOptions">
             <summary>
@@ -2924,7 +2918,7 @@
         <member name="M:Kraken.Net.SymbolOrderBooks.KrakenSpotSymbolOrderBook.DoResyncAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenSpotSymbolOrderBook.Dispose">
+        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenSpotSymbolOrderBook.Dispose(System.Boolean)">
             <summary>
             Dispose
             </summary>

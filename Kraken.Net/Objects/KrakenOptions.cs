@@ -26,7 +26,7 @@ namespace Kraken.Net.Objects
         /// </summary>
         public INonceProvider? NonceProvider { get; set; }
 
-        private readonly RestApiClientOptions _spotApiOptions = new RestApiClientOptions(KrakenApiAddresses.Default.RestClientAddress)
+        private RestApiClientOptions _spotApiOptions = new RestApiClientOptions(KrakenApiAddresses.Default.RestClientAddress)
         {
             RateLimiters = new List<IRateLimiter>
             {
@@ -42,34 +42,28 @@ namespace Kraken.Net.Objects
         public RestApiClientOptions SpotApiOptions
         {
             get => _spotApiOptions;
-            set => _spotApiOptions.Copy(_spotApiOptions, value);
+            set => _spotApiOptions = new RestApiClientOptions(_spotApiOptions, value);
         }
 
         /// <summary>
-        /// Ctor
+        /// ctor
         /// </summary>
-        public KrakenClientOptions()
+        public KrakenClientOptions() : this(Default)
         {
-            if (Default == null)
+        }
+
+        /// <summary>
+        /// ctor
+        /// </summary>
+        /// <param name="baseOn">Base the new options on other options</param>
+        internal KrakenClientOptions(KrakenClientOptions baseOn) : base(baseOn)
+        {
+            if (baseOn == null)
                 return;
 
-            Copy(this, Default);
-        }
-
-        /// <summary>
-        /// Copy the values of the def to the input
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="input"></param>
-        /// <param name="def"></param>
-        public new void Copy<T>(T input, T def) where T : KrakenClientOptions
-        {
-            base.Copy(input, def);
-
-            input.NonceProvider = def.NonceProvider;
-            input.StaticTwoFactorAuthenticationPassword = def.StaticTwoFactorAuthenticationPassword;
-
-            input.SpotApiOptions = new RestApiClientOptions(def.SpotApiOptions);
+            NonceProvider = baseOn.NonceProvider;
+            StaticTwoFactorAuthenticationPassword = baseOn.StaticTwoFactorAuthenticationPassword;
+            _spotApiOptions = new RestApiClientOptions(baseOn.SpotApiOptions, null);
         }
     }
 
@@ -91,39 +85,34 @@ namespace Kraken.Net.Objects
         /// </summary>
         public INonceProvider? NonceProvider { get; set; }
 
-        private readonly KrakenSocketApiClientOptions _spotStreamsOptions = new KrakenSocketApiClientOptions(KrakenApiAddresses.Default.SocketClientPublicAddress, KrakenApiAddresses.Default.SocketClientPrivateAddress);
+        private KrakenSocketApiClientOptions _spotStreamsOptions = new KrakenSocketApiClientOptions(KrakenApiAddresses.Default.SocketClientPublicAddress, KrakenApiAddresses.Default.SocketClientPrivateAddress);
         /// <summary>
         /// Spot streams options
         /// </summary>
         public KrakenSocketApiClientOptions SpotStreamsOptions
         {
             get => _spotStreamsOptions;
-            set => _spotStreamsOptions.Copy(_spotStreamsOptions, value);
+            set => _spotStreamsOptions = new KrakenSocketApiClientOptions(_spotStreamsOptions, value);
         }
 
         /// <summary>
-        /// Ctor
+        /// ctor
         /// </summary>
-        public KrakenSocketClientOptions()
+        public KrakenSocketClientOptions() : this(Default)
         {
-            if (Default == null)
+        }
+
+        /// <summary>
+        /// ctor
+        /// </summary>
+        /// <param name="baseOn">Base the new options on other options</param>
+        internal KrakenSocketClientOptions(KrakenSocketClientOptions baseOn) : base(baseOn)
+        {
+            if (baseOn == null)
                 return;
 
-            Copy(this, Default);
-        }
-
-        /// <summary>
-        /// Copy the values of the def to the input
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="input"></param>
-        /// <param name="def"></param>
-        public new void Copy<T>(T input, T def) where T : KrakenSocketClientOptions
-        {
-            base.Copy(input, def);
-
-            input.SpotStreamsOptions = new KrakenSocketApiClientOptions();
-            def.SpotStreamsOptions.Copy(input.SpotStreamsOptions, def.SpotStreamsOptions);
+            NonceProvider = baseOn.NonceProvider;
+            _spotStreamsOptions = new KrakenSocketApiClientOptions(baseOn.SpotStreamsOptions, null);
         }
     }
 
@@ -151,7 +140,7 @@ namespace Kraken.Net.Objects
         /// </summary>
         /// <param name="baseAddress"></param>
         /// <param name="baseAddressAuthenticated"></param>
-        public KrakenSocketApiClientOptions(string baseAddress, string baseAddressAuthenticated) : base(baseAddress)
+        internal KrakenSocketApiClientOptions(string baseAddress, string baseAddressAuthenticated) : base(baseAddress)
         {
             BaseAddressAuthenticated = baseAddressAuthenticated;
         }
@@ -160,18 +149,10 @@ namespace Kraken.Net.Objects
         /// ctor
         /// </summary>
         /// <param name="baseOn"></param>
-        public KrakenSocketApiClientOptions(KrakenSocketApiClientOptions baseOn) : base(baseOn)
+        /// <param name="newValues"></param>
+        internal KrakenSocketApiClientOptions(KrakenSocketApiClientOptions baseOn, KrakenSocketApiClientOptions? newValues) : base(baseOn, newValues)
         {
-            BaseAddressAuthenticated = baseOn.BaseAddressAuthenticated;
-        }
-
-        /// <inheritdoc />
-        public new void Copy<T>(T input, T def) where T : KrakenSocketApiClientOptions
-        {
-            base.Copy(input, def);
-
-            if (def.BaseAddressAuthenticated != null)
-                input.BaseAddressAuthenticated = def.BaseAddressAuthenticated;
+            BaseAddressAuthenticated = newValues?.BaseAddressAuthenticated ?? baseOn.BaseAddressAuthenticated;
         }
     }
 

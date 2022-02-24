@@ -387,7 +387,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         /// <inheritdoc />
         protected override TimeSyncInfo GetTimeSyncInfo()
-            => new TimeSyncInfo(_log, ClientOptions.SpotApiOptions.AutoTimestamp, TimeSyncState);
+            => new TimeSyncInfo(_log, ClientOptions.SpotApiOptions.AutoTimestamp, ClientOptions.SpotApiOptions.TimestampRecalculationInterval, TimeSyncState);
 
         /// <inheritdoc />
         public override TimeSpan GetTimeOffset()
