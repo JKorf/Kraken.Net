@@ -28,7 +28,7 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<WebCallResult<DateTime>> GetServerTimeAsync(CancellationToken ct = default)
         {
-            var result = await _baseClient.Execute<KrakenServerTime>(_baseClient.GetUri("0/public/Time"), HttpMethod.Get, ct).ConfigureAwait(false);
+            var result = await _baseClient.Execute<KrakenServerTime>(_baseClient.GetUri("0/public/Time"), HttpMethod.Get, ct, ignoreRatelimit: true).ConfigureAwait(false);
             if (!result)
                 return result.AsError<DateTime>(result.Error!);
             return result.As<DateTime>(result.Data.UnixTime);

@@ -339,8 +339,8 @@ namespace Kraken.Net.Clients.SpotApi
             OnOrderCanceled?.Invoke(id);
         }
 
-        internal Task<WebCallResult<T>> Execute<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1)
-            => _baseClient.Execute<T>(this, url, method, ct, parameters, signed, weight);
+        internal Task<WebCallResult<T>> Execute<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, bool ignoreRatelimit = false)
+            => _baseClient.Execute<T>(this, url, method, ct, parameters, signed, weight, ignoreRatelimit: ignoreRatelimit);
 
         /// <summary>
         /// Get the name of a symbol for Kraken based on the base and quote asset

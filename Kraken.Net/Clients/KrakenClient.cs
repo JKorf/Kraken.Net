@@ -58,9 +58,9 @@ namespace Kraken.Net.Clients
 
         #endregion
 
-        internal async Task<WebCallResult<T>> Execute<T>(RestApiClient apiClient, Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1)
+        internal async Task<WebCallResult<T>> Execute<T>(RestApiClient apiClient, Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, bool ignoreRatelimit = false)
         {
-            var result = await SendRequestAsync<KrakenResult<T>>(apiClient, url, method, ct, parameters, signed, requestWeight: weight).ConfigureAwait(false);
+            var result = await SendRequestAsync<KrakenResult<T>>(apiClient, url, method, ct, parameters, signed, requestWeight: weight, ignoreRatelimit: ignoreRatelimit).ConfigureAwait(false);
             if (!result)
                 return result.AsError<T>(result.Error!);
 
