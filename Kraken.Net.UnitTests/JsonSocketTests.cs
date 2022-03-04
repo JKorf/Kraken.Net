@@ -19,43 +19,43 @@ namespace Kraken.Net.UnitTests
         [Test]
         public async Task ValidateSystemStatusUpdateStreamJson()
         {
-            await TestFileToObject<KrakenStreamSystemStatus>(@"JsonResponses\Socket\SystemStatusUpdate.txt");
+            await TestFileToObject<KrakenStreamSystemStatus>(@"JsonResponses/Socket/SystemStatusUpdate.txt");
         }
 
         [Test]
         public async Task ValidateTickerUpdateStreamJson()
         {
-            await TestFileToObject<KrakenSocketEvent<KrakenStreamTick>>(@"JsonResponses\Socket\TickerUpdate.txt");
+            await TestFileToObject<KrakenSocketEvent<KrakenStreamTick>>(@"JsonResponses/Socket/TickerUpdate.txt");
         }
 
         [Test]
         public async Task ValidateKlineUpdateStreamJson()
         {
-            await TestFileToObject<KrakenSocketEvent<KrakenStreamKline>>(@"JsonResponses\Socket\KlineUpdate.txt");
+            await TestFileToObject<KrakenSocketEvent<KrakenStreamKline>>(@"JsonResponses/Socket/KlineUpdate.txt");
         }
 
         [Test]
         public async Task ValidateTradeUpdateStreamJson()
         {
-            await TestFileToObject<KrakenSocketEvent<IEnumerable<KrakenTrade>>>(@"JsonResponses\Socket\TradeUpdate.txt");
+            await TestFileToObject<KrakenSocketEvent<IEnumerable<KrakenTrade>>>(@"JsonResponses/Socket/TradeUpdate.txt");
         }
 
         [Test]
         public async Task ValidateSpreadUpdateStreamJson()
         {
-            await TestFileToObject<KrakenSocketEvent<KrakenStreamSpread>>(@"JsonResponses\Socket\SpreadUpdate.txt");
+            await TestFileToObject<KrakenSocketEvent<KrakenStreamSpread>>(@"JsonResponses/Socket/SpreadUpdate.txt");
         }
 
         [Test]
         public async Task ValidateOpenOrderUpdateStreamJson()
         {
-            await TestFileToObject<List<Dictionary<string, KrakenStreamOrder>>>(@"JsonResponses\Socket\OpenOrdersUpdate.txt", new List<string> { "avg_price" });
+            await TestFileToObject<List<Dictionary<string, KrakenStreamOrder>>>(@"JsonResponses/Socket/OpenOrdersUpdate.txt", new List<string> { "avg_price" });
         }
 
         [Test]
         public async Task ValidateUserTradeUpdateStreamJson()
         {
-            await TestFileToObject<List<Dictionary<string, KrakenStreamUserTrade>>>(@"JsonResponses\Socket\OwnTradeUpdate.txt", new List<string> { "avg_price" });
+            await TestFileToObject<List<Dictionary<string, KrakenStreamUserTrade>>>(@"JsonResponses/Socket/OwnTradeUpdate.txt", new List<string> { "avg_price" });
         }
 
         private static async Task TestFileToObject<T>(string filePath, List<string> ignoreProperties = null)

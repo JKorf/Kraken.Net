@@ -3,7 +3,7 @@ title: Home
 nav_order: 1
 ---
 
-![Build status](https://travis-ci.com/JKorf/Kraken.Net.svg?branch=master) ![Nuget version](https://img.shields.io/nuget/v/KrakenExchange.net.svg)  ![Nuget downloads](https://img.shields.io/nuget/dt/KrakenExchange.Net.svg)
+[![.NET](https://github.com/JKorf/Kraken.Net/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JKorf/Kraken.Net/actions/workflows/dotnet.yml) ![Nuget version](https://img.shields.io/nuget/v/KrakenExchange.net.svg)  ![Nuget downloads](https://img.shields.io/nuget/dt/KrakenExchange.Net.svg)
 
 This library is based on the CryptoExchange.Net base library. General usage/configuration information can be found in the [CryptoExchange.Net documentation](https://jkorf.github.io/CryptoExchange.Net)
 
