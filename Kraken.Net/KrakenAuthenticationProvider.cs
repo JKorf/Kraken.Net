@@ -40,7 +40,7 @@ namespace Kraken.Net
             headers.Add("API-Key", Credentials.Key!.GetString());
             var nonce = _nonceProvider.GetNonce();
             parameters.Add("nonce", nonce);
-            var np = nonce + uri.SetParameters(parameters).Query.Replace("?", "");
+            var np = nonce + uri.SetParameters(parameters, arraySerialization).Query.Replace("?", "");
 
             var pathBytes = Encoding.UTF8.GetBytes(uri.AbsolutePath);
             var allBytes = pathBytes.Concat(SignSHA256Bytes(np)).ToArray();
