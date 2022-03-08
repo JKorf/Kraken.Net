@@ -30,11 +30,9 @@ namespace Kraken.Net.Objects.Internal
         [JsonProperty("price2")]
         public string? SecondaryPrice { get; set; }
         [JsonProperty("starttm")]
-        [JsonConverter(typeof(DateTimeConverter))]
-        public DateTime? StartTime { get; set; }
+        public string? StartTime { get; set; }
         [JsonProperty("expiretm")]
-        [JsonConverter(typeof(DateTimeConverter))]
-        public DateTime? ExpireTime { get; set; }
+        public string? ExpireTime { get; set; }
         [JsonProperty("validate")]
         public bool? ValidateOnly { get; set; }
         [JsonProperty("close[ordertype]")]

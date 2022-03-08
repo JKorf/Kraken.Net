@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
+using CryptoExchange.Net.Converters;
 using CryptoExchange.Net.Logging;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
@@ -280,8 +281,8 @@ namespace Kraken.Net.Clients.SpotApi
                 Price = price?.ToString(CultureInfo.InvariantCulture),
                 SecondaryPrice = secondaryPrice?.ToString(CultureInfo.InvariantCulture),
                 Leverage = leverage?.ToString(CultureInfo.InvariantCulture),
-                StartTime = startTime,
-                ExpireTime = expireTime,
+                StartTime = (startTime.HasValue && startTime > DateTime.UtcNow) ? DateTimeConverter.ConvertToSeconds(startTime).ToString(): null,
+                ExpireTime = expireTime.HasValue ? DateTimeConverter.ConvertToSeconds(expireTime).ToString() : null,
                 ValidateOnly = validateOnly,
                 CloseOrderType = closeOrderType,
                 ClosePrice = closePrice?.ToString(CultureInfo.InvariantCulture),
@@ -307,9 +308,7 @@ namespace Kraken.Net.Clients.SpotApi
                 RequestId = _baseClient.NextIdInternal()
             };
             var result = await _baseClient.QueryInternalAsync<KrakenSocketResponseBase>(this, _authBaseAddress, request, false).ConfigureAwait(false);
-            if (result)
-                return new CallResult<bool>(true);
-            return new CallResult<bool>(result.Error!);
+            return result.As(result.Success);
         }
 
         /// <inheritdoc />
