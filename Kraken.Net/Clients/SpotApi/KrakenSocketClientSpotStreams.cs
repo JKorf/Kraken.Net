@@ -74,7 +74,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 handler(data.As(data.Data.Data, symbol));
             });
-            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("ticker", _baseClient.NextIdInternal(), subSymbol), null, false, internalHandler, ct).ConfigureAwait(false);
+            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("ticker", KrakenSocketClient.NextIdInternal(), subSymbol), null, false, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -91,7 +91,7 @@ namespace Kraken.Net.Clients.SpotApi
                 handler(data.As(data.Data.Data, data.Data.Symbol));
             });
 
-            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("ticker", _baseClient.NextIdInternal(), symbolArray), null, false, internalHandler, ct).ConfigureAwait(false);
+            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("ticker", KrakenSocketClient.NextIdInternal(), symbolArray), null, false, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -106,7 +106,7 @@ namespace Kraken.Net.Clients.SpotApi
                 handler(data.As(data.Data.Data, symbol));
             });
 
-            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("ohlc", _baseClient.NextIdInternal(), subSymbol) { Details = new KrakenOHLCSubscriptionDetails(intervalMinutes) }, null, false, internalHandler, ct).ConfigureAwait(false);
+            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("ohlc", KrakenSocketClient.NextIdInternal(), subSymbol) { Details = new KrakenOHLCSubscriptionDetails(intervalMinutes) }, null, false, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -119,7 +119,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 handler(data.As(data.Data.Data, symbol));
             });
-            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("trade", _baseClient.NextIdInternal(), subSymbol), null, false, internalHandler, ct).ConfigureAwait(false);
+            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("trade", KrakenSocketClient.NextIdInternal(), subSymbol), null, false, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -131,7 +131,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 handler(data.As(data.Data.Data, symbol));
             });
-            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("spread", _baseClient.NextIdInternal(), subSymbol), null, false, internalHandler, ct).ConfigureAwait(false);
+            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("spread", KrakenSocketClient.NextIdInternal(), subSymbol), null, false, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -159,7 +159,7 @@ namespace Kraken.Net.Clients.SpotApi
                 handler(data.As(evnt.Data, symbol));
             });
 
-            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("book", _baseClient.NextIdInternal(), subSymbol) { Details = new KrakenDepthSubscriptionDetails(depth) }, null, false, innerHandler, ct).ConfigureAwait(false);
+            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("book", KrakenSocketClient.NextIdInternal(), subSymbol) { Details = new KrakenDepthSubscriptionDetails(depth) }, null, false, innerHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -198,7 +198,7 @@ namespace Kraken.Net.Clients.SpotApi
                 _log.Write(LogLevel.Warning, "Failed to deserialize stream order");
             });
 
-            return await _baseClient.SubscribeInternalAsync(this, _authBaseAddress, new KrakenSubscribeRequest("openOrders", _baseClient.NextIdInternal())
+            return await _baseClient.SubscribeInternalAsync(this, _authBaseAddress, new KrakenSubscribeRequest("openOrders", KrakenSocketClient.NextIdInternal())
             {
                 Details = new KrakenOpenOrdersSubscriptionDetails(socketToken)
             }, null, false, innerHandler, ct).ConfigureAwait(false);
@@ -245,7 +245,7 @@ namespace Kraken.Net.Clients.SpotApi
                 _log.Write(LogLevel.Warning, "Failed to deserialize stream order");
             });
 
-            return await _baseClient.SubscribeInternalAsync(this, _authBaseAddress, new KrakenSubscribeRequest("ownTrades", _baseClient.NextIdInternal())
+            return await _baseClient.SubscribeInternalAsync(this, _authBaseAddress, new KrakenSubscribeRequest("ownTrades", KrakenSocketClient.NextIdInternal())
             {
                 Details = new KrakenOwnTradesSubscriptionDetails(socketToken, snapshot)
             }, null, false, innerHandler, ct).ConfigureAwait(false);
@@ -287,7 +287,7 @@ namespace Kraken.Net.Clients.SpotApi
                 CloseOrderType = closeOrderType,
                 ClosePrice = closePrice?.ToString(CultureInfo.InvariantCulture),
                 SecondaryClosePrice = secondaryClosePrice?.ToString(CultureInfo.InvariantCulture),
-                RequestId = _baseClient.NextIdInternal()
+                RequestId = KrakenSocketClient.NextIdInternal()
             };
 
             return await _baseClient.QueryInternalAsync<KrakenStreamPlacedOrder>(this, _authBaseAddress, request, false).ConfigureAwait(false);
@@ -305,7 +305,7 @@ namespace Kraken.Net.Clients.SpotApi
                 Event = "cancelOrder",
                 OrderIds = orderIds,
                 Token = websocketToken,
-                RequestId = _baseClient.NextIdInternal()
+                RequestId = KrakenSocketClient.NextIdInternal()
             };
             var result = await _baseClient.QueryInternalAsync<KrakenSocketResponseBase>(this, _authBaseAddress, request, false).ConfigureAwait(false);
             return result.As(result.Success);
@@ -318,7 +318,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 Event = "cancelAll",
                 Token = websocketToken,
-                RequestId = _baseClient.NextIdInternal()
+                RequestId = KrakenSocketClient.NextIdInternal()
             };
             return await _baseClient.QueryInternalAsync<KrakenStreamCancelAllResult>(this, _authBaseAddress, request, false).ConfigureAwait(false);
         }
@@ -331,7 +331,7 @@ namespace Kraken.Net.Clients.SpotApi
                 Event = "cancelAllOrdersAfter",
                 Token = websocketToken,
                 Timeout = (int)Math.Round(timeout.TotalSeconds),
-                RequestId = _baseClient.NextIdInternal()
+                RequestId = KrakenSocketClient.NextIdInternal()
             };
             return await _baseClient.QueryInternalAsync<KrakenStreamCancelAfterResult>(this, _authBaseAddress, request, false).ConfigureAwait(false);
         }

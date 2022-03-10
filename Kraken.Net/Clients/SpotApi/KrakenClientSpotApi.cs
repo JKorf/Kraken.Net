@@ -73,7 +73,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         async Task<WebCallResult<IEnumerable<Symbol>>> IBaseRestClient.GetSymbolsAsync(CancellationToken ct)
         {
-            var exchangeInfo = await ExchangeData.GetSymbolsAsync().ConfigureAwait(false);
+            var exchangeInfo = await ExchangeData.GetSymbolsAsync(ct: ct).ConfigureAwait(false);
             if (!exchangeInfo)
                 return exchangeInfo.As<IEnumerable<Symbol>>(null);
 
@@ -89,7 +89,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         async Task<WebCallResult<Ticker>> IBaseRestClient.GetTickerAsync(string symbol, CancellationToken ct)
         {
-            var tickers = await ExchangeData.GetTickerAsync(symbol).ConfigureAwait(false);
+            var tickers = await ExchangeData.GetTickerAsync(symbol, ct).ConfigureAwait(false);
             if (!tickers)
                 return tickers.As<Ticker>(null);
 
@@ -115,7 +115,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!assets)
                 return assets.As<IEnumerable<Ticker>>(null);
 
-            var ticker = await ExchangeData.GetTickersAsync(assets.Data.Select(d => d.Key).ToArray()).ConfigureAwait(false);
+            var ticker = await ExchangeData.GetTickersAsync(assets.Data.Select(d => d.Key).ToArray(), ct).ConfigureAwait(false);
             if (!ticker)
                 return ticker.As<IEnumerable<Ticker>>(null);
 

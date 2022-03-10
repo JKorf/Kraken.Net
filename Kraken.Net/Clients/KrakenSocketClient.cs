@@ -73,7 +73,7 @@ namespace Kraken.Net.Clients
         internal Task<CallResult<T>> QueryInternalAsync<T>(SocketApiClient apiClient, string url, object request, bool authenticated)
             => QueryAsync<T>(apiClient, url, request, authenticated);
 
-        internal int NextIdInternal() => NextId();
+        internal static int NextIdInternal() => NextId();
 
         internal Task<CallResult<T>> QueryInternalAsync<T>(SocketApiClient apiClient, object request, bool authenticated)
             => QueryAsync<T>(apiClient, request, authenticated);
