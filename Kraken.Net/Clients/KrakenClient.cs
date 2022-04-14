@@ -39,8 +39,6 @@ namespace Kraken.Net.Clients
         /// <param name="options">The options to use for this client</param>
         public KrakenClient(KrakenClientOptions options) : base("Kraken", options)
         {
-            requestBodyFormat = RequestBodyFormat.FormData;
-
             SpotApi = AddApiClient(new KrakenClientSpotApi(log, this, options));
         }
         #endregion

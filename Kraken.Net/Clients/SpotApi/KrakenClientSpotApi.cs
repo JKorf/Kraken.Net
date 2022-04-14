@@ -62,6 +62,8 @@ namespace Kraken.Net.Clients.SpotApi
             Account = new KrakenClientSpotApiAccount(this);
             ExchangeData = new KrakenClientSpotApiExchangeData(this);
             Trading = new KrakenClientSpotApiTrading(this);
+
+            requestBodyFormat = RequestBodyFormat.FormData;
         }
         #endregion
 
