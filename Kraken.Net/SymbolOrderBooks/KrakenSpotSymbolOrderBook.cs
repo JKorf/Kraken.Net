@@ -24,6 +24,7 @@ namespace Kraken.Net.SymbolOrderBooks
         private readonly IKrakenSocketClient socketClient;
         private readonly bool _socketOwner;
         private bool initialSnapshotDone;
+        private readonly TimeSpan _initialDataTimeout;
 
         /// <summary>
         /// Create a new order book instance
@@ -34,6 +35,7 @@ namespace Kraken.Net.SymbolOrderBooks
         {
             sequencesAreConsecutive = false;
             strictLevels = true;
+            _initialDataTimeout = options?.InitialDataTimeout ?? TimeSpan.FromSeconds(30);
 
             socketClient = options?.SocketClient ?? new KrakenSocketClient(new KrakenSocketClientOptions
             {
@@ -59,7 +61,7 @@ namespace Kraken.Net.SymbolOrderBooks
 
             Status = OrderBookStatus.Syncing;
 
-            var setResult = await WaitForSetOrderBookAsync(10000, ct).ConfigureAwait(false);
+            var setResult = await WaitForSetOrderBookAsync(_initialDataTimeout, ct).ConfigureAwait(false);
             return setResult ? result : new CallResult<UpdateSubscription>(setResult.Error!);
         }
 
@@ -121,7 +123,7 @@ namespace Kraken.Net.SymbolOrderBooks
         /// <inheritdoc />
         protected override async Task<CallResult<bool>> DoResyncAsync(CancellationToken ct)
         {
-            return await WaitForSetOrderBookAsync(10000, ct).ConfigureAwait(false);
+            return await WaitForSetOrderBookAsync(_initialDataTimeout, ct).ConfigureAwait(false);
         }
 
         /// <summary>

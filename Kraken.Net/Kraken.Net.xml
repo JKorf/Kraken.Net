@@ -1423,6 +1423,11 @@
             The limit of entries in the order book
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.KrakenOrderBookOptions.InitialDataTimeout">
+            <summary>
+            After how much time we should consider the connection dropped if no data is received for this time after the initial subscriptions
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenAssetInfo">
             <summary>
             Info on an asset
