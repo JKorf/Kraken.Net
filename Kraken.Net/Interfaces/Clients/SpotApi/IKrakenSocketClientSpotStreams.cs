@@ -154,6 +154,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="closeOrderType">Close order type</param>
         /// <param name="closePrice">Close order price</param>
         /// <param name="secondaryClosePrice">Close order secondary price</param>
+        /// <param name="flags">Order flags</param>
         /// <returns></returns>
         Task<CallResult<KrakenStreamPlacedOrder>> PlaceOrderAsync(
             string websocketToken,
@@ -170,7 +171,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             bool? validateOnly = null,
             OrderType? closeOrderType = null,
             decimal? closePrice = null,
-            decimal? secondaryClosePrice = null);
+            decimal? secondaryClosePrice = null,
+            IEnumerable<OrderFlags>? flags = null);
 
         /// <summary>
         /// Cancel an order

@@ -257,7 +257,7 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToUserTradeUpdatesAsync(System.String,System.Boolean,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamUserTrade}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.PlaceOrderAsync(System.String,System.String,Kraken.Net.Enums.OrderType,Kraken.Net.Enums.OrderSide,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal})">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.PlaceOrderAsync(System.String,System.String,Kraken.Net.Enums.OrderType,Kraken.Net.Enums.OrderSide,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags})">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.CancelOrderAsync(System.String,System.String)">
@@ -312,7 +312,7 @@
         </member>
         <member name="T:Kraken.Net.Enums.KlineInterval">
             <summary>
-            The time interval of kline data
+            The time interval of kline data, the int value respresents the time in seconds
             </summary>
         </member>
         <member name="F:Kraken.Net.Enums.KlineInterval.OneMinute">
@@ -1120,7 +1120,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.PlaceOrderAsync(System.String,System.String,Kraken.Net.Enums.OrderType,Kraken.Net.Enums.OrderSide,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal})">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.PlaceOrderAsync(System.String,System.String,Kraken.Net.Enums.OrderType,Kraken.Net.Enums.OrderSide,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags})">
             <summary>
             Place a new order
             <para><a href="https://docs.kraken.com/websockets/#message-addOrder" /></para>
@@ -1155,6 +1155,7 @@
             <param name="closeOrderType">Close order type</param>
             <param name="closePrice">Close order price</param>
             <param name="secondaryClosePrice">Close order secondary price</param>
+            <param name="flags">Order flags</param>
             <returns></returns>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.CancelOrderAsync(System.String,System.String)">

@@ -267,7 +267,8 @@ namespace Kraken.Net.Clients.SpotApi
             bool? validateOnly = null,
             OrderType? closeOrderType = null,
             decimal? closePrice = null,
-            decimal? secondaryClosePrice = null)
+            decimal? secondaryClosePrice = null,
+            IEnumerable<OrderFlags>? flags = null)
         {
             var request = new KrakenSocketPlaceOrderRequest
             {
@@ -287,7 +288,8 @@ namespace Kraken.Net.Clients.SpotApi
                 CloseOrderType = closeOrderType,
                 ClosePrice = closePrice?.ToString(CultureInfo.InvariantCulture),
                 SecondaryClosePrice = secondaryClosePrice?.ToString(CultureInfo.InvariantCulture),
-                RequestId = KrakenSocketClient.NextIdInternal()
+                RequestId = KrakenSocketClient.NextIdInternal(),
+                Flags = flags == null ? null: string.Join(",", flags.Select(f => JsonConvert.SerializeObject(f, new OrderFlagsConverter(false))))
             };
 
             return await _baseClient.QueryInternalAsync<KrakenStreamPlacedOrder>(this, _authBaseAddress, request, false).ConfigureAwait(false);
