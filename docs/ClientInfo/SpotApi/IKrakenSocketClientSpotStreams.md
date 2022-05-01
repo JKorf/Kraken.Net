@@ -122,7 +122,7 @@ var result = await client.SpotStreams.PlaceOrderAsync(/* parameters */);
 ```  
 
 ```csharp  
-Task<CallResult<KrakenStreamPlacedOrder>> PlaceOrderAsync(string websocketToken, string symbol, OrderType type, OrderSide side, decimal quantity, uint? clientOrderId = default, decimal? price = default, decimal? secondaryPrice = default, decimal? leverage = default, DateTime? startTime = default, DateTime? expireTime = default, bool? validateOnly = default, OrderType? closeOrderType = default, decimal? closePrice = default, decimal? secondaryClosePrice = default);  
+Task<CallResult<KrakenStreamPlacedOrder>> PlaceOrderAsync(string websocketToken, string symbol, OrderType type, OrderSide side, decimal quantity, uint? clientOrderId = default, decimal? price = default, decimal? secondaryPrice = default, decimal? leverage = default, DateTime? startTime = default, DateTime? expireTime = default, bool? validateOnly = default, OrderType? closeOrderType = default, decimal? closePrice = default, decimal? secondaryClosePrice = default, IEnumerable<OrderFlags>? flags = default);  
 ```  
 
 |Parameter|Description|
@@ -142,6 +142,7 @@ Task<CallResult<KrakenStreamPlacedOrder>> PlaceOrderAsync(string websocketToken,
 |_[Optional]_ closeOrderType|Close order type|
 |_[Optional]_ closePrice|Close order price|
 |_[Optional]_ secondaryClosePrice|Close order secondary price|
+|_[Optional]_ flags|Order flags|
 
 </p>
 
