@@ -20,6 +20,11 @@ Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/s
 A Discord server is available [here](https://discord.gg/MSpeEtSY8t). For discussion and/or questions around the CryptoExchange.Net and implementation libraries, feel free to join.
 
 ## Release notes
+* Version 3.0.7 - 01 May 2022
+    * Updated CryptoExchange.Net which fixed an timing related issue in the websocket reconnection logic
+    * Added seconds representation to KlineInterval enum
+    * Added flags parameter to socket PlaceOrderAsync
+
 * Version 3.0.6 - 14 Apr 2022
     * Updated CryptoExchange.Net
 
