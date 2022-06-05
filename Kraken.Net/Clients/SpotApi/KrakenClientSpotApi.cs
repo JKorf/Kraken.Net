@@ -39,6 +39,9 @@ namespace Kraken.Net.Clients.SpotApi
         public IKrakenClientSpotApiTrading Trading { get; }
 
         /// <inheritdoc />
+        public IKrakenClientSpotStakingApi Staking { get; }
+
+        /// <inheritdoc />
         public string ExchangeName => "Kraken";
         #endregion
 
@@ -62,6 +65,7 @@ namespace Kraken.Net.Clients.SpotApi
             Account = new KrakenClientSpotApiAccount(this);
             ExchangeData = new KrakenClientSpotApiExchangeData(this);
             Trading = new KrakenClientSpotApiTrading(this);
+            Staking = new KrakenClientSpotStakingApi(this);
 
             requestBodyFormat = RequestBodyFormat.FormData;
         }

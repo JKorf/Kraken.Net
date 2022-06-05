@@ -80,6 +80,9 @@
         <member name="P:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi.Trading">
             <inheritdoc />
         </member>
+        <member name="P:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi.Staking">
+            <inheritdoc />
+        </member>
         <member name="P:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi.ExchangeName">
             <inheritdoc />
         </member>
@@ -219,6 +222,24 @@
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.CancelOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Kraken.Net.Clients.SpotApi.KrakenClientSpotStakingApi">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotStakingApi.StakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotStakingApi.UnstakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotStakingApi.GetPendingTransactionsAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotStakingApi.GetRecentTransactionsAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotStakingApi.GetStackableAssets(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams">
@@ -415,6 +436,11 @@
             Settled
             </summary>
         </member>
+        <member name="F:Kraken.Net.Enums.LedgerEntryType.Staking">
+            <summary>
+            Staking
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Enums.OrderFlags">
             <summary>
             Flags for an order
@@ -575,6 +601,26 @@
             Symbol order
             </summary>
         </member>
+        <member name="T:Kraken.Net.Enums.StakingRewardType">
+            <summary>
+            Reward type
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.StakingRewardType.Percentage">
+            <summary>
+            Percentage
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.StakingTransactionStatus">
+            <summary>
+            The current status of the staking transaction.
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.StakingType">
+            <summary>
+            The type of transaction.
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Enums.SystemStatus">
             <summary>
             System status info
@@ -638,6 +684,11 @@
         <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApi.Trading">
             <summary>
             Endpoints related to orders and trades
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApi.Staking">
+            <summary>
+            Endpoints related to staking assets
             </summary>
         </member>
         <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApi.CommonSpotClient">
@@ -1012,6 +1063,64 @@
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Cancel result</returns>
+        </member>
+        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi">
+            <summary>
+            Kraken stacking endpoints.
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.StakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Stake an asset from your spot wallet.
+            <para><a href="https://docs.kraken.com/rest/#operation/stake"/></para>
+            </summary>
+            <param name="asset">Asset to stake (asset ID or altname) e.g. DOT</param>
+            <param name="amount">Amount of the asset to stake</param>
+            <param name="method">Name of the staking option to use as returned by <see cref="P:Kraken.Net.Objects.Models.KrakenStakingAsset.Method"/></param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <seealso cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.GetStackableAssets(System.String,System.Threading.CancellationToken)"/>
+            <returns>A reference to the staking request.</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.UnstakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Unstake an asset from your staking wallet
+            <para><a href="https://docs.kraken.com/rest/#operation/unstake"/></para>
+            </summary>
+            <param name="asset">Asset to unstake (asset ID or altname). Must be a valid staking asset (e.g. XBT.M, XTZ.S, ADA.S)</param>
+            <param name="amount">Amount of the asset to stake</param>
+            <param name="method">Amount of the asset to stake</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns>A reference to the unstaking request.</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.GetPendingTransactionsAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Returns the list of pending staking transactions. Once completed, these transactions will be accessible
+            through <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.GetRecentTransactionsAsync(System.String,System.Threading.CancellationToken)"/> and will not be accessible through this API.
+            <para><a href="https://docs.kraken.com/rest/#operation/getStakingPendingDeposits"/></para>
+            </summary>
+            <param name="twoFactorPassword"></param>
+            <param name="ct"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.GetRecentTransactionsAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Returns a list of 1000 recent staking transactions from past 90 days.
+            <para><a href="https://docs.kraken.com/rest/#operation/getStakingTransactions"/></para>
+            </summary>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns>The last 1000 staking transactions from the past 90 days</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.GetStackableAssets(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Returns the list of assets that you're able to stake.
+            <para><a href="https://docs.kraken.com/rest/#operation/getStakingAssetInfo"/></para>
+            </summary>
+            <param name="twoFactorPassword"></param>
+            <param name="ct"></param>
+            <returns></returns>
         </member>
         <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams">
             <summary>
@@ -2269,6 +2378,147 @@
             Best ask quantity
             </summary>
         </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenStakeResponse">
+            <summary>
+            Kraken's response to a staking request.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakeResponse.ReferenceId">
+            <summary>
+            Reference id which can be tracked back to a ledger entry corresponding to the
+            stacked asset (e.g. DOT.S).
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenStakingAsset">
+            <summary>
+            Represents an asset that can be staked by the user.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingAsset.Method">
+            <summary>
+            Unique ID of the staking option (used in Stake/Unstake operations).
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingAsset.Asset">
+            <summary>
+            Asset code/name e.g. DOT.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingAsset.StakingAsset">
+            <summary>
+            Staking asset code/name e.g. DOT.S
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingAsset.Rewards">
+            <summary>
+            Describes the rewards earned while staking.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingAsset.OnChain">
+            <summary>
+            Whether the staking operation is on-chain or not.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingAsset.CanStake">
+            <summary>
+            Whether the user will be able to stake this asset.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingAsset.CanUnstake">
+            <summary>
+            Whether the user will be able to unstake this asset.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingAsset.Minimums">
+            <summary>
+            Minimium amounts for staking/unstaking.
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenStakingMinimumInfo">
+            <summary>
+            Minimum amounts for staking/unstaking.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingMinimumInfo.Staking">
+            <summary>
+            The minimum amount of value that can be staked.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingMinimumInfo.Unstaking">
+            <summary>
+            The minimum amount of value that can be unstaked.
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenStakingRewardInfo">
+            <summary>
+            Describes the rewards earned while staking.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingRewardInfo.Reward">
+            <summary>
+            Reward earned while staking.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingRewardInfo.Type">
+            <summary>
+            The type of the reward e.g. "percentage".
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenStakingTransaction">
+            <summary>
+            Staking Transaction Info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingTransaction.Method">
+            <summary>
+            Stacking method as described by <see cref="P:Kraken.Net.Objects.Models.KrakenStakingAsset.Method"/>.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingTransaction.Asset">
+            <summary>
+            Asset code/name e.g. DOT
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingTransaction.ReferenceId">
+            <summary>
+            The reference ID of the transaction.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingTransaction.Quantity">
+            <summary>
+            The transaction amount.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingTransaction.Fee">
+            <summary>
+            Transaction fee.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingTransaction.Timestamp">
+            <summary>
+            Unix timestamp when the transaction was initiated.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingTransaction.Status">
+            <summary>
+            Transaction status.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingTransaction.Type">
+            <summary>
+            Transaction type.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingTransaction.BondStart">
+            <summary>
+            Unix timestamp from the start of bond period (applicable only to bonding transactions).
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStakingTransaction.BondEnd">
+            <summary>
+            Unix timestamp from the start of bond period (applicable only to bonding transactions).
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenSymbol">
             <summary>
             Symbol info
@@ -2643,6 +2893,17 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenFeeStruct.TierVolume">
             <summary>
             Tier volume
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenUnstakeResponse">
+            <summary>
+            Kraken's response to an unstaking request.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenUnstakeResponse.ReferenceId">
+            <summary>
+            Reference id which can be tracked back to a ledger entry corresponding to the
+            unstacked asset (e.g. DOT.S).
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenUserTrade">
