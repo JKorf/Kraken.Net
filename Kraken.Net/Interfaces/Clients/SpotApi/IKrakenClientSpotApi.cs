@@ -25,6 +25,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         IKrakenClientSpotApiTrading Trading { get; }
 
         /// <summary>
+        /// Endpoints related to staking assets
+        /// </summary>
+        IKrakenClientSpotStakingApi Staking { get; }
+
+        /// <summary>
         /// Get the ISpotClient for this client. This is a common interface which allows for some basic operations without knowing any details of the exchange.
         /// </summary>
         /// <returns></returns>
