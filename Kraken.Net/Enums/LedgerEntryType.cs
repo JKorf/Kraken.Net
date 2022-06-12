@@ -44,6 +44,10 @@
         /// <summary>
         /// Settled
         /// </summary>
-        Settled
+        Settled,
+        /// <summary>
+        /// Staking
+        /// </summary>
+        Staking
     }
 }
