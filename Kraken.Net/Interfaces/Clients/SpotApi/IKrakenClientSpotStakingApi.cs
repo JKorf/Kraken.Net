@@ -9,7 +9,7 @@
     using Kraken.Net.Objects.Models;
 
     /// <summary>
-    /// Kraken stacking endpoints.
+    /// Kraken staking endpoints.
     /// </summary>
     public interface IKrakenClientSpotStakingApi
     {
@@ -64,6 +64,6 @@
         /// <param name="twoFactorPassword"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<WebCallResult<IEnumerable<KrakenStakingAsset>>> GetStackableAssets(string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<IEnumerable<KrakenStakingAsset>>> GetStakableAssets(string? twoFactorPassword = null, CancellationToken ct = default);
     }
 }

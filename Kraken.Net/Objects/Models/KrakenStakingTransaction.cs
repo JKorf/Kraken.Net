@@ -15,7 +15,7 @@
     public class KrakenStakingTransaction
     {
         /// <summary>
-        /// Stacking method as described by <see cref="KrakenStakingAsset.Method"/>.
+        /// Staking method as described by <see cref="KrakenStakingAsset.Method"/>.
         /// </summary>
         public string Method { get; set; } = null!;
 

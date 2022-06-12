@@ -239,7 +239,7 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotStakingApi.GetRecentTransactionsAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotStakingApi.GetStackableAssets(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotStakingApi.GetStakableAssets(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams">
@@ -1066,7 +1066,7 @@
         </member>
         <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi">
             <summary>
-            Kraken stacking endpoints.
+            Kraken staking endpoints.
             </summary>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.StakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
@@ -1079,7 +1079,7 @@
             <param name="method">Name of the staking option to use as returned by <see cref="P:Kraken.Net.Objects.Models.KrakenStakingAsset.Method"/></param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
-            <seealso cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.GetStackableAssets(System.String,System.Threading.CancellationToken)"/>
+            <seealso cref="!:GetStackableAssets"/>
             <returns>A reference to the staking request.</returns>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.UnstakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
@@ -1113,7 +1113,7 @@
             <param name="ct">Cancellation token</param>
             <returns>The last 1000 staking transactions from the past 90 days</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.GetStackableAssets(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.GetStakableAssets(System.String,System.Threading.CancellationToken)">
             <summary>
             Returns the list of assets that you're able to stake.
             <para><a href="https://docs.kraken.com/rest/#operation/getStakingAssetInfo"/></para>
@@ -2386,7 +2386,7 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenStakeResponse.ReferenceId">
             <summary>
             Reference id which can be tracked back to a ledger entry corresponding to the
-            stacked asset (e.g. DOT.S).
+            staked asset (e.g. DOT.S).
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenStakingAsset">
@@ -2471,7 +2471,7 @@
         </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenStakingTransaction.Method">
             <summary>
-            Stacking method as described by <see cref="P:Kraken.Net.Objects.Models.KrakenStakingAsset.Method"/>.
+            Staking method as described by <see cref="P:Kraken.Net.Objects.Models.KrakenStakingAsset.Method"/>.
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenStakingTransaction.Asset">
@@ -2903,7 +2903,7 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenUnstakeResponse.ReferenceId">
             <summary>
             Reference id which can be tracked back to a ledger entry corresponding to the
-            unstacked asset (e.g. DOT.S).
+            unstaked asset (e.g. DOT.S).
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenUserTrade">

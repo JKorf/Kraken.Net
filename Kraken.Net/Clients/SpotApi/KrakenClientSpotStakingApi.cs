@@ -77,7 +77,7 @@
         }
 
         /// <inheritdoc />
-        public async Task<WebCallResult<IEnumerable<KrakenStakingAsset>>> GetStackableAssets(string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<IEnumerable<KrakenStakingAsset>>> GetStakableAssets(string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
