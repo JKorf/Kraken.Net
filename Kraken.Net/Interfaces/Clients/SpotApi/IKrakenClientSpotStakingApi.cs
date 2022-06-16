@@ -22,7 +22,7 @@
         /// <param name="method">Name of the staking option to use as returned by <see cref="KrakenStakingAsset.Method"/></param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
-        /// <seealso cref="GetStackableAssets"/>
+        /// <seealso cref="GetStakableAssets"/>
         /// <returns>A reference to the staking request.</returns>
         Task<WebCallResult<KrakenStakeResponse>> StakeAsync(string asset, decimal amount, string method, string? twoFactorPassword = null, CancellationToken ct = default);
 
