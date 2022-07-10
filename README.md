@@ -20,6 +20,10 @@ Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/s
 A Discord server is available [here](https://discord.gg/MSpeEtSY8t). For discussion and/or questions around the CryptoExchange.Net and implementation libraries, feel free to join.
 
 ## Release notes
+* Version 3.0.12 - 10 Jul 2022
+    * Fixed exception when trying to access result from PlaceOrderAsync when validateOnly is set to true
+    * Updated CryptoExchange.Net
+
 * Version 3.0.11 - 12 Jun 2022
     * Added staking endpoints
     * Updated CryptoExchange.Net
