@@ -18,6 +18,8 @@ namespace Kucoin.Net.UnitTests.TestImplementations
         public event Action<string> OnMessage;
         public event Action<Exception> OnError;
         public event Action OnOpen;
+        public event Action OnReconnecting;
+        public event Action OnReconnected;
 #pragma warning restore 8618
 
         public int Id { get; }
@@ -106,6 +108,11 @@ namespace Kucoin.Net.UnitTests.TestImplementations
         {
             while (Connected)
                 await Task.Delay(50);
+        }
+
+        public Task ReconnectAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }
