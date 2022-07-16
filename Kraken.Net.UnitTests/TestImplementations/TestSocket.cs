@@ -18,8 +18,10 @@ namespace Kucoin.Net.UnitTests.TestImplementations
         public event Action<string> OnMessage;
         public event Action<Exception> OnError;
         public event Action OnOpen;
+#pragma warning disable 0067
         public event Action OnReconnecting;
         public event Action OnReconnected;
+#pragma warning restore 0067
 #pragma warning restore 8618
 
         public int Id { get; }
