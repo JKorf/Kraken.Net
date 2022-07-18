@@ -17,5 +17,8 @@ parent: Rest API documentation
 *Endpoints related to retrieving market and system data*  
 **[IKrakenClientSpotApiExchangeData](IKrakenClientSpotApiExchangeData.html) ExchangeData { get; }**  
 ***
+*Endpoints related to staking assets*  
+**[IKrakenClientSpotStakingApi](SpotStakingApi/IKrakenClientSpotStakingApi.html) Staking { get; }**  
+***
 *Endpoints related to orders and trades*  
 **[IKrakenClientSpotApiTrading](IKrakenClientSpotApiTrading.html) Trading { get; }**  
