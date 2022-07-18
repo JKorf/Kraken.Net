@@ -47,6 +47,7 @@ namespace Kucoin.Net.UnitTests.TestImplementations
         public Uri Uri => new Uri("wss://test.com/ws");
 
         public TimeSpan KeepAliveInterval { get; set; }
+        public Func<Task<Uri>> GetReconnectionUrl { get; set; }
 
         public Task<bool> ConnectAsync()
         {
