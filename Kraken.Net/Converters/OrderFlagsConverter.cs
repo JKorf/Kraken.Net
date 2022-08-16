@@ -15,6 +15,7 @@ namespace Kraken.Net.Converters
             new KeyValuePair<OrderFlags, string>(OrderFlags.FeeCalculationInBaseAsset, "fcib"),
             new KeyValuePair<OrderFlags, string>(OrderFlags.FeeCalculationInQuoteAsset, "fciq"),
             new KeyValuePair<OrderFlags, string>(OrderFlags.NoMarketPriceProtection, "nompp"),
+            new KeyValuePair<OrderFlags, string>(OrderFlags.OrderVolumeExpressedInQuoteAsset, "viqc")
         };
     }
 }
