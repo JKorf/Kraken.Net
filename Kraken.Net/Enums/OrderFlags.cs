@@ -24,7 +24,7 @@ namespace Kraken.Net.Enums
         /// </summary>
         NoMarketPriceProtection,
         /// <summary>
-        /// Order volume expressed in quote asset. This is supported only for market orders (viqc )
+        /// Order volume expressed in quote asset. This is supported only for market orders (viqc)
         /// </summary>
         OrderVolumeExpressedInQuoteAsset
     }
