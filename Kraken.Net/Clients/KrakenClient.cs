@@ -39,7 +39,7 @@ namespace Kraken.Net.Clients
         /// <param name="options">The options to use for this client</param>
         public KrakenClient(KrakenClientOptions options) : base("Kraken", options)
         {
-            SpotApi = AddApiClient(new KrakenClientSpotApi(log, this, options));
+            SpotApi = AddApiClient(new KrakenClientSpotApi(log, options));
         }
         #endregion
 
@@ -56,16 +56,5 @@ namespace Kraken.Net.Clients
 
         #endregion
 
-        internal async Task<WebCallResult<T>> Execute<T>(RestApiClient apiClient, Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, bool ignoreRatelimit = false)
-        {
-            var result = await SendRequestAsync<KrakenResult<T>>(apiClient, url, method, ct, parameters, signed, requestWeight: weight, ignoreRatelimit: ignoreRatelimit).ConfigureAwait(false);
-            if (!result)
-                return result.AsError<T>(result.Error!);
-
-            if (result.Data.Error.Any())
-                return result.AsError<T>(new ServerError(string.Join(", ", result.Data.Error)));
-
-            return result.As(result.Data.Result);
-        }
     }
 }

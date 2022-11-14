@@ -15,9 +15,9 @@ namespace Kraken.Net.UnitTests
         private JsonToObjectComparer<IKrakenClient> _comparer = new JsonToObjectComparer<IKrakenClient>((json) => TestHelpers.CreateResponseClient(json, new KrakenClientOptions()
         { 
             ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials("1234", "1234"),
-            OutputOriginalData = true, 
             SpotApiOptions = new CryptoExchange.Net.Objects.RestApiClientOptions
             {
+                OutputOriginalData = true, 
                 RateLimiters = new List<IRateLimiter>()
             }
         }));

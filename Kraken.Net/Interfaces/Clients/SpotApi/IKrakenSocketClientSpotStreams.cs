@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Enums;
@@ -15,6 +16,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
     /// </summary>
     public interface IKrakenSocketClientSpotStreams : IDisposable
     {
+        /// <summary>
+        /// The factory for creating sockets. Used for unit testing
+        /// </summary>
+        IWebsocketFactory SocketFactory { get; set; }
+
         /// <summary>
         /// Subscribe to system status updates
         /// <para><a href="https://docs.kraken.com/websockets/#message-systemStatus" /></para>

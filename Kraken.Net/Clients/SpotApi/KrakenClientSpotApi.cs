@@ -14,6 +14,7 @@ using CryptoExchange.Net.Objects;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
+using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models;
 
 namespace Kraken.Net.Clients.SpotApi
@@ -23,8 +24,6 @@ namespace Kraken.Net.Clients.SpotApi
     {
         #region fields
         internal KrakenClientOptions ClientOptions { get; }
-        private readonly KrakenClient _baseClient;
-        private readonly Log _log;
 
         internal static TimeSyncState TimeSyncState = new TimeSyncState("Spot Api");
         #endregion
@@ -55,12 +54,10 @@ namespace Kraken.Net.Clients.SpotApi
         public event Action<OrderId>? OnOrderCanceled;
 
         #region ctor
-        internal KrakenClientSpotApi(Log log, KrakenClient baseClient, KrakenClientOptions options)
-            : base(options, options.SpotApiOptions)
+        internal KrakenClientSpotApi(Log log, KrakenClientOptions options)
+            : base(log, options, options.SpotApiOptions)
         {
             ClientOptions = options;
-            _baseClient = baseClient;
-            _log = log;
 
             Account = new KrakenClientSpotApiAccount(this);
             ExchangeData = new KrakenClientSpotApiExchangeData(this);
@@ -330,6 +327,7 @@ namespace Kraken.Net.Clients.SpotApi
             }));
         }
         #endregion
+
         internal Uri GetUri(string endpoint)
         {
             return new Uri(BaseAddress.AppendPath(endpoint));
@@ -345,8 +343,17 @@ namespace Kraken.Net.Clients.SpotApi
             OnOrderCanceled?.Invoke(id);
         }
 
-        internal Task<WebCallResult<T>> Execute<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, bool ignoreRatelimit = false)
-            => _baseClient.Execute<T>(this, url, method, ct, parameters, signed, weight, ignoreRatelimit: ignoreRatelimit);
+        internal async Task<WebCallResult<T>> Execute<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, bool ignoreRatelimit = false)
+        {
+            var result = await SendRequestAsync<KrakenResult<T>>(url, method, ct, parameters, signed, requestWeight: weight, ignoreRatelimit: ignoreRatelimit).ConfigureAwait(false);
+            if (!result)
+                return result.AsError<T>(result.Error!);
+
+            if (result.Data.Error.Any())
+                return result.AsError<T>(new ServerError(string.Join(", ", result.Data.Error)));
+
+            return result.As(result.Data.Result);
+        }
 
         /// <summary>
         /// Get the name of a symbol for Kraken based on the base and quote asset

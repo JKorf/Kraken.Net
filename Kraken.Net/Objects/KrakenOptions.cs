@@ -9,7 +9,7 @@ namespace Kraken.Net.Objects
     /// <summary>
     /// Options for the Kraken client
     /// </summary>
-    public class KrakenClientOptions : BaseRestClientOptions
+    public class KrakenClientOptions : ClientOptions
     {
         /// <summary>
         /// Default options for the spot client
@@ -70,22 +70,23 @@ namespace Kraken.Net.Objects
     /// <summary>
     /// Options for the Kraken socket client
     /// </summary>
-    public class KrakenSocketClientOptions : BaseSocketClientOptions
+    public class KrakenSocketClientOptions : ClientOptions
     {
         /// <summary>
         /// Default options for the spot client
         /// </summary>
-        public static KrakenSocketClientOptions Default { get; set; } = new KrakenSocketClientOptions()
-        {
-            SocketSubscriptionsCombineTarget = 10
-        };
+        public static KrakenSocketClientOptions Default { get; set; } = new KrakenSocketClientOptions();
 
         /// <summary>
         /// Optional nonce provider for signing requests. Careful providing a custom provider; once a nonce is sent to the server, every request after that needs a higher nonce than that
         /// </summary>
         public INonceProvider? NonceProvider { get; set; }
 
-        private KrakenSocketApiClientOptions _spotStreamsOptions = new KrakenSocketApiClientOptions(KrakenApiAddresses.Default.SocketClientPublicAddress, KrakenApiAddresses.Default.SocketClientPrivateAddress);
+        private KrakenSocketApiClientOptions _spotStreamsOptions = new KrakenSocketApiClientOptions(KrakenApiAddresses.Default.SocketClientPublicAddress, KrakenApiAddresses.Default.SocketClientPrivateAddress)
+        {
+            SocketSubscriptionsCombineTarget = 10
+        };
+
         /// <summary>
         /// Spot streams options
         /// </summary>
@@ -119,7 +120,7 @@ namespace Kraken.Net.Objects
     /// <summary>
     /// Socket API options
     /// </summary>
-    public class KrakenSocketApiClientOptions : ApiClientOptions
+    public class KrakenSocketApiClientOptions : SocketApiClientOptions
     {
         /// <summary>
         /// The base address for the authenticated websocket

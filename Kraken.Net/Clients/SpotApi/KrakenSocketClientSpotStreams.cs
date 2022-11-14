@@ -30,26 +30,26 @@ namespace Kraken.Net.Clients.SpotApi
         private readonly string _authBaseAddress;
         private readonly Dictionary<string, string> _symbolSynonyms;
 
-        private readonly Log _log;
         private readonly KrakenSocketClientOptions _options;
-        private readonly KrakenSocketClient _baseClient;
         #endregion
 
         #region ctor
 
-        internal KrakenSocketClientSpotStreams(Log log, KrakenSocketClient baseClient, KrakenSocketClientOptions options) :
-            base(options, options.SpotStreamsOptions)
+        internal KrakenSocketClientSpotStreams(Log log, KrakenSocketClientOptions options) :
+            base(log, options, options.SpotStreamsOptions)
         {
             _authBaseAddress = options.SpotStreamsOptions.BaseAddressAuthenticated;
-            _log = log;
             _options = options;
-            _baseClient = baseClient;
 
             _symbolSynonyms = new Dictionary<string, string>
             {
                 { "BTC", "XBT"},
                 { "DOGE", "XDG" }
             };
+
+            AddGenericHandler("HeartBeat", (messageEvent) => { });
+            AddGenericHandler("SystemStatus", (messageEvent) => { });
+            AddGenericHandler("AdditionalSubResponses", (messageEvent) => { });
         }
         #endregion
 
@@ -62,7 +62,7 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToSystemStatusUpdatesAsync(Action<DataEvent<KrakenStreamSystemStatus>> handler, CancellationToken ct = default)
         {
-            return await _baseClient.SubscribeInternalAsync(this, null, "SystemStatus", false, handler, ct).ConfigureAwait(false);
+            return await SubscribeAsync(null, "SystemStatus", false, handler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -74,7 +74,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 handler(data.As(data.Data.Data, symbol));
             });
-            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("ticker", KrakenSocketClient.NextIdInternal(), subSymbol), null, false, internalHandler, ct).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("ticker", NextId(), subSymbol), null, false, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -91,7 +91,7 @@ namespace Kraken.Net.Clients.SpotApi
                 handler(data.As(data.Data.Data, data.Data.Symbol));
             });
 
-            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("ticker", KrakenSocketClient.NextIdInternal(), symbolArray), null, false, internalHandler, ct).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("ticker", NextId(), symbolArray), null, false, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -106,7 +106,7 @@ namespace Kraken.Net.Clients.SpotApi
                 handler(data.As(data.Data.Data, symbol));
             });
 
-            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("ohlc", KrakenSocketClient.NextIdInternal(), subSymbol) { Details = new KrakenOHLCSubscriptionDetails(intervalMinutes) }, null, false, internalHandler, ct).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("ohlc", NextId(), subSymbol) { Details = new KrakenOHLCSubscriptionDetails(intervalMinutes) }, null, false, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -119,7 +119,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 handler(data.As(data.Data.Data, symbol));
             });
-            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("trade", KrakenSocketClient.NextIdInternal(), subSymbol), null, false, internalHandler, ct).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("trade", NextId(), subSymbol), null, false, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -131,7 +131,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 handler(data.As(data.Data.Data, symbol));
             });
-            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("spread", KrakenSocketClient.NextIdInternal(), subSymbol), null, false, internalHandler, ct).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("spread", NextId(), subSymbol), null, false, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -159,7 +159,7 @@ namespace Kraken.Net.Clients.SpotApi
                 handler(data.As(evnt.Data, symbol));
             });
 
-            return await _baseClient.SubscribeInternalAsync(this, new KrakenSubscribeRequest("book", KrakenSocketClient.NextIdInternal(), subSymbol) { Details = new KrakenDepthSubscriptionDetails(depth) }, null, false, innerHandler, ct).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("book", NextId(), subSymbol) { Details = new KrakenDepthSubscriptionDetails(depth) }, null, false, innerHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -178,7 +178,7 @@ namespace Kraken.Net.Clients.SpotApi
                     if (token[0]!.Type == JTokenType.Array)
                     {
                         var dataArray = (JArray)token[0]!;
-                        var deserialized = _baseClient.DeserializeInternal<Dictionary<string, KrakenStreamOrder>[]>(dataArray);
+                        var deserialized = Deserialize<Dictionary<string, KrakenStreamOrder>[]>(dataArray);
                         if (deserialized)
                         {
                             foreach (var entry in deserialized.Data)
@@ -198,7 +198,7 @@ namespace Kraken.Net.Clients.SpotApi
                 _log.Write(LogLevel.Warning, "Failed to deserialize stream order");
             });
 
-            return await _baseClient.SubscribeInternalAsync(this, _authBaseAddress, new KrakenSubscribeRequest("openOrders", KrakenSocketClient.NextIdInternal())
+            return await SubscribeAsync(_authBaseAddress, new KrakenSubscribeRequest("openOrders", NextId())
             {
                 Details = new KrakenOpenOrdersSubscriptionDetails(socketToken)
             }, null, false, innerHandler, ct).ConfigureAwait(false);
@@ -224,7 +224,7 @@ namespace Kraken.Net.Clients.SpotApi
                     if (token[0]!.Type == JTokenType.Array)
                     {
                         var dataArray = (JArray)token[0]!;
-                        var deserialized = _baseClient.DeserializeInternal<Dictionary<string, KrakenStreamUserTrade>[]>(dataArray);
+                        var deserialized = Deserialize<Dictionary<string, KrakenStreamUserTrade>[]>(dataArray);
                         if (deserialized)
                         {
                             foreach (var entry in deserialized.Data)
@@ -245,7 +245,7 @@ namespace Kraken.Net.Clients.SpotApi
                 _log.Write(LogLevel.Warning, "Failed to deserialize stream order");
             });
 
-            return await _baseClient.SubscribeInternalAsync(this, _authBaseAddress, new KrakenSubscribeRequest("ownTrades", KrakenSocketClient.NextIdInternal())
+            return await SubscribeAsync(_authBaseAddress, new KrakenSubscribeRequest("ownTrades", NextId())
             {
                 Details = new KrakenOwnTradesSubscriptionDetails(socketToken, snapshot)
             }, null, false, innerHandler, ct).ConfigureAwait(false);
@@ -288,11 +288,11 @@ namespace Kraken.Net.Clients.SpotApi
                 CloseOrderType = closeOrderType,
                 ClosePrice = closePrice?.ToString(CultureInfo.InvariantCulture),
                 SecondaryClosePrice = secondaryClosePrice?.ToString(CultureInfo.InvariantCulture),
-                RequestId = KrakenSocketClient.NextIdInternal(),
+                RequestId = NextId(),
                 Flags = flags == null ? null: string.Join(",", flags.Select(f => JsonConvert.SerializeObject(f, new OrderFlagsConverter(false))))
             };
 
-            return await _baseClient.QueryInternalAsync<KrakenStreamPlacedOrder>(this, _authBaseAddress, request, false).ConfigureAwait(false);
+            return await QueryAsync<KrakenStreamPlacedOrder>(_authBaseAddress, request, false).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -307,9 +307,9 @@ namespace Kraken.Net.Clients.SpotApi
                 Event = "cancelOrder",
                 OrderIds = orderIds,
                 Token = websocketToken,
-                RequestId = KrakenSocketClient.NextIdInternal()
+                RequestId = NextId()
             };
-            var result = await _baseClient.QueryInternalAsync<KrakenSocketResponseBase>(this, _authBaseAddress, request, false).ConfigureAwait(false);
+            var result = await QueryAsync<KrakenSocketResponseBase>(_authBaseAddress, request, false).ConfigureAwait(false);
             return result.As(result.Success);
         }
 
@@ -320,9 +320,9 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 Event = "cancelAll",
                 Token = websocketToken,
-                RequestId = KrakenSocketClient.NextIdInternal()
+                RequestId = NextId()
             };
-            return await _baseClient.QueryInternalAsync<KrakenStreamCancelAllResult>(this, _authBaseAddress, request, false).ConfigureAwait(false);
+            return await QueryAsync<KrakenStreamCancelAllResult>(_authBaseAddress, request, false).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -333,9 +333,9 @@ namespace Kraken.Net.Clients.SpotApi
                 Event = "cancelAllOrdersAfter",
                 Token = websocketToken,
                 Timeout = (int)Math.Round(timeout.TotalSeconds),
-                RequestId = KrakenSocketClient.NextIdInternal()
+                RequestId = NextId()
             };
-            return await _baseClient.QueryInternalAsync<KrakenStreamCancelAfterResult>(this, _authBaseAddress, request, false).ConfigureAwait(false);
+            return await QueryAsync<KrakenStreamCancelAfterResult>(_authBaseAddress, request, false).ConfigureAwait(false);
         }
         #endregion
 
@@ -354,6 +354,229 @@ namespace Kraken.Net.Clients.SpotApi
             if (_symbolSynonyms.TryGetValue(baseAsset.ToUpperInvariant(), out var quoteOutput))
                 quoteAsset = quoteOutput;
             return baseAsset + "/" + quoteAsset;
+        }
+
+        /// <inheritdoc />
+        public override async Task<CallResult<object>> RevitalizeRequestAsync(object request)
+        {
+            var kRequest = (KrakenSubscribeRequest)request;
+            var payloadType = kRequest.Details.GetType();
+            if(payloadType == typeof(KrakenOpenOrdersSubscriptionDetails)
+                || payloadType == typeof(KrakenOwnTradesSubscriptionDetails))
+            {
+                var apiCredentials =  Options.ApiCredentials ?? _options.ApiCredentials ?? KrakenSocketClientOptions.Default.ApiCredentials ?? KrakenClientOptions.Default.ApiCredentials;
+                var client = new KrakenClient(new KrakenClientOptions
+                {
+                    ApiCredentials = apiCredentials,
+                    SpotApiOptions = new RestApiClientOptions
+                    {
+                        BaseAddress = Options.BaseAddress
+                    }
+                });
+                
+                var newToken = await client.SpotApi.Account.GetWebsocketTokenAsync().ConfigureAwait(false);
+                if (!newToken.Success)
+                    return newToken.As<object>(null);
+
+                if (payloadType == typeof(KrakenOpenOrdersSubscriptionDetails))
+                    ((KrakenOpenOrdersSubscriptionDetails)kRequest.Details).Token = newToken.Data.Token;
+
+                else if (payloadType == typeof(KrakenOwnTradesSubscriptionDetails))
+                    ((KrakenOwnTradesSubscriptionDetails)kRequest.Details).Token = newToken.Data.Token;
+            }
+
+            return new CallResult<object>(kRequest);
+        }
+
+        /// <inheritdoc />
+        protected override bool HandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
+        {
+            callResult = null!;
+
+            if (data.Type != JTokenType.Object)
+                return false;
+
+            var kRequest = (KrakenSocketRequestBase)request;
+            var responseId = data["reqid"];
+            if (responseId == null)
+                return false;
+
+            if (kRequest.RequestId != int.Parse(responseId.ToString()))
+                return false;
+
+            var error = data["errorMessage"]?.ToString();
+            if (!string.IsNullOrEmpty(error))
+            {
+                callResult = new CallResult<T>(new ServerError(error!));
+                return true;
+            }
+
+            var response = data.ToObject<T>();
+            callResult = new CallResult<T>(response!);
+            return true;
+        }
+
+        /// <inheritdoc />
+        protected override bool HandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object>? callResult)
+        {
+            callResult = null;
+            if (message.Type != JTokenType.Object)
+                return false;
+
+            if (message["reqid"] == null)
+                return false;
+
+            var requestId = message["reqid"]!.Value<int>();
+            var kRequest = (KrakenSubscribeRequest)request;
+            if (requestId != kRequest.RequestId)
+                return false;
+
+            var response = message.ToObject<KrakenSubscriptionEvent>();
+            if (response == null)
+            {
+                callResult = new CallResult<object>(new UnknownError("Failed to parse subscription response"));
+                return true;
+            }
+
+            if (response.ChannelId != 0)
+                kRequest.ChannelId = response.ChannelId;
+            callResult = response.Status == "subscribed" ? new CallResult<object>(response) : new CallResult<object>(new ServerError(response.ErrorMessage ?? "-"));
+            return true;
+        }
+
+        /// <inheritdoc />
+        protected override bool MessageMatchesHandler(SocketConnection socketConnection, JToken message, object request)
+        {
+            if (message.Type != JTokenType.Array)
+                return false;
+
+            var kRequest = (KrakenSubscribeRequest)request;
+            var arr = (JArray)message;
+
+            string channel;
+            string symbol;
+            if (arr.Count == 5)
+            {
+                channel = arr[3].ToString();
+                symbol = arr[4].ToString();
+            }
+            else if (arr.Count == 4)
+            {
+                // Public update
+                channel = arr[2].ToString();
+                symbol = arr[3].ToString();
+            }
+            else
+            {
+                // Private update
+                var topic = arr[1].ToString();
+                return topic == kRequest.Details.Topic;
+            }
+
+            if (kRequest.Details.ChannelName != channel)
+                return false;
+
+            if (kRequest.Symbols == null)
+                return false;
+
+            foreach (var subSymbol in kRequest.Symbols)
+            {
+                if (subSymbol == symbol)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <inheritdoc />
+        protected override bool MessageMatchesHandler(SocketConnection socketConnection, JToken message, string identifier)
+        {
+            if (message.Type != JTokenType.Object)
+                return false;
+
+            if (identifier == "HeartBeat" && message["event"] != null && message["event"]!.ToString() == "heartbeat")
+                return true;
+
+            if (identifier == "SystemStatus" && message["event"] != null && message["event"]!.ToString() == "systemStatus")
+                return true;
+
+            if (identifier == "AdditionalSubResponses")
+            {
+                if (message.Type != JTokenType.Object)
+                    return false;
+
+                if (message["reqid"] == null)
+                    return false;
+
+                var requestId = message["reqid"]!.Value<int>();
+                var subscription = socketConnection.GetSubscriptionByRequest(r => (r as KrakenSubscribeRequest)?.RequestId == requestId);
+                if (subscription == null)
+                    return false;
+
+                // This is another message for subscription we've already subscribed
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <inheritdoc />
+        protected override Task<CallResult<bool>> AuthenticateSocketAsync(SocketConnection s)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <inheritdoc />
+        protected override async Task<bool> UnsubscribeAsync(SocketConnection connection, SocketSubscription subscription)
+        {
+            var kRequest = (KrakenSubscribeRequest)subscription.Request!;
+            KrakenUnsubscribeRequest unsubRequest;
+            if (!kRequest.ChannelId.HasValue)
+            {
+                if (kRequest.Details?.Topic == "ownTrades")
+                {
+                    unsubRequest = new KrakenUnsubscribeRequest(NextId(), new KrakenUnsubscribeSubscription
+                    {
+                        Name = "ownTrades",
+                        Token = ((KrakenOwnTradesSubscriptionDetails)kRequest.Details).Token
+                    });
+                }
+                else if (kRequest.Details?.Topic == "openOrders")
+                {
+                    unsubRequest = new KrakenUnsubscribeRequest(NextId(), new KrakenUnsubscribeSubscription
+                    {
+                        Name = "openOrders",
+                        Token = ((KrakenOpenOrdersSubscriptionDetails)kRequest.Details).Token
+                    });
+                }
+                else
+                {
+                    return true; // No channel id assigned, nothing to unsub
+                }
+            }
+            else
+            {
+                unsubRequest = new KrakenUnsubscribeRequest(NextId(), kRequest.ChannelId.Value);
+            }
+
+            var result = false;
+            await connection.SendAndWaitAsync(unsubRequest, Options.SocketResponseTimeout, data =>
+            {
+                if (data.Type != JTokenType.Object)
+                    return false;
+
+                if (data["reqid"] == null)
+                    return false;
+
+                var requestId = data["reqid"]!.Value<int>();
+                if (requestId != unsubRequest.RequestId)
+                    return false;
+
+                var response = data.ToObject<KrakenSubscriptionEvent>();
+                result = response!.Status == "unsubscribed";
+                return true;
+            }).ConfigureAwait(false);
+            return result;
         }
     }
 }
