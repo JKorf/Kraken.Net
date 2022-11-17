@@ -17,6 +17,9 @@ parent: Rest API documentation
 *Endpoints related to retrieving market and system data*  
 **[IKrakenClientSpotApiExchangeData](IKrakenClientSpotApiExchangeData.html) ExchangeData { get; }**  
 ***
+*The factory for creating requests. Used for unit testing*  
+**IRequestFactory RequestFactory { get; set; }**  
+***
 *Endpoints related to staking assets*  
 **[IKrakenClientSpotStakingApi](SpotStakingApi/IKrakenClientSpotStakingApi.html) Staking { get; }**  
 ***
