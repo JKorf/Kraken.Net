@@ -368,9 +368,10 @@ namespace Kraken.Net.Clients.SpotApi
                 var client = new KrakenClient(new KrakenClientOptions
                 {
                     ApiCredentials = apiCredentials,
+                    LogLevel = _options.LogLevel,
                     SpotApiOptions = new RestApiClientOptions
                     {
-                        BaseAddress = Options.BaseAddress
+                        BaseAddress = KrakenClientOptions.Default.SpotApiOptions.BaseAddress
                     }
                 });
                 
