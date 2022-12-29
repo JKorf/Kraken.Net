@@ -85,12 +85,23 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Subscribe to depth updates
         /// <para><a href="https://docs.kraken.com/websockets/#message-book" /></para>
         /// </summary>
-        /// <param name="symbol">Symbol to subscribe to</param>
+        /// <param name="symbols">Symbols to subscribe to</param>
         /// <param name="depth">Depth of the initial order book snapshot. 10, 25, 100, 500 or 1000</param>
         /// <param name="handler">Data handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(string symbol, int depth, Action<DataEvent<KrakenStreamOrderBook>> handler, CancellationToken ct = default);
+        Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(IEnumerable<string> symbols, int depth, Action<DataEvent<KrakenStreamOrderBook>> handler, CancellationToken ct = default);
+
+		/// <summary>
+		/// Subscribe to depth updates
+		/// <para><a href="https://docs.kraken.com/websockets/#message-book" /></para>
+		/// </summary>
+		/// <param name="symbol">Symbol to subscribe to</param>
+		/// <param name="depth">Depth of the initial order book snapshot. 10, 25, 100, 500 or 1000</param>
+		/// <param name="handler">Data handler</param>
+		/// <param name="ct">Cancellation token for closing this subscription</param>
+		/// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+		Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(string symbol, int depth, Action<DataEvent<KrakenStreamOrderBook>> handler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to open order updates

@@ -135,11 +135,17 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(string symbol, int depth, Action<DataEvent<KrakenStreamOrderBook>> handler, CancellationToken ct = default)
+        public Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(string symbol, int depth, Action<DataEvent<KrakenStreamOrderBook>> handler, CancellationToken ct = default)
+            => SubscribeToOrderBookUpdatesAsync(new[] { symbol }, depth, handler, ct);
+
+        /// <inheritdoc />
+		public async Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(IEnumerable<string> symbols, int depth, Action<DataEvent<KrakenStreamOrderBook>> handler, CancellationToken ct = default)
         {
-            symbol.ValidateKrakenWebsocketSymbol();
+            foreach(var symbol in symbols)
+                symbol.ValidateKrakenWebsocketSymbol();
+
             depth.ValidateIntValues(nameof(depth), 10, 25, 100, 500, 1000);
-            var subSymbol = SymbolToServer(symbol);
+            var subSymbols = symbols.Select(SymbolToServer);
 
             var innerHandler = new Action<DataEvent<string>>(data =>
             {
@@ -156,10 +162,10 @@ namespace Kraken.Net.Clients.SpotApi
                     return;
                 }
 
-                handler(data.As(evnt.Data, symbol));
+                handler(data.As(evnt.Data, evnt.Symbol));
             });
 
-            return await SubscribeAsync(new KrakenSubscribeRequest("book", NextId(), subSymbol) { Details = new KrakenDepthSubscriptionDetails(depth) }, null, false, innerHandler, ct).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("book", NextId(), subSymbols.ToArray()) { Details = new KrakenDepthSubscriptionDetails(depth) }, null, false, innerHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
