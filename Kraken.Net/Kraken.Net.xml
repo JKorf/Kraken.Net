@@ -239,6 +239,9 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamTick}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToKlineUpdatesAsync(System.String,Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamKline}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToKlineUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamKline}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>

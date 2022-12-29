@@ -94,6 +94,7 @@ namespace Kraken.Net.Clients.SpotApi
             return await SubscribeAsync(new KrakenSubscribeRequest("ticker", NextId(), symbolArray), null, false, internalHandler, ct).ConfigureAwait(false);
         }
 
+		/// <inheritdoc />
         public Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, KlineInterval interval, Action<DataEvent<KrakenStreamKline>> handler, CancellationToken ct = default)
             => SubscribeToKlineUpdatesAsync(new[] { symbol }, interval, handler, ct);
 
