@@ -123,15 +123,21 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(string symbol, Action<DataEvent<KrakenStreamSpread>> handler, CancellationToken ct = default)
+        public Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(string symbol, Action<DataEvent<KrakenStreamSpread>> handler, CancellationToken ct = default)
+            => SubscribeToSpreadUpdatesAsync(new[] { symbol }, handler, ct);
+
+		/// <inheritdoc />
+		public async Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenStreamSpread>> handler, CancellationToken ct = default)
         {
-            symbol.ValidateKrakenWebsocketSymbol();
-            var subSymbol = SymbolToServer(symbol);
+            foreach(var symbol in symbols)
+                symbol.ValidateKrakenWebsocketSymbol();
+
+            var subSymbols = symbols.Select(SymbolToServer);
             var internalHandler = new Action<DataEvent<KrakenSocketEvent<KrakenStreamSpread>>>(data =>
             {
-                handler(data.As(data.Data.Data, symbol));
+                handler(data.As(data.Data.Data, data.Data.Symbol));
             });
-            return await SubscribeAsync(new KrakenSubscribeRequest("spread", NextId(), subSymbol), null, false, internalHandler, ct).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("spread", NextId(), subSymbols.ToArray()), null, false, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
