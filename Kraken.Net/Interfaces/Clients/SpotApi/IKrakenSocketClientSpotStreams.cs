@@ -61,25 +61,46 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <returns>A stream subscription. This streamv subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, KlineInterval interval, Action<DataEvent<KrakenStreamKline>> handler, CancellationToken ct = default);
 
-        /// <summary>
-        /// Subscribe to trade updates
-        /// <para><a href="https://docs.kraken.com/websockets/#message-trade" /></para>
-        /// </summary>
-        /// <param name="symbol">Symbol to subscribe to</param>
-        /// <param name="handler">Data handler</param>
-        /// <param name="ct">Cancellation token for closing this subscription</param>
-        /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<IEnumerable<KrakenTrade>>> handler, CancellationToken ct = default);
+		/// <summary>
+		/// Subscribe to kline updates
+		/// <para><a href="https://docs.kraken.com/websockets/#message-ohlc" /></para>
+		/// </summary>
+		/// <param name="symbols">Symbols to subscribe to</param>
+		/// <param name="interval">Kline interval</param>
+		/// <param name="handler">Data handler</param>
+		/// <param name="ct">Cancellation token for closing this subscription</param>
+		/// <returns>A stream subscription. This streamv subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+		Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(IEnumerable<string> symbols, KlineInterval interval, Action<DataEvent<KrakenStreamKline>> handler, CancellationToken ct = default);
 
-        /// <summary>
-        /// Subscribe to spread updates
-        /// <para><a href="https://docs.kraken.com/websockets/#message-spread" /></para>
-        /// </summary>
-        /// <param name="symbol">Symbol to subscribe to</param>
-        /// <param name="handler">Data handler</param>
-        /// <param name="ct">Cancellation token for closing this subscription</param>
-        /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(string symbol, Action<DataEvent<KrakenStreamSpread>> handler, CancellationToken ct = default);
+		/// <summary>
+		/// Subscribe to trade updates
+		/// <para><a href="https://docs.kraken.com/websockets/#message-trade" /></para>
+		/// </summary>
+		/// <param name="symbol">Symbol to subscribe to</param>
+		/// <param name="handler">Data handler</param>
+		/// <param name="ct">Cancellation token for closing this subscription</param>
+		/// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+		Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<IEnumerable<KrakenTrade>>> handler, CancellationToken ct = default);
+
+		/// <summary>
+		/// Subscribe to trade updates
+		/// <para><a href="https://docs.kraken.com/websockets/#message-trade" /></para>
+		/// </summary>
+		/// <param name="symbols">Symbols to subscribe to</param>
+		/// <param name="handler">Data handler</param>
+		/// <param name="ct">Cancellation token for closing this subscription</param>
+		/// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+		Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<IEnumerable<KrakenTrade>>> handler, CancellationToken ct = default);
+
+		/// <summary>
+		/// Subscribe to spread updates
+		/// <para><a href="https://docs.kraken.com/websockets/#message-spread" /></para>
+		/// </summary>
+		/// <param name="symbol">Symbol to subscribe to</param>
+		/// <param name="handler">Data handler</param>
+		/// <param name="ct">Cancellation token for closing this subscription</param>
+		/// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+		Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(string symbol, Action<DataEvent<KrakenStreamSpread>> handler, CancellationToken ct = default);
 
 		/// <summary>
 		/// Subscribe to spread updates
