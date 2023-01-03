@@ -117,7 +117,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         /// <inheritdoc />
         public Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<IEnumerable<KrakenTrade>>> handler, CancellationToken ct = default)
-            => SubscribeToTradeUpdatesAsync(symbol, handler, ct);
+            => SubscribeToTradeUpdatesAsync(new[] { symbol }, handler, ct);
 
 		/// <inheritdoc />
 		public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<IEnumerable<KrakenTrade>>> handler, CancellationToken ct = default)
