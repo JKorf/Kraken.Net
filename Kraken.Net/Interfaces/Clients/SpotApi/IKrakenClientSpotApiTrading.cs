@@ -122,6 +122,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="validateOnly">Only validate inputs, don't actually place the order</param>
         /// <param name="orderFlags">Flags for the order</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="timeInForce">Time-in-force of the order to specify how long it should remain in the order book before being cancelled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Placed order info</returns>
         Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(
@@ -138,6 +139,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             uint? clientOrderId = null,
             IEnumerable<OrderFlags>? orderFlags = null,
             string? twoFactorPassword = null,
+            TimeInForce? timeInForce = null,
             CancellationToken ct = default);
 
         /// <summary>
