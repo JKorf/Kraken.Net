@@ -1,0 +1,27 @@
+name: publish to nuget
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+jobs:
+  publish:
+    name: Build, Pack & Publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore nuget packages
+        run: dotnet restore Kraken.Net.sln
+        env:
+          NugetUsername: ${{ secrets.NUGET_USERNAME }}
+          NugetPassword: ${{ secrets.NUGET_PASSWORD }}
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+      - name: Pack Release
+        run: dotnet pack --configuration Release
+      - name: Push Humbility.Kraken.Net nuget
+        run: dotnet nuget push "Kraken.Net/bin/Release/Humbility.Kraken.Net.*.*.*.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/Humbility-Dev/index.json
