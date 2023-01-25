@@ -140,6 +140,7 @@ namespace Kraken.Net.Clients.SpotApi
             uint? clientOrderId = null,
             IEnumerable<OrderFlags>? flags = null,
             string? twoFactorPassword = null,
+            TimeInForce? timeInForce = null,
             CancellationToken ct = default)
         {
             symbol.ValidateKrakenSymbol();
@@ -159,6 +160,7 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.AddOptionalParameter("leverage", leverage?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("starttm", DateTimeConverter.ConvertToSeconds(startTime));
             parameters.AddOptionalParameter("expiretm", DateTimeConverter.ConvertToSeconds(expireTime));
+            parameters.AddOptionalParameter("timeinforce", timeInForce?.ToString());
             if (validateOnly == true)
                 parameters.AddOptionalParameter("validate", true);
             var result = await _baseClient.Execute<KrakenPlacedOrder>(_baseClient.GetUri("0/private/AddOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
