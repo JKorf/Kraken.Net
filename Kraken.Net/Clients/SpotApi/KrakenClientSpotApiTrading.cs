@@ -183,5 +183,16 @@ namespace Kraken.Net.Clients.SpotApi
                 _baseClient.InvokeOrderCanceled(new OrderId { SourceObject = result.Data, Id = orderId });
             return result;
         }
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<KrakenCancelResult>> CancelAllOrdersAsync(string? twoFactorPassword = null, CancellationToken ct = default)
+        {
+            var parameters = new Dictionary<string, object>();
+            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            var result = await _baseClient.Execute<KrakenCancelResult>(_baseClient.GetUri("0/private/CancelAll"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (result)
+                _baseClient.InvokeOrderCanceled(new OrderId { SourceObject = result.Data });
+            return result;
+        }
     }
 }

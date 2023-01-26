@@ -152,5 +152,13 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <returns>Cancel result</returns>
         Task<WebCallResult<KrakenCancelResult>> CancelOrderAsync(string orderId, string? twoFactorPassword = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Cancel all orders
+        /// <para><a href="https://docs.kraken.com/rest/#operation/cancelAllOrders" /></para>
+        /// </summary>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Cancel result</returns>
+        Task<WebCallResult<KrakenCancelResult>> CancelAllOrdersAsync(string? twoFactorPassword = null, CancellationToken ct = default);
     }
 }
