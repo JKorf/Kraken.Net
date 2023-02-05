@@ -20,7 +20,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>3.1.5 - Cancel All Orders support.</PackageReleaseNotes>
+    <PackageReleaseNotes>3.1.5 - Added CancelAllOrdersAsync endpoint</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup>
     <DocumentationFile>Kraken.Net.xml</DocumentationFile>
