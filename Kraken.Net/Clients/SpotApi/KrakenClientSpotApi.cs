@@ -343,6 +343,26 @@ namespace Kraken.Net.Clients.SpotApi
             OnOrderCanceled?.Invoke(id);
         }
 
+        /// <inheritdoc />
+        protected override async Task<bool> ShouldRetryRequestAsync<T>(WebCallResult<T> callResult, int tries)
+        {
+            if (!callResult.Success)
+                return false;
+
+            var krakenResult = (KrakenResult)(object)callResult.Data!;
+            if (krakenResult.Error.FirstOrDefault() == "EAPI:Invalid nonce")
+            {
+                if (tries <= 3)
+                {
+                    _log.Write(Microsoft.Extensions.Logging.LogLevel.Warning, "Received nonce error; retrying request");
+                    await Task.Delay(25).ConfigureAwait(false);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         internal async Task<WebCallResult<T>> Execute<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, bool ignoreRatelimit = false)
         {
             var result = await SendRequestAsync<KrakenResult<T>>(url, method, ct, parameters, signed, requestWeight: weight, ignoreRatelimit: ignoreRatelimit).ConfigureAwait(false);
@@ -399,11 +419,11 @@ namespace Kraken.Net.Clients.SpotApi
             => ExchangeData.GetServerTimeAsync();
 
         /// <inheritdoc />
-        public override TimeSyncInfo GetTimeSyncInfo()
+        public override TimeSyncInfo? GetTimeSyncInfo()
             => new TimeSyncInfo(_log, ClientOptions.SpotApiOptions.AutoTimestamp, ClientOptions.SpotApiOptions.TimestampRecalculationInterval, TimeSyncState);
 
         /// <inheritdoc />
-        public override TimeSpan GetTimeOffset()
+        public override TimeSpan? GetTimeOffset()
             => TimeSyncState.TimeOffset;
 
         /// <inheritdoc />

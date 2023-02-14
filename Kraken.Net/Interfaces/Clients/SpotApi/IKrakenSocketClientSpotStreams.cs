@@ -14,13 +14,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
     /// <summary>
     /// Spot streams
     /// </summary>
-    public interface IKrakenSocketClientSpotStreams : IDisposable
+    public interface IKrakenSocketClientSpotStreams : ISocketApiClient, IDisposable
     {
-        /// <summary>
-        /// The factory for creating sockets. Used for unit testing
-        /// </summary>
-        IWebsocketFactory SocketFactory { get; set; }
-
         /// <summary>
         /// Subscribe to system status updates
         /// <para><a href="https://docs.kraken.com/websockets/#message-systemStatus" /></para>

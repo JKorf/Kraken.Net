@@ -584,7 +584,7 @@ namespace Kraken.Net.Clients.SpotApi
             }
 
             var result = false;
-            await connection.SendAndWaitAsync(unsubRequest, Options.SocketResponseTimeout, data =>
+            await connection.SendAndWaitAsync(unsubRequest, Options.SocketResponseTimeout, null, data =>
             {
                 if (data.Type != JTokenType.Object)
                     return false;

@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net;
+using CryptoExchange.Net.Authentication;
 using Kraken.Net.Clients.SpotApi;
 using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients.SpotApi;
@@ -45,6 +46,11 @@ namespace Kraken.Net.Clients
             KrakenSocketClientOptions.Default = options;
         }
 
+        /// <inheritdoc />
+        public void SetApiCredentials(ApiCredentials apiCredentials)
+        {
+            SpotStreams.SetApiCredentials(apiCredentials);
+        }
         #endregion
 
     }
