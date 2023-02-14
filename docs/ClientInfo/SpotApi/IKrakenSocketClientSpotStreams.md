@@ -7,9 +7,6 @@ parent: Socket API documentation
 `KrakenSocketClient > SpotStreams`  
 *Spot streams*
   
-***
-*The factory for creating sockets. Used for unit testing*  
-**IWebsocketFactory SocketFactory { get; set; }**  
 
 ***
 
@@ -178,6 +175,60 @@ Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol,
 
 ***
 
+## SubscribeToKlineUpdatesAsync  
+
+[https://docs.kraken.com/websockets/#message-ohlc](https://docs.kraken.com/websockets/#message-ohlc)  
+<p>
+
+*Subscribe to kline updates*  
+
+```csharp  
+var client = new KrakenSocketClient();  
+var result = await client.SpotStreams.SubscribeToKlineUpdatesAsync(/* parameters */);  
+```  
+
+```csharp  
+Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(IEnumerable<string> symbols, KlineInterval interval, Action<DataEvent<KrakenStreamKline>> handler, CancellationToken ct = default);  
+```  
+
+|Parameter|Description|
+|---|---|
+|symbols|Symbols to subscribe to|
+|interval|Kline interval|
+|handler|Data handler|
+|_[Optional]_ ct|Cancellation token for closing this subscription|
+
+</p>
+
+***
+
+## SubscribeToOrderBookUpdatesAsync  
+
+[https://docs.kraken.com/websockets/#message-book](https://docs.kraken.com/websockets/#message-book)  
+<p>
+
+*Subscribe to depth updates*  
+
+```csharp  
+var client = new KrakenSocketClient();  
+var result = await client.SpotStreams.SubscribeToOrderBookUpdatesAsync(/* parameters */);  
+```  
+
+```csharp  
+Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(IEnumerable<string> symbols, int depth, Action<DataEvent<KrakenStreamOrderBook>> handler, CancellationToken ct = default);  
+```  
+
+|Parameter|Description|
+|---|---|
+|symbols|Symbols to subscribe to|
+|depth|Depth of the initial order book snapshot. 10, 25, 100, 500 or 1000|
+|handler|Data handler|
+|_[Optional]_ ct|Cancellation token for closing this subscription|
+
+</p>
+
+***
+
 ## SubscribeToOrderBookUpdatesAsync  
 
 [https://docs.kraken.com/websockets/#message-book](https://docs.kraken.com/websockets/#message-book)  
@@ -250,6 +301,32 @@ Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(string symbol
 |Parameter|Description|
 |---|---|
 |symbol|Symbol to subscribe to|
+|handler|Data handler|
+|_[Optional]_ ct|Cancellation token for closing this subscription|
+
+</p>
+
+***
+
+## SubscribeToSpreadUpdatesAsync  
+
+[https://docs.kraken.com/websockets/#message-spread](https://docs.kraken.com/websockets/#message-spread)  
+<p>
+
+*Subscribe to spread updates*  
+
+```csharp  
+var client = new KrakenSocketClient();  
+var result = await client.SpotStreams.SubscribeToSpreadUpdatesAsync(/* parameters */);  
+```  
+
+```csharp  
+Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenStreamSpread>> handler, CancellationToken ct = default);  
+```  
+
+|Parameter|Description|
+|---|---|
+|symbols|Symbols to subscribe to|
 |handler|Data handler|
 |_[Optional]_ ct|Cancellation token for closing this subscription|
 
@@ -353,6 +430,32 @@ Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol,
 |Parameter|Description|
 |---|---|
 |symbol|Symbol to subscribe to|
+|handler|Data handler|
+|_[Optional]_ ct|Cancellation token for closing this subscription|
+
+</p>
+
+***
+
+## SubscribeToTradeUpdatesAsync  
+
+[https://docs.kraken.com/websockets/#message-trade](https://docs.kraken.com/websockets/#message-trade)  
+<p>
+
+*Subscribe to trade updates*  
+
+```csharp  
+var client = new KrakenSocketClient();  
+var result = await client.SpotStreams.SubscribeToTradeUpdatesAsync(/* parameters */);  
+```  
+
+```csharp  
+Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<IEnumerable<KrakenTrade>>> handler, CancellationToken ct = default);  
+```  
+
+|Parameter|Description|
+|---|---|
+|symbols|Symbols to subscribe to|
 |handler|Data handler|
 |_[Optional]_ ct|Cancellation token for closing this subscription|
 

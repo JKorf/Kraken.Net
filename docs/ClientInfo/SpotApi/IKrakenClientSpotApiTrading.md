@@ -11,6 +11,31 @@ grand_parent: Rest API documentation
 
 ***
 
+## CancelAllOrdersAsync  
+
+[https://docs.kraken.com/rest/#operation/cancelAllOrders](https://docs.kraken.com/rest/#operation/cancelAllOrders)  
+<p>
+
+*Cancel all orders*  
+
+```csharp  
+var client = new KrakenClient();  
+var result = await client.SpotApi.Trading.CancelAllOrdersAsync();  
+```  
+
+```csharp  
+Task<WebCallResult<KrakenCancelResult>> CancelAllOrdersAsync(string? twoFactorPassword = default, CancellationToken ct = default);  
+```  
+
+|Parameter|Description|
+|---|---|
+|_[Optional]_ twoFactorPassword|Password or authentication app code if enabled|
+|_[Optional]_ ct|Cancellation token|
+
+</p>
+
+***
+
 ## CancelOrderAsync  
 
 [https://docs.kraken.com/rest/#operation/cancelOrder](https://docs.kraken.com/rest/#operation/cancelOrder)  
@@ -239,7 +264,7 @@ var result = await client.SpotApi.Trading.PlaceOrderAsync(/* parameters */);
 ```  
 
 ```csharp  
-Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(string symbol, OrderSide side, OrderType type, decimal quantity, decimal? price = default, decimal? secondaryPrice = default, decimal? leverage = default, DateTime? startTime = default, DateTime? expireTime = default, bool? validateOnly = default, uint? clientOrderId = default, IEnumerable<OrderFlags>? orderFlags = default, string? twoFactorPassword = default, CancellationToken ct = default);  
+Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(string symbol, OrderSide side, OrderType type, decimal quantity, decimal? price = default, decimal? secondaryPrice = default, decimal? leverage = default, DateTime? startTime = default, DateTime? expireTime = default, bool? validateOnly = default, uint? clientOrderId = default, IEnumerable<OrderFlags>? orderFlags = default, string? twoFactorPassword = default, TimeInForce? timeInForce = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -257,6 +282,7 @@ Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(string symbol, OrderSide 
 |_[Optional]_ clientOrderId|A client id to reference the order by|
 |_[Optional]_ orderFlags|Flags for the order|
 |_[Optional]_ twoFactorPassword|Password or authentication app code if enabled|
+|_[Optional]_ timeInForce|Time-in-force of the order to specify how long it should remain in the order book before being cancelled|
 |_[Optional]_ ct|Cancellation token|
 
 </p>
