@@ -7,9 +7,9 @@
   <PropertyGroup>
     <PackageId>KrakenExchange.Net</PackageId>
     <Authors>JKorf</Authors>
-    <PackageVersion>3.1.5</PackageVersion>
-    <AssemblyVersion>3.1.5</AssemblyVersion>
-    <FileVersion>3.1.5</FileVersion>
+    <PackageVersion>3.1.6</PackageVersion>
+    <AssemblyVersion>3.1.6</AssemblyVersion>
+    <FileVersion>3.1.6</FileVersion>
     <Description>Kraken.Net is a .Net wrapper for the Kraken API. It includes all features the API provides, REST API and Websocket, using clear and readable objects including but not limited to Reading market info, Placing and managing orders and Reading balances and funds</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>Kraken Kraken.Net C# .Net CryptoCurrency Exchange API wrapper</PackageTags>
@@ -20,7 +20,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>3.1.5 - Added CancelAllOrdersAsync endpoint</PackageReleaseNotes>
+    <PackageReleaseNotes>3.1.6 - Updated CryptoExchange.Net, Added retry on nonce error</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup>
     <DocumentationFile>Kraken.Net.xml</DocumentationFile>
