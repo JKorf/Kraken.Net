@@ -44,5 +44,7 @@ namespace Kraken.Net.Objects.Internal
         public string? SecondaryClosePrice { get; set; }
         [JsonProperty("oflags")]
         public string? Flags { get; set; }
+        [JsonProperty("reduce_only")]
+        public bool? ReduceOnly { get; set; }
     }
 }

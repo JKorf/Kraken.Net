@@ -121,6 +121,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="expireTime">Expiration time</param>
         /// <param name="validateOnly">Only validate inputs, don't actually place the order</param>
         /// <param name="orderFlags">Flags for the order</param>
+        /// <param name="reduceOnly">Reduce only order</param>
+        /// <param name="selfTradePreventionType">Self trade prevention type</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="timeInForce">Time-in-force of the order to specify how long it should remain in the order book before being cancelled</param>
         /// <param name="ct">Cancellation token</param>
@@ -140,6 +142,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             IEnumerable<OrderFlags>? orderFlags = null,
             string? twoFactorPassword = null,
             TimeInForce? timeInForce = null,
+            bool? reduceOnly = null,
+            SelfTradePreventionType? selfTradePreventionType = null,
             CancellationToken ct = default);
 
         /// <summary>

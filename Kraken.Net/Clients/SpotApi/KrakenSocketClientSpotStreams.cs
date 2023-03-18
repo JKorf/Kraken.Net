@@ -291,7 +291,8 @@ namespace Kraken.Net.Clients.SpotApi
             OrderType? closeOrderType = null,
             decimal? closePrice = null,
             decimal? secondaryClosePrice = null,
-            IEnumerable<OrderFlags>? flags = null)
+            IEnumerable<OrderFlags>? flags = null,
+            bool? reduceOnly = null)
         {
             var request = new KrakenSocketPlaceOrderRequest
             {
@@ -311,6 +312,7 @@ namespace Kraken.Net.Clients.SpotApi
                 CloseOrderType = closeOrderType,
                 ClosePrice = closePrice?.ToString(CultureInfo.InvariantCulture),
                 SecondaryClosePrice = secondaryClosePrice?.ToString(CultureInfo.InvariantCulture),
+                ReduceOnly = reduceOnly,
                 RequestId = NextId(),
                 Flags = flags == null ? null: string.Join(",", flags.Select(f => JsonConvert.SerializeObject(f, new OrderFlagsConverter(false))))
             };

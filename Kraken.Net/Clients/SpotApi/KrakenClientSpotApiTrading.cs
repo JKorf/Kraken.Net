@@ -141,6 +141,8 @@ namespace Kraken.Net.Clients.SpotApi
             IEnumerable<OrderFlags>? flags = null,
             string? twoFactorPassword = null,
             TimeInForce? timeInForce = null,
+            bool? reduceOnly = null,
+            SelfTradePreventionType? selfTradePreventionType = null,
             CancellationToken ct = default)
         {
             symbol.ValidateKrakenSymbol();
@@ -160,6 +162,9 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.AddOptionalParameter("leverage", leverage?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("starttm", DateTimeConverter.ConvertToSeconds(startTime));
             parameters.AddOptionalParameter("expiretm", DateTimeConverter.ConvertToSeconds(expireTime));
+            parameters.AddOptionalParameter("timeinforce", timeInForce?.ToString());
+            parameters.AddOptionalParameter("reduce_only", reduceOnly);
+            parameters.AddOptionalParameter("stptype", EnumConverter.GetString(selfTradePreventionType));
             parameters.AddOptionalParameter("timeinforce", timeInForce?.ToString());
             if (validateOnly == true)
                 parameters.AddOptionalParameter("validate", true);
