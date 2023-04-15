@@ -130,13 +130,14 @@ var result = await client.SpotApi.Trading.GetOrderAsync();
 ```  
 
 ```csharp  
-Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? orderId = default, uint? clientOrderId = default, string? twoFactorPassword = default, CancellationToken ct = default);  
+Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? orderId = default, uint? clientOrderId = default, bool? consolidateTaker = default, string? twoFactorPassword = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
 |_[Optional]_ orderId|Get order by its order id|
 |_[Optional]_ clientOrderId|Get orders by clientOrderId|
+|_[Optional]_ consolidateTaker|Whether or not to consolidate trades by individual taker trades|
 |_[Optional]_ twoFactorPassword|Password or authentication app code if enabled|
 |_[Optional]_ ct|Cancellation token|
 
@@ -157,13 +158,14 @@ var result = await client.SpotApi.Trading.GetOrdersAsync();
 ```  
 
 ```csharp  
-Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = default, uint? clientOrderId = default, string? twoFactorPassword = default, CancellationToken ct = default);  
+Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = default, uint? clientOrderId = default, bool? consolidateTaker = default, string? twoFactorPassword = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
 |_[Optional]_ orderIds|Get orders by their order ids|
 |_[Optional]_ clientOrderId|Get orders by clientOrderId|
+|_[Optional]_ consolidateTaker|Whether or not to consolidate trades by individual taker trades|
 |_[Optional]_ twoFactorPassword|Password or authentication app code if enabled|
 |_[Optional]_ ct|Cancellation token|
 
@@ -236,7 +238,7 @@ var result = await client.SpotApi.Trading.GetUserTradesAsync();
 ```  
 
 ```csharp  
-Task<WebCallResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime = default, DateTime? endTime = default, int? resultOffset = default, string? twoFactorPassword = default, CancellationToken ct = default);  
+Task<WebCallResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime = default, DateTime? endTime = default, int? resultOffset = default, bool? consolidateTaker = default, string? twoFactorPassword = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -244,6 +246,7 @@ Task<WebCallResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime
 |_[Optional]_ startTime|Return data after this time|
 |_[Optional]_ endTime|Return data before this time|
 |_[Optional]_ resultOffset|Offset the results by|
+|_[Optional]_ consolidateTaker|Whether or not to consolidate trades by individual taker trades|
 |_[Optional]_ twoFactorPassword|Password or authentication app code if enabled|
 |_[Optional]_ ct|Cancellation token|
 
@@ -264,7 +267,7 @@ var result = await client.SpotApi.Trading.PlaceOrderAsync(/* parameters */);
 ```  
 
 ```csharp  
-Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(string symbol, OrderSide side, OrderType type, decimal quantity, decimal? price = default, decimal? secondaryPrice = default, decimal? leverage = default, DateTime? startTime = default, DateTime? expireTime = default, bool? validateOnly = default, uint? clientOrderId = default, IEnumerable<OrderFlags>? orderFlags = default, string? twoFactorPassword = default, TimeInForce? timeInForce = default, CancellationToken ct = default);  
+Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(string symbol, OrderSide side, OrderType type, decimal quantity, decimal? price = default, decimal? secondaryPrice = default, decimal? leverage = default, DateTime? startTime = default, DateTime? expireTime = default, bool? validateOnly = default, uint? clientOrderId = default, IEnumerable<OrderFlags>? orderFlags = default, string? twoFactorPassword = default, TimeInForce? timeInForce = default, bool? reduceOnly = default, decimal? icebergQuanty = default, Trigger? trigger = default, SelfTradePreventionType? selfTradePreventionType = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -283,6 +286,10 @@ Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(string symbol, OrderSide 
 |_[Optional]_ orderFlags|Flags for the order|
 |_[Optional]_ twoFactorPassword|Password or authentication app code if enabled|
 |_[Optional]_ timeInForce|Time-in-force of the order to specify how long it should remain in the order book before being cancelled|
+|_[Optional]_ reduceOnly|Reduce only order|
+|_[Optional]_ icebergQuanty|Iceberg visible quantity|
+|_[Optional]_ trigger|Price signal|
+|_[Optional]_ selfTradePreventionType|Self trade prevention type|
 |_[Optional]_ ct|Cancellation token|
 
 </p>

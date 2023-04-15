@@ -222,16 +222,16 @@ Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickerAsync(string sy
 
 ```csharp  
 var client = new KrakenClient();  
-var result = await client.SpotApi.ExchangeData.GetTickersAsync(/* parameters */);  
+var result = await client.SpotApi.ExchangeData.GetTickersAsync();  
 ```  
 
 ```csharp  
-Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(IEnumerable<string> symbols, CancellationToken ct = default);  
+Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(IEnumerable<string>? symbols = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
-|symbols|Symbols to get tickers for|
+|_[Optional]_ symbols|Symbols to get tickers for|
 |_[Optional]_ ct|Cancellation token|
 
 </p>

@@ -11,6 +11,33 @@ grand_parent: Rest API documentation
 
 ***
 
+## CancelWithdrawalAsync  
+
+[https://docs.kraken.com/rest/#tag/User-Funding/operation/cancelWithdrawal](https://docs.kraken.com/rest/#tag/User-Funding/operation/cancelWithdrawal)  
+<p>
+
+*Cancel an active withdrawal*  
+
+```csharp  
+var client = new KrakenClient();  
+var result = await client.SpotApi.Account.CancelWithdrawalAsync(/* parameters */);  
+```  
+
+```csharp  
+Task<WebCallResult<bool>> CancelWithdrawalAsync(string asset, string referenceId, string? twoFactorPassword = default, CancellationToken ct = default);  
+```  
+
+|Parameter|Description|
+|---|---|
+|asset|Asset|
+|referenceId|Reference id|
+|_[Optional]_ twoFactorPassword|Password or authentication app code if enabled|
+|_[Optional]_ ct|Cancellation token|
+
+</p>
+
+***
+
 ## GetAvailableBalancesAsync  
 
 [https://docs.kraken.com/rest/#operation/getTradeBalance](https://docs.kraken.com/rest/#operation/getTradeBalance)  
@@ -120,21 +147,21 @@ Task<WebCallResult<IEnumerable<KrakenDepositMethod>>> GetDepositMethodsAsync(str
 [https://docs.kraken.com/rest/#operation/getStatusRecentDeposits](https://docs.kraken.com/rest/#operation/getStatusRecentDeposits)  
 <p>
 
-*Get status of deposits for an asset*  
+*Get status of deposits*  
 
 ```csharp  
 var client = new KrakenClient();  
-var result = await client.SpotApi.Account.GetDepositStatusAsync(/* parameters */);  
+var result = await client.SpotApi.Account.GetDepositStatusAsync();  
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<KrakenDepositStatus>>> GetDepositStatusAsync(string asset, string depositMethod, string? twoFactorPassword = default, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<KrakenMovementStatus>>> GetDepositStatusAsync(string? asset = default, string? depositMethod = default, string? twoFactorPassword = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
-|asset|Asset to get deposit info for|
-|depositMethod|The deposit method|
+|_[Optional]_ asset|Asset to get deposit info for|
+|_[Optional]_ depositMethod|The deposit method|
 |_[Optional]_ twoFactorPassword|Password or authentication app code if enabled|
 |_[Optional]_ ct|Cancellation token|
 
@@ -299,6 +326,33 @@ Task<WebCallResult<KrakenWebSocketToken>> GetWebsocketTokenAsync(CancellationTok
 
 ***
 
+## GetWithdrawalStatusAsync  
+
+[https://docs.kraken.com/rest/#tag/User-Funding/operation/getStatusRecentWithdrawals](https://docs.kraken.com/rest/#tag/User-Funding/operation/getStatusRecentWithdrawals)  
+<p>
+
+*Get status of withdrawals*  
+
+```csharp  
+var client = new KrakenClient();  
+var result = await client.SpotApi.Account.GetWithdrawalStatusAsync();  
+```  
+
+```csharp  
+Task<WebCallResult<IEnumerable<KrakenMovementStatus>>> GetWithdrawalStatusAsync(string? asset = default, string? withdrawalMethod = default, string? twoFactorPassword = default, CancellationToken ct = default);  
+```  
+
+|Parameter|Description|
+|---|---|
+|_[Optional]_ asset|Filter by asset|
+|_[Optional]_ withdrawalMethod|Filter by method|
+|_[Optional]_ twoFactorPassword|Password or authentication app code if enabled|
+|_[Optional]_ ct|Cancellation token|
+
+</p>
+
+***
+
 ## GetWithdrawInfoAsync  
 
 [https://docs.kraken.com/rest/#operation/getWithdrawalInformation](https://docs.kraken.com/rest/#operation/getWithdrawalInformation)  
@@ -320,6 +374,35 @@ Task<WebCallResult<KrakenWithdrawInfo>> GetWithdrawInfoAsync(string asset, strin
 |asset|The asset|
 |key|The withdrawal key name|
 |quantity|The quantity to withdraw|
+|_[Optional]_ twoFactorPassword|Password or authentication app code if enabled|
+|_[Optional]_ ct|Cancellation token|
+
+</p>
+
+***
+
+## TransferAsync  
+
+[https://docs.kraken.com/rest/#tag/User-Funding/operation/walletTransfer](https://docs.kraken.com/rest/#tag/User-Funding/operation/walletTransfer)  
+<p>
+
+*Transfer funds between wallets*  
+
+```csharp  
+var client = new KrakenClient();  
+var result = await client.SpotApi.Account.TransferAsync(/* parameters */);  
+```  
+
+```csharp  
+Task<WebCallResult<KrakenReferenceId>> TransferAsync(string asset, decimal quantity, string fromWallet, string toWallet, string? twoFactorPassword = default, CancellationToken ct = default);  
+```  
+
+|Parameter|Description|
+|---|---|
+|asset|Asset|
+|quantity|Quantity|
+|fromWallet|Source wallet|
+|toWallet|Target wallet|
 |_[Optional]_ twoFactorPassword|Password or authentication app code if enabled|
 |_[Optional]_ ct|Cancellation token|
 
