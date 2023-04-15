@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Deposit status info
     /// </summary>
-    public class KrakenDepositStatus
+    public class KrakenMovementStatus
     {
         /// <summary>
         /// The name of the deposit method

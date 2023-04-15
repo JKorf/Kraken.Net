@@ -109,7 +109,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         Task<WebCallResult<IEnumerable<KrakenDepositAddress>>> GetDepositAddressesAsync(string asset, string depositMethod, bool generateNew = false, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
-        /// Get status of deposits for an asset
+        /// Get status of deposits
         /// <para><a href="https://docs.kraken.com/rest/#operation/getStatusRecentDeposits" /></para>
         /// </summary>
         /// <param name="asset">Asset to get deposit info for</param>
@@ -117,7 +117,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Deposit status list</returns>
-        Task<WebCallResult<IEnumerable<KrakenDepositStatus>>> GetDepositStatusAsync(string asset, string depositMethod, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<IEnumerable<KrakenMovementStatus>>> GetDepositStatusAsync(string? asset = null, string? depositMethod = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
 
         /// <summary>
@@ -152,5 +152,40 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="ct"></param>
         /// <returns></returns>
         Task<WebCallResult<KrakenWebSocketToken>> GetWebsocketTokenAsync(CancellationToken ct = default);
+
+        /// <summary>
+        /// Get status of withdrawals
+        /// <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/getStatusRecentWithdrawals" /></para>
+        /// </summary>
+        /// <param name="asset">Filter by asset</param>
+        /// <param name="withdrawalMethod">Filter by method</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns></returns>
+        Task<WebCallResult<IEnumerable<KrakenMovementStatus>>> GetWithdrawalStatusAsync(string? asset = null, string? withdrawalMethod = null, string? twoFactorPassword = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Cancel an active withdrawal
+        /// <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/cancelWithdrawal" /></para>
+        /// </summary>
+        /// <param name="asset">Asset</param>
+        /// <param name="referenceId">Reference id</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns></returns>
+        Task<WebCallResult<bool>> CancelWithdrawalAsync(string asset, string referenceId, string? twoFactorPassword = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Transfer funds between wallets
+        /// <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/walletTransfer" /></para>
+        /// </summary>
+        /// <param name="asset">Asset</param>
+        /// <param name="quantity">Quantity</param>
+        /// <param name="fromWallet">Source wallet</param>
+        /// <param name="toWallet">Target wallet</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns></returns>
+        Task<WebCallResult<KrakenReferenceId>> TransferAsync(string asset, decimal quantity, string fromWallet, string toWallet, string? twoFactorPassword = null, CancellationToken ct = default);
     }
 }

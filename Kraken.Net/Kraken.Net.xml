@@ -149,6 +149,15 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.WithdrawAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.GetWithdrawalStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.CancelWithdrawalAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.TransferAsync(System.String,System.Decimal,System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -881,7 +890,7 @@
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.GetDepositStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
-            Get status of deposits for an asset
+            Get status of deposits
             <para><a href="https://docs.kraken.com/rest/#operation/getStatusRecentDeposits" /></para>
             </summary>
             <param name="asset">Asset to get deposit info for</param>
@@ -920,6 +929,41 @@
             <para><a href="https://docs.kraken.com/rest/#operation/getWebsocketsToken" /></para>
             </summary>
             <param name="ct"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.GetWithdrawalStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get status of withdrawals
+            <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/getStatusRecentWithdrawals" /></para>
+            </summary>
+            <param name="asset">Filter by asset</param>
+            <param name="withdrawalMethod">Filter by method</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.CancelWithdrawalAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Cancel an active withdrawal
+            <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/cancelWithdrawal" /></para>
+            </summary>
+            <param name="asset">Asset</param>
+            <param name="referenceId">Reference id</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.TransferAsync(System.String,System.Decimal,System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Transfer funds between wallets
+            <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/walletTransfer" /></para>
+            </summary>
+            <param name="asset">Asset</param>
+            <param name="quantity">Quantity</param>
+            <param name="fromWallet">Source wallet</param>
+            <param name="toWallet">Target wallet</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
         <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiExchangeData">
@@ -1807,61 +1851,6 @@
             Generate address
             </summary>
         </member>
-        <member name="T:Kraken.Net.Objects.Models.KrakenDepositStatus">
-            <summary>
-            Deposit status info
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Models.KrakenDepositStatus.Method">
-            <summary>
-            The name of the deposit method
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Models.KrakenDepositStatus.AssetClass">
-            <summary>
-            The class of the asset
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Models.KrakenDepositStatus.Asset">
-            <summary>
-            The asset name
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Models.KrakenDepositStatus.ReferenceId">
-            <summary>
-            Reference id
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Models.KrakenDepositStatus.TransactionId">
-            <summary>
-            Transaction id
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Models.KrakenDepositStatus.TransactionInfo">
-            <summary>
-            Info about the transaction
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Models.KrakenDepositStatus.Quantity">
-            <summary>
-            The quantity involved in the deposit
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Models.KrakenDepositStatus.Fee">
-            <summary>
-            The fee paid for the deposit
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Models.KrakenDepositStatus.Timestamp">
-            <summary>
-            The timestamp
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Models.KrakenDepositStatus.Status">
-            <summary>
-            Status of the transaction
-            </summary>
-        </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenFeeEntry">
             <summary>
             Fee level details
@@ -2025,6 +2014,61 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenLedgerEntry.BalanceAfter">
             <summary>
             Resulting balance
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenMovementStatus">
+            <summary>
+            Deposit status info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenMovementStatus.Method">
+            <summary>
+            The name of the deposit method
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenMovementStatus.AssetClass">
+            <summary>
+            The class of the asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenMovementStatus.Asset">
+            <summary>
+            The asset name
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenMovementStatus.ReferenceId">
+            <summary>
+            Reference id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenMovementStatus.TransactionId">
+            <summary>
+            Transaction id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenMovementStatus.TransactionInfo">
+            <summary>
+            Info about the transaction
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenMovementStatus.Quantity">
+            <summary>
+            The quantity involved in the deposit
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenMovementStatus.Fee">
+            <summary>
+            The fee paid for the deposit
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenMovementStatus.Timestamp">
+            <summary>
+            The timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenMovementStatus.Status">
+            <summary>
+            Status of the transaction
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenOrder">
@@ -2465,6 +2509,16 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenPosition.Terms">
             <summary>
             Terms
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenReferenceId">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenReferenceId.ReferenceId">
+            <summary>
+            The id
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenSpread">

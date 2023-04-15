@@ -148,18 +148,14 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
-        public async Task<WebCallResult<IEnumerable<KrakenDepositStatus>>> GetDepositStatusAsync(string asset, string depositMethod, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<IEnumerable<KrakenMovementStatus>>> GetDepositStatusAsync(string? asset = null, string? depositMethod = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
-            asset.ValidateNotNull(nameof(asset));
-            depositMethod.ValidateNotNull(nameof(depositMethod));
-            var parameters = new Dictionary<string, object>()
-            {
-                {"asset", asset},
-                {"method", depositMethod},
-            };
+            var parameters = new Dictionary<string, object>();
+            parameters.AddOptionalParameter("asset", asset);
+            parameters.AddOptionalParameter("method", depositMethod);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
-            return await _baseClient.Execute<IEnumerable<KrakenDepositStatus>>(_baseClient.GetUri("0/private/DepositStatus"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await _baseClient.Execute<IEnumerable<KrakenMovementStatus>>(_baseClient.GetUri("0/private/DepositStatus"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -194,6 +190,52 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.AddOptionalParameter("otp", twoFactorPassword);
 
             return await _baseClient.Execute<KrakenWithdraw>(_baseClient.GetUri("0/private/Withdraw"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<IEnumerable<KrakenMovementStatus>>> GetWithdrawalStatusAsync(string? asset = null, string? withdrawalMethod = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        {
+            var parameters = new Dictionary<string, object>();
+            parameters.AddOptionalParameter("asset", asset);
+            parameters.AddOptionalParameter("method", withdrawalMethod);
+            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+
+            return await _baseClient.Execute<IEnumerable<KrakenMovementStatus>>(_baseClient.GetUri("0/private/WithdrawStatus"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<bool>> CancelWithdrawalAsync(string asset, string referenceId, string? twoFactorPassword = null, CancellationToken ct = default)
+        {
+            asset.ValidateNotNull(nameof(asset));
+            referenceId.ValidateNotNull(nameof(referenceId));
+
+            var parameters = new Dictionary<string, object>
+            {
+                {"asset", asset},
+                {"refid", referenceId}
+            };
+            parameters.AddOptionalParameter("otp", twoFactorPassword);
+
+            return await _baseClient.Execute<bool>(_baseClient.GetUri("0/private/WithdrawCancel"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<KrakenReferenceId>> TransferAsync(string asset, decimal quantity, string fromWallet, string toWallet, string? twoFactorPassword = null, CancellationToken ct = default)
+        {
+            asset.ValidateNotNull(nameof(asset));
+            fromWallet.ValidateNotNull(nameof(fromWallet));
+            toWallet.ValidateNotNull(nameof(toWallet));
+
+            var parameters = new Dictionary<string, object>
+            {
+                {"asset", asset},
+                {"from", fromWallet},
+                {"to", toWallet},
+                {"amount", quantity.ToString(CultureInfo.InvariantCulture)}
+            };
+            parameters.AddOptionalParameter("otp", twoFactorPassword);
+
+            return await _baseClient.Execute<KrakenReferenceId>(_baseClient.GetUri("0/private/WalletTransfer"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
