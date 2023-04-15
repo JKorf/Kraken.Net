@@ -24,6 +24,12 @@ Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/s
 A Discord server is available [here](https://discord.gg/MSpeEtSY8t). For discussion and/or questions around the CryptoExchange.Net and implementation libraries, feel free to join.
 
 ## Release notes
+* Version 3.1.8 - 15 Apr 2023
+    * Added GetWithdrawalStatusAsync endpoint
+    * Added CancelWithdrawalAsync endpoint
+    * Added TransferAsync endpoint
+    * Updated various response models and endpoint parameters
+
 * Version 3.1.7 - 18 Mar 2023
     * Added reduceOnly and selfTradePreventionType parameters to place order endpoints
     * Updated CryptoExchange.Net
