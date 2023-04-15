@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CryptoExchange.Net.Converters;
 using Newtonsoft.Json;
 
@@ -56,6 +57,9 @@ namespace Kraken.Net.Objects.Models
         /// Status of the transaction
         /// </summary>
         public string Status { get; set; } = string.Empty;
-
+        /// <summary>
+        /// Originators
+        /// </summary>
+        public IEnumerable<string>? Originators { get; set; } = Array.Empty<string>();
     }
 }

@@ -203,13 +203,13 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.GetClosedOrdersAsync(System.Nullable{System.UInt32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.GetOrderAsync(System.String,System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.GetOrderAsync(System.String,System.Nullable{System.UInt32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.GetOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.GetOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.UInt32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.GetUserTradesAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.GetUserTradesAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.GetUserTradeDetailsAsync(System.String,System.String,System.Threading.CancellationToken)">
@@ -218,7 +218,7 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.GetUserTradeDetailsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.String,System.Nullable{Kraken.Net.Enums.TimeInForce},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.SelfTradePreventionType},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.String,System.Nullable{Kraken.Net.Enums.TimeInForce},System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.Trigger},System.Nullable{Kraken.Net.Enums.SelfTradePreventionType},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.CancelOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
@@ -365,6 +365,31 @@
         <member name="T:Kraken.Net.Converters.KrakenSpreadsResult">
             <summary>
             Spread result
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.AssetStatus">
+            <summary>
+            Asset status
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.AssetStatus.Enabled">
+            <summary>
+            Enabled
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.AssetStatus.DepositOnly">
+            <summary>
+            Only deposits available
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.AssetStatus.WithdrawalOnly">
+            <summary>
+            Only withdrawals available
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.AssetStatus.FundingTemporarilyDisabled">
+            <summary>
+            Funding temp disabled
             </summary>
         </member>
         <member name="T:Kraken.Net.Enums.KlineInterval">
@@ -725,6 +750,21 @@
         <member name="F:Kraken.Net.Enums.TimeInForce.GTD">
             <summary>
             Good 'Til Date
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.Trigger">
+            <summary>
+            Trigger price type
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.Trigger.Last">
+            <summary>
+            Last price
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.Trigger.Index">
+            <summary>
+            Index price
             </summary>
         </member>
         <member name="T:Kraken.Net.Interfaces.Clients.IKrakenClient">
@@ -1092,29 +1132,31 @@
             <param name="ct">Cancellation token</param>
             <returns>Closed orders page</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.GetOrderAsync(System.String,System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.GetOrderAsync(System.String,System.Nullable{System.UInt32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <summary>
             Get info on specific order
             <para><a href="https://docs.kraken.com/rest/#operation/getOrdersInfo" /></para>
             </summary>
             <param name="clientOrderId">Get orders by clientOrderId</param>
             <param name="orderId">Get order by its order id</param>
+            <param name="consolidateTaker">Whether or not to consolidate trades by individual taker trades</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with order info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.GetOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.GetOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.UInt32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <summary>
             Get info on specific orders
             <para><a href="https://docs.kraken.com/rest/#operation/getOrdersInfo" /></para>
             </summary>
             <param name="clientOrderId">Get orders by clientOrderId</param>
             <param name="orderIds">Get orders by their order ids</param>
+            <param name="consolidateTaker">Whether or not to consolidate trades by individual taker trades</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with order info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.GetUserTradesAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.GetUserTradesAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade history
             <para><a href="https://docs.kraken.com/rest/#operation/getTradeHistory" /></para>
@@ -1122,6 +1164,7 @@
             <param name="startTime">Return data after this time</param>
             <param name="endTime">Return data before this time</param>
             <param name="resultOffset">Offset the results by</param>
+            <param name="consolidateTaker">Whether or not to consolidate trades by individual taker trades</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Trade history page</returns>
@@ -1146,7 +1189,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with trade info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.String,System.Nullable{Kraken.Net.Enums.TimeInForce},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.SelfTradePreventionType},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.String,System.Nullable{Kraken.Net.Enums.TimeInForce},System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.Trigger},System.Nullable{Kraken.Net.Enums.SelfTradePreventionType},System.Threading.CancellationToken)">
             <summary>
             Place a new order
             <para><a href="https://docs.kraken.com/rest/#operation/addOrder" /></para>
@@ -1179,6 +1222,8 @@
             <param name="validateOnly">Only validate inputs, don't actually place the order</param>
             <param name="orderFlags">Flags for the order</param>
             <param name="reduceOnly">Reduce only order</param>
+            <param name="icebergQuanty">Iceberg visible quantity</param>
+            <param name="trigger">Price signal</param>
             <param name="selfTradePreventionType">Self trade prevention type</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="timeInForce">Time-in-force of the order to specify how long it should remain in the order book before being cancelled</param>
@@ -1746,6 +1791,16 @@
             Decimals to display
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAssetInfo.CollateralValue">
+            <summary>
+            Collateral value
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAssetInfo.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenBalance">
             <summary>
             Balance info
@@ -2071,6 +2126,11 @@
             Status of the transaction
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenMovementStatus.Originators">
+            <summary>
+            Originators
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenOrder">
             <summary>
             Order info
@@ -2203,7 +2263,7 @@
         </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenOrderInfo.SecondaryPrice">
             <summary>
-            Secondary price of the order (<see cref="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.String,System.Nullable{Kraken.Net.Enums.TimeInForce},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.SelfTradePreventionType},System.Threading.CancellationToken)"/> for details)
+            Secondary price of the order (<see cref="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.String,System.Nullable{Kraken.Net.Enums.TimeInForce},System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.Trigger},System.Nullable{Kraken.Net.Enums.SelfTradePreventionType},System.Threading.CancellationToken)"/> for details)
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenOrderInfo.Leverage">
@@ -2807,6 +2867,31 @@
             The minimum order volume for pair
             </summary>
             <value></value>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenSymbol.MinValue">
+            <summary>
+            The minimum value of an order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenSymbol.TickSize">
+            <summary>
+            Tick size
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenSymbol.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenSymbol.LongPositionLimit">
+            <summary>
+            Long position limit
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenSymbol.ShortPositionLimit">
+            <summary>
+            Short position limit
+            </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenSystemStatus">
             <summary>

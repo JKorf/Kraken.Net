@@ -100,5 +100,28 @@ namespace Kraken.Net.Objects.Models
         /// <value></value>
         [JsonProperty("ordermin")]
         public decimal OrderMin { get; set; }
+        /// <summary>
+        /// The minimum value of an order
+        /// </summary>
+        [JsonProperty("costmin")]
+        public decimal? MinValue { get; set; }
+        /// <summary>
+        /// Tick size
+        /// </summary>
+        public decimal? TickSize { get; set; }
+        /// <summary>
+        /// Status
+        /// </summary>
+        public string? Status { get; set; }
+        /// <summary>
+        /// Long position limit
+        /// </summary>
+        [JsonProperty("long_position_limit")]
+        public int LongPositionLimit { get; set; }
+        /// <summary>
+        /// Short position limit
+        /// </summary>
+        [JsonProperty("short_position_limit")]
+        public int ShortPositionLimit { get; set; }
     }
 }

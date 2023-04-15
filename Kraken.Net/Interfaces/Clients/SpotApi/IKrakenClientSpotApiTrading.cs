@@ -42,10 +42,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </summary>
         /// <param name="clientOrderId">Get orders by clientOrderId</param>
         /// <param name="orderId">Get order by its order id</param>
+        /// <param name="consolidateTaker">Whether or not to consolidate trades by individual taker trades</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with order info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? orderId = null, uint? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? orderId = null, uint? clientOrderId = null, bool? consolidateTaker = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get info on specific orders
@@ -53,10 +54,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </summary>
         /// <param name="clientOrderId">Get orders by clientOrderId</param>
         /// <param name="orderIds">Get orders by their order ids</param>
+        /// <param name="consolidateTaker">Whether or not to consolidate trades by individual taker trades</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with order info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, uint? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, uint? clientOrderId = null, bool? consolidateTaker = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get trade history
@@ -65,10 +67,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="startTime">Return data after this time</param>
         /// <param name="endTime">Return data before this time</param>
         /// <param name="resultOffset">Offset the results by</param>
+        /// <param name="consolidateTaker">Whether or not to consolidate trades by individual taker trades</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade history page</returns>
-        Task<WebCallResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, bool? consolidateTaker = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get info on specific trades
@@ -122,6 +125,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="validateOnly">Only validate inputs, don't actually place the order</param>
         /// <param name="orderFlags">Flags for the order</param>
         /// <param name="reduceOnly">Reduce only order</param>
+        /// <param name="icebergQuanty">Iceberg visible quantity</param>
+        /// <param name="trigger">Price signal</param>
         /// <param name="selfTradePreventionType">Self trade prevention type</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="timeInForce">Time-in-force of the order to specify how long it should remain in the order book before being cancelled</param>
@@ -143,6 +148,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             string? twoFactorPassword = null,
             TimeInForce? timeInForce = null,
             bool? reduceOnly = null,
+            decimal? icebergQuanty = null,
+            Trigger? trigger = null,
             SelfTradePreventionType? selfTradePreventionType = null,
             CancellationToken ct = default);
 

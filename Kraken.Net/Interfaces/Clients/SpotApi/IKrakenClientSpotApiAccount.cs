@@ -119,7 +119,6 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <returns>Deposit status list</returns>
         Task<WebCallResult<IEnumerable<KrakenMovementStatus>>> GetDepositStatusAsync(string? asset = null, string? depositMethod = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
-
         /// <summary>
         /// Retrieve fee information about potential withdrawals for a particular asset, key and amount.
         /// <para><a href="https://docs.kraken.com/rest/#operation/getWithdrawalInformation" /></para>

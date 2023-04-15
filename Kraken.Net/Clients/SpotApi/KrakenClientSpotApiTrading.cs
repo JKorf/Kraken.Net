@@ -64,16 +64,17 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
-        public Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? orderId = null, uint? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default)
-            => GetOrdersAsync(orderId == null ? null : new[] { orderId }, clientOrderId, twoFactorPassword, ct);
+        public Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? orderId = null, uint? clientOrderId = null, bool? consolidateTaker = null, string? twoFactorPassword = null, CancellationToken ct = default)
+            => GetOrdersAsync(orderId == null ? null : new[] { orderId }, clientOrderId, consolidateTaker, twoFactorPassword, ct);
 
         /// <inheritdoc />
-        public async Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, uint? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, uint? clientOrderId = null, bool? consolidateTaker = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("trades", true);
             parameters.AddOptionalParameter("userref", clientOrderId);
             parameters.AddOptionalParameter("txid", orderIds?.Any() == true ? string.Join(",", orderIds) : null);
+            parameters.AddOptionalParameter("consolidate_taker", consolidateTaker);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
             var result = await _baseClient.Execute<Dictionary<string, KrakenOrder>>(_baseClient.GetUri("0/private/QueryOrders"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
             if (result)
@@ -85,13 +86,14 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, bool? consolidateTaker = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("trades", true);
             parameters.AddOptionalParameter("start", DateTimeConverter.ConvertToSeconds(startTime));
             parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToSeconds(endTime));
             parameters.AddOptionalParameter("ofs", resultOffset);
+            parameters.AddOptionalParameter("consolidate_taker", consolidateTaker);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
             var result = await _baseClient.Execute<KrakenUserTradesPage>(_baseClient.GetUri("0/private/TradesHistory"), HttpMethod.Post, ct, parameters, true, weight: 2).ConfigureAwait(false);
             if (result)
@@ -142,6 +144,8 @@ namespace Kraken.Net.Clients.SpotApi
             string? twoFactorPassword = null,
             TimeInForce? timeInForce = null,
             bool? reduceOnly = null,
+            decimal? icebergQuanty = null,
+            Trigger? trigger = null,
             SelfTradePreventionType? selfTradePreventionType = null,
             CancellationToken ct = default)
         {
@@ -164,6 +168,8 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.AddOptionalParameter("expiretm", DateTimeConverter.ConvertToSeconds(expireTime));
             parameters.AddOptionalParameter("timeinforce", timeInForce?.ToString());
             parameters.AddOptionalParameter("reduce_only", reduceOnly);
+            parameters.AddOptionalParameter("trigger", EnumConverter.GetString(trigger));
+            parameters.AddOptionalParameter("displayvol", icebergQuanty?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("stptype", EnumConverter.GetString(selfTradePreventionType));
             parameters.AddOptionalParameter("timeinforce", timeInForce?.ToString());
             if (validateOnly == true)

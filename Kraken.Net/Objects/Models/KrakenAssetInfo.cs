@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using CryptoExchange.Net.Converters;
+using Kraken.Net.Enums;
+using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects.Models
 {
@@ -26,5 +28,14 @@ namespace Kraken.Net.Objects.Models
         /// </summary>
         [JsonProperty("display_decimals")]
         public int DisplayDecimals { get; set; }
+        /// <summary>
+        /// Collateral value
+        /// </summary>
+        public decimal? CollateralValue { get; set; }
+        /// <summary>
+        /// Status
+        /// </summary>
+        [JsonConverter(typeof(EnumConverter))]
+        public AssetStatus Status { get; set; }
     }
 }

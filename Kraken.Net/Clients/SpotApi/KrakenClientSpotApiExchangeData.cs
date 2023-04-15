@@ -65,13 +65,11 @@ namespace Kraken.Net.Clients.SpotApi
             => GetTickersAsync(new[] { symbol }, ct);
 
         /// <inheritdoc />
-        public async Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(IEnumerable<string> symbols, CancellationToken ct = default)
+        public async Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(IEnumerable<string>? symbols = null, CancellationToken ct = default)
         {
-            if (!symbols.Any())
-                throw new ArgumentException("No symbols defined to get ticker data for");
-
             var parameters = new Dictionary<string, object>();
-            parameters.AddParameter("pair", string.Join(",", symbols));
+            if (symbols?.Any() == true)
+                parameters.AddParameter("pair", string.Join(",", symbols));
 
             var result = await _baseClient.Execute<Dictionary<string, KrakenRestTick>>(_baseClient.GetUri("0/public/Ticker"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result)
