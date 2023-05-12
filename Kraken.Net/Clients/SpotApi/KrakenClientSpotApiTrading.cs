@@ -147,9 +147,9 @@ namespace Kraken.Net.Clients.SpotApi
             decimal? icebergQuanty = null,
             Trigger? trigger = null,
             SelfTradePreventionType? selfTradePreventionType = null,
-            OrderType? conditionalCloseType = null,
-            decimal? conditionalClosePrice = null,
-            decimal? conditionalClosePrice2 = null,
+            OrderType? closeOrderType = null,
+            decimal? closePrice = null,
+            decimal? secondaryClosePrice = null,
             CancellationToken ct = default)
         {
             symbol.ValidateKrakenSymbol();
@@ -175,9 +175,9 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.AddOptionalParameter("displayvol", icebergQuanty?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("stptype", EnumConverter.GetString(selfTradePreventionType));
             parameters.AddOptionalParameter("timeinforce", timeInForce?.ToString());
-            parameters.AddOptionalParameter("close[ordertype]", JsonConvert.SerializeObject(conditionalCloseType, new OrderTypeConverter(false)));
-            parameters.AddOptionalParameter("close[price]", conditionalClosePrice?.ToString(CultureInfo.InvariantCulture));
-            parameters.AddOptionalParameter("close[price2]", conditionalClosePrice2?.ToString(CultureInfo.InvariantCulture));
+            parameters.AddOptionalParameter("close[ordertype]", JsonConvert.SerializeObject(closeOrderType, new OrderTypeConverter(false)));
+            parameters.AddOptionalParameter("close[price]", closePrice?.ToString(CultureInfo.InvariantCulture));
+            parameters.AddOptionalParameter("close[price2]", secondaryClosePrice?.ToString(CultureInfo.InvariantCulture));
             if (validateOnly == true)
                 parameters.AddOptionalParameter("validate", true);
             var result = await _baseClient.Execute<KrakenPlacedOrder>(_baseClient.GetUri("0/private/AddOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
