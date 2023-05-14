@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.Objects;
+using CryptoExchange.Net.Objects;
 using Kraken.Net.Enums;
 using System;
 using System.Collections.Generic;
@@ -130,6 +130,9 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="selfTradePreventionType">Self trade prevention type</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="timeInForce">Time-in-force of the order to specify how long it should remain in the order book before being cancelled</param>
+        /// <param name="closeOrderType">Close order type</param>
+        /// <param name="closePrice">Close order price</param>
+        /// <param name="secondaryClosePrice">Close order secondary price</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Placed order info</returns>
         Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(
@@ -151,6 +154,9 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             decimal? icebergQuanty = null,
             Trigger? trigger = null,
             SelfTradePreventionType? selfTradePreventionType = null,
+            OrderType? closeOrderType = null,
+            decimal? closePrice = null,
+            decimal? secondaryClosePrice = null,
             CancellationToken ct = default);
 
         /// <summary>
