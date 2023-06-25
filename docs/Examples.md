@@ -70,7 +70,7 @@ var userTradesResult = await krakenClient.SpotApi.Trading.GetUserTradesAsync();
 
 ### Subscribing to market data updates
 ```csharp
-var subscribeResult = await krakenSocket.SpotStreams.SubscribeToTickerUpdatesAsync("XBT/USD", data =>
+var subscribeResult = await krakenSocket.SpotApi.SubscribeToTickerUpdatesAsync("XBT/USD", data =>
 {
 	// Handle ticker data
 });
@@ -84,7 +84,7 @@ if(!socketToken.Success)
 	// Handle error
 	return;
 }
-var symbolData = await krakenSocket.SpotStreams.SubscribeToOrderUpdatesAsync(socketToken.Data.Token, data =>
+var symbolData = await krakenSocket.SpotApi.SubscribeToOrderUpdatesAsync(socketToken.Data.Token, data =>
 {
 	// Handle update
 });

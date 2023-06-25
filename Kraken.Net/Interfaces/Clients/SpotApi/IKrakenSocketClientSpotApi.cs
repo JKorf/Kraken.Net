@@ -14,7 +14,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
     /// <summary>
     /// Spot streams
     /// </summary>
-    public interface IKrakenSocketClientSpotStreams : ISocketApiClient, IDisposable
+    public interface IKrakenSocketClientSpotApi : ISocketApiClient, IDisposable
     {
         /// <summary>
         /// Subscribe to system status updates

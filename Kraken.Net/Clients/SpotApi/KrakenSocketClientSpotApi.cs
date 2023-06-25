@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Converters;
-using CryptoExchange.Net.Logging;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Converters;
@@ -17,6 +16,7 @@ using Kraken.Net.Objects;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models;
 using Kraken.Net.Objects.Models.Socket;
+using Kraken.Net.Objects.Options;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -24,23 +24,22 @@ using Newtonsoft.Json.Linq;
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc />
-    public class KrakenSocketClientSpotStreams : SocketApiClient, IKrakenSocketClientSpotStreams
+    public class KrakenSocketClientSpotApi : SocketApiClient, IKrakenSocketClientSpotApi
     {
         #region fields                
-        private readonly string _authBaseAddress;
         private readonly Dictionary<string, string> _symbolSynonyms;
+        private readonly string _privateBaseAddress;
 
-        private readonly KrakenSocketClientOptions _options;
+        /// <inheritdoc />
+        public new KrakenSocketOptions ClientOptions => (KrakenSocketOptions)base.ClientOptions;
         #endregion
 
         #region ctor
 
-        internal KrakenSocketClientSpotStreams(Log log, KrakenSocketClientOptions options) :
-            base(log, options, options.SpotStreamsOptions)
+        internal KrakenSocketClientSpotApi(ILogger logger, KrakenSocketOptions options) :
+            base(logger, options.Environment.SpotSocketPublicAddress, options, options.SpotOptions)
         {
-            _authBaseAddress = options.SpotStreamsOptions.BaseAddressAuthenticated;
-            _options = options;
-
+            _privateBaseAddress = ((KrakenEnvironment)options.Environment).SpotSocketPrivateAddress;
             _symbolSynonyms = new Dictionary<string, string>
             {
                 { "BTC", "XBT"},
@@ -55,7 +54,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         /// <inheritdoc />
         protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
-            => new KrakenAuthenticationProvider(credentials, _options.NonceProvider ?? new KrakenNonceProvider());
+            => new KrakenAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new KrakenNonceProvider());
 
         #region methods
 
@@ -76,7 +75,7 @@ namespace Kraken.Net.Clients.SpotApi
             });
             return await SubscribeAsync(new KrakenSubscribeRequest("ticker", NextId(), subSymbol), null, false, internalHandler, ct).ConfigureAwait(false);
         }
-
+        
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenStreamTick>> handler, CancellationToken ct = default)
         {
@@ -166,16 +165,16 @@ namespace Kraken.Net.Clients.SpotApi
 
             var innerHandler = new Action<DataEvent<string>>(data =>
             {
-                var token = data.Data.ToJToken(_log);
+                var token = data.Data.ToJToken(_logger);
                 if (token == null || token.Type != JTokenType.Array)
                 {
-                    _log.Write(LogLevel.Warning, "Failed to deserialize stream order book");
+                    _logger.Log(LogLevel.Warning, "Failed to deserialize stream order book");
                     return;
                 }
                 var evnt = StreamOrderBookConverter.Convert((JArray)token);
                 if (evnt == null)
                 {
-                    _log.Write(LogLevel.Warning, "Failed to deserialize stream order book");
+                    _logger.Log(LogLevel.Warning, "Failed to deserialize stream order book");
                     return;
                 }
 
@@ -190,12 +189,12 @@ namespace Kraken.Net.Clients.SpotApi
         {
             var innerHandler = new Action<DataEvent<string>>(data =>
             {
-                var token = data.Data.ToJToken(_log);
+                var token = data.Data.ToJToken(_logger);
                 if (token != null && token.Count() > 2)
                 {
                     var seq = token[2]!["sequence"];
                     if (seq == null)
-                        _log.Write(LogLevel.Warning, "Failed to deserialize stream order, no sequence");
+                        _logger.Log(LogLevel.Warning, "Failed to deserialize stream order, no sequence");
 
                     var sequence = seq!.Value<int>();
                     if (token[0]!.Type == JTokenType.Array)
@@ -218,10 +217,10 @@ namespace Kraken.Net.Clients.SpotApi
                     }
                 }
 
-                _log.Write(LogLevel.Warning, "Failed to deserialize stream order");
+                _logger.Log(LogLevel.Warning, "Failed to deserialize stream order");
             });
 
-            return await SubscribeAsync(_authBaseAddress, new KrakenSubscribeRequest("openOrders", NextId())
+            return await SubscribeAsync(_privateBaseAddress, new KrakenSubscribeRequest("openOrders", NextId())
             {
                 Details = new KrakenOpenOrdersSubscriptionDetails(socketToken)
             }, null, false, innerHandler, ct).ConfigureAwait(false);
@@ -236,12 +235,12 @@ namespace Kraken.Net.Clients.SpotApi
         {
             var innerHandler = new Action<DataEvent<string>>(data =>
             {
-                var token = data.Data.ToJToken(_log);
+                var token = data.Data.ToJToken(_logger);
                 if (token != null && token.Count() > 2)
                 {
                     var seq = token[2]!["sequence"];
                     if (seq == null)
-                        _log.Write(LogLevel.Warning, "Failed to deserialize stream order, no sequence");
+                        _logger.Log(LogLevel.Warning, "Failed to deserialize stream order, no sequence");
 
                     var sequence = seq!.Value<int>();
                     if (token[0]!.Type == JTokenType.Array)
@@ -265,10 +264,10 @@ namespace Kraken.Net.Clients.SpotApi
                     }
                 }
 
-                _log.Write(LogLevel.Warning, "Failed to deserialize stream order");
+                _logger.Log(LogLevel.Warning, "Failed to deserialize stream order");
             });
 
-            return await SubscribeAsync(_authBaseAddress, new KrakenSubscribeRequest("ownTrades", NextId())
+            return await SubscribeAsync(_privateBaseAddress, new KrakenSubscribeRequest("ownTrades", NextId())
             {
                 Details = new KrakenOwnTradesSubscriptionDetails(socketToken, snapshot)
             }, null, false, innerHandler, ct).ConfigureAwait(false);
@@ -317,7 +316,7 @@ namespace Kraken.Net.Clients.SpotApi
                 Flags = flags == null ? null: string.Join(",", flags.Select(f => JsonConvert.SerializeObject(f, new OrderFlagsConverter(false))))
             };
 
-            return await QueryAsync<KrakenStreamPlacedOrder>(_authBaseAddress, request, false).ConfigureAwait(false);
+            return await QueryAsync<KrakenStreamPlacedOrder>(_privateBaseAddress, request, false).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -334,7 +333,7 @@ namespace Kraken.Net.Clients.SpotApi
                 Token = websocketToken,
                 RequestId = NextId()
             };
-            var result = await QueryAsync<KrakenSocketResponseBase>(_authBaseAddress, request, false).ConfigureAwait(false);
+            var result = await QueryAsync<KrakenSocketResponseBase>(_privateBaseAddress, request, false).ConfigureAwait(false);
             return result.As(result.Success);
         }
 
@@ -347,7 +346,7 @@ namespace Kraken.Net.Clients.SpotApi
                 Token = websocketToken,
                 RequestId = NextId()
             };
-            return await QueryAsync<KrakenStreamCancelAllResult>(_authBaseAddress, request, false).ConfigureAwait(false);
+            return await QueryAsync<KrakenStreamCancelAllResult>(_privateBaseAddress, request, false).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -360,7 +359,7 @@ namespace Kraken.Net.Clients.SpotApi
                 Timeout = (int)Math.Round(timeout.TotalSeconds),
                 RequestId = NextId()
             };
-            return await QueryAsync<KrakenStreamCancelAfterResult>(_authBaseAddress, request, false).ConfigureAwait(false);
+            return await QueryAsync<KrakenStreamCancelAfterResult>(_privateBaseAddress, request, false).ConfigureAwait(false);
         }
         #endregion
 
@@ -389,18 +388,14 @@ namespace Kraken.Net.Clients.SpotApi
             if(payloadType == typeof(KrakenOpenOrdersSubscriptionDetails)
                 || payloadType == typeof(KrakenOwnTradesSubscriptionDetails))
             {
-                var apiCredentials =  Options.ApiCredentials ?? _options.ApiCredentials ?? KrakenSocketClientOptions.Default.ApiCredentials ?? KrakenClientOptions.Default.ApiCredentials;
-                var client = new KrakenClient(new KrakenClientOptions
+                var apiCredentials = ApiOptions.ApiCredentials ?? ClientOptions.ApiCredentials;
+                var restClient = new KrakenRestClient(x =>
                 {
-                    ApiCredentials = apiCredentials,
-                    LogLevel = _options.LogLevel,
-                    SpotApiOptions = new RestApiClientOptions
-                    {
-                        BaseAddress = KrakenClientOptions.Default.SpotApiOptions.BaseAddress
-                    }
+                    x.ApiCredentials = apiCredentials;
+                    x.Environment = ClientOptions.Environment;
                 });
-                
-                var newToken = await client.SpotApi.Account.GetWebsocketTokenAsync().ConfigureAwait(false);
+                                
+                var newToken = await restClient.SpotApi.Account.GetWebsocketTokenAsync().ConfigureAwait(false);
                 if (!newToken.Success)
                     return newToken.As<object>(null);
 
@@ -586,7 +581,7 @@ namespace Kraken.Net.Clients.SpotApi
             }
 
             var result = false;
-            await connection.SendAndWaitAsync(unsubRequest, Options.SocketResponseTimeout, null, data =>
+            await connection.SendAndWaitAsync(unsubRequest, ClientOptions.RequestTimeout, null, data =>
             {
                 if (data.Type != JTokenType.Object)
                     return false;

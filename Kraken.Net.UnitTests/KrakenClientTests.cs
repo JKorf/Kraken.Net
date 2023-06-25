@@ -142,7 +142,7 @@ namespace Kraken.Net.UnitTests
         [Test]
         public void CheckRestInterfaces()
         {
-            var assembly = Assembly.GetAssembly(typeof(KrakenClientSpotApi));
+            var assembly = Assembly.GetAssembly(typeof(KrakenRestClientSpotApi));
             var ignore = new string[] { "IKrakenClientSpot" };
             var clientInterfaces = assembly.GetTypes().Where(t => t.Name.StartsWith("IKrakenClientSpot") && !ignore.Contains(t.Name));
 

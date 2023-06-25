@@ -4,93 +4,112 @@
         <name>Kraken.Net</name>
     </assembly>
     <members>
-        <member name="T:Kraken.Net.Clients.KrakenClient">
-            <inheritdoc cref="T:Kraken.Net.Interfaces.Clients.IKrakenClient" />
+        <member name="T:Kraken.Net.Clients.KrakenRestClient">
+            <inheritdoc cref="T:Kraken.Net.Interfaces.Clients.IKrakenRestClient" />
         </member>
-        <member name="P:Kraken.Net.Clients.KrakenClient.SpotApi">
+        <member name="P:Kraken.Net.Clients.KrakenRestClient.SpotApi">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.KrakenClient.#ctor">
+        <member name="M:Kraken.Net.Clients.KrakenRestClient.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
             <summary>
-            Create a new instance of KrakenClient using the default options
+            Create a new instance of the KrakenRestClient using provided options
+            </summary>
+            <param name="optionsDelegate">Option configuration delegate</param>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenRestClient.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Net.Http.HttpClient)">
+            <summary>
+            Create a new instance of the KrakenRestClient using default options
             </summary>
         </member>
-        <member name="M:Kraken.Net.Clients.KrakenClient.#ctor(Kraken.Net.Objects.KrakenClientOptions)">
+        <member name="M:Kraken.Net.Clients.KrakenRestClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILoggerFactory,System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
             <summary>
-            Create a new instance of KrakenClient using provided options
+            Create a new instance of the KrakenRestClient
             </summary>
-            <param name="options">The options to use for this client</param>
+            <param name="optionsDelegate">Option configuration delegate</param>
+            <param name="loggerFactory">The logger factory</param>
+            <param name="httpClient">Http client for this client</param>
         </member>
-        <member name="M:Kraken.Net.Clients.KrakenClient.SetDefaultOptions(Kraken.Net.Objects.KrakenClientOptions)">
+        <member name="M:Kraken.Net.Clients.KrakenRestClient.SetDefaultOptions(System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
             <summary>
             Set the default options to be used when creating new clients
             </summary>
-            <param name="options">Options to use as default</param>
+            <param name="optionsDelegate">Option configuration delegate</param>
         </member>
-        <member name="M:Kraken.Net.Clients.KrakenClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
+        <member name="M:Kraken.Net.Clients.KrakenRestClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Clients.KrakenSocketClient">
             <inheritdoc cref="T:Kraken.Net.Interfaces.Clients.IKrakenSocketClient" />
         </member>
-        <member name="P:Kraken.Net.Clients.KrakenSocketClient.SpotStreams">
+        <member name="P:Kraken.Net.Clients.KrakenSocketClient.SpotApi">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor">
+        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
-            Create a new instance of KrakenSocketClient using the default options
+            Create a new instance of the KrakenSocketClient
             </summary>
+            <param name="loggerFactory">The logger</param>
         </member>
-        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(Kraken.Net.Objects.KrakenSocketClientOptions)">
+        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions})">
             <summary>
-            Create a new instance of KrakenSocketClient using provided options
+            Create a new instance of the KrakenSocketClient
             </summary>
-            <param name="options">The options to use for this client</param>
+            <param name="optionsDelegate">Option configuration delegate</param>
         </member>
-        <member name="M:Kraken.Net.Clients.KrakenSocketClient.SetDefaultOptions(Kraken.Net.Objects.KrakenSocketClientOptions)">
+        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Create a new instance of the KrakenSocketClient
+            </summary>
+            <param name="loggerFactory">The logger</param>
+            <param name="optionsDelegate">Option configuration delegate</param>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenSocketClient.SetDefaultOptions(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions})">
             <summary>
             Set the default options to be used when creating new clients
             </summary>
-            <param name="options">Options to use as default</param>
+            <param name="optionsDelegate">Option configuration delegate</param>
         </member>
         <member name="M:Kraken.Net.Clients.KrakenSocketClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
         </member>
-        <member name="T:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi">
+        <member name="T:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi">
             <inheritdoc cref="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApi" />
         </member>
-        <member name="P:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi.Account">
+        <member name="P:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.ClientOptions">
             <inheritdoc />
         </member>
-        <member name="P:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi.ExchangeData">
+        <member name="P:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.Account">
             <inheritdoc />
         </member>
-        <member name="P:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi.Trading">
+        <member name="P:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.ExchangeData">
             <inheritdoc />
         </member>
-        <member name="P:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi.Staking">
+        <member name="P:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.Trading">
             <inheritdoc />
         </member>
-        <member name="P:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi.ExchangeName">
+        <member name="P:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.Staking">
             <inheritdoc />
         </member>
-        <member name="E:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi.OnOrderPlaced">
+        <member name="P:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.ExchangeName">
+            <inheritdoc />
+        </member>
+        <member name="E:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.OnOrderPlaced">
             <summary>
             Event triggered when an order is placed via this client
             </summary>
         </member>
-        <member name="E:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi.OnOrderCanceled">
+        <member name="E:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.OnOrderCanceled">
             <summary>
             Event triggered when an order is canceled via this client
             </summary>
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi.ShouldRetryRequestAsync``1(CryptoExchange.Net.Objects.WebCallResult{``0},System.Int32)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.ShouldRetryRequestAsync``1(CryptoExchange.Net.Objects.WebCallResult{``0},System.Int32)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi.GetSymbolName(System.String,System.String)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.GetSymbolName(System.String,System.String)">
             <summary>
             Get the name of a symbol for Kraken based on the base and quote asset
             </summary>
@@ -98,242 +117,245 @@
             <param name="quoteAsset"></param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi.GetServerTimestampAsync">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.GetServerTimestampAsync">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi.GetTimeSyncInfo">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.GetTimeSyncInfo">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi.GetTimeOffset">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.GetTimeOffset">
             <inheritdoc />
         </member>
-        <member name="P:Kraken.Net.Clients.SpotApi.KrakenClientSpotApi.CommonSpotClient">
+        <member name="P:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.CommonSpotClient">
             <inheritdoc />
         </member>
-        <member name="T:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount">
+        <member name="T:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.GetBalancesAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetBalancesAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.GetAvailableBalancesAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetAvailableBalancesAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.GetTradeBalanceAsync(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetTradeBalanceAsync(System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.GetOpenPositionsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetOpenPositionsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.GetLedgerInfoAsync(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetLedgerInfoAsync(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.GetLedgersEntryAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetLedgersEntryAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.GetTradeVolumeAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetTradeVolumeAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.GetDepositMethodsAsync(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetDepositMethodsAsync(System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.GetDepositAddressesAsync(System.String,System.String,System.Boolean,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetDepositAddressesAsync(System.String,System.String,System.Boolean,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.GetDepositStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetDepositStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.GetWithdrawInfoAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetWithdrawInfoAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.WithdrawAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.WithdrawAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.GetWithdrawalStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetWithdrawalStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.CancelWithdrawalAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.CancelWithdrawalAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.TransferAsync(System.String,System.Decimal,System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.TransferAsync(System.String,System.Decimal,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="T:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiExchangeData">
+        <member name="T:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiExchangeData.GetServerTimeAsync(System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetServerTimeAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiExchangeData.GetSystemStatusAsync(System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetSystemStatusAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiExchangeData.GetAssetsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetAssetsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiExchangeData.GetTickerAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetTickerAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiExchangeData.GetTickersAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetTickersAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiExchangeData.GetKlinesAsync(System.String,Kraken.Net.Enums.KlineInterval,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetKlinesAsync(System.String,Kraken.Net.Enums.KlineInterval,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiExchangeData.GetOrderBookAsync(System.String,System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetOrderBookAsync(System.String,System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiExchangeData.GetTradeHistoryAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetTradeHistoryAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiExchangeData.GetRecentSpreadAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetRecentSpreadAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="T:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading">
+        <member name="T:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.GetOpenOrdersAsync(System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.GetOpenOrdersAsync(System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.GetClosedOrdersAsync(System.Nullable{System.UInt32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.GetClosedOrdersAsync(System.Nullable{System.UInt32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.GetOrderAsync(System.String,System.Nullable{System.UInt32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.GetOrderAsync(System.String,System.Nullable{System.UInt32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.GetOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.UInt32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.GetOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.UInt32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.GetUserTradesAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.GetUserTradesAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.GetUserTradeDetailsAsync(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.GetUserTradeDetailsAsync(System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.GetUserTradeDetailsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.GetUserTradeDetailsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.String,System.Nullable{Kraken.Net.Enums.TimeInForce},System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.Trigger},System.Nullable{Kraken.Net.Enums.SelfTradePreventionType},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.String,System.Nullable{Kraken.Net.Enums.TimeInForce},System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.Trigger},System.Nullable{Kraken.Net.Enums.SelfTradePreventionType},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.CancelOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.CancelOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.CancelAllOrdersAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.CancelAllOrdersAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="T:Kraken.Net.Clients.SpotApi.KrakenClientSpotStakingApi">
+        <member name="T:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotStakingApi">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotStakingApi.StakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotStakingApi.StakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotStakingApi.UnstakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotStakingApi.UnstakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotStakingApi.GetPendingTransactionsAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotStakingApi.GetPendingTransactionsAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotStakingApi.GetRecentTransactionsAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotStakingApi.GetRecentTransactionsAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotStakingApi.GetStakableAssets(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotStakingApi.GetStakableAssets(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="T:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams">
+        <member name="T:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
+        <member name="P:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.ClientOptions">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToSystemStatusUpdatesAsync(System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenStreamSystemStatus}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamTick}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToSystemStatusUpdatesAsync(System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenStreamSystemStatus}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamTick}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamTick}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToKlineUpdatesAsync(System.String,Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamKline}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamTick}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToKlineUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamKline}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToKlineUpdatesAsync(System.String,Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamKline}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenTrade}}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToKlineUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamKline}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToTradeUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenTrade}}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenTrade}}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToSpreadUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamSpread}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToTradeUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenTrade}}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToSpreadUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamSpread}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToSpreadUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamSpread}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToOrderBookUpdatesAsync(System.String,System.Int32,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrderBook}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToSpreadUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamSpread}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToOrderBookUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrderBook}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToOrderBookUpdatesAsync(System.String,System.Int32,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrderBook}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToOrderUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrder}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToOrderBookUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrderBook}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToUserTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamUserTrade}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToOrderUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrder}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SubscribeToUserTradeUpdatesAsync(System.String,System.Boolean,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamUserTrade}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToUserTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamUserTrade}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.PlaceOrderAsync(System.String,System.String,Kraken.Net.Enums.OrderType,Kraken.Net.Enums.OrderSide,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.Nullable{System.Boolean})">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToUserTradeUpdatesAsync(System.String,System.Boolean,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamUserTrade}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.CancelOrderAsync(System.String,System.String)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.PlaceOrderAsync(System.String,System.String,Kraken.Net.Enums.OrderType,Kraken.Net.Enums.OrderSide,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.Nullable{System.Boolean})">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.CancelOrdersAsync(System.String,System.Collections.Generic.IEnumerable{System.String})">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CancelOrderAsync(System.String,System.String)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.CancelAllOrdersAsync(System.String)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CancelOrdersAsync(System.String,System.Collections.Generic.IEnumerable{System.String})">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.CancelAllOrdersAfterAsync(System.String,System.TimeSpan)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CancelAllOrdersAsync(System.String)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.SymbolToServer(System.String)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CancelAllOrdersAfterAsync(System.String,System.TimeSpan)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SymbolToServer(System.String)">
             <summary>
             Maps an input symbol to a server symbol
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.RevitalizeRequestAsync(System.Object)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.RevitalizeRequestAsync(System.Object)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.HandleQueryResponse``1(CryptoExchange.Net.Sockets.SocketConnection,System.Object,Newtonsoft.Json.Linq.JToken,CryptoExchange.Net.Objects.CallResult{``0}@)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.HandleQueryResponse``1(CryptoExchange.Net.Sockets.SocketConnection,System.Object,Newtonsoft.Json.Linq.JToken,CryptoExchange.Net.Objects.CallResult{``0}@)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.HandleSubscriptionResponse(CryptoExchange.Net.Sockets.SocketConnection,CryptoExchange.Net.Sockets.SocketSubscription,System.Object,Newtonsoft.Json.Linq.JToken,CryptoExchange.Net.Objects.CallResult{System.Object}@)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.HandleSubscriptionResponse(CryptoExchange.Net.Sockets.SocketConnection,CryptoExchange.Net.Sockets.SocketSubscription,System.Object,Newtonsoft.Json.Linq.JToken,CryptoExchange.Net.Objects.CallResult{System.Object}@)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.MessageMatchesHandler(CryptoExchange.Net.Sockets.SocketConnection,Newtonsoft.Json.Linq.JToken,System.Object)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.MessageMatchesHandler(CryptoExchange.Net.Sockets.SocketConnection,Newtonsoft.Json.Linq.JToken,System.Object)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.MessageMatchesHandler(CryptoExchange.Net.Sockets.SocketConnection,Newtonsoft.Json.Linq.JToken,System.String)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.MessageMatchesHandler(CryptoExchange.Net.Sockets.SocketConnection,Newtonsoft.Json.Linq.JToken,System.String)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.AuthenticateSocketAsync(CryptoExchange.Net.Sockets.SocketConnection)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.AuthenticateSocketAsync(CryptoExchange.Net.Sockets.SocketConnection)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotStreams.UnsubscribeAsync(CryptoExchange.Net.Sockets.SocketConnection,CryptoExchange.Net.Sockets.SocketSubscription)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.UnsubscribeAsync(CryptoExchange.Net.Sockets.SocketConnection,CryptoExchange.Net.Sockets.SocketSubscription)">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Converters.KrakenDictionaryResult`1">
@@ -767,17 +789,17 @@
             Index price
             </summary>
         </member>
-        <member name="T:Kraken.Net.Interfaces.Clients.IKrakenClient">
+        <member name="T:Kraken.Net.Interfaces.Clients.IKrakenRestClient">
             <summary>
             Client for accessing the Kraken API. 
             </summary>
         </member>
-        <member name="P:Kraken.Net.Interfaces.Clients.IKrakenClient.SpotApi">
+        <member name="P:Kraken.Net.Interfaces.Clients.IKrakenRestClient.SpotApi">
             <summary>
             Spot API endpoints
             </summary>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.IKrakenClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
+        <member name="M:Kraken.Net.Interfaces.Clients.IKrakenRestClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
             <summary>
             Set the API credentials for this client. All Api clients in this client will use the new credentials, regardless of earlier set options.
             </summary>
@@ -788,7 +810,7 @@
             Client for accessing the Kraken websocket API. 
             </summary>
         </member>
-        <member name="P:Kraken.Net.Interfaces.Clients.IKrakenSocketClient.SpotStreams">
+        <member name="P:Kraken.Net.Interfaces.Clients.IKrakenSocketClient.SpotApi">
             <summary>
             Spot streams
             </summary>
@@ -1310,12 +1332,12 @@
             <param name="ct"></param>
             <returns></returns>
         </member>
-        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams">
+        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi">
             <summary>
             Spot streams
             </summary>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.SubscribeToSystemStatusUpdatesAsync(System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenStreamSystemStatus}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToSystemStatusUpdatesAsync(System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenStreamSystemStatus}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to system status updates
             <para><a href="https://docs.kraken.com/websockets/#message-systemStatus" /></para>
@@ -1324,7 +1346,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.SubscribeToTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamTick}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamTick}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to ticker updates
             <para><a href="https://docs.kraken.com/websockets/#message-ticker" /></para>
@@ -1334,7 +1356,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamTick}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamTick}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to ticker updates
             <para><a href="https://docs.kraken.com/websockets/#message-ticker" /></para>
@@ -1344,7 +1366,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.SubscribeToKlineUpdatesAsync(System.String,Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamKline}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToKlineUpdatesAsync(System.String,Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamKline}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to kline updates
             <para><a href="https://docs.kraken.com/websockets/#message-ohlc" /></para>
@@ -1355,7 +1377,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This streamv subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.SubscribeToKlineUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamKline}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToKlineUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamKline}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to kline updates
             <para><a href="https://docs.kraken.com/websockets/#message-ohlc" /></para>
@@ -1366,7 +1388,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This streamv subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.SubscribeToTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenTrade}}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenTrade}}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to trade updates
             <para><a href="https://docs.kraken.com/websockets/#message-trade" /></para>
@@ -1376,7 +1398,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.SubscribeToTradeUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenTrade}}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToTradeUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenTrade}}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to trade updates
             <para><a href="https://docs.kraken.com/websockets/#message-trade" /></para>
@@ -1386,7 +1408,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.SubscribeToSpreadUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamSpread}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToSpreadUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamSpread}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to spread updates
             <para><a href="https://docs.kraken.com/websockets/#message-spread" /></para>
@@ -1396,7 +1418,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.SubscribeToSpreadUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamSpread}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToSpreadUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamSpread}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to spread updates
             <para><a href="https://docs.kraken.com/websockets/#message-spread" /></para>
@@ -1406,7 +1428,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.SubscribeToOrderBookUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrderBook}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToOrderBookUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrderBook}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to depth updates
             <para><a href="https://docs.kraken.com/websockets/#message-book" /></para>
@@ -1417,7 +1439,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.SubscribeToOrderBookUpdatesAsync(System.String,System.Int32,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrderBook}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToOrderBookUpdatesAsync(System.String,System.Int32,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrderBook}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to depth updates
             <para><a href="https://docs.kraken.com/websockets/#message-book" /></para>
@@ -1428,7 +1450,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.SubscribeToOrderUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrder}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToOrderUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrder}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to open order updates
             <para><a href="https://docs.kraken.com/websockets/#message-openOrders" /></para>
@@ -1438,7 +1460,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.SubscribeToUserTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamUserTrade}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToUserTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamUserTrade}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to own trade updates
             <para><a href="https://docs.kraken.com/websockets/#message-ownTrades" /></para>
@@ -1448,7 +1470,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.SubscribeToUserTradeUpdatesAsync(System.String,System.Boolean,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamUserTrade}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToUserTradeUpdatesAsync(System.String,System.Boolean,System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamUserTrade}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to own trade updates
             <para><a href="https://docs.kraken.com/websockets/#message-ownTrades" /></para>
@@ -1459,7 +1481,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.PlaceOrderAsync(System.String,System.String,Kraken.Net.Enums.OrderType,Kraken.Net.Enums.OrderSide,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.Nullable{System.Boolean})">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.PlaceOrderAsync(System.String,System.String,Kraken.Net.Enums.OrderType,Kraken.Net.Enums.OrderSide,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.Nullable{System.Boolean})">
             <summary>
             Place a new order
             <para><a href="https://docs.kraken.com/websockets/#message-addOrder" /></para>
@@ -1498,7 +1520,7 @@
             <param name="reduceOnly">Reduce only order</param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.CancelOrderAsync(System.String,System.String)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.CancelOrderAsync(System.String,System.String)">
             <summary>
             Cancel an order
             <para><a href="https://docs.kraken.com/websockets/#message-cancelOrder" /></para>
@@ -1507,7 +1529,7 @@
             <param name="orderId">Id of the order to cancel</param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.CancelOrdersAsync(System.String,System.Collections.Generic.IEnumerable{System.String})">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.CancelOrdersAsync(System.String,System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             Cancel multiple orders
             <para><a href="https://docs.kraken.com/websockets/#message-cancelOrder" /></para>
@@ -1516,7 +1538,7 @@
             <param name="orderIds">Id of the orders to cancel</param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.CancelAllOrdersAsync(System.String)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.CancelAllOrdersAsync(System.String)">
             <summary>
             Cancel all open orders
             <para><a href="https://docs.kraken.com/websockets/#message-cancelAll" /></para>
@@ -1524,7 +1546,7 @@
             <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotStreams.CancelAllOrdersAfterAsync(System.String,System.TimeSpan)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.CancelAllOrdersAfterAsync(System.String,System.TimeSpan)">
             <summary>
             Cancel all open orders after the timeout
             <para><a href="https://docs.kraken.com/websockets/#message-cancelAllOrdersAfter" /></para>
@@ -1533,18 +1555,67 @@
             <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
             <returns></returns>
         </member>
+        <member name="T:Kraken.Net.Interfaces.IKrakenOrderBookFactory">
+            <summary>
+            Kraken order book factory
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenOrderBookFactory.CreateSpot(System.String,System.Action{Kraken.Net.Objects.Options.KrakenOrderBookOptions})">
+            <summary>
+            Create a SymbolOrderBook for the Spot API
+            </summary>
+            <param name="symbol">The symbol</param>
+            <param name="options">Order book options</param>
+            <returns></returns>
+        </member>
+        <member name="T:Kraken.Net.KrakenEnvironment">
+            <summary>
+            Kraken environments
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.KrakenEnvironment.SpotRestBaseAddress">
+            <summary>
+            Spot Rest client address
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.KrakenEnvironment.SpotSocketPublicAddress">
+            <summary>
+            Base address for socket API
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.KrakenEnvironment.SpotSocketPrivateAddress">
+            <summary>
+            Socket base address for the private API
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.KrakenEnvironment.Live">
+            <summary>
+            Live environment
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.KrakenEnvironment.CreateCustom(System.String,System.String,System.String,System.String)">
+            <summary>
+            Create a custom environment
+            </summary>
+            <param name="name"></param>
+            <param name="spotRestAddress"></param>
+            <param name="spotSocketPublicAddress"></param>
+            <param name="spotSocketPrivateAddress"></param>
+            <returns></returns>
+        </member>
         <member name="T:Kraken.Net.KrakenHelpers">
             <summary>
             Helper methods for Kraken
             </summary>
         </member>
-        <member name="M:Kraken.Net.KrakenHelpers.AddKraken(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Kraken.Net.Objects.KrakenClientOptions,Kraken.Net.Objects.KrakenSocketClientOptions},System.Nullable{Microsoft.Extensions.DependencyInjection.ServiceLifetime})">
+        <member name="M:Kraken.Net.KrakenHelpers.AddKraken(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Kraken.Net.Objects.Options.KrakenRestOptions},System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},System.Nullable{Microsoft.Extensions.DependencyInjection.ServiceLifetime})">
             <summary>
             Add the IKrakenClient and IKrakenSocketClient to the sevice collection so they can be injected
             </summary>
             <param name="services">The service collection</param>
-            <param name="defaultOptionsCallback">Set default options for the client</param>
-            <param name="socketClientLifeTime">The lifetime of the IKrakenSocketClient for the service collection. Defaults to Scoped.</param>
+            <param name="defaultRestOptionsDelegate">Set default options for the rest client</param>
+            <param name="defaultSocketOptionsDelegate">Set default options for the socket client</param>
+            <param name="socketClientLifeTime">The lifetime of the IKrakenSocketClient for the service collection. Defaults to Singleton.</param>
             <returns></returns>
         </member>
         <member name="M:Kraken.Net.KrakenHelpers.ValidateKrakenSymbol(System.String)">
@@ -1630,17 +1701,17 @@
             Api addresses usable for the Kraken clients
             </summary>
         </member>
-        <member name="P:Kraken.Net.Objects.KrakenApiAddresses.RestClientAddress">
+        <member name="P:Kraken.Net.Objects.KrakenApiAddresses.SpotRestClientAddress">
             <summary>
             The address used by the KrakenClient for the rest API
             </summary>
         </member>
-        <member name="P:Kraken.Net.Objects.KrakenApiAddresses.SocketClientPublicAddress">
+        <member name="P:Kraken.Net.Objects.KrakenApiAddresses.SpotSocketPublicAddress">
             <summary>
             The address used by the KrakenSocketClient for the public socket API
             </summary>
         </member>
-        <member name="P:Kraken.Net.Objects.KrakenApiAddresses.SocketClientPrivateAddress">
+        <member name="P:Kraken.Net.Objects.KrakenApiAddresses.SpotSocketPrivateAddress">
             <summary>
             The address used by the KrakenSocketClient for the private socket API
             </summary>
@@ -1652,122 +1723,6 @@
         </member>
         <member name="M:Kraken.Net.Objects.KrakenNonceProvider.GetNonce">
             <inheritdoc />
-        </member>
-        <member name="T:Kraken.Net.Objects.KrakenClientOptions">
-            <summary>
-            Options for the Kraken client
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.KrakenClientOptions.Default">
-            <summary>
-            Default options for the spot client
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.KrakenClientOptions.StaticTwoFactorAuthenticationPassword">
-            <summary>
-            The static password configured as two-factor authentication for the API key. Will be send as otp parameter on private requests.
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.KrakenClientOptions.NonceProvider">
-            <summary>
-            Optional nonce provider for signing requests. Careful providing a custom provider; once a nonce is sent to the server, every request after that needs a higher nonce than that
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.KrakenClientOptions.SpotApiOptions">
-            <summary>
-            Spot API options
-            </summary>
-        </member>
-        <member name="M:Kraken.Net.Objects.KrakenClientOptions.#ctor">
-            <summary>
-            ctor
-            </summary>
-        </member>
-        <member name="M:Kraken.Net.Objects.KrakenClientOptions.#ctor(Kraken.Net.Objects.KrakenClientOptions)">
-            <summary>
-            ctor
-            </summary>
-            <param name="baseOn">Base the new options on other options</param>
-        </member>
-        <member name="T:Kraken.Net.Objects.KrakenSocketClientOptions">
-            <summary>
-            Options for the Kraken socket client
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.KrakenSocketClientOptions.Default">
-            <summary>
-            Default options for the spot client
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.KrakenSocketClientOptions.NonceProvider">
-            <summary>
-            Optional nonce provider for signing requests. Careful providing a custom provider; once a nonce is sent to the server, every request after that needs a higher nonce than that
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.KrakenSocketClientOptions.SpotStreamsOptions">
-            <summary>
-            Spot streams options
-            </summary>
-        </member>
-        <member name="M:Kraken.Net.Objects.KrakenSocketClientOptions.#ctor">
-            <summary>
-            ctor
-            </summary>
-        </member>
-        <member name="M:Kraken.Net.Objects.KrakenSocketClientOptions.#ctor(Kraken.Net.Objects.KrakenSocketClientOptions)">
-            <summary>
-            ctor
-            </summary>
-            <param name="baseOn">Base the new options on other options</param>
-        </member>
-        <member name="T:Kraken.Net.Objects.KrakenSocketApiClientOptions">
-            <summary>
-            Socket API options
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.KrakenSocketApiClientOptions.BaseAddressAuthenticated">
-            <summary>
-            The base address for the authenticated websocket
-            </summary>
-        </member>
-        <member name="M:Kraken.Net.Objects.KrakenSocketApiClientOptions.#ctor">
-            <summary>
-            ctor
-            </summary>
-        </member>
-        <member name="M:Kraken.Net.Objects.KrakenSocketApiClientOptions.#ctor(System.String,System.String)">
-            <summary>
-            ctor
-            </summary>
-            <param name="baseAddress"></param>
-            <param name="baseAddressAuthenticated"></param>
-        </member>
-        <member name="M:Kraken.Net.Objects.KrakenSocketApiClientOptions.#ctor(Kraken.Net.Objects.KrakenSocketApiClientOptions,Kraken.Net.Objects.KrakenSocketApiClientOptions)">
-            <summary>
-            ctor
-            </summary>
-            <param name="baseOn"></param>
-            <param name="newValues"></param>
-        </member>
-        <member name="T:Kraken.Net.Objects.KrakenOrderBookOptions">
-            <summary>
-            Options for the Kraken symbol order book
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.KrakenOrderBookOptions.SocketClient">
-            <summary>
-            The client to use for the socket connection. When using the same client for multiple order books the connection can be shared.
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.KrakenOrderBookOptions.Limit">
-            <summary>
-            The limit of entries in the order book
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.KrakenOrderBookOptions.InitialDataTimeout">
-            <summary>
-            After how much time we should consider the connection dropped if no data is received for this time after the initial subscriptions
-            </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenAssetInfo">
             <summary>
@@ -2266,7 +2221,7 @@
         </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenOrderInfo.SecondaryPrice">
             <summary>
-            Secondary price of the order (<see cref="M:Kraken.Net.Clients.SpotApi.KrakenClientSpotApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.String,System.Nullable{Kraken.Net.Enums.TimeInForce},System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.Trigger},System.Nullable{Kraken.Net.Enums.SelfTradePreventionType},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Threading.CancellationToken)"/> for details)
+            Secondary price of the order (<see cref="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.String,System.Nullable{Kraken.Net.Enums.TimeInForce},System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.Trigger},System.Nullable{Kraken.Net.Enums.SelfTradePreventionType},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Threading.CancellationToken)"/> for details)
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenOrderInfo.Leverage">
@@ -3442,17 +3397,103 @@
             Expires after x seconds
             </summary>
         </member>
+        <member name="T:Kraken.Net.Objects.Options.KrakenOrderBookOptions">
+            <summary>
+            Options for the Kraken SymbolOrderBook
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Options.KrakenOrderBookOptions.Default">
+            <summary>
+            Default options for the Kraken SymbolOrderBook
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Options.KrakenOrderBookOptions.Limit">
+            <summary>
+            The limit of entries in the order book
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Options.KrakenOrderBookOptions.InitialDataTimeout">
+            <summary>
+            After how much time we should consider the connection dropped if no data is received for this time after the initial subscriptions
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Options.KrakenRestOptions">
+            <summary>
+            Options for the KrakenRestClient
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Options.KrakenRestOptions.Default">
+            <summary>
+            Default options for new KrakenRestClients
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Options.KrakenRestOptions.StaticTwoFactorAuthenticationPassword">
+            <summary>
+            The static password configured as two-factor authentication for the API key. Will be send as otp parameter on private requests.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Options.KrakenRestOptions.NonceProvider">
+            <summary>
+            Optional nonce provider for signing requests. Careful providing a custom provider; once a nonce is sent to the server, every request after that needs a higher nonce than that
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Options.KrakenRestOptions.SpotOptions">
+            <summary>
+            Options for the Spot API
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Options.KrakenSocketOptions">
+            <summary>
+            Options for the KrakenSocketClient
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Options.KrakenSocketOptions.Default">
+            <summary>
+            Default options for new KrakenRestClients
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Options.KrakenSocketOptions.NonceProvider">
+            <summary>
+            Optional nonce provider for signing requests. Careful providing a custom provider; once a nonce is sent to the server, every request after that needs a higher nonce than that
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Options.KrakenSocketOptions.SpotOptions">
+            <summary>
+            Options for the Spot API
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.SymbolOrderBooks.KrakenOrderBookFactory">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenOrderBookFactory.#ctor(System.IServiceProvider)">
+            <summary>
+            ctor
+            </summary>
+            <param name="serviceProvider">Service provider for resolving logging and clients</param>
+        </member>
+        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenOrderBookFactory.CreateSpot(System.String,System.Action{Kraken.Net.Objects.Options.KrakenOrderBookOptions})">
+            <inheritdoc />
+        </member>
         <member name="T:Kraken.Net.SymbolOrderBooks.KrakenSpotSymbolOrderBook">
             <summary>
             Live order book implementation
             </summary>
         </member>
-        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenSpotSymbolOrderBook.#ctor(System.String,Kraken.Net.Objects.KrakenOrderBookOptions)">
+        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenSpotSymbolOrderBook.#ctor(System.String,System.Action{Kraken.Net.Objects.Options.KrakenOrderBookOptions})">
             <summary>
             Create a new order book instance
             </summary>
             <param name="symbol">The symbol the order book is for</param>
-            <param name="options">Options for the order book</param>
+            <param name="optionsDelegate">Option configuration delegate</param>
+        </member>
+        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenSpotSymbolOrderBook.#ctor(System.String,System.Action{Kraken.Net.Objects.Options.KrakenOrderBookOptions},Microsoft.Extensions.Logging.ILogger{Kraken.Net.SymbolOrderBooks.KrakenSpotSymbolOrderBook},Kraken.Net.Interfaces.Clients.IKrakenSocketClient)">
+            <summary>
+            Create a new order book instance
+            </summary>
+            <param name="symbol">The symbol the order book is for</param>
+            <param name="optionsDelegate">Option configuration delegate</param>
+            <param name="logger">Logger</param>
+            <param name="socketClient">Socket client instance</param>
         </member>
         <member name="M:Kraken.Net.SymbolOrderBooks.KrakenSpotSymbolOrderBook.DoStartAsync(System.Threading.CancellationToken)">
             <inheritdoc />

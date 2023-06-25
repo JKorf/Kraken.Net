@@ -19,7 +19,7 @@ namespace Kraken.Net.UnitTests
             var client = TestHelpers.CreateSocketClient(socket);
 
             // act
-            var subTask = client.SpotStreams.SubscribeToTickerUpdatesAsync("XBT/EUR", test => { });
+            var subTask = client.SpotApi.SubscribeToTickerUpdatesAsync("XBT/EUR", test => { });
             await Task.Delay(10);
             var id = JToken.Parse(socket.LastSendMessage!)["reqid"];
             socket.InvokeMessage($"{{\"channelID\": 1, \"status\": \"subscribed\", \"reqid\":{id}}}");
@@ -38,7 +38,7 @@ namespace Kraken.Net.UnitTests
             var client = TestHelpers.CreateSocketClient(socket);
 
             // act
-            var subTask = client.SpotStreams.SubscribeToTickerUpdatesAsync("XBT/EUR", test => { });
+            var subTask = client.SpotApi.SubscribeToTickerUpdatesAsync("XBT/EUR", test => { });
             await Task.Delay(10);
             var id = JToken.Parse(socket.LastSendMessage!)["reqid"];
             socket.InvokeMessage($"{{\"channelID\": 1, \"status\": \"error\", \"errormessage\": \"Failed to sub\", \"reqid\":{id}}}");

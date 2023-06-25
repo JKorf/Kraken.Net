@@ -7,25 +7,26 @@ using System.Threading.Tasks;
 using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.CommonObjects;
-using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Interfaces.CommonClients;
-using CryptoExchange.Net.Logging;
 using CryptoExchange.Net.Objects;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Internal;
-using Kraken.Net.Objects.Models;
+using Kraken.Net.Objects.Options;
+using Microsoft.Extensions.Logging;
 
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc cref="IKrakenClientSpotApi" />
-    public class KrakenClientSpotApi : RestApiClient, IKrakenClientSpotApi, ISpotClient
+    public class KrakenRestClientSpotApi : RestApiClient, IKrakenClientSpotApi, ISpotClient
     {
         #region fields
-        internal KrakenClientOptions ClientOptions { get; }
 
-        internal static TimeSyncState TimeSyncState = new TimeSyncState("Spot Api");
+        /// <inheritdoc />
+        public new KrakenRestOptions ClientOptions => (KrakenRestOptions)base.ClientOptions;
+
+        internal static TimeSyncState _timeSyncState = new TimeSyncState("Spot Api");
         #endregion
 
         #region Api clients
@@ -54,15 +55,13 @@ namespace Kraken.Net.Clients.SpotApi
         public event Action<OrderId>? OnOrderCanceled;
 
         #region ctor
-        internal KrakenClientSpotApi(Log log, KrakenClientOptions options)
-            : base(log, options, options.SpotApiOptions)
+        internal KrakenRestClientSpotApi(ILogger logger, HttpClient? httpClient, KrakenRestOptions options)
+            : base(logger, httpClient, options.Environment.SpotRestBaseAddress, options, options.SpotOptions)
         {
-            ClientOptions = options;
-
-            Account = new KrakenClientSpotApiAccount(this);
-            ExchangeData = new KrakenClientSpotApiExchangeData(this);
-            Trading = new KrakenClientSpotApiTrading(this);
-            Staking = new KrakenClientSpotStakingApi(this);
+            Account = new KrakenRestClientSpotApiAccount(this);
+            ExchangeData = new KrakenRestClientSpotApiExchangeData(this); 
+            Trading = new KrakenRestClientSpotApiTrading(this);
+            Staking = new KrakenRestClientSpotStakingApi(this);
 
             requestBodyFormat = RequestBodyFormat.FormData;
         }
@@ -354,7 +353,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 if (tries <= 3)
                 {
-                    _log.Write(Microsoft.Extensions.Logging.LogLevel.Warning, "Received nonce error; retrying request");
+                    _logger.Log(LogLevel.Warning, "Received nonce error; retrying request");
                     await Task.Delay(25).ConfigureAwait(false);
                     return true;
                 }
@@ -420,11 +419,11 @@ namespace Kraken.Net.Clients.SpotApi
 
         /// <inheritdoc />
         public override TimeSyncInfo? GetTimeSyncInfo()
-            => new TimeSyncInfo(_log, ClientOptions.SpotApiOptions.AutoTimestamp, ClientOptions.SpotApiOptions.TimestampRecalculationInterval, TimeSyncState);
+            => new TimeSyncInfo(_logger, ClientOptions.AutoTimestamp, ClientOptions.TimestampRecalculationInterval, _timeSyncState);
 
         /// <inheritdoc />
         public override TimeSpan? GetTimeOffset()
-            => TimeSyncState.TimeOffset;
+            => _timeSyncState.TimeOffset;
 
         /// <inheritdoc />
         public ISpotClient CommonSpotClient => this;

@@ -1,23 +1,21 @@
-﻿namespace Kraken.Net.Clients.SpotApi
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using CryptoExchange.Net;
+using CryptoExchange.Net.Objects;
+using Kraken.Net.Interfaces.Clients.SpotApi;
+using Kraken.Net.Objects.Models;
+
+namespace Kraken.Net.Clients.SpotApi
 {
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Net.Http;
-    using System.Threading;
-    using System.Threading.Tasks;
-
-    using CryptoExchange.Net;
-    using CryptoExchange.Net.Objects;
-
-    using Kraken.Net.Interfaces.Clients.SpotApi;
-    using Kraken.Net.Objects.Models;
-
     /// <inheritdoc />
-    public class KrakenClientSpotStakingApi : IKrakenClientSpotStakingApi
+    public class KrakenRestClientSpotStakingApi : IKrakenClientSpotStakingApi
     {
-        private readonly KrakenClientSpotApi _baseClient;
+        private readonly KrakenRestClientSpotApi _baseClient;
 
-        internal KrakenClientSpotStakingApi(KrakenClientSpotApi baseClient)
+        internal KrakenRestClientSpotStakingApi(KrakenRestClientSpotApi baseClient)
         {
             _baseClient = baseClient;
         }

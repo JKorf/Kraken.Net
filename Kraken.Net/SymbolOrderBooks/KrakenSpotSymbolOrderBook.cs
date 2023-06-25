@@ -10,8 +10,8 @@ using CryptoExchange.Net.Sockets;
 using Force.Crc32;
 using Kraken.Net.Clients;
 using Kraken.Net.Interfaces.Clients;
-using Kraken.Net.Objects;
 using Kraken.Net.Objects.Models;
+using Kraken.Net.Objects.Options;
 using Microsoft.Extensions.Logging;
 
 namespace Kraken.Net.SymbolOrderBooks
@@ -21,27 +21,44 @@ namespace Kraken.Net.SymbolOrderBooks
     /// </summary>
     public class KrakenSpotSymbolOrderBook : SymbolOrderBook
     {
-        private readonly IKrakenSocketClient socketClient;
-        private readonly bool _socketOwner;
-        private bool initialSnapshotDone;
+        private readonly IKrakenSocketClient _socketClient;
+        private readonly bool _clientOwner;
+        private bool _initialSnapshotDone;
         private readonly TimeSpan _initialDataTimeout;
 
         /// <summary>
         /// Create a new order book instance
         /// </summary>
         /// <param name="symbol">The symbol the order book is for</param>
-        /// <param name="options">Options for the order book</param>
-        public KrakenSpotSymbolOrderBook(string symbol, KrakenOrderBookOptions? options = null) : base("Kraken", symbol, options ?? new KrakenOrderBookOptions())
+        /// <param name="optionsDelegate">Option configuration delegate</param>
+        public KrakenSpotSymbolOrderBook(string symbol, Action<KrakenOrderBookOptions>? optionsDelegate = null)
+            : this(symbol, optionsDelegate, null, null)
         {
-            sequencesAreConsecutive = false;
-            strictLevels = true;
+        }
+
+        /// <summary>
+        /// Create a new order book instance
+        /// </summary>
+        /// <param name="symbol">The symbol the order book is for</param>
+        /// <param name="optionsDelegate">Option configuration delegate</param>
+        /// <param name="logger">Logger</param>
+        /// <param name="socketClient">Socket client instance</param>
+        public KrakenSpotSymbolOrderBook(string symbol,
+            Action<KrakenOrderBookOptions>? optionsDelegate,
+            ILogger<KrakenSpotSymbolOrderBook>? logger,
+            IKrakenSocketClient? socketClient) : base(logger, "Kraken", symbol)
+        {
+            var options = KrakenOrderBookOptions.Default.Copy();
+            if (optionsDelegate != null)
+                optionsDelegate(options);
+            Initialize(options);
+
+            _sequencesAreConsecutive = false;
+            _strictLevels = true;
             _initialDataTimeout = options?.InitialDataTimeout ?? TimeSpan.FromSeconds(30);
 
-            socketClient = options?.SocketClient ?? new KrakenSocketClient(new KrakenSocketClientOptions
-            {
-                LogLevel = options?.LogLevel ?? LogLevel.Information
-            });
-            _socketOwner = options?.SocketClient == null;
+            _socketClient = socketClient ?? new KrakenSocketClient();
+            _clientOwner = socketClient == null;
 
             Levels = options?.Limit ?? 10;
         }
@@ -49,7 +66,7 @@ namespace Kraken.Net.SymbolOrderBooks
         /// <inheritdoc />
         protected override async Task<CallResult<UpdateSubscription>> DoStartAsync(CancellationToken ct)
         {
-            var result = await socketClient.SpotStreams.SubscribeToOrderBookUpdatesAsync(Symbol, Levels!.Value, ProcessUpdate).ConfigureAwait(false);
+            var result = await _socketClient.SpotApi.SubscribeToOrderBookUpdatesAsync(Symbol, Levels!.Value, ProcessUpdate).ConfigureAwait(false);
             if (!result)
                 return result;
 
@@ -68,16 +85,16 @@ namespace Kraken.Net.SymbolOrderBooks
         /// <inheritdoc />
         protected override void DoReset()
         {
-            initialSnapshotDone = false;
+            _initialSnapshotDone = false;
         }
 
         private void ProcessUpdate(DataEvent<KrakenStreamOrderBook> data)
         {
-            if (!initialSnapshotDone)
+            if (!_initialSnapshotDone)
             {
                 var maxNumber = Math.Max(data.Data.Bids.Max(b => b.Sequence), data.Data.Asks.Max(b => b.Sequence));
                 SetInitialOrderBook(maxNumber, data.Data.Bids, data.Data.Asks);
-                initialSnapshotDone = true;
+                _initialSnapshotDone = true;
             }
             else
             {
@@ -92,13 +109,13 @@ namespace Kraken.Net.SymbolOrderBooks
             var checksumValues = new List<string>();
             for (var i = 0; i < 10; i++)
             {
-                var ask = (KrakenStreamOrderBookEntry)asks.ElementAt(i).Value;
+                var ask = (KrakenStreamOrderBookEntry)_asks.ElementAt(i).Value;
                 checksumValues.Add(ToChecksumString(ask.RawPrice));
                 checksumValues.Add(ToChecksumString(ask.RawQuantity));
             }
             for (var i = 0; i < 10; i++)
             {
-                var bid = (KrakenStreamOrderBookEntry)bids.ElementAt(i).Value;
+                var bid = (KrakenStreamOrderBookEntry)_bids.ElementAt(i).Value;
                 checksumValues.Add(ToChecksumString(bid.RawPrice));
                 checksumValues.Add(ToChecksumString(bid.RawQuantity));
             }
@@ -108,7 +125,7 @@ namespace Kraken.Net.SymbolOrderBooks
 
             if (ourChecksumUtf != checksum)
             {
-                log.Write(LogLevel.Warning, $"Invalid checksum. Received from server: {checksum}, calculated local: {ourChecksumUtf}");
+                _logger.Log(LogLevel.Warning, $"Invalid checksum. Received from server: {checksum}, calculated local: {ourChecksumUtf}");
                 return false;
             }
 
@@ -131,8 +148,8 @@ namespace Kraken.Net.SymbolOrderBooks
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if (_socketOwner)
-                socketClient?.Dispose();
+            if (_clientOwner)
+                _socketClient?.Dispose();
 
             base.Dispose(disposing);
         }

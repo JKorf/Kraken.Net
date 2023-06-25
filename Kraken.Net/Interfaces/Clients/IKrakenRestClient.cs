@@ -7,7 +7,7 @@ namespace Kraken.Net.Interfaces.Clients
     /// <summary>
     /// Client for accessing the Kraken API. 
     /// </summary>
-    public interface IKrakenClient : IRestClient
+    public interface IKrakenRestClient : IRestClient
     {
         /// <summary>
         /// Spot API endpoints

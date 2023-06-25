@@ -12,14 +12,11 @@ namespace Kraken.Net.UnitTests
     [TestFixture]
     public class JsonTests
     {
-        private JsonToObjectComparer<IKrakenClient> _comparer = new JsonToObjectComparer<IKrakenClient>((json) => TestHelpers.CreateResponseClient(json, new KrakenClientOptions()
-        { 
-            ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials("1234", "1234"),
-            SpotApiOptions = new CryptoExchange.Net.Objects.RestApiClientOptions
-            {
-                OutputOriginalData = true, 
-                RateLimiters = new List<IRateLimiter>()
-            }
+        private JsonToObjectComparer<IKrakenRestClient> _comparer = new JsonToObjectComparer<IKrakenRestClient>((json) => TestHelpers.CreateResponseClient(json, x =>
+        {
+            x.ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials("1234", "1234");
+            x.OutputOriginalData = true;
+            x.SpotOptions.RateLimiters = new List<IRateLimiter>();
         }));
         
         [Test]

@@ -12,7 +12,7 @@ namespace Kraken.Net.Interfaces.Clients
         /// <summary>
         /// Spot streams
         /// </summary>
-        IKrakenSocketClientSpotStreams SpotStreams { get; }
+        IKrakenSocketClientSpotApi SpotApi { get; }
 
         /// <summary>
         /// Set the API credentials for this client. All Api clients in this client will use the new credentials, regardless of earlier set options.
