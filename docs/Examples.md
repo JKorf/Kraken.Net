@@ -34,7 +34,7 @@ var orderData = await krakenClient.SpotApi.Trading.PlaceOrderAsync(
                 OrderType.Limit,
                 0.001m,
                 50000);
-															
+                                                            
 // Place a stop loss order, place a limit order of 0.001 BTC at 39000USDT each when the last trade price drops below 40000USDT
 var orderData = await krakenClient.SpotApi.Trading.PlaceOrderAsync(
                 "BTC-USDT",
@@ -72,7 +72,7 @@ var userTradesResult = await krakenClient.SpotApi.Trading.GetUserTradesAsync();
 ```csharp
 var subscribeResult = await krakenSocket.SpotApi.SubscribeToTickerUpdatesAsync("XBT/USD", data =>
 {
-	// Handle ticker data
+    // Handle ticker data
 });
 ```
 
@@ -81,11 +81,11 @@ var subscribeResult = await krakenSocket.SpotApi.SubscribeToTickerUpdatesAsync("
 var socketToken = await krakenClient.SpotApi.Account.GetWebsocketTokenAsync();
 if(!socketToken.Success)
 {
-	// Handle error
-	return;
+    // Handle error
+    return;
 }
 var symbolData = await krakenSocket.SpotApi.SubscribeToOrderUpdatesAsync(socketToken.Data.Token, data =>
 {
-	// Handle update
+    // Handle update
 });
 ```

@@ -10,25 +10,25 @@ There are 2 clients available to interact with the Kraken API, the `KrakenRestCl
 ```csharp
 var krakenRestClient = new KrakenRestClient(options => 
 {
-	// Set options here for this client
+    // Set options here for this client
 });
 
 var krakenSocketClient = new KrakenSocketClient(options =>
 {
-	// Set options here for this client
+    // Set options here for this client
 });
 ```
 
 *Using dotnet dependency inject*
 ```csharp
 services.AddKraken(
-	restOptions => {
-		// set options for the rest client
-	},
-	socketClientOptions => {
-		// set options for the socket client
-	});	
-	
+    restOptions => {
+        // set options for the rest client
+    },
+    socketClientOptions => {
+        // set options for the socket client
+    }); 
+    
 // IKrakenRestClient, IKrakenSocketClient and IKrakenOrderBookFactory are now available for injecting
 ```
 
@@ -36,14 +36,14 @@ Different options are available to set on the clients, see this example
 ```csharp
 var krakenRestClient = new KrakenRestClient(options =>
 {
-	options.ApiCredentials = new ApiCredentials("API-KEY", "API-SECRET");
-	options.RequestTimeout = TimeSpan.FromSeconds(60);
+    options.ApiCredentials = new ApiCredentials("API-KEY", "API-SECRET");
+    options.RequestTimeout = TimeSpan.FromSeconds(60);
 });
 ```
 Alternatively, options can be provided before creating clients by using `SetDefaultOptions` or during the registration in the DI container:  
 ```csharp
 KrakenRestClient.SetDefaultOptions(options => {
-	// Set options here for all new clients
+    // Set options here for all new clients
 });
 var krakenRestClient = new KrakenRestClient();
 ```
