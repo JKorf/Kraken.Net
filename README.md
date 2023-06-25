@@ -24,6 +24,14 @@ Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/s
 A Discord server is available [here](https://discord.gg/MSpeEtSY8t). For discussion and/or questions around the CryptoExchange.Net and implementation libraries, feel free to join.
 
 ## Release notes
+* Version 4.0.0 - 25 Jun 2023
+    * Updated CryptoExchange.Net to version 6.0.0
+    * Renamed KrakenClient to KrakenRestClient
+    * Renamed **Streams to **Api on the KrakenSocketClient
+    * Updated endpoints to consistently use a base url without any path as basis to make switching environments/base urls clearer
+    * Added IKrakenOrderBookFactory and implementation for creating order books
+    * Updated dependency injection register method (AddKraken)
+
 * Version 3.1.10 - 19 Jun 2023
     * Fixed close ordertype parameter being sent even when not provided
 
