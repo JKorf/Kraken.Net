@@ -11,4 +11,4 @@ has_children: true
 **void SetApiCredentials(ApiCredentials credentials);**  
 ***
 *Spot streams*  
-**[IKrakenSocketClientSpotStreams](SpotApi/IKrakenSocketClientSpotStreams.html) SpotStreams { get; }**  
+**[IKrakenSocketClientSpotApi](SpotApi/IKrakenSocketClientSpotApi.html) SpotApi { get; }**  

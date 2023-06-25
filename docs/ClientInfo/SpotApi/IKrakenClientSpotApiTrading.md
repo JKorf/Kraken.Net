@@ -267,7 +267,7 @@ var result = await client.SpotApi.Trading.PlaceOrderAsync(/* parameters */);
 ```  
 
 ```csharp  
-Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(string symbol, OrderSide side, OrderType type, decimal quantity, decimal? price = default, decimal? secondaryPrice = default, decimal? leverage = default, DateTime? startTime = default, DateTime? expireTime = default, bool? validateOnly = default, uint? clientOrderId = default, IEnumerable<OrderFlags>? orderFlags = default, string? twoFactorPassword = default, TimeInForce? timeInForce = default, bool? reduceOnly = default, decimal? icebergQuanty = default, Trigger? trigger = default, SelfTradePreventionType? selfTradePreventionType = default, CancellationToken ct = default);  
+Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(string symbol, OrderSide side, OrderType type, decimal quantity, decimal? price = default, decimal? secondaryPrice = default, decimal? leverage = default, DateTime? startTime = default, DateTime? expireTime = default, bool? validateOnly = default, uint? clientOrderId = default, IEnumerable<OrderFlags>? orderFlags = default, string? twoFactorPassword = default, TimeInForce? timeInForce = default, bool? reduceOnly = default, decimal? icebergQuanty = default, Trigger? trigger = default, SelfTradePreventionType? selfTradePreventionType = default, OrderType? closeOrderType = default, decimal? closePrice = default, decimal? secondaryClosePrice = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -290,6 +290,9 @@ Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(string symbol, OrderSide 
 |_[Optional]_ icebergQuanty|Iceberg visible quantity|
 |_[Optional]_ trigger|Price signal|
 |_[Optional]_ selfTradePreventionType|Self trade prevention type|
+|_[Optional]_ closeOrderType|Close order type|
+|_[Optional]_ closePrice|Close order price|
+|_[Optional]_ secondaryClosePrice|Close order secondary price|
 |_[Optional]_ ct|Cancellation token|
 
 </p>
