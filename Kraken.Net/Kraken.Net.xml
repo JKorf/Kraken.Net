@@ -4,6 +4,27 @@
         <name>Kraken.Net</name>
     </assembly>
     <members>
+        <member name="P:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.ClientOptions">
+            <inheritdoc />
+        </member>
+        <member name="P:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.ExchangeName">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.GetServerTimestampAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.GetTimeSyncInfo">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.GetTimeOffset">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData.GetHistoricalFundingRatesAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="T:Kraken.Net.Clients.KrakenRestClient">
             <inheritdoc cref="T:Kraken.Net.Interfaces.Clients.IKrakenRestClient" />
         </member>
@@ -799,6 +820,11 @@
             Spot API endpoints
             </summary>
         </member>
+        <member name="P:Kraken.Net.Interfaces.Clients.IKrakenRestClient.FuturesApi">
+            <summary>
+            Futures API endpoints
+            </summary>
+        </member>
         <member name="M:Kraken.Net.Interfaces.Clients.IKrakenRestClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
             <summary>
             Set the API credentials for this client. All Api clients in this client will use the new credentials, regardless of earlier set options.
@@ -1588,12 +1614,17 @@
             Socket base address for the private API
             </summary>
         </member>
+        <member name="P:Kraken.Net.KrakenEnvironment.FuturesRestBaseAddress">
+            <summary>
+            Futures Rest client address
+            </summary>
+        </member>
         <member name="P:Kraken.Net.KrakenEnvironment.Live">
             <summary>
             Live environment
             </summary>
         </member>
-        <member name="M:Kraken.Net.KrakenEnvironment.CreateCustom(System.String,System.String,System.String,System.String)">
+        <member name="M:Kraken.Net.KrakenEnvironment.CreateCustom(System.String,System.String,System.String,System.String,System.String)">
             <summary>
             Create a custom environment
             </summary>
@@ -1601,6 +1632,7 @@
             <param name="spotRestAddress"></param>
             <param name="spotSocketPublicAddress"></param>
             <param name="spotSocketPrivateAddress"></param>
+            <param name="futuresRestAddress"></param>
             <returns></returns>
         </member>
         <member name="T:Kraken.Net.KrakenHelpers">
@@ -1703,7 +1735,7 @@
         </member>
         <member name="P:Kraken.Net.Objects.KrakenApiAddresses.SpotRestClientAddress">
             <summary>
-            The address used by the KrakenClient for the rest API
+            The address used by the KrakenRestClient for the rest API
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.KrakenApiAddresses.SpotSocketPublicAddress">
@@ -1716,6 +1748,11 @@
             The address used by the KrakenSocketClient for the private socket API
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.KrakenApiAddresses.FuturesRestClientAddress">
+            <summary>
+            The address used by the KrakenRestClient for the futures API
+            </summary>
+        </member>
         <member name="F:Kraken.Net.Objects.KrakenApiAddresses.Default">
             <summary>
             The default addresses to connect to the Kraken.com API
@@ -1723,6 +1760,26 @@
         </member>
         <member name="M:Kraken.Net.Objects.KrakenNonceProvider.GetNonce">
             <inheritdoc />
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFundingRate">
+            <summary>
+            Funding rate info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFundingRate.FundingRate">
+            <summary>
+            Funding rate
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFundingRate.RelativeFundingRate">
+            <summary>
+            Relative funding rate
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFundingRate.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenAssetInfo">
             <summary>
@@ -3440,6 +3497,11 @@
         <member name="P:Kraken.Net.Objects.Options.KrakenRestOptions.SpotOptions">
             <summary>
             Options for the Spot API
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Options.KrakenRestOptions.FuturesOptions">
+            <summary>
+            Options for the Futures API
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Options.KrakenSocketOptions">

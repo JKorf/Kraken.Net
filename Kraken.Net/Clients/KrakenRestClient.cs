@@ -2,6 +2,7 @@
 using System.Net.Http;
 using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
+using Kraken.Net.Clients.FuturesApi;
 using Kraken.Net.Clients.SpotApi;
 using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients.SpotApi;
@@ -19,6 +20,7 @@ namespace Kraken.Net.Clients
         #region Api clients
         /// <inheritdoc />
         public IKrakenClientSpotApi SpotApi { get; }
+        public KrakenRestClientFuturesApi FuturesApi { get; }
         #endregion
 
         #region ctor
@@ -52,6 +54,7 @@ namespace Kraken.Net.Clients
             Initialize(options);
 
             SpotApi = AddApiClient(new KrakenRestClientSpotApi(_logger, httpClient, options));
+            FuturesApi = AddApiClient(new KrakenRestClientFuturesApi(_logger, httpClient, options));
         }
         #endregion
 

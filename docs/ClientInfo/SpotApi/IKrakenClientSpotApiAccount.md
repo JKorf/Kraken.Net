@@ -1,11 +1,11 @@
 ---
 title: IKrakenClientSpotApiAccount
 has_children: false
-parent: IKrakenClientSpotApi
+parent: IKrakenRestClientSpotApi
 grand_parent: Rest API documentation
 ---
 *[generated documentation]*  
-`KrakenClient > SpotApi > Account`  
+`KrakenRestClient > SpotApi > Account`  
 *Kraken account endpoints. Account endpoints include balance info, withdraw/deposit info and requesting and account settings*
   
 
@@ -19,7 +19,7 @@ grand_parent: Rest API documentation
 *Cancel an active withdrawal*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Account.CancelWithdrawalAsync(/* parameters */);  
 ```  
 
@@ -46,7 +46,7 @@ Task<WebCallResult<bool>> CancelWithdrawalAsync(string asset, string referenceId
 *Get balances including quantity in holding*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Account.GetAvailableBalancesAsync();  
 ```  
 
@@ -71,7 +71,7 @@ Task<WebCallResult<Dictionary<string, KrakenBalanceAvailable>>> GetAvailableBala
 *Get balances*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Account.GetBalancesAsync();  
 ```  
 
@@ -96,7 +96,7 @@ Task<WebCallResult<Dictionary<string, decimal>>> GetBalancesAsync(string? twoFac
 *Get deposit addresses for an asset*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Account.GetDepositAddressesAsync(/* parameters */);  
 ```  
 
@@ -124,7 +124,7 @@ Task<WebCallResult<IEnumerable<KrakenDepositAddress>>> GetDepositAddressesAsync(
 *Get deposit methods*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Account.GetDepositMethodsAsync(/* parameters */);  
 ```  
 
@@ -150,7 +150,7 @@ Task<WebCallResult<IEnumerable<KrakenDepositMethod>>> GetDepositMethodsAsync(str
 *Get status of deposits*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Account.GetDepositStatusAsync();  
 ```  
 
@@ -177,7 +177,7 @@ Task<WebCallResult<IEnumerable<KrakenMovementStatus>>> GetDepositStatusAsync(str
 *Get ledger entries info*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Account.GetLedgerInfoAsync();  
 ```  
 
@@ -207,7 +207,7 @@ Task<WebCallResult<KrakenLedgerPage>> GetLedgerInfoAsync(IEnumerable<string>? as
 *Get info on specific ledger entries*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Account.GetLedgersEntryAsync();  
 ```  
 
@@ -233,7 +233,7 @@ Task<WebCallResult<Dictionary<string, KrakenLedgerEntry>>> GetLedgersEntryAsync(
 *Get a list of open positions*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Account.GetOpenPositionsAsync();  
 ```  
 
@@ -258,7 +258,7 @@ Task<WebCallResult<Dictionary<string, KrakenPosition>>> GetOpenPositionsAsync(IE
 *Get trade balance*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Account.GetTradeBalanceAsync();  
 ```  
 
@@ -284,7 +284,7 @@ Task<WebCallResult<KrakenTradeBalance>> GetTradeBalanceAsync(string? baseAsset =
 *Get trade volume*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Account.GetTradeVolumeAsync();  
 ```  
 
@@ -310,7 +310,7 @@ Task<WebCallResult<KrakenTradeVolume>> GetTradeVolumeAsync(IEnumerable<string>? 
 *Get the token to connect to the private websocket streams*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Account.GetWebsocketTokenAsync();  
 ```  
 
@@ -334,7 +334,7 @@ Task<WebCallResult<KrakenWebSocketToken>> GetWebsocketTokenAsync(CancellationTok
 *Get status of withdrawals*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Account.GetWithdrawalStatusAsync();  
 ```  
 
@@ -361,7 +361,7 @@ Task<WebCallResult<IEnumerable<KrakenMovementStatus>>> GetWithdrawalStatusAsync(
 *Retrieve fee information about potential withdrawals for a particular asset, key and amount.*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Account.GetWithdrawInfoAsync(/* parameters */);  
 ```  
 
@@ -389,7 +389,7 @@ Task<WebCallResult<KrakenWithdrawInfo>> GetWithdrawInfoAsync(string asset, strin
 *Transfer funds between wallets*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Account.TransferAsync(/* parameters */);  
 ```  
 
@@ -418,7 +418,7 @@ Task<WebCallResult<KrakenReferenceId>> TransferAsync(string asset, decimal quant
 *Withdraw funds*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Account.WithdrawAsync(/* parameters */);  
 ```  
 

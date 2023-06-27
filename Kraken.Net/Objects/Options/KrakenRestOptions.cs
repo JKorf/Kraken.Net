@@ -42,10 +42,24 @@ namespace Kraken.Net.Objects.Options
             }
         };
 
+        /// <summary>
+        /// Options for the Futures API
+        /// </summary>
+        public RestApiOptions FuturesOptions { get; private set; } = new RestApiOptions()
+        {
+            //RateLimiters = new List<IRateLimiter>
+            //{
+            //        new RateLimiter()
+            //            .AddApiKeyLimit(15, TimeSpan.FromSeconds(45), false, false)
+            //            .AddEndpointLimit(new [] { "/private/AddOrder", "/private/CancelOrder", "/private/CancelAll", "/private/CancelAllOrdersAfter" }, 60, TimeSpan.FromSeconds(60), null, true),
+            //}
+        };
+
         internal KrakenRestOptions Copy()
         {
             var options = Copy<KrakenRestOptions>();
             options.SpotOptions = SpotOptions.Copy<RestApiOptions>();
+            options.FuturesOptions = FuturesOptions.Copy<RestApiOptions>();
             options.NonceProvider = NonceProvider;
             options.StaticTwoFactorAuthenticationPassword = StaticTwoFactorAuthenticationPassword;
             return options;

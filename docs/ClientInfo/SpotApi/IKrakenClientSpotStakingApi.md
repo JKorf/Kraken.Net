@@ -1,11 +1,11 @@
 ---
 title: IKrakenClientSpotStakingApi
 has_children: true
-parent: IKrakenClientSpotApi
+parent: IKrakenRestClientSpotApi
 grand_parent: Rest API documentation
 ---
 *[generated documentation]*  
-`KrakenClient > SpotApi > SpotStakingApi`  
+`KrakenRestClient > SpotApi > SpotStakingApi`  
 *Kraken staking endpoints.*
   
 
@@ -20,7 +20,7 @@ grand_parent: Rest API documentation
 *through <see cref="GetRecentTransactionsAsync"/> and will not be accessible through this API.*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.SpotStakingApi.GetPendingTransactionsAsync();  
 ```  
 
@@ -45,7 +45,7 @@ Task<WebCallResult<IEnumerable<KrakenStakingTransaction>>> GetPendingTransaction
 *Returns a list of 1000 recent staking transactions from past 90 days.*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.SpotStakingApi.GetRecentTransactionsAsync();  
 ```  
 
@@ -70,7 +70,7 @@ Task<WebCallResult<IEnumerable<KrakenStakingTransaction>>> GetRecentTransactions
 *Returns the list of assets that you're able to stake.*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.SpotStakingApi.GetStakableAssets();  
 ```  
 
@@ -95,7 +95,7 @@ Task<WebCallResult<IEnumerable<KrakenStakingAsset>>> GetStakableAssets(string? t
 *Stake an asset from your spot wallet.*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.SpotStakingApi.StakeAsync(/* parameters */);  
 ```  
 
@@ -123,7 +123,7 @@ Task<WebCallResult<KrakenStakeResponse>> StakeAsync(string asset, decimal amount
 *Unstake an asset from your staking wallet*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.SpotStakingApi.UnstakeAsync(/* parameters */);  
 ```  
 

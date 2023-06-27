@@ -1,11 +1,11 @@
 ---
 title: IKrakenClientSpotApiTrading
 has_children: false
-parent: IKrakenClientSpotApi
+parent: IKrakenRestClientSpotApi
 grand_parent: Rest API documentation
 ---
 *[generated documentation]*  
-`KrakenClient > SpotApi > Trading`  
+`KrakenRestClient > SpotApi > Trading`  
 *Kraken trading endpoints, placing and mananging orders.*
   
 
@@ -19,7 +19,7 @@ grand_parent: Rest API documentation
 *Cancel all orders*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Trading.CancelAllOrdersAsync();  
 ```  
 
@@ -44,7 +44,7 @@ Task<WebCallResult<KrakenCancelResult>> CancelAllOrdersAsync(string? twoFactorPa
 *Cancel an order*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Trading.CancelOrderAsync(/* parameters */);  
 ```  
 
@@ -70,7 +70,7 @@ Task<WebCallResult<KrakenCancelResult>> CancelOrderAsync(string orderId, string?
 *Get a list of closed orders*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Trading.GetClosedOrdersAsync();  
 ```  
 
@@ -99,7 +99,7 @@ Task<WebCallResult<KrakenClosedOrdersPage>> GetClosedOrdersAsync(uint? clientOrd
 *Get a list of open orders*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Trading.GetOpenOrdersAsync();  
 ```  
 
@@ -125,7 +125,7 @@ Task<WebCallResult<OpenOrdersPage>> GetOpenOrdersAsync(uint? clientOrderId = def
 *Get info on specific order*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Trading.GetOrderAsync();  
 ```  
 
@@ -153,7 +153,7 @@ Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? order
 *Get info on specific orders*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Trading.GetOrdersAsync();  
 ```  
 
@@ -181,7 +181,7 @@ Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<
 *Get info on specific trades*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Trading.GetUserTradeDetailsAsync(/* parameters */);  
 ```  
 
@@ -207,7 +207,7 @@ Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsyn
 *Get info on specific trades*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Trading.GetUserTradeDetailsAsync(/* parameters */);  
 ```  
 
@@ -233,7 +233,7 @@ Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsyn
 *Get trade history*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Trading.GetUserTradesAsync();  
 ```  
 
@@ -262,7 +262,7 @@ Task<WebCallResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime
 *Place a new order*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.Trading.PlaceOrderAsync(/* parameters */);  
 ```  
 

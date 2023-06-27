@@ -1,10 +1,10 @@
 ---
 title: IKrakenSocketClientSpotApi
 has_children: true
-parent: Rest API documentation
+parent: Socket API documentation
 ---
 *[generated documentation]*  
-`KrakenClient > SpotApi`  
+`KrakenSocketClient > SpotApi`  
 *Spot streams*
   
 
@@ -18,7 +18,7 @@ parent: Rest API documentation
 *Cancel all open orders after the timeout*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.CancelAllOrdersAfterAsync(/* parameters */);  
 ```  
 
@@ -43,7 +43,7 @@ Task<CallResult<KrakenStreamCancelAfterResult>> CancelAllOrdersAfterAsync(string
 *Cancel all open orders*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.CancelAllOrdersAsync(/* parameters */);  
 ```  
 
@@ -67,7 +67,7 @@ Task<CallResult<KrakenStreamCancelAllResult>> CancelAllOrdersAsync(string websoc
 *Cancel an order*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.CancelOrderAsync(/* parameters */);  
 ```  
 
@@ -92,7 +92,7 @@ Task<CallResult<bool>> CancelOrderAsync(string websocketToken, string orderId);
 *Cancel multiple orders*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.CancelOrdersAsync(/* parameters */);  
 ```  
 
@@ -117,7 +117,7 @@ Task<CallResult<bool>> CancelOrdersAsync(string websocketToken, IEnumerable<stri
 *Place a new order*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.PlaceOrderAsync(/* parameters */);  
 ```  
 
@@ -157,7 +157,7 @@ Task<CallResult<KrakenStreamPlacedOrder>> PlaceOrderAsync(string websocketToken,
 *Subscribe to kline updates*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.SubscribeToKlineUpdatesAsync(/* parameters */);  
 ```  
 
@@ -184,7 +184,7 @@ Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol,
 *Subscribe to kline updates*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.SubscribeToKlineUpdatesAsync(/* parameters */);  
 ```  
 
@@ -211,7 +211,7 @@ Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(IEnumerable<st
 *Subscribe to depth updates*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.SubscribeToOrderBookUpdatesAsync(/* parameters */);  
 ```  
 
@@ -238,7 +238,7 @@ Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(IEnumerabl
 *Subscribe to depth updates*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.SubscribeToOrderBookUpdatesAsync(/* parameters */);  
 ```  
 
@@ -265,7 +265,7 @@ Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(string sym
 *Subscribe to open order updates*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.SubscribeToOrderUpdatesAsync(/* parameters */);  
 ```  
 
@@ -291,7 +291,7 @@ Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(string socketT
 *Subscribe to spread updates*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.SubscribeToSpreadUpdatesAsync(/* parameters */);  
 ```  
 
@@ -317,7 +317,7 @@ Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(string symbol
 *Subscribe to spread updates*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.SubscribeToSpreadUpdatesAsync(/* parameters */);  
 ```  
 
@@ -343,7 +343,7 @@ Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(IEnumerable<s
 *Subscribe to system status updates*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.SubscribeToSystemStatusUpdatesAsync(/* parameters */);  
 ```  
 
@@ -368,7 +368,7 @@ Task<CallResult<UpdateSubscription>> SubscribeToSystemStatusUpdatesAsync(Action<
 *Subscribe to ticker updates*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.SubscribeToTickerUpdatesAsync(/* parameters */);  
 ```  
 
@@ -394,7 +394,7 @@ Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol
 *Subscribe to ticker updates*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.SubscribeToTickerUpdatesAsync(/* parameters */);  
 ```  
 
@@ -420,7 +420,7 @@ Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<s
 *Subscribe to trade updates*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.SubscribeToTradeUpdatesAsync(/* parameters */);  
 ```  
 
@@ -446,7 +446,7 @@ Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol,
 *Subscribe to trade updates*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.SubscribeToTradeUpdatesAsync(/* parameters */);  
 ```  
 
@@ -472,7 +472,7 @@ Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<st
 *Subscribe to own trade updates*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.SubscribeToUserTradeUpdatesAsync(/* parameters */);  
 ```  
 
@@ -498,7 +498,7 @@ Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(string soc
 *Subscribe to own trade updates*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenSocketClient();  
 var result = await client.SpotApi.SubscribeToUserTradeUpdatesAsync(/* parameters */);  
 ```  
 

@@ -1,11 +1,11 @@
 ---
 title: IKrakenClientSpotApiExchangeData
 has_children: false
-parent: IKrakenClientSpotApi
+parent: IKrakenRestClientSpotApi
 grand_parent: Rest API documentation
 ---
 *[generated documentation]*  
-`KrakenClient > SpotApi > ExchangeData`  
+`KrakenRestClient > SpotApi > ExchangeData`  
 *Kraken exchange data endpoints. Exchange data includes market data (tickers, order books, etc) and system status.*
   
 
@@ -19,7 +19,7 @@ grand_parent: Rest API documentation
 *Get a list of assets and info about them*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.ExchangeData.GetAssetsAsync();  
 ```  
 
@@ -44,7 +44,7 @@ Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(IEnumera
 *Gets kline data for a symbol*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.ExchangeData.GetKlinesAsync(/* parameters */);  
 ```  
 
@@ -71,7 +71,7 @@ Task<WebCallResult<KrakenKlinesResult>> GetKlinesAsync(string symbol, KlineInter
 *Get the order book for a symbol*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.ExchangeData.GetOrderBookAsync(/* parameters */);  
 ```  
 
@@ -97,7 +97,7 @@ Task<WebCallResult<KrakenOrderBook>> GetOrderBookAsync(string symbol, int? limit
 *Get spread data for a symbol*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.ExchangeData.GetRecentSpreadAsync(/* parameters */);  
 ```  
 
@@ -123,7 +123,7 @@ Task<WebCallResult<KrakenSpreadsResult>> GetRecentSpreadAsync(string symbol, Dat
 *Get the server time*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.ExchangeData.GetServerTimeAsync();  
 ```  
 
@@ -147,7 +147,7 @@ Task<WebCallResult<DateTime>> GetServerTimeAsync(CancellationToken ct = default)
 *Get a list of symbols and info about them*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.ExchangeData.GetSymbolsAsync();  
 ```  
 
@@ -172,7 +172,7 @@ Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerabl
 *Get the system status*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.ExchangeData.GetSystemStatusAsync();  
 ```  
 
@@ -196,7 +196,7 @@ Task<WebCallResult<KrakenSystemStatus>> GetSystemStatusAsync(CancellationToken c
 *Get tickers for symbol*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.ExchangeData.GetTickerAsync(/* parameters */);  
 ```  
 
@@ -221,7 +221,7 @@ Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickerAsync(string sy
 *Get tickers for symbols*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.ExchangeData.GetTickersAsync();  
 ```  
 
@@ -246,7 +246,7 @@ Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(IEnumera
 *Get a list of recent trades for a symbol*  
 
 ```csharp  
-var client = new KrakenClient();  
+var client = new KrakenRestClient();  
 var result = await client.SpotApi.ExchangeData.GetTradeHistoryAsync(/* parameters */);  
 ```  
 

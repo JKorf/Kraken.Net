@@ -4,7 +4,7 @@ has_children: true
 parent: Rest API documentation
 ---
 *[generated documentation]*  
-`KrakenClient > SpotApi`  
+`KrakenRestClient > SpotApi`  
 *Spot API endpoints*
   
 ***
@@ -12,13 +12,13 @@ parent: Rest API documentation
 **ISpotClient CommonSpotClient { get; }**  
 ***
 *Endpoints related to account settings, info or actions*  
-**[IKrakenClientSpotApiAccount](IKrakenClientSpotApiAccount.html) Account { get; }**  
+**IKrakenClientSpotApiAccount Account { get; }**  
 ***
 *Endpoints related to retrieving market and system data*  
-**[IKrakenClientSpotApiExchangeData](IKrakenClientSpotApiExchangeData.html) ExchangeData { get; }**  
+**IKrakenClientSpotApiExchangeData ExchangeData { get; }**  
 ***
 *Endpoints related to staking assets*  
-**[IKrakenClientSpotStakingApi](SpotStakingApi/IKrakenClientSpotStakingApi.html) Staking { get; }**  
+**IKrakenClientSpotStakingApi Staking { get; }**  
 ***
 *Endpoints related to orders and trades*  
-**[IKrakenClientSpotApiTrading](IKrakenClientSpotApiTrading.html) Trading { get; }**  
+**IKrakenClientSpotApiTrading Trading { get; }**  

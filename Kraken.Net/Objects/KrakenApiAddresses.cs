@@ -6,7 +6,7 @@
     public class KrakenApiAddresses
     {
         /// <summary>
-        /// The address used by the KrakenClient for the rest API
+        /// The address used by the KrakenRestClient for the rest API
         /// </summary>
         public string SpotRestClientAddress { get; set; } = "";
         /// <summary>
@@ -19,13 +19,20 @@
         public string SpotSocketPrivateAddress { get; set; } = "";
 
         /// <summary>
+        /// The address used by the KrakenRestClient for the futures API
+        /// </summary>
+        public string FuturesRestClientAddress { get; set; } = "";
+
+        /// <summary>
         /// The default addresses to connect to the Kraken.com API
         /// </summary>
         public static KrakenApiAddresses Default = new KrakenApiAddresses
         {
             SpotRestClientAddress = "https://api.kraken.com",
             SpotSocketPublicAddress = "wss://ws.kraken.com",
-            SpotSocketPrivateAddress = "wss://ws-auth.kraken.com/"
+            SpotSocketPrivateAddress = "wss://ws-auth.kraken.com/",
+
+            FuturesRestClientAddress = "https://futures.kraken.com"
         };
     }
 }
