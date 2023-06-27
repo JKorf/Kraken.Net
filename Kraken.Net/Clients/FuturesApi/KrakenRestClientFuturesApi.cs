@@ -6,6 +6,7 @@ using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models.Futures;
 using Kraken.Net.Objects.Options;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,7 @@ namespace Kraken.Net.Clients.FuturesApi
         internal KrakenRestClientFuturesApi(ILogger logger, HttpClient? httpClient, KrakenRestOptions options)
             : base(logger, httpClient, options.Environment.FuturesRestBaseAddress, options, options.FuturesOptions)
         {
-            //Account = new KrakenRestClientFuturesApiAccount(this);
+            Account = new KrakenRestClientFuturesApiAccount(this);
             ExchangeData = new KrakenRestClientFuturesApiExchangeData(this);
             //Trading = new KrakenRestClientFuturesApiTrading(this);
 
@@ -64,12 +65,26 @@ namespace Kraken.Net.Clients.FuturesApi
                     return result.AsError<U>(new ServerError(result.Data.Errors.First().Code, result.Data.Errors.First().Message));
             }
 
-            return result.As<U>(result.Data.Data);
+            if (!string.IsNullOrEmpty(result.Data.Error))
+                return result.AsError<U>(new ServerError(result.Data.Error));
+
+            return result.As(result.Data.Data);
+        }
+
+        /// <inheritdoc />
+        protected override Error ParseErrorResponse(JToken error)
+        {
+            var result = Deserialize<KrakenFuturesResult>(error);
+            if (!result)
+                return new ServerError(error.ToString());
+
+            var krakenError = result.Data.Errors.First();
+            return new ServerError(krakenError.Code, krakenError.Message);
         }
 
         /// <inheritdoc />
         protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
-            => new KrakenAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new KrakenNonceProvider());
+            => new KrakenFuturesAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new KrakenNonceProvider());
 
         /// <inheritdoc />
         protected override Task<WebCallResult<DateTime>> GetServerTimestampAsync()

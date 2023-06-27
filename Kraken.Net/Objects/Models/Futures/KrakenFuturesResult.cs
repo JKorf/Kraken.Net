@@ -4,13 +4,17 @@ using System.Text;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    public abstract class KrakenFuturesResult<T>
+    public class KrakenFuturesResult
     {
         public IEnumerable<KrakenFuturesError>? Errors { get; set; }
+        public string Error { get; set; }
         public bool Success => Result == "success";
         public string Result { get; set; }
         public DateTime ServerTime { get; set; }
+    }
 
+    public abstract class KrakenFuturesResult<T> : KrakenFuturesResult
+    {
         public abstract T Data { get; set; }
     }
 

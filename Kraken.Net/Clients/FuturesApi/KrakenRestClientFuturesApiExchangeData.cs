@@ -28,7 +28,7 @@ namespace Kraken.Net.Clients.FuturesApi
             {
                 { "symbol", symbol }
             };
-            return await _baseClient.Execute<KrakenFuturesFundingRatesResult, IEnumerable<KrakenFundingRate>>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v4/historicalfundingrates")), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await _baseClient.Execute<KrakenFundingRatesResult, IEnumerable<KrakenFundingRate>>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v4/historicalfundingrates")), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
     }

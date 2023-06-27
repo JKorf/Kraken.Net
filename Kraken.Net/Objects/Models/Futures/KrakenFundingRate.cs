@@ -1,9 +1,16 @@
 ﻿using CryptoExchange.Net.Converters;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
+    internal class KrakenFundingRatesResult : KrakenFuturesResult<IEnumerable<KrakenFundingRate>>
+    {
+        [JsonProperty("rates")]
+        public override IEnumerable<KrakenFundingRate> Data { get; set; }
+    }
+
     /// <summary>
     /// Funding rate info
     /// </summary>

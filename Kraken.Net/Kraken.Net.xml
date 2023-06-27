@@ -10,6 +10,9 @@
         <member name="P:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.ExchangeName">
             <inheritdoc />
         </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.ParseErrorResponse(Newtonsoft.Json.Linq.JToken)">
+            <inheritdoc />
+        </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
         </member>
@@ -20,6 +23,9 @@
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.GetTimeOffset">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiAccount.GetBalancesAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData.GetHistoricalFundingRatesAsync(System.String,System.Threading.CancellationToken)">
@@ -1761,6 +1767,26 @@
         <member name="M:Kraken.Net.Objects.KrakenNonceProvider.GetNonce">
             <inheritdoc />
         </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenBalances">
+            <summary>
+            Kraken balances info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenBalances.Type">
+            <summary>
+            Type of the balance info
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenCashBalances">
+            <summary>
+            Cash balances
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenCashBalances.Balances">
+            <summary>
+            Balances
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFundingRate">
             <summary>
             Funding rate info
@@ -1779,6 +1805,186 @@
         <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFundingRate.Timestamp">
             <summary>
             Timestamp
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenMarginAccountBalances">
+            <summary>
+            Margin account balances
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMarginAccountBalances.Balances">
+            <summary>
+            Balances
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMarginAccountBalances.Currency">
+            <summary>
+            Currency
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMarginAccountBalances.Auxiliary">
+            <summary>
+            Auxiliary account info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMarginAccountBalances.MarginRequirements">
+            <summary>
+            Account's margin requirements.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMarginAccountBalances.TriggerEstimates">
+            <summary>
+            Account's margin trigger estimates.
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenMarginRequirements">
+            <summary>
+            Margin requirements
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMarginRequirements.InitialMargin">
+            <summary>
+            The initial margin requirement of the account.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMarginRequirements.LiquidationThreshold">
+            <summary>
+            The liquidation threshold of the account.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMarginRequirements.MaintenanceMargin">
+            <summary>
+            The maintenance margin requirement of the account.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMarginRequirements.TerminationThreshold">
+            <summary>
+            The termination threshold of the account
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenAuxiliaryAccountInfo">
+            <summary>
+            Auxiliary account info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAuxiliaryAccountInfo.AvailableFunds">
+            <summary>
+            The available funds of the account, in currency.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAuxiliaryAccountInfo.Funding">
+            <summary>
+            Funding
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAuxiliaryAccountInfo.ProfitAndLoss">
+            <summary>
+            The PnL of current open positions of the account, in currency.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAuxiliaryAccountInfo.PortfolioValue">
+            <summary>
+            The portfolio value of the account, in currency.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAuxiliaryAccountInfo.Usd">
+            <summary>
+            Usd
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenMultiCollateralMarginBalances">
+            <summary>
+            Multi-collateral margin account balances
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMultiCollateralMarginBalances.InitialMargin">
+            <summary>
+            Total initial margin held for open positions (USD).
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMultiCollateralMarginBalances.InitialMarginWithOrders">
+            <summary>
+            Total initial margin held for open positions and open orders (USD).
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMultiCollateralMarginBalances.MaintenanceMargin">
+            <summary>
+            Total maintenance margin held for open positions (USD).
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMultiCollateralMarginBalances.BalanceValue">
+            <summary>
+            USD value of all collateral in multi-collateral wallet.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMultiCollateralMarginBalances.PortfolioValue">
+            <summary>
+            Balance value plus unrealised PnL in USD.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMultiCollateralMarginBalances.CollateralValue">
+            <summary>
+            USD value of balances in account usable for margin (Balance Value * Haircut).
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMultiCollateralMarginBalances.ProfitAndLoss">
+            <summary>
+            Unrealised PnL in USD.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMultiCollateralMarginBalances.UnrealizedFunding">
+            <summary>
+            Unrealised funding from funding rate (USD).
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMultiCollateralMarginBalances.TotalUnrealized">
+            <summary>
+            Total USD value of unrealised funding and unrealised PnL.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMultiCollateralMarginBalances.TotalUnrealizedAsMargin">
+            <summary>
+            Unrealised pnl and unrealised funding that is usable as margin [(Unrealised Profit/Loss + Unrealised Funding Rate) * Haircut - Conversion Fee].
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMultiCollateralMarginBalances.AvailableMargin">
+            <summary>
+            Margin Equity - Total Initial Margin.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMultiCollateralMarginBalances.MarginEquity">
+            <summary>
+            [Balance Value in USD * (1-Haircut)] + (Total Unrealised Profit/Loss as Margin in USD)
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenMultiCollateralMarginBalances.Currencies">
+            <summary>
+            Flex currencies
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFlexCurrencySummary">
+            <summary>
+            Flex currency info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFlexCurrencySummary.Available">
+            <summary>
+            Margin (in base currency) available for trading.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFlexCurrencySummary.Collateral">
+            <summary>
+            USD value of the asset usable for margin (Asset Value * Haircut).
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFlexCurrencySummary.Quantity">
+            <summary>
+            Quantity of asset.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFlexCurrencySummary.Value">
+            <summary>
+            USD value of asset.
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenAssetInfo">
