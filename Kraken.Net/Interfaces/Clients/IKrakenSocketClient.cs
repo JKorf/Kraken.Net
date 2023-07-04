@@ -1,5 +1,6 @@
 ﻿using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Interfaces;
+using Kraken.Net.Clients.SpotApi;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 
 namespace Kraken.Net.Interfaces.Clients
@@ -10,9 +11,13 @@ namespace Kraken.Net.Interfaces.Clients
     public interface IKrakenSocketClient : ISocketClient
     {
         /// <summary>
-        /// Spot streams
+        /// Spot Api
         /// </summary>
         IKrakenSocketClientSpotApi SpotApi { get; }
+        /// <summary>
+        /// Futures Api
+        /// </summary>
+        KrakenSocketClientFuturesApi FuturesApi { get; }
 
         /// <summary>
         /// Set the API credentials for this client. All Api clients in this client will use the new credentials, regardless of earlier set options.

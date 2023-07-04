@@ -85,6 +85,9 @@
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData.GetTickersAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData.GetKlinesAsync(Kraken.Net.Enums.TickType,System.String,Kraken.Net.Enums.FuturesKlineInterval,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="T:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading">
             <inheritdoc />
         </member>
@@ -127,72 +130,49 @@
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.CancelAllOrderAfterAsync(System.TimeSpan,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="T:Kraken.Net.Clients.KrakenRestClient">
-            <inheritdoc cref="T:Kraken.Net.Interfaces.Clients.IKrakenRestClient" />
-        </member>
-        <member name="P:Kraken.Net.Clients.KrakenRestClient.SpotApi">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.GetExecutionEventsAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.KrakenRestClient.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
-            <summary>
-            Create a new instance of the KrakenRestClient using provided options
-            </summary>
-            <param name="optionsDelegate">Option configuration delegate</param>
-        </member>
-        <member name="M:Kraken.Net.Clients.KrakenRestClient.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Net.Http.HttpClient)">
-            <summary>
-            Create a new instance of the KrakenRestClient using default options
-            </summary>
-        </member>
-        <member name="M:Kraken.Net.Clients.KrakenRestClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILoggerFactory,System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
-            <summary>
-            Create a new instance of the KrakenRestClient
-            </summary>
-            <param name="optionsDelegate">Option configuration delegate</param>
-            <param name="loggerFactory">The logger factory</param>
-            <param name="httpClient">Http client for this client</param>
-        </member>
-        <member name="M:Kraken.Net.Clients.KrakenRestClient.SetDefaultOptions(System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
-            <summary>
-            Set the default options to be used when creating new clients
-            </summary>
-            <param name="optionsDelegate">Option configuration delegate</param>
-        </member>
-        <member name="M:Kraken.Net.Clients.KrakenRestClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
+        <member name="T:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi">
             <inheritdoc />
         </member>
-        <member name="T:Kraken.Net.Clients.KrakenSocketClient">
-            <inheritdoc cref="T:Kraken.Net.Interfaces.Clients.IKrakenSocketClient" />
-        </member>
-        <member name="P:Kraken.Net.Clients.KrakenSocketClient.SpotApi">
+        <member name="P:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.ClientOptions">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
-            <summary>
-            Create a new instance of the KrakenSocketClient
-            </summary>
-            <param name="loggerFactory">The logger</param>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
+            <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions})">
-            <summary>
-            Create a new instance of the KrakenSocketClient
-            </summary>
-            <param name="optionsDelegate">Option configuration delegate</param>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToHeartbeatUpdatesAsync(System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesHeartbeat}},System.Threading.CancellationToken)">
+            <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},Microsoft.Extensions.Logging.ILoggerFactory)">
-            <summary>
-            Create a new instance of the KrakenSocketClient
-            </summary>
-            <param name="loggerFactory">The logger</param>
-            <param name="optionsDelegate">Option configuration delegate</param>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker}},System.Threading.CancellationToken)">
+            <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.KrakenSocketClient.SetDefaultOptions(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions})">
-            <summary>
-            Set the default options to be used when creating new clients
-            </summary>
-            <param name="optionsDelegate">Option configuration delegate</param>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToTradeUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesSnapshotTrades}},System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTrade}},System.Threading.CancellationToken)">
+            <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.KrakenSocketClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToMiniTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTicker}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToOrderBookUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesSnapshotBook}},System.Action{CryptoExchange.Net.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookUpdate}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.HandleQueryResponse``1(CryptoExchange.Net.Sockets.SocketConnection,System.Object,Newtonsoft.Json.Linq.JToken,CryptoExchange.Net.Objects.CallResult{``0}@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.HandleSubscriptionResponse(CryptoExchange.Net.Sockets.SocketConnection,CryptoExchange.Net.Sockets.SocketSubscription,System.Object,Newtonsoft.Json.Linq.JToken,CryptoExchange.Net.Objects.CallResult{System.Object}@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.MessageMatchesHandler(CryptoExchange.Net.Sockets.SocketConnection,Newtonsoft.Json.Linq.JToken,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.MessageMatchesHandler(CryptoExchange.Net.Sockets.SocketConnection,Newtonsoft.Json.Linq.JToken,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.AuthenticateSocketAsync(CryptoExchange.Net.Sockets.SocketConnection)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.UnsubscribeAsync(CryptoExchange.Net.Sockets.SocketConnection,CryptoExchange.Net.Sockets.SocketSubscription)">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi">
@@ -481,6 +461,77 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.UnsubscribeAsync(CryptoExchange.Net.Sockets.SocketConnection,CryptoExchange.Net.Sockets.SocketSubscription)">
             <inheritdoc />
         </member>
+        <member name="T:Kraken.Net.Clients.KrakenRestClient">
+            <inheritdoc cref="T:Kraken.Net.Interfaces.Clients.IKrakenRestClient" />
+        </member>
+        <member name="P:Kraken.Net.Clients.KrakenRestClient.SpotApi">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenRestClient.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
+            <summary>
+            Create a new instance of the KrakenRestClient using provided options
+            </summary>
+            <param name="optionsDelegate">Option configuration delegate</param>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenRestClient.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Net.Http.HttpClient)">
+            <summary>
+            Create a new instance of the KrakenRestClient using default options
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenRestClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILoggerFactory,System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
+            <summary>
+            Create a new instance of the KrakenRestClient
+            </summary>
+            <param name="optionsDelegate">Option configuration delegate</param>
+            <param name="loggerFactory">The logger factory</param>
+            <param name="httpClient">Http client for this client</param>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenRestClient.SetDefaultOptions(System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
+            <summary>
+            Set the default options to be used when creating new clients
+            </summary>
+            <param name="optionsDelegate">Option configuration delegate</param>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenRestClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
+            <inheritdoc />
+        </member>
+        <member name="T:Kraken.Net.Clients.KrakenSocketClient">
+            <inheritdoc cref="T:Kraken.Net.Interfaces.Clients.IKrakenSocketClient" />
+        </member>
+        <member name="P:Kraken.Net.Clients.KrakenSocketClient.SpotApi">
+            <inheritdoc />
+        </member>
+        <member name="P:Kraken.Net.Clients.KrakenSocketClient.FuturesApi">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Create a new instance of the KrakenSocketClient
+            </summary>
+            <param name="loggerFactory">The logger</param>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions})">
+            <summary>
+            Create a new instance of the KrakenSocketClient
+            </summary>
+            <param name="optionsDelegate">Option configuration delegate</param>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Create a new instance of the KrakenSocketClient
+            </summary>
+            <param name="loggerFactory">The logger</param>
+            <param name="optionsDelegate">Option configuration delegate</param>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenSocketClient.SetDefaultOptions(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions})">
+            <summary>
+            Set the default options to be used when creating new clients
+            </summary>
+            <param name="optionsDelegate">Option configuration delegate</param>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenSocketClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
+            <inheritdoc />
+        </member>
         <member name="T:Kraken.Net.Converters.KrakenDictionaryResult`1">
             <summary>
             Dictionary result
@@ -535,6 +586,56 @@
         <member name="F:Kraken.Net.Enums.AssetStatus.FundingTemporarilyDisabled">
             <summary>
             Funding temp disabled
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.FuturesKlineInterval">
+            <summary>
+            Futures kline interval
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FuturesKlineInterval.OneMinute">
+            <summary>
+            1 minute
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FuturesKlineInterval.FiveMinutes">
+            <summary>
+            5 minutes
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FuturesKlineInterval.FifteenMinutes">
+            <summary>
+            15 minutes
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FuturesKlineInterval.ThirtyMinutes">
+            <summary>
+            30 minutes
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FuturesKlineInterval.OneHour">
+            <summary>
+            1 hour
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FuturesKlineInterval.FourHours">
+            <summary>
+            4 hours
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FuturesKlineInterval.TwelfHours">
+            <summary>
+            12 hours
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FuturesKlineInterval.OneDay">
+            <summary>
+            1 day
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FuturesKlineInterval.OneWeek">
+            <summary>
+            1 week
             </summary>
         </member>
         <member name="T:Kraken.Net.Enums.FuturesOrderType">
@@ -1187,6 +1288,26 @@
             Only post-only limit orders can be submitted. Existing orders may still be canceled. No trades will occur.
             </summary>
         </member>
+        <member name="T:Kraken.Net.Enums.TickType">
+            <summary>
+            Tick type
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TickType.Spot">
+            <summary>
+            Spot price
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TickType.Mark">
+            <summary>
+            Mark price
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TickType.Trade">
+            <summary>
+            Trade price
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Enums.TimeInForce">
             <summary>
             Time In Force
@@ -1365,7 +1486,12 @@
         </member>
         <member name="P:Kraken.Net.Interfaces.Clients.IKrakenSocketClient.SpotApi">
             <summary>
-            Spot streams
+            Spot Api
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Interfaces.Clients.IKrakenSocketClient.FuturesApi">
+            <summary>
+            Futures Api
             </summary>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.IKrakenSocketClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
@@ -2146,12 +2272,17 @@
             Futures Rest client address
             </summary>
         </member>
+        <member name="P:Kraken.Net.KrakenEnvironment.FuturesSocketBaseAddress">
+            <summary>
+            Futures Socket client address
+            </summary>
+        </member>
         <member name="P:Kraken.Net.KrakenEnvironment.Live">
             <summary>
             Live environment
             </summary>
         </member>
-        <member name="M:Kraken.Net.KrakenEnvironment.CreateCustom(System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:Kraken.Net.KrakenEnvironment.CreateCustom(System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             Create a custom environment
             </summary>
@@ -2160,6 +2291,7 @@
             <param name="spotSocketPublicAddress"></param>
             <param name="spotSocketPrivateAddress"></param>
             <param name="futuresRestAddress"></param>
+            <param name="futuresSocketAddress"></param>
             <returns></returns>
         </member>
         <member name="T:Kraken.Net.KrakenHelpers">
@@ -2276,6 +2408,11 @@
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.KrakenApiAddresses.FuturesRestClientAddress">
+            <summary>
+            The address used by the KrakenRestClient for the futures API
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.KrakenApiAddresses.FuturesSocketClientAddress">
             <summary>
             The address used by the KrakenRestClient for the futures API
             </summary>
@@ -2611,6 +2748,56 @@
         <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCancelledOrders.Status">
             <summary>
             Status
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesKlines">
+            <summary>
+            Kline info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesKlines.MoreKlines">
+            <summary>
+            True if there are more candles in the time range
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesKlines.Klines">
+            <summary>
+            Candles
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesKline">
+            <summary>
+            Kline info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesKline.HighPrice">
+            <summary>
+            High price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesKline.LowPrice">
+            <summary>
+            Low price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesKline.ClosePrice">
+            <summary>
+            Close price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesKline.OpenPrice">
+            <summary>
+            Open price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesKline.Volume">
+            <summary>
+            Volume
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesKline.Timestamp">
+            <summary>
+            Timestamp
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesLeverage">
@@ -3341,6 +3528,161 @@
         <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.Uid">
             <summary>
             Uid
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserExecutionEvents">
+            <summary>
+            User execution events
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserExecutionEvents.AccountUid">
+            <summary>
+            Account id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserExecutionEvents.ContinuationToken">
+            <summary>
+            Continuation token for pagination
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserExecutionEvents.Total">
+            <summary>
+            Total number of results
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserExecutionEvents.ServerTime">
+            <summary>
+            Server time
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserExecutionEvents.Elements">
+            <summary>
+            Elements
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionElement">
+            <summary>
+            Execution event info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionElement.Uid">
+            <summary>
+            Uid
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionElement.Timestamp">
+            <summary>
+            Event timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionElement.Event">
+            <summary>
+            Event info
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionEventWrapper">
+            <summary>
+            Event info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionEventWrapper.Execution">
+            <summary>
+            Execution info
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionEvent">
+            <summary>
+            Execution info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionEvent.Execution">
+            <summary>
+            Execution info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionEvent.TakerReducedQuantity">
+            <summary>
+            Taker reduced quantity
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecution">
+            <summary>
+            Execution info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecution.LimitFilled">
+            <summary>
+            Limit filled
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecution.MakerOrder">
+            <summary>
+            Maker order info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecution.MakerOrderData">
+            <summary>
+            Maker order data
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecution.MarkPrice">
+            <summary>
+            Mark price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecution.OldTakerOrder">
+            <summary>
+            Old taker order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecution.Price">
+            <summary>
+            Price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecution.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecution.TakerOrder">
+            <summary>
+            Taker order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecution.TakerOrderData">
+            <summary>
+            Taker order data
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecution.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecution.Uid">
+            <summary>
+            Uid
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecution.UsdValue">
+            <summary>
+            Usd value
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderData">
+            <summary>
+            Additional order data
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderData.Fee">
+            <summary>
+            Fee
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderData.PositionSize">
+            <summary>
+            Position size
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserTrade">
@@ -5166,6 +5508,356 @@
             Fee that will be paid
             </summary>
         </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesHeartbeat">
+            <summary>
+            Heartbeat
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesHeartbeat.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTicker">
+            <summary>
+            Ticker info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTicker.BestBidPrice">
+            <summary>
+            The best current bid price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTicker.BestAskPrice">
+            <summary>
+            The best current ask price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTicker.Volume">
+            <summary>
+            The sum of the sizes of all fills observed in the last 24 hours
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTicker.Premium">
+            <summary>
+            The premium associated with the product
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTicker.ChangePercentage24h">
+            <summary>
+            The 24h change in price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTicker.Tag">
+            <summary>
+            Currently can be perpetual, month or quarter. Other tags may be added without notice.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTicker.Pair">
+            <summary>
+            The currency pair of the instrument
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTicker.MaturityTime">
+            <summary>
+            The market price of the instrument
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTicker.VolumeQuote">
+            <summary>
+            The same as volume except that, for multi-collateral futures, it is converted to the non-base currency
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesSnapshotBook">
+            <summary>
+            Snapshot book update
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesSnapshotBook.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesSnapshotBook.Sequence">
+            <summary>
+            Sequence number
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesSnapshotBook.Asks">
+            <summary>
+            List of asks
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesSnapshotBook.Bids">
+            <summary>
+            List of bids
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesOrderBookEntry">
+            <summary>
+            Order book entry
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesOrderBookEntry.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesOrderBookEntry.Price">
+            <summary>
+            Price
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookUpdate">
+            <summary>
+            Book update
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookUpdate.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookUpdate.Sequence">
+            <summary>
+            Sequence number
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookUpdate.Side">
+            <summary>
+            Side
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookUpdate.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookUpdate.Price">
+            <summary>
+            Price
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker">
+            <summary>
+            Ticker info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.FundingRate">
+            <summary>
+            Funding rate
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.FundingRatePrediction">
+            <summary>
+            The estimated next funding rate
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.RelativeFundingRate">
+            <summary>
+            The absolute funding rate relative to the spot price at the time of funding rate calculation
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.RelativeFundingRatePrediction">
+            <summary>
+            The estimated next absolute funding rate relative to the current spot price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.NextFundingRateTime">
+            <summary>
+            Next funding rate in miliseconds
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.BestBidPrice">
+            <summary>
+            The best current bid price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.BestBidQuantity">
+            <summary>
+            The quantity of the current best bid
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.BestAskPrice">
+            <summary>
+            The best current ask price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.BestAskQuantity">
+            <summary>
+            The quantity of the current best ask
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.Volume">
+            <summary>
+            The sum of the sizes of all fills observed in the last 24 hours
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.DaysUntilMaturity">
+            <summary>
+            Days until maturity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.Leverage">
+            <summary>
+            Leverage
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.Index">
+            <summary>
+            The real time index of the product
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.Premium">
+            <summary>
+            The premium associated with the product
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.LastPrice">
+            <summary>
+            The premium associated with the product
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.ChangePercentage24h">
+            <summary>
+            The 24h change in price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.Suspended">
+            <summary>
+            True if the market is suspended, false otherwise
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.Tag">
+            <summary>
+            Currently can be perpetual, month or quarter. Other tags may be added without notice.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.Pair">
+            <summary>
+            The currency pair of the instrument
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.OpenInterest">
+            <summary>
+            The current open interest of the instrument
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.MarkPrice">
+            <summary>
+            The market price of the instrument
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.MaturityTime">
+            <summary>
+            The market price of the instrument
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.PostOnly">
+            <summary>
+            True if the market is in post-only, false otherwise
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTicker.VolumeQuote">
+            <summary>
+            The same as volume except that, for multi-collateral futures, it is converted to the non-base currency
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesSnapshotTrades">
+            <summary>
+            Trades update
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesSnapshotTrades.Trades">
+            <summary>
+            Trades
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesSnapshotTrade">
+            <summary>
+            Trade info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesSnapshotTrade.Uid">
+            <summary>
+            Uid
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesSnapshotTrade.Side">
+            <summary>
+            Order side
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesSnapshotTrade.Type">
+            <summary>
+            Trade type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesSnapshotTrade.Sequence">
+            <summary>
+            Sequence number
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesSnapshotTrade.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesSnapshotTrade.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesSnapshotTrade.Price">
+            <summary>
+            Trade price
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTrade">
+            <summary>
+            Trade info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTrade.Uid">
+            <summary>
+            Uid
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTrade.Side">
+            <summary>
+            Order side
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTrade.Type">
+            <summary>
+            Trade type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTrade.Sequence">
+            <summary>
+            Sequence number
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTrade.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTrade.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTrade.Price">
+            <summary>
+            Trade price
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.Socket.KrakenSocketResponseBase">
             <summary>
             Response info
@@ -5334,6 +6026,43 @@
         <member name="P:Kraken.Net.Objects.Options.KrakenSocketOptions.SpotOptions">
             <summary>
             Options for the Spot API
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Options.KrakenSocketOptions.FuturesOptions">
+            <summary>
+            Options for the Futures API
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.SymbolOrderBooks.KrakenFuturesSymbolOrderBook">
+            <summary>
+            Live order book implementation
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenFuturesSymbolOrderBook.#ctor(System.String,System.Action{Kraken.Net.Objects.Options.KrakenOrderBookOptions})">
+            <summary>
+            Create a new order book instance
+            </summary>
+            <param name="symbol">The symbol the order book is for</param>
+            <param name="optionsDelegate">Option configuration delegate</param>
+        </member>
+        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenFuturesSymbolOrderBook.#ctor(System.String,System.Action{Kraken.Net.Objects.Options.KrakenOrderBookOptions},Microsoft.Extensions.Logging.ILogger{Kraken.Net.SymbolOrderBooks.KrakenFuturesSymbolOrderBook},Kraken.Net.Interfaces.Clients.IKrakenSocketClient)">
+            <summary>
+            Create a new order book instance
+            </summary>
+            <param name="symbol">The symbol the order book is for</param>
+            <param name="optionsDelegate">Option configuration delegate</param>
+            <param name="logger">Logger</param>
+            <param name="socketClient">Socket client instance</param>
+        </member>
+        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenFuturesSymbolOrderBook.DoStartAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenFuturesSymbolOrderBook.DoResyncAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenFuturesSymbolOrderBook.Dispose(System.Boolean)">
+            <summary>
+            Dispose
             </summary>
         </member>
         <member name="T:Kraken.Net.SymbolOrderBooks.KrakenOrderBookFactory">

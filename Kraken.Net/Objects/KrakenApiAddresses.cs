@@ -24,6 +24,11 @@
         public string FuturesRestClientAddress { get; set; } = "";
 
         /// <summary>
+        /// The address used by the KrakenRestClient for the futures API
+        /// </summary>
+        public string FuturesSocketClientAddress { get; set; } = "";
+
+        /// <summary>
         /// The default addresses to connect to the Kraken.com API
         /// </summary>
         public static KrakenApiAddresses Default = new KrakenApiAddresses
@@ -32,7 +37,8 @@
             SpotSocketPublicAddress = "wss://ws.kraken.com",
             SpotSocketPrivateAddress = "wss://ws-auth.kraken.com/",
 
-            FuturesRestClientAddress = "https://futures.kraken.com"
+            FuturesRestClientAddress = "https://futures.kraken.com",
+            FuturesSocketClientAddress = "wss://futures.kraken.com/"
         };
     }
 }

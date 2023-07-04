@@ -165,5 +165,18 @@ namespace Kraken.Net.Clients.FuturesApi
             parameters.AddOptionalParameter("timeout", (int)Math.Floor(cancelAfter.TotalSeconds));
             return await _baseClient.Execute<KrakenFuturesCancelAfterResult, KrakenFuturesCancelAfter>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/cancelallordersafter")), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<KrakenFuturesUserExecutionEvents>> GetExecutionEventsAsync(DateTime? startTime = null, DateTime? endTime = null, string? sort = null, string? tradeable = null, string? continuationToken = null, CancellationToken ct = default)
+        {
+            var parameters = new Dictionary<string, object>();
+            parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime));
+            parameters.AddOptionalParameter("since", DateTimeConverter.ConvertToMilliseconds(startTime));
+            parameters.AddOptionalParameter("sort", sort);
+            parameters.AddOptionalParameter("tradeable", tradeable);
+            parameters.AddOptionalParameter("continuationToken", continuationToken);
+
+            return await _baseClient.ExecuteBase<KrakenFuturesUserExecutionEvents>(new Uri(_baseClient.BaseAddress.AppendPath("api/history/v3/executions")), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+        }
     }
 }

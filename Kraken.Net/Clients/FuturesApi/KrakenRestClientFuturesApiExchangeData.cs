@@ -6,6 +6,8 @@ using System.Threading;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net;
 using Kraken.Net.Objects.Models.Futures;
+using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters;
 
 namespace Kraken.Net.Clients.FuturesApi
 {
@@ -84,6 +86,15 @@ namespace Kraken.Net.Clients.FuturesApi
         public async Task<WebCallResult<IEnumerable<KrakenFuturesTicker>>> GetTickersAsync(CancellationToken ct = default)
         {
             return await _baseClient.Execute<KrakenFuturesTickerResult, IEnumerable<KrakenFuturesTicker>>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/tickers")), HttpMethod.Get, ct).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<KrakenFuturesKlines>> GetKlinesAsync(TickType tickType, string symbol, FuturesKlineInterval interval, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default)
+        {
+            var parameters = new Dictionary<string, object>();
+            parameters.AddOptionalParameter("from", DateTimeConverter.ConvertToSeconds(startTime));
+            parameters.AddOptionalParameter("to", DateTimeConverter.ConvertToSeconds(endTime));
+            return await _baseClient.ExecuteBase<KrakenFuturesKlines>(new Uri(_baseClient.BaseAddress.AppendPath($"api/charts/v1/{EnumConverter.GetString(tickType)}/{symbol}/{EnumConverter.GetString(interval)}")), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
     }
 }
