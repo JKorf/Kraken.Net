@@ -10,12 +10,12 @@ namespace Kraken.Net.Enums
         /// <summary>
         /// Buy
         /// </summary>
-        [Map("buy")]
+        [Map("buy", "0")]
         Buy,
         /// <summary>
         /// Sell
         /// </summary>
-        [Map("sell")]
+        [Map("sell", "1")]
         Sell
     }
 }

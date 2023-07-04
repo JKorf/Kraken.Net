@@ -17,6 +17,8 @@ namespace Kraken.Net
         private readonly INonceProvider _nonceProvider;
         private readonly byte[] _hmacSecret;
 
+        public string GetApiKey() => _credentials.Key!.GetString();
+
         public KrakenFuturesAuthenticationProvider(ApiCredentials credentials, INonceProvider? nonceProvider) : base(credentials)
         {
             if (credentials.CredentialType != ApiCredentialsType.Hmac)
@@ -35,8 +37,6 @@ namespace Kraken.Net
             if (!auth)
                 return;
 
-            var parameters = parameterPosition == HttpMethodParameterPosition.InUri ? uriParameters : bodyParameters;
-
             headers.Add("APIKey", _credentials.Key!.GetString());
             var message = providedParameters.CreateParamString(false, arraySerialization) + uri.AbsolutePath.Replace("/derivatives", "");
             using var hash256 = SHA256.Create();
@@ -46,6 +46,15 @@ namespace Kraken.Net
             byte[] buff = hMACSHA.ComputeHash(hash);
             var sign = BytesToBase64String(buff);
             headers.Add("Authent", sign);
+        }
+
+        public string AuthenticateWebsocketChallenge(string challenge)
+        {
+            using var hash256 = SHA256.Create();
+            var hash = hash256.ComputeHash(Encoding.UTF8.GetBytes(challenge));
+            using HMACSHA512 hMACSHA = new HMACSHA512(_hmacSecret);
+            byte[] buff = hMACSHA.ComputeHash(hash);
+            return BytesToBase64String(buff);
         }
     }
 }

@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.OrderBook;
 using CryptoExchange.Net.Sockets;
-using Force.Crc32;
 using Kraken.Net.Clients;
 using Kraken.Net.Interfaces.Clients;
-using Kraken.Net.Objects.Models;
 using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Options;
 using Microsoft.Extensions.Logging;
@@ -25,7 +20,6 @@ namespace Kraken.Net.SymbolOrderBooks
     {
         private readonly IKrakenSocketClient _socketClient;
         private readonly bool _clientOwner;
-        private bool _initialSnapshotDone;
         private readonly TimeSpan _initialDataTimeout;
 
         /// <summary>

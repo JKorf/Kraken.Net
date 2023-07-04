@@ -19,6 +19,16 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         public List<string>? Symbols { get; set; }
     }
 
+    public class KrakenFuturesSubscribeAuthMessage : KrakenFuturesSubscribeMessage
+    {
+        [JsonProperty("api_key")]
+        public string ApiKey { get; set; }
+        [JsonProperty("original_challenge")]
+        public string OriginalChallenge { get; set; }
+        [JsonProperty("signed_challenge")]
+        public string SignedChallenge { get; set; }
+    }
+
     public class KrakenFuturesUpdateMessage : KrakenFuturesSocketMessage
     {
         [JsonProperty("product_id")]
