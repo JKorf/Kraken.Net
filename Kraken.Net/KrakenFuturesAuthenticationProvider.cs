@@ -28,8 +28,8 @@ namespace Kraken.Net
 
         public override void AuthenticateRequest(RestApiClient apiClient, Uri uri, HttpMethod method, Dictionary<string, object> providedParameters, bool auth, ArrayParametersSerialization arraySerialization, HttpMethodParameterPosition parameterPosition, out SortedDictionary<string, object> uriParameters, out SortedDictionary<string, object> bodyParameters, out Dictionary<string, string> headers)
         {
-            uriParameters = parameterPosition == HttpMethodParameterPosition.InUri ? new SortedDictionary<string, object>(providedParameters, new KrakenParameterComparer()) : new SortedDictionary<string, object>();
-            bodyParameters = parameterPosition == HttpMethodParameterPosition.InBody ? new SortedDictionary<string, object>(providedParameters, new KrakenParameterComparer()) : new SortedDictionary<string, object>();
+            uriParameters = parameterPosition == HttpMethodParameterPosition.InUri ? new SortedDictionary<string, object>(providedParameters) : new SortedDictionary<string, object>();
+            bodyParameters = parameterPosition == HttpMethodParameterPosition.InBody ? new SortedDictionary<string, object>(providedParameters) : new SortedDictionary<string, object>();
             headers = new Dictionary<string, string>();
 
             if (!auth)
@@ -38,8 +38,8 @@ namespace Kraken.Net
             var parameters = parameterPosition == HttpMethodParameterPosition.InUri ? uriParameters : bodyParameters;
 
             headers.Add("APIKey", _credentials.Key!.GetString());
-            var message = uri.SetParameters(parameters, arraySerialization).Query.Replace("?", "") + uri.AbsolutePath.Replace("/derivatives", "");
-            var hash256 = SHA256.Create();
+            var message = providedParameters.CreateParamString(false, arraySerialization) + uri.AbsolutePath.Replace("/derivatives", "");
+            using var hash256 = SHA256.Create();
             var hash = hash256.ComputeHash(Encoding.UTF8.GetBytes(message));
 
             using HMACSHA512 hMACSHA = new HMACSHA512(_hmacSecret);

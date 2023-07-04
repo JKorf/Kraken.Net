@@ -3,19 +3,19 @@
 namespace Kraken.Net.Enums
 {
     /// <summary>
-    /// Side of an order
+    /// Position side
     /// </summary>
-    public enum OrderSide
+    public enum PositionSide
     {
         /// <summary>
-        /// Buy
+        /// Long position
         /// </summary>
-        [Map("buy")]
-        Buy,
+        [Map("long")]
+        Long,
         /// <summary>
-        /// Sell
+        /// Short position
         /// </summary>
-        [Map("sell")]
-        Sell
+        [Map("short")]
+        Short
     }
 }

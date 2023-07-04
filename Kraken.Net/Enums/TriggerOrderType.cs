@@ -3,19 +3,19 @@
 namespace Kraken.Net.Enums
 {
     /// <summary>
-    /// Side of an order
+    /// Type of order
     /// </summary>
-    public enum OrderSide
+    public enum TriggerOrderType
     {
         /// <summary>
-        /// Buy
+        /// Trigger order
         /// </summary>
-        [Map("buy")]
-        Buy,
+        [Map("TRIGGER_ORDER")]
+        TriggerOrder,
         /// <summary>
-        /// Sell
+        /// Normal order
         /// </summary>
-        [Map("sell")]
-        Sell
+        [Map("ORDER")]
+        Order
     }
 }

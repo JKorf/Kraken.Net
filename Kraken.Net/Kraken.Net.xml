@@ -4,7 +4,19 @@
         <name>Kraken.Net</name>
     </assembly>
     <members>
+        <member name="T:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi">
+            <inheritdoc />
+        </member>
         <member name="P:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.ClientOptions">
+            <inheritdoc />
+        </member>
+        <member name="P:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.Account">
+            <inheritdoc />
+        </member>
+        <member name="P:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.ExchangeData">
+            <inheritdoc />
+        </member>
+        <member name="P:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.Trading">
             <inheritdoc />
         </member>
         <member name="P:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.ExchangeName">
@@ -25,10 +37,94 @@
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.GetTimeOffset">
             <inheritdoc />
         </member>
+        <member name="T:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiAccount">
+            <inheritdoc />
+        </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiAccount.GetBalancesAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiAccount.GetPnlCurrencyAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiAccount.SetPnlCurrencyAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiAccount.TransferAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiAccount.GetAccountLogAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Nullable{System.Int32},System.String,System.String,System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData.GetPlatformNotificationsAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData.GetHistoricalFundingRatesAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData.GetFeeSchedulesAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData.GetFeeScheduleVolumeAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData.GetSymbolsAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData.GetSymbolStatusAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData.GetTradesAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData.GetOrderBookAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData.GetTickersAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.GetUserTradesAsync(System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.GetSelfTradeStrategyAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.SetSelfTradeStrategyAsync(Kraken.Net.Enums.SelfTradeStrategy,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.GetOpenPositionsAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.GetLeverageAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.SetLeverageAsync(System.String,System.Decimal,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.FuturesOrderType,System.Int32,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.TrailingStopDeviationUnit},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.TriggerSignal},System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.GetOpenOrdersAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.GetOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.EditOrderAsync(System.String,System.String,System.Nullable{System.Int32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.TrailingStopDeviationUnit},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.CancelOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.CancelAllOrdersAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.CancelAllOrderAfterAsync(System.TimeSpan,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Clients.KrakenRestClient">
@@ -441,6 +537,71 @@
             Funding temp disabled
             </summary>
         </member>
+        <member name="T:Kraken.Net.Enums.FuturesOrderType">
+            <summary>
+            Futures order type
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FuturesOrderType.Limit">
+            <summary>
+            Limit order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FuturesOrderType.PostOnlyLimit">
+            <summary>
+            Post only limit order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FuturesOrderType.ImmediateOrCancel">
+            <summary>
+            Immediate or cancel order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FuturesOrderType.Market">
+            <summary>
+            Market order with 1% price protection
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FuturesOrderType.Stop">
+            <summary>
+            Stop order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FuturesOrderType.TakeProfit">
+            <summary>
+            Take profit order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FuturesOrderType.TrailingStop">
+            <summary>
+            Trailing stop order
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.InstrumentType">
+            <summary>
+            Type of instrument
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.InstrumentType.FlexibleFutures">
+            <summary>
+            Flexible futures
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.InstrumentType.InverseFutures">
+            <summary>
+            Inverse futures
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.InstrumentType.ValillaFutures">
+            <summary>
+            Vanilla futures
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.InstrumentType.SpotIndex">
+            <summary>
+            Spot index
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Enums.KlineInterval">
             <summary>
             The time interval of kline data, the int value respresents the time in seconds
@@ -489,6 +650,196 @@
         <member name="F:Kraken.Net.Enums.KlineInterval.FifteenDays">
             <summary>
             15d
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.KrakenFuturesOrderActionStatus">
+            <summary>
+            Order action result
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.Placed">
+            <summary>
+            The order was placed successfully 
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.PartiallyFilled">
+            <summary>
+            Order was partially filled
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.Filled">
+            <summary>
+            Order was filled
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.Cancelled">
+            <summary>
+            The order was cancelled successfully
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.Edited">
+            <summary>
+            Edited
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.MarketSuspended">
+            <summary>
+            The order was not placed because the market is suspended
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.MarketInactive">
+            <summary>
+            The order was not placed because the market is inactive
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.InvalidPrice">
+            <summary>
+            The order was not placed because limitPrice and/or stopPrice are invalid
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.InvalidSize">
+            <summary>
+            The order was not placed because size is invalid
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.TooManySmallOrders">
+            <summary>
+            The order was not placed because the number of small open orders would exceed the permissible limit
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.InsufficientAvailableFunds">
+            <summary>
+            The order was not placed because available funds are insufficient
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.WouldCauseLiquidation">
+            <summary>
+            Returned when a new order would fill at a worse price than the mark price, causing the portfolio value to fall below maintenance margin and triggering a liquidation
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.ClientOrderIdAlreadyExist">
+            <summary>
+            The specified client id already exist
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.ClientOrderIdTooBig">
+            <summary>
+             the client id is longer than the permissible limit
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.MaxPositionViolation">
+            <summary>
+            Order would cause you to exceed your maximum position in this contract.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.OutsidePriceCollar">
+            <summary>
+            The order would have executed outside of the price collar for its order type
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.WouldIncreasePriceDislocation">
+            <summary>
+            Would increase price dislocation
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.NotFound">
+            <summary>
+            Not found
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.OrderForEditNotAStop">
+            <summary>
+            Order not a stop order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.OrderForEditNotFound">
+            <summary>
+            Order not found
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.PostWouldExecute">
+            <summary>
+            The post-only order would be filled upon placement, thus is cancelled
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.IocWouldNotExecute">
+            <summary>
+            the immediate-or-cancel order would not execute.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.SelfFill">
+            <summary>
+            The order was not placed because it would be filled against an existing order belonging to the same account
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.WouldNotReducePosition">
+            <summary>
+            The reduce only order would not reduce position.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.MarketIsPostOnly">
+            <summary>
+            The market is post only
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.TooManyOrders">
+            <summary>
+            Too many orders
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.FixedLeverageTooHigh">
+            <summary>
+            Fixed leverage too high
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.ClientOrderIdInvalid">
+            <summary>
+            Client order id is invalid
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.CannotEditTriggerPriceOfTrailingStop">
+            <summary>
+            Cannot edit trigger price of trailing stop
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.CannotEditLimitPriceOfTrailingStop">
+            <summary>
+            Cannot edit limit price of trailling stop
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.KrakenFuturesOrderActiveStatus">
+            <summary>
+            Order active status
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActiveStatus.EnteredBook">
+            <summary>
+            Entered the order book
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActiveStatus.FullyExecuted">
+            <summary>
+            Fully executed
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActiveStatus.Rejected">
+            <summary>
+            Rejected
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActiveStatus.Cancelled">
+            <summary>
+            Cancelled
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActiveStatus.TriggerPlaced">
+            <summary>
+            Trigger placed
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActiveStatus.TriggerActivationFailure">
+            <summary>
+            Failed to activate trigger
             </summary>
         </member>
         <member name="T:Kraken.Net.Enums.LedgerEntryType">
@@ -549,6 +900,21 @@
         <member name="F:Kraken.Net.Enums.LedgerEntryType.Staking">
             <summary>
             Staking
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.OpenOrderStatus">
+            <summary>
+            Status of an open order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OpenOrderStatus.Untouched">
+            <summary>
+            The entire size of the order is unfilled
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OpenOrderStatus.PartiallyFilled">
+            <summary>
+            The size of the order is partially but not entirely filled
             </summary>
         </member>
         <member name="T:Kraken.Net.Enums.OrderFlags">
@@ -716,6 +1082,21 @@
             Symbol order
             </summary>
         </member>
+        <member name="T:Kraken.Net.Enums.PositionSide">
+            <summary>
+            Position side
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.PositionSide.Long">
+            <summary>
+            Long position
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.PositionSide.Short">
+            <summary>
+            Short position
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Enums.SelfTradePreventionType">
             <summary>
             Self trade prevention type
@@ -734,6 +1115,31 @@
         <member name="F:Kraken.Net.Enums.SelfTradePreventionType.CancelBoth">
             <summary>
             Cancel both orders
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.SelfTradeStrategy">
+            <summary>
+            Self trade strategy
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.SelfTradeStrategy.RejectTaker">
+            <summary>
+            Default behaviour, rejects the taker order that would match against a maker order from any sub-account
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.SelfTradeStrategy.CancelMakerSelf">
+            <summary>
+            Only cancels the maker order if it is from the same account that sent the taker order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.SelfTradeStrategy.CancelMakerChild">
+            <summary>
+            Only allows master to cancel its own maker orders and orders from its sub-account
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.SelfTradeStrategy.CancelMakerAny">
+            <summary>
+            Allows both master accounts and their subaccounts to cancel maker orders
             </summary>
         </member>
         <member name="T:Kraken.Net.Enums.StakingRewardType">
@@ -801,6 +1207,66 @@
             Good 'Til Date
             </summary>
         </member>
+        <member name="T:Kraken.Net.Enums.TradeType">
+            <summary>
+            Trade type
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TradeType.Maker">
+            <summary>
+            Maker
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TradeType.Taker">
+            <summary>
+            Taker
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TradeType.Liquidation">
+            <summary>
+            Liquidation
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TradeType.Assignee">
+            <summary>
+            Assignee
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TradeType.Assignor">
+            <summary>
+            Assignor
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TradeType.TakerAfterEdit">
+            <summary>
+            Taker after edit
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TradeType.UnwindBankrupt">
+            <summary>
+            Unwinding bankrupt
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TradeType.UnwindCounterParty">
+            <summary>
+            Unwinding country party
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.TrailingStopDeviationUnit">
+            <summary>
+            This defines how the trailing trigger price is calculated from the requested trigger signal. For example, if the max deviation is set to 10, the unit is 'PERCENT', and the underlying order is a sell, then the trigger price will never be more then 10% below the trigger signal. Similarly, if the deviation is 100, the unit is 'QUOTE_CURRENCY', the underlying order is a sell, and the contract is quoted in USD, then the trigger price will never be more than $100 below the trigger signal.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TrailingStopDeviationUnit.Percent">
+            <summary>
+            Percentage
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TrailingStopDeviationUnit.QuoteCurrency">
+            <summary>
+            Quote currency
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Enums.Trigger">
             <summary>
             Trigger price type
@@ -814,6 +1280,61 @@
         <member name="F:Kraken.Net.Enums.Trigger.Index">
             <summary>
             Index price
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.TriggerOrderType">
+            <summary>
+            Type of order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TriggerOrderType.TriggerOrder">
+            <summary>
+            Trigger order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TriggerOrderType.Order">
+            <summary>
+            Normal order
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.TriggerSide">
+            <summary>
+            Trigger side
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TriggerSide.TriggerAbove">
+            <summary>
+            Trigger when the price is above the trigger rpcei
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TriggerSide.TriggerBelow">
+            <summary>
+            Trigger when price is below the trigger price
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.TriggerSignal">
+            <summary>
+            Trigger signal
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TriggerSignal.Mark">
+            <summary>
+            Mark price
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TriggerSignal.Index">
+            <summary>
+            Index price
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TriggerSignal.Spot">
+            <summary>
+            Index price
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TriggerSignal.Last">
+            <summary>
+            Last trade price
             </summary>
         </member>
         <member name="T:Kraken.Net.Interfaces.Clients.IKrakenRestClient">
@@ -1767,6 +2288,131 @@
         <member name="M:Kraken.Net.Objects.KrakenNonceProvider.GetNonce">
             <inheritdoc />
         </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenAccountLogResult">
+            <summary>
+            Account log
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLogResult.AccountUid">
+            <summary>
+            Account id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLogResult.Logs">
+            <summary>
+            Log entries
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenAccountLog">
+            <summary>
+            Log entry
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.Asset">
+            <summary>
+            The asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.BookingUid">
+            <summary>
+            Booking id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.Collateral">
+            <summary>
+            Collateral
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.Contract">
+            <summary>
+            Contract
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.ConversionSpeedPercentage">
+            <summary>
+            Conversion speed percentage
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.Timestamp">
+            <summary>
+            Event time
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.Execution">
+            <summary>
+            Execution
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.Fee">
+            <summary>
+            Fee paid
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.FundingRate">
+            <summary>
+            Funding rate
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.Id">
+            <summary>
+            Log id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.Info">
+            <summary>
+            Info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.LiquidationFee">
+            <summary>
+            Liquidation fee
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.MarginAccount">
+            <summary>
+            Margin account
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.MarkPrice">
+            <summary>
+            Mark price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.NewAverageEntryPrice">
+            <summary>
+            New average entry price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.NewBalance">
+            <summary>
+            New balance
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.OldAverageEntryPrice">
+            <summary>
+            Previous average entry price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.OldBalance">
+            <summary>
+            Previous balance
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.RealizedFunding">
+            <summary>
+            Realized funding
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.RealizedProfitAndLoss">
+            <summary>
+            Realized profit and loss
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenAccountLog.TradePrice">
+            <summary>
+            Trade price
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.Futures.KrakenBalances">
             <summary>
             Kraken balances info
@@ -1787,6 +2433,46 @@
             Balances
             </summary>
         </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFeeSchedule">
+            <summary>
+            Fee info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFeeSchedule.Name">
+            <summary>
+            Name
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFeeSchedule.Uid">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFeeSchedule.Tiers">
+            <summary>
+            Fee tiers
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFee">
+            <summary>
+            Fee info when trading volume is above specific volume
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFee.MakerFee">
+            <summary>
+            Fee for maker orders
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFee.TakerFee">
+            <summary>
+            Fee for taker orders
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFee.UsdVolume">
+            <summary>
+            Usd trade volume threshold
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFundingRate">
             <summary>
             Funding rate info
@@ -1805,6 +2491,906 @@
         <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFundingRate.Timestamp">
             <summary>
             Timestamp
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesCachedOrder">
+            <summary>
+            Order info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCachedOrder.ClientOrderId">
+            <summary>
+            Client order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCachedOrder.QuantityFilled">
+            <summary>
+            Quantity filled
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCachedOrder.LastUpdateTime">
+            <summary>
+            Last update time
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCachedOrder.Price">
+            <summary>
+            Price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCachedOrder.OrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCachedOrder.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCachedOrder.QuantityRemaining">
+            <summary>
+            Quantity remaining
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCachedOrder.ReduceOnly">
+            <summary>
+            Reduce only
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCachedOrder.Side">
+            <summary>
+            Order side
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCachedOrder.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCachedOrder.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCachedOrder.Type">
+            <summary>
+            Trigger order type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCachedOrder.PriceTriggerOptions">
+            <summary>
+            Trigger options
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCachedOrder.TriggerTime">
+            <summary>
+            Trigger timestamp
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesCancelAfter">
+            <summary>
+            Cancel after info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCancelAfter.CurrentTime">
+            <summary>
+            Current timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCancelAfter.TriggerTime">
+            <summary>
+            Trigger time
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesCancelledOrders">
+            <summary>
+            Cancelled order info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCancelledOrders.CancelOnly">
+            <summary>
+            Cancelled all or a specific symbol
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCancelledOrders.CancelledOrders">
+            <summary>
+            Cancelled order ids
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCancelledOrders.OrderEvents">
+            <summary>
+            Order events
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCancelledOrders.ReceivedTime">
+            <summary>
+            Received timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesCancelledOrders.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesLeverage">
+            <summary>
+            Leverage setting
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesLeverage.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesLeverage.MaxLeverage">
+            <summary>
+            Max leverage
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesOpenOrder">
+            <summary>
+            Order info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOpenOrder.ClientOrderId">
+            <summary>
+            Client order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOpenOrder.QuantityFilled">
+            <summary>
+            Quantity filled
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOpenOrder.LastUpdateTime">
+            <summary>
+            Last update time
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOpenOrder.Price">
+            <summary>
+            Price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOpenOrder.OrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOpenOrder.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOpenOrder.QuantityRemaining">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOpenOrder.ReduceOnly">
+            <summary>
+            Reduce only
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOpenOrder.Side">
+            <summary>
+            Order side
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOpenOrder.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOpenOrder.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOpenOrder.Type">
+            <summary>
+            Order type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOpenOrder.Status">
+            <summary>
+            Order status
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrder">
+            <summary>
+            Order info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrder.ClientOrderId">
+            <summary>
+            Client order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrder.QuantityFilled">
+            <summary>
+            Quantity filled
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrder.LastUpdateTime">
+            <summary>
+            Last update time
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrder.Price">
+            <summary>
+            Price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrder.OrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrder.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrder.QuantityRemaining">
+            <summary>
+            Quantity remaining
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrder.ReduceOnly">
+            <summary>
+            Reduce only
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrder.Side">
+            <summary>
+            Order side
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrder.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrder.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrder.Type">
+            <summary>
+            Order type
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderBook">
+            <summary>
+            Order book
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderBook.Asks">
+            <summary>
+            List of asks
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderBook.Bids">
+            <summary>
+            List of bids
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderBookEntry">
+            <summary>
+            Order book entry
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderBookEntry.Price">
+            <summary>
+            Price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderBookEntry.Quantity">
+            <summary>
+            Quantiy
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderId">
+            <summary>
+            Order id info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderId.ClientOrderId">
+            <summary>
+            Client order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderId.OrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderResult">
+            <summary>
+            Order status info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderResult.OrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderResult.ReceivedTime">
+            <summary>
+            Receive timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderResult.Status">
+            <summary>
+            Order status
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderResult.OrderEvents">
+            <summary>
+            Order events
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderEvent">
+            <summary>
+            Order event
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderEvent.Type">
+            <summary>
+            Event type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderEvent.ReducedQuantity">
+            <summary>
+            Reduced quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderEvent.Order">
+            <summary>
+            Order info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderEvent.New">
+            <summary>
+            New order info for edit event
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderEvent.Old">
+            <summary>
+            Old order info for edit event
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderStatus">
+            <summary>
+            Order status info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderStatus.Error">
+            <summary>
+            Order error
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderStatus.Order">
+            <summary>
+            Order details
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderStatus.Status">
+            <summary>
+            Order status
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrderStatus.UpdateReason">
+            <summary>
+            Update reason
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesPlatfromNotificationResult">
+            <summary>
+            Platform info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesPlatfromNotificationResult.Notifications">
+            <summary>
+            Notifications
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesPlatfromNotification">
+            <summary>
+            Platform notification info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesPlatfromNotification.EffectiveTime">
+            <summary>
+            The time that notification is taking effect.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesPlatfromNotification.Note">
+            <summary>
+            The notification note. A short description about the specific notification.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesPlatfromNotification.Priority">
+            <summary>
+            The notification priorities: low / medium / high. If priority == "high" then it implies downtime will occur at EffectiveTime when Type == "maintenance".
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesPlatfromNotification.Type">
+            <summary>
+            If type == "maintenance" then it implies downtime will occur at EffectiveTime if Priority == "high".
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesPnlCurrency">
+            <summary>
+            Profit and loss currency preference
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesPnlCurrency.PnlCurrency">
+            <summary>
+            Profit and loss currency
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesPnlCurrency.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesPosition">
+            <summary>
+            Futures position info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesPosition.FillTime">
+            <summary>
+            Position enter time
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesPosition.MaxFixedLeverage">
+            <summary>
+            Max leverage selected for isolated position
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesPosition.ProfitAndLossCurrency">
+            <summary>
+            Selected pnl currency for the position (default: USD)
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesPosition.Price">
+            <summary>
+            The average price at which the position was entered into.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesPosition.Side">
+            <summary>
+            The direction of the position.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesPosition.Quantity">
+            <summary>
+            The size of the position.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesPosition.Symbol">
+            <summary>
+            The symbol
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesPosition.UnrealizedFunding">
+            <summary>
+            Unrealised funding on the position.
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol">
+            <summary>
+            Futures symbol info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.Category">
+            <summary>
+            Category
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.ContractSize">
+            <summary>
+            The contract size of the Futures
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.ContractValueTradePrecision">
+            <summary>
+            Trade precision for the contract (e.g. trade precision of 2 means trades are precise to the hundredth decimal place 0.01).
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.FeeScheduleUid">
+            <summary>
+            Unique identifier of fee schedule associated with the instrument
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.FundingRateCoefficient">
+            <summary>
+            Funding rate coefficient
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.ImpactMidSize">
+            <summary>
+            Amount of contract used to calculated the mid price for the mark price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.Isin">
+            <summary>
+            Single-collateral contracts only: Contract's ISIN code
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.LastTradingTime">
+            <summary>
+            Last trade time
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.MarginLevels">
+            <summary>
+            A list containing the margin schedules
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.MaxPositionSize">
+            <summary>
+            Maximum number of contracts that one can hold in a position
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.MaxRelativeFundingRate">
+            <summary>
+            Perpetuals only: the absolute value of the maximum permissible funding rate
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.OpeningDate">
+            <summary>
+            When the contract was first available for trading
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.PostOnly">
+            <summary>
+            True if the instrument is in post-only mode, false otherwise.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.RetailMarginLevels">
+            <summary>
+            Margin levels for retail clients (investor category no longer eligible for trading).
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.Symbol">
+            <summary>
+            Symbols
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.Tags">
+            <summary>
+            Tag for the contract (currently does not return a value).
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.TickSize">
+            <summary>
+            Tick size of the contract being traded.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.Tradeable">
+            <summary>
+            True if the instrument can be traded, False otherwise.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.Type">
+            <summary>
+            Type of the instrument
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.Underlying">
+            <summary>
+            The underlying of the Futures
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFutureMarginLevel">
+            <summary>
+            Margin level
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFutureMarginLevel.Contracts">
+            <summary>
+            The lower limit of the number of contracts to which this margin level applies
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFutureMarginLevel.InitialMargin">
+            <summary>
+            The initial margin requirement for this level
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFutureMarginLevel.MaintenanceMargin">
+            <summary>
+            The maintenance margin requirement for this level
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFutureMarginLevel.NumNonContractUnits">
+            <summary>
+             The lower limit of the number of non-contract units (i.e. quote currency units for linear futures) to which this margin level applies
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbolStatus">
+            <summary>
+            Symbol status
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbolStatus.ExtremeVolatilityInitialMarginMultiplier">
+            <summary>
+            Extreme volatility initial margin multiplier
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbolStatus.IsExperiencingDislocation">
+            <summary>
+            Is experiencing dislocation
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbolStatus.IsExperiencingExtremeVolatility">
+            <summary>
+            Is experiencing exterme volatility
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbolStatus.PriceDislocationDirection">
+            <summary>
+            Price dislocation direction
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbolStatus.Tradeable">
+            <summary>
+            Tradeable
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker">
+            <summary>
+            Ticker info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.BestAskPrice">
+            <summary>
+            The price of the current best ask
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.BestAskQuantity">
+            <summary>
+            The size of the current best ask
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.BestBidPrice">
+            <summary>
+            The price of the current best bid
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.BestBidQuantity">
+            <summary>
+            The size of the current best bid
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.FundingRate">
+            <summary>
+            The current absolute funding rate.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.FundingRatePredication">
+            <summary>
+            The estimated next absolute funding rate.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.IndexPrice">
+            <summary>
+            Index price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.LastPrice">
+            <summary>
+            For futures: The price of the last fill. For indices: The last calculated value
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.LastQuantity">
+            <summary>
+            The size of the last fill
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.LastTradeTime">
+            <summary>
+            The date and time at which last price was observed.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.MarkPrice">
+            <summary>
+            The price to which Kraken Futures currently marks the Futures for margining purposes
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.OpenPrice24h">
+            <summary>
+            The price of the fill observed 24 hours ago
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.OpenInterest">
+            <summary>
+            The current open interest of the instrument
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.Pair">
+            <summary>
+            The currency pair of the instrument
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.PostOnly">
+            <summary>
+            Post only
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.Suspended">
+            <summary>
+            True if the market is suspended, False otherwise.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.Symbol">
+            <summary>
+            The symbol of the Futures.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.Tag">
+            <summary>
+            Currently can be 'perpetual', 'month' or 'quarter'. Other tags may be added without notice
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.Volume24h">
+            <summary>
+            The sum of the sizes of all fills observed in the last 24 hours
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTicker.Volume24hQuote">
+            <summary>
+            The sum of the size * price of all fills observed in the last 24 hours
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade">
+            <summary>
+            Trade info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.ExecutionVenue">
+            <summary>
+            Execution venue
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.InstrumentIdentificationType">
+            <summary>
+            Instrument identification type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.IsIn">
+            <summary>
+            Isin
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.NotionalAmount">
+            <summary>
+            Notional amount
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.NotionalCurrency">
+            <summary>
+            Notional currency
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.Price">
+            <summary>
+            For futures: The price of a fill. For indices: The calculated value
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.PriceCurrency">
+            <summary>
+            Price currency
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.PriceNotation">
+            <summary>
+            Price notification
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.PublicationTime">
+            <summary>
+            Publication time
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.PublicationVenue">
+            <summary>
+            Publication venue
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.Side">
+            <summary>
+            The classification of the taker side in the matched trade: "buy" if the taker is a buyer, "sell" if the taker is a seller.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.Quantity">
+            <summary>
+            The size of a fill 
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.Timestamp">
+            <summary>
+            The date and time of a trade or an index computation. For futures: The date and time of a trade.Data is not aggregated For indices: The date and time of an index computation.For real-time indices, data is aggregated to the last computation of each full hour.For reference rates, data is not aggregated
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.ToBeCleared">
+            <summary>
+            To be cleared
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.TradeId">
+            <summary>
+            A continuous index starting at 1 for the first fill in a Futures contract maturity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.TransactionIdentificationCode">
+            <summary>
+            Transaction id code
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.Type">
+            <summary>
+            Type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesTrade.Uid">
+            <summary>
+            Uid
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserTrade">
+            <summary>
+            User trade info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserTrade.ClientOrderId">
+            <summary>
+            Client order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserTrade.FillTime">
+            <summary>
+            Time of the trade
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserTrade.Type">
+            <summary>
+            Type of trade
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserTrade.Id">
+            <summary>
+            Trade id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserTrade.OrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserTrade.Price">
+            <summary>
+            Price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserTrade.Side">
+            <summary>
+            Side
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserTrade.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserTrade.Symbol">
+            <summary>
+            Symbol
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.Futures.KrakenMarginAccountBalances">
@@ -1985,6 +3571,26 @@
         <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFlexCurrencySummary.Value">
             <summary>
             USD value of asset.
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenTriggerOptions">
+            <summary>
+            Trigger options
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenTriggerOptions.TriggerPrice">
+            <summary>
+            Trigger price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenTriggerOptions.TriggerSide">
+            <summary>
+            Trigger side
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenTriggerOptions.TriggerSignal">
+            <summary>
+            Trigger signal
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenAssetInfo">
