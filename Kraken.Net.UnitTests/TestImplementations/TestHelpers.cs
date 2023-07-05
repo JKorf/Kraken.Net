@@ -114,6 +114,7 @@ namespace Kraken.Net.UnitTests.TestImplementations
             KrakenSocketClient client;
             client = options != null ? new KrakenSocketClient(options) : new KrakenSocketClient(x => { x.ApiCredentials = new ApiCredentials("Test", "Test"); });
             client.SpotApi.SocketFactory = Mock.Of<IWebsocketFactory>();
+            client.FuturesApi.SocketFactory = Mock.Of<IWebsocketFactory>();
             Mock.Get(client.SpotApi.SocketFactory).Setup(f => f.CreateWebsocket(It.IsAny<ILogger>(), It.IsAny<WebSocketParameters>())).Returns(socket);
             Mock.Get(client.FuturesApi.SocketFactory).Setup(f => f.CreateWebsocket(It.IsAny<ILogger>(), It.IsAny<WebSocketParameters>())).Returns(socket);
             return client;
