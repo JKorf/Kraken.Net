@@ -201,7 +201,7 @@ namespace Kraken.Net.Clients.SpotApi
             var kRequest = (KrakenFuturesSubscribeMessage)request;
 
             var responseMessage = message.ToObject<KrakenFuturesSocketMessage>();
-            if (responseMessage == null || responseMessage.Feed != kRequest.Feed)
+            if (responseMessage == null || !responseMessage.Feed.Equals(kRequest.Feed, StringComparison.InvariantCultureIgnoreCase))
                 return false;
 
             callResult = responseMessage.Event == "subscribed" ? new CallResult<object>(responseMessage) : new CallResult<object>(new ServerError(responseMessage.Error ?? "-"));
@@ -216,13 +216,15 @@ namespace Kraken.Net.Clients.SpotApi
 
             var kRequest = (KrakenFuturesSubscribeMessage)request;
             var responseMessage = message.ToObject<KrakenFuturesUpdateMessage>();
-            if (responseMessage == null || (responseMessage.Feed != kRequest.Feed && responseMessage.Feed != kRequest.Feed + "_snapshot"))
+            if (responseMessage == null || 
+                (!responseMessage.Feed.Equals(kRequest.Feed, StringComparison.InvariantCultureIgnoreCase) 
+                && !responseMessage.Feed.Equals(kRequest.Feed + "_snapshot", StringComparison.InvariantCultureIgnoreCase)))
                 return false;
 
             if (kRequest.Symbols == null)
                 return true;
 
-            return kRequest.Symbols.Contains(responseMessage.Symbol);
+            return kRequest.Symbols.Any(s => s.Equals(responseMessage.Symbol, StringComparison.InvariantCultureIgnoreCase));
         }
 
         /// <inheritdoc />
@@ -248,8 +250,8 @@ namespace Kraken.Net.Clients.SpotApi
                     return false;
 
                 var subscription = socketConnection.GetSubscriptionByRequest(r =>
-                            (r as KrakenFuturesSubscribeMessage)?.Feed == responseMessage.Feed
-                            && (r as KrakenFuturesSubscribeMessage)?.Symbols?.Contains(responseMessage.Symbols.First()) != false);
+                            (r as KrakenFuturesSubscribeMessage)?.Feed.Equals(responseMessage.Feed, StringComparison.InvariantCultureIgnoreCase) == true
+                            && (r as KrakenFuturesSubscribeMessage)?.Symbols?.Any(s => s.Equals(responseMessage.Symbols.First(), StringComparison.InvariantCultureIgnoreCase)) != false);
 
                 if (subscription == null)
                     return false;

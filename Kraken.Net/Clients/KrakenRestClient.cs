@@ -77,6 +77,7 @@ namespace Kraken.Net.Clients
         public void SetApiCredentials(ApiCredentials apiCredentials)
         {
             SpotApi.SetApiCredentials(apiCredentials);
+            FuturesApi.SetApiCredentials(apiCredentials);
         }
         #endregion
 
