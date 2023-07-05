@@ -2,8 +2,8 @@
 using CryptoExchange.Net.Authentication;
 using Kraken.Net.Clients.SpotApi;
 using Kraken.Net.Interfaces.Clients;
+using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Interfaces.Clients.SpotApi;
-using Kraken.Net.Objects;
 using Kraken.Net.Objects.Options;
 using Microsoft.Extensions.Logging;
 using System;
@@ -17,6 +17,8 @@ namespace Kraken.Net.Clients
 
         /// <inheritdoc />
         public IKrakenSocketClientSpotApi SpotApi { get; }
+        /// <inheritdoc />
+        public IKrakenSocketClientFuturesApi FuturesApi { get; }
 
         #endregion
 
@@ -49,6 +51,7 @@ namespace Kraken.Net.Clients
             Initialize(options);
 
             SpotApi = AddApiClient(new KrakenSocketClientSpotApi(_logger, options));
+            FuturesApi = AddApiClient(new KrakenSocketClientFuturesApi(_logger, options));
         }
         #endregion
 
@@ -69,6 +72,7 @@ namespace Kraken.Net.Clients
         public void SetApiCredentials(ApiCredentials apiCredentials)
         {
             SpotApi.SetApiCredentials(apiCredentials);
+            FuturesApi.SetApiCredentials(apiCredentials);
         }
         #endregion
 

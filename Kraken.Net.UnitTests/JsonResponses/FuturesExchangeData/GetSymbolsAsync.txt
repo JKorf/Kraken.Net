@@ -1,0 +1,222 @@
+{
+  "instruments": [
+    {
+      "category": "",
+      "contractSize": 1,
+      "contractValueTradePrecision": 0,
+      "feeScheduleUid": "eef90775-995b-4596-9257-0917f6134766",
+      "fundingRateCoefficient": 8,
+      "impactMidSize": 1,
+      "isin": "GB00J62YGL67",
+      "marginLevels": [
+        {
+          "contracts": 0,
+          "initialMargin": 0.02,
+          "maintenanceMargin": 0.01
+        },
+        {
+          "contracts": 500000,
+          "initialMargin": 0.04,
+          "maintenanceMargin": 0.02
+        },
+        {
+          "contracts": 1000000,
+          "initialMargin": 0.06,
+          "maintenanceMargin": 0.03
+        },
+        {
+          "contracts": 3000000,
+          "initialMargin": 0.1,
+          "maintenanceMargin": 0.05
+        },
+        {
+          "contracts": 6000000,
+          "initialMargin": 0.15,
+          "maintenanceMargin": 0.075
+        },
+        {
+          "contracts": 12000000,
+          "initialMargin": 0.25,
+          "maintenanceMargin": 0.125
+        },
+        {
+          "contracts": 20000000,
+          "initialMargin": 0.3,
+          "maintenanceMargin": 0.15
+        },
+        {
+          "contracts": 50000000,
+          "initialMargin": 0.4,
+          "maintenanceMargin": 0.2
+        }
+      ],
+      "maxPositionSize": 1000000,
+      "maxRelativeFundingRate": 0.001,
+      "openingDate": "2022-01-01T00:00:00.000Z",
+      "postOnly": false,
+      "retailMarginLevels": [
+        {
+          "contracts": 0,
+          "initialMargin": 0.5,
+          "maintenanceMargin": 0.25
+        }
+      ],
+      "symbol": "pi_xbtusd",
+      "tags": [],
+      "tickSize": 0.5,
+      "tradeable": true,
+      "type": "futures_inverse",
+      "underlying": "rr_xbtusd"
+    },
+    {
+      "category": "",
+      "contractSize": 1,
+      "contractValueTradePrecision": 0,
+      "feeScheduleUid": "eef90775-995b-4596-9257-0917f6134766",
+      "impactMidSize": 1,
+      "isin": "GB00JVMLP260",
+      "lastTradingTime": "2022-09-30T15:00:00.000Z",
+      "marginLevels": [
+        {
+          "contracts": 0,
+          "initialMargin": 0.02,
+          "maintenanceMargin": 0.01
+        },
+        {
+          "contracts": 500000,
+          "initialMargin": 0.04,
+          "maintenanceMargin": 0.02
+        },
+        {
+          "contracts": 1000000,
+          "initialMargin": 0.06,
+          "maintenanceMargin": 0.03
+        },
+        {
+          "contracts": 3000000,
+          "initialMargin": 0.1,
+          "maintenanceMargin": 0.05
+        },
+        {
+          "contracts": 6000000,
+          "initialMargin": 0.15,
+          "maintenanceMargin": 0.075
+        },
+        {
+          "contracts": 9000000,
+          "initialMargin": 0.25,
+          "maintenanceMargin": 0.125
+        },
+        {
+          "contracts": 15000000,
+          "initialMargin": 0.3,
+          "maintenanceMargin": 0.15
+        },
+        {
+          "contracts": 30000000,
+          "initialMargin": 0.4,
+          "maintenanceMargin": 0.2
+        }
+      ],
+      "maxPositionSize": 1000000,
+      "openingDate": "2022-01-01T00:00:00.000Z",
+      "postOnly": false,
+      "retailMarginLevels": [
+        {
+          "contracts": 0,
+          "initialMargin": 0.5,
+          "maintenanceMargin": 0.25
+        }
+      ],
+      "symbol": "fi_xbtusd_220930",
+      "tags": [],
+      "tickSize": 0.5,
+      "tradeable": true,
+      "type": "futures_inverse",
+      "underlying": "rr_xbtusd"
+    },
+    {
+      "category": "Layer 1",
+      "contractSize": 1,
+      "contractValueTradePrecision": 4,
+      "feeScheduleUid": "5b755fea-c5b0-4307-a66e-b392cd5bd931",
+      "fundingRateCoefficient": 8,
+      "impactMidSize": 1,
+      "marginLevels": [
+        {
+          "initialMargin": 0.02,
+          "maintenanceMargin": 0.01,
+          "numNonContractUnits": 0.0
+        },
+        {
+          "initialMargin": 0.04,
+          "maintenanceMargin": 0.02,
+          "numNonContractUnits": 500000.0
+        },
+        {
+          "initialMargin": 0.1,
+          "maintenanceMargin": 0.05,
+          "numNonContractUnits": 2000000.0
+        },
+        {
+          "initialMargin": 0.2,
+          "maintenanceMargin": 0.1,
+          "numNonContractUnits": 5000000.0
+        },
+        {
+          "initialMargin": 0.3,
+          "maintenanceMargin": 0.15,
+          "numNonContractUnits": 10000000.0
+        },
+        {
+          "initialMargin": 0.5,
+          "maintenanceMargin": 0.25,
+          "numNonContractUnits": 30000000.0
+        }
+      ],
+      "maxPositionSize": 1000000,
+      "maxRelativeFundingRate": 0.001,
+      "openingDate": "2022-01-01T00:00:00.000Z",
+      "postOnly": false,
+      "retailMarginLevels": [
+        {
+          "initialMargin": 0.02,
+          "maintenanceMargin": 0.01,
+          "numNonContractUnits": 0.0
+        },
+        {
+          "initialMargin": 0.04,
+          "maintenanceMargin": 0.02,
+          "numNonContractUnits": 500000.0
+        },
+        {
+          "initialMargin": 0.1,
+          "maintenanceMargin": 0.05,
+          "numNonContractUnits": 2000000.0
+        },
+        {
+          "initialMargin": 0.2,
+          "maintenanceMargin": 0.1,
+          "numNonContractUnits": 5000000.0
+        },
+        {
+          "initialMargin": 0.3,
+          "maintenanceMargin": 0.15,
+          "numNonContractUnits": 10000000.0
+        },
+        {
+          "initialMargin": 0.5,
+          "maintenanceMargin": 0.25,
+          "numNonContractUnits": 30000000.0
+        }
+      ],
+      "symbol": "pf_xbtusd",
+      "tags": [],
+      "tickSize": 1,
+      "tradeable": true,
+      "type": "flexible_futures"
+    }
+  ],
+  "result": "success",
+  "serverTime": "2022-06-28T09:29:04.243Z"
+}

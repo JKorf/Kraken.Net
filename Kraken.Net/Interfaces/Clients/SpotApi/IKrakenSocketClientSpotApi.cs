@@ -12,7 +12,7 @@ using Kraken.Net.Objects.Models.Socket;
 namespace Kraken.Net.Interfaces.Clients.SpotApi
 {
     /// <summary>
-    /// Spot streams
+    /// Spot API
     /// </summary>
     public interface IKrakenSocketClientSpotApi : ISocketApiClient, IDisposable
     {

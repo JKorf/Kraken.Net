@@ -28,16 +28,23 @@ namespace Kraken.Net
         /// </summary>
         public string FuturesRestBaseAddress { get; }
 
+        /// <summary>
+        /// Futures Socket client address
+        /// </summary>
+        public string FuturesSocketBaseAddress { get; }
+
         internal KrakenEnvironment(string name,
             string spotRestBaseAddress,
             string spotSocketPublicAddress,
             string spotSocketPrivateAddress,
-            string futuresRestBaseAddress) : base(name)
+            string futuresRestBaseAddress,
+            string futuresSocketBaseAddress) : base(name)
         {
             SpotRestBaseAddress = spotRestBaseAddress;
             SpotSocketPublicAddress = spotSocketPublicAddress;
             SpotSocketPrivateAddress = spotSocketPrivateAddress;
             FuturesRestBaseAddress = futuresRestBaseAddress;
+            FuturesSocketBaseAddress = futuresSocketBaseAddress;
         }
 
         /// <summary>
@@ -48,7 +55,8 @@ namespace Kraken.Net
                                    KrakenApiAddresses.Default.SpotRestClientAddress,
                                    KrakenApiAddresses.Default.SpotSocketPublicAddress,
                                    KrakenApiAddresses.Default.SpotSocketPrivateAddress,
-                                   KrakenApiAddresses.Default.FuturesRestClientAddress);
+                                   KrakenApiAddresses.Default.FuturesRestClientAddress,
+                                   KrakenApiAddresses.Default.FuturesSocketClientAddress);
 
         /// <summary>
         /// Create a custom environment
@@ -58,13 +66,15 @@ namespace Kraken.Net
         /// <param name="spotSocketPublicAddress"></param>
         /// <param name="spotSocketPrivateAddress"></param>
         /// <param name="futuresRestAddress"></param>
+        /// <param name="futuresSocketAddress"></param>
         /// <returns></returns>
         public static KrakenEnvironment CreateCustom(
                         string name,
                         string spotRestAddress,
                         string spotSocketPublicAddress,
                         string spotSocketPrivateAddress,
-                        string futuresRestAddress)
-            => new KrakenEnvironment(name, spotRestAddress, spotSocketPublicAddress, spotSocketPrivateAddress, futuresRestAddress);
+                        string futuresRestAddress,
+                        string futuresSocketAddress)
+            => new KrakenEnvironment(name, spotRestAddress, spotSocketPublicAddress, spotSocketPrivateAddress, futuresRestAddress, futuresSocketAddress);
     }
 }

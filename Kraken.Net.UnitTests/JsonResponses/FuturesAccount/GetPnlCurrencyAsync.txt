@@ -1,0 +1,10 @@
+{
+  "preferences": [
+    {
+      "pnlCurrency": "BTC",
+      "symbol": "PF_XBTUSD"
+    }
+  ],
+  "result": "success",
+  "serverTime": "2022-06-28T15:04:06.710Z"
+}

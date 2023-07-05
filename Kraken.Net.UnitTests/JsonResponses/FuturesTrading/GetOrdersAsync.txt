@@ -1,0 +1,28 @@
+{
+  "orders": [
+    {
+      "error": "string",
+      "order": {
+        "cliOrdId": "string",
+        "filled": 0.0,
+        "lastUpdateTimestamp": "2020-08-27T17:03:33.196Z",
+        "limitPrice": 0.0,
+        "orderId": "2ceb1d31-f619-457b-870c-fd4ddbb10d45",
+        "priceTriggerOptions": {
+          "triggerPrice": 0.0,
+          "triggerSide": "TRIGGER_ABOVE",
+          "triggerSignal": "MARK_PRICE"
+        },
+        "quantity": 0.0,
+        "reduceOnly": false,
+        "side": "buy",
+        "symbol": "string",
+        "timestamp": "string",
+        "triggerTime": "2020-08-27T17:03:33.196Z",
+        "type": "TRIGGER_ORDER"
+      },
+      "status": "ENTERED_BOOK",
+      "updateReason": "string"
+    }
+  ]
+}

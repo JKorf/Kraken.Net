@@ -1,6 +1,6 @@
 ﻿using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Interfaces;
-using Kraken.Net.Clients.FuturesApi;
+using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 
 namespace Kraken.Net.Interfaces.Clients
@@ -18,7 +18,7 @@ namespace Kraken.Net.Interfaces.Clients
         /// <summary>
         /// Futures API endpoints
         /// </summary>
-        public KrakenRestClientFuturesApi FuturesApi { get; }
+        IKrakenRestClientFuturesApi FuturesApi { get; }
 
         /// <summary>
         /// Set the API credentials for this client. All Api clients in this client will use the new credentials, regardless of earlier set options.

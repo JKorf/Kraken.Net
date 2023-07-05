@@ -114,7 +114,9 @@ namespace Kraken.Net.UnitTests.TestImplementations
             KrakenSocketClient client;
             client = options != null ? new KrakenSocketClient(options) : new KrakenSocketClient(x => { x.ApiCredentials = new ApiCredentials("Test", "Test"); });
             client.SpotApi.SocketFactory = Mock.Of<IWebsocketFactory>();
+            client.FuturesApi.SocketFactory = Mock.Of<IWebsocketFactory>();
             Mock.Get(client.SpotApi.SocketFactory).Setup(f => f.CreateWebsocket(It.IsAny<ILogger>(), It.IsAny<WebSocketParameters>())).Returns(socket);
+            Mock.Get(client.FuturesApi.SocketFactory).Setup(f => f.CreateWebsocket(It.IsAny<ILogger>(), It.IsAny<WebSocketParameters>())).Returns(socket);
             return client;
         }
 
@@ -123,7 +125,9 @@ namespace Kraken.Net.UnitTests.TestImplementations
             KrakenSocketClient client;
             client = options != null ? new KrakenSocketClient(options) : new KrakenSocketClient(x => { x.ApiCredentials = new ApiCredentials("Test", "Test"); });
             client.SpotApi.SocketFactory = Mock.Of<IWebsocketFactory>();
+            client.FuturesApi.SocketFactory = Mock.Of<IWebsocketFactory>();
             Mock.Get(client.SpotApi.SocketFactory).Setup(f => f.CreateWebsocket(It.IsAny<ILogger>(), It.IsAny<WebSocketParameters>())).Returns(socket);
+            Mock.Get(client.FuturesApi.SocketFactory).Setup(f => f.CreateWebsocket(It.IsAny<ILogger>(), It.IsAny<WebSocketParameters>())).Returns(socket);
             return client;
         }
 
@@ -132,6 +136,7 @@ namespace Kraken.Net.UnitTests.TestImplementations
             IKrakenRestClient client;
             client = options != null ? new KrakenRestClient(options) : new KrakenRestClient(x => { x.ApiCredentials = new ApiCredentials("Test", "Test"); });
             client.SpotApi.RequestFactory = Mock.Of<IRequestFactory>();
+            client.FuturesApi.RequestFactory = Mock.Of<IRequestFactory>();
             return client;
         }
 
@@ -175,6 +180,10 @@ namespace Kraken.Net.UnitTests.TestImplementations
             request.Setup(c => c.GetHeaders()).Returns(new Dictionary<string, IEnumerable<string>>());
 
             var factory = Mock.Get(client.SpotApi.RequestFactory);
+            factory.Setup(c => c.Create(It.IsAny<HttpMethod>(), It.IsAny<Uri>(), It.IsAny<int>()))
+                .Returns(request.Object);
+            
+            factory = Mock.Get(client.FuturesApi.RequestFactory);
             factory.Setup(c => c.Create(It.IsAny<HttpMethod>(), It.IsAny<Uri>(), It.IsAny<int>()))
                 .Returns(request.Object);
         }

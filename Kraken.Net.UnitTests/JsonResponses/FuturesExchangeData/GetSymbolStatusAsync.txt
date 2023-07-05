@@ -1,0 +1,11 @@
+{
+  "instrumentStatus": [
+    {
+      "extremeVolatilityInitialMarginMultiplier": 0,
+      "isExperiencingDislocation": false,
+      "isExperiencingExtremeVolatility": false,
+      "priceDislocationDirection": "ABOVE_UPPER_BOUND",
+      "tradeable": "PI_XBTUSD"
+    }
+  ]
+}

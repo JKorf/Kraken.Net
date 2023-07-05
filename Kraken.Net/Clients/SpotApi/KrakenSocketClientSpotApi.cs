@@ -39,7 +39,7 @@ namespace Kraken.Net.Clients.SpotApi
         internal KrakenSocketClientSpotApi(ILogger logger, KrakenSocketOptions options) :
             base(logger, options.Environment.SpotSocketPublicAddress, options, options.SpotOptions)
         {
-            _privateBaseAddress = ((KrakenEnvironment)options.Environment).SpotSocketPrivateAddress;
+            _privateBaseAddress = options.Environment.SpotSocketPrivateAddress;
             _symbolSynonyms = new Dictionary<string, string>
             {
                 { "BTC", "XBT"},

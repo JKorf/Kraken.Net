@@ -1,0 +1,73 @@
+{
+  "cancelStatus": {
+    "cancelOnly": "all",
+    "cancelledOrders": [
+      {
+        "order_id": "6180adfa-e4b1-4a52-adac-ea5417620dbd"
+      },
+      {
+        "order_id": "89e3edbe-d739-4c52-b866-6f5a8407ff6e"
+      },
+      {
+        "order_id": "0cd37a77-1644-4960-a7fb-9a1f6e0e46f7"
+      }
+    ],
+    "orderEvents": [
+      {
+        "order": {
+          "cliOrdId": null,
+          "filled": 0,
+          "limitPrice": 10039,
+          "orderId": "6180adfa-e4b1-4a52-adac-ea5417620dbd",
+          "quantity": 1000,
+          "reduceOnly": false,
+          "side": "buy",
+          "stopPrice": 10039,
+          "symbol": "pi_xbtusd",
+          "timestamp": "2019-08-01T15:57:19.482Z",
+          "type": "stp"
+        },
+        "type": "CANCEL",
+        "uid": "6180adfa-e4b1-4a52-adac-ea5417620dbd"
+      },
+      {
+        "order": {
+          "cliOrdId": null,
+          "filled": 0,
+          "limitPrice": 10040,
+          "orderId": "89e3edbe-d739-4c52-b866-6f5a8407ff6e",
+          "quantity": 890,
+          "reduceOnly": false,
+          "side": "buy",
+          "stopPrice": null,
+          "symbol": "pi_xbtusd",
+          "timestamp": "2019-08-01T15:57:08.508Z",
+          "type": "post"
+        },
+        "type": "CANCEL",
+        "uid": "89e3edbe-d739-4c52-b866-6f5a8407ff6e"
+      },
+      {
+        "order": {
+          "cliOrdId": null,
+          "filled": 0,
+          "limitPrice": 10145,
+          "orderId": "0cd37a77-1644-4960-a7fb-9a1f6e0e46f7",
+          "quantity": 900,
+          "reduceOnly": true,
+          "side": "sell",
+          "stopPrice": null,
+          "symbol": "pi_xbtusd",
+          "timestamp": "2019-08-01T15:57:14.003Z",
+          "type": "lmt"
+        },
+        "type": "CANCEL",
+        "uid": "0cd37a77-1644-4960-a7fb-9a1f6e0e46f7"
+      }
+    ],
+    "receivedTime": "2019-08-01T15:57:37.518Z",
+    "status": "cancelled"
+  },
+  "result": "success",
+  "serverTime": "2019-08-01T15:57:37.520Z"
+}

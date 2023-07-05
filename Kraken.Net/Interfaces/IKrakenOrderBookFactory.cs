@@ -16,5 +16,13 @@ namespace Kraken.Net.Interfaces
         /// <param name="options">Order book options</param>
         /// <returns></returns>
         ISymbolOrderBook CreateSpot(string symbol, Action<KrakenOrderBookOptions>? options = null);
+
+        /// <summary>
+        /// Create a SymbolOrderBook for the Futures API
+        /// </summary>
+        /// <param name="symbol">The symbol</param>
+        /// <param name="options">Order book options</param>
+        /// <returns></returns>
+        ISymbolOrderBook CreateFutures(string symbol, Action<KrakenOrderBookOptions>? options = null);
     }
 }

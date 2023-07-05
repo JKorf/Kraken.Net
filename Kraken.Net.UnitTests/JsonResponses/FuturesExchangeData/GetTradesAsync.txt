@@ -1,0 +1,24 @@
+{
+  "history": [
+    {
+      "execution_venue": "string",
+      "instrument_identification_type": "string",
+      "isin": "string",
+      "notional_amount": 0.0,
+      "notional_currency": "string",
+      "price": 0.0,
+      "price_currency": "string",
+      "price_notation": "string",
+      "publication_time": "2020-08-27T17:03:33.196Z",
+      "publication_venue": "string",
+      "side": "buy",
+      "size": "0",
+      "time": "2020-08-27T17:03:33.196Z",
+      "to_be_cleared": false,
+      "trade_id": 0,
+      "transaction_identification_code": "string",
+      "type": "fill",
+      "uid": "string"
+    }
+  ]
+}

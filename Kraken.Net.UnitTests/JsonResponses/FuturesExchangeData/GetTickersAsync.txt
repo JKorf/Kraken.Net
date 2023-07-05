@@ -1,0 +1,54 @@
+{
+  "result": "success",
+  "serverTime": "2022-06-17T11:00:31.335Z",
+  "tickers": [
+    {
+      "ask": 49289,
+      "askSize": 139984,
+      "bid": 8634,
+      "bidSize": 1000,
+      "fundingRate": 1.18588737106e-7,
+      "fundingRatePrediction": 1.1852486794e-7,
+      "indexPrice": 21087.8,
+      "last": 49289,
+      "lastSize": 100,
+      "lastTime": "2022-06-17T10:46:35.705Z",
+      "markPrice": 30209.9,
+      "open24h": 49289,
+      "openInterest": 149655,
+      "pair": "XBT:USD",
+      "postOnly": false,
+      "suspended": false,
+      "symbol": "pi_xbtusd",
+      "tag": "perpetual",
+      "vol24h": 15304
+    },
+    {
+      "bid": 28002,
+      "bidSize": 900,
+      "indexPrice": 21087.8,
+      "last": 28002,
+      "lastSize": 100,
+      "lastTime": "2022-06-17T10:45:57.177Z",
+      "markPrice": 20478.5,
+      "open24h": 28002,
+      "openInterest": 10087,
+      "pair": "XBT:USD",
+      "postOnly": false,
+      "suspended": false,
+      "symbol": "fi_xbtusd_211231",
+      "tag": "month",
+      "vol24h": 100
+    },
+    {
+      "last": 21088,
+      "lastTime": "2022-06-17T11:00:30.000Z",
+      "symbol": "in_xbtusd"
+    },
+    {
+      "last": 20938,
+      "lastTime": "2022-06-16T15:00:00.000Z",
+      "symbol": "rr_xbtusd"
+    }
+  ]
+}

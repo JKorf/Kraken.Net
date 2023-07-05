@@ -5,7 +5,7 @@ parent: Socket API documentation
 ---
 *[generated documentation]*  
 `KrakenSocketClient > SpotApi`  
-*Spot streams*
+*Spot API*
   
 
 ***

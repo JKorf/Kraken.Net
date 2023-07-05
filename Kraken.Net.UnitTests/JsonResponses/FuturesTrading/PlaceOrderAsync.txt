@@ -1,0 +1,32 @@
+{
+  "result": "success",
+  "sendStatus": {
+    "orderEvents": [
+      {
+        "amount": 10,
+        "executionId": "e1ec9f63-2338-4c44-b40a-43486c6732d7",
+        "orderPriorEdit": null,
+        "orderPriorExecution": {
+          "cliOrdId": null,
+          "filled": 0,
+          "lastUpdateTimestamp": "2019-12-11T17:17:33.888Z",
+          "limitPrice": 7500,
+          "orderId": "61ca5732-3478-42fe-8362-abbfd9465294",
+          "quantity": 10,
+          "reduceOnly": false,
+          "side": "buy",
+          "symbol": "pi_xbtusd",
+          "timestamp": "2019-12-11T17:17:33.888Z",
+          "type": "lmt"
+        },
+        "price": 7244.5,
+        "takerReducedQuantity": null,
+        "type": "EXECUTION"
+      }
+    ],
+    "order_id": "61ca5732-3478-42fe-8362-abbfd9465294",
+    "receivedTime": "2019-12-11T17:17:33.888Z",
+    "status": "placed"
+  },
+  "serverTime": "2019-12-11T17:17:33.888Z"
+}

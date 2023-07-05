@@ -1,0 +1,5 @@
+{
+  "result": "success",
+  "serverTime": "2020-08-27T17:03:33.196Z",
+  "strategy": "REJECT_TAKER"
+}
