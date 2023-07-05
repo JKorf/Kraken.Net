@@ -14,7 +14,7 @@ using System.Linq;
 namespace Kraken.Net.Clients.FuturesApi
 {
     /// <inheritdoc />
-    public class KrakenRestClientFuturesApiTrading
+    public class KrakenRestClientFuturesApiTrading : IKrakenRestClientFuturesApiTrading
     {
         private readonly KrakenRestClientFuturesApi _baseClient;
 
@@ -46,7 +46,7 @@ namespace Kraken.Net.Clients.FuturesApi
             };
             return await _baseClient.Execute<KrakenFuturesSelfTradeResult, SelfTradeStrategy>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/self-trade-strategy")), HttpMethod.Put, ct, parameters, true).ConfigureAwait(false);
         }
-        
+
         /// <inheritdoc />
         public async Task<WebCallResult<IEnumerable<KrakenFuturesPosition>>> GetOpenPositionsAsync(CancellationToken ct = default)
         {
@@ -72,9 +72,9 @@ namespace Kraken.Net.Clients.FuturesApi
 
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenFuturesOrderResult>> PlaceOrderAsync(
-            string symbol, 
+            string symbol,
             OrderSide side,
-            FuturesOrderType type, 
+            FuturesOrderType type,
             int quantity,
             decimal? price = null,
             decimal? stopPrice = null,

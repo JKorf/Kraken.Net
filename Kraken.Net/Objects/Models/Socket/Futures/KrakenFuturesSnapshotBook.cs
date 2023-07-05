@@ -10,7 +10,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Snapshot book update
     /// </summary>
-    public class KrakenFuturesSnapshotBook : KrakenFuturesUpdateMessage
+    public class KrakenFuturesBookSnapshotUpdate : KrakenFuturesUpdateMessage
     {
         /// <summary>
         /// Timestamp

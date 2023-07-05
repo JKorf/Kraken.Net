@@ -12,7 +12,7 @@ using CryptoExchange.Net.Converters;
 namespace Kraken.Net.Clients.FuturesApi
 {
     /// <inheritdoc />
-    public class KrakenRestClientFuturesApiExchangeData
+    public class KrakenRestClientFuturesApiExchangeData : IKrakenRestClientFuturesApiExchangeData
     {
         private readonly KrakenRestClientFuturesApi _baseClient;
 

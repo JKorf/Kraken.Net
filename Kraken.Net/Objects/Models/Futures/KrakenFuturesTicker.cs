@@ -74,11 +74,11 @@ namespace Kraken.Net.Objects.Models.Futures
         [JsonProperty("open24h")]
         public decimal? OpenPrice24h { get; set; }
         /// <summary>
-        /// The current open interest of the instrument
+        /// The current open interest of the symbol
         /// </summary>
         public decimal OpenInterest { get; set; }
         /// <summary>
-        /// The currency pair of the instrument
+        /// The currency pair of the symbol
         /// </summary>
         public string Pair { get; set; } = string.Empty;
         /// <summary>

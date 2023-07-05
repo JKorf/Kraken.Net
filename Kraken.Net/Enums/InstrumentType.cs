@@ -3,9 +3,9 @@
 namespace Kraken.Net.Enums
 {
     /// <summary>
-    /// Type of instrument
+    /// Type of symbol
     /// </summary>
-    public enum InstrumentType
+    public enum SymbolType
     {
         /// <summary>
         /// Flexible futures

@@ -8,7 +8,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Balance update
     /// </summary>
-    public class KrakenFuturesBalances : KrakenFuturesSocketMessage
+    public class KrakenFuturesBalancesUpdate : KrakenFuturesSocketMessage
     {
         /// <summary>
         /// Account id

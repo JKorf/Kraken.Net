@@ -10,7 +10,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Snapshot book update
     /// </summary>
-    public class KrakenFuturesSnapshotOpenOrders : KrakenFuturesUpdateMessage
+    public class KrakenFuturesOpenOrdersSnapshotUpdate : KrakenFuturesUpdateMessage
     {
         /// <summary>
         /// Account id
@@ -25,7 +25,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Open order update
     /// </summary>
-    public class KrakenFuturesUpdateOpenOrders : KrakenFuturesUpdateMessage
+    public class KrakenFuturesOpenOrdersUpdate : KrakenFuturesUpdateMessage
     {
         /// <summary>
         /// Is cancel
@@ -53,9 +53,10 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public class KrakenFuturesSocketOpenOrder
     {
         /// <summary>
-        /// Instrument
+        /// Symbol
         /// </summary>
-        public string Instrument { get; set; } = string.Empty;
+        [JsonProperty("instrument")]
+        public string Symbol { get; set; } = string.Empty;
         /// <summary>
         /// Timestamp
         /// </summary>

@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace Kraken.Net.Clients.FuturesApi
 {
     /// <inheritdoc />
-    public class KrakenRestClientFuturesApi : RestApiClient
+    public class KrakenRestClientFuturesApi : RestApiClient, IKrakenRestClientFuturesApi
     {
         #region fields
 
@@ -55,7 +55,7 @@ namespace Kraken.Net.Clients.FuturesApi
         #endregion
 
         internal async Task<WebCallResult<U>> Execute<T, U>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, bool ignoreRatelimit = false)
-            where T: KrakenFuturesResult<U>
+            where T : KrakenFuturesResult<U>
         {
             var result = await SendRequestAsync<T>(url, method, ct, parameters, signed, requestWeight: weight, ignoreRatelimit: ignoreRatelimit).ConfigureAwait(false);
             if (!result)
@@ -117,7 +117,7 @@ namespace Kraken.Net.Clients.FuturesApi
         }
 
         internal async Task<WebCallResult<T>> ExecuteBase<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, bool ignoreRatelimit = false)
-            where T: class
+            where T : class
         {
             return await SendRequestAsync<T>(url, method, ct, parameters, signed, requestWeight: weight, ignoreRatelimit: ignoreRatelimit).ConfigureAwait(false);
         }

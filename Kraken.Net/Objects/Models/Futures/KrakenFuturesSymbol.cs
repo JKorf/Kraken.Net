@@ -30,7 +30,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// </summary>
         public decimal? ContractValueTradePrecision { get; set; }
         /// <summary>
-        /// Unique identifier of fee schedule associated with the instrument
+        /// Unique identifier of fee schedule associated with the symbol
         /// </summary>
         public string? FeeScheduleUid { get; set; }
         /// <summary>
@@ -68,7 +68,7 @@ namespace Kraken.Net.Objects.Models.Futures
         [JsonConverter(typeof(DateTimeConverter))]
         public DateTime? OpeningDate { get; set; }
         /// <summary>
-        /// True if the instrument is in post-only mode, false otherwise.
+        /// True if the symbol is in post-only mode, false otherwise.
         /// </summary>
         public bool? PostOnly { get; set; }
         /// <summary>
@@ -88,14 +88,14 @@ namespace Kraken.Net.Objects.Models.Futures
         /// </summary>
         public decimal? TickSize { get; set; }
         /// <summary>
-        /// True if the instrument can be traded, False otherwise.
+        /// True if the symbol can be traded, False otherwise.
         /// </summary>
         public bool Tradeable { get; set; }
         /// <summary>
-        /// Type of the instrument
+        /// Type of the symbol
         /// </summary>
         [JsonConverter(typeof(EnumConverter))]
-        public InstrumentType Type { get; set; }
+        public SymbolType Type { get; set; }
         /// <summary>
         /// The underlying of the Futures
         /// </summary>

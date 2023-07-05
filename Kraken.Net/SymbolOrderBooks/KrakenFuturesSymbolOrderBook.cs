@@ -78,7 +78,7 @@ namespace Kraken.Net.SymbolOrderBooks
             return setResult ? result : new CallResult<UpdateSubscription>(setResult.Error!);
         }
 
-        private void ProcessSnapshot(DataEvent<KrakenFuturesSnapshotBook> data)
+        private void ProcessSnapshot(DataEvent<KrakenFuturesBookSnapshotUpdate> data)
         {
             SetInitialOrderBook(data.Data.Sequence, data.Data.Bids, data.Data.Asks);
         }

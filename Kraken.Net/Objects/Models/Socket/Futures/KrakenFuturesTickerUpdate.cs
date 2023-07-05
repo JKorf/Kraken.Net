@@ -1,15 +1,13 @@
 ﻿using CryptoExchange.Net.Converters;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
     /// <summary>
     /// Ticker info
     /// </summary>
-    public class KrakenFuturesTicker: KrakenFuturesUpdateMessage
+    public class KrakenFuturesTickerUpdate: KrakenFuturesUpdateMessage
     {
         /// <summary>
         /// Timestamp
@@ -78,15 +76,15 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// </summary>
         public string Leverage { get; set; } = string.Empty;
         /// <summary>
-        /// The real time index of the product
+        /// The real time index of the symbol
         /// </summary>
         public decimal Index { get; set; }
         /// <summary>
-        /// The premium associated with the product
+        /// The premium associated with the symbol
         /// </summary>
         public decimal Premium { get; set; }
         /// <summary>
-        /// The premium associated with the product
+        /// The premium associated with the symbol
         /// </summary>
         [JsonProperty("last")]
         public decimal LastPrice { get; set; }
@@ -104,19 +102,19 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// </summary>
         public string Tag { get; set; } = string.Empty;
         /// <summary>
-        /// The currency pair of the instrument
+        /// The currency pair of the symbol
         /// </summary>
         public string Pair { get; set; } = string.Empty;
         /// <summary>
-        /// The current open interest of the instrument
+        /// The current open interest of the symbol
         /// </summary>
         public decimal OpenInterest { get; set; }
         /// <summary>
-        /// The market price of the instrument
+        /// The market price of the symbol
         /// </summary>
         public decimal MarkPrice { get; set; }
         /// <summary>
-        /// The market price of the instrument
+        /// The maturity time
         /// </summary>
         [JsonConverter(typeof(DateTimeConverter))]
         public DateTime? MaturityTime { get; set; }

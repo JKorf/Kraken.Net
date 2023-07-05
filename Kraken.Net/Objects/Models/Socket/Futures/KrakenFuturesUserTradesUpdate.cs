@@ -29,9 +29,10 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public class KrakenFuturesUserTrade
     {
         /// <summary>
-        /// Instrument
+        /// Symbol
         /// </summary>
-        public string Instrument { get; set; } = string.Empty;
+        [JsonProperty("instrument")]
+        public string Symbol { get; set; } = string.Empty;
         /// <summary>
         /// Timestamp
         /// </summary>

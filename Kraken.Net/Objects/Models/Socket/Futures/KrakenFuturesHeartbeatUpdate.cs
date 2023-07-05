@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Heartbeat
     /// </summary>
-    public class KrakenFuturesHeartbeat : KrakenFuturesUpdateMessage
+    public class KrakenFuturesHeartbeatUpdate : KrakenFuturesUpdateMessage
     {
         /// <summary>
         /// Timestamp

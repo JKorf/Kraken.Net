@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Ticker info
     /// </summary>
-    public class KrakenFuturesMiniTicker : KrakenFuturesUpdateMessage
+    public class KrakenFuturesMiniTickerUpdate : KrakenFuturesUpdateMessage
     {
         /// <summary>
         /// The best current bid price
@@ -25,7 +25,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         [JsonProperty("volume")]
         public decimal Volume { get; set; }
         /// <summary>
-        /// The premium associated with the product
+        /// The premium associated with the symbol
         /// </summary>
         public decimal Premium { get; set; }
         /// <summary>
@@ -38,11 +38,11 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// </summary>
         public string Tag { get; set; } = string.Empty;
         /// <summary>
-        /// The currency pair of the instrument
+        /// The currency pair of the symbol
         /// </summary>
         public string Pair { get; set; } = string.Empty;
         /// <summary>
-        /// The market price of the instrument
+        /// The market price of the symbol
         /// </summary>
         [JsonConverter(typeof(DateTimeConverter))]
         public DateTime? MaturityTime { get; set; }

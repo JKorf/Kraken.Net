@@ -24,10 +24,10 @@ namespace Kraken.Net.Objects.Models.Futures
         public string? ExecutionVenue { get; set; }
 
         /// <summary>
-        /// Instrument identification type
+        /// Symbol identification type
         /// </summary>
         [JsonProperty("instrument_identification_type")]
-        public string? InstrumentIdentificationType { get; set; }
+        public string? SymbolIdentificationType { get; set; }
 
         /// <summary>
         /// Isin
