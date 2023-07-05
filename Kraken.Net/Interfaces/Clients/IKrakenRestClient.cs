@@ -13,7 +13,7 @@ namespace Kraken.Net.Interfaces.Clients
         /// <summary>
         /// Spot API endpoints
         /// </summary>
-        IKrakenClientSpotApi SpotApi { get; }
+        IKrakenRestClientSpotApi SpotApi { get; }
 
         /// <summary>
         /// Futures API endpoints

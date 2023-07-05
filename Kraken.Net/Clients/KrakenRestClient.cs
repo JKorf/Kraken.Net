@@ -20,7 +20,7 @@ namespace Kraken.Net.Clients
 
         #region Api clients
         /// <inheritdoc />
-        public IKrakenClientSpotApi SpotApi { get; }
+        public IKrakenRestClientSpotApi SpotApi { get; }
         /// <inheritdoc />
         public IKrakenRestClientFuturesApi FuturesApi { get; }
         #endregion

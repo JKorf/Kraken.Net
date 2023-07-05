@@ -18,7 +18,7 @@ using Kraken.Net.Interfaces.Clients.SpotApi;
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc />
-    public class KrakenRestClientSpotApiAccount : IKrakenClientSpotApiAccount
+    public class KrakenRestClientSpotApiAccount : IKrakenRestClientSpotApiAccount
     {
         private readonly KrakenRestClientSpotApi _baseClient;
 

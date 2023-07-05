@@ -18,7 +18,7 @@ using CryptoExchange.Net.CommonObjects;
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc />
-    public class KrakenRestClientSpotApiTrading : IKrakenClientSpotApiTrading
+    public class KrakenRestClientSpotApiTrading : IKrakenRestClientSpotApiTrading
     {
         private readonly KrakenRestClientSpotApi _baseClient;
 

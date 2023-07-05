@@ -14,4 +14,4 @@ has_children: true
 **void SetApiCredentials(ApiCredentials credentials);**  
 ***
 *Spot API endpoints*  
-**IKrakenClientSpotApi SpotApi { get; }**  
+**[IKrakenRestClientSpotApi](SpotApi/IKrakenRestClientSpotApi.html) SpotApi { get; }**  

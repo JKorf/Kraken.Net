@@ -18,8 +18,8 @@ using Microsoft.Extensions.Logging;
 
 namespace Kraken.Net.Clients.SpotApi
 {
-    /// <inheritdoc cref="IKrakenClientSpotApi" />
-    public class KrakenRestClientSpotApi : RestApiClient, IKrakenClientSpotApi, ISpotClient
+    /// <inheritdoc cref="IKrakenRestClientSpotApi" />
+    public class KrakenRestClientSpotApi : RestApiClient, IKrakenRestClientSpotApi, ISpotClient
     {
         #region fields
 
@@ -32,14 +32,14 @@ namespace Kraken.Net.Clients.SpotApi
         #region Api clients
 
         /// <inheritdoc />
-        public IKrakenClientSpotApiAccount Account { get; }
+        public IKrakenRestClientSpotApiAccount Account { get; }
         /// <inheritdoc />
-        public IKrakenClientSpotApiExchangeData ExchangeData { get; }
+        public IKrakenRestClientSpotApiExchangeData ExchangeData { get; }
         /// <inheritdoc />
-        public IKrakenClientSpotApiTrading Trading { get; }
+        public IKrakenRestClientSpotApiTrading Trading { get; }
 
         /// <inheritdoc />
-        public IKrakenClientSpotStakingApi Staking { get; }
+        public IKrakenRestClientSpotStakingApi Staking { get; }
 
         /// <inheritdoc />
         public string ExchangeName => "Kraken";

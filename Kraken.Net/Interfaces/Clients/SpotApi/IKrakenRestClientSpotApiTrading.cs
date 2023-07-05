@@ -11,7 +11,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
     /// <summary>
     /// Kraken trading endpoints, placing and mananging orders.
     /// </summary>
-    public interface IKrakenClientSpotApiTrading
+    public interface IKrakenRestClientSpotApiTrading
     {
         /// <summary>
         /// Get a list of open orders

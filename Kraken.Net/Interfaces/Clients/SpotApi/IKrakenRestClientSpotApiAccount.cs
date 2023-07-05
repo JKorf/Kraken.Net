@@ -12,7 +12,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
     /// <summary>
     /// Kraken account endpoints. Account endpoints include balance info, withdraw/deposit info and requesting and account settings
     /// </summary>
-    public interface IKrakenClientSpotApiAccount
+    public interface IKrakenRestClientSpotApiAccount
     {
         /// <summary>
         /// Get balances

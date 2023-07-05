@@ -11,7 +11,7 @@
     /// <summary>
     /// Kraken staking endpoints.
     /// </summary>
-    public interface IKrakenClientSpotStakingApi
+    public interface IKrakenRestClientSpotStakingApi
     {
         /// <summary>
         /// Stake an asset from your spot wallet.

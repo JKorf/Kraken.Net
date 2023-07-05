@@ -7,27 +7,27 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
     /// <summary>
     /// Spot API endpoints
     /// </summary>
-    public interface IKrakenClientSpotApi : IRestApiClient, IDisposable
+    public interface IKrakenRestClientSpotApi : IRestApiClient, IDisposable
     {
         /// <summary>
         /// Endpoints related to account settings, info or actions
         /// </summary>
-        IKrakenClientSpotApiAccount Account { get; }
+        IKrakenRestClientSpotApiAccount Account { get; }
 
         /// <summary>
         /// Endpoints related to retrieving market and system data
         /// </summary>
-        IKrakenClientSpotApiExchangeData ExchangeData { get; }
+        IKrakenRestClientSpotApiExchangeData ExchangeData { get; }
 
         /// <summary>
         /// Endpoints related to orders and trades
         /// </summary>
-        IKrakenClientSpotApiTrading Trading { get; }
+        IKrakenRestClientSpotApiTrading Trading { get; }
 
         /// <summary>
         /// Endpoints related to staking assets
         /// </summary>
-        IKrakenClientSpotStakingApi Staking { get; }
+        IKrakenRestClientSpotStakingApi Staking { get; }
 
         /// <summary>
         /// Get the ISpotClient for this client. This is a common interface which allows for some basic operations without knowing any details of the exchange.

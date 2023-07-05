@@ -11,7 +11,7 @@ using Kraken.Net.Objects.Models;
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc />
-    public class KrakenRestClientSpotStakingApi : IKrakenClientSpotStakingApi
+    public class KrakenRestClientSpotStakingApi : IKrakenRestClientSpotStakingApi
     {
         private readonly KrakenRestClientSpotApi _baseClient;
 
