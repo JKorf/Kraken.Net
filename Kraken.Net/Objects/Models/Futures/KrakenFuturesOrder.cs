@@ -35,6 +35,11 @@ namespace Kraken.Net.Objects.Models.Futures
         [JsonProperty("limitPrice")]
         public decimal? Price { get; set; }
         /// <summary>
+        /// Stop price
+        /// </summary>
+        [JsonProperty("stopPrice")]
+        public decimal? StopPrice { get; set; }
+        /// <summary>
         /// Order id
         /// </summary>
         [JsonProperty("orderId")]

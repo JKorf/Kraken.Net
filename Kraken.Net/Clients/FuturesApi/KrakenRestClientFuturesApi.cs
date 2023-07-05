@@ -1,6 +1,7 @@
 ﻿using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Objects;
+using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Models.Futures;
 using Kraken.Net.Objects.Options;
@@ -28,11 +29,11 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #region Api clients
         /// <inheritdoc />
-        public KrakenRestClientFuturesApiAccount Account { get; }
+        public IKrakenRestClientFuturesApiAccount Account { get; }
         /// <inheritdoc />
-        public KrakenRestClientFuturesApiExchangeData ExchangeData { get; }
+        public IKrakenRestClientFuturesApiExchangeData ExchangeData { get; }
         /// <inheritdoc />
-        public KrakenRestClientFuturesApiTrading Trading { get; }
+        public IKrakenRestClientFuturesApiTrading Trading { get; }
 
         #endregion
 
@@ -70,7 +71,7 @@ namespace Kraken.Net.Clients.FuturesApi
             }
 
             if (!string.IsNullOrEmpty(result.Data.Error))
-                return result.AsError<U>(new ServerError(result.Data.Error));
+                return result.AsError<U>(new ServerError(result.Data.Error!));
 
             return result.As(result.Data.Data);
         }
@@ -91,7 +92,7 @@ namespace Kraken.Net.Clients.FuturesApi
             }
 
             if (!string.IsNullOrEmpty(result.Data.Error))
-                return result.AsError<T>(new ServerError(result.Data.Error));
+                return result.AsError<T>(new ServerError(result.Data.Error!));
 
             return result.As(result.Data);
         }
@@ -111,7 +112,7 @@ namespace Kraken.Net.Clients.FuturesApi
             }
 
             if (!string.IsNullOrEmpty(result.Data.Error))
-                return result.AsDatalessError(new ServerError(result.Data.Error));
+                return result.AsDatalessError(new ServerError(result.Data.Error!));
 
             return result.AsDataless();
         }
@@ -135,7 +136,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 return new ServerError(krakenError.Code, krakenError.Message);
             }
 
-            return new ServerError(result.Data!.Error);
+            return new ServerError(result.Data!.Error ?? "-");
         }
 
         /// <inheritdoc />

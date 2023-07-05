@@ -43,7 +43,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// The estimated next absolute funding rate.
         /// </summary>
-        public decimal? FundingRatePredication { get; set; }
+        public decimal? FundingRatePrediction { get; set; }
         /// <summary>
         /// Index price
         /// </summary>

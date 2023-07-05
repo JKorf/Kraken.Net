@@ -9,7 +9,7 @@ namespace Kraken.Net.Objects.Models.Futures
     internal class KrakenFuturesPositionResult : KrakenFuturesResult<IEnumerable<KrakenFuturesPosition>>
     {
         [JsonProperty("openPositions")]
-        public override IEnumerable<KrakenFuturesPosition> Data { get; set; }
+        public override IEnumerable<KrakenFuturesPosition> Data { get; set; } = Array.Empty<KrakenFuturesPosition>();
     }
 
     /// <summary>
@@ -48,6 +48,11 @@ namespace Kraken.Net.Objects.Models.Futures
         /// The symbol
         /// </summary>
         public string Symbol { get; set; } = string.Empty;
+        /// <summary>
+        /// The profit and loss currency
+        /// </summary>
+        [JsonProperty("pnlCurrency")]
+        public string? PnlCurrency { get; set; }
         /// <summary>
         /// Unrealised funding on the position.
         /// </summary>

@@ -5,7 +5,7 @@ using System;
 
 namespace Kraken.Net.Converters
 {
-    public class KrakenFuturesBalancesConverter : JsonConverter
+    internal class KrakenFuturesBalancesConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
@@ -13,7 +13,7 @@ namespace Kraken.Net.Converters
         }
 
         public override object ReadJson(JsonReader reader,
-            Type objectType, object existingValue, JsonSerializer serializer)
+            Type objectType, object? existingValue, JsonSerializer serializer)
         {
             JObject jo = JObject.Load(reader);
 
@@ -42,7 +42,7 @@ namespace Kraken.Net.Converters
         }
 
         public override void WriteJson(JsonWriter writer,
-            object value, JsonSerializer serializer)
+            object? value, JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }

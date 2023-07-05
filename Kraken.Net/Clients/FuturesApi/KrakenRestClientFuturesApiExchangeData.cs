@@ -8,6 +8,7 @@ using CryptoExchange.Net;
 using Kraken.Net.Objects.Models.Futures;
 using Kraken.Net.Enums;
 using CryptoExchange.Net.Converters;
+using Kraken.Net.Interfaces.Clients.FuturesApi;
 
 namespace Kraken.Net.Clients.FuturesApi
 {
@@ -24,7 +25,15 @@ namespace Kraken.Net.Clients.FuturesApi
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenFuturesPlatfromNotificationResult>> GetPlatformNotificationsAsync(CancellationToken ct = default)
         {
-            return await _baseClient.Execute<KrakenFuturesPlatfromNotificationResult>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/notifications")), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            var result = await _baseClient.Execute<KrakenFuturesPlatfromNotificationInternalResult>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/notifications")), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            if (!result)
+                return result.AsError<KrakenFuturesPlatfromNotificationResult>(result.Error!);
+
+            return result.As(new KrakenFuturesPlatfromNotificationResult
+            {
+                Notifications = result.Data.Notifications,
+                ServerTime = result.Data.ServerTime
+            });
         }
 
         /// <inheritdoc />
@@ -41,12 +50,6 @@ namespace Kraken.Net.Clients.FuturesApi
         public async Task<WebCallResult<IEnumerable<KrakenFeeSchedule>>> GetFeeSchedulesAsync(CancellationToken ct = default)
         {
             return await _baseClient.Execute<KrakenFeeSchedulesResult, IEnumerable<KrakenFeeSchedule>>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/feeschedules")), HttpMethod.Get, ct).ConfigureAwait(false);
-        }
-
-        /// <inheritdoc />
-        public async Task<WebCallResult<Dictionary<string, decimal>>> GetFeeScheduleVolumeAsync(CancellationToken ct = default)
-        {
-            return await _baseClient.Execute<KrakenFeeScheduleVolumeResult, Dictionary<string, decimal>>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/feeschedules/volumes")), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <inheritdoc />

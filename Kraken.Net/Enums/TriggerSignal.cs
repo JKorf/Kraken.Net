@@ -10,7 +10,7 @@ namespace Kraken.Net.Enums
         /// <summary>
         /// Mark price
         /// </summary>
-        [Map("mark")]
+        [Map("mark", "MARK_PRICE")]
         Mark,
         /// <summary>
         /// Index price
@@ -20,12 +20,12 @@ namespace Kraken.Net.Enums
         /// <summary>
         /// Index price
         /// </summary>
-        [Map("spot")]
+        [Map("spot", "SPOT_PRICE")]
         Spot,
         /// <summary>
         /// Last trade price
         /// </summary>
-        [Map("last")]
+        [Map("last", "LAST_PRICE")]
         Last
     }
 }

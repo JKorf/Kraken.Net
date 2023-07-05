@@ -8,7 +8,7 @@ namespace Kraken.Net.Objects.Models.Futures
     internal class KrakenFundingRatesResult : KrakenFuturesResult<IEnumerable<KrakenFundingRate>>
     {
         [JsonProperty("rates")]
-        public override IEnumerable<KrakenFundingRate> Data { get; set; }
+        public override IEnumerable<KrakenFundingRate> Data { get; set; } = Array.Empty<KrakenFundingRate>();
     }
 
     /// <summary>

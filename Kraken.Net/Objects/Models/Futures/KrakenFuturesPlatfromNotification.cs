@@ -5,15 +5,24 @@ using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
+    internal class KrakenFuturesPlatfromNotificationInternalResult : KrakenFuturesResult
+    {
+        public IEnumerable<KrakenFuturesPlatfromNotification> Notifications { get; set; } = Array.Empty<KrakenFuturesPlatfromNotification>();
+    }
+
     /// <summary>
     /// Platform info
     /// </summary>
-    public class KrakenFuturesPlatfromNotificationResult : KrakenFuturesResult
+    public class KrakenFuturesPlatfromNotificationResult
     {
         /// <summary>
         /// Notifications
         /// </summary>
         public IEnumerable<KrakenFuturesPlatfromNotification> Notifications { get; set; } = Array.Empty<KrakenFuturesPlatfromNotification>();
+        /// <summary>
+        /// Server time
+        /// </summary>
+        public DateTime ServerTime { get; set; }
     }
 
     /// <summary>

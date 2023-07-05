@@ -93,7 +93,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// Order type
         /// </summary>
         [JsonProperty("type")]
-        public string Type { get; set; }
+        public string Type { get; set; } = string.Empty;
         /// <summary>
         /// Order id
         /// </summary>

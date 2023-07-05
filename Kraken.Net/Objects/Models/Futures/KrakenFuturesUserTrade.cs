@@ -8,6 +8,7 @@ namespace Kraken.Net.Objects.Models.Futures
 {
     internal class KrakenFuturesUserTradeResult : KrakenFuturesResult<IEnumerable<KrakenFuturesUserTrade>>
     {
+        [JsonProperty("fills")]
         public override IEnumerable<KrakenFuturesUserTrade> Data { get; set; } = new List<KrakenFuturesUserTrade>();
     }
 

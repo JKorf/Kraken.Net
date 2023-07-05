@@ -34,6 +34,14 @@ namespace Kraken.Net.Objects.Models.Futures
         /// </summary>
         [JsonProperty("order_id")]
         public string OrderId { get; set; } = string.Empty;
+
+        [JsonProperty("orderId")]
+        internal string OrderIdInternal
+        {
+            get => OrderId;
+            set => OrderId = value;
+        }
+
         /// <summary>
         /// Receive timestamp
         /// </summary>
@@ -58,24 +66,52 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Event type
         /// </summary>
-        public string Type { get; set; }
+        public string Type { get; set; } = string.Empty;
         /// <summary>
         /// Reduced quantity
         /// </summary>
         public decimal? ReducedQuantity { get; set; }
+        /// <summary>
+        /// Uid
+        /// </summary>
+        public string? Uid { get; set; }
+        /// <summary>
+        /// Execution id
+        /// </summary>
+        public string? ExecutionId { get; set; }
+        /// <summary>
+        /// Quantity
+        /// </summary>
+        [JsonProperty("amount")]
+        public decimal? Quantity { get; set; }
+        /// <summary>
+        /// Quantity
+        /// </summary>
+        [JsonProperty("price")]
+        public decimal? Price { get; set; }
 
         /// <summary>
         /// Order info
         /// </summary>
-        public KrakenFuturesOrder? Order { get; set; } = null!;
+        public KrakenFuturesOrder? Order { get; set; }
         /// <summary>
         /// New order info for edit event
         /// </summary>
-        public KrakenFuturesOrder? New { get; set; } = null!;
+        public KrakenFuturesOrder? New { get; set; }
         /// <summary>
         /// Old order info for edit event
         /// </summary>
-        public KrakenFuturesOrder? Old { get; set; } = null!;
+        public KrakenFuturesOrder? Old { get; set; }
+        /// <summary>
+        /// Order before execution
+        /// </summary>
+        [JsonProperty("orderPriorExecution")]
+        public KrakenFuturesOrder? OrderBeforeExecution { get; set; }
+        /// <summary>
+        /// Order before edit
+        /// </summary>
+        [JsonProperty("orderPriorEdit")]
+        public KrakenFuturesOrder? OrderBeforeEdit { get; set; }
     }
 
 }

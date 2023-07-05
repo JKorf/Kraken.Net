@@ -1,0 +1,31 @@
+{
+  "openPositions": [
+    {
+      "fillTime": "2020-07-22T14:39:12.376Z",
+      "price": 9392.749993345933,
+      "side": "short",
+      "size": 10000,
+      "symbol": "pi_xbtusd",
+      "unrealizedFunding": 0.00001045432180096817
+    },
+    {
+      "fillTime": "2020-07-22T14:39:12.376Z",
+      "price": 9399.749966754434,
+      "side": "long",
+      "size": 20000,
+      "symbol": "fi_xbtusd_201225"
+    },
+    {
+      "fillTime": "2022-04-20T19:15:25.438Z",
+      "maxFixedLeverage": 5.0,
+      "pnlCurrency": "BTC",
+      "price": 570.0,
+      "side": "long",
+      "size": 1,
+      "symbol": "pf_defiusd",
+      "unrealizedFunding": -0.0073428045972263895
+    }
+  ],
+  "result": "success",
+  "serverTime": "2020-07-22T14:39:12.376Z"
+}

@@ -10,6 +10,7 @@ using CryptoExchange.Net.Converters;
 using Kraken.Net.Enums;
 using System.Globalization;
 using System.Linq;
+using Kraken.Net.Interfaces.Clients.FuturesApi;
 
 namespace Kraken.Net.Clients.FuturesApi
 {

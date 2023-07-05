@@ -1,0 +1,28 @@
+{
+  "accountUid": "2ceb1d31-f619-457b-870c-fd4ddbb10d45",
+  "logs": [
+    {
+      "asset": "string",
+      "booking_uid": "string",
+      "collateral": "string",
+      "contract": "string",
+      "conversion_spread_percentage": 0.0,
+      "date": "2019-08-24T14:15:22Z",
+      "execution": "string",
+      "fee": 0.0,
+      "funding_rate": 0.0,
+      "id": 0,
+      "info": "string",
+      "liquidation_fee": 0.0,
+      "margin_account": "string",
+      "mark_price": 0.0,
+      "new_average_entry_price": 0.0,
+      "new_balance": 0.0,
+      "old_average_entry_price": 0.0,
+      "old_balance": 0.0,
+      "realized_funding": 0.0,
+      "realized_pnl": 0.0,
+      "trade_price": 0.0
+    }
+  ]
+}

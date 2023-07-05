@@ -8,6 +8,7 @@ using Kraken.Net.Objects.Models.Futures;
 using CryptoExchange.Net;
 using System.Globalization;
 using CryptoExchange.Net.Converters;
+using Kraken.Net.Interfaces.Clients.FuturesApi;
 
 namespace Kraken.Net.Clients.FuturesApi
 {
@@ -46,14 +47,14 @@ namespace Kraken.Net.Clients.FuturesApi
 
         /// <inheritdoc />
         public async Task<WebCallResult> TransferAsync(
-            string currency, decimal quantity, string fromAccount, string toAccount, CancellationToken ct = default)
+            string asset, decimal quantity, string fromAccount, string toAccount, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>()
             {
                 { "amount", quantity.ToString(CultureInfo.InvariantCulture) },
                 { "fromAccount", fromAccount },
                 { "toAccount", toAccount },
-                { "unit", currency }
+                { "unit", asset }
             };
             return await _baseClient.Execute(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/transfer")), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -71,6 +72,12 @@ namespace Kraken.Net.Clients.FuturesApi
             parameters.AddOptionalParameter("to", toId);
 
             return await _baseClient.ExecuteBase<KrakenAccountLogResult>(new Uri(_baseClient.BaseAddress.AppendPath("api/history/v3/account-log")), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<Dictionary<string, decimal>>> GetFeeScheduleVolumeAsync(CancellationToken ct = default)
+        {
+            return await _baseClient.Execute<KrakenFeeScheduleVolumeResult, Dictionary<string, decimal>>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/feeschedules/volumes")), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
     }
 }

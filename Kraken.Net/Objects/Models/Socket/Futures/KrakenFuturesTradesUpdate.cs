@@ -35,7 +35,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Trade type
         /// </summary>
-        public string Type { get; set; }
+        public string Type { get; set; } = string.Empty;
         /// <summary>
         /// Sequence number
         /// </summary>
@@ -75,7 +75,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Trade type
         /// </summary>
-        public string Type { get; set; }
+        public string Type { get; set; } = string.Empty;
         /// <summary>
         /// Sequence number
         /// </summary>

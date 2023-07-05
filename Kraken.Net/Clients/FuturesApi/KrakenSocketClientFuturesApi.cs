@@ -7,6 +7,7 @@ using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
+using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Options;
@@ -169,11 +170,6 @@ namespace Kraken.Net.Clients.SpotApi
                 Feed = "fills"
             }, null, true, internalHandler, ct).ConfigureAwait(false);
         }
-
-        // TODO ================
-        // Interfaces
-        // url doc
-        // Json tests
 
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToNotificationUpdatesAsync(

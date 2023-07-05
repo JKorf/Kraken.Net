@@ -89,7 +89,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Limit filled
         /// </summary>
-        public decimal? LimitFilled { get; set; }
+        public bool? LimitFilled { get; set; }
         /// <summary>
         /// Maker order info
         /// </summary>

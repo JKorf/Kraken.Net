@@ -12,16 +12,16 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <summary>
         /// Endpoints related to account settings, info or actions
         /// </summary>
-        KrakenRestClientFuturesApiAccount Account { get; }
+        IKrakenRestClientFuturesApiAccount Account { get; }
 
         /// <summary>
         /// Endpoints related to retrieving market and system data
         /// </summary>
-        KrakenRestClientFuturesApiExchangeData ExchangeData { get; }
+        IKrakenRestClientFuturesApiExchangeData ExchangeData { get; }
 
         /// <summary>
         /// Endpoints related to orders and trades
         /// </summary>
-        KrakenRestClientFuturesApiTrading Trading { get; }
+        IKrakenRestClientFuturesApiTrading Trading { get; }
     }
 }
