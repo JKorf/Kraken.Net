@@ -174,7 +174,6 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.AddOptionalParameter("trigger", EnumConverter.GetString(trigger));
             parameters.AddOptionalParameter("displayvol", icebergQuanty?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("stptype", EnumConverter.GetString(selfTradePreventionType));
-            parameters.AddOptionalParameter("timeinforce", timeInForce?.ToString());
             parameters.AddOptionalParameter("close[ordertype]", closeOrderType == null? null: JsonConvert.SerializeObject(closeOrderType, new OrderTypeConverter(false)));
             parameters.AddOptionalParameter("close[price]", closePrice?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("close[price2]", secondaryClosePrice?.ToString(CultureInfo.InvariantCulture));
