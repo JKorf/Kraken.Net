@@ -110,7 +110,7 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenTradesResult>> GetTradeHistoryAsync(string symbol, DateTime? since = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenTradesResult>> GetTradeHistoryAsync(string symbol, DateTime? since = null, int? limit = null, CancellationToken ct = default)
         {
             symbol.ValidateKrakenSymbol();
             var parameters = new Dictionary<string, object>()
@@ -118,6 +118,7 @@ namespace Kraken.Net.Clients.SpotApi
                 {"pair", symbol},
             };
             parameters.AddOptionalParameter("since", DateTimeConverter.ConvertToNanoseconds(since));
+            parameters.AddOptionalParameter("count", limit);
             return await _baseClient.Execute<KrakenTradesResult>(_baseClient.GetUri("0/public/Trades"), HttpMethod.Get, ct, parameters: parameters).ConfigureAwait(false);
         }
 

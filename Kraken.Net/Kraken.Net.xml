@@ -280,7 +280,7 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetDepositMethodsAsync(System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetDepositAddressesAsync(System.String,System.String,System.Boolean,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetDepositAddressesAsync(System.String,System.String,System.Boolean,System.Nullable{System.Decimal},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetDepositStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
@@ -331,7 +331,7 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetOrderBookAsync(System.String,System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetTradeHistoryAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetTradeHistoryAsync(System.String,System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetRecentSpreadAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
@@ -2079,7 +2079,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Array with methods for deposit</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetDepositAddressesAsync(System.String,System.String,System.Boolean,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetDepositAddressesAsync(System.String,System.String,System.Boolean,System.Nullable{System.Decimal},System.String,System.Threading.CancellationToken)">
             <summary>
             Get deposit addresses for an asset
             <para><a href="https://docs.kraken.com/rest/#operation/getDepositAddresses" /></para>
@@ -2087,6 +2087,7 @@
             <param name="asset">The asset to get the deposit address for</param>
             <param name="depositMethod">The method of deposit</param>
             <param name="generateNew">Whether to generate a new address</param>
+            <param name="quantity">Amount you wish to deposit (only required for depositMethod=Bitcoin Lightning)</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
@@ -2247,13 +2248,14 @@
             <param name="ct">Cancellation token</param>
             <returns>Order book for the symbol</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetTradeHistoryAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetTradeHistoryAsync(System.String,System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <summary>
             Get a list of recent trades for a symbol
             <para><a href="https://docs.kraken.com/rest/#operation/getRecentTrades" /></para>
             </summary>
             <param name="symbol">Symbol to get trades for</param>
             <param name="since">Return trades since a specific time</param>
+            <param name="limit">Max amount of results</param>
             <param name="ct">Cancellation token</param>
             <returns>Recent trades</returns>
         </member>

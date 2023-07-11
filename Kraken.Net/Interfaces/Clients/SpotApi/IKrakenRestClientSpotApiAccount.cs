@@ -103,10 +103,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="asset">The asset to get the deposit address for</param>
         /// <param name="depositMethod">The method of deposit</param>
         /// <param name="generateNew">Whether to generate a new address</param>
+        /// <param name="quantity">Amount you wish to deposit (only required for depositMethod=Bitcoin Lightning)</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<IEnumerable<KrakenDepositAddress>>> GetDepositAddressesAsync(string asset, string depositMethod, bool generateNew = false, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<IEnumerable<KrakenDepositAddress>>> GetDepositAddressesAsync(string asset, string depositMethod, bool generateNew = false, decimal? quantity = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get status of deposits

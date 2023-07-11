@@ -93,9 +93,10 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </summary>
         /// <param name="symbol">Symbol to get trades for</param>
         /// <param name="since">Return trades since a specific time</param>
+        /// <param name="limit">Max amount of results</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Recent trades</returns>
-        Task<WebCallResult<KrakenTradesResult>> GetTradeHistoryAsync(string symbol, DateTime? since = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenTradesResult>> GetTradeHistoryAsync(string symbol, DateTime? since = null, int? limit = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get spread data for a symbol

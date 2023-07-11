@@ -128,20 +128,21 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
-        public async Task<WebCallResult<IEnumerable<KrakenDepositAddress>>> GetDepositAddressesAsync(string asset, string depositMethod, bool generateNew = false, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<IEnumerable<KrakenDepositAddress>>> GetDepositAddressesAsync(string asset, string depositMethod, bool generateNew = false, decimal? quantity = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             asset.ValidateNotNull(nameof(asset));
             depositMethod.ValidateNotNull(nameof(depositMethod));
             var parameters = new Dictionary<string, object>()
             {
                 {"asset", asset},
-                {"method", depositMethod},
+                {"method", depositMethod }
             };
 
             if (generateNew)
                 // If False is send it will still generate new, so only add it when it's true
                 parameters.Add("new", true);
 
+            parameters.AddOptionalParameter("amount", quantity);
             parameters.AddOptionalParameter("otp", twoFactorPassword);
 
             return await _baseClient.Execute<IEnumerable<KrakenDepositAddress>>(_baseClient.GetUri("0/private/DepositAddresses"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
