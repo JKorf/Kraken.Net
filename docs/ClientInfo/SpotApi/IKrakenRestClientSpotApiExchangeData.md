@@ -251,13 +251,14 @@ var result = await client.SpotApi.ExchangeData.GetTradeHistoryAsync(/* parameter
 ```  
 
 ```csharp  
-Task<WebCallResult<KrakenTradesResult>> GetTradeHistoryAsync(string symbol, DateTime? since = default, CancellationToken ct = default);  
+Task<WebCallResult<KrakenTradesResult>> GetTradeHistoryAsync(string symbol, DateTime? since = default, int? limit = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
 |symbol|Symbol to get trades for|
 |_[Optional]_ since|Return trades since a specific time|
+|_[Optional]_ limit|Max amount of results|
 |_[Optional]_ ct|Cancellation token|
 
 </p>

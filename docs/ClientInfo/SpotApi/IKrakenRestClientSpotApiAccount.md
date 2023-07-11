@@ -101,7 +101,7 @@ var result = await client.SpotApi.Account.GetDepositAddressesAsync(/* parameters
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<KrakenDepositAddress>>> GetDepositAddressesAsync(string asset, string depositMethod, bool generateNew, string? twoFactorPassword = default, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<KrakenDepositAddress>>> GetDepositAddressesAsync(string asset, string depositMethod, bool generateNew, decimal? quantity = default, string? twoFactorPassword = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -109,6 +109,7 @@ Task<WebCallResult<IEnumerable<KrakenDepositAddress>>> GetDepositAddressesAsync(
 |asset|The asset to get the deposit address for|
 |depositMethod|The method of deposit|
 |generateNew|Whether to generate a new address|
+|_[Optional]_ quantity|Amount you wish to deposit (only required for depositMethod=Bitcoin Lightning)|
 |_[Optional]_ twoFactorPassword|Password or authentication app code if enabled|
 |_[Optional]_ ct|Cancellation token|
 
@@ -423,7 +424,7 @@ var result = await client.SpotApi.Account.WithdrawAsync(/* parameters */);
 ```  
 
 ```csharp  
-Task<WebCallResult<KrakenWithdraw>> WithdrawAsync(string asset, string key, decimal quantity, string? twoFactorPassword = default, CancellationToken ct = default);  
+Task<WebCallResult<KrakenWithdraw>> WithdrawAsync(string asset, string key, decimal quantity, string? address = default, string? twoFactorPassword = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -431,6 +432,7 @@ Task<WebCallResult<KrakenWithdraw>> WithdrawAsync(string asset, string key, deci
 |asset|The asset being withdrawn|
 |key|The withdrawal key name, as set up on your account|
 |quantity|The quantity to withdraw, including fees|
+|_[Optional]_ address|Crypto address that can be used to confirm address matches key(will return Invalid withdrawal address error if different)|
 |_[Optional]_ twoFactorPassword|Password or authentication app code if enabled|
 |_[Optional]_ ct|Cancellation token|
 
