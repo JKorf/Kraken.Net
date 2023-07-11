@@ -108,6 +108,7 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Tick size
         /// </summary>
+        [JsonProperty("tick_size")]
         public decimal? TickSize { get; set; }
         /// <summary>
         /// Status

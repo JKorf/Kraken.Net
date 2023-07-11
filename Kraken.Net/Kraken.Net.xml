@@ -197,7 +197,7 @@
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi">
-            <inheritdoc cref="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApi" />
+            <inheritdoc cref="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi" />
         </member>
         <member name="P:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.ClientOptions">
             <inheritdoc />
@@ -1962,43 +1962,43 @@
             </summary>
             <param name="credentials">The credentials to set</param>
         </member>
-        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApi">
+        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi">
             <summary>
             Spot API endpoints
             </summary>
         </member>
-        <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApi.Account">
+        <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi.Account">
             <summary>
             Endpoints related to account settings, info or actions
             </summary>
         </member>
-        <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApi.ExchangeData">
+        <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi.ExchangeData">
             <summary>
             Endpoints related to retrieving market and system data
             </summary>
         </member>
-        <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApi.Trading">
+        <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi.Trading">
             <summary>
             Endpoints related to orders and trades
             </summary>
         </member>
-        <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApi.Staking">
+        <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi.Staking">
             <summary>
             Endpoints related to staking assets
             </summary>
         </member>
-        <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApi.CommonSpotClient">
+        <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi.CommonSpotClient">
             <summary>
             Get the ISpotClient for this client. This is a common interface which allows for some basic operations without knowing any details of the exchange.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount">
+        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount">
             <summary>
             Kraken account endpoints. Account endpoints include balance info, withdraw/deposit info and requesting and account settings
             </summary>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.GetBalancesAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetBalancesAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             Get balances
             <para><a href="https://docs.kraken.com/rest/#operation/getAccountBalance" /></para>
@@ -2007,7 +2007,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with balances for assets</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.GetAvailableBalancesAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetAvailableBalancesAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             Get balances including quantity in holding
             <para><a href="https://docs.kraken.com/rest/#operation/getTradeBalance" /></para>
@@ -2016,7 +2016,7 @@
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <returns>Dictionary with balances for assets</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.GetTradeBalanceAsync(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetTradeBalanceAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade balance
             </summary>
@@ -2025,7 +2025,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Trade balance data</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.GetOpenPositionsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetOpenPositionsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of open positions
             <para><a href="https://docs.kraken.com/rest/#operation/getOpenPositions" /></para>
@@ -2035,7 +2035,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with position info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.GetLedgerInfoAsync(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetLedgerInfoAsync(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.LedgerEntryType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get ledger entries info
             <para><a href="https://docs.kraken.com/rest/#operation/getLedgers" /></para>
@@ -2049,7 +2049,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Ledger entries page</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.GetLedgersEntryAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetLedgersEntryAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <summary>
             Get info on specific ledger entries
             <para><a href="https://docs.kraken.com/rest/#operation/getLedgersInfo" /></para>
@@ -2059,7 +2059,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with ledger entry info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.GetTradeVolumeAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetTradeVolumeAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade volume
             <para><a href="https://docs.kraken.com/rest/#operation/getTradeVolume" /></para>
@@ -2069,7 +2069,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Trade fee info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.GetDepositMethodsAsync(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetDepositMethodsAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get deposit methods
             <para><a href="https://docs.kraken.com/rest/#operation/getDepositMethods" /></para>
@@ -2079,7 +2079,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Array with methods for deposit</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.GetDepositAddressesAsync(System.String,System.String,System.Boolean,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetDepositAddressesAsync(System.String,System.String,System.Boolean,System.String,System.Threading.CancellationToken)">
             <summary>
             Get deposit addresses for an asset
             <para><a href="https://docs.kraken.com/rest/#operation/getDepositAddresses" /></para>
@@ -2091,7 +2091,7 @@
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.GetDepositStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetDepositStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get status of deposits
             <para><a href="https://docs.kraken.com/rest/#operation/getStatusRecentDeposits" /></para>
@@ -2102,7 +2102,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Deposit status list</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.GetWithdrawInfoAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWithdrawInfoAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
             <summary>
             Retrieve fee information about potential withdrawals for a particular asset, key and amount.
             <para><a href="https://docs.kraken.com/rest/#operation/getWithdrawalInformation" /></para>
@@ -2114,7 +2114,7 @@
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.WithdrawAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.WithdrawAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
             <summary>
             Withdraw funds
             <para><a href="https://docs.kraken.com/rest/#operation/withdrawFunds" /></para>
@@ -2126,7 +2126,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Withdraw reference id</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">
             <summary>
             Get the token to connect to the private websocket streams
             <para><a href="https://docs.kraken.com/rest/#operation/getWebsocketsToken" /></para>
@@ -2134,7 +2134,7 @@
             <param name="ct"></param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.GetWithdrawalStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWithdrawalStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get status of withdrawals
             <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/getStatusRecentWithdrawals" /></para>
@@ -2145,7 +2145,7 @@
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.CancelWithdrawalAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.CancelWithdrawalAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Cancel an active withdrawal
             <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/cancelWithdrawal" /></para>
@@ -2156,7 +2156,7 @@
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiAccount.TransferAsync(System.String,System.Decimal,System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.TransferAsync(System.String,System.Decimal,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Transfer funds between wallets
             <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/walletTransfer" /></para>
@@ -2169,12 +2169,12 @@
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
-        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiExchangeData">
+        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData">
             <summary>
             Kraken exchange data endpoints. Exchange data includes market data (tickers, order books, etc) and system status.
             </summary>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiExchangeData.GetServerTimeAsync(System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetServerTimeAsync(System.Threading.CancellationToken)">
             <summary>
             Get the server time
             <para><a href="https://docs.kraken.com/rest/#operation/getServerTime" /></para>
@@ -2182,7 +2182,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Server time</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiExchangeData.GetSystemStatusAsync(System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSystemStatusAsync(System.Threading.CancellationToken)">
             <summary>
             Get the system status
             <para><a href="https://docs.kraken.com/rest/#operation/getSystemStatus" /></para>
@@ -2190,7 +2190,7 @@
             <param name="ct">Cancellation token</param>
             <returns>System status</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiExchangeData.GetAssetsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetAssetsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
             Get a list of assets and info about them
             <para><a href="https://docs.kraken.com/rest/#operation/getAssetInfo" /></para>
@@ -2199,7 +2199,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary of asset info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
             Get a list of symbols and info about them
             <para><a href="https://docs.kraken.com/rest/#operation/getTradableAssetPairs" /></para>
@@ -2208,7 +2208,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary of symbol info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiExchangeData.GetTickerAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetTickerAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             Get tickers for symbol
             <para><a href="https://docs.kraken.com/rest/#operation/getTickerInformation" /></para>
@@ -2217,7 +2217,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with ticker info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiExchangeData.GetTickersAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetTickersAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
             Get tickers for symbols
             <para><a href="https://docs.kraken.com/rest/#operation/getTickerInformation" /></para>
@@ -2226,7 +2226,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with ticker info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiExchangeData.GetKlinesAsync(System.String,Kraken.Net.Enums.KlineInterval,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetKlinesAsync(System.String,Kraken.Net.Enums.KlineInterval,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <summary>
             Gets kline data for a symbol
             <para><a href="https://docs.kraken.com/rest/#operation/getOHLCData" /></para>
@@ -2237,7 +2237,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Kline data</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiExchangeData.GetOrderBookAsync(System.String,System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetOrderBookAsync(System.String,System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <summary>
             Get the order book for a symbol
             <para><a href="https://docs.kraken.com/rest/#operation/getOrderBook" /></para>
@@ -2247,7 +2247,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Order book for the symbol</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiExchangeData.GetTradeHistoryAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetTradeHistoryAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <summary>
             Get a list of recent trades for a symbol
             <para><a href="https://docs.kraken.com/rest/#operation/getRecentTrades" /></para>
@@ -2257,7 +2257,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Recent trades</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiExchangeData.GetRecentSpreadAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetRecentSpreadAsync(System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <summary>
             Get spread data for a symbol
             <para><a href="https://docs.kraken.com/rest/#operation/getRecentSpreads" /></para>
@@ -2267,12 +2267,12 @@
             <param name="ct">Cancellation token</param>
             <returns>Spread data</returns>
         </member>
-        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading">
+        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading">
             <summary>
             Kraken trading endpoints, placing and mananging orders.
             </summary>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.GetOpenOrdersAsync(System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.GetOpenOrdersAsync(System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of open orders
             <para><a href="https://docs.kraken.com/rest/#operation/getOpenOrders" /></para>
@@ -2282,7 +2282,7 @@
             <param name="ct">Cancellation token</param>
             <returns>List of open orders</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.GetClosedOrdersAsync(System.Nullable{System.UInt32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.GetClosedOrdersAsync(System.Nullable{System.UInt32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of closed orders
             <para><a href="https://docs.kraken.com/rest/#operation/getClosedOrders" /></para>
@@ -2295,7 +2295,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Closed orders page</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.GetOrderAsync(System.String,System.Nullable{System.UInt32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.GetOrderAsync(System.String,System.Nullable{System.UInt32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <summary>
             Get info on specific order
             <para><a href="https://docs.kraken.com/rest/#operation/getOrdersInfo" /></para>
@@ -2307,7 +2307,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with order info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.GetOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.UInt32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.GetOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.UInt32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <summary>
             Get info on specific orders
             <para><a href="https://docs.kraken.com/rest/#operation/getOrdersInfo" /></para>
@@ -2319,7 +2319,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with order info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.GetUserTradesAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.GetUserTradesAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade history
             <para><a href="https://docs.kraken.com/rest/#operation/getTradeHistory" /></para>
@@ -2332,7 +2332,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Trade history page</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.GetUserTradeDetailsAsync(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.GetUserTradeDetailsAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get info on specific trades
             <para><a href="https://docs.kraken.com/rest/#operation/getTradesInfo" /></para>
@@ -2342,7 +2342,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with trade info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.GetUserTradeDetailsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.GetUserTradeDetailsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <summary>
             Get info on specific trades
             <para><a href="https://docs.kraken.com/rest/#operation/getTradesInfo" /></para>
@@ -2352,7 +2352,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with trade info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.String,System.Nullable{Kraken.Net.Enums.TimeInForce},System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.Trigger},System.Nullable{Kraken.Net.Enums.SelfTradePreventionType},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.String,System.Nullable{Kraken.Net.Enums.TimeInForce},System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.Trigger},System.Nullable{Kraken.Net.Enums.SelfTradePreventionType},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
             <summary>
             Place a new order
             <para><a href="https://docs.kraken.com/rest/#operation/addOrder" /></para>
@@ -2396,7 +2396,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Placed order info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.CancelOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.CancelOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Cancel an order
             <para><a href="https://docs.kraken.com/rest/#operation/cancelOrder" /></para>
@@ -2406,7 +2406,7 @@
             <param name="ct">Cancellation token</param>
             <returns>Cancel result</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotApiTrading.CancelAllOrdersAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.CancelAllOrdersAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             Cancel all orders
             <para><a href="https://docs.kraken.com/rest/#operation/cancelAllOrders" /></para>
@@ -2415,12 +2415,12 @@
             <param name="ct">Cancellation token</param>
             <returns>Cancel result</returns>
         </member>
-        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi">
+        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotStakingApi">
             <summary>
             Kraken staking endpoints.
             </summary>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.StakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotStakingApi.StakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Stake an asset from your spot wallet.
             <para><a href="https://docs.kraken.com/rest/#operation/stake"/></para>
@@ -2430,10 +2430,10 @@
             <param name="method">Name of the staking option to use as returned by <see cref="P:Kraken.Net.Objects.Models.KrakenStakingAsset.Method"/></param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
-            <seealso cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.GetStakableAssets(System.String,System.Threading.CancellationToken)"/>
+            <seealso cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotStakingApi.GetStakableAssets(System.String,System.Threading.CancellationToken)"/>
             <returns>A reference to the staking request.</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.UnstakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotStakingApi.UnstakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Unstake an asset from your staking wallet
             <para><a href="https://docs.kraken.com/rest/#operation/unstake"/></para>
@@ -2445,17 +2445,17 @@
             <param name="ct">Cancellation token</param>
             <returns>A reference to the unstaking request.</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.GetPendingTransactionsAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotStakingApi.GetPendingTransactionsAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             Returns the list of pending staking transactions. Once completed, these transactions will be accessible
-            through <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.GetRecentTransactionsAsync(System.String,System.Threading.CancellationToken)"/> and will not be accessible through this API.
+            through <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotStakingApi.GetRecentTransactionsAsync(System.String,System.Threading.CancellationToken)"/> and will not be accessible through this API.
             <para><a href="https://docs.kraken.com/rest/#operation/getStakingPendingDeposits"/></para>
             </summary>
             <param name="twoFactorPassword"></param>
             <param name="ct"></param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.GetRecentTransactionsAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotStakingApi.GetRecentTransactionsAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             Returns a list of 1000 recent staking transactions from past 90 days.
             <para><a href="https://docs.kraken.com/rest/#operation/getStakingTransactions"/></para>
@@ -2464,7 +2464,7 @@
             <param name="ct">Cancellation token</param>
             <returns>The last 1000 staking transactions from the past 90 days</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenClientSpotStakingApi.GetStakableAssets(System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotStakingApi.GetStakableAssets(System.String,System.Threading.CancellationToken)">
             <summary>
             Returns the list of assets that you're able to stake.
             <para><a href="https://docs.kraken.com/rest/#operation/getStakingAssetInfo"/></para>
