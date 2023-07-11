@@ -119,7 +119,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// Trigger signal
         /// </summary>
         [JsonConverter(typeof(EnumConverter))]
-        public TriggerSignal TriggerSignal { get; set; }
+        public TriggerSignal? TriggerSignal { get; set; }
         /// <summary>
         /// Trailing stop options
         /// </summary>

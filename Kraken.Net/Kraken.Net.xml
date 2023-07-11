@@ -3415,6 +3415,16 @@
             Order status
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOpenOrder.TriggerSignal">
+            <summary>
+            Trigger signal
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesOpenOrder.StopPrice">
+            <summary>
+            Stop price
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesOrder">
             <summary>
             Order info

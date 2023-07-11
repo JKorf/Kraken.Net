@@ -1,0 +1,1 @@
+{"result":"success","openOrders":[{"order_id":"xxx...","cliOrdId":"xxx...","symbol":"fi_xbtusd_230728","side":"sell","orderType":"stop","stopPrice":29259,"unfilledSize":1,"receivedTime":"2023-07-09T17:42:31.153Z","status":"untouched","filledSize":0,"reduceOnly":true,"triggerSignal":"mark","lastUpdateTime":"2023-07-09T17:42:31.153Z"}],"serverTime":"2023-07-09T17:55:26.179Z"}

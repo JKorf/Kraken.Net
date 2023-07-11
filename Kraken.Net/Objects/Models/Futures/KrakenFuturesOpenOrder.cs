@@ -88,5 +88,14 @@ namespace Kraken.Net.Objects.Models.Futures
         /// </summary>
         [JsonConverter(typeof(EnumConverter))]
         public OpenOrderStatus Status { get; set; }
+        /// <summary>
+        /// Trigger signal
+        /// </summary>
+        [JsonConverter(typeof(EnumConverter))]
+        public TriggerSignal? TriggerSignal { get; set; }
+        /// <summary>
+        /// Stop price
+        /// </summary>
+        public decimal? StopPrice { get; set; }
     }
 }
