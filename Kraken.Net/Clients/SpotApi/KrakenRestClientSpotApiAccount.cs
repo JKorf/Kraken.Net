@@ -177,7 +177,7 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenWithdraw>> WithdrawAsync(string asset, string key, decimal quantity, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenWithdraw>> WithdrawAsync(string asset, string key, decimal quantity, string? address = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             asset.ValidateNotNull(nameof(asset));
             key.ValidateNotNull(nameof(key));
@@ -188,6 +188,7 @@ namespace Kraken.Net.Clients.SpotApi
                 {"key", key},
                 {"amount", quantity.ToString(CultureInfo.InvariantCulture)}
             };
+            parameters.AddOptionalParameter("address", address);
             parameters.AddOptionalParameter("otp", twoFactorPassword);
 
             return await _baseClient.Execute<KrakenWithdraw>(_baseClient.GetUri("0/private/Withdraw"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);

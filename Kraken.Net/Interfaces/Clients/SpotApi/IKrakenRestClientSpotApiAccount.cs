@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Kraken.Net.Objects.Models;
 using Kraken.Net.Objects.Models.Socket;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace Kraken.Net.Interfaces.Clients.SpotApi
 {
@@ -140,10 +142,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="asset">The asset being withdrawn</param>
         /// <param name="key">The withdrawal key name, as set up on your account</param>
         /// <param name="quantity">The quantity to withdraw, including fees</param>
+        /// <param name="address">Crypto address that can be used to confirm address matches key(will return Invalid withdrawal address error if different)</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Withdraw reference id</returns>
-        Task<WebCallResult<KrakenWithdraw>> WithdrawAsync(string asset, string key, decimal quantity, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenWithdraw>> WithdrawAsync(string asset, string key, decimal quantity, string? address = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get the token to connect to the private websocket streams
