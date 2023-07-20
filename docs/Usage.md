@@ -19,6 +19,8 @@ var krakenSocketClient = new KrakenSocketClient(options =>
 });
 ```
 
+**Warning:** This creates a new HttpClient for each instance and could lead to sockets exhaustion under high load. Favor the usage of the HttpClientFactory achieved via registration in the DI container described below or use the overloaded constructor to inject your own HttpClient.
+
 *Using dotnet dependency inject*
 ```csharp
 services.AddKraken(
