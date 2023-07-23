@@ -52,7 +52,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Book update
     /// </summary>
-    public class KrakenFuturesBookUpdate : ISymbolOrderBookEntry
+    public class KrakenFuturesBookUpdate : KrakenFuturesUpdateMessage, ISymbolOrderBookEntry
     {
         /// <summary>
         /// Timestamp
