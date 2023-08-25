@@ -284,7 +284,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             var authProvider = (KrakenFuturesAuthenticationProvider)AuthenticationProvider!;
             string? challenge = null;
-            await s.SendAndWaitAsync(new { @event = "challenge", api_key = authProvider.GetApiKey() }, TimeSpan.FromSeconds(5), null, data =>
+            await s.SendAndWaitAsync(new { @event = "challenge", api_key = authProvider.GetApiKey() }, TimeSpan.FromSeconds(5), null, 1, data =>
             {
                 var evnt = data["event"]?.ToString();
                 if (evnt != "challenge")
@@ -314,7 +314,7 @@ namespace Kraken.Net.Clients.SpotApi
                 @event = "unsubscribe",
                 feed = kRequest.Feed,
                 product_ids = kRequest.Symbols
-            }, ClientOptions.RequestTimeout, null, message =>
+            }, ClientOptions.RequestTimeout, null, 1, message =>
             {
                 if (message.Type != JTokenType.Object)
                     return false;

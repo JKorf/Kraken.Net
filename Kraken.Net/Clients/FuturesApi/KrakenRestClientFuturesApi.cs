@@ -124,11 +124,15 @@ namespace Kraken.Net.Clients.FuturesApi
         }
 
         /// <inheritdoc />
-        protected override Error ParseErrorResponse(JToken error)
+        protected override Error ParseErrorResponse(int httpStatusCode, IEnumerable<KeyValuePair<string, IEnumerable<string>>> responseHeaders, string data)
         {
-            var result = Deserialize<KrakenFuturesResult>(error);
+            var errorData = ValidateJson(data);
+            if (!errorData)
+                return new ServerError(data);
+
+            var result = Deserialize<KrakenFuturesResult>(errorData.Data);
             if (!result)
-                return new ServerError(error.ToString());
+                return new ServerError(data);
 
             if (result.Data.Errors?.Any() == true)
             {

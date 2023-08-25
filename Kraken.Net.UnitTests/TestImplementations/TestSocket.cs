@@ -17,6 +17,7 @@ namespace Kucoin.Net.UnitTests.TestImplementations
         public event Action OnClose;
         public event Action<string> OnMessage;
         public event Action<Exception> OnError;
+        public event Action<int> OnRequestSent;
         public event Action OnOpen;
 #pragma warning disable 0067
         public event Action OnReconnecting;
@@ -55,11 +56,12 @@ namespace Kucoin.Net.UnitTests.TestImplementations
             return Task.FromResult(CanConnect);
         }
 
-        public void Send(string data)
+        public void Send(int requestId, string data, int weight)
         {
             if(!Connected)
                 throw new Exception("Socket not connected");
             LastSendMessage = data;
+            OnRequestSent?.Invoke(requestId);
         }
 
         public void Reset()

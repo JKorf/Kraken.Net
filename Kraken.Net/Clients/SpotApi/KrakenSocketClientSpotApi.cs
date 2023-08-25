@@ -73,7 +73,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 handler(data.As(data.Data.Data, symbol));
             });
-            return await SubscribeAsync(new KrakenSubscribeRequest("ticker", NextId(), subSymbol), null, false, internalHandler, ct).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("ticker", ExchangeHelpers.NextId(), subSymbol), null, false, internalHandler, ct).ConfigureAwait(false);
         }
         
         /// <inheritdoc />
@@ -90,7 +90,7 @@ namespace Kraken.Net.Clients.SpotApi
                 handler(data.As(data.Data.Data, data.Data.Symbol));
             });
 
-            return await SubscribeAsync(new KrakenSubscribeRequest("ticker", NextId(), symbolArray), null, false, internalHandler, ct).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("ticker", ExchangeHelpers.NextId(), symbolArray), null, false, internalHandler, ct).ConfigureAwait(false);
         }
 
 		/// <inheritdoc />
@@ -111,7 +111,7 @@ namespace Kraken.Net.Clients.SpotApi
                 handler(data.As(data.Data.Data, data.Data.Symbol));
             });
 
-            return await SubscribeAsync(new KrakenSubscribeRequest("ohlc", NextId(), subSymbols.ToArray()) { Details = new KrakenOHLCSubscriptionDetails(intervalMinutes) }, null, false, internalHandler, ct).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("ohlc", ExchangeHelpers.NextId(), subSymbols.ToArray()) { Details = new KrakenOHLCSubscriptionDetails(intervalMinutes) }, null, false, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -129,7 +129,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 handler(data.As(data.Data.Data, data.Data.Symbol));
             });
-            return await SubscribeAsync(new KrakenSubscribeRequest("trade", NextId(), subSymbols.ToArray()), null, false, internalHandler, ct).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("trade", ExchangeHelpers.NextId(), subSymbols.ToArray()), null, false, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -147,7 +147,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 handler(data.As(data.Data.Data, data.Data.Symbol));
             });
-            return await SubscribeAsync(new KrakenSubscribeRequest("spread", NextId(), subSymbols.ToArray()), null, false, internalHandler, ct).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("spread", ExchangeHelpers.NextId(), subSymbols.ToArray()), null, false, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -181,7 +181,7 @@ namespace Kraken.Net.Clients.SpotApi
                 handler(data.As(evnt.Data, evnt.Symbol));
             });
 
-            return await SubscribeAsync(new KrakenSubscribeRequest("book", NextId(), subSymbols.ToArray()) { Details = new KrakenDepthSubscriptionDetails(depth) }, null, false, innerHandler, ct).ConfigureAwait(false);
+            return await SubscribeAsync(new KrakenSubscribeRequest("book", ExchangeHelpers.NextId(), subSymbols.ToArray()) { Details = new KrakenDepthSubscriptionDetails(depth) }, null, false, innerHandler, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -220,7 +220,7 @@ namespace Kraken.Net.Clients.SpotApi
                 _logger.Log(LogLevel.Warning, "Failed to deserialize stream order");
             });
 
-            return await SubscribeAsync(_privateBaseAddress, new KrakenSubscribeRequest("openOrders", NextId())
+            return await SubscribeAsync(_privateBaseAddress, new KrakenSubscribeRequest("openOrders", ExchangeHelpers.NextId())
             {
                 Details = new KrakenOpenOrdersSubscriptionDetails(socketToken)
             }, null, false, innerHandler, ct).ConfigureAwait(false);
@@ -267,7 +267,7 @@ namespace Kraken.Net.Clients.SpotApi
                 _logger.Log(LogLevel.Warning, "Failed to deserialize stream order");
             });
 
-            return await SubscribeAsync(_privateBaseAddress, new KrakenSubscribeRequest("ownTrades", NextId())
+            return await SubscribeAsync(_privateBaseAddress, new KrakenSubscribeRequest("ownTrades", ExchangeHelpers.NextId())
             {
                 Details = new KrakenOwnTradesSubscriptionDetails(socketToken, snapshot)
             }, null, false, innerHandler, ct).ConfigureAwait(false);
@@ -312,7 +312,7 @@ namespace Kraken.Net.Clients.SpotApi
                 ClosePrice = closePrice?.ToString(CultureInfo.InvariantCulture),
                 SecondaryClosePrice = secondaryClosePrice?.ToString(CultureInfo.InvariantCulture),
                 ReduceOnly = reduceOnly,
-                RequestId = NextId(),
+                RequestId = ExchangeHelpers.NextId(),
                 Flags = flags == null ? null: string.Join(",", flags.Select(f => JsonConvert.SerializeObject(f, new OrderFlagsConverter(false))))
             };
 
@@ -331,7 +331,7 @@ namespace Kraken.Net.Clients.SpotApi
                 Event = "cancelOrder",
                 OrderIds = orderIds,
                 Token = websocketToken,
-                RequestId = NextId()
+                RequestId = ExchangeHelpers.NextId()
             };
             var result = await QueryAsync<KrakenSocketResponseBase>(_privateBaseAddress, request, false).ConfigureAwait(false);
             return result.As(result.Success);
@@ -344,7 +344,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 Event = "cancelAll",
                 Token = websocketToken,
-                RequestId = NextId()
+                RequestId = ExchangeHelpers.NextId()
             };
             return await QueryAsync<KrakenStreamCancelAllResult>(_privateBaseAddress, request, false).ConfigureAwait(false);
         }
@@ -357,7 +357,7 @@ namespace Kraken.Net.Clients.SpotApi
                 Event = "cancelAllOrdersAfter",
                 Token = websocketToken,
                 Timeout = (int)Math.Round(timeout.TotalSeconds),
-                RequestId = NextId()
+                RequestId = ExchangeHelpers.NextId()
             };
             return await QueryAsync<KrakenStreamCancelAfterResult>(_privateBaseAddress, request, false).ConfigureAwait(false);
         }
@@ -556,7 +556,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 if (kRequest.Details?.Topic == "ownTrades")
                 {
-                    unsubRequest = new KrakenUnsubscribeRequest(NextId(), new KrakenUnsubscribeSubscription
+                    unsubRequest = new KrakenUnsubscribeRequest(ExchangeHelpers.NextId(), new KrakenUnsubscribeSubscription
                     {
                         Name = "ownTrades",
                         Token = ((KrakenOwnTradesSubscriptionDetails)kRequest.Details).Token
@@ -564,7 +564,7 @@ namespace Kraken.Net.Clients.SpotApi
                 }
                 else if (kRequest.Details?.Topic == "openOrders")
                 {
-                    unsubRequest = new KrakenUnsubscribeRequest(NextId(), new KrakenUnsubscribeSubscription
+                    unsubRequest = new KrakenUnsubscribeRequest(ExchangeHelpers.NextId(), new KrakenUnsubscribeSubscription
                     {
                         Name = "openOrders",
                         Token = ((KrakenOpenOrdersSubscriptionDetails)kRequest.Details).Token
@@ -577,11 +577,11 @@ namespace Kraken.Net.Clients.SpotApi
             }
             else
             {
-                unsubRequest = new KrakenUnsubscribeRequest(NextId(), kRequest.ChannelId.Value);
+                unsubRequest = new KrakenUnsubscribeRequest(ExchangeHelpers.NextId(), kRequest.ChannelId.Value);
             }
 
             var result = false;
-            await connection.SendAndWaitAsync(unsubRequest, ClientOptions.RequestTimeout, null, data =>
+            await connection.SendAndWaitAsync(unsubRequest, ClientOptions.RequestTimeout, null, 1, data =>
             {
                 if (data.Type != JTokenType.Object)
                     return false;
