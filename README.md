@@ -1,11 +1,14 @@
 # Kraken.Net
-[![.NET](https://github.com/JKorf/Kraken.Net/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JKorf/Kraken.Net/actions/workflows/dotnet.yml) ![Nuget version](https://img.shields.io/nuget/v/KrakenExchange.net.svg)  ![Nuget downloads](https://img.shields.io/nuget/dt/KrakenExchange.Net.svg)
+[![.NET](https://github.com/JKorf/Kraken.Net/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JKorf/Kraken.Net/actions/workflows/dotnet.yml) [![Nuget version](https://img.shields.io/nuget/v/KrakenExchange.net.svg)](https://www.nuget.org/packages/KrakenExchange.Net)  [![Nuget downloads](https://img.shields.io/nuget/dt/KrakenExchange.Net.svg)](https://www.nuget.org/packages/KrakenExchange.Net)
 
 Kraken.Net is a wrapper around the Kraken API as described on [Kraken](https://www.kraken.com/features/api), including all features the API provides using clear and readable objects, both for the REST  as the websocket API's.
 
 **If you think something is broken, something is missing or have any questions, please open an [Issue](https://github.com/JKorf/Kraken.Net/issues)**
 
 [Documentation](https://jkorf.github.io/Kraken.Net/)
+
+## Installation
+`dotnet add package KrakenExchange.Net`
 
 ## Support the project
 I develop and maintain this package on my own for free in my spare time, any support is greatly appreciated.
