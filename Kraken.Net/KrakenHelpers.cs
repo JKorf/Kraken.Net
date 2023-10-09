@@ -60,6 +60,7 @@ namespace Kraken.Net
 
             services.AddSingleton<IKrakenOrderBookFactory, KrakenOrderBookFactory>();
             services.AddTransient<IKrakenRestClient, KrakenRestClient>();
+            services.AddTransient(x => x.GetRequiredService<IKrakenRestClient>().SpotApi.CommonSpotClient);
             if (socketClientLifeTime == null)
                 services.AddSingleton<IKrakenSocketClient, KrakenSocketClient>();
             else
