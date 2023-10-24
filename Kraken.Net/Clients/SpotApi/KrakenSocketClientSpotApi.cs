@@ -381,7 +381,7 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
-        public override async Task<CallResult<object>> RevitalizeRequestAsync(object request)
+        protected override async Task<CallResult<object>> RevitalizeRequestAsync(object request)
         {
             var kRequest = (KrakenSubscribeRequest)request;
             var payloadType = kRequest.Details.GetType();
