@@ -109,7 +109,7 @@
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.SetLeverageAsync(System.String,System.Decimal,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.FuturesOrderType,System.Int32,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.TrailingStopDeviationUnit},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.TriggerSignal},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.FuturesOrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.TrailingStopDeviationUnit},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.TriggerSignal},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.GetOpenOrdersAsync(System.Threading.CancellationToken)">
@@ -1767,7 +1767,7 @@
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.FuturesOrderType,System.Int32,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.TrailingStopDeviationUnit},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.TriggerSignal},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.FuturesOrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.TrailingStopDeviationUnit},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.TriggerSignal},System.String,System.Threading.CancellationToken)">
             <summary>
             Place a new order
             <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-send-order" /></para>

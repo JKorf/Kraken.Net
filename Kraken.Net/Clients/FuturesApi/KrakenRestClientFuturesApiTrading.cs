@@ -76,7 +76,7 @@ namespace Kraken.Net.Clients.FuturesApi
             string symbol,
             OrderSide side,
             FuturesOrderType type,
-            int quantity,
+            decimal quantity,
             decimal? price = null,
             decimal? stopPrice = null,
             bool? reduceOnly = null,

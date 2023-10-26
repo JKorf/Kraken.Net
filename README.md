@@ -26,6 +26,8 @@ Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/s
 A Discord server is available [here](https://discord.gg/MSpeEtSY8t). For discussion and/or questions around the CryptoExchange.Net and implementation libraries, feel free to join.
 
 ## Release notes
+* Version 4.1.6 - 28 Oct 2023
+    * Fixed type parameter of quantity (int to decimal) in PlaceOrderAsync FuturesApi
 * Version 4.1.5 - 24 Oct 2023
     * Updated CryptoExchange.Net
 
