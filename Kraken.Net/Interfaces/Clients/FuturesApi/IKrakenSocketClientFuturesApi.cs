@@ -1,5 +1,6 @@
 ﻿using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
+using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Objects.Models.Socket.Futures;
 using System;
@@ -97,6 +98,16 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// Subscribe to ticker updates
         /// <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-ticker" /></para>
         /// </summary>
+        /// <param name="symbol">The symbol to subscribe</param>
+        /// <param name="handler">Update handler</param>
+        /// <param name="ct">Cancellation token for closing this subscription</param>
+        /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesTickerUpdate>> handler, CancellationToken ct = default);
+
+        /// <summary>
+        /// Subscribe to ticker updates
+        /// <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-ticker" /></para>
+        /// </summary>
         /// <param name="symbols">The symbols to subscribe</param>
         /// <param name="handler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
@@ -108,20 +119,18 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-trade" /></para>
         /// </summary>
         /// <param name="symbols">The symbols to subscribe</param>
-        /// <param name="snapshotHandler">Handler for the initial snapshot data received when (re)connecting the stream</param>
         /// <param name="updateHandler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesTradesSnapshotUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesTradeUpdate>> updateHandler, CancellationToken ct = default);
+        Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<IEnumerable<KrakenFuturesTradeUpdate>>> updateHandler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to user trades updates
         /// <para><a href="https://docs.futures.kraken.com/#websocket-api-private-feeds-fills" /></para>
         /// </summary>
-        /// <param name="snapshotHandler">Handler for the initial snapshot data received when (re)connecting the stream</param>
-        /// <param name="updateHandler">Update handler</param>
+        /// <param name="handler">Handler for the initial snapshot data received when (re)connecting the stream</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(Action<DataEvent<KrakenFuturesUserTradesUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesUserTradesUpdate>> updateHandler, CancellationToken ct = default);
+        Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(Action<DataEvent<KrakenFuturesUserTradesUpdate>> handler, CancellationToken ct = default);
     }
 }

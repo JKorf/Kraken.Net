@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models;
+using Kraken.Net.Objects.Sockets;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Kraken.Net.Converters
 {
     internal static class StreamOrderBookConverter
     {
-        public static KrakenSocketEvent<KrakenStreamOrderBook>? Convert(JArray arr)
+        public static KrakenSocketUpdate<KrakenStreamOrderBook>? Convert(JArray arr)
         {
-            var result = new KrakenSocketEvent<KrakenStreamOrderBook> {ChannelId = (int) arr[0]};
+            var result = new KrakenSocketUpdate<KrakenStreamOrderBook> {ChannelId = (int) arr[0]};
 
             var orderBook = new KrakenStreamOrderBook();
             if (arr.Count == 4)
@@ -38,7 +40,7 @@ namespace Kraken.Net.Converters
                 if (innerObject["c"] != null)
                     orderBook.Checksum = innerObject["c"]!.Value<uint>();
                 
-                result.Topic = arr[2].ToString();
+                result.ChannelName = arr[2].ToString();
                 result.Symbol = arr[3].ToString();
             }
             else
@@ -46,7 +48,7 @@ namespace Kraken.Net.Converters
                 orderBook.Asks = arr[1]["a"]!.ToObject<IEnumerable<KrakenStreamOrderBookEntry>>()!;
                 orderBook.Bids = arr[2]["b"]!.ToObject<IEnumerable<KrakenStreamOrderBookEntry>>()!;
                 orderBook.Checksum = arr[2]["c"]!.Value<uint>();
-                result.Topic = arr[3].ToString();
+                result.ChannelName = arr[3].ToString();
                 result.Symbol = arr[4].ToString();
             }
 

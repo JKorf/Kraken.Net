@@ -5,7 +5,7 @@ namespace Kraken.Net.Objects.Internal
     /// <summary>
     /// Socket request base
     /// </summary>
-    internal class KrakenSocketRequestBase
+    internal class KrakenSocketRequest
     {
         /// <summary>
         /// Request id
@@ -17,6 +17,10 @@ namespace Kraken.Net.Objects.Internal
         /// </summary>
         [JsonProperty("event")]
         public string Event { get; set; } = string.Empty;
+    }
+
+    internal class KrakenSocketAuthRequest : KrakenSocketRequest
+    {
         /// <summary>
         /// Token
         /// </summary>

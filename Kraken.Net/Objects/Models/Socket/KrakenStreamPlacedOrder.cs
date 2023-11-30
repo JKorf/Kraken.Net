@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using Kraken.Net.Objects.Sockets;
+using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects.Models.Socket
 {
     /// <summary>
     /// Placed order result
     /// </summary>
-    public class KrakenStreamPlacedOrder: KrakenSocketResponseBase
+    public class KrakenStreamPlacedOrder: KrakenQueryEvent
     {
         /// <summary>
         /// Order description

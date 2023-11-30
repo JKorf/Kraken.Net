@@ -3,12 +3,8 @@ using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects.Internal
 {
-    internal class KrakenSubscribeRequest
+    internal class KrakenSubscribeRequest : KrakenSocketRequest
     {
-        [JsonProperty("event")]
-        public string Event { get; set; } = "subscribe";
-        [JsonProperty("reqid")]
-        public int RequestId { get; set; }
         [JsonProperty("pair", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string[]? Symbols { get; set; }
         [JsonProperty("subscription")]
@@ -17,11 +13,11 @@ namespace Kraken.Net.Objects.Internal
         [JsonIgnore]
         public int? ChannelId { get; set; }
 
-        public KrakenSubscribeRequest(string topic, int requestId, params string[] symbols)
+        public KrakenSubscribeRequest(string topic, int requestId, params string[]? symbols)
         {
             RequestId = requestId;
             Details = new KrakenSubscriptionDetails(topic);
-            if(symbols.Any())
+            if(symbols?.Any() == true)
                 Symbols = symbols;
         }
     }

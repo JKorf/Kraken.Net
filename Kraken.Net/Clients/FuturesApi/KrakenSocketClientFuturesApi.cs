@@ -1,16 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
+using CryptoExchange.Net.Converters;
 using CryptoExchange.Net.Objects;
+using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Options;
+using Kraken.Net.Objects.Sockets.Converters;
+using Kraken.Net.Objects.Sockets.Queries;
+using Kraken.Net.Objects.Sockets.Subscriptions.Futures;
+using Kraken.Net.Objects.Sockets.Subscriptions.Spot;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
@@ -22,6 +29,8 @@ namespace Kraken.Net.Clients.SpotApi
         #region fields                
         /// <inheritdoc />
         public new KrakenSocketOptions ClientOptions => (KrakenSocketOptions)base.ClientOptions;
+
+        public override SocketConverter StreamConverter { get; } = new KrakenFuturesStreamConverter();
         #endregion
 
         #region ctor
@@ -29,8 +38,8 @@ namespace Kraken.Net.Clients.SpotApi
         internal KrakenSocketClientFuturesApi(ILogger logger, KrakenSocketOptions options) :
             base(logger, options.Environment.FuturesSocketBaseAddress, options, options.FuturesOptions)
         {
-            AddGenericHandler("Info", (messageEvent) => { });
-            AddGenericHandler("AdditionalSubResponses", (messageEvent) => { });
+            //AddGenericHandler("Info", (messageEvent) => { });
+            //AddGenericHandler("AdditionalSubResponses", (messageEvent) => { });
         }
         #endregion
 
@@ -38,54 +47,67 @@ namespace Kraken.Net.Clients.SpotApi
         protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
             => new KrakenFuturesAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new KrakenNonceProvider());
 
-        #region methods
+        public override async Task<CallResult<bool>> AuthenticateSocketAsync(SocketConnection socket) 
+        {
+            _logger.Log(LogLevel.Debug, $"Socket {socket.SocketId} Attempting to authenticate");
+            var krakenAuthProvider = (KrakenFuturesAuthenticationProvider)AuthenticationProvider;
+            var authRequest = new KrakenFuturesAuthQuery(krakenAuthProvider.GetApiKey());
+            var result = await socket.SendAndWaitQueryAsync(authRequest).ConfigureAwait(false);
+
+            if (!result)
+            {
+                _logger.Log(LogLevel.Warning, $"Socket {socket.SocketId} authentication failed");
+                if (socket.Connected)
+                    await socket.CloseAsync().ConfigureAwait(false);
+
+                result.Error!.Message = "Authentication failed: " + result.Error.Message;
+                return new CallResult<bool>(result.Error)!;
+            }
+
+            var sign = krakenAuthProvider.AuthenticateWebsocketChallenge(result.Data.Message);
+            socket.Properties["OriginalChallenge"] = result.Data.Message;
+            socket.Properties["SignedChallenge"] = sign;
+
+            _logger.Log(LogLevel.Debug, $"Socket {socket.SocketId} authenticated");
+            socket.Authenticated = true;
+            return new CallResult<bool>(true);
+        }
+
+        //#region methods
 
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToHeartbeatUpdatesAsync(Action<DataEvent<KrakenFuturesHeartbeatUpdate>> handler, CancellationToken ct = default)
         {
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), new KrakenFuturesSubscribeMessage
-            {
-                Event = "subscribe",
-                Feed = "heartbeat"
-            }, null, false, handler, ct).ConfigureAwait(false);
+            var subscription = new KrakenFuturesSubscription<KrakenFuturesHeartbeatUpdate>(_logger, "heartbeat", null, handler);
+            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
+
+        /// <inheritdoc />
+        public Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesTickerUpdate>> handler, CancellationToken ct = default)
+            => SubscribeToTickerUpdatesAsync(new List<string> { symbol }, handler, ct);
 
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesTickerUpdate>> handler, CancellationToken ct = default)
         {
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), new KrakenFuturesSubscribeMessage
-            {
-                Event = "subscribe",
-                Feed = "ticker",
-                Symbols = symbols.ToList()
-            }, null, false, handler, ct).ConfigureAwait(false);
+            var subscription = new KrakenFuturesSubscription<KrakenFuturesTickerUpdate>(_logger, "ticker", symbols.ToList(), handler);
+            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(
             IEnumerable<string> symbols,
-            Action<DataEvent<KrakenFuturesTradesSnapshotUpdate>> snapshotHandler,
-            Action<DataEvent<KrakenFuturesTradeUpdate>> updateHandler,
+            Action<DataEvent<IEnumerable<KrakenFuturesTradeUpdate>>> handler,
             CancellationToken ct = default)
         {
-            var internalHandler = new Action<DataEvent<JToken>>(data => HandleSnapshotUpdate(data, snapshotHandler, updateHandler));
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), new KrakenFuturesSubscribeMessage
-            {
-                Event = "subscribe",
-                Feed = "trade",
-                Symbols = symbols.ToList()
-            }, null, false, internalHandler, ct).ConfigureAwait(false);
+            var subscription = new KrakenFuturesTradesSubscription(_logger, symbols.ToList(), handler);
+            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToMiniTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesMiniTickerUpdate>> handler, CancellationToken ct = default)
         {
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), new KrakenFuturesSubscribeMessage
-            {
-                Event = "subscribe",
-                Feed = "ticker_lite",
-                Symbols = symbols.ToList()
-            }, null, false, handler, ct).ConfigureAwait(false);
+            var subscription = new KrakenFuturesSubscription<KrakenFuturesMiniTickerUpdate>(_logger, "ticker_lite", symbols.ToList(), handler);
+            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -95,13 +117,8 @@ namespace Kraken.Net.Clients.SpotApi
             Action<DataEvent<KrakenFuturesBookUpdate>> updateHandler,
             CancellationToken ct = default)
         {
-            var internalHandler = new Action<DataEvent<JToken>>(data => HandleSnapshotUpdate(data, snapshotHandler, updateHandler));
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), new KrakenFuturesSubscribeMessage
-            {
-                Event = "subscribe",
-                Feed = "book",
-                Symbols = symbols.ToList()
-            }, null, false, internalHandler, ct).ConfigureAwait(false);
+            var subscription = new KrakenFuturesOrderbookSubscription(_logger, symbols.ToList(), snapshotHandler, updateHandler);
+            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -111,12 +128,8 @@ namespace Kraken.Net.Clients.SpotApi
             Action<DataEvent<KrakenFuturesOpenOrdersUpdate>> updateHandler,
             CancellationToken ct = default)
         {
-            var internalHandler = new Action<DataEvent<JToken>>(data => HandleSnapshotUpdate(data, snapshotHandler, updateHandler));
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), new KrakenFuturesSubscribeAuthMessage
-            {
-                Event = "subscribe",
-                Feed = verbose ? "open_orders_verbose" : "open_orders"
-            }, null, true, internalHandler, ct).ConfigureAwait(false);
+            var subscription = new KrakenFuturesOrdersSubscription(_logger, verbose, snapshotHandler, updateHandler);
+            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -125,12 +138,8 @@ namespace Kraken.Net.Clients.SpotApi
             Action<DataEvent<KrakenFuturesAccountLogsUpdate>> updateHandler,
             CancellationToken ct = default)
         {
-            var internalHandler = new Action<DataEvent<JToken>>(data => HandleSnapshotUpdate(data, snapshotHandler, updateHandler));
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), new KrakenFuturesSubscribeAuthMessage
-            {
-                Event = "subscribe",
-                Feed = "account_log"
-            }, null, true, internalHandler, ct).ConfigureAwait(false);
+            var subscription = new KrakenFuturesAccountLogSubscription(_logger, snapshotHandler, updateHandler);
+            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -138,11 +147,8 @@ namespace Kraken.Net.Clients.SpotApi
             Action<DataEvent<KrakenFuturesOpenPositionUpdate>> handler,
             CancellationToken ct = default)
         {
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), new KrakenFuturesSubscribeAuthMessage
-            {
-                Event = "subscribe",
-                Feed = "open_positions"
-            }, null, true, handler, ct).ConfigureAwait(false);
+            var subscription = new KrakenFuturesOpenPositionsSubscription(_logger, handler);
+            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -150,25 +156,17 @@ namespace Kraken.Net.Clients.SpotApi
             Action<DataEvent<KrakenFuturesBalancesUpdate>> handler,
             CancellationToken ct = default)
         {
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), new KrakenFuturesSubscribeAuthMessage
-            {
-                Event = "subscribe",
-                Feed = "balances"
-            }, null, true, handler, ct).ConfigureAwait(false);
+            var subscription = new KrakenFuturesBalanceSubscription(_logger, handler);
+            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(
-            Action<DataEvent<KrakenFuturesUserTradesUpdate>> snapshotHandler,
-            Action<DataEvent<KrakenFuturesUserTradesUpdate>> updateHandler,
+            Action<DataEvent<KrakenFuturesUserTradesUpdate>> handler,
             CancellationToken ct = default)
         {
-            var internalHandler = new Action<DataEvent<JToken>>(data => HandleSnapshotUpdate(data, snapshotHandler, updateHandler));
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), new KrakenFuturesSubscribeAuthMessage
-            {
-                Event = "subscribe",
-                Feed = "fills"
-            }, null, true, internalHandler, ct).ConfigureAwait(false);
+            var subscription = new KrakenFuturesUserTradeSubscription(_logger, handler);
+            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -176,176 +174,176 @@ namespace Kraken.Net.Clients.SpotApi
             Action<DataEvent<KrakenFuturesNotificationUpdate>> handler,
             CancellationToken ct = default)
         {
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), new KrakenFuturesSubscribeAuthMessage
-            {
-                Event = "subscribe",
-                Feed = "notifications_auth"
-            }, null, true, handler, ct).ConfigureAwait(false);
+            var subscription = new KrakenFuturesNotificationSubscription(_logger, handler);
+            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
-        /// <inheritdoc />
-        protected override bool HandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
-            => throw new NotImplementedException();
 
-        /// <inheritdoc />
-        protected override bool HandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object>? callResult)
-        {
-            callResult = null;
-            if (message.Type != JTokenType.Object)
-                return false;
 
-            var evnt = message["event"]?.ToString();
-            if (evnt == null || (evnt != "subscribed" && evnt != "error"))
-                return false;
 
-            var kRequest = (KrakenFuturesSubscribeMessage)request;
+        ///// <inheritdoc />
+        //protected override bool HandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
+        //    => throw new NotImplementedException();
 
-            var responseMessage = message.ToObject<KrakenFuturesSocketMessage>();
-            if (responseMessage == null || !responseMessage.Feed.Equals(kRequest.Feed, StringComparison.InvariantCultureIgnoreCase))
-                return false;
+        ///// <inheritdoc />
+        //protected override bool HandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object>? callResult)
+        //{
+        //    callResult = null;
+        //    if (message.Type != JTokenType.Object)
+        //        return false;
 
-            callResult = responseMessage.Event == "subscribed" ? new CallResult<object>(responseMessage) : new CallResult<object>(new ServerError(responseMessage.Error ?? "-"));
-            return true;
-        }
+        //    var evnt = message["event"]?.ToString();
+        //    if (evnt == null || (evnt != "subscribed" && evnt != "error"))
+        //        return false;
 
-        /// <inheritdoc />
-        protected override bool MessageMatchesHandler(SocketConnection socketConnection, JToken message, object request)
-        {
-            if (message.Type != JTokenType.Object)
-                return false;
+        //    var kRequest = (KrakenFuturesSubscribeMessage)request;
 
-            var kRequest = (KrakenFuturesSubscribeMessage)request;
-            var responseMessage = message.ToObject<KrakenFuturesUpdateMessage>();
-            if (responseMessage == null || 
-                (!responseMessage.Feed.Equals(kRequest.Feed, StringComparison.InvariantCultureIgnoreCase) 
-                && !responseMessage.Feed.Equals(kRequest.Feed + "_snapshot", StringComparison.InvariantCultureIgnoreCase)))
-                return false;
+        //    var responseMessage = message.ToObject<KrakenFuturesSocketMessage>();
+        //    if (responseMessage == null || !responseMessage.Feed.Equals(kRequest.Feed, StringComparison.InvariantCultureIgnoreCase))
+        //        return false;
 
-            if (kRequest.Symbols == null)
-                return true;
+        //    callResult = responseMessage.Event == "subscribed" ? new CallResult<object>(responseMessage) : new CallResult<object>(new ServerError(responseMessage.Error ?? "-"));
+        //    return true;
+        //}
 
-            return kRequest.Symbols.Any(s => s.Equals(responseMessage.Symbol, StringComparison.InvariantCultureIgnoreCase));
-        }
+        ///// <inheritdoc />
+        //protected override bool MessageMatchesHandler(SocketConnection socketConnection, JToken message, object request)
+        //{
+        //    if (message.Type != JTokenType.Object)
+        //        return false;
 
-        /// <inheritdoc />
-        protected override bool MessageMatchesHandler(SocketConnection socketConnection, JToken message, string identifier)
-        {
-            if (message.Type != JTokenType.Object)
-                return false;
+        //    var kRequest = (KrakenFuturesSubscribeMessage)request;
+        //    var responseMessage = message.ToObject<KrakenFuturesUpdateMessage>();
+        //    if (responseMessage == null || 
+        //        (!responseMessage.Feed.Equals(kRequest.Feed, StringComparison.InvariantCultureIgnoreCase) 
+        //        && !responseMessage.Feed.Equals(kRequest.Feed + "_snapshot", StringComparison.InvariantCultureIgnoreCase)))
+        //        return false;
 
-            if (message["event"]?.ToString() == "info" && identifier == "Info")
-                return true;
+        //    if (kRequest.Symbols == null)
+        //        return true;
 
-            if (identifier == "AdditionalSubResponses")
-            {
-                if (message.Type != JTokenType.Object)
-                    return false;
+        //    return kRequest.Symbols.Any(s => s.Equals(responseMessage.Symbol, StringComparison.InvariantCultureIgnoreCase));
+        //}
 
-                var evnt = message["event"]?.ToString();
-                if (evnt == null || (evnt != "subscribed" && evnt != "unsubscribed" && evnt != "error"))
-                    return false;
+        ///// <inheritdoc />
+        //protected override bool MessageMatchesHandler(SocketConnection socketConnection, JToken message, string identifier)
+        //{
+        //    if (message.Type != JTokenType.Object)
+        //        return false;
 
-                var responseMessage = message.ToObject<KrakenFuturesSubscribeMessage>();
-                if (responseMessage == null)
-                    return false;
+        //    if (message["event"]?.ToString() == "info" && identifier == "Info")
+        //        return true;
 
-                var subscription = socketConnection.GetSubscriptionByRequest(r =>
-                            (r as KrakenFuturesSubscribeMessage)?.Feed.Equals(responseMessage.Feed, StringComparison.InvariantCultureIgnoreCase) == true
-                            && (r as KrakenFuturesSubscribeMessage)?.Symbols?.Any(s => s.Equals(responseMessage.Symbols.First(), StringComparison.InvariantCultureIgnoreCase)) != false);
+        //    if (identifier == "AdditionalSubResponses")
+        //    {
+        //        if (message.Type != JTokenType.Object)
+        //            return false;
 
-                if (subscription == null)
-                    return false;
+        //        var evnt = message["event"]?.ToString();
+        //        if (evnt == null || (evnt != "subscribed" && evnt != "unsubscribed" && evnt != "error"))
+        //            return false;
 
-                // This is another message for subscription we've already (un)subscribed
-                return true;
-            }
+        //        var responseMessage = message.ToObject<KrakenFuturesSubscribeMessage>();
+        //        if (responseMessage == null)
+        //            return false;
 
-            return false;
-        }
+        //        var subscription = socketConnection.GetSubscriptionByRequest(r =>
+        //                    (r as KrakenFuturesSubscribeMessage)?.Feed.Equals(responseMessage.Feed, StringComparison.InvariantCultureIgnoreCase) == true
+        //                    && (r as KrakenFuturesSubscribeMessage)?.Symbols?.Any(s => s.Equals(responseMessage.Symbols.First(), StringComparison.InvariantCultureIgnoreCase)) != false);
 
-        /// <inheritdoc />
-        protected override Task<CallResult<bool>> SubscribeAndWaitAsync(SocketConnection socketConnection, object request, SocketSubscription subscription)
-        {
-            if (request is KrakenFuturesSubscribeAuthMessage authMessage)
-            {
-                authMessage.ApiKey = ((KrakenFuturesAuthenticationProvider)AuthenticationProvider!).GetApiKey();
-                authMessage.OriginalChallenge = (string)socketConnection.Properties["OriginalChallenge"];
-                authMessage.SignedChallenge = (string)socketConnection.Properties["SignedChallenge"];
-            }
+        //        if (subscription == null)
+        //            return false;
 
-            return base.SubscribeAndWaitAsync(socketConnection, request, subscription);
-        }
+        //        // This is another message for subscription we've already (un)subscribed
+        //        return true;
+        //    }
 
-        /// <inheritdoc />
-        protected override async Task<CallResult<bool>> AuthenticateSocketAsync(SocketConnection s)
-        {
-            if (AuthenticationProvider == null)
-                throw new InvalidOperationException("No credentials provided for private stream");
+        //    return false;
+        //}
 
-            var authProvider = (KrakenFuturesAuthenticationProvider)AuthenticationProvider!;
-            string? challenge = null;
-            await s.SendAndWaitAsync(new { @event = "challenge", api_key = authProvider.GetApiKey() }, TimeSpan.FromSeconds(5), null, 1, data =>
-            {
-                var evnt = data["event"]?.ToString();
-                if (evnt != "challenge")
-                    return false;
+        ///// <inheritdoc />
+        //protected override Task<CallResult<bool>> SubscribeAndWaitAsync(SocketConnection socketConnection, object request, SocketSubscription subscription)
+        //{
+        //    if (request is KrakenFuturesSubscribeAuthMessage authMessage)
+        //    {
+        //        authMessage.ApiKey = ((KrakenFuturesAuthenticationProvider)AuthenticationProvider!).GetApiKey();
+        //        authMessage.OriginalChallenge = (string)socketConnection.Properties["OriginalChallenge"];
+        //        authMessage.SignedChallenge = (string)socketConnection.Properties["SignedChallenge"];
+        //    }
 
-                challenge = data["message"]!.ToString();
-                return true;
-            }).ConfigureAwait(false);
+        //    return base.SubscribeAndWaitAsync(socketConnection, request, subscription);
+        //}
 
-            if (challenge == null)
-                return new CallResult<bool>(false);
+        ///// <inheritdoc />
+        //protected override async Task<CallResult<bool>> AuthenticateSocketAsync(SocketConnection s)
+        //{
+        //    if (AuthenticationProvider == null)
+        //        throw new InvalidOperationException("No credentials provided for private stream");
 
-            var sign = authProvider.AuthenticateWebsocketChallenge(challenge);
-            s.Properties["OriginalChallenge"] = challenge;
-            s.Properties["SignedChallenge"] = sign;
-            return new CallResult<bool>(true);
-        }
+        //    var authProvider = (KrakenFuturesAuthenticationProvider)AuthenticationProvider!;
+        //    string? challenge = null;
+        //    await s.SendAndWaitAsync(new { @event = "challenge", api_key = authProvider.GetApiKey() }, TimeSpan.FromSeconds(5), null, 1, data =>
+        //    {
+        //        var evnt = data["event"]?.ToString();
+        //        if (evnt != "challenge")
+        //            return false;
 
-        /// <inheritdoc />
-        protected override async Task<bool> UnsubscribeAsync(SocketConnection connection, SocketSubscription subscription)
-        {
-            var kRequest = (KrakenFuturesSubscribeMessage)subscription.Request!;
+        //        challenge = data["message"]!.ToString();
+        //        return true;
+        //    }).ConfigureAwait(false);
 
-            var result = false;
-            await connection.SendAndWaitAsync(new
-            {
-                @event = "unsubscribe",
-                feed = kRequest.Feed,
-                product_ids = kRequest.Symbols
-            }, ClientOptions.RequestTimeout, null, 1, message =>
-            {
-                if (message.Type != JTokenType.Object)
-                    return false;
+        //    if (challenge == null)
+        //        return new CallResult<bool>(false);
 
-                var evnt = message["event"]?.ToString();
-                if (evnt == null || (evnt != "unsubscribed" && evnt != "unsubscribed_failed"))
-                    return false;
+        //    var sign = authProvider.AuthenticateWebsocketChallenge(challenge);
+        //    s.Properties["OriginalChallenge"] = challenge;
+        //    s.Properties["SignedChallenge"] = sign;
+        //    return new CallResult<bool>(true);
+        //}
 
-                var responseMessage = message.ToObject<KrakenFuturesSocketMessage>();
-                if (responseMessage == null || responseMessage.Feed != kRequest.Feed)
-                    return false;
+        ///// <inheritdoc />
+        //protected override async Task<bool> UnsubscribeAsync(SocketConnection connection, SocketSubscription subscription)
+        //{
+        //    var kRequest = (KrakenFuturesSubscribeMessage)subscription.Request!;
 
-                result = responseMessage.Event == "unsubscribed" ? new CallResult<object>(responseMessage) : new CallResult<object>(new ServerError(responseMessage.Error ?? "-"));
-                return true;
-            }).ConfigureAwait(false);
-            return result;
-        }
+        //    var result = false;
+        //    await connection.SendAndWaitAsync(new
+        //    {
+        //        @event = "unsubscribe",
+        //        feed = kRequest.Feed,
+        //        product_ids = kRequest.Symbols
+        //    }, ClientOptions.RequestTimeout, null, 1, message =>
+        //    {
+        //        if (message.Type != JTokenType.Object)
+        //            return false;
 
-        private void HandleSnapshotUpdate<TSnapshot, TUpdate>(DataEvent<JToken> data, Action<DataEvent<TSnapshot>> snapshotHandler, Action<DataEvent<TUpdate>> updateHandler)
-        {
-            if (data.Data["feed"]!.ToString().Contains("snapshot"))
-            {
-                var deserialized = Deserialize<TSnapshot>(data.Data);
-                snapshotHandler.Invoke(data.As(deserialized.Data));
-            }
-            else
-            {
-                var deserialized = Deserialize<TUpdate>(data.Data);
-                updateHandler.Invoke(data.As(deserialized.Data));
-            }
-        }
-        #endregion
+        //        var evnt = message["event"]?.ToString();
+        //        if (evnt == null || (evnt != "unsubscribed" && evnt != "unsubscribed_failed"))
+        //            return false;
+
+        //        var responseMessage = message.ToObject<KrakenFuturesSocketMessage>();
+        //        if (responseMessage == null || responseMessage.Feed != kRequest.Feed)
+        //            return false;
+
+        //        result = responseMessage.Event == "unsubscribed" ? new CallResult<object>(responseMessage) : new CallResult<object>(new ServerError(responseMessage.Error ?? "-"));
+        //        return true;
+        //    }).ConfigureAwait(false);
+        //    return result;
+        //}
+
+        //private void HandleSnapshotUpdate<TSnapshot, TUpdate>(DataEvent<JToken> data, Action<DataEvent<TSnapshot>> snapshotHandler, Action<DataEvent<TUpdate>> updateHandler)
+        //{
+        //    if (data.Data["feed"]!.ToString().Contains("snapshot"))
+        //    {
+        //        var deserialized = Deserialize<TSnapshot>(data.Data);
+        //        snapshotHandler.Invoke(data.As(deserialized.Data));
+        //    }
+        //    else
+        //    {
+        //        var deserialized = Deserialize<TUpdate>(data.Data);
+        //        updateHandler.Invoke(data.As(deserialized.Data));
+        //    }
+        //}
+        //#endregion
     }
 }
