@@ -76,7 +76,7 @@ namespace Kraken.Net.Clients.FuturesApi
             string symbol,
             OrderSide side,
             FuturesOrderType type,
-            int quantity,
+            decimal quantity,
             decimal? price = null,
             decimal? stopPrice = null,
             bool? reduceOnly = null,
@@ -123,7 +123,7 @@ namespace Kraken.Net.Clients.FuturesApi
         public async Task<WebCallResult<KrakenFuturesOrderResult>> EditOrderAsync(
             string? orderId = null,
             string? clientOrderId = null,
-            int? quantity = null,
+            decimal? quantity = null,
             decimal? price = null,
             decimal? stopPrice = null,
             TrailingStopDeviationUnit? trailingStopDeviationUnit = null,
