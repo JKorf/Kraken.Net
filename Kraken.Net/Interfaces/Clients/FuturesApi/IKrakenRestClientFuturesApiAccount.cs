@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Objects;
+using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models.Futures;
 using System;
 using System.Collections.Generic;
@@ -72,5 +73,18 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<Dictionary<string, decimal>>> GetFeeScheduleVolumeAsync(CancellationToken ct = default);
+
+        /// <summary>
+        /// Get the initial margin requirements for the provided parameters
+        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-get-initial-margin-requirements" /></para>
+        /// </summary>
+        /// <param name="symbol">The symbol</param>
+        /// <param name="orderType">Order type</param>
+        /// <param name="side">Side</param>
+        /// <param name="quantity">Quantity</param>
+        /// <param name="price">Limit price</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns></returns>
+        Task<WebCallResult<KrakenFuturesMarginRequirements>> GetInitialMarginRequirementsAsync(string symbol, FuturesOrderType orderType, OrderSide side, decimal quantity, decimal? price = null, CancellationToken ct = default);
     }
 }

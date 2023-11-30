@@ -9,6 +9,7 @@ using CryptoExchange.Net;
 using System.Globalization;
 using CryptoExchange.Net.Converters;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Clients.FuturesApi
 {
@@ -78,6 +79,30 @@ namespace Kraken.Net.Clients.FuturesApi
         public async Task<WebCallResult<Dictionary<string, decimal>>> GetFeeScheduleVolumeAsync(CancellationToken ct = default)
         {
             return await _baseClient.Execute<KrakenFeeScheduleVolumeResult, Dictionary<string, decimal>>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/feeschedules/volumes")), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<KrakenFuturesMarginRequirements>> GetInitialMarginRequirementsAsync(string symbol, FuturesOrderType orderType, OrderSide side, decimal quantity, decimal? price = null, CancellationToken ct = default)
+        {
+            var parameters = new ParameterCollection();
+            parameters.Add("symbol", symbol);
+            parameters.AddEnum("orderType", orderType);
+            parameters.AddEnum("side", side);
+            parameters.AddString("size", quantity);
+            parameters.AddOptionalString("limitPrice", price);
+
+            var result = await _baseClient.ExecuteBase<KrakenFuturesMarginRequirementsInternal>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/initialmargin")), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            if (!result)
+                return result.As<KrakenFuturesMarginRequirements>(null);
+
+            if (result.Data.Error != null)
+                return result.AsError<KrakenFuturesMarginRequirements>(new ServerError(result.Data.Error));
+
+            return result.As(new KrakenFuturesMarginRequirements
+            {
+                InitialMargin = result.Data.InitialMargin,
+                Price = result.Data.Price
+            });
         }
     }
 }
