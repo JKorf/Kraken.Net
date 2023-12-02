@@ -3392,6 +3392,46 @@
             Max leverage
             </summary>
         </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesMarginRequirements">
+            <summary>
+            Minimal margin requirements
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesMarginRequirements.InitialMargin">
+            <summary>
+            Initial margin
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesMarginRequirements.Price">
+            <summary>
+            Price
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesMaxOrderSize">
+            <summary>
+            Max order size
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesMaxOrderSize.BuyPrice">
+            <summary>
+            Buy price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesMaxOrderSize.MaxBuyQuantity">
+            <summary>
+            Max buy quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesMaxOrderSize.MaxSellQuantity">
+            <summary>
+            Max sell quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesMaxOrderSize.SellPrice">
+            <summary>
+            Sell price
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesOpenOrder">
             <summary>
             Order info
@@ -5325,6 +5365,31 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenLedgerPage.Ledger">
             <summary>
             Ledger entries
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenBatchOrderResult">
+            <summary>
+            Batch order result
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenBatchOrderResult.Orders">
+            <summary>
+            Orders
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenPlacedBatchOrder">
+            <summary>
+            Placed batch order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenPlacedBatchOrder.OrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenPlacedBatchOrder.Description">
+            <summary>
+            Description
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenPlacedOrder">

@@ -17,14 +17,29 @@ namespace Kraken.Net.Objects.Models.Futures
         public decimal? SellPrice { get; set; }
     }
 
+    /// <summary>
+    /// Max order size
+    /// </summary>
     public class KrakenFuturesMaxOrderSize
     {
+        /// <summary>
+        /// Buy price
+        /// </summary>
         [JsonProperty("buyPrice")]
         public decimal? BuyPrice { get; set; }
+        /// <summary>
+        /// Max buy quantity
+        /// </summary>
         [JsonProperty("maxBuySize")]
         public decimal? MaxBuyQuantity { get; set; }
+        /// <summary>
+        /// Max sell quantity
+        /// </summary>
         [JsonProperty("maxSellSize")]
         public decimal? MaxSellQuantity { get; set; }
+        /// <summary>
+        /// Sell price
+        /// </summary>
         [JsonProperty("sellPrice")]
         public decimal? SellPrice { get; set; }
     }
