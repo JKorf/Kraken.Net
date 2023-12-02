@@ -26,6 +26,13 @@ Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/s
 A Discord server is available [here](https://discord.gg/MSpeEtSY8t). For discussion and/or questions around the CryptoExchange.Net and implementation libraries, feel free to join.
 
 ## Release notes
+* Version 4.2.0 - 02 Dec 2023
+    * Added SpotApi.Trading.AddMultipleOrdersAsync
+    * Added SpotApi.Trading.EditOrderAsync
+    * Added FuturesApi.Account.GetInitialMarginRequirementsAsync
+    * Added FuturesApi.Account.GetMaxOrderQuantityAsync
+    * Changed futures quantity parameter from int to decimal
+
 * Version 4.1.5 - 24 Oct 2023
     * Updated CryptoExchange.Net
 
