@@ -9,6 +9,7 @@ using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
 using Kraken.Net.Objects;
+using Newtonsoft.Json;
 
 namespace Kraken.Net
 {
@@ -40,7 +41,16 @@ namespace Kraken.Net
             headers.Add("API-Key", _credentials.Key!.GetString());
             var nonce = _nonceProvider.GetNonce();
             parameters.Add("nonce", nonce);
-            var np = nonce + uri.SetParameters(parameters, arraySerialization).Query.Replace("?", "");
+            string np;
+            if (uri.PathAndQuery == "/0/private/AddOrderBatch")
+            {
+                // Only endpoint using json body data atm
+                np = nonce + JsonConvert.SerializeObject(parameters);
+            }
+            else
+            {
+                np = nonce + uri.SetParameters(parameters, arraySerialization).Query.Replace("?", "");
+            }
 
             var pathBytes = Encoding.UTF8.GetBytes(uri.AbsolutePath);
             var allBytes = pathBytes.Concat(SignSHA256Bytes(np)).ToArray();

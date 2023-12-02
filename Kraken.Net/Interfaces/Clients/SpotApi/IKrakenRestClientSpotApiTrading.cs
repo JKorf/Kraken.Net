@@ -94,6 +94,17 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsync(IEnumerable<string> tradeIds, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
+        /// Place multiple new orders
+        /// </summary>
+        /// <param name="symbol">The symbol the order is on</param>
+        /// <param name="orders">The orders to place</param>
+        /// <param name="deadline">Deadline after which the orders will be rejected</param>
+        /// <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns></returns>
+        Task<WebCallResult<KrakenBatchOrderResult>> PlaceMultipleOrdersAsync(string symbol, IEnumerable<KrakenOrderRequest> orders, DateTime? deadline = null, bool? validateOnly = null, CancellationToken ct = default);
+
+        /// <summary>
         /// Place a new order
         /// <para><a href="https://docs.kraken.com/rest/#operation/addOrder" /></para>
         /// </summary>

@@ -367,6 +367,9 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.GetUserTradeDetailsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.PlaceMultipleOrdersAsync(System.String,System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenOrderRequest},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.String,System.Nullable{Kraken.Net.Enums.TimeInForce},System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.Trigger},System.Nullable{Kraken.Net.Enums.SelfTradePreventionType},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -2384,6 +2387,17 @@
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with trade info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.PlaceMultipleOrdersAsync(System.String,System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenOrderRequest},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+            <summary>
+            Place multiple new orders
+            </summary>
+            <param name="symbol">The symbol the order is on</param>
+            <param name="orders">The orders to place</param>
+            <param name="deadline">Deadline after which the orders will be rejected</param>
+            <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.String,System.Nullable{Kraken.Net.Enums.TimeInForce},System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.Trigger},System.Nullable{Kraken.Net.Enums.SelfTradePreventionType},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
             <summary>
@@ -5181,6 +5195,86 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenStreamOrderBookEntry.Sequence">
             <summary>
             Sequence
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenOrderRequest">
+            <summary>
+            Order to place
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrderRequest.ClientOrderId">
+            <summary>
+            Client order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrderRequest.OrderType">
+            <summary>
+            Order type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrderRequest.Side">
+            <summary>
+            Order side
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrderRequest.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrderRequest.IcebergQuanty">
+            <summary>
+            Iceberg quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrderRequest.Price">
+            <summary>
+            Price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrderRequest.SecondaryPrice">
+            <summary>
+            Secondary price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrderRequest.Trigger">
+            <summary>
+            Trigger
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrderRequest.Leverage">
+            <summary>
+            Leverage
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrderRequest.ReduceOnly">
+            <summary>
+            Reduce only
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrderRequest.SelfTradePreventionType">
+            <summary>
+            Self trade prevention type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrderRequest.Flags">
+            <summary>
+            Order flags
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrderRequest.TimeInForce">
+            <summary>
+            Time in force
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrderRequest.StartTime">
+            <summary>
+            Start time
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrderRequest.ExpireTime">
+            <summary>
+            Expire time
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenPageData">

@@ -362,9 +362,9 @@ namespace Kraken.Net.Clients.SpotApi
             return false;
         }
 
-        internal async Task<WebCallResult<T>> Execute<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, bool ignoreRatelimit = false)
+        internal async Task<WebCallResult<T>> Execute<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, bool ignoreRatelimit = false, RequestBodyFormat? bodyFormat = null)
         {
-            var result = await SendRequestAsync<KrakenResult<T>>(url, method, ct, parameters, signed, requestWeight: weight, ignoreRatelimit: ignoreRatelimit).ConfigureAwait(false);
+            var result = await SendRequestAsync<KrakenResult<T>>(url, method, ct, parameters, signed, requestWeight: weight, ignoreRatelimit: ignoreRatelimit, requestBodyFormat: bodyFormat).ConfigureAwait(false);
             if (!result)
                 return result.AsError<T>(result.Error!);
 

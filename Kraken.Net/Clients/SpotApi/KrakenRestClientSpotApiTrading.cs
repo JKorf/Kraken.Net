@@ -126,6 +126,22 @@ namespace Kraken.Net.Clients.SpotApi
             return result;
         }
 
+        /// <inheritdoc />
+        public async Task<WebCallResult<KrakenBatchOrderResult>> PlaceMultipleOrdersAsync(string symbol, IEnumerable<KrakenOrderRequest> orders, DateTime? deadline = null, bool? validateOnly = null, CancellationToken ct = default)
+        {
+            symbol.ValidateKrakenSymbol();
+            var parameters = new ParameterCollection
+            {
+                { "pair", symbol },
+                { "trading_agreement", "agree" },
+                { "orders", orders }
+            };
+            parameters.AddOptional("deadline", deadline);
+
+            if (validateOnly == true)
+                parameters.AddOptionalParameter("validate", true);
+            return await _baseClient.Execute<KrakenBatchOrderResult>(_baseClient.GetUri("0/private/AddOrderBatch"), HttpMethod.Post, ct, parameters, true, bodyFormat: RequestBodyFormat.Json).ConfigureAwait(false);
+        }
 
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(
