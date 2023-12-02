@@ -86,5 +86,16 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenFuturesMarginRequirements>> GetInitialMarginRequirementsAsync(string symbol, FuturesOrderType orderType, OrderSide side, decimal quantity, decimal? price = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get the max order quantity
+        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-get-maximum-order-size" /></para>
+        /// </summary>
+        /// <param name="symbol">The symbol</param>
+        /// <param name="orderType">Order type</param>
+        /// <param name="price">Limit price</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns></returns>
+        Task<WebCallResult<KrakenFuturesMaxOrderSize>> GetMaxOrderQuantityAsync(string symbol, FuturesOrderType orderType, decimal? price = null, CancellationToken ct = default);
     }
 }

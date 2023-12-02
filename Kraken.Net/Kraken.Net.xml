@@ -61,6 +61,9 @@
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiAccount.GetInitialMarginRequirementsAsync(System.String,Kraken.Net.Enums.FuturesOrderType,Kraken.Net.Enums.OrderSide,System.Decimal,System.Nullable{System.Decimal},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiAccount.GetMaxOrderQuantityAsync(System.String,Kraken.Net.Enums.FuturesOrderType,System.Nullable{System.Decimal},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="T:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData">
             <inheritdoc />
         </member>
@@ -1580,6 +1583,17 @@
             <param name="orderType">Order type</param>
             <param name="side">Side</param>
             <param name="quantity">Quantity</param>
+            <param name="price">Limit price</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiAccount.GetMaxOrderQuantityAsync(System.String,Kraken.Net.Enums.FuturesOrderType,System.Nullable{System.Decimal},System.Threading.CancellationToken)">
+            <summary>
+            Get the max order quantity
+            <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-get-maximum-order-size" /></para>
+            </summary>
+            <param name="symbol">The symbol</param>
+            <param name="orderType">Order type</param>
             <param name="price">Limit price</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>

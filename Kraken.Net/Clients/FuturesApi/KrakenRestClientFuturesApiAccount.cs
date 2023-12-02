@@ -104,5 +104,29 @@ namespace Kraken.Net.Clients.FuturesApi
                 Price = result.Data.Price
             });
         }
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<KrakenFuturesMaxOrderSize>> GetMaxOrderQuantityAsync(string symbol, FuturesOrderType orderType, decimal? price = null, CancellationToken ct = default)
+        {
+            var parameters = new ParameterCollection();
+            parameters.Add("symbol", symbol);
+            parameters.AddEnum("orderType", orderType);
+            parameters.AddOptionalString("limitPrice", price);
+
+            var result = await _baseClient.ExecuteBase<KrakenFuturesMaxOrderSizeInternal>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/initialmargin/maxordersize")), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            if (!result)
+                return result.As<KrakenFuturesMaxOrderSize>(null);
+
+            if (result.Data.Error != null)
+                return result.AsError<KrakenFuturesMaxOrderSize>(new ServerError(result.Data.Error));
+
+            return result.As(new KrakenFuturesMaxOrderSize
+            {
+                BuyPrice = result.Data.BuyPrice,
+                SellPrice = result.Data.SellPrice,
+                MaxBuyQuantity = result.Data.MaxBuyQuantity,
+                MaxSellQuantity = result.Data.MaxSellQuantity
+            });
+        }
     }
 }
