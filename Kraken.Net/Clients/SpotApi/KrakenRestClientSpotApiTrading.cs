@@ -202,6 +202,41 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
+        public async Task<WebCallResult<KrakenPlacedOrder>> EditOrderAsync(
+            string symbol,
+            string orderId,
+            decimal? quantity = null,
+            decimal? icebergQuanty = null,
+            decimal? price = null,
+            decimal? secondaryPrice = null,
+            IEnumerable<OrderFlags>? flags = null,
+            DateTime? deadline = null,
+            bool? cancelResponse = null,
+            bool? validateOnly = null,
+            uint? newClientOrderId = null,
+            CancellationToken ct = default)
+        {
+            symbol.ValidateKrakenSymbol();
+            var parameters = new Dictionary<string, object>()
+            {
+                { "pair", symbol },
+                { "txid", orderId },
+            };
+            parameters.AddOptionalParameter("oflags", flags == null ? null : string.Join(",", flags.Select(f => JsonConvert.SerializeObject(f, new OrderFlagsConverter(false)))));
+            parameters.AddOptionalParameter("volume", quantity?.ToString(CultureInfo.InvariantCulture));
+            parameters.AddOptionalParameter("price", price?.ToString(CultureInfo.InvariantCulture));
+            parameters.AddOptionalParameter("price2", secondaryPrice?.ToString(CultureInfo.InvariantCulture));
+            parameters.AddOptionalParameter("cancel_response", cancelResponse);
+            parameters.AddOptionalParameter("deadline", deadline);
+            parameters.AddOptionalParameter("userref", newClientOrderId);
+            parameters.AddOptionalParameter("displayvol", icebergQuanty?.ToString(CultureInfo.InvariantCulture));
+            if (validateOnly == true)
+                parameters.AddOptionalParameter("validate", true);
+
+            return await _baseClient.Execute<KrakenPlacedOrder>(_baseClient.GetUri("0/private/EditOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
         public async Task<WebCallResult<KrakenCancelResult>> CancelOrderAsync(string orderId, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             orderId.ValidateNotNull(nameof(orderId));

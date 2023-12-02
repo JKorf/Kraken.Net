@@ -171,6 +171,36 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             CancellationToken ct = default);
 
         /// <summary>
+        /// Edit an order
+        /// </summary>
+        /// <param name="symbol">Symbol</param>
+        /// <param name="orderId">Order id or client order id of the order to edit</param>
+        /// <param name="quantity">New quantity</param>
+        /// <param name="icebergQuanty">Iceberg quantity</param>
+        /// <param name="price">Price</param>
+        /// <param name="secondaryPrice">Secondary price</param>
+        /// <param name="flags">Flags</param>
+        /// <param name="deadline">Deadline</param>
+        /// <param name="cancelResponse">Used to interpret if client wants to receive pending replace, before the order is completely replaced</param>
+        /// <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+        /// <param name="newClientOrderId">New client order id</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns></returns>
+        Task<WebCallResult<KrakenPlacedOrder>> EditOrderAsync(
+            string symbol,
+            string orderId,
+            decimal? quantity = null,
+            decimal? icebergQuanty = null,
+            decimal? price = null,
+            decimal? secondaryPrice = null,
+            IEnumerable<OrderFlags>? flags = null,
+            DateTime? deadline = null,
+            bool? cancelResponse = null,
+            bool? validateOnly = null,
+            uint? newClientOrderId = null,
+            CancellationToken ct = default);
+
+        /// <summary>
         /// Cancel an order
         /// <para><a href="https://docs.kraken.com/rest/#operation/cancelOrder" /></para>
         /// </summary>

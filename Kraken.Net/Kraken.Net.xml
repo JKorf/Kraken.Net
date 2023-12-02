@@ -373,6 +373,9 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.String,System.Nullable{Kraken.Net.Enums.TimeInForce},System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.Trigger},System.Nullable{Kraken.Net.Enums.SelfTradePreventionType},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.EditOrderAsync(System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.CancelOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -2442,6 +2445,24 @@
             <param name="secondaryClosePrice">Close order secondary price</param>
             <param name="ct">Cancellation token</param>
             <returns>Placed order info</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.EditOrderAsync(System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.Threading.CancellationToken)">
+            <summary>
+            Edit an order
+            </summary>
+            <param name="symbol">Symbol</param>
+            <param name="orderId">Order id or client order id of the order to edit</param>
+            <param name="quantity">New quantity</param>
+            <param name="icebergQuanty">Iceberg quantity</param>
+            <param name="price">Price</param>
+            <param name="secondaryPrice">Secondary price</param>
+            <param name="flags">Flags</param>
+            <param name="deadline">Deadline</param>
+            <param name="cancelResponse">Used to interpret if client wants to receive pending replace, before the order is completely replaced</param>
+            <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+            <param name="newClientOrderId">New client order id</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.CancelOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
