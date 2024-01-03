@@ -184,6 +184,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="cancelResponse">Used to interpret if client wants to receive pending replace, before the order is completely replaced</param>
         /// <param name="validateOnly">Only validate inputs, don't actually place the order</param>
         /// <param name="newClientOrderId">New client order id</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenPlacedOrder>> EditOrderAsync(
@@ -198,6 +199,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             bool? cancelResponse = null,
             bool? validateOnly = null,
             uint? newClientOrderId = null,
+            string? twoFactorPassword = null,
             CancellationToken ct = default);
 
         /// <summary>

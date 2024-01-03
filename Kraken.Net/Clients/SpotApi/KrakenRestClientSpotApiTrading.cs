@@ -214,6 +214,7 @@ namespace Kraken.Net.Clients.SpotApi
             bool? cancelResponse = null,
             bool? validateOnly = null,
             uint? newClientOrderId = null,
+            string? twoFactorPassword = null,
             CancellationToken ct = default)
         {
             symbol.ValidateKrakenSymbol();
@@ -230,6 +231,7 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.AddOptionalParameter("deadline", deadline);
             parameters.AddOptionalParameter("userref", newClientOrderId);
             parameters.AddOptionalParameter("displayvol", icebergQuanty?.ToString(CultureInfo.InvariantCulture));
+            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
             if (validateOnly == true)
                 parameters.AddOptionalParameter("validate", true);
 
