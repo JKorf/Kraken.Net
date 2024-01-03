@@ -172,6 +172,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Edit an order
+        /// <para><a href="https://docs.kraken.com/rest/#operation/editOrder" /></para>
         /// </summary>
         /// <param name="symbol">Symbol</param>
         /// <param name="orderId">Order id or client order id of the order to edit</param>
@@ -187,7 +188,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenPlacedOrder>> EditOrderAsync(
+        Task<WebCallResult<KrakenEditOrder>> EditOrderAsync(
             string symbol,
             string orderId,
             decimal? quantity = null,

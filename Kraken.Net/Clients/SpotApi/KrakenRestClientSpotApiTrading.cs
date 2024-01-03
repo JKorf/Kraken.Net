@@ -202,7 +202,7 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenPlacedOrder>> EditOrderAsync(
+        public async Task<WebCallResult<KrakenEditOrder>> EditOrderAsync(
             string symbol,
             string orderId,
             decimal? quantity = null,
@@ -235,7 +235,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (validateOnly == true)
                 parameters.AddOptionalParameter("validate", true);
 
-            return await _baseClient.Execute<KrakenPlacedOrder>(_baseClient.GetUri("0/private/EditOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await _baseClient.Execute<KrakenEditOrder>(_baseClient.GetUri("0/private/EditOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
