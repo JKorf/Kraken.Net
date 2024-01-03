@@ -149,6 +149,31 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         Task<WebCallResult<KrakenWithdraw>> WithdrawAsync(string asset, string key, decimal quantity, string? address = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
+        /// Get withdraw addresses
+        /// <para><a href="https://docs.kraken.com/rest/#operation/getWithdrawalAddresses" /></para>
+        /// </summary>
+        /// <param name="asset">The asset to get the deposit address for</param>
+        /// <param name="aclass">Filter addresses for specific asset class</param>
+        /// <param name="method">Filter addresses for specific method</param>
+        /// <param name="key">Find address for by withdrawal key name, as set up on your account</param>
+        /// <param name="verified">ilter by verification status of the withdrawal address. Withdrawal addresses successfully completing email confirmation will have a verification status of true</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>List of withdraw addresses</returns>
+        Task<WebCallResult<IEnumerable<KrakenWithdrawAddress>>> GetWithdrawAddressesAsync(string? asset = null, string? aclass = null, string? method = null, string? key = null, bool? verified = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Retrieve a list of withdrawal methods available for the user.
+        /// <para><a href="https://docs.kraken.com/rest/#operation/getWithdrawalMethods" /></para>
+        /// </summary>
+        /// <param name="asset">The asset to get the deposit address for</param>
+        /// <param name="aclass">Filter addresses for specific asset class</param>
+        /// <param name="network">Filter methods for specific network</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>List of withdraw addresses</returns>
+        Task<WebCallResult<IEnumerable<KrakenWithdrawMethod>>> GetWithdrawMethodsAsync(string? asset = null, string? aclass = null, string? network = null, CancellationToken ct = default);
+
+
+        /// <summary>
         /// Get the token to connect to the private websocket streams
         /// <para><a href="https://docs.kraken.com/rest/#operation/getWebsocketsToken" /></para>
         /// </summary>
