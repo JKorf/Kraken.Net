@@ -2479,6 +2479,7 @@
         <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.EditOrderAsync(System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
             <summary>
             Edit an order
+            <para><a href="https://docs.kraken.com/rest/#operation/editOrder" /></para>
             </summary>
             <param name="symbol">Symbol</param>
             <param name="orderId">Order id or client order id of the order to edit</param>
@@ -4797,6 +4798,21 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenDepositMethod.GenerateAddress">
             <summary>
             Generate address
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenEditOrder">
+            <summary>
+            Edited order info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenEditOrder.OrderId">
+            <summary>
+            Order ids
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenEditOrder.Descriptions">
+            <summary>
+            Descriptions
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenFeeEntry">
