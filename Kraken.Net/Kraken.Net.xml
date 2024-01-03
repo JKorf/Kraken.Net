@@ -298,6 +298,12 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.WithdrawAsync(System.String,System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetWithdrawAddressesAsync(System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetWithdrawMethodsAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetWithdrawalStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -2163,6 +2169,30 @@
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Withdraw reference id</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWithdrawAddressesAsync(System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+            <summary>
+            Get withdraw addresses
+            <para><a href="https://docs.kraken.com/rest/#operation/getWithdrawalAddresses" /></para>
+            </summary>
+            <param name="asset">The asset to get the deposit address for</param>
+            <param name="aclass">Filter addresses for specific asset class</param>
+            <param name="method">Filter addresses for specific method</param>
+            <param name="key">Find address for by withdrawal key name, as set up on your account</param>
+            <param name="verified">ilter by verification status of the withdrawal address. Withdrawal addresses successfully completing email confirmation will have a verification status of true</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of withdraw addresses</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWithdrawMethodsAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Retrieve a list of withdrawal methods available for the user.
+            <para><a href="https://docs.kraken.com/rest/#operation/getWithdrawalMethods" /></para>
+            </summary>
+            <param name="asset">The asset to get the deposit address for</param>
+            <param name="aclass">Filter addresses for specific asset class</param>
+            <param name="network">Filter methods for specific network</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of withdraw addresses</returns>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">
             <summary>
@@ -6282,6 +6312,36 @@
             Reference id
             </summary>
         </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenWithdrawAddress">
+            <summary>
+            Info about a withdraw address
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenWithdrawAddress.Address">
+            <summary>
+            The actual address
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenWithdrawAddress.Asset">
+            <summary>
+            Name of the asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenWithdrawAddress.Method">
+            <summary>
+            Name of the method
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenWithdrawAddress.Key">
+            <summary>
+            Key
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenWithdrawAddress.Verified">
+            <summary>
+            Verified indicator
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenWithdrawInfo">
             <summary>
             Withdraw info
@@ -6305,6 +6365,31 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenWithdrawInfo.Fee">
             <summary>
             Fee that will be paid
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenWithdrawMethod">
+            <summary>
+            Info about a withdraw method
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenWithdrawMethod.Asset">
+            <summary>
+            Name of the asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenWithdrawMethod.Method">
+            <summary>
+            Name of the method
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenWithdrawMethod.Network">
+            <summary>
+            Name of the Network
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenWithdrawMethod.Minimum">
+            <summary>
+            Minimum amount
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesAccountLogsSnapshotUpdate">

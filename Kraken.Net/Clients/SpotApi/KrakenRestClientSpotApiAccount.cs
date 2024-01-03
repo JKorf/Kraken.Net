@@ -195,6 +195,28 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
+        public async Task<WebCallResult<IEnumerable<KrakenWithdrawAddress>>> GetWithdrawAddressesAsync(string? asset = null, string? aclass = null, string? method = null, string? key = null, bool? verified = null, CancellationToken ct = default)
+        {
+            var parameters = new Dictionary<string, object>();
+            parameters.AddOptionalParameter("asset", asset);
+            parameters.AddOptionalParameter("aclass", aclass);
+            parameters.AddOptionalParameter("method", method);
+            parameters.AddOptionalParameter("key", key);
+            parameters.AddOptionalParameter("verified", verified);
+            return await _baseClient.Execute<IEnumerable<KrakenWithdrawAddress>>(_baseClient.GetUri("0/private/WithdrawAddresses"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<IEnumerable<KrakenWithdrawMethod>>> GetWithdrawMethodsAsync(string? asset = null, string? aclass = null, string? network = null, CancellationToken ct = default)
+        {
+            var parameters = new Dictionary<string, object>();
+            parameters.AddOptionalParameter("asset", asset);
+            parameters.AddOptionalParameter("aclass", aclass);
+            parameters.AddOptionalParameter("network", network);
+            return await _baseClient.Execute<IEnumerable<KrakenWithdrawMethod>>(_baseClient.GetUri("0/private/WithdrawMethods"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
         public async Task<WebCallResult<IEnumerable<KrakenMovementStatus>>> GetWithdrawalStatusAsync(string? asset = null, string? withdrawalMethod = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
