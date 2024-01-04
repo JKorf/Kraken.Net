@@ -49,7 +49,7 @@ namespace Kraken.Net.UnitTests
         [Test]
         public async Task ValidateOpenOrderUpdateStreamJson()
         {
-            await TestFileToObject<List<Dictionary<string, KrakenStreamOrder>>>(@"JsonResponses/Socket/OpenOrdersUpdate.txt", new List<string> { "avg_price" });
+            await TestFileToObject<List<Dictionary<string, KrakenStreamOrder>>>(@"JsonResponses/Socket/OpenOrdersUpdate.txt", new List<string> { "avg_price", "expiretm", "starttm" });
         }
 
         [Test]
