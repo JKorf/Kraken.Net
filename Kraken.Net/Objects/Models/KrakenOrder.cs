@@ -42,12 +42,12 @@ namespace Kraken.Net.Objects.Models
         /// Start timestamp
         /// </summary>
         [JsonProperty("starttm"), JsonConverter(typeof(DateTimeConverter))]
-        public DateTime StartTime { get; set; }
+        public DateTime? StartTime { get; set; }
         /// <summary>
         /// Expire timestamp
         /// </summary>
         [JsonProperty("expiretm"), JsonConverter(typeof(DateTimeConverter))]
-        public DateTime ExpireTime { get; set; }
+        public DateTime? ExpireTime { get; set; }
         /// <summary>
         /// Close timestamp
         /// </summary>
