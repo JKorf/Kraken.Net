@@ -12,11 +12,11 @@ namespace Kraken.Net.Objects.Sockets.Queries
 {
     internal class KrakenFuturesAuthQuery : Query<KrakenChallengeResponse>
     {
-        public override List<string> Identifiers { get; }
+        public override List<string> StreamIdentifiers { get; set; }
 
         public KrakenFuturesAuthQuery(string apiKey) : base(new KrakenChallengeRequest { ApiKey = apiKey, Event = "challenge" }, false)
         {
-            Identifiers = new List<string>() { "challenge" };
+            StreamIdentifiers = new List<string>() { "challenge" };
         }
     }
 }

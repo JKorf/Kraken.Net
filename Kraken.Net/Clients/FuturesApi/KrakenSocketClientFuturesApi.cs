@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Converters;
+using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
@@ -14,7 +16,6 @@ using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Options;
-using Kraken.Net.Objects.Sockets.Converters;
 using Kraken.Net.Objects.Sockets.Queries;
 using Kraken.Net.Objects.Sockets.Subscriptions.Futures;
 using Kraken.Net.Objects.Sockets.Subscriptions.Spot;
@@ -30,7 +31,11 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public new KrakenSocketOptions ClientOptions => (KrakenSocketOptions)base.ClientOptions;
 
-        public override SocketConverter StreamConverter { get; } = new KrakenFuturesStreamConverter();
+        public override MessageInterpreterPipeline Pipeline { get; } = new MessageInterpreterPipeline
+        {
+            GetStreamIdentifier = GetStreamIdentifier,
+            //GetTypeIdentifier = GetTypeIdentifier
+        };
         #endregion
 
         #region ctor
@@ -42,6 +47,53 @@ namespace Kraken.Net.Clients.SpotApi
             //AddGenericHandler("AdditionalSubResponses", (messageEvent) => { });
         }
         #endregion
+
+        private static string GetStreamIdentifier(IMessageAccessor accessor)
+        {
+            var evnt = accessor.GetStringValue("event")?.ToLowerInvariant();
+            var feed = accessor.GetStringValue("feed")?.ToLowerInvariant();
+            var productIds = accessor.GetStringValue("product_ids")?.ToLowerInvariant();
+            var productId = accessor.GetStringValue("product_id")?.ToLowerInvariant();
+            var identifier = GetIdentifier(evnt, feed, (productIds ?? productId));
+            if (evnt != null && feed != null)
+                return identifier;
+
+            //if (feed != null)
+            //{
+            //    if (_feedTypeMapping.TryGetValue(feed, out var streamIdMapping))
+            //        return new PostInspectResult { Type = streamIdMapping, Identifier = identifier };
+            //}
+
+            //if (evnt != null)
+            //{
+            //    if (_eventTypeMapping.TryGetValue(evnt, out var streamIdMapping))
+            //        return new PostInspectResult { Type = streamIdMapping, Identifier = identifier };
+            //}
+            // TODO
+
+            return null;
+        }
+
+        private static string GetIdentifier(string? evnt, string? feed, string? productId)
+        {
+            var sb = new StringBuilder();
+            if (evnt != null)
+            {
+                sb.Append(evnt);
+                sb.Append('-');
+            }
+            if (feed != null)
+            {
+                sb.Append(feed);
+                sb.Append('-');
+            }
+            if (productId != null)
+            {
+                sb.Append(productId);
+            }
+
+            return sb.ToString().Trim('-');
+        }
 
         /// <inheritdoc />
         protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
@@ -93,90 +145,90 @@ namespace Kraken.Net.Clients.SpotApi
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
-        /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(
-            IEnumerable<string> symbols,
-            Action<DataEvent<IEnumerable<KrakenFuturesTradeUpdate>>> handler,
-            CancellationToken ct = default)
-        {
-            var subscription = new KrakenFuturesTradesSubscription(_logger, symbols.ToList(), handler);
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
-        }
+        ///// <inheritdoc />
+        //public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(
+        //    IEnumerable<string> symbols,
+        //    Action<DataEvent<IEnumerable<KrakenFuturesTradeUpdate>>> handler,
+        //    CancellationToken ct = default)
+        //{
+        //    var subscription = new KrakenFuturesTradesSubscription(_logger, symbols.ToList(), handler);
+        //    return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
+        //}
 
-        /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToMiniTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesMiniTickerUpdate>> handler, CancellationToken ct = default)
-        {
-            var subscription = new KrakenFuturesSubscription<KrakenFuturesMiniTickerUpdate>(_logger, "ticker_lite", symbols.ToList(), handler);
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
-        }
+        ///// <inheritdoc />
+        //public async Task<CallResult<UpdateSubscription>> SubscribeToMiniTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesMiniTickerUpdate>> handler, CancellationToken ct = default)
+        //{
+        //    var subscription = new KrakenFuturesSubscription<KrakenFuturesMiniTickerUpdate>(_logger, "ticker_lite", symbols.ToList(), handler);
+        //    return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
+        //}
 
-        /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(
-            IEnumerable<string> symbols,
-            Action<DataEvent<KrakenFuturesBookSnapshotUpdate>> snapshotHandler,
-            Action<DataEvent<KrakenFuturesBookUpdate>> updateHandler,
-            CancellationToken ct = default)
-        {
-            var subscription = new KrakenFuturesOrderbookSubscription(_logger, symbols.ToList(), snapshotHandler, updateHandler);
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
-        }
+        ///// <inheritdoc />
+        //public async Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(
+        //    IEnumerable<string> symbols,
+        //    Action<DataEvent<KrakenFuturesBookSnapshotUpdate>> snapshotHandler,
+        //    Action<DataEvent<KrakenFuturesBookUpdate>> updateHandler,
+        //    CancellationToken ct = default)
+        //{
+        //    var subscription = new KrakenFuturesOrderbookSubscription(_logger, symbols.ToList(), snapshotHandler, updateHandler);
+        //    return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
+        //}
 
-        /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToOpenOrdersUpdatesAsync(
-            bool verbose,
-            Action<DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate>> snapshotHandler,
-            Action<DataEvent<KrakenFuturesOpenOrdersUpdate>> updateHandler,
-            CancellationToken ct = default)
-        {
-            var subscription = new KrakenFuturesOrdersSubscription(_logger, verbose, snapshotHandler, updateHandler);
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
-        }
+        ///// <inheritdoc />
+        //public async Task<CallResult<UpdateSubscription>> SubscribeToOpenOrdersUpdatesAsync(
+        //    bool verbose,
+        //    Action<DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate>> snapshotHandler,
+        //    Action<DataEvent<KrakenFuturesOpenOrdersUpdate>> updateHandler,
+        //    CancellationToken ct = default)
+        //{
+        //    var subscription = new KrakenFuturesOrdersSubscription(_logger, verbose, snapshotHandler, updateHandler);
+        //    return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
+        //}
 
-        /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToAccountLogUpdatesAsync(
-            Action<DataEvent<KrakenFuturesAccountLogsSnapshotUpdate>> snapshotHandler,
-            Action<DataEvent<KrakenFuturesAccountLogsUpdate>> updateHandler,
-            CancellationToken ct = default)
-        {
-            var subscription = new KrakenFuturesAccountLogSubscription(_logger, snapshotHandler, updateHandler);
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
-        }
+        ///// <inheritdoc />
+        //public async Task<CallResult<UpdateSubscription>> SubscribeToAccountLogUpdatesAsync(
+        //    Action<DataEvent<KrakenFuturesAccountLogsSnapshotUpdate>> snapshotHandler,
+        //    Action<DataEvent<KrakenFuturesAccountLogsUpdate>> updateHandler,
+        //    CancellationToken ct = default)
+        //{
+        //    var subscription = new KrakenFuturesAccountLogSubscription(_logger, snapshotHandler, updateHandler);
+        //    return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
+        //}
 
-        /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToOpenPositionUpdatesAsync(
-            Action<DataEvent<KrakenFuturesOpenPositionUpdate>> handler,
-            CancellationToken ct = default)
-        {
-            var subscription = new KrakenFuturesOpenPositionsSubscription(_logger, handler);
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
-        }
+        ///// <inheritdoc />
+        //public async Task<CallResult<UpdateSubscription>> SubscribeToOpenPositionUpdatesAsync(
+        //    Action<DataEvent<KrakenFuturesOpenPositionUpdate>> handler,
+        //    CancellationToken ct = default)
+        //{
+        //    var subscription = new KrakenFuturesOpenPositionsSubscription(_logger, handler);
+        //    return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
+        //}
 
-        /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsync(
-            Action<DataEvent<KrakenFuturesBalancesUpdate>> handler,
-            CancellationToken ct = default)
-        {
-            var subscription = new KrakenFuturesBalanceSubscription(_logger, handler);
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
-        }
+        ///// <inheritdoc />
+        //public async Task<CallResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsync(
+        //    Action<DataEvent<KrakenFuturesBalancesUpdate>> handler,
+        //    CancellationToken ct = default)
+        //{
+        //    var subscription = new KrakenFuturesBalanceSubscription(_logger, handler);
+        //    return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
+        //}
 
-        /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(
-            Action<DataEvent<KrakenFuturesUserTradesUpdate>> handler,
-            CancellationToken ct = default)
-        {
-            var subscription = new KrakenFuturesUserTradeSubscription(_logger, handler);
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
-        }
+        ///// <inheritdoc />
+        //public async Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(
+        //    Action<DataEvent<KrakenFuturesUserTradesUpdate>> handler,
+        //    CancellationToken ct = default)
+        //{
+        //    var subscription = new KrakenFuturesUserTradeSubscription(_logger, handler);
+        //    return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
+        //}
 
-        /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToNotificationUpdatesAsync(
-            Action<DataEvent<KrakenFuturesNotificationUpdate>> handler,
-            CancellationToken ct = default)
-        {
-            var subscription = new KrakenFuturesNotificationSubscription(_logger, handler);
-            return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
-        }
+        ///// <inheritdoc />
+        //public async Task<CallResult<UpdateSubscription>> SubscribeToNotificationUpdatesAsync(
+        //    Action<DataEvent<KrakenFuturesNotificationUpdate>> handler,
+        //    CancellationToken ct = default)
+        //{
+        //    var subscription = new KrakenFuturesNotificationSubscription(_logger, handler);
+        //    return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
+        //}
 
 
 

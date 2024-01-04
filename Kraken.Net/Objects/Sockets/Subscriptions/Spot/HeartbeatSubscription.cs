@@ -11,7 +11,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
     internal class HeartbeatSubscription : SystemSubscription<KrakenEvent>
     {
-        public override List<string> Identifiers => new List<string> { "heartbeat" };
+        public override List<string> StreamIdentifiers { get; set; } = new List<string> { "heartbeat" };
 
         public HeartbeatSubscription(ILogger logger) : base(logger, false)
         {

@@ -18,14 +18,18 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         private KrakenSubscribeRequest _request;
         private readonly Action<DataEvent<T>> _handler;
 
-        public override List<string> Identifiers { get; }
+        public override List<string> StreamIdentifiers { get; set; }
+        public override Dictionary<string, Type> TypeMapping { get; } = new Dictionary<string, Type>
+        {
+            { "", typeof(T) }
+        };
 
         public KrakenAuthSubscription(ILogger logger, KrakenSubscribeRequest subRequest, Action<DataEvent<T>> handler) : base(logger, false)
         {
             _request = subRequest;
             _handler = handler;
 
-            Identifiers = subRequest.Symbols?.Any() == true ? subRequest.Symbols.Select(s => subRequest.Details.ChannelName.ToLowerInvariant() + "-" + s.ToLowerInvariant()).ToList() : new List<string> { subRequest.Details.ChannelName };
+            StreamIdentifiers = subRequest.Symbols?.Any() == true ? subRequest.Symbols.Select(s => subRequest.Details.ChannelName.ToLowerInvariant() + "-" + s.ToLowerInvariant()).ToList() : new List<string> { subRequest.Details.ChannelName };
         }
 
         public override BaseQuery? GetSubQuery(SocketConnection connection)
@@ -49,9 +53,9 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 }, Authenticated);
         }
 
-        public override Task<CallResult> HandleEventAsync(SocketConnection connection, DataEvent<ParsedMessage<T>> message)
+        public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<BaseParsedMessage> message)
         {
-            _handler.Invoke(message.As(message.Data.TypedData!, null, ConnectionInvocations == 1 ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
+            _handler.Invoke(message.As((T)message.Data.Data!, null, ConnectionInvocations == 1 ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
             return Task.FromResult(new CallResult(null));
         }
     }

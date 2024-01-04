@@ -11,11 +11,11 @@ namespace Kraken.Net.Objects.Sockets.Queries
 {
     internal class KrakenSpotQuery<T> : Query<T> where T : KrakenQueryEvent
     {
-        public override List<string> Identifiers { get; }
+        public override List<string> StreamIdentifiers { get; set; }
 
         public KrakenSpotQuery(KrakenSocketRequest request, bool authenticated) : base(request, authenticated)
         {
-            Identifiers = new List<string>() { request.RequestId.ToString() };
+            StreamIdentifiers = new List<string>() { request.RequestId.ToString() };
         }
 
         public override Task<CallResult<T>> HandleMessageAsync(SocketConnection connection, DataEvent<ParsedMessage<T>> message)

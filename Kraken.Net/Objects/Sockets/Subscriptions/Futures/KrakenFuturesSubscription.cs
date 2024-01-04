@@ -13,13 +13,17 @@ using System.Threading.Tasks;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
-    internal class KrakenFuturesSubscription<T> : Subscription<KrakenFuturesResponse, T> where T : KrakenFuturesEvent
+    internal class KrakenFuturesSubscription<T> : Subscription<KrakenFuturesResponse> where T : KrakenFuturesEvent
     {
         private string _feed;
         private List<string>? _symbols;
         protected readonly Action<DataEvent<T>> _handler;
 
-        public override List<string> Identifiers { get; }
+        public override List<string> StreamIdentifiers { get; set; }
+        public override Dictionary<string, Type> TypeMapping { get; } = new Dictionary<string, Type>
+        {
+            { "", typeof(T) }
+        };
 
         public KrakenFuturesSubscription(ILogger logger, string feed, List<string>? symbols, Action<DataEvent<T>> handler) : base(logger, false)
         {
@@ -27,7 +31,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _symbols = symbols;
             _handler = handler;
 
-            Identifiers = symbols?.Any() == true ? symbols.Select(s => _feed + "-" + s.ToLowerInvariant()).ToList() : new List<string> { _feed };
+            StreamIdentifiers = symbols?.Any() == true ? symbols.Select(s => _feed + "-" + s.ToLowerInvariant()).ToList() : new List<string> { _feed };
         }
 
         public override BaseQuery? GetSubQuery(SocketConnection connection)
@@ -54,9 +58,10 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 Authenticated);
         }
 
-        public override Task<CallResult> HandleEventAsync(SocketConnection connection, DataEvent<ParsedMessage<T>> message)
+        public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<BaseParsedMessage> message)
         {
-            _handler.Invoke(message.As(message.Data.TypedData!, message.Data.TypedData!.Symbol, SocketUpdateType.Update));
+            var data = (T)message.Data.Data!;
+            _handler.Invoke(message.As(data, data!.Symbol, SocketUpdateType.Update));
             return Task.FromResult(new CallResult(null));
         }
     }

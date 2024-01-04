@@ -13,19 +13,23 @@ using System.Threading.Tasks;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
-    internal class KrakenFuturesAccountLogSubscription : Subscription<KrakenFuturesResponse, object>
+    internal class KrakenFuturesAccountLogSubscription : Subscription<KrakenFuturesResponse>
     {
         protected readonly Action<DataEvent<KrakenFuturesAccountLogsSnapshotUpdate>> _snapshotHandler;
         protected readonly Action<DataEvent<KrakenFuturesAccountLogsUpdate>> _updateHandler;
 
-        public override List<string> Identifiers { get; }
+        public override List<string> StreamIdentifiers { get; set; }
+        public override Dictionary<string, Type> TypeMapping { get; } = new Dictionary<string, Type>
+        {
+            { "", typeof(object) }
+        };
 
         public KrakenFuturesAccountLogSubscription(ILogger logger, Action<DataEvent<KrakenFuturesAccountLogsSnapshotUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesAccountLogsUpdate>> updateHandler) : base(logger, true)
         {
             _snapshotHandler = snapshotHandler;
             _updateHandler = updateHandler;
 
-            Identifiers = new List<string> { "account_log_snapshot", "account_log" };
+            StreamIdentifiers = new List<string> { "account_log_snapshot", "account_log" };
         }
 
         public override BaseQuery? GetSubQuery(SocketConnection connection)
@@ -60,7 +64,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 _snapshotHandler.Invoke(message.As(snapshot, null, SocketUpdateType.Snapshot));
                 return Task.FromResult(new CallResult(null));
             }
-            else if(message.Data.Data is KrakenFuturesAccountLogsUpdate update)
+            else if (message.Data.Data is KrakenFuturesAccountLogsUpdate update)
             {
                 _updateHandler.Invoke(message.As(update, null, SocketUpdateType.Update));
                 return Task.FromResult(new CallResult(null));
@@ -68,7 +72,5 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 
             return Task.FromResult(new CallResult(null));
         }
-
-        public override Task<CallResult> HandleEventAsync(SocketConnection connection, DataEvent<ParsedMessage<object>> message) => throw new NotImplementedException();
     }
 }

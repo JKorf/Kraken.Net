@@ -16,7 +16,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
     {
         private readonly Action<DataEvent<T>> _handler;
 
-        public override List<string> Identifiers { get; } = new List<string>() { "systemstatus" };
+        public override List<string> StreamIdentifiers { get; set; } = new List<string>() { "systemstatus" };
+        public override Dictionary<string, Type> TypeMapping { get; } = new Dictionary<string, Type>
+        {
+            { "", typeof(T) }
+        };
 
         public KrakenListenSubscription(ILogger logger, Action<DataEvent<T>> handler) : base(logger, false)
         {
@@ -27,9 +31,9 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 
         public override BaseQuery? GetUnsubQuery() => null;
 
-        public override Task<CallResult> HandleEventAsync(SocketConnection connection, DataEvent<ParsedMessage<T>> message)
+        public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<BaseParsedMessage> message)
         {
-            _handler.Invoke(message.As(message.Data.TypedData!, null, SocketUpdateType.Update));
+            _handler.Invoke(message.As((T)message.Data.Data!, null, SocketUpdateType.Update));
             return Task.FromResult(new CallResult(null));
         }
     }

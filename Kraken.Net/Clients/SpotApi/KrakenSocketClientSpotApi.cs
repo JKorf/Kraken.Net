@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Converters;
+using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
@@ -19,7 +20,6 @@ using Kraken.Net.Objects.Models;
 using Kraken.Net.Objects.Models.Socket;
 using Kraken.Net.Objects.Options;
 using Kraken.Net.Objects.Sockets;
-using Kraken.Net.Objects.Sockets.Converters;
 using Kraken.Net.Objects.Sockets.Queries;
 using Kraken.Net.Objects.Sockets.Subscriptions;
 using Kraken.Net.Objects.Sockets.Subscriptions.Spot;
@@ -39,7 +39,12 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public new KrakenSocketOptions ClientOptions => (KrakenSocketOptions)base.ClientOptions;
 
-        public override SocketConverter StreamConverter { get; } = new KrakenSpotStreamConverter();
+        public override MessageInterpreterPipeline Pipeline { get; } = new MessageInterpreterPipeline
+        {
+            GetStreamIdentifier = GetIdentity,
+            GetTypeIdentifier = GetTypeIdentity
+        };
+
         #endregion
 
         #region ctor
@@ -59,6 +64,35 @@ namespace Kraken.Net.Clients.SpotApi
             //AddGenericHandler("AdditionalSubResponses", (messageEvent) => { });
         }
         #endregion
+
+        private static string GetIdentity(IMessageAccessor accessor)
+        {
+            var id = accessor.GetStringValue("reqid");
+            if (id != null)
+                return id;
+
+            var evnt = accessor.GetStringValue("event");
+            if (evnt != null)
+                return evnt;
+
+            var arr4 = accessor.GetArrayStringValue(null, 4);
+            var arr3 = accessor.GetArrayStringValue(null, 3);
+            if (arr4 != null)
+                return arr3.ToLowerInvariant() + "-" + arr4.ToLowerInvariant();
+
+            var arr2 = accessor.GetArrayStringValue(null, 2);
+            if (arr2 != null)
+                return arr2.ToLowerInvariant() + "-" + arr3.ToLowerInvariant();
+
+            return accessor.GetArrayStringValue(null, 1).ToLowerInvariant() + "-" + arr2.ToLowerInvariant();
+        }
+
+        private static string GetTypeIdentity(IMessageAccessor accessor)
+        {
+            if (accessor.GetCount(null) == 4)
+                return accessor.GetArrayStringValue(null, 2);
+            return accessor.GetArrayStringValue(null, 1);
+        }
 
         /// <inheritdoc />
         protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)

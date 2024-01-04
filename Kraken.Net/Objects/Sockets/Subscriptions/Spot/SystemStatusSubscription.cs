@@ -12,7 +12,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
     public class SystemStatusSubscription : SystemSubscription<KrakenStreamSystemStatus>
     {
-        public override List<string> Identifiers => new List<string> { "systemStatus" };
+        public override List<string> StreamIdentifiers { get; set; } = new List<string> { "systemStatus" };
+        public override Dictionary<string, Type> TypeMapping { get; } = new Dictionary<string, Type>
+        {
+            { "", typeof(KrakenStreamSystemStatus) }
+        };
 
         public SystemStatusSubscription(ILogger logger) : base(logger, false)
         {

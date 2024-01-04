@@ -13,15 +13,20 @@ using System.Threading.Tasks;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
-    internal class KrakenFuturesBalanceSubscription : Subscription<KrakenFuturesResponse, KrakenFuturesBalancesUpdate>
+    internal class KrakenFuturesBalanceSubscription : Subscription<KrakenFuturesResponse>
     {
         protected readonly Action<DataEvent<KrakenFuturesBalancesUpdate>> _handler;
-        public override List<string> Identifiers { get; }
+        public override List<string> StreamIdentifiers { get; set; }
+        public override Dictionary<string, Type> TypeMapping { get; } = new Dictionary<string, Type>
+        {
+            { "", typeof(KrakenFuturesBalancesUpdate) }
+        };
+
 
         public KrakenFuturesBalanceSubscription(ILogger logger, Action<DataEvent<KrakenFuturesBalancesUpdate>> handler) : base(logger, true)
         {
             _handler = handler;
-            Identifiers = new List<string> { "balances_snapshot", "balances" };
+            StreamIdentifiers = new List<string> { "balances_snapshot", "balances" };
         }
 
         public override BaseQuery? GetSubQuery(SocketConnection connection)
@@ -49,9 +54,9 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 Authenticated);
         }
 
-        public override Task<CallResult> HandleEventAsync(SocketConnection connection, DataEvent<ParsedMessage<KrakenFuturesBalancesUpdate>> message)
+        public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<BaseParsedMessage> message)
         {
-            _handler.Invoke(message.As(message.Data.TypedData, null, ConnectionInvocations == 1 ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
+            _handler.Invoke(message.As((KrakenFuturesBalancesUpdate)message.Data.Data, null, ConnectionInvocations == 1 ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
             return Task.FromResult(new CallResult(null));
         }
     }
