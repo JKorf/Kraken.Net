@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models;
 using Kraken.Net.Objects.Sockets;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Kraken.Net.Converters
@@ -24,7 +22,8 @@ namespace Kraken.Net.Converters
                 {
                     // snapshot
                     orderBook.Asks = innerObject["as"]!.ToObject<IEnumerable<KrakenStreamOrderBookEntry>>()!;
-                    orderBook.Bids = innerObject["bs"]!.ToObject< IEnumerable<KrakenStreamOrderBookEntry>>()!;
+                    orderBook.Bids = innerObject["bs"]!.ToObject<IEnumerable<KrakenStreamOrderBookEntry>>()!;
+                    orderBook.Snapshot = true;
                 }
                 else if (innerObject["a"] != null)
                 {

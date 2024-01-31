@@ -5,7 +5,6 @@ using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.OrderBook;
-using CryptoExchange.Net.Sockets;
 using Kraken.Net.Clients;
 using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Objects.Models.Socket.Futures;
@@ -63,21 +62,20 @@ namespace Kraken.Net.SymbolOrderBooks
         /// <inheritdoc />
         protected override async Task<CallResult<UpdateSubscription>> DoStartAsync(CancellationToken ct)
         {
-            return new CallResult<UpdateSubscription>(new ServerError(""));
-            //var result = await _socketClient.FuturesApi.SubscribeToOrderBookUpdatesAsync(new[] { Symbol }, ProcessSnapshot, ProcessUpdate).ConfigureAwait(false);
-            //if (!result)
-            //    return result;
+            var result = await _socketClient.FuturesApi.SubscribeToOrderBookUpdatesAsync(new[] { Symbol }, ProcessSnapshot, ProcessUpdate).ConfigureAwait(false);
+            if (!result)
+                return result;
 
-            //if (ct.IsCancellationRequested)
-            //{
-            //    await result.Data.CloseAsync().ConfigureAwait(false);
-            //    return result.AsError<UpdateSubscription>(new CancellationRequestedError());
-            //}
+            if (ct.IsCancellationRequested)
+            {
+                await result.Data.CloseAsync().ConfigureAwait(false);
+                return result.AsError<UpdateSubscription>(new CancellationRequestedError());
+            }
 
-            //Status = OrderBookStatus.Syncing;
+            Status = OrderBookStatus.Syncing;
 
-            //var setResult = await WaitForSetOrderBookAsync(_initialDataTimeout, ct).ConfigureAwait(false);
-            //return setResult ? result : new CallResult<UpdateSubscription>(setResult.Error!);
+            var setResult = await WaitForSetOrderBookAsync(_initialDataTimeout, ct).ConfigureAwait(false);
+            return setResult ? result : new CallResult<UpdateSubscription>(setResult.Error!);
         }
 
         private void ProcessSnapshot(DataEvent<KrakenFuturesBookSnapshotUpdate> data)

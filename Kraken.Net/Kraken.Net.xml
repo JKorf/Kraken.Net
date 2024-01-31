@@ -145,7 +145,13 @@
         <member name="P:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.ClientOptions">
             <inheritdoc />
         </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.GetListenerIdentifier(CryptoExchange.Net.Sockets.MessageParsing.Interfaces.IMessageAccessor)">
+            <inheritdoc />
+        </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.GetAuthenticationRequest">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToHeartbeatUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesHeartbeatUpdate}},System.Threading.CancellationToken)">
@@ -155,6 +161,42 @@
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTickerUpdate}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTradeUpdate}}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToTradeUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTradeUpdate}}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToMiniTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTickerUpdate}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToMiniTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTickerUpdate}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToOrderBookUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookUpdate}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToOrderBookUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookUpdate}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToOpenOrdersUpdatesAsync(System.Boolean,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesOpenOrdersSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesOpenOrdersUpdate}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToAccountLogUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesAccountLogsSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesAccountLogsUpdate}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToOpenPositionUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesOpenPositionUpdate}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToBalanceUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBalancesUpdate}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToUserTradeUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesUserTradesUpdate}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToNotificationUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesNotificationUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi">
@@ -365,6 +407,9 @@
             <inheritdoc />
         </member>
         <member name="P:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.ClientOptions">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.GetListenerIdentifier(CryptoExchange.Net.Sockets.MessageParsing.Interfaces.IMessageAccessor)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
@@ -1788,6 +1833,155 @@
             <summary>
             Futures API
             </summary>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SubscribeToAccountLogUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesAccountLogsSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesAccountLogsUpdate}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to account updates
+            <para><a href="https://docs.futures.kraken.com/#websocket-api-private-feeds-account-log" /></para>
+            </summary>
+            <param name="snapshotHandler">Handler for the initial snapshot data received when (re)connecting the stream</param>
+            <param name="updateHandler">Update handler</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SubscribeToBalanceUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBalancesUpdate}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to balance updates
+            <para><a href="https://docs.futures.kraken.com/#websocket-api-private-feeds-balances" /></para>
+            </summary>
+            <param name="handler">Update handler</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SubscribeToHeartbeatUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesHeartbeatUpdate}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to heartbeat updates
+            <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-heartbeat" /></para>
+            </summary>
+            <param name="handler">Update handler</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SubscribeToMiniTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTickerUpdate}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to mini ticker updates
+            <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-ticker-lite" /></para>
+            </summary>
+            <param name="symbol">The symbol to subscribe</param>
+            <param name="handler">Update handler</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SubscribeToMiniTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTickerUpdate}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to mini ticker updates
+            <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-ticker-lite" /></para>
+            </summary>
+            <param name="symbols">The symbols to subscribe</param>
+            <param name="handler">Update handler</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SubscribeToNotificationUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesNotificationUpdate}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to notification updates
+            <para><a href="https://docs.futures.kraken.com/#websocket-api-private-feeds-notifications" /></para>
+            </summary>
+            <param name="handler">Update handler</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SubscribeToOpenOrdersUpdatesAsync(System.Boolean,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesOpenOrdersSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesOpenOrdersUpdate}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to open order updates
+            <para><a href="https://docs.futures.kraken.com/#websocket-api-private-feeds-open-orders" /></para>
+            <para><a href="https://docs.futures.kraken.com/#websocket-api-private-feeds-open-orders-verbose" /></para>
+            </summary>
+            <param name="verbose">Whether to connect to the verbose stream or not. The verbose feed adds extra information about all the post-only orders that failed to cross the book.</param>
+            <param name="snapshotHandler">Handler for the initial snapshot data received when (re)connecting the stream</param>
+            <param name="updateHandler">Update handler</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SubscribeToOpenPositionUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesOpenPositionUpdate}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to open position updates
+            <para><a href="https://docs.futures.kraken.com/#websocket-api-private-feeds-open-positions" /></para>
+            </summary>
+            <param name="handler">Update handler</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SubscribeToOrderBookUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookUpdate}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to order book updates
+            <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-book" /></para>
+            </summary>
+            <param name="symbols">The symbols to subscribe</param>
+            <param name="snapshotHandler">Handler for the initial snapshot data received when (re)connecting the stream</param>
+            <param name="updateHandler">Update handler</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SubscribeToOrderBookUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookUpdate}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to order book updates
+            <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-book" /></para>
+            </summary>
+            <param name="symbol">The symbol to subscribe</param>
+            <param name="snapshotHandler">Handler for the initial snapshot data received when (re)connecting the stream</param>
+            <param name="updateHandler">Update handler</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SubscribeToTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTickerUpdate}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to ticker updates
+            <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-ticker" /></para>
+            </summary>
+            <param name="symbol">The symbol to subscribe</param>
+            <param name="handler">Update handler</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTickerUpdate}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to ticker updates
+            <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-ticker" /></para>
+            </summary>
+            <param name="symbols">The symbols to subscribe</param>
+            <param name="handler">Update handler</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SubscribeToTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTradeUpdate}}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to public trade updates
+            <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-trade" /></para>
+            </summary>
+            <param name="symbol">The symbol to subscribe</param>
+            <param name="updateHandler">Update handler</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SubscribeToTradeUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTradeUpdate}}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to public trade updates
+            <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-trade" /></para>
+            </summary>
+            <param name="symbols">The symbols to subscribe</param>
+            <param name="updateHandler">Update handler</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SubscribeToUserTradeUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesUserTradesUpdate}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to user trades updates
+            <para><a href="https://docs.futures.kraken.com/#websocket-api-private-feeds-fills" /></para>
+            </summary>
+            <param name="handler">Handler for the initial snapshot data received when (re)connecting the stream</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
         <member name="T:Kraken.Net.Interfaces.Clients.IKrakenRestClient">
             <summary>
@@ -5066,6 +5260,11 @@
             Checksum
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenStreamOrderBook.Snapshot">
+            <summary>
+            Is this a snapshot?
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenStreamOrderBookEntry">
             <summary>
             Stream order book entry
@@ -7349,6 +7548,11 @@
             The message event
             </summary>
         </member>
+        <member name="T:Kraken.Net.Objects.Sockets.KrakenFuturesEvent">
+            <summary>
+            Socket event
+            </summary>
+        </member>
         <member name="P:Kraken.Net.Objects.Sockets.KrakenFuturesEvent.Event">
             <summary>
             The event type
@@ -7387,6 +7591,11 @@
         <member name="P:Kraken.Net.Objects.Sockets.KrakenFuturesResponse.Feed">
             <summary>
             The feed
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.KrakenFuturesResponse.Message">
+            <summary>
+            Message
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.Sockets.KrakenFuturesResponse.Symbols">

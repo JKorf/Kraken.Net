@@ -1,29 +1,23 @@
-﻿using CryptoExchange.Net;
-using CryptoExchange.Net.Objects;
+﻿using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
-using Kraken.Net.Objects.Internal;
+using CryptoExchange.Net.Sockets.MessageParsing.Interfaces;
 using Kraken.Net.Objects.Sockets.Queries;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
-    internal class KrakenFuturesSubscription<T> : Subscription<KrakenFuturesResponse> where T : KrakenFuturesEvent
+    internal class KrakenFuturesSubscription<T> : Subscription<KrakenFuturesResponse, KrakenFuturesResponse> where T : KrakenFuturesEvent
     {
         private string _feed;
         private List<string>? _symbols;
         protected readonly Action<DataEvent<T>> _handler;
 
-        public override List<string> StreamIdentifiers { get; set; }
-        public override Dictionary<string, Type> TypeMapping { get; } = new Dictionary<string, Type>
-        {
-            { "", typeof(T) }
-        };
+        public override HashSet<string> ListenerIdentifiers { get; set; }
 
         public KrakenFuturesSubscription(ILogger logger, string feed, List<string>? symbols, Action<DataEvent<T>> handler) : base(logger, false)
         {
@@ -31,10 +25,12 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _symbols = symbols;
             _handler = handler;
 
-            StreamIdentifiers = symbols?.Any() == true ? symbols.Select(s => _feed + "-" + s.ToLowerInvariant()).ToList() : new List<string> { _feed };
+            ListenerIdentifiers = symbols?.Any() == true ? new HashSet<string>(symbols.Select(s => _feed + "-" + s.ToLowerInvariant())) : new HashSet<string> { _feed };
         }
 
-        public override BaseQuery? GetSubQuery(SocketConnection connection)
+        public override Type? GetMessageType(IMessageAccessor message) => typeof(T);
+
+        public override Query? GetSubQuery(SocketConnection connection)
         {
             return new KrakenFuturesQuery<KrakenFuturesResponse>(
                 new KrakenFuturesRequest()
@@ -46,7 +42,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 Authenticated);
         }
 
-        public override BaseQuery? GetUnsubQuery()
+        public override Query? GetUnsubQuery()
         {
             return new KrakenFuturesQuery<KrakenFuturesResponse>(
                 new KrakenFuturesRequest()
@@ -58,9 +54,9 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 Authenticated);
         }
 
-        public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<BaseParsedMessage> message)
+        public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<object> message)
         {
-            var data = (T)message.Data.Data!;
+            var data = (T)message.Data!;
             _handler.Invoke(message.As(data, data!.Symbol, SocketUpdateType.Update));
             return Task.FromResult(new CallResult(null));
         }

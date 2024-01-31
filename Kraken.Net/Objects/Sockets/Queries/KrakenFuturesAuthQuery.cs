@@ -1,22 +1,28 @@
 ﻿using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Kraken.Net.Objects.Sockets.Queries
 {
     internal class KrakenFuturesAuthQuery : Query<KrakenChallengeResponse>
     {
-        public override List<string> StreamIdentifiers { get; set; }
+        public override HashSet<string> ListenerIdentifiers { get; set; }
 
         public KrakenFuturesAuthQuery(string apiKey) : base(new KrakenChallengeRequest { ApiKey = apiKey, Event = "challenge" }, false)
         {
-            StreamIdentifiers = new List<string>() { "challenge" };
+            ListenerIdentifiers = new HashSet<string>() { "challenge" };
+        }
+
+        public override Task<CallResult<KrakenChallengeResponse>> HandleMessageAsync(SocketConnection connection, DataEvent<KrakenChallengeResponse> message)
+        {
+            // TODO test error?
+            var authProvider = (KrakenFuturesAuthenticationProvider)connection.ApiClient.AuthenticationProvider!;
+            var sign = authProvider.AuthenticateWebsocketChallenge(message.Data.Message);
+            connection.Properties["OriginalChallenge"] = message.Data.Message;
+            connection.Properties["SignedChallenge"] = sign;
+            return Task.FromResult(new CallResult<KrakenChallengeResponse>(message.Data, message.OriginalData, null));
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Kraken.Net.Clients;
 using Kraken.Net.Interfaces.Clients;
-using Kraken.Net.Objects;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;

@@ -5,7 +5,6 @@ using CryptoExchange.Net.Objects;
 using Kraken.Net.Objects;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;

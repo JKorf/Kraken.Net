@@ -1,5 +1,4 @@
 ﻿using CryptoExchange.Net.Converters;
-using CryptoExchange.Net.Interfaces;
 using Kraken.Net.Enums;
 using Newtonsoft.Json;
 using System;

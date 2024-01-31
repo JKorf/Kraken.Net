@@ -2,28 +2,26 @@
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Objects.Internal;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Kraken.Net.Objects.Sockets.Queries
 {
     internal class KrakenSpotQuery<T> : Query<T> where T : KrakenQueryEvent
     {
-        public override List<string> StreamIdentifiers { get; set; }
+        public override HashSet<string> ListenerIdentifiers { get; set; }
 
         public KrakenSpotQuery(KrakenSocketRequest request, bool authenticated) : base(request, authenticated)
         {
-            StreamIdentifiers = new List<string>() { request.RequestId.ToString() };
+            ListenerIdentifiers = new HashSet<string>() { request.RequestId.ToString() };
         }
 
-        public override Task<CallResult<T>> HandleMessageAsync(SocketConnection connection, DataEvent<ParsedMessage<T>> message)
+        public override Task<CallResult<T>> HandleMessageAsync(SocketConnection connection, DataEvent<T> message)
         {
-            if (message.Data.TypedData!.Status != "error")
-                return Task.FromResult(new CallResult<T>(message.Data.TypedData!));
+            if (message.Data.Status != "error")
+                return Task.FromResult(new CallResult<T>(message.Data!));
             else
-                return Task.FromResult(new CallResult<T>(new ServerError(message.Data.TypedData.ErrorMessage!)));
+                return Task.FromResult(new CallResult<T>(new ServerError(message.Data.ErrorMessage!)));
         }
     }
 }

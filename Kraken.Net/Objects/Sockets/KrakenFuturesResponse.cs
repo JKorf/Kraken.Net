@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Kraken.Net.Objects.Sockets
 {
@@ -17,6 +15,11 @@ namespace Kraken.Net.Objects.Sockets
         /// </summary>
         [JsonProperty("feed")]
         public string Feed { get; set; } = string.Empty;
+        /// <summary>
+        /// Message
+        /// </summary>
+        [JsonProperty("message")]
+        public string? Message { get; set; }
 
         /// <summary>
         /// The symbols

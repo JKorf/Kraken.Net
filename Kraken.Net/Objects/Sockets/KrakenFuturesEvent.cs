@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kraken.Net.Objects.Sockets
 {
+    /// <summary>
+    /// Socket event
+    /// </summary>
     public class KrakenFuturesEvent
     {
         /// <summary>

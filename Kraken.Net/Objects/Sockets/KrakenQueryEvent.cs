@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kraken.Net.Objects.Sockets
+﻿namespace Kraken.Net.Objects.Sockets
 {
     /// <summary>
     /// Kraken response to a query

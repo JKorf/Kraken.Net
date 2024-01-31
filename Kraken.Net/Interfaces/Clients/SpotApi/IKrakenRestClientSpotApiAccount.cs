@@ -6,8 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Kraken.Net.Objects.Models;
 using Kraken.Net.Objects.Models.Socket;
-using System.Net;
-using System.Text.RegularExpressions;
 
 namespace Kraken.Net.Interfaces.Clients.SpotApi
 {

@@ -6,7 +6,6 @@ using Kraken.Net.Objects;
 using Kraken.Net.Objects.Models.Futures;
 using Kraken.Net.Objects.Options;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;

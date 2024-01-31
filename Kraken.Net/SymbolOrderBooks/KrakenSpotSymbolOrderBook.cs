@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.OrderBook;
-using CryptoExchange.Net.Sockets;
 using Force.Crc32;
 using Kraken.Net.Clients;
 using Kraken.Net.Interfaces.Clients;
