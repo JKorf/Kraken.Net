@@ -497,11 +497,6 @@
             </summary>
             <param name="optionsDelegate">Option configuration delegate</param>
         </member>
-        <member name="M:Kraken.Net.Clients.KrakenRestClient.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Net.Http.HttpClient)">
-            <summary>
-            Create a new instance of the KrakenRestClient using default options
-            </summary>
-        </member>
         <member name="M:Kraken.Net.Clients.KrakenRestClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILoggerFactory,System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
             <summary>
             Create a new instance of the KrakenRestClient

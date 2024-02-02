@@ -30,14 +30,7 @@ namespace Kraken.Net.Clients
         /// Create a new instance of the KrakenRestClient using provided options
         /// </summary>
         /// <param name="optionsDelegate">Option configuration delegate</param>
-        public KrakenRestClient(Action<KrakenRestOptions> optionsDelegate) : this(null, null, optionsDelegate)
-        {
-        }
-
-        /// <summary>
-        /// Create a new instance of the KrakenRestClient using default options
-        /// </summary>
-        public KrakenRestClient(ILoggerFactory? loggerFactory = null, HttpClient? httpClient = null) : this(httpClient, loggerFactory, null)
+        public KrakenRestClient(Action<KrakenRestOptions>? optionsDelegate = null) : this(null, null, optionsDelegate)
         {
         }
 

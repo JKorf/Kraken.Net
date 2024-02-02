@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using Kraken.Net.Objects.Options;
 using Kraken.Net.Interfaces;
 using Kraken.Net.SymbolOrderBooks;
+using CryptoExchange.Net.Clients;
 
 namespace Kraken.Net
 {
@@ -57,8 +58,8 @@ namespace Kraken.Net
                 return handler;
             });
 
+            services.AddTransient<ICryptoExchangeClient, CryptoExchangeClient>();
             services.AddSingleton<IKrakenOrderBookFactory, KrakenOrderBookFactory>();
-            services.AddTransient<IKrakenRestClient, KrakenRestClient>();
             services.AddTransient(x => x.GetRequiredService<IKrakenRestClient>().SpotApi.CommonSpotClient);
             if (socketClientLifeTime == null)
                 services.AddSingleton<IKrakenSocketClient, KrakenSocketClient>();
