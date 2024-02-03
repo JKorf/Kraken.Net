@@ -37,7 +37,6 @@ namespace Kraken.Net.Clients.SpotApi
         private static readonly MessagePath _item3Path = MessagePath.Get().Index(3);
         private static readonly MessagePath _item4Path = MessagePath.Get().Index(4);
 
-
         #region fields                
         private readonly Dictionary<string, string> _symbolSynonyms;
         private readonly string _privateBaseAddress;
@@ -61,6 +60,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             AddSystemSubscription(new HeartbeatSubscription(_logger));
             AddSystemSubscription(new SystemStatusSubscription(_logger));
+
             //AddGenericHandler("AdditionalSubResponses", (messageEvent) => { });
         }
         #endregion

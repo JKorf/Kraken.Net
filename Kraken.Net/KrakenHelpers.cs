@@ -58,7 +58,7 @@ namespace Kraken.Net
                 return handler;
             });
 
-            services.AddTransient<ICryptoExchangeClient, CryptoExchangeClient>();
+            services.AddTransient<ICryptoRestClient, CryptoRestClient>();
             services.AddSingleton<IKrakenOrderBookFactory, KrakenOrderBookFactory>();
             services.AddTransient(x => x.GetRequiredService<IKrakenRestClient>().SpotApi.CommonSpotClient);
             if (socketClientLifeTime == null)
