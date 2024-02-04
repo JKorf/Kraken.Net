@@ -22,7 +22,7 @@ namespace Kraken.Net.UnitTests
             var subTask = client.SpotApi.SubscribeToTickerUpdatesAsync("XBT/EUR", test => { });
             await Task.Delay(10);
             var id = JToken.Parse(socket.LastSendMessage!)["reqid"];
-            socket.InvokeMessage($"{{\"channelID\": 1, \"status\": \"subscribed\", \"reqid\":{id}}}");
+            await socket.InvokeMessage($"{{\"channelID\": 1, \"status\": \"subscribed\", \"reqid\":{id}}}");
             var subResult = subTask.Result;
 
             // assert
