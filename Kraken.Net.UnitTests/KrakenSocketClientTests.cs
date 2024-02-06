@@ -41,7 +41,7 @@ namespace Kraken.Net.UnitTests
             var subTask = client.SpotApi.SubscribeToTickerUpdatesAsync("XBT/EUR", test => { });
             await Task.Delay(10);
             var id = JToken.Parse(socket.LastSendMessage!)["reqid"];
-            socket.InvokeMessage($"{{\"channelID\": 1, \"status\": \"error\", \"errormessage\": \"Failed to sub\", \"reqid\":{id}}}");
+            await socket.InvokeMessage($"{{\"channelID\": 1, \"status\": \"error\", \"errormessage\": \"Failed to sub\", \"reqid\":{id}}}");
             var subResult = subTask.Result;
 
             // assert
