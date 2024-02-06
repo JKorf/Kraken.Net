@@ -26,6 +26,12 @@ Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/s
 A Discord server is available [here](https://discord.gg/MSpeEtSY8t). For discussion and/or questions around the CryptoExchange.Net and implementation libraries, feel free to join.
 
 ## Release notes
+* Version 4.3.0-beta1 - 06 Feb 2024
+    * Updated CryptoExchange.Net and implemented reworked websocket message handling. For release notes for the CryptoExchange.Net base library see: https://github.com/JKorf/CryptoExchange.Net/tree/beta?tab=readme-ov-file#release-notes
+    * Fixed issue in DI registration causing http client to not be correctly injected
+    * Added single symbol overloads to Futures websocket subscriptions
+    * Removed excessive constructor overload for KrakenRestClient
+
 * Version 4.2.2 - 04 Jan 2024
     * Fixed issue deserializing DateTime value in user order updates when running .net framework
 
