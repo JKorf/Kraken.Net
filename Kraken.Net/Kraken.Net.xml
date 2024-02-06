@@ -1477,6 +1477,23 @@
             Last trade price
             </summary>
         </member>
+        <member name="T:Kraken.Net.ExtensionMethods.KrakenExtensionMethods">
+            <summary>
+            Extension methods specific to using the Kraken API
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.ExtensionMethods.KrakenExtensionMethods.ValidateKrakenSymbol(System.String)">
+            <summary>
+            Validate the string is a valid Kraken symbol.
+            </summary>
+            <param name="symbolString">string to validate</param>
+        </member>
+        <member name="M:Kraken.Net.ExtensionMethods.KrakenExtensionMethods.ValidateKrakenWebsocketSymbol(System.String)">
+            <summary>
+            Validate the string is a valid Kraken websocket symbol.
+            </summary>
+            <param name="symbolString">string to validate</param>
+        </member>
         <member name="T:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApi">
             <summary>
             Futuers API endpoints
@@ -2939,33 +2956,6 @@
             <param name="futuresRestAddress"></param>
             <param name="futuresSocketAddress"></param>
             <returns></returns>
-        </member>
-        <member name="T:Kraken.Net.KrakenHelpers">
-            <summary>
-            Helper methods for Kraken
-            </summary>
-        </member>
-        <member name="M:Kraken.Net.KrakenHelpers.AddKraken(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Kraken.Net.Objects.Options.KrakenRestOptions},System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},System.Nullable{Microsoft.Extensions.DependencyInjection.ServiceLifetime})">
-            <summary>
-            Add the IKrakenClient and IKrakenSocketClient to the sevice collection so they can be injected
-            </summary>
-            <param name="services">The service collection</param>
-            <param name="defaultRestOptionsDelegate">Set default options for the rest client</param>
-            <param name="defaultSocketOptionsDelegate">Set default options for the socket client</param>
-            <param name="socketClientLifeTime">The lifetime of the IKrakenSocketClient for the service collection. Defaults to Singleton.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Kraken.Net.KrakenHelpers.ValidateKrakenSymbol(System.String)">
-            <summary>
-            Validate the string is a valid Kraken symbol.
-            </summary>
-            <param name="symbolString">string to validate</param>
-        </member>
-        <member name="M:Kraken.Net.KrakenHelpers.ValidateKrakenWebsocketSymbol(System.String)">
-            <summary>
-            Validate the string is a valid Kraken websocket symbol.
-            </summary>
-            <param name="symbolString">string to validate</param>
         </member>
         <member name="T:Kraken.Net.Objects.Internal.KrakenSocketCancelAfterRequest">
             <summary>
@@ -7703,18 +7693,33 @@
             Extensions for the ICryptoRestClient and ICryptoSocketClient interfaces
             </summary>
         </member>
-        <member name="M:CryptoExchange.Net.Clients.CryptoClientExtensions.Kraken(CryptoExchange.Net.Clients.ICryptoRestClient)">
+        <member name="M:CryptoExchange.Net.Clients.CryptoClientExtensions.Kraken(CryptoExchange.Net.Interfaces.ICryptoRestClient)">
             <summary>
             Get the Kraken REST Api client
             </summary>
             <param name="baseClient"></param>
             <returns></returns>
         </member>
-        <member name="M:CryptoExchange.Net.Clients.CryptoClientExtensions.Kraken(CryptoExchange.Net.Clients.ICryptoSocketClient)">
+        <member name="M:CryptoExchange.Net.Clients.CryptoClientExtensions.Kraken(CryptoExchange.Net.Interfaces.ICryptoSocketClient)">
             <summary>
             Get the Kraken Websocket Api client
             </summary>
             <param name="baseClient"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions">
+            <summary>
+            Extensions for DI
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddKraken(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Kraken.Net.Objects.Options.KrakenRestOptions},System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},System.Nullable{Microsoft.Extensions.DependencyInjection.ServiceLifetime})">
+            <summary>
+            Add the IKrakenClient and IKrakenSocketClient to the sevice collection so they can be injected
+            </summary>
+            <param name="services">The service collection</param>
+            <param name="defaultRestOptionsDelegate">Set default options for the rest client</param>
+            <param name="defaultSocketOptionsDelegate">Set default options for the socket client</param>
+            <param name="socketClientLifeTime">The lifetime of the IKrakenSocketClient for the service collection. Defaults to Singleton.</param>
             <returns></returns>
         </member>
     </members>

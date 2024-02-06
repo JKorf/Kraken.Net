@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Kraken.Net.Objects.Models;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using CryptoExchange.Net.CommonObjects;
+using Kraken.Net.ExtensionMethods;
 
 namespace Kraken.Net.Clients.SpotApi
 {

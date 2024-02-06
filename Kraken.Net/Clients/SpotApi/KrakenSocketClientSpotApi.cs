@@ -13,6 +13,7 @@ using CryptoExchange.Net.Sockets.MessageParsing;
 using CryptoExchange.Net.Sockets.MessageParsing.Interfaces;
 using Kraken.Net.Converters;
 using Kraken.Net.Enums;
+using Kraken.Net.ExtensionMethods;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Internal;
