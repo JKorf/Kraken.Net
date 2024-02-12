@@ -11,7 +11,7 @@ Kraken.Net is a wrapper around the Kraken API as described on [Kraken](https://w
 ## How to use
 Simplest usage
 ```csharp
-// Get the ETH/USDT ticker via rest request
+// Get the ETH/USD ticker via rest request
 var restClient = new KrakenRestClient();
 var tickerResult = await restClient.SpotApi.ExchangeData.GetTickerAsync("ETHUSD");
 var lastPrice = tickerResult.Data.First().Value.LastTrade.Price;
