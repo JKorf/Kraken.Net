@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <Nullable>enable</Nullable>
@@ -7,9 +7,9 @@
   <PropertyGroup>
     <PackageId>KrakenExchange.Net</PackageId>
     <Authors>JKorf</Authors>
-    <PackageVersion>4.3.0-beta1</PackageVersion>
-    <AssemblyVersion>4.3.0</AssemblyVersion>
-    <FileVersion>4.3.0</FileVersion>
+    <PackageVersion>4.3.0-beta2</PackageVersion>
+    <AssemblyVersion>4.3.0-beta2</AssemblyVersion>
+    <FileVersion>4.3.0-beta2</FileVersion>
     <Description>Kraken.Net is a .Net wrapper for the Kraken API. It includes all features the API provides, REST API and Websocket, using clear and readable objects including but not limited to Reading market info, Placing and managing orders and Reading balances and funds</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>Kraken Kraken.Net C# .Net CryptoCurrency Exchange API wrapper</PackageTags>
@@ -21,7 +21,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>4.3.0-beta1 - Updated CryptoExchange.Net and implemented reworked websocket message handling. For release notes for the CryptoExchange.Net base library see: https://github.com/JKorf/CryptoExchange.Net/tree/beta?tab=readme-ov-file#release-notes, Fixed issue in DI registration causing http client to not be correctly injected, Added single symbol overloads to Futures websocket subscriptions, Removed excessive constructor overload for KrakenRestClient</PackageReleaseNotes>
+    <PackageReleaseNotes>4.3.0-beta2 - Fix for reconnecting authenticated websocket connections</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup>
     <DocumentationFile>Kraken.Net.xml</DocumentationFile>
