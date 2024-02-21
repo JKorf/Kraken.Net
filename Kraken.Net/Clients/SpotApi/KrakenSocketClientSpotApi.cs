@@ -9,6 +9,7 @@ using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Converters;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
+using CryptoExchange.Net.Sockets;
 using CryptoExchange.Net.Sockets.MessageParsing;
 using CryptoExchange.Net.Sockets.MessageParsing.Interfaces;
 using Kraken.Net.Converters;
@@ -350,26 +351,24 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
-        protected override async Task<CallResult<object>> RevitalizeRequestAsync(object request)
+        protected override async Task<CallResult> RevitalizeRequestAsync(Subscription subscription)
         {
-            var details = ((KrakenSubscribeRequest)request).Details;
-            if (details.Token != null)
+            if (!(subscription is KrakenAuthSubscription authSubscription))
+                return new CallResult(null);
+
+            var apiCredentials = ApiOptions.ApiCredentials ?? ClientOptions.ApiCredentials;
+            var restClient = new KrakenRestClient(x =>
             {
-                var apiCredentials = ApiOptions.ApiCredentials ?? ClientOptions.ApiCredentials;
-                var restClient = new KrakenRestClient(x =>
-                {
-                    x.ApiCredentials = apiCredentials;
-                    x.Environment = ClientOptions.Environment;
-                });
+                x.ApiCredentials = apiCredentials;
+                x.Environment = ClientOptions.Environment;
+            });
 
-                var newToken = await restClient.SpotApi.Account.GetWebsocketTokenAsync().ConfigureAwait(false);
-                if (!newToken.Success)
-                    return newToken.As<object>(null);
+            var newToken = await restClient.SpotApi.Account.GetWebsocketTokenAsync().ConfigureAwait(false);
+            if (!newToken.Success)
+                return newToken.AsDataless();
 
-                details.Token = newToken.Data.Token;
-            }
-
-            return new CallResult<object>(request);
+            authSubscription.UpdateToken(newToken.Data.Token);
+            return new CallResult(null);
         }
     }
 }

@@ -479,7 +479,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.RevitalizeRequestAsync(System.Object)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.RevitalizeRequestAsync(CryptoExchange.Net.Sockets.Subscription)">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Clients.KrakenRestClient">

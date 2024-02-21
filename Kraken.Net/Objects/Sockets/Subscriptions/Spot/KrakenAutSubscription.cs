@@ -12,18 +12,31 @@ using System.Threading.Tasks;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
-    internal class KrakenAuthSubscription<T> : Subscription<KrakenSubscriptionEvent, KrakenSubscriptionEvent>
+    internal abstract class KrakenAuthSubscription : Subscription<KrakenSubscriptionEvent, KrakenSubscriptionEvent>
+    {
+        protected string _token;
+
+        protected KrakenAuthSubscription(string token, ILogger logger, bool authenticated) : base(logger, authenticated)
+        {
+            _token = token;
+        }
+
+        internal void UpdateToken(string token)
+        {
+            _token = token;
+        }
+    }
+
+    internal class KrakenAuthSubscription<T> : KrakenAuthSubscription
     {
         private string _topic;
-        private string _token;
         private readonly Action<DataEvent<KrakenAuthSocketUpdate<T>>> _handler;
 
         public override HashSet<string> ListenerIdentifiers { get; set; }
 
-        public KrakenAuthSubscription(ILogger logger, string topic, string token, Action<DataEvent<KrakenAuthSocketUpdate<T>>> handler) : base(logger, false)
+        public KrakenAuthSubscription(ILogger logger, string topic, string token, Action<DataEvent<KrakenAuthSocketUpdate<T>>> handler) : base(token, logger, false)
         {
             _topic = topic;
-            _token = token;
             _handler = handler;
 
             ListenerIdentifiers = new HashSet<string> { topic };
