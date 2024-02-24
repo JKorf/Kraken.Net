@@ -1,21 +1,20 @@
-﻿using Kraken.Net.Clients;
-using Kraken.Net.Interfaces.Clients;
-using Kraken.Net.Objects;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Net.Http;
-using System.Net;
-using System.Text.RegularExpressions;
-using Kraken.Net.Objects.Options;
+﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Interfaces;
+using Kraken.Net.Clients;
 using Kraken.Net.Interfaces;
+using Kraken.Net.Interfaces.Clients;
+using Kraken.Net.Objects.Options;
 using Kraken.Net.SymbolOrderBooks;
+using System;
+using System.Net;
+using System.Net.Http;
 
-namespace Kraken.Net
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// Helper methods for Kraken
+    /// Extensions for DI
     /// </summary>
-    public static class KrakenHelpers
+    public static class ServiceCollectionExtensions
     {
         /// <summary>
         /// Add the IKrakenClient and IKrakenSocketClient to the sevice collection so they can be injected
@@ -58,40 +57,15 @@ namespace Kraken.Net
                 return handler;
             });
 
+            services.AddTransient<ICryptoRestClient, CryptoRestClient>();
+            services.AddTransient<ICryptoSocketClient, CryptoSocketClient>();
             services.AddSingleton<IKrakenOrderBookFactory, KrakenOrderBookFactory>();
-            services.AddTransient<IKrakenRestClient, KrakenRestClient>();
             services.AddTransient(x => x.GetRequiredService<IKrakenRestClient>().SpotApi.CommonSpotClient);
             if (socketClientLifeTime == null)
                 services.AddSingleton<IKrakenSocketClient, KrakenSocketClient>();
             else
                 services.Add(new ServiceDescriptor(typeof(IKrakenSocketClient), typeof(KrakenSocketClient), socketClientLifeTime.Value));
             return services;
-        }
-
-        /// <summary>
-        /// Validate the string is a valid Kraken symbol.
-        /// </summary>
-        /// <param name="symbolString">string to validate</param>
-        public static string ValidateKrakenSymbol(this string symbolString)
-        {
-            if (string.IsNullOrEmpty(symbolString))
-                throw new ArgumentException("Symbol is not provided");
-            if (!Regex.IsMatch(symbolString, "^(([a-z]|[A-Z]|[0-9]|\\.){4,})$"))
-                throw new ArgumentException($"{symbolString} is not a valid Kraken symbol. Should be [BaseAsset][QuoteAsset], e.g. ETHXBT");
-            return symbolString;
-        }
-
-        /// <summary>
-        /// Validate the string is a valid Kraken websocket symbol.
-        /// </summary>
-        /// <param name="symbolString">string to validate</param>
-        public static void ValidateKrakenWebsocketSymbol(this string symbolString)
-        {
-            if (string.IsNullOrEmpty(symbolString))
-                throw new ArgumentException("Symbol is not provided");
-            if (!Regex.IsMatch(symbolString, "^(([A-Z]|[0-9]|[.]){1,})[/](([A-Z]|[0-9]){1,})$"))
-                throw new ArgumentException($"{symbolString} is not a valid Kraken websocket symbol. Should be [BaseAsset]/[QuoteAsset] in ISO 4217-A3 standardized names, e.g. ETH/XBT" +
-                                            "Websocket names for pairs are returned in the GetSymbols method in the WebsocketName property.");
         }
     }
 }

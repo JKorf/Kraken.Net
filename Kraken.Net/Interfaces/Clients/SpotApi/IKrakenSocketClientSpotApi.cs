@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
-using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Objects.Sockets;
 using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models;
 using Kraken.Net.Objects.Models.Socket;
@@ -138,7 +138,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(string socketToken,
-            Action<DataEvent<KrakenStreamOrder>> handler, CancellationToken ct = default);
+            Action<DataEvent<IEnumerable<KrakenStreamOrder>>> handler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to own trade updates
@@ -149,7 +149,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(string socketToken,
-            Action<DataEvent<KrakenStreamUserTrade>> handler, CancellationToken ct = default);
+            Action<DataEvent<IEnumerable<KrakenStreamUserTrade>>> handler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to own trade updates
@@ -161,7 +161,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(string socketToken, bool snapshot,
-            Action<DataEvent<KrakenStreamUserTrade>> handler, CancellationToken ct = default);
+            Action<DataEvent<IEnumerable<KrakenStreamUserTrade>>> handler, CancellationToken ct = default);
 
         /// <summary>
         /// Place a new order

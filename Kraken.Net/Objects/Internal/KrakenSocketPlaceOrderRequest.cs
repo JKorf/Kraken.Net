@@ -1,6 +1,4 @@
-﻿using System;
-using CryptoExchange.Net.Converters;
-using Kraken.Net.Converters;
+﻿using Kraken.Net.Converters;
 using Kraken.Net.Enums;
 using Newtonsoft.Json;
 
@@ -9,7 +7,7 @@ namespace Kraken.Net.Objects.Internal
     /// <summary>
     /// Place order request
     /// </summary>
-    internal class KrakenSocketPlaceOrderRequest: KrakenSocketRequestBase
+    internal class KrakenSocketPlaceOrderRequest: KrakenSocketAuthRequest
     {
         [JsonProperty("pair")]
         public string Symbol { get; set; } = string.Empty;

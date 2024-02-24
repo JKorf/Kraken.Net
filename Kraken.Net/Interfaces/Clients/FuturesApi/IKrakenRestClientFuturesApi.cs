@@ -1,5 +1,4 @@
 ﻿using CryptoExchange.Net.Interfaces;
-using Kraken.Net.Clients.FuturesApi;
 using System;
 
 namespace Kraken.Net.Interfaces.Clients.FuturesApi

@@ -1,10 +1,8 @@
-﻿using CryptoExchange.Net.Attributes;
-using CryptoExchange.Net.Converters;
+﻿using CryptoExchange.Net.Converters;
 using Kraken.Net.Enums;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Kraken.Net.Objects.Models.Futures
 {

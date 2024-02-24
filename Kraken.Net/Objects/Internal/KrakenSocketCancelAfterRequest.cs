@@ -5,7 +5,7 @@ namespace Kraken.Net.Objects.Internal
     /// <summary>
     /// Place order request
     /// </summary>
-    internal class KrakenSocketCancelAfterRequest : KrakenSocketRequestBase
+    internal class KrakenSocketCancelAfterRequest : KrakenSocketAuthRequest
     {
         /// <summary>
         /// Timeout

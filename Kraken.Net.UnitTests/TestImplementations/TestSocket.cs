@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Net.WebSockets;
 using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,17 +15,15 @@ namespace Kucoin.Net.UnitTests.TestImplementations
         public bool CanConnect { get; set; }
         public bool Connected { get; set; }
 
-#pragma warning disable 8618
-        public event Action OnClose;
-        public event Action<string> OnMessage;
-        public event Action<Exception> OnError;
-        public event Action<int> OnRequestSent;
-        public event Action OnOpen;
+        public event Func<Task> OnClose;
 #pragma warning disable 0067
-        public event Action OnReconnecting;
-        public event Action OnReconnected;
+        public event Func<Task> OnReconnected;
+        public event Func<Task> OnReconnecting;
 #pragma warning restore 0067
-#pragma warning restore 8618
+        public event Func<int, Task> OnRequestSent;
+        public event Func<WebSocketMessageType, Stream, Task> OnStreamMessage;
+        public event Func<Exception, Task> OnError;
+        public event Func<Task> OnOpen;
 
         public int Id { get; }
         public bool ShouldReconnect { get; set; }
@@ -94,14 +94,16 @@ namespace Kucoin.Net.UnitTests.TestImplementations
             OnOpen?.Invoke();
         }
 
-        public void InvokeMessage(string data)
+        public async Task InvokeMessage(string data)
         {
-            OnMessage?.Invoke(data);
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes(data));
+            await OnStreamMessage?.Invoke(WebSocketMessageType.Text, stream);
         }
 
-        public void InvokeMessage<T>(T data)
+        public async Task InvokeMessage<T>(T data)
         {
-            OnMessage?.Invoke(JsonConvert.SerializeObject(data));
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data)));
+            await OnStreamMessage?.Invoke(WebSocketMessageType.Text, stream);
         }
 
         public void InvokeError(Exception error)

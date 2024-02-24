@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Kraken.Net.Objects.Models;
 using Kraken.Net.Interfaces.Clients.SpotApi;
+using Kraken.Net.ExtensionMethods;
 
 namespace Kraken.Net.Clients.SpotApi
 {

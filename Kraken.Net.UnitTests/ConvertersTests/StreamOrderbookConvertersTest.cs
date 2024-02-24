@@ -8,7 +8,7 @@ namespace Kraken.Net.UnitTests.ConvertersTests.StreamOrderbookConvertersTests
     [TestFixture]
     public class StreamOrderbookConvertersTests
     {
-        private JArray fiveElements;
+        private JArray _fiveElements;
 
         [OneTimeSetUp]
         public void SetupData()
@@ -45,18 +45,18 @@ namespace Kraken.Net.UnitTests.ConvertersTests.StreamOrderbookConvertersTests
                 ]
             ";
 
-            this.fiveElements = JArray.Parse(fiveElementsString);
+            this._fiveElements = JArray.Parse(fiveElementsString);
         }
 
         [Test]
         public void Event_Should_ParseCountOfFour()
         {
-            var testObj = StreamOrderBookConverter.Convert(this.fiveElements!);
+            var testObj = StreamOrderBookConverter.Convert(this._fiveElements!);
 
             Assert.AreEqual(2, testObj!.Data.Asks.Count());
             Assert.AreEqual(1, testObj.Data.Bids.Count());
             Assert.AreEqual(1234, testObj.ChannelId);
-            Assert.AreEqual("book-10", testObj.Topic);
+            Assert.AreEqual("book-10", testObj.ChannelName);
             Assert.AreEqual("XBT/USD", testObj.Symbol);
 
             Assert.AreEqual("0.40100000", testObj.Data.Asks.ElementAt(1).RawQuantity);

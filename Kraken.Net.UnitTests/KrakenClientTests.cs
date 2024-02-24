@@ -12,6 +12,8 @@ using CryptoExchange.Net.Objects;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Clients;
 using Kraken.Net.Clients.SpotApi;
+using Kraken.Net.ExtensionMethods;
+using CryptoExchange.Net.Objects.Sockets;
 
 namespace Kraken.Net.UnitTests
 {

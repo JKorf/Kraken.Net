@@ -9,6 +9,7 @@ using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models;
 using Kraken.Net.Objects.Models.Socket;
+using Kraken.Net.Objects.Sockets;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
@@ -25,25 +26,25 @@ namespace Kraken.Net.UnitTests
         [Test]
         public async Task ValidateTickerUpdateStreamJson()
         {
-            await TestFileToObject<KrakenSocketEvent<KrakenStreamTick>>(@"JsonResponses/Socket/TickerUpdate.txt");
+            await TestFileToObject<KrakenSocketUpdate<KrakenStreamTick>>(@"JsonResponses/Socket/TickerUpdate.txt");
         }
 
         [Test]
         public async Task ValidateKlineUpdateStreamJson()
         {
-            await TestFileToObject<KrakenSocketEvent<KrakenStreamKline>>(@"JsonResponses/Socket/KlineUpdate.txt");
+            await TestFileToObject<KrakenSocketUpdate<KrakenStreamKline>>(@"JsonResponses/Socket/KlineUpdate.txt");
         }
 
         [Test]
         public async Task ValidateTradeUpdateStreamJson()
         {
-            await TestFileToObject<KrakenSocketEvent<IEnumerable<KrakenTrade>>>(@"JsonResponses/Socket/TradeUpdate.txt");
+            await TestFileToObject<KrakenSocketUpdate<IEnumerable<KrakenTrade>>>(@"JsonResponses/Socket/TradeUpdate.txt");
         }
 
         [Test]
         public async Task ValidateSpreadUpdateStreamJson()
         {
-            await TestFileToObject<KrakenSocketEvent<KrakenStreamSpread>>(@"JsonResponses/Socket/SpreadUpdate.txt");
+            await TestFileToObject<KrakenSocketUpdate<KrakenStreamSpread>>(@"JsonResponses/Socket/SpreadUpdate.txt");
         }
 
         [Test]

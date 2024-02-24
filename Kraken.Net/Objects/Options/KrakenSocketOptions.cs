@@ -1,8 +1,5 @@
 ﻿using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects.Options;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kraken.Net.Objects.Options
 {

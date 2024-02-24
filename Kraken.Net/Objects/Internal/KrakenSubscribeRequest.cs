@@ -3,25 +3,18 @@ using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects.Internal
 {
-    internal class KrakenSubscribeRequest
+    internal class KrakenSubscribeRequest : KrakenSocketRequest
     {
-        [JsonProperty("event")]
-        public string Event { get; set; } = "subscribe";
-        [JsonProperty("reqid")]
-        public int RequestId { get; set; }
         [JsonProperty("pair", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string[]? Symbols { get; set; }
         [JsonProperty("subscription")]
         public KrakenSubscriptionDetails Details { get; set; }
 
-        [JsonIgnore]
-        public int? ChannelId { get; set; }
-
-        public KrakenSubscribeRequest(string topic, int requestId, params string[] symbols)
+        public KrakenSubscribeRequest(string topic, string? token, int? interval, bool? snapshot, int? depth, int requestId, params string[]? symbols)
         {
             RequestId = requestId;
-            Details = new KrakenSubscriptionDetails(topic);
-            if(symbols.Any())
+            Details = new KrakenSubscriptionDetails(topic, token, interval, snapshot, depth);
+            if(symbols?.Any() == true)
                 Symbols = symbols;
         }
     }
@@ -32,62 +25,24 @@ namespace Kraken.Net.Objects.Internal
         [JsonProperty("name")]
         public string Topic { get; set; }
 
-        [JsonIgnore]
-        public virtual string ChannelName => Topic;
+        [JsonProperty("token", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string? Token { get; set; }
 
-        public KrakenSubscriptionDetails(string topic)
+        [JsonProperty("interval", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int? Interval { get; set; }
+
+        [JsonProperty("snapshot", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? Snapshot { get; set; }
+
+        [JsonProperty("depth", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int? Depth { get; set; }
+
+        public KrakenSubscriptionDetails(string topic, string? token, int? interval, bool? snapshot, int? depth)
         {
             Topic = topic;
-        }
-    }
-
-    internal class KrakenOpenOrdersSubscriptionDetails : KrakenSubscriptionDetails
-    {
-        [JsonProperty("token")]
-        public string Token { get; set; }
-
-        public KrakenOpenOrdersSubscriptionDetails(string token) : base("openOrders")
-        {
             Token = token;
-        }
-    }
-
-    internal class KrakenOwnTradesSubscriptionDetails : KrakenSubscriptionDetails
-    {
-        [JsonProperty("token")]
-        public string Token { get; set; }
-        [JsonProperty("snapshot")]
-        public bool Snapshot { get; set; }
-
-        public KrakenOwnTradesSubscriptionDetails(string token, bool snapshot) : base("ownTrades")
-        {
-            Token = token;
-            Snapshot = snapshot;
-        }
-    }
-
-    internal class KrakenOHLCSubscriptionDetails: KrakenSubscriptionDetails
-    {
-        [JsonProperty("interval")]
-        public int Interval { get; set; }
-        [JsonIgnore]
-        public override string ChannelName => "ohlc-"+Interval;
-
-        public KrakenOHLCSubscriptionDetails(int interval) : base("ohlc")
-        {
             Interval = interval;
-        }
-    }
-
-    internal class KrakenDepthSubscriptionDetails : KrakenSubscriptionDetails
-    {
-        [JsonProperty("depth")]
-        public int Depth { get; set; }
-        [JsonIgnore]
-        public override string ChannelName => "book-" + Depth;
-
-        public KrakenDepthSubscriptionDetails(int depth) : base("book")
-        {
+            Snapshot = snapshot;
             Depth = depth;
         }
     }

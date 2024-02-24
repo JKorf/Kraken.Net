@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Converters;
+using Kraken.Net.Objects.Sockets;
 using Newtonsoft.Json;
 using System;
 
@@ -7,7 +8,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Heartbeat
     /// </summary>
-    public class KrakenFuturesHeartbeatUpdate : KrakenFuturesUpdateMessage
+    public class KrakenFuturesHeartbeatUpdate : KrakenFuturesEvent
     {
         /// <summary>
         /// Timestamp

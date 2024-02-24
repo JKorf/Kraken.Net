@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kraken.Net.Enums
+﻿namespace Kraken.Net.Enums
 {
     /// <summary>
     /// Flags for an order

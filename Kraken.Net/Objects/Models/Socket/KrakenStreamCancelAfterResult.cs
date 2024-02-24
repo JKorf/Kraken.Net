@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Kraken.Net.Objects.Sockets;
+using System;
 
 namespace Kraken.Net.Objects.Models.Socket
 {
     /// <summary>
     /// Cancel after result
     /// </summary>
-    public class KrakenStreamCancelAfterResult : KrakenSocketResponseBase
+    public class KrakenStreamCancelAfterResult : KrakenQueryEvent
     {
         /// <summary>
         /// Current time

@@ -8,30 +8,44 @@ using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Converters;
 using CryptoExchange.Net.Objects;
+using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.MessageParsing;
+using CryptoExchange.Net.Sockets.MessageParsing.Interfaces;
 using Kraken.Net.Converters;
 using Kraken.Net.Enums;
+using Kraken.Net.ExtensionMethods;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models;
 using Kraken.Net.Objects.Models.Socket;
 using Kraken.Net.Objects.Options;
+using Kraken.Net.Objects.Sockets;
+using Kraken.Net.Objects.Sockets.Queries;
+using Kraken.Net.Objects.Sockets.Subscriptions.Spot;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc />
     public class KrakenSocketClientSpotApi : SocketApiClient, IKrakenSocketClientSpotApi
     {
+        private static readonly MessagePath _idPath = MessagePath.Get().Property("reqid");
+        private static readonly MessagePath _eventPath = MessagePath.Get().Property("event");
+        private static readonly MessagePath _item1Path = MessagePath.Get().Index(1);
+        private static readonly MessagePath _item2Path = MessagePath.Get().Index(2);
+        private static readonly MessagePath _item3Path = MessagePath.Get().Index(3);
+        private static readonly MessagePath _item4Path = MessagePath.Get().Index(4);
+
         #region fields                
         private readonly Dictionary<string, string> _symbolSynonyms;
         private readonly string _privateBaseAddress;
 
         /// <inheritdoc />
         public new KrakenSocketOptions ClientOptions => (KrakenSocketOptions)base.ClientOptions;
+
         #endregion
 
         #region ctor
@@ -46,11 +60,37 @@ namespace Kraken.Net.Clients.SpotApi
                 { "DOGE", "XDG" }
             };
 
-            AddGenericHandler("HeartBeat", (messageEvent) => { });
-            AddGenericHandler("SystemStatus", (messageEvent) => { });
-            AddGenericHandler("AdditionalSubResponses", (messageEvent) => { });
+            AddSystemSubscription(new HeartbeatSubscription(_logger));
+            AddSystemSubscription(new SystemStatusSubscription(_logger));
+
+            //AddGenericHandler("AdditionalSubResponses", (messageEvent) => { });
         }
         #endregion
+
+        /// <inheritdoc />
+        public override string? GetListenerIdentifier(IMessageAccessor message)
+        {
+            var id = message.GetValue<string>(_idPath);
+            if (id != null)
+                return id;
+
+            var evnt = message.GetValue<string>(_eventPath);
+            if (evnt != null)
+                return evnt;
+
+            var arr3 = message.GetValue<string>(_item3Path);
+            var arr4 = message.GetValue<string>(_item4Path);
+            if (arr4 != null)
+                return arr3!.ToLowerInvariant() + "-" + arr4.ToLowerInvariant();
+
+            var arr2 = message.GetValue<string>(_item2Path);
+            if (arr2 != null)
+                return arr2.ToLowerInvariant() + "-" + arr3!.ToLowerInvariant();
+
+            var arr1 = message.GetValue<string>(_item1Path);
+
+            return arr1;
+        }
 
         /// <inheritdoc />
         protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
@@ -61,21 +101,20 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToSystemStatusUpdatesAsync(Action<DataEvent<KrakenStreamSystemStatus>> handler, CancellationToken ct = default)
         {
-            return await SubscribeAsync(null, "SystemStatus", false, handler, ct).ConfigureAwait(false);
+            var subscription = new KrakenSystemStatusSubscription(_logger, handler);
+            return await SubscribeAsync(subscription, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenStreamTick>> handler, CancellationToken ct = default)
         {
             symbol.ValidateKrakenWebsocketSymbol();
+
             var subSymbol = SymbolToServer(symbol);
-            var internalHandler = new Action<DataEvent<KrakenSocketEvent<KrakenStreamTick>>>(data =>
-            {
-                handler(data.As(data.Data.Data, symbol));
-            });
-            return await SubscribeAsync(new KrakenSubscribeRequest("ticker", ExchangeHelpers.NextId(), subSymbol), null, false, internalHandler, ct).ConfigureAwait(false);
+            var subscription = new KrakenSubscription<KrakenStreamTick>(_logger, "ticker", new[] { symbol }, null, null, handler);
+            return await SubscribeAsync(subscription, ct).ConfigureAwait(false);
         }
-        
+
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenStreamTick>> handler, CancellationToken ct = default)
         {
@@ -85,69 +124,54 @@ namespace Kraken.Net.Clients.SpotApi
                 symbolArray[i].ValidateKrakenWebsocketSymbol();
                 symbolArray[i] = SymbolToServer(symbolArray[i]);
             }
-            var internalHandler = new Action<DataEvent<KrakenSocketEvent<KrakenStreamTick>>>(data =>
-            {
-                handler(data.As(data.Data.Data, data.Data.Symbol));
-            });
 
-            return await SubscribeAsync(new KrakenSubscribeRequest("ticker", ExchangeHelpers.NextId(), symbolArray), null, false, internalHandler, ct).ConfigureAwait(false);
+            var subscription = new KrakenSubscription<KrakenStreamTick>(_logger, "ticker", symbols, null, null, handler);
+            return await SubscribeAsync(subscription, ct).ConfigureAwait(false);
         }
 
-		/// <inheritdoc />
+        /// <inheritdoc />
         public Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, KlineInterval interval, Action<DataEvent<KrakenStreamKline>> handler, CancellationToken ct = default)
             => SubscribeToKlineUpdatesAsync(new[] { symbol }, interval, handler, ct);
 
-		/// <inheritdoc />
-		public async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(IEnumerable<string> symbols, KlineInterval interval, Action<DataEvent<KrakenStreamKline>> handler, CancellationToken ct = default)
-		{
-			foreach (var symbol in symbols)
-				symbol.ValidateKrakenWebsocketSymbol();
+        /// <inheritdoc />
+        public async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(IEnumerable<string> symbols, KlineInterval interval, Action<DataEvent<KrakenStreamKline>> handler, CancellationToken ct = default)
+        {
+            foreach (var symbol in symbols)
+                symbol.ValidateKrakenWebsocketSymbol();
 
-			var subSymbols = symbols.Select(SymbolToServer);
+            var subSymbols = symbols.Select(SymbolToServer);
 
-			var intervalMinutes = int.Parse(JsonConvert.SerializeObject(interval, new KlineIntervalConverter(false)));
-            var internalHandler = new Action<DataEvent<KrakenSocketEvent<KrakenStreamKline>>>(data =>
-            {
-                handler(data.As(data.Data.Data, data.Data.Symbol));
-            });
-
-            return await SubscribeAsync(new KrakenSubscribeRequest("ohlc", ExchangeHelpers.NextId(), subSymbols.ToArray()) { Details = new KrakenOHLCSubscriptionDetails(intervalMinutes) }, null, false, internalHandler, ct).ConfigureAwait(false);
+            var subscription = new KrakenSubscription<KrakenStreamKline>(_logger, "ohlc", subSymbols.ToArray(), int.Parse(JsonConvert.SerializeObject(interval, new KlineIntervalConverter(false))), null, handler);
+            return await SubscribeAsync(subscription, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<IEnumerable<KrakenTrade>>> handler, CancellationToken ct = default)
             => SubscribeToTradeUpdatesAsync(new[] { symbol }, handler, ct);
 
-		/// <inheritdoc />
-		public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<IEnumerable<KrakenTrade>>> handler, CancellationToken ct = default)
+        /// <inheritdoc />
+        public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<IEnumerable<KrakenTrade>>> handler, CancellationToken ct = default)
         {
-			foreach (var symbol in symbols)
-				symbol.ValidateKrakenWebsocketSymbol();
+            foreach (var symbol in symbols)
+                symbol.ValidateKrakenWebsocketSymbol();
 
-			var subSymbols = symbols.Select(SymbolToServer);
-			var internalHandler = new Action<DataEvent<KrakenSocketEvent<IEnumerable<KrakenTrade>>>>(data =>
-            {
-                handler(data.As(data.Data.Data, data.Data.Symbol));
-            });
-            return await SubscribeAsync(new KrakenSubscribeRequest("trade", ExchangeHelpers.NextId(), subSymbols.ToArray()), null, false, internalHandler, ct).ConfigureAwait(false);
+            var subSymbols = symbols.Select(SymbolToServer);
+            var subscription = new KrakenSubscription<IEnumerable<KrakenTrade>>(_logger, "trade", symbols.ToArray(), null, null, handler);
+            return await SubscribeAsync(subscription, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(string symbol, Action<DataEvent<KrakenStreamSpread>> handler, CancellationToken ct = default)
             => SubscribeToSpreadUpdatesAsync(new[] { symbol }, handler, ct);
 
-		/// <inheritdoc />
-		public async Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenStreamSpread>> handler, CancellationToken ct = default)
+        /// <inheritdoc />
+        public async Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenStreamSpread>> handler, CancellationToken ct = default)
         {
-            foreach(var symbol in symbols)
+            foreach (var symbol in symbols)
                 symbol.ValidateKrakenWebsocketSymbol();
 
-            var subSymbols = symbols.Select(SymbolToServer);
-            var internalHandler = new Action<DataEvent<KrakenSocketEvent<KrakenStreamSpread>>>(data =>
-            {
-                handler(data.As(data.Data.Data, data.Data.Symbol));
-            });
-            return await SubscribeAsync(new KrakenSubscribeRequest("spread", ExchangeHelpers.NextId(), subSymbols.ToArray()), null, false, internalHandler, ct).ConfigureAwait(false);
+            var subscription = new KrakenSubscription<KrakenStreamSpread>(_logger, "spread", symbols.ToArray(), null, null, handler);
+            return await SubscribeAsync(subscription, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -157,120 +181,59 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
 		public async Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(IEnumerable<string> symbols, int depth, Action<DataEvent<KrakenStreamOrderBook>> handler, CancellationToken ct = default)
         {
-            foreach(var symbol in symbols)
+            foreach (var symbol in symbols)
                 symbol.ValidateKrakenWebsocketSymbol();
 
             depth.ValidateIntValues(nameof(depth), 10, 25, 100, 500, 1000);
             var subSymbols = symbols.Select(SymbolToServer);
 
-            var innerHandler = new Action<DataEvent<string>>(data =>
-            {
-                var token = data.Data.ToJToken(_logger);
-                if (token == null || token.Type != JTokenType.Array)
-                {
-                    _logger.Log(LogLevel.Warning, "Failed to deserialize stream order book");
-                    return;
-                }
-                var evnt = StreamOrderBookConverter.Convert((JArray)token);
-                if (evnt == null)
-                {
-                    _logger.Log(LogLevel.Warning, "Failed to deserialize stream order book");
-                    return;
-                }
-
-                handler(data.As(evnt.Data, evnt.Symbol));
-            });
-
-            return await SubscribeAsync(new KrakenSubscribeRequest("book", ExchangeHelpers.NextId(), subSymbols.ToArray()) { Details = new KrakenDepthSubscriptionDetails(depth) }, null, false, innerHandler, ct).ConfigureAwait(false);
+            var subscription = new KrakenBookSubscription(_logger, symbols.ToArray(), depth, handler);
+            return await SubscribeAsync(subscription, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(string socketToken, Action<DataEvent<KrakenStreamOrder>> handler, CancellationToken ct = default)
+        public async Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(string socketToken, Action<DataEvent<IEnumerable<KrakenStreamOrder>>> handler, CancellationToken ct = default)
         {
-            var innerHandler = new Action<DataEvent<string>>(data =>
+            var innerHandler = new Action<DataEvent<KrakenAuthSocketUpdate<IEnumerable<Dictionary<string, KrakenStreamOrder>>>>>(data =>
             {
-                var token = data.Data.ToJToken(_logger);
-                if (token != null && token.Count() > 2)
+                foreach (var item in data.Data.Data)
                 {
-                    var seq = token[2]!["sequence"];
-                    if (seq == null)
-                        _logger.Log(LogLevel.Warning, "Failed to deserialize stream order, no sequence");
-
-                    var sequence = seq!.Value<int>();
-                    if (token[0]!.Type == JTokenType.Array)
+                    foreach (var value in item)
                     {
-                        var dataArray = (JArray)token[0]!;
-                        var deserialized = Deserialize<Dictionary<string, KrakenStreamOrder>[]>(dataArray);
-                        if (deserialized)
-                        {
-                            foreach (var entry in deserialized.Data)
-                            {
-                                foreach (var dEntry in entry)
-                                {
-                                    dEntry.Value.Id = dEntry.Key;
-                                    dEntry.Value.SequenceNumber = sequence;
-                                    handler?.Invoke(data.As(dEntry.Value, dEntry.Value.OrderDetails?.Symbol));
-                                }
-                            }
-                            return;
-                        }
+                        value.Value.Id = value.Key;
+                        value.Value.SequenceNumber = data.Data.Sequence.Sequence;
                     }
                 }
 
-                _logger.Log(LogLevel.Warning, "Failed to deserialize stream order");
+                handler.Invoke(data.As<IEnumerable<KrakenStreamOrder>>(data.Data.Data.SelectMany(d => d.Values).ToList()));
             });
 
-            return await SubscribeAsync(_privateBaseAddress, new KrakenSubscribeRequest("openOrders", ExchangeHelpers.NextId())
-            {
-                Details = new KrakenOpenOrdersSubscriptionDetails(socketToken)
-            }, null, false, innerHandler, ct).ConfigureAwait(false);
+            var subscription = new KrakenAuthSubscription<IEnumerable<Dictionary<string, KrakenStreamOrder>>>(_logger, "openOrders", socketToken, innerHandler);
+            return await SubscribeAsync(_privateBaseAddress, subscription, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        public Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(string socketToken, Action<DataEvent<KrakenStreamUserTrade>> handler, CancellationToken ct = default)
+        public Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(string socketToken, Action<DataEvent<IEnumerable<KrakenStreamUserTrade>>> handler, CancellationToken ct = default)
             => SubscribeToUserTradeUpdatesAsync(socketToken, true, handler, ct);
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(string socketToken, bool snapshot, Action<DataEvent<KrakenStreamUserTrade>> handler, CancellationToken ct = default)
+        public async Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(string socketToken, bool snapshot, Action<DataEvent<IEnumerable<KrakenStreamUserTrade>>> handler, CancellationToken ct = default)
         {
-            var innerHandler = new Action<DataEvent<string>>(data =>
+            var innerHandler = new Action<DataEvent<KrakenAuthSocketUpdate<IEnumerable<Dictionary<string, KrakenStreamUserTrade>>>>>(data =>
             {
-                var token = data.Data.ToJToken(_logger);
-                if (token != null && token.Count() > 2)
+                foreach (var item in data.Data.Data)
                 {
-                    var seq = token[2]!["sequence"];
-                    if (seq == null)
-                        _logger.Log(LogLevel.Warning, "Failed to deserialize stream order, no sequence");
-
-                    var sequence = seq!.Value<int>();
-                    if (token[0]!.Type == JTokenType.Array)
+                    foreach (var value in item)
                     {
-                        var dataArray = (JArray)token[0]!;
-                        var deserialized = Deserialize<Dictionary<string, KrakenStreamUserTrade>[]>(dataArray);
-                        if (deserialized)
-                        {
-                            foreach (var entry in deserialized.Data)
-                            {
-                                foreach (var item in entry)
-                                {
-                                    item.Value.Id = item.Key;
-                                    item.Value.SequenceNumber = sequence;
-                                    handler?.Invoke(data.As(item.Value, item.Value.Symbol));
-                                }
-                            }
-
-                            return;
-                        }
+                        value.Value.Id = value.Key;
+                        value.Value.SequenceNumber = data.Data.Sequence.Sequence;
                     }
                 }
-
-                _logger.Log(LogLevel.Warning, "Failed to deserialize stream order");
+                handler.Invoke(data.As(data.Data.Data.SelectMany(d => d.Values)));
             });
 
-            return await SubscribeAsync(_privateBaseAddress, new KrakenSubscribeRequest("ownTrades", ExchangeHelpers.NextId())
-            {
-                Details = new KrakenOwnTradesSubscriptionDetails(socketToken, snapshot)
-            }, null, false, innerHandler, ct).ConfigureAwait(false);
+            var subscription = new KrakenAuthSubscription<IEnumerable<Dictionary<string, KrakenStreamUserTrade>>>(_logger, "ownTrades", socketToken, innerHandler);
+            return await SubscribeAsync(_privateBaseAddress, subscription, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -305,7 +268,7 @@ namespace Kraken.Net.Clients.SpotApi
                 Price = price?.ToString(CultureInfo.InvariantCulture),
                 SecondaryPrice = secondaryPrice?.ToString(CultureInfo.InvariantCulture),
                 Leverage = leverage?.ToString(CultureInfo.InvariantCulture),
-                StartTime = (startTime.HasValue && startTime > DateTime.UtcNow) ? DateTimeConverter.ConvertToSeconds(startTime).ToString(): null,
+                StartTime = (startTime.HasValue && startTime > DateTime.UtcNow) ? DateTimeConverter.ConvertToSeconds(startTime).ToString() : null,
                 ExpireTime = expireTime.HasValue ? DateTimeConverter.ConvertToSeconds(expireTime).ToString() : null,
                 ValidateOnly = validateOnly,
                 CloseOrderType = closeOrderType,
@@ -313,10 +276,11 @@ namespace Kraken.Net.Clients.SpotApi
                 SecondaryClosePrice = secondaryClosePrice?.ToString(CultureInfo.InvariantCulture),
                 ReduceOnly = reduceOnly,
                 RequestId = ExchangeHelpers.NextId(),
-                Flags = flags == null ? null: string.Join(",", flags.Select(f => JsonConvert.SerializeObject(f, new OrderFlagsConverter(false))))
+                Flags = flags == null ? null : string.Join(",", flags.Select(f => JsonConvert.SerializeObject(f, new OrderFlagsConverter(false))))
             };
 
-            return await QueryAsync<KrakenStreamPlacedOrder>(_privateBaseAddress, request, false).ConfigureAwait(false);
+            var query = new KrakenSpotQuery<KrakenStreamPlacedOrder>(request, false);
+            return await QueryAsync(_privateBaseAddress, query).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -333,20 +297,24 @@ namespace Kraken.Net.Clients.SpotApi
                 Token = websocketToken,
                 RequestId = ExchangeHelpers.NextId()
             };
-            var result = await QueryAsync<KrakenSocketResponseBase>(_privateBaseAddress, request, false).ConfigureAwait(false);
+
+            var query = new KrakenSpotQuery<KrakenQueryEvent>(request, false);
+            var result = await QueryAsync(_privateBaseAddress, query).ConfigureAwait(false);
             return result.As(result.Success);
         }
 
         /// <inheritdoc />
         public async Task<CallResult<KrakenStreamCancelAllResult>> CancelAllOrdersAsync(string websocketToken)
         {
-            var request = new KrakenSocketRequestBase
+            var request = new KrakenSocketAuthRequest
             {
                 Event = "cancelAll",
                 Token = websocketToken,
                 RequestId = ExchangeHelpers.NextId()
             };
-            return await QueryAsync<KrakenStreamCancelAllResult>(_privateBaseAddress, request, false).ConfigureAwait(false);
+
+            var query = new KrakenSpotQuery<KrakenStreamCancelAllResult>(request, false);
+            return await QueryAsync(_privateBaseAddress, query).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -359,7 +327,9 @@ namespace Kraken.Net.Clients.SpotApi
                 Timeout = (int)Math.Round(timeout.TotalSeconds),
                 RequestId = ExchangeHelpers.NextId()
             };
-            return await QueryAsync<KrakenStreamCancelAfterResult>(_privateBaseAddress, request, false).ConfigureAwait(false);
+
+            var query = new KrakenSpotQuery<KrakenStreamCancelAfterResult>(request, false);
+            return await QueryAsync(_privateBaseAddress, query).ConfigureAwait(false);
         }
         #endregion
 
@@ -381,223 +351,24 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
-        protected override async Task<CallResult<object>> RevitalizeRequestAsync(object request)
+        protected override async Task<CallResult> RevitalizeRequestAsync(Subscription subscription)
         {
-            var kRequest = (KrakenSubscribeRequest)request;
-            var payloadType = kRequest.Details.GetType();
-            if(payloadType == typeof(KrakenOpenOrdersSubscriptionDetails)
-                || payloadType == typeof(KrakenOwnTradesSubscriptionDetails))
+            if (!(subscription is KrakenAuthSubscription authSubscription))
+                return new CallResult(null);
+
+            var apiCredentials = ApiOptions.ApiCredentials ?? ClientOptions.ApiCredentials;
+            var restClient = new KrakenRestClient(x =>
             {
-                var apiCredentials = ApiOptions.ApiCredentials ?? ClientOptions.ApiCredentials;
-                var restClient = new KrakenRestClient(x =>
-                {
-                    x.ApiCredentials = apiCredentials;
-                    x.Environment = ClientOptions.Environment;
-                });
-                                
-                var newToken = await restClient.SpotApi.Account.GetWebsocketTokenAsync().ConfigureAwait(false);
-                if (!newToken.Success)
-                    return newToken.As<object>(null);
+                x.ApiCredentials = apiCredentials;
+                x.Environment = ClientOptions.Environment;
+            });
 
-                if (payloadType == typeof(KrakenOpenOrdersSubscriptionDetails))
-                    ((KrakenOpenOrdersSubscriptionDetails)kRequest.Details).Token = newToken.Data.Token;
+            var newToken = await restClient.SpotApi.Account.GetWebsocketTokenAsync().ConfigureAwait(false);
+            if (!newToken.Success)
+                return newToken.AsDataless();
 
-                else if (payloadType == typeof(KrakenOwnTradesSubscriptionDetails))
-                    ((KrakenOwnTradesSubscriptionDetails)kRequest.Details).Token = newToken.Data.Token;
-            }
-
-            return new CallResult<object>(kRequest);
-        }
-
-        /// <inheritdoc />
-        protected override bool HandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
-        {
-            callResult = null!;
-
-            if (data.Type != JTokenType.Object)
-                return false;
-
-            var kRequest = (KrakenSocketRequestBase)request;
-            var responseId = data["reqid"];
-            if (responseId == null)
-                return false;
-
-            if (kRequest.RequestId != int.Parse(responseId.ToString()))
-                return false;
-
-            var error = data["errorMessage"]?.ToString();
-            if (!string.IsNullOrEmpty(error))
-            {
-                callResult = new CallResult<T>(new ServerError(error!));
-                return true;
-            }
-
-            var response = data.ToObject<T>();
-            callResult = new CallResult<T>(response!);
-            return true;
-        }
-
-        /// <inheritdoc />
-        protected override bool HandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object>? callResult)
-        {
-            callResult = null;
-            if (message.Type != JTokenType.Object)
-                return false;
-
-            if (message["reqid"] == null)
-                return false;
-
-            var requestId = message["reqid"]!.Value<int>();
-            var kRequest = (KrakenSubscribeRequest)request;
-            if (requestId != kRequest.RequestId)
-                return false;
-
-            var response = message.ToObject<KrakenSubscriptionEvent>();
-            if (response == null)
-            {
-                callResult = new CallResult<object>(new UnknownError("Failed to parse subscription response"));
-                return true;
-            }
-
-            if (response.ChannelId != 0)
-                kRequest.ChannelId = response.ChannelId;
-            callResult = response.Status == "subscribed" ? new CallResult<object>(response) : new CallResult<object>(new ServerError(response.ErrorMessage ?? "-"));
-            return true;
-        }
-
-        /// <inheritdoc />
-        protected override bool MessageMatchesHandler(SocketConnection socketConnection, JToken message, object request)
-        {
-            if (message.Type != JTokenType.Array)
-                return false;
-
-            var kRequest = (KrakenSubscribeRequest)request;
-            var arr = (JArray)message;
-
-            string channel;
-            string symbol;
-            if (arr.Count == 5)
-            {
-                channel = arr[3].ToString();
-                symbol = arr[4].ToString();
-            }
-            else if (arr.Count == 4)
-            {
-                // Public update
-                channel = arr[2].ToString();
-                symbol = arr[3].ToString();
-            }
-            else
-            {
-                // Private update
-                var topic = arr[1].ToString();
-                return topic == kRequest.Details.Topic;
-            }
-
-            if (kRequest.Details.ChannelName != channel)
-                return false;
-
-            if (kRequest.Symbols == null)
-                return false;
-
-            foreach (var subSymbol in kRequest.Symbols)
-            {
-                if (subSymbol == symbol)
-                    return true;
-            }
-            return false;
-        }
-
-        /// <inheritdoc />
-        protected override bool MessageMatchesHandler(SocketConnection socketConnection, JToken message, string identifier)
-        {
-            if (message.Type != JTokenType.Object)
-                return false;
-
-            if (identifier == "HeartBeat" && message["event"] != null && message["event"]!.ToString() == "heartbeat")
-                return true;
-
-            if (identifier == "SystemStatus" && message["event"] != null && message["event"]!.ToString() == "systemStatus")
-                return true;
-
-            if (identifier == "AdditionalSubResponses")
-            {
-                if (message.Type != JTokenType.Object)
-                    return false;
-
-                if (message["reqid"] == null)
-                    return false;
-
-                var requestId = message["reqid"]!.Value<int>();
-                var subscription = socketConnection.GetSubscriptionByRequest(r => (r as KrakenSubscribeRequest)?.RequestId == requestId);
-                if (subscription == null)
-                    return false;
-
-                // This is another message for subscription we've already subscribed
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <inheritdoc />
-        protected override Task<CallResult<bool>> AuthenticateSocketAsync(SocketConnection s)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        /// <inheritdoc />
-        protected override async Task<bool> UnsubscribeAsync(SocketConnection connection, SocketSubscription subscription)
-        {
-            var kRequest = (KrakenSubscribeRequest)subscription.Request!;
-            KrakenUnsubscribeRequest unsubRequest;
-            if (!kRequest.ChannelId.HasValue)
-            {
-                if (kRequest.Details?.Topic == "ownTrades")
-                {
-                    unsubRequest = new KrakenUnsubscribeRequest(ExchangeHelpers.NextId(), new KrakenUnsubscribeSubscription
-                    {
-                        Name = "ownTrades",
-                        Token = ((KrakenOwnTradesSubscriptionDetails)kRequest.Details).Token
-                    });
-                }
-                else if (kRequest.Details?.Topic == "openOrders")
-                {
-                    unsubRequest = new KrakenUnsubscribeRequest(ExchangeHelpers.NextId(), new KrakenUnsubscribeSubscription
-                    {
-                        Name = "openOrders",
-                        Token = ((KrakenOpenOrdersSubscriptionDetails)kRequest.Details).Token
-                    });
-                }
-                else
-                {
-                    return true; // No channel id assigned, nothing to unsub
-                }
-            }
-            else
-            {
-                unsubRequest = new KrakenUnsubscribeRequest(ExchangeHelpers.NextId(), kRequest.ChannelId.Value);
-            }
-
-            var result = false;
-            await connection.SendAndWaitAsync(unsubRequest, ClientOptions.RequestTimeout, null, 1, data =>
-            {
-                if (data.Type != JTokenType.Object)
-                    return false;
-
-                if (data["reqid"] == null)
-                    return false;
-
-                var requestId = data["reqid"]!.Value<int>();
-                if (requestId != unsubRequest.RequestId)
-                    return false;
-
-                var response = data.ToObject<KrakenSubscriptionEvent>();
-                result = response!.Status == "unsubscribed";
-                return true;
-            }).ConfigureAwait(false);
-            return result;
+            authSubscription.UpdateToken(newToken.Data.Token);
+            return new CallResult(null);
         }
     }
 }

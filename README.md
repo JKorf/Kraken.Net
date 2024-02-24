@@ -1,14 +1,105 @@
-# Kraken.Net
-[![.NET](https://github.com/JKorf/Kraken.Net/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JKorf/Kraken.Net/actions/workflows/dotnet.yml) [![Nuget version](https://img.shields.io/nuget/v/KrakenExchange.net.svg)](https://www.nuget.org/packages/KrakenExchange.Net)  [![Nuget downloads](https://img.shields.io/nuget/dt/KrakenExchange.Net.svg)](https://www.nuget.org/packages/KrakenExchange.Net)
+# ![.Kraken.Net](https://github.com/JKorf/Kraken.Net/blob/master/Kraken.Net/Icon/icon.png?raw=true) Kraken.Net
+
+[![.NET](https://img.shields.io/github/actions/workflow/status/JKorf/Kraken.Net/dotnet.yml?style=for-the-badge)](https://github.com/JKorf/Kraken.Net/actions/workflows/dotnet.yml) ![License](https://img.shields.io/github/license/JKorf/Kraken.Net?style=for-the-badge)
 
 Kraken.Net is a wrapper around the Kraken API as described on [Kraken](https://www.kraken.com/features/api), including all features the API provides using clear and readable objects, both for the REST  as the websocket API's.
 
-**If you think something is broken, something is missing or have any questions, please open an [Issue](https://github.com/JKorf/Kraken.Net/issues)**
+## Supported Frameworks
+The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for optimal compatibility
 
-[Documentation](https://jkorf.github.io/Kraken.Net/)
+|.NET implementation|Version Support|
+|--|--|
+|.NET Core|`2.0` and higher|
+|.NET Framework|`4.6.1` and higher|
+|Mono|`5.4` and higher|
+|Xamarin.iOS|`10.14` and higher|
+|Xamarin.Android|`8.0` and higher|
+|UWP|`10.0.16299` and higher|
+|Unity|`2018.1` and higher|
 
-## Installation
-`dotnet add package KrakenExchange.Net`
+## Get the library
+[![Nuget version](https://img.shields.io/nuget/v/KrakenExchange.net.svg?style=for-the-badge)](https://www.nuget.org/packages/KrakenExchange.Net)  [![Nuget downloads](https://img.shields.io/nuget/dt/KrakenExchange.Net.svg?style=for-the-badge)](https://www.nuget.org/packages/KrakenExchange.Net)
+
+	dotnet add package KrakenExchange.Net
+
+## How to use
+* REST Endpoints
+	```csharp
+	// Get the ETH/USD ticker via rest request
+	var restClient = new KrakenRestClient();
+	var tickerResult = await restClient.SpotApi.ExchangeData.GetTickerAsync("ETHUSD");
+	var lastPrice = tickerResult.Data.First().Value.LastTrade.Price;
+	```
+* Websocket streams
+	```csharp
+	// Subscribe to ETH/USD ticker updates via the websocket API
+	var socketClient = new KrakenSocketClient();
+	var tickerSubscriptionResult = socketClient.SpotApi.SubscribeToTickerUpdatesAsync("ETH/USD", (update) =>
+	{
+		var lastPrice = update.Data.LastTrade.Price;
+	});
+	```
+
+For information on the clients, dependency injection, response processing and more see the [documentation](https://jkorf.github.io/CryptoExchange.Net), or have a look at the examples  [here](https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples).
+
+## CryptoExchange.Net
+Kraken.Net is based on the [CryptoExchange.Net](https://github.com/JKorf/CryptoExchange.Net) base library. Other exchange API implementations based on the CryptoExchange.Net base library are available and follow the same logic.
+
+CryptoExchange.Net also allows for [easy access to different exchange API's](https://jkorf.github.io/CryptoExchange.Net#idocs_common).
+
+|Exchange|Repository|Nuget|
+|--|--|--|
+|Binance|[JKorf/Binance.Net](https://github.com/JKorf/Binance.Net)|[![Nuget version](https://img.shields.io/nuget/v/Binance.net.svg?style=flat-square)](https://www.nuget.org/packages/Binance.Net)|
+|Bitfinex|[JKorf/Bitfinex.Net](https://github.com/JKorf/Bitfinex.Net)|[![Nuget version](https://img.shields.io/nuget/v/Bitfinex.net.svg?style=flat-square)](https://www.nuget.org/packages/Bitfinex.Net)|
+|Bitget|[JKorf/Bitget.Net](https://github.com/JKorf/Bitget.Net)|[![Nuget version](https://img.shields.io/nuget/v/Bybit.net.svg?style=flat-square)](https://www.nuget.org/packages/JK.Bitget.Net)|
+|Bybit|[JKorf/Bybit.Net](https://github.com/JKorf/Bybit.Net)|[![Nuget version](https://img.shields.io/nuget/v/Bybit.net.svg?style=flat-square)](https://www.nuget.org/packages/Bybit.Net)|
+|CoinEx|[JKorf/CoinEx.Net](https://github.com/JKorf/CoinEx.Net)|[![Nuget version](https://img.shields.io/nuget/v/CoinEx.net.svg?style=flat-square)](https://www.nuget.org/packages/CoinEx.Net)|
+|CoinGecko|[JKorf/CoinGecko.Net](https://github.com/JKorf/CoinGecko.Net)|[![Nuget version](https://img.shields.io/nuget/v/CoinGecko.net.svg?style=flat-square)](https://www.nuget.org/packages/CoinGecko.Net)|
+|Huobi|[JKorf/Huobi.Net](https://github.com/JKorf/Huobi.Net)|[![Nuget version](https://img.shields.io/nuget/v/Huobi.net.svg?style=flat-square)](https://www.nuget.org/packages/Huobi.Net)|
+|Kucoin|[JKorf/Kucoin.Net](https://github.com/JKorf/Kucoin.Net)|[![Nuget version](https://img.shields.io/nuget/v/Kucoin.net.svg?style=flat-square)](https://www.nuget.org/packages/Kucoin.Net)|
+|Mexc|[JKorf/Mexc.Net](https://github.com/JKorf/Mexc.Net)|[![Nuget version](https://img.shields.io/nuget/v/JK.Mexc.net.svg?style=flat-square)](https://www.nuget.org/packages/JK.Mexc.Net)|
+|OKX|[JKorf/OKX.Net](https://github.com/JKorf/OKX.Net)|[![Nuget version](https://img.shields.io/nuget/v/JK.OKX.net.svg?style=flat-square)](https://www.nuget.org/packages/JK.OKX.Net)|
+
+## Discord
+[![Nuget version](https://img.shields.io/discord/847020490588422145?style=for-the-badge)](https://discord.gg/MSpeEtSY8t)  
+A Discord server is available [here](https://discord.gg/MSpeEtSY8t). Feel free to join for discussion and/or questions around the CryptoExchange.Net and implementation libraries.
+
+## Supported functionality
+
+### Spot Api
+|API|Supported|Location|
+|--|--:|--|
+|Market Data|✓|`restClient.SpotApi.ExchangeData`|
+|Account Data|✓|`restClient.SpotApi.Account` / `restClient.SpotApi.Trading`|
+|Trading|✓|`restClient.SpotApi.Trading`|
+|Funding|✓|`restClient.SpotApi.Account`|
+|Subaccounts|X||
+|Earn|X||
+|Websocket Public Messages|✓|`socketClient.SpotApi`|
+|Websocket Private Messages|✓|`socketClient.SpotApi`|
+
+### Futures Api
+|API|Supported|Location|
+|--|--:|--|
+|Account Information|✓|`restClient.FuturesApi.Account`|
+|Assignment Program|X||
+|Fee Schedules|✓|`restClient.FuturesApi.ExchangeData`|
+|General|✓|`restClient.FuturesApi.ExchangeData`|
+|Historical data|✓|`restClient.FuturesApi.Trading`|
+|Historical Funding Rates|✓|`restClient.FuturesApi.ExchangeData`|
+|Instrument Details|✓|`restClient.FuturesApi.ExchangeData`|
+|Market Data|✓|`restClient.FuturesApi.ExchangeData`|
+|Multi-Collateral|✓|`restClient.FuturesApi.Account` / `restClient.FuturesApi.Trading`|
+|Order Management|✓|`restClient.FuturesApi.Trading`|
+|Subaccounts|X||
+|Trading settings|X||
+|Transfers|✓|`restClient.FuturesApi.Account`|
+|Account History|✓|`restClient.FuturesApi.Account` / `restClient.FuturesApi.Trading`|
+|Market History|✓|`restClient.FuturesApi.ExchangeData`|
+|Analytics|X||
+|Candles|✓|`restClient.FuturesApi.ExchangeData`|
+|Websocket Public Feeds|✓|`socketClient.FuturesApi`|
+|Websocket Private Feeds|✓|`socketClient.FuturesApi`|
 
 ## Support the project
 I develop and maintain this package on my own for free in my spare time, any support is greatly appreciated.
@@ -22,10 +113,16 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 ### Sponsor
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
-## Discord
-A Discord server is available [here](https://discord.gg/MSpeEtSY8t). For discussion and/or questions around the CryptoExchange.Net and implementation libraries, feel free to join.
-
 ## Release notes
+* Version 4.3.0-beta2 - 21 Feb 2024
+    * Fix for reconnecting authenticated websocket connections
+
+* Version 4.3.0-beta1 - 06 Feb 2024
+    * Updated CryptoExchange.Net and implemented reworked websocket message handling. For release notes for the CryptoExchange.Net base library see: https://github.com/JKorf/CryptoExchange.Net/tree/beta?tab=readme-ov-file#release-notes
+    * Fixed issue in DI registration causing http client to not be correctly injected
+    * Added single symbol overloads to Futures websocket subscriptions
+    * Removed excessive constructor overload for KrakenRestClient
+
 * Version 4.2.2 - 04 Jan 2024
     * Fixed issue deserializing DateTime value in user order updates when running .net framework
 

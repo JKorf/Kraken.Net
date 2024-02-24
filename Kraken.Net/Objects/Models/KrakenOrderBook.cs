@@ -75,6 +75,11 @@ namespace Kraken.Net.Objects.Models
         /// Checksum
         /// </summary>
         public uint? Checksum { get; set; }
+
+        /// <summary>
+        /// Is this a snapshot?
+        /// </summary>
+        internal bool Snapshot { get; set; }
     }
 
     /// <summary>
