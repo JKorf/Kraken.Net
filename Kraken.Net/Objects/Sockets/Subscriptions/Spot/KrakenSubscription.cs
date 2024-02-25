@@ -23,6 +23,12 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 
         public override HashSet<string> ListenerIdentifiers { get; set; }
 
+        private static readonly Dictionary<string, string> _replaceMap = new Dictionary<string, string>
+        {
+            { "btc", "xbt" },
+            { "doge", "xdg" },
+        };
+
         public KrakenSubscription(ILogger logger, string topic, IEnumerable<string>? symbols, int? interval, bool? snapshot, Action<DataEvent<T>> handler) : base(logger, false)
         {
             _topic = topic;
@@ -31,8 +37,27 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _snapshot = snapshot;
             _interval = interval;
 
-            ListenerIdentifiers = symbols?.Any() == true ? new HashSet<string>(symbols.Select(s => topic.ToLowerInvariant() + "-" + s.ToLowerInvariant())) : new HashSet<string> { topic };
+            ListenerIdentifiers = symbols?.Any() == true ? new HashSet<string>(symbols.Select(s => topic.ToLowerInvariant() + "-" + GetSymbolTopic(s))) : new HashSet<string> { topic };
         }
+
+        private string GetSymbolTopic(string symbol)
+        {
+            var split = symbol.Split('/');
+            if (split.Length < 2)
+                return symbol;
+
+            var baseAsset = split[0].ToLowerInvariant();
+            var quoteAsset = split[1].ToLowerInvariant();
+
+            if (_replaceMap.TryGetValue(baseAsset, out var replacementBase))
+                baseAsset = replacementBase;
+
+            if (_replaceMap.TryGetValue(quoteAsset, out var replacementQuote))
+                quoteAsset = replacementQuote;
+
+            return $"{baseAsset}/{quoteAsset}";
+        }
+
         public override Type? GetMessageType(IMessageAccessor message) => typeof(KrakenSocketUpdate<T>);
 
         public override Query? GetSubQuery(SocketConnection connection)
@@ -57,7 +82,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 
         public override void HandleSubQueryResponse(KrakenSubscriptionEvent message)
         {
-            ListenerIdentifiers = _symbols?.Any() == true ? new HashSet<string>(_symbols.Select(s => message.ChannelName + "-" + s.ToLowerInvariant())) : new HashSet<string> { message.ChannelName };
+            ListenerIdentifiers = _symbols?.Any() == true ? new HashSet<string>(_symbols.Select(s => message.ChannelName + "-" + GetSymbolTopic(s))) : new HashSet<string> { message.ChannelName };
         }
 
         public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<object> message)
