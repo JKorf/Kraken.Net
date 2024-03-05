@@ -56,9 +56,9 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 Authenticated);
         }
 
-        public override object Deserialize(IMessageAccessor message, Type type)
+        public override CallResult<object> Deserialize(IMessageAccessor message, Type type)
         {
-            return StreamOrderBookConverter.Convert((JArray)message.Underlying!)!;
+            return new CallResult<object>(StreamOrderBookConverter.Convert((JArray)message.Underlying!)!);
         }
 
         public override void HandleSubQueryResponse(KrakenSubscriptionEvent message)

@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Converters;
+using CryptoExchange.Net.Converters.JsonNet;
 using CryptoExchange.Net.Objects;
 using Kraken.Net.UnitTests.TestImplementations;
 using Newtonsoft.Json;
