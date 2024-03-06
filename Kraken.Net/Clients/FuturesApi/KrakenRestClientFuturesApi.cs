@@ -1,6 +1,7 @@
 ﻿using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Objects;
+using CryptoExchange.Net.Sockets.MessageParsing;
 using CryptoExchange.Net.Sockets.MessageParsing.Interfaces;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Objects;
@@ -139,7 +140,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 return new ServerError(krakenError.Code, krakenError.Message);
             }
 
-            return new ServerError(result.Data!.Error ?? "-");
+            return new ServerError(result.Data!.Error ?? accessor.GetOriginalString());
         }
 
         /// <inheritdoc />
