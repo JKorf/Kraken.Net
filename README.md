@@ -23,7 +23,7 @@ The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for op
 	dotnet add package KrakenExchange.Net
 
 ## How to use
-* REST Endpoints*  
+*REST Endpoints*  
 
 ```csharp
 // Get the ETH/USD ticker via rest request
@@ -32,7 +32,7 @@ var tickerResult = await restClient.SpotApi.ExchangeData.GetTickerAsync("ETHUSD"
 var lastPrice = tickerResult.Data.First().Value.LastTrade.Price;
 ```
 
-* Websocket streams*  
+*Websocket streams*  
 
 ```csharp
 // Subscribe to ETH/USD ticker updates via the websocket API
