@@ -2,7 +2,6 @@
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
-using CryptoExchange.Net.Sockets.MessageParsing.Interfaces;
 using Kraken.Net.Converters;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models;
