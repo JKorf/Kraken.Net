@@ -64,20 +64,20 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             return typeof(KrakenFuturesBookUpdate);
         }
 
-        public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<object> message)
+        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
         {
             if (message.Data is KrakenFuturesBookSnapshotUpdate snapshot)
             {
                 _snapshotHandler.Invoke(message.As(snapshot, snapshot.Symbol, SocketUpdateType.Snapshot));
-                return Task.FromResult(new CallResult(null));
+                return new CallResult(null);
             }
             else if (message.Data is KrakenFuturesBookUpdate update)
             {
                 _updateHandler.Invoke(message.As(update, update.Symbol, SocketUpdateType.Update));
-                return Task.FromResult(new CallResult(null));
+                return new CallResult(null);
             }
 
-            return Task.FromResult(new CallResult(null));
+            return new CallResult(null);
         }
     }
 }

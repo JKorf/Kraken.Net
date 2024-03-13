@@ -1,9 +1,5 @@
-﻿using CryptoExchange.Net.Objects;
-using CryptoExchange.Net.Objects.Sockets;
+﻿using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
@@ -15,6 +11,6 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         {
         }
 
-        public override Task<CallResult> HandleMessageAsync(SocketConnection connection, DataEvent<KrakenEvent> message) => Task.FromResult(new CallResult(null));
+        public override CallResult HandleMessage(SocketConnection connection, DataEvent<KrakenEvent> message) => new CallResult(null);
     }
 }

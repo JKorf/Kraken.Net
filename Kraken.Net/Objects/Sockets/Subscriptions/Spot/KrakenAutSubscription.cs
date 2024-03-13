@@ -67,11 +67,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             ListenerIdentifiers = new HashSet<string> { message.ChannelName };
         }
 
-        public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<object> message)
+        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
         {
             var data = (KrakenAuthSocketUpdate<T>)message.Data!;
             _handler.Invoke(message.As(data, data.ChannelName, data.Sequence.Sequence == 1 ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
-            return Task.FromResult(new CallResult(null));
+            return new CallResult(null);
         }
 
     }

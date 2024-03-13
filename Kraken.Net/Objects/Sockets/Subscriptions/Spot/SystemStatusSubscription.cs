@@ -16,6 +16,6 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         {
         }
 
-        public override Task<CallResult> HandleMessageAsync(SocketConnection connection, DataEvent<KrakenStreamSystemStatus> message) => Task.FromResult(new CallResult(null)); // TODO
+        public override CallResult HandleMessage(SocketConnection connection, DataEvent<KrakenStreamSystemStatus> message) => new CallResult(null); // TODO
     }
 }

@@ -24,10 +24,10 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 
         public override Query? GetUnsubQuery() => null;
 
-        public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<object> message)
+        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
         {
             _handler.Invoke(message.As((KrakenStreamSystemStatus)message.Data!, null, SocketUpdateType.Update));
-            return Task.FromResult(new CallResult(null));
+            return new CallResult(null);
         }
 
         public override Type? GetMessageType(IMessageAccessor message) => typeof(KrakenStreamSystemStatus);

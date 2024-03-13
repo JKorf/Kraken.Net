@@ -48,11 +48,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 
         public override Type? GetMessageType(IMessageAccessor message) => typeof(KrakenFuturesUserTradesUpdate);
 
-        public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<object> message)
+        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
         {
             var data = (KrakenFuturesUserTradesUpdate)message.Data;
             _handler.Invoke(message.As(data, null, data.Feed == "fills_snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
-            return Task.FromResult(new CallResult(null));
+            return new CallResult(null);
         }
     }
 }

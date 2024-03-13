@@ -47,10 +47,10 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         }
 
         public override Type? GetMessageType(IMessageAccessor message) => typeof(KrakenFuturesOpenPositionUpdate);
-        public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<object> message)
+        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
         {
             _handler.Invoke(message.As((KrakenFuturesOpenPositionUpdate)message.Data, null, ConnectionInvocations == 1 ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
-            return Task.FromResult(new CallResult(null));
+            return new CallResult(null);
         }
     }
 }

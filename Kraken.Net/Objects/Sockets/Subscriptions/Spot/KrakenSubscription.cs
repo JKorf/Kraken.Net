@@ -84,11 +84,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             ListenerIdentifiers = _symbols?.Any() == true ? new HashSet<string>(_symbols.Select(s => message.ChannelName + "-" + GetSymbolTopic(s))) : new HashSet<string> { message.ChannelName };
         }
 
-        public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<object> message)
+        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
         {
             var data = (KrakenSocketUpdate<T>)message.Data!;
             _handler.Invoke(message.As(data.Data, data.Symbol, SocketUpdateType.Update));
-            return Task.FromResult(new CallResult(null));
+            return new CallResult(null);
         }
 
     }
