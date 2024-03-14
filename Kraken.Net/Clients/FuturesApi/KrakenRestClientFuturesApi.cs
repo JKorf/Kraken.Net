@@ -38,10 +38,10 @@ namespace Kraken.Net.Clients.FuturesApi
             ExchangeData = new KrakenRestClientFuturesApiExchangeData(this);
             Trading = new KrakenRestClientFuturesApiTrading(this);
 
-            requestBodyFormat = RequestBodyFormat.FormData;
+            RequestBodyFormat = RequestBodyFormat.FormData;
             ParameterPositions[HttpMethod.Put] = HttpMethodParameterPosition.InUri;
-            arraySerialization = ArrayParametersSerialization.MultipleValues;
-            requestBodyEmptyContent = "";
+            ArraySerialization = ArrayParametersSerialization.MultipleValues;
+            RequestBodyEmptyContent = "";
         }
         #endregion
 

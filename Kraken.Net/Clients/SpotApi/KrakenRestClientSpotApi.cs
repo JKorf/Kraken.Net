@@ -63,7 +63,7 @@ namespace Kraken.Net.Clients.SpotApi
             Trading = new KrakenRestClientSpotApiTrading(this);
             Staking = new KrakenRestClientSpotStakingApi(this);
 
-            requestBodyFormat = RequestBodyFormat.FormData;
+            RequestBodyFormat = RequestBodyFormat.FormData;
         }
         #endregion
 
