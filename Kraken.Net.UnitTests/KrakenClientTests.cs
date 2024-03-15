@@ -60,7 +60,7 @@ namespace Kraken.Net.UnitTests
         //        var data = result.GetType().GetProperty("Data").GetValue(result);
 
         //        assert
-        //        Assert.ReferenceEquals(true, callResult);
+        //        ClassicAssert.AreSame(true, callResult);
         //        Assert.That(TestHelpers.AreEqual(expected, data), method.Name);
         //    }
         //}
@@ -178,7 +178,7 @@ namespace Kraken.Net.UnitTests
             // assert
             ClassicAssert.IsFalse(result.Success);
             ClassicAssert.IsNotNull(result.Error);
-            Assert.ReferenceEquals(System.Net.HttpStatusCode.BadGateway, result.ResponseStatusCode);
+            Assert.That(System.Net.HttpStatusCode.BadGateway == result.ResponseStatusCode);
         }
 
         [TestCase()]
@@ -218,7 +218,7 @@ namespace Kraken.Net.UnitTests
             // assert
             ClassicAssert.IsFalse(result.Success);
             ClassicAssert.IsNotNull(result.Error);
-            Assert.ReferenceEquals(System.Net.HttpStatusCode.BadGateway, result.ResponseStatusCode);
+            Assert.That(System.Net.HttpStatusCode.BadGateway == result.ResponseStatusCode);
         }
 
         [TestCase()]
