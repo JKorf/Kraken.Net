@@ -53,14 +53,14 @@ namespace Kraken.Net.UnitTests.ConvertersTests.StreamOrderbookConvertersTests
         {
             var testObj = StreamOrderBookConverter.Convert(this._fiveElements!);
 
-            Assert.AreEqual(2, testObj!.Data.Asks.Count());
-            Assert.AreEqual(1, testObj.Data.Bids.Count());
-            Assert.AreEqual(1234, testObj.ChannelId);
-            Assert.AreEqual("book-10", testObj.ChannelName);
-            Assert.AreEqual("XBT/USD", testObj.Symbol);
+            Assert.ReferenceEquals(2, testObj!.Data.Asks.Count());
+            Assert.ReferenceEquals(1, testObj.Data.Bids.Count());
+            Assert.ReferenceEquals(1234, testObj.ChannelId);
+            Assert.ReferenceEquals("book-10", testObj.ChannelName);
+            Assert.ReferenceEquals("XBT/USD", testObj.Symbol);
 
-            Assert.AreEqual("0.40100000", testObj.Data.Asks.ElementAt(1).RawQuantity);
-            Assert.AreEqual("5542.50000", testObj.Data.Asks.ElementAt(1).RawPrice);
+            Assert.ReferenceEquals("0.40100000", testObj.Data.Asks.ElementAt(1).RawQuantity);
+            Assert.ReferenceEquals("5542.50000", testObj.Data.Asks.ElementAt(1).RawPrice);
         }
     }
 }

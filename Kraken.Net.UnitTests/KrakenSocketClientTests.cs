@@ -6,6 +6,7 @@ using Kraken.Net.UnitTests.TestImplementations;
 using Kucoin.Net.UnitTests.TestImplementations;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -32,7 +33,7 @@ namespace Kraken.Net.UnitTests
             var subResult = subTask.Result;
 
             // assert
-            Assert.IsTrue(subResult.Success);
+            Assert.That(subResult.Success);
         }
 
         [Test]
@@ -51,8 +52,8 @@ namespace Kraken.Net.UnitTests
             var subResult = subTask.Result;
 
             // assert
-            Assert.IsFalse(subResult.Success);
-            Assert.IsTrue(subResult.Error!.Message.Contains("Failed to sub"));
+            ClassicAssert.IsFalse(subResult.Success);
+            Assert.That(subResult.Error!.Message.Contains("Failed to sub"));
         }
 
         [Test]
@@ -68,7 +69,7 @@ namespace Kraken.Net.UnitTests
                 foreach (var method in implementation.GetMethods().Where(m => m.ReturnType.IsAssignableTo(typeof(Task<CallResult<UpdateSubscription>>))))
                 {
                     var interfaceMethod = clientInterface.GetMethod(method.Name, method.GetParameters().Select(p => p.ParameterType).ToArray());
-                    Assert.NotNull(interfaceMethod, $"Missing interface for method {method.Name} in {implementation.Name} implementing interface {clientInterface.Name}");
+                    ClassicAssert.NotNull(interfaceMethod, $"Missing interface for method {method.Name} in {implementation.Name} implementing interface {clientInterface.Name}");
                     methods++;
                 }
                 Debug.WriteLine($"{clientInterface.Name} {methods} methods validated");

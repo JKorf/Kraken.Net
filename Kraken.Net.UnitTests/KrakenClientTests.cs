@@ -16,6 +16,7 @@ using Kraken.Net.ExtensionMethods;
 using CryptoExchange.Net.Objects.Sockets;
 using System.Collections.Generic;
 using Kraken.Net.Objects.Models.Futures;
+using NUnit.Framework.Legacy;
 
 namespace Kraken.Net.UnitTests
 {
@@ -59,8 +60,8 @@ namespace Kraken.Net.UnitTests
         //        var data = result.GetType().GetProperty("Data").GetValue(result);
 
         //        assert
-        //        Assert.AreEqual(true, callResult);
-        //        Assert.IsTrue(TestHelpers.AreEqual(expected, data), method.Name);
+        //        Assert.ReferenceEquals(true, callResult);
+        //        Assert.That(TestHelpers.AreEqual(expected, data), method.Name);
         //    }
         //}
 
@@ -75,9 +76,9 @@ namespace Kraken.Net.UnitTests
             var result = await client.SpotApi.ExchangeData.GetSymbolsAsync();
 
             // assert
-            Assert.IsFalse(result.Success);
-            Assert.IsTrue(result.Error!.Message.Contains("first error"));
-            Assert.IsTrue(result.Error!.Message.Contains("another error"));
+            ClassicAssert.IsFalse(result.Success);
+            Assert.That(result.Error!.Message.Contains("first error"));
+            Assert.That(result.Error!.Message.Contains("another error"));
         }
 
         [TestCase()]
@@ -90,9 +91,9 @@ namespace Kraken.Net.UnitTests
             var result = await client.SpotApi.ExchangeData.GetSymbolsAsync();
 
             // assert
-            Assert.IsFalse(result.Success);
-            Assert.IsTrue(result.ResponseStatusCode == System.Net.HttpStatusCode.BadRequest);
-            Assert.IsTrue(result.Error!.ToString().Contains("Error request"));
+            ClassicAssert.IsFalse(result.Success);
+            Assert.That(result.ResponseStatusCode == System.Net.HttpStatusCode.BadRequest);
+            Assert.That(result.Error!.ToString().Contains("Error request"));
         }
 
         public string SerializeExpected<T>(T data)
@@ -157,7 +158,7 @@ namespace Kraken.Net.UnitTests
                 foreach (var method in implementation.GetMethods().Where(m => m.ReturnType.IsAssignableTo(typeof(Task))))
                 {
                     var interfaceMethod = clientInterface.GetMethod(method.Name, method.GetParameters().Select(p => p.ParameterType).ToArray());
-                    Assert.NotNull(interfaceMethod, $"Missing interface for method {method.Name} in {implementation.Name} implementing interface {clientInterface.Name}");
+                    ClassicAssert.NotNull(interfaceMethod, $"Missing interface for method {method.Name} in {implementation.Name} implementing interface {clientInterface.Name}");
                     methods++;
                 }
                 Debug.WriteLine($"{clientInterface.Name} {methods} methods validated");
@@ -175,9 +176,9 @@ namespace Kraken.Net.UnitTests
             var result = await client.SpotApi.ExchangeData.GetTickersAsync();
 
             // assert
-            Assert.IsFalse(result.Success);
-            Assert.IsNotNull(result.Error);
-            Assert.AreEqual(System.Net.HttpStatusCode.BadGateway, result.ResponseStatusCode);
+            ClassicAssert.IsFalse(result.Success);
+            ClassicAssert.IsNotNull(result.Error);
+            Assert.ReferenceEquals(System.Net.HttpStatusCode.BadGateway, result.ResponseStatusCode);
         }
 
         [TestCase()]
@@ -199,9 +200,9 @@ namespace Kraken.Net.UnitTests
             var result = await client.SpotApi.ExchangeData.GetAssetsAsync();
 
             // assert
-            Assert.IsFalse(result.Success);
-            Assert.IsNotNull(result.Error);
-            Assert.IsTrue(result.Error.Message == "Error occured");
+            ClassicAssert.IsFalse(result.Success);
+            ClassicAssert.IsNotNull(result.Error);
+            Assert.That(result.Error.Message == "Error occured");
         }
 
         [TestCase()]
@@ -215,9 +216,9 @@ namespace Kraken.Net.UnitTests
             var result = await client.FuturesApi.ExchangeData.GetTickersAsync();
 
             // assert
-            Assert.IsFalse(result.Success);
-            Assert.IsNotNull(result.Error);
-            Assert.AreEqual(System.Net.HttpStatusCode.BadGateway, result.ResponseStatusCode);
+            ClassicAssert.IsFalse(result.Success);
+            ClassicAssert.IsNotNull(result.Error);
+            Assert.ReferenceEquals(System.Net.HttpStatusCode.BadGateway, result.ResponseStatusCode);
         }
 
         [TestCase()]
@@ -236,9 +237,9 @@ namespace Kraken.Net.UnitTests
             var result = await client.FuturesApi.ExchangeData.GetTickersAsync();
 
             // assert
-            Assert.IsFalse(result.Success);
-            Assert.IsNotNull(result.Error);
-            Assert.IsTrue(result.Error.Message == "Error occured");
+            ClassicAssert.IsFalse(result.Success);
+            ClassicAssert.IsNotNull(result.Error);
+            Assert.That(result.Error.Message == "Error occured");
         }
     }
 }
