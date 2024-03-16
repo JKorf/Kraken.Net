@@ -23,22 +23,25 @@ The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for op
 	dotnet add package KrakenExchange.Net
 
 ## How to use
-* REST Endpoints
-	```csharp
-	// Get the ETH/USD ticker via rest request
-	var restClient = new KrakenRestClient();
-	var tickerResult = await restClient.SpotApi.ExchangeData.GetTickerAsync("ETHUSD");
-	var lastPrice = tickerResult.Data.First().Value.LastTrade.Price;
-	```
-* Websocket streams
-	```csharp
-	// Subscribe to ETH/USD ticker updates via the websocket API
-	var socketClient = new KrakenSocketClient();
-	var tickerSubscriptionResult = socketClient.SpotApi.SubscribeToTickerUpdatesAsync("ETH/USD", (update) =>
-	{
-		var lastPrice = update.Data.LastTrade.Price;
-	});
-	```
+*REST Endpoints*  
+
+```csharp
+// Get the ETH/USD ticker via rest request
+var restClient = new KrakenRestClient();
+var tickerResult = await restClient.SpotApi.ExchangeData.GetTickerAsync("ETHUSD");
+var lastPrice = tickerResult.Data.First().Value.LastTrade.Price;
+```
+
+*Websocket streams*  
+
+```csharp
+// Subscribe to ETH/USD ticker updates via the websocket API
+var socketClient = new KrakenSocketClient();
+var tickerSubscriptionResult = socketClient.SpotApi.SubscribeToTickerUpdatesAsync("ETH/USD", (update) =>
+{
+	var lastPrice = update.Data.LastTrade.Price;
+});
+```
 
 For information on the clients, dependency injection, response processing and more see the [documentation](https://jkorf.github.io/CryptoExchange.Net), or have a look at the examples  [here](https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples).
 
