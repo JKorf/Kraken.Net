@@ -28,12 +28,12 @@ namespace Kraken.Net.Objects.Sockets.Queries
             }
         }
 
-        public override Task<CallResult<T>> HandleMessageAsync(SocketConnection connection, DataEvent<T> message)
+        public override CallResult<T> HandleMessage(SocketConnection connection, DataEvent<T> message)
         {
             if (message.Data.Event == "alert")
-                return Task.FromResult(new CallResult<T>(new ServerError(message.Data.Message!)));
+                return new CallResult<T>(new ServerError(message.Data.Message!));
             else
-                return Task.FromResult(new CallResult<T>(message.Data!));
+                return new CallResult<T>(message.Data!);
         }
     }
 }

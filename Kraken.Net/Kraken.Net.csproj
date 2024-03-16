@@ -2,14 +2,14 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <Nullable>enable</Nullable>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>10.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <PackageId>KrakenExchange.Net</PackageId>
     <Authors>JKorf</Authors>
-    <PackageVersion>4.3.0</PackageVersion>
-    <AssemblyVersion>4.3.0</AssemblyVersion>
-    <FileVersion>4.3.0</FileVersion>
+    <PackageVersion>4.4.0</PackageVersion>
+    <AssemblyVersion>4.4.0</AssemblyVersion>
+    <FileVersion>4.4.0</FileVersion>
     <Description>KrakenExchange.Net is a client library for accessing the Kraken REST and Websocket API. All data is mapped to readable models and enum values. Additional features include an implementation for maintaining a client side order book, easy integration with other exchange client libraries and more.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>Kraken;KrakenExchange.Net;Kraken.Net;Kraken Client;Kraken API;CryptoCurrency;CryptoCurrency Exchange</PackageTags>
@@ -47,14 +47,14 @@
     <PackageReference Include="Crc32.NET" Version="1.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ConfigureAwaitChecker.Analyzer" Version="5.0.0">
+    <PackageReference Include="ConfigureAwaitChecker.Analyzer" Version="5.0.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="CryptoExchange.Net" Version="7.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="CryptoExchange.Net" Version="7.1.0" />
   </ItemGroup>
 </Project>

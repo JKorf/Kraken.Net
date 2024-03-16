@@ -4,8 +4,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
+using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.Objects;
@@ -63,7 +63,7 @@ namespace Kraken.Net.Clients.SpotApi
             Trading = new KrakenRestClientSpotApiTrading(this);
             Staking = new KrakenRestClientSpotStakingApi(this);
 
-            requestBodyFormat = RequestBodyFormat.FormData;
+            RequestBodyFormat = RequestBodyFormat.FormData;
         }
         #endregion
 

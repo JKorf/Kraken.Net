@@ -1,8 +1,7 @@
-﻿using CryptoExchange.Net.Objects;
+﻿using CryptoExchange.Net.Converters.MessageParsing;
+using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
-using CryptoExchange.Net.Sockets.MessageParsing;
-using CryptoExchange.Net.Sockets.MessageParsing.Interfaces;
 using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Sockets.Queries;
 using Microsoft.Extensions.Logging;
@@ -53,20 +52,20 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 Authenticated);
         }
 
-        public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<object> message)
+        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
         {
             if (message.Data is KrakenFuturesAccountLogsSnapshotUpdate snapshot)
             {
                 _snapshotHandler.Invoke(message.As(snapshot, null, SocketUpdateType.Snapshot));
-                return Task.FromResult(new CallResult(null));
+                return new CallResult(null);
             }
             else if (message.Data is KrakenFuturesAccountLogsUpdate update)
             {
                 _updateHandler.Invoke(message.As(update, null, SocketUpdateType.Update));
-                return Task.FromResult(new CallResult(null));
+                return new CallResult(null);
             }
 
-            return Task.FromResult(new CallResult(null));
+            return new CallResult(null);
         }
 
         public override Type? GetMessageType(IMessageAccessor message)

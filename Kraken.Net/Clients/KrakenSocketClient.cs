@@ -1,5 +1,5 @@
-﻿using CryptoExchange.Net;
-using CryptoExchange.Net.Authentication;
+﻿using CryptoExchange.Net.Authentication;
+using CryptoExchange.Net.Clients;
 using Kraken.Net.Clients.SpotApi;
 using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients.FuturesApi;

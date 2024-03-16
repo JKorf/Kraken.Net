@@ -1,17 +1,8 @@
-﻿using CryptoExchange.Net;
-using CryptoExchange.Net.Authentication;
-using CryptoExchange.Net.Objects;
+﻿using CryptoExchange.Net.Clients;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Models.Futures;
 using Kraken.Net.Objects.Options;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Kraken.Net.Clients.FuturesApi
 {
@@ -47,10 +38,10 @@ namespace Kraken.Net.Clients.FuturesApi
             ExchangeData = new KrakenRestClientFuturesApiExchangeData(this);
             Trading = new KrakenRestClientFuturesApiTrading(this);
 
-            requestBodyFormat = RequestBodyFormat.FormData;
+            RequestBodyFormat = RequestBodyFormat.FormData;
             ParameterPositions[HttpMethod.Put] = HttpMethodParameterPosition.InUri;
-            arraySerialization = ArrayParametersSerialization.MultipleValues;
-            requestBodyEmptyContent = "";
+            ArraySerialization = ArrayParametersSerialization.MultipleValues;
+            RequestBodyEmptyContent = "";
         }
         #endregion
 
@@ -123,15 +114,14 @@ namespace Kraken.Net.Clients.FuturesApi
         }
 
         /// <inheritdoc />
-        protected override Error ParseErrorResponse(int httpStatusCode, IEnumerable<KeyValuePair<string, IEnumerable<string>>> responseHeaders, string data)
+        protected override Error ParseErrorResponse(int httpStatusCode, IEnumerable<KeyValuePair<string, IEnumerable<string>>> responseHeaders, IMessageAccessor accessor)
         {
-            var errorData = ValidateJson(data);
-            if (!errorData)
-                return new ServerError(data);
+            if (!accessor.IsJson)
+                return new ServerError(accessor.GetOriginalString());
 
-            var result = Deserialize<KrakenFuturesResult>(errorData.Data);
+            var result = accessor.Deserialize<KrakenFuturesResult>();
             if (!result)
-                return new ServerError(data);
+                return new ServerError(accessor.GetOriginalString());
 
             if (result.Data.Errors?.Any() == true)
             {
@@ -139,7 +129,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 return new ServerError(krakenError.Code, krakenError.Message);
             }
 
-            return new ServerError(result.Data!.Error ?? "-");
+            return new ServerError(result.Data!.Error ?? accessor.GetOriginalString());
         }
 
         /// <inheritdoc />

@@ -1,7 +1,6 @@
 ﻿using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
-using CryptoExchange.Net.Sockets.MessageParsing.Interfaces;
 using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Sockets.Queries;
 using Microsoft.Extensions.Logging;
@@ -49,11 +48,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 
         public override Type? GetMessageType(IMessageAccessor message) => typeof(KrakenFuturesUserTradesUpdate);
 
-        public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<object> message)
+        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
         {
             var data = (KrakenFuturesUserTradesUpdate)message.Data;
             _handler.Invoke(message.As(data, null, data.Feed == "fills_snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
-            return Task.FromResult(new CallResult(null));
+            return new CallResult(null);
         }
     }
 }

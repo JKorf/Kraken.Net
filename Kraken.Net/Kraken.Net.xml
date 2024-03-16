@@ -22,7 +22,7 @@
         <member name="P:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.ExchangeName">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.ParseErrorResponse(System.Int32,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Collections.Generic.IEnumerable{System.String}}},System.String)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.ParseErrorResponse(System.Int32,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Collections.Generic.IEnumerable{System.String}}},CryptoExchange.Net.Interfaces.IMessageAccessor)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
@@ -145,7 +145,7 @@
         <member name="P:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.ClientOptions">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.GetListenerIdentifier(CryptoExchange.Net.Sockets.MessageParsing.Interfaces.IMessageAccessor)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.GetListenerIdentifier(CryptoExchange.Net.Interfaces.IMessageAccessor)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
@@ -409,7 +409,7 @@
         <member name="P:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.ClientOptions">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.GetListenerIdentifier(CryptoExchange.Net.Sockets.MessageParsing.Interfaces.IMessageAccessor)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.GetListenerIdentifier(CryptoExchange.Net.Interfaces.IMessageAccessor)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">

@@ -2,7 +2,6 @@
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
-using CryptoExchange.Net.Sockets.MessageParsing.Interfaces;
 using Kraken.Net.Converters;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models;
@@ -56,9 +55,9 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 Authenticated);
         }
 
-        public override object Deserialize(IMessageAccessor message, Type type)
+        public override CallResult<object> Deserialize(IMessageAccessor message, Type type)
         {
-            return StreamOrderBookConverter.Convert((JArray)message.Underlying!)!;
+            return new CallResult<object>(StreamOrderBookConverter.Convert((JArray)message.Underlying!)!);
         }
 
         public override void HandleSubQueryResponse(KrakenSubscriptionEvent message)
@@ -66,11 +65,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             ListenerIdentifiers = _symbols?.Any() == true ? new HashSet<string>(_symbols.Select(s => message.ChannelName + "-" + s.ToLowerInvariant())) : new HashSet<string> { message.ChannelName };
         }
 
-        public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<object> message)
+        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
         {
             var data = (KrakenSocketUpdate<KrakenStreamOrderBook>)message.Data!;
             _handler.Invoke(message.As(data.Data, data.Symbol, data.Data.Snapshot ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
-            return Task.FromResult(new CallResult(null));
+            return new CallResult(null);
         }
 
     }

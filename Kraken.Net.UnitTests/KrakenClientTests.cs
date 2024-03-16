@@ -14,6 +14,9 @@ using Kraken.Net.Clients;
 using Kraken.Net.Clients.SpotApi;
 using Kraken.Net.ExtensionMethods;
 using CryptoExchange.Net.Objects.Sockets;
+using System.Collections.Generic;
+using Kraken.Net.Objects.Models.Futures;
+using NUnit.Framework.Legacy;
 
 namespace Kraken.Net.UnitTests
 {
@@ -57,8 +60,8 @@ namespace Kraken.Net.UnitTests
         //        var data = result.GetType().GetProperty("Data").GetValue(result);
 
         //        assert
-        //        Assert.AreEqual(true, callResult);
-        //        Assert.IsTrue(TestHelpers.AreEqual(expected, data), method.Name);
+        //        ClassicAssert.AreSame(true, callResult);
+        //        Assert.That(TestHelpers.AreEqual(expected, data), method.Name);
         //    }
         //}
 
@@ -73,9 +76,9 @@ namespace Kraken.Net.UnitTests
             var result = await client.SpotApi.ExchangeData.GetSymbolsAsync();
 
             // assert
-            Assert.IsFalse(result.Success);
-            Assert.IsTrue(result.Error!.Message.Contains("first error"));
-            Assert.IsTrue(result.Error!.Message.Contains("another error"));
+            ClassicAssert.IsFalse(result.Success);
+            Assert.That(result.Error!.Message.Contains("first error"));
+            Assert.That(result.Error!.Message.Contains("another error"));
         }
 
         [TestCase()]
@@ -88,9 +91,9 @@ namespace Kraken.Net.UnitTests
             var result = await client.SpotApi.ExchangeData.GetSymbolsAsync();
 
             // assert
-            Assert.IsFalse(result.Success);
-            Assert.IsTrue(result.ResponseStatusCode == System.Net.HttpStatusCode.BadRequest);
-            Assert.IsTrue(result.Error!.ToString().Contains("Error request"));
+            ClassicAssert.IsFalse(result.Success);
+            Assert.That(result.ResponseStatusCode == System.Net.HttpStatusCode.BadRequest);
+            Assert.That(result.Error!.ToString().Contains("Error request"));
         }
 
         public string SerializeExpected<T>(T data)
@@ -145,8 +148,8 @@ namespace Kraken.Net.UnitTests
         public void CheckRestInterfaces()
         {
             var assembly = Assembly.GetAssembly(typeof(KrakenRestClientSpotApi));
-            var ignore = new string[] { "IKrakenClientSpot" };
-            var clientInterfaces = assembly.GetTypes().Where(t => t.Name.StartsWith("IKrakenClientSpot") && !ignore.Contains(t.Name));
+            var ignore = new string[] { "IKrakenRestClientSpot" };
+            var clientInterfaces = assembly.GetTypes().Where(t => t.Name.StartsWith("IKrakenRestClientSpot") && !ignore.Contains(t.Name));
 
             foreach (var clientInterface in clientInterfaces)
             {
@@ -155,31 +158,88 @@ namespace Kraken.Net.UnitTests
                 foreach (var method in implementation.GetMethods().Where(m => m.ReturnType.IsAssignableTo(typeof(Task))))
                 {
                     var interfaceMethod = clientInterface.GetMethod(method.Name, method.GetParameters().Select(p => p.ParameterType).ToArray());
-                    Assert.NotNull(interfaceMethod, $"Missing interface for method {method.Name} in {implementation.Name} implementing interface {clientInterface.Name}");
+                    ClassicAssert.NotNull(interfaceMethod, $"Missing interface for method {method.Name} in {implementation.Name} implementing interface {clientInterface.Name}");
                     methods++;
                 }
                 Debug.WriteLine($"{clientInterface.Name} {methods} methods validated");
             }
         }
 
-        [Test]
-        public void CheckSocketInterfaces()
+        [TestCase()]
+        public async Task ReceivingHttpErrorWithNoJsonOnSpotApi_Should_ReturnErrorAndNotSuccess()
         {
-            var assembly = Assembly.GetAssembly(typeof(KrakenSocketClient));
-            var clientInterfaces = assembly.GetTypes().Where(t => t.Name.StartsWith("IKrakenSocketClientSpot"));
+            // arrange
+            var client = TestHelpers.CreateClient();
+            TestHelpers.SetResponse((KrakenRestClient)client, "", System.Net.HttpStatusCode.BadGateway);
 
-            foreach (var clientInterface in clientInterfaces)
+            // act
+            var result = await client.SpotApi.ExchangeData.GetTickersAsync();
+
+            // assert
+            ClassicAssert.IsFalse(result.Success);
+            ClassicAssert.IsNotNull(result.Error);
+            Assert.That(System.Net.HttpStatusCode.BadGateway == result.ResponseStatusCode);
+        }
+
+        [TestCase()]
+        public async Task ReceivingErrorOnSpotApi_Should_ReturnErrorAndNotSuccess()
+        {
+            // arrange
+            var client = TestHelpers.CreateClient();
+            var resultObj = new KrakenResult()
             {
-                var implementation = assembly.GetTypes().Single(t => t.IsAssignableTo(clientInterface) && t != clientInterface);
-                int methods = 0;
-                foreach (var method in implementation.GetMethods().Where(m => m.ReturnType.IsAssignableTo(typeof(Task<CallResult<UpdateSubscription>>))))
+                Error = new List<string>
                 {
-                    var interfaceMethod = clientInterface.GetMethod(method.Name, method.GetParameters().Select(p => p.ParameterType).ToArray());
-                    Assert.NotNull(interfaceMethod, $"Missing interface for method {method.Name} in {implementation.Name} implementing interface {clientInterface.Name}");
-                    methods++;
+                    "Error occured"
                 }
-                Debug.WriteLine($"{clientInterface.Name} {methods} methods validated");
-            }
+            };
+
+            TestHelpers.SetResponse((KrakenRestClient)client, JsonConvert.SerializeObject(resultObj));
+
+            // act
+            var result = await client.SpotApi.ExchangeData.GetAssetsAsync();
+
+            // assert
+            ClassicAssert.IsFalse(result.Success);
+            ClassicAssert.IsNotNull(result.Error);
+            Assert.That(result.Error.Message == "Error occured");
+        }
+
+        [TestCase()]
+        public async Task ReceivingHttpErrorWithNoJsonOnFuturesApi_Should_ReturnErrorAndNotSuccess()
+        {
+            // arrange
+            var client = TestHelpers.CreateClient();
+            TestHelpers.SetResponse((KrakenRestClient)client, "", System.Net.HttpStatusCode.BadGateway);
+
+            // act
+            var result = await client.FuturesApi.ExchangeData.GetTickersAsync();
+
+            // assert
+            ClassicAssert.IsFalse(result.Success);
+            ClassicAssert.IsNotNull(result.Error);
+            Assert.That(System.Net.HttpStatusCode.BadGateway == result.ResponseStatusCode);
+        }
+
+        [TestCase()]
+        public async Task ReceivingErrorOnFuturesApi_Should_ReturnErrorAndNotSuccess()
+        {
+            // arrange
+            var client = TestHelpers.CreateClient();
+            var resultObj = new KrakenFuturesResult()
+            {
+                Error = "Error occured"
+            };
+
+            TestHelpers.SetResponse((KrakenRestClient)client, JsonConvert.SerializeObject(resultObj), System.Net.HttpStatusCode.BadRequest);
+
+            // act
+            var result = await client.FuturesApi.ExchangeData.GetTickersAsync();
+
+            // assert
+            ClassicAssert.IsFalse(result.Success);
+            ClassicAssert.IsNotNull(result.Error);
+            Assert.That(result.Error.Message == "Error occured");
         }
     }
 }
