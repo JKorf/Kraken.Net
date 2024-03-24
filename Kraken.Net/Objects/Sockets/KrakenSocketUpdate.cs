@@ -8,7 +8,7 @@ namespace Kraken.Net.Objects.Sockets
     internal class KrakenSocketUpdate<T>
     {
         [ArrayProperty(0)]
-        public int ChannelId { get; set; }
+        public long ChannelId { get; set; }
         [ArrayProperty(1)]
         [JsonConversion]
         public T Data { get; set; } = default!;
