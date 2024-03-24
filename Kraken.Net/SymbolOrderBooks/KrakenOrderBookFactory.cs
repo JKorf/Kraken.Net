@@ -26,14 +26,14 @@ namespace Kraken.Net.SymbolOrderBooks
         public ISymbolOrderBook CreateSpot(string symbol, Action<KrakenOrderBookOptions>? options = null)
             => new KrakenSpotSymbolOrderBook(symbol,
                                         options,
-                                        _serviceProvider.GetRequiredService<ILogger<KrakenSpotSymbolOrderBook>>(),
+                                        _serviceProvider.GetRequiredService<ILoggerFactory>(),
                                         _serviceProvider.GetRequiredService<IKrakenSocketClient>());
 
         /// <inheritdoc />
         public ISymbolOrderBook CreateFutures(string symbol, Action<KrakenOrderBookOptions>? options = null)
             => new KrakenFuturesSymbolOrderBook(symbol,
                                         options,
-                                        _serviceProvider.GetRequiredService<ILogger<KrakenFuturesSymbolOrderBook>>(),
+                                        _serviceProvider.GetRequiredService<ILoggerFactory>(),
                                         _serviceProvider.GetRequiredService<IKrakenSocketClient>());
     }
 }

@@ -45,8 +45,8 @@ namespace Kraken.Net.SymbolOrderBooks
         /// <param name="socketClient">Socket client instance</param>
         public KrakenSpotSymbolOrderBook(string symbol,
             Action<KrakenOrderBookOptions>? optionsDelegate,
-            ILogger<KrakenSpotSymbolOrderBook>? logger,
-            IKrakenSocketClient? socketClient) : base(logger, "Kraken", symbol)
+            ILoggerFactory? logger,
+            IKrakenSocketClient? socketClient) : base(logger, "Kraken", "Spot", symbol)
         {
             var options = KrakenOrderBookOptions.Default.Copy();
             if (optionsDelegate != null)

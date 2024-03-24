@@ -7615,7 +7615,7 @@
             <param name="symbol">The symbol the order book is for</param>
             <param name="optionsDelegate">Option configuration delegate</param>
         </member>
-        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenFuturesSymbolOrderBook.#ctor(System.String,System.Action{Kraken.Net.Objects.Options.KrakenOrderBookOptions},Microsoft.Extensions.Logging.ILogger{Kraken.Net.SymbolOrderBooks.KrakenFuturesSymbolOrderBook},Kraken.Net.Interfaces.Clients.IKrakenSocketClient)">
+        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenFuturesSymbolOrderBook.#ctor(System.String,System.Action{Kraken.Net.Objects.Options.KrakenOrderBookOptions},Microsoft.Extensions.Logging.ILoggerFactory,Kraken.Net.Interfaces.Clients.IKrakenSocketClient)">
             <summary>
             Create a new order book instance
             </summary>
@@ -7662,7 +7662,7 @@
             <param name="symbol">The symbol the order book is for</param>
             <param name="optionsDelegate">Option configuration delegate</param>
         </member>
-        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenSpotSymbolOrderBook.#ctor(System.String,System.Action{Kraken.Net.Objects.Options.KrakenOrderBookOptions},Microsoft.Extensions.Logging.ILogger{Kraken.Net.SymbolOrderBooks.KrakenSpotSymbolOrderBook},Kraken.Net.Interfaces.Clients.IKrakenSocketClient)">
+        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenSpotSymbolOrderBook.#ctor(System.String,System.Action{Kraken.Net.Objects.Options.KrakenOrderBookOptions},Microsoft.Extensions.Logging.ILoggerFactory,Kraken.Net.Interfaces.Clients.IKrakenSocketClient)">
             <summary>
             Create a new order book instance
             </summary>
