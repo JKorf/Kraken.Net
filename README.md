@@ -118,6 +118,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.4.3 - 25 Mar 2024
+    * Fixed parameter serialization for socket client SpotApi.PlaceOrderAsync
+
 * Version 4.4.2 - 24 Mar 2024
     * Fixed websocket deserialization int overflow issue
 
