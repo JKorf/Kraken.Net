@@ -43,7 +43,7 @@ var tickerSubscriptionResult = socketClient.SpotApi.SubscribeToTickerUpdatesAsyn
 });
 ```
 
-For information on the clients, dependency injection, response processing and more see the [documentation](https://jkorf.github.io/CryptoExchange.Net), or have a look at the examples  [here](https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples).
+For information on the clients, dependency injection, response processing and more see the [Kraken.Net documentation](https://jkorf.github.io/Kraken.Net), [CryptoExchange.Net documentation](https://jkorf.github.io/CryptoExchange.Net), or have a look at the examples [here](https://github.com/JKorf/Kraken.Net/tree/master/Examples) or [here](https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples).
 
 ## CryptoExchange.Net
 Kraken.Net is based on the [CryptoExchange.Net](https://github.com/JKorf/CryptoExchange.Net) base library. Other exchange API implementations based on the CryptoExchange.Net base library are available and follow the same logic.
