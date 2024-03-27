@@ -71,7 +71,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         public override Type? GetMessageType(IMessageAccessor message)
         {
             var feed = message.GetValue<string>(_feedPath);
-            if (feed == "account_log_snapshot")
+            if (string.Equals(feed, "account_log_snapshot", StringComparison.Ordinal))
                 return typeof(KrakenFuturesAccountLogsSnapshotUpdate);
 
             return typeof(KrakenFuturesAccountLogsUpdate);

@@ -14,13 +14,18 @@ namespace Kraken.Net.Objects.Sockets.Queries
         public KrakenFuturesQuery(KrakenFuturesRequest request, bool authenticated) : base(request, authenticated)
         {
             string evnt = request.Event;
-            if (request.Event == "subscribe" || request.Event == "unsubscribe")
+            if (string.Equals(request.Event, "subscribe", StringComparison.Ordinal)
+                || string.Equals(request.Event, "unsubscribe", StringComparison.Ordinal))
+            {
                 evnt += "d";
+            }
 
             if (request.Symbols?.Any() == true)
             {
-                ListenerIdentifiers = new HashSet<string>(request.Symbols.Select(s => evnt + "-" + request.Feed.ToLowerInvariant() + "-" + s.ToLowerInvariant()));
-                ListenerIdentifiers.Add("alert");
+                ListenerIdentifiers = new HashSet<string>(request.Symbols.Select(s => evnt + "-" + request.Feed.ToLowerInvariant() + "-" + s.ToLowerInvariant()))
+                {
+                    "alert"
+                };
             }
             else
             {
@@ -30,7 +35,7 @@ namespace Kraken.Net.Objects.Sockets.Queries
 
         public override CallResult<T> HandleMessage(SocketConnection connection, DataEvent<T> message)
         {
-            if (message.Data.Event == "alert")
+            if (string.Equals(message.Data.Event, "alert", StringComparison.Ordinal))
                 return new CallResult<T>(new ServerError(message.Data.Message!));
             else
                 return new CallResult<T>(message.Data!);

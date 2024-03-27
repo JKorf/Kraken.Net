@@ -57,8 +57,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 
         public override Type? GetMessageType(IMessageAccessor message)
         {
-            // TODO if we give a path a hash we can cache the results for the paths
-            if (message.GetValue<string>(_feedPath) == "trade_snapshot")
+            if (string.Equals(message.GetValue<string>(_feedPath), "trade_snapshot", StringComparison.Ordinal))
                 return typeof(KrakenFuturesTradesSnapshotUpdate);
             return typeof(KrakenFuturesTradeUpdate);
         }

@@ -349,7 +349,7 @@ namespace Kraken.Net.Clients.SpotApi
                 return false;
 
             var krakenResult = (KrakenResult)(object)callResult.Data!;
-            if (krakenResult.Error.FirstOrDefault() == "EAPI:Invalid nonce")
+            if (string.Equals(krakenResult.Error.FirstOrDefault(), "EAPI:Invalid nonce", StringComparison.Ordinal))
             {
                 if (tries <= 3)
                 {

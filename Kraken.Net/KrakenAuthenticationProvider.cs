@@ -67,9 +67,9 @@ namespace Kraken.Net
     {
         public int Compare(string x, string y)
         {
-            if (x == "nonce")
+            if (string.Equals(x, "nonce", StringComparison.Ordinal))
                 return -1;
-            if (y == "nonce")
+            if (string.Equals(y, "nonce", StringComparison.Ordinal))
                 return 1;
 
             return x.CompareTo(y);

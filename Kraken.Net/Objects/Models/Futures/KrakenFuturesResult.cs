@@ -9,7 +9,7 @@ namespace Kraken.Net.Objects.Models.Futures
     {
         public IEnumerable<KrakenFuturesError>? Errors { get; set; }
         public string? Error { get; set; }
-        public bool Success => Result == "success";
+        public bool Success => string.Equals(Result, "success", StringComparison.Ordinal);
         public string? Result { get; set; }
         [JsonConverter(typeof(DateTimeConverter))]
         public DateTime ServerTime { get; set; }

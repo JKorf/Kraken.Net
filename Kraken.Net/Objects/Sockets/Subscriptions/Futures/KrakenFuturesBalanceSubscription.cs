@@ -50,7 +50,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
         {
             var data = (KrakenFuturesBalancesUpdate)message.Data;
-            _handler.Invoke(message.As(data, null, data.Feed == "balances_snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
+            _handler.Invoke(message.As(data, null, string.Equals(data.Feed, "balances_snapshot", StringComparison.Ordinal) ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
             return new CallResult(null);
         }
 
