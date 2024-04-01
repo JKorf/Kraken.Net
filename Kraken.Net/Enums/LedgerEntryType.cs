@@ -48,6 +48,46 @@
         /// <summary>
         /// Staking
         /// </summary>
-        Staking
+        Staking,
+        /// <summary>
+        /// None
+        /// </summary>
+        None,
+        /// <summary>
+        /// Credit
+        /// </summary>
+        Credit,
+        /// <summary>
+        /// Dividend
+        /// </summary>
+        Dividend,
+        /// <summary>
+        /// Sale
+        /// </summary>
+        Sale,
+        /// <summary>
+        /// Reward
+        /// </summary>
+        Reward,
+        /// <summary>
+        /// Conversion
+        /// </summary>
+        Conversion,
+        /// <summary>
+        /// NFT Trade
+        /// </summary>
+        NftTrade,
+        /// <summary>
+        /// NFT Creator fee
+        /// </summary>
+        NftCreatorFee,
+        /// <summary>
+        /// NFT rebate
+        /// </summary>
+        NftRebate,
+        /// <summary>
+        /// Custody transfer
+        /// </summary>
+        CustodyTransfer
     }
 }
