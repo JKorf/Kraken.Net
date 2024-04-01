@@ -121,6 +121,11 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.5.0 - 01 Apr 2024
+    * Added Kraken Earn endpoints
+    * Added missing LedgerEntryType enum values
+    * Removed deprecated Staking endpoints
+
 * Version 4.4.3 - 25 Mar 2024
     * Fixed parameter serialization for socket client SpotApi.PlaceOrderAsync
 
