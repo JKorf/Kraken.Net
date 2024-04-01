@@ -214,7 +214,7 @@
         <member name="P:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.Trading">
             <inheritdoc />
         </member>
-        <member name="P:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.Staking">
+        <member name="P:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.Earn">
             <inheritdoc />
         </member>
         <member name="P:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.ExchangeName">
@@ -313,6 +313,27 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="T:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiEarn">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiEarn.GetStrategiesAsync(System.String,System.Nullable{Kraken.Net.Enums.LockType},System.String,System.Nullable{System.Int32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiEarn.GetAllocationsAsync(System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiEarn.GetAllocationStatusAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiEarn.GetDeallocationStatusAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiEarn.AllocateEarnFundsAsync(System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiEarn.DeallocateEarnFundsAsync(System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="T:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData">
             <inheritdoc />
         </member>
@@ -383,24 +404,6 @@
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.CancelAllOrdersAsync(System.String,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="T:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotStakingApi">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotStakingApi.StakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotStakingApi.UnstakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotStakingApi.GetPendingTransactionsAsync(System.String,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotStakingApi.GetRecentTransactionsAsync(System.String,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotStakingApi.GetStakableAssets(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi">
@@ -605,6 +608,26 @@
         <member name="F:Kraken.Net.Enums.AssetStatus.FundingTemporarilyDisabled">
             <summary>
             Funding temp disabled
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.AutoCompound">
+            <summary>
+            Auto compound
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.AutoCompound.Disabled">
+            <summary>
+            Disabled
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.AutoCompound.Enabled">
+            <summary>
+            Enabled
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.AutoCompound.Optional">
+            <summary>
+            Optional
             </summary>
         </member>
         <member name="T:Kraken.Net.Enums.FuturesKlineInterval">
@@ -1020,6 +1043,81 @@
         <member name="F:Kraken.Net.Enums.LedgerEntryType.Staking">
             <summary>
             Staking
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.LedgerEntryType.None">
+            <summary>
+            None
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.LedgerEntryType.Credit">
+            <summary>
+            Credit
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.LedgerEntryType.Dividend">
+            <summary>
+            Dividend
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.LedgerEntryType.Sale">
+            <summary>
+            Sale
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.LedgerEntryType.Reward">
+            <summary>
+            Reward
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.LedgerEntryType.Conversion">
+            <summary>
+            Conversion
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.LedgerEntryType.NftTrade">
+            <summary>
+            NFT Trade
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.LedgerEntryType.NftCreatorFee">
+            <summary>
+            NFT Creator fee
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.LedgerEntryType.NftRebate">
+            <summary>
+            NFT rebate
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.LedgerEntryType.CustodyTransfer">
+            <summary>
+            Custody transfer
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.LockType">
+            <summary>
+            Earn lock type
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.LockType.Flex">
+            <summary>
+            "Kraken rewards". This is earning on your spot balances where eligible. It's turned on account wide from the UI and you cannot manually allocate to these strategies.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.LockType.Bonded">
+            <summary>
+            Has an unbonding period. Deallocation will not happen until this period has passed.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.LockType.Timed">
+            <summary>
+            Timed
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.LockType.Instant">
+            <summary>
+            Can be deallocated without an unbonding period. This is called flexible in the UI.
             </summary>
         </member>
         <member name="T:Kraken.Net.Enums.OpenOrderStatus">
@@ -1475,6 +1573,26 @@
         <member name="F:Kraken.Net.Enums.TriggerSignal.Last">
             <summary>
             Last trade price
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.YieldSource">
+            <summary>
+            Yield source
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.YieldSource.Staking">
+            <summary>
+            Staking
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.YieldSource.OffChain">
+            <summary>
+            Off chain
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.YieldSource.OptInRewards">
+            <summary>
+            Opt in rewards
             </summary>
         </member>
         <member name="T:Kraken.Net.ExtensionMethods.KrakenExtensionMethods">
@@ -2057,9 +2175,9 @@
             Endpoints related to orders and trades
             </summary>
         </member>
-        <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi.Staking">
+        <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi.Earn">
             <summary>
-            Endpoints related to staking assets
+            Endpoints related to Kraken Earn
             </summary>
         </member>
         <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi.CommonSpotClient">
@@ -2266,6 +2384,79 @@
             <param name="quantity">Quantity</param>
             <param name="fromWallet">Source wallet</param>
             <param name="toWallet">Target wallet</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiEarn">
+            <summary>
+            Kraken Earn endpoints.
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiEarn.GetStrategiesAsync(System.String,System.Nullable{Kraken.Net.Enums.LockType},System.String,System.Nullable{System.Int32},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
+            <summary>
+            List earn strategies along with their parameters.
+            <para><a href="https://docs.kraken.com/rest/#tag/Earn/operation/listStrategies"/></para>
+            </summary>
+            <param name="asset">Filter by asset</param>
+            <param name="lockType">Filter by lock type</param>
+            <param name="cursor">Next page cursor</param>
+            <param name="limit">Result limit</param>
+            <param name="asc">Ascending order</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiEarn.GetAllocationsAsync(System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get earn allocations
+            <para><a href="https://docs.kraken.com/rest/#tag/Earn/operation/listAllocations"/></para>
+            </summary>
+            <param name="convertAsset">Convert asset, defaults to USD</param>
+            <param name="hideZeroAllocations">Hide zero allocations</param>
+            <param name="asc">Ascending order</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiEarn.GetAllocationStatusAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get status of the last allocation request
+            <para><a href="https://docs.kraken.com/rest/#tag/Earn/operation/getAllocateStrategyStatus"/></para>
+            </summary>
+            <param name="strategyId"></param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiEarn.GetDeallocationStatusAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get status of the last deallocation request
+            <para><a href="https://docs.kraken.com/rest/#tag/Earn/operation/getDeallocateStrategyStatus"/></para>
+            </summary>
+            <param name="strategyId">Strategy id</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiEarn.AllocateEarnFundsAsync(System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Allocate earn funds to a strategy
+            <para><a href="https://docs.kraken.com/rest/#tag/Earn/operation/allocateStrategy"/></para>
+            </summary>
+            <param name="strategyId">Strategy id</param>
+            <param name="quantity">Amount to allocate</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiEarn.DeallocateEarnFundsAsync(System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Deallocate previously allocated funds
+            <para><a href="https://docs.kraken.com/rest/#tag/Earn/operation/deallocateStrategy"/></para>
+            </summary>
+            <param name="strategyId">Strategy id</param>
+            <param name="quantity">Amount to deallocate</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
@@ -2547,64 +2738,6 @@
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Cancel result</returns>
-        </member>
-        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotStakingApi">
-            <summary>
-            Kraken staking endpoints.
-            </summary>
-        </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotStakingApi.StakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
-            <summary>
-            Stake an asset from your spot wallet.
-            <para><a href="https://docs.kraken.com/rest/#operation/stake"/></para>
-            </summary>
-            <param name="asset">Asset to stake (asset ID or altname) e.g. DOT</param>
-            <param name="amount">Amount of the asset to stake</param>
-            <param name="method">Name of the staking option to use as returned by <see cref="P:Kraken.Net.Objects.Models.KrakenStakingAsset.Method"/></param>
-            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-            <param name="ct">Cancellation token</param>
-            <seealso cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotStakingApi.GetStakableAssets(System.String,System.Threading.CancellationToken)"/>
-            <returns>A reference to the staking request.</returns>
-        </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotStakingApi.UnstakeAsync(System.String,System.Decimal,System.String,System.String,System.Threading.CancellationToken)">
-            <summary>
-            Unstake an asset from your staking wallet
-            <para><a href="https://docs.kraken.com/rest/#operation/unstake"/></para>
-            </summary>
-            <param name="asset">Asset to unstake (asset ID or altname). Must be a valid staking asset (e.g. XBT.M, XTZ.S, ADA.S)</param>
-            <param name="amount">Amount of the asset to stake</param>
-            <param name="method">Amount of the asset to stake</param>
-            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-            <param name="ct">Cancellation token</param>
-            <returns>A reference to the unstaking request.</returns>
-        </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotStakingApi.GetPendingTransactionsAsync(System.String,System.Threading.CancellationToken)">
-            <summary>
-            Returns the list of pending staking transactions. Once completed, these transactions will be accessible
-            through <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotStakingApi.GetRecentTransactionsAsync(System.String,System.Threading.CancellationToken)"/> and will not be accessible through this API.
-            <para><a href="https://docs.kraken.com/rest/#operation/getStakingPendingDeposits"/></para>
-            </summary>
-            <param name="twoFactorPassword"></param>
-            <param name="ct"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotStakingApi.GetRecentTransactionsAsync(System.String,System.Threading.CancellationToken)">
-            <summary>
-            Returns a list of 1000 recent staking transactions from past 90 days.
-            <para><a href="https://docs.kraken.com/rest/#operation/getStakingTransactions"/></para>
-            </summary>
-            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
-            <param name="ct">Cancellation token</param>
-            <returns>The last 1000 staking transactions from the past 90 days</returns>
-        </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotStakingApi.GetStakableAssets(System.String,System.Threading.CancellationToken)">
-            <summary>
-            Returns the list of assets that you're able to stake.
-            <para><a href="https://docs.kraken.com/rest/#operation/getStakingAssetInfo"/></para>
-            </summary>
-            <param name="twoFactorPassword"></param>
-            <param name="ct"></param>
-            <returns></returns>
         </member>
         <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi">
             <summary>
@@ -4640,6 +4773,111 @@
             Trigger signal
             </summary>
         </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenAllocationsCursorPage">
+            <summary>
+            Allocations page
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAllocationsCursorPage.ConvertedAsset">
+            <summary>
+            Converted asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAllocationsCursorPage.TotalAllocated">
+            <summary>
+            Total allocated
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAllocationsCursorPage.TotalRewarded">
+            <summary>
+            Total rewarded
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenAllocation">
+            <summary>
+            Allocation info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAllocation.StrategyId">
+            <summary>
+            Strategy id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAllocation.Asset">
+            <summary>
+            Native asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAllocation.AmountAllocated">
+            <summary>
+            Allocated amounts
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAllocation.TotalRewarded">
+            <summary>
+            Total rewarded
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenAllocatedAmount">
+            <summary>
+            Allocated amounts
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAllocatedAmount.Bonding">
+            <summary>
+            Bonding allocaitions
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAllocatedAmount.Total">
+            <summary>
+            Total allocations
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenBondingAwarded">
+            <summary>
+            Bonding rewards
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenBondingAwarded.AllocationCount">
+            <summary>
+            Allocation count
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenBondingAwarded.Allocations">
+            <summary>
+            Allocations
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenBondingAllocation">
+            <summary>
+            Bonding allocation
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenBondingAllocation.CreateTime">
+            <summary>
+            Create time
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenBondingAllocation.ExpireTime">
+            <summary>
+            Expire time
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenAllocationRewarded">
+            <summary>
+            Rewards
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAllocationRewarded.Native">
+            <summary>
+            Rewarded in native
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAllocationRewarded.Converted">
+            <summary>
+            Rewarded in converted
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenAssetInfo">
             <summary>
             Info on an asset
@@ -4730,6 +4968,21 @@
             Pending cancelation orders
             </summary>
         </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenCursorPage`1">
+            <summary>
+            Data page with a cusor for pagination
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenCursorPage`1.NextCursor">
+            <summary>
+            Cursor for the next page
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenCursorPage`1.Items">
+            <summary>
+            Page data
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenDepositAddress">
             <summary>
             Deposit address
@@ -4778,6 +5031,171 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenDepositMethod.GenerateAddress">
             <summary>
             Generate address
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenEarnStatus">
+            <summary>
+            Earn status
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenEarnStatus.Pending">
+            <summary>
+            Is pending
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenEarnStrategy">
+            <summary>
+            Earn strategy info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenEarnStrategy.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenEarnStrategy.Asset">
+            <summary>
+            Asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenEarnStrategy.MinAllocation">
+            <summary>
+            Minimum amount (in USD) for an allocation or deallocation. Absence means no minimum.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenEarnStrategy.AllocationFee">
+            <summary>
+            Fee applied when allocating to this strategy
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenEarnStrategy.DeallocationFee">
+            <summary>
+            Fee applied when deallocating from this strategy
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenEarnStrategy.MaxAllocation">
+            <summary>
+            The maximum amount of funds that any given user may allocate to an account. Absence of value means there is no limit. Zero means that all new allocations will return an error (though auto-compound is unaffected).
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenEarnStrategy.CanAllocate">
+            <summary>
+            Is allocation available for this strategy
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenEarnStrategy.CanDeallocate">
+            <summary>
+            Is deallocation available for this strategy
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenEarnStrategy.YieldSource">
+            <summary>
+            Yield source
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenEarnStrategy.AutoCompound">
+            <summary>
+            Auto compound
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenEarnStrategy.AprEstimate">
+            <summary>
+            Apr estimation
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenEarnStrategy.LockType">
+            <summary>
+            Lock type info
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.LockTypeInfo">
+            <summary>
+            Lock type info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.LockTypeInfo.BondingPeriod">
+            <summary>
+            Duration of the bonding period, in seconds
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.LockTypeInfo.IsBondingPeriodVariable">
+            <summary>
+            Is the bonding period length variable (true) or static (false)
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.LockTypeInfo.RewardsDuringBonding">
+            <summary>
+            Whether rewards are earned during the bonding period (payouts occur after bonding is complete)
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.LockTypeInfo.ExitQueuePeriod">
+            <summary>
+            In order to remove funds, if this value is greater than 0, funds will first have to enter an exit queue and will have to wait for the exit queue period to end. Once ended, her funds will then follow and respect the unbonding_period.         If the value of the exit queue period is 0, then no waiting will have to occur and the exit queue will be skipped. Rewards are always paid out for the exit queue
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.LockTypeInfo.PayoutFrequency">
+            <summary>
+            At what intervals are rewards distributed and credited to the user’s ledger, in seconds
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.LockTypeInfo.UnbondingPeriod">
+            <summary>
+            Duration of the unbonding period in seconds. In order to remove funds, you must wait for the unbonding period to pass after requesting removal before funds become available in her spot wallet
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.LockTypeInfo.Type">
+            <summary>
+            Lock type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.LockTypeInfo.IsUnbondingPeriodVariable">
+            <summary>
+            Is the unbonding period length variable (true) or static (false)
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.LockTypeInfo.RewardsDuringUnbonding">
+            <summary>
+            Whether rewards are earned during the unbonding period (payouts occur after bonding is complete)
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.YieldSourceType">
+            <summary>
+            Yield source type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.YieldSourceType.Type">
+            <summary>
+            Yield source type
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.AutoCompoundType">
+            <summary>
+            Auto compound type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.AutoCompoundType.Default">
+            <summary>
+            Whether it is the default (if Type is Optional)
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.AutoCompoundType.Type">
+            <summary>
+            Auto Compound type
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.AprEstimate">
+            <summary>
+            Apr estimate
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.AprEstimate.High">
+            <summary>
+            High estimate
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.AprEstimate.Low">
+            <summary>
+            Low estimate
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenEditOrder">

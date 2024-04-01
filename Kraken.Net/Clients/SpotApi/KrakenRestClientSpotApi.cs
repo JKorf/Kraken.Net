@@ -39,7 +39,7 @@ namespace Kraken.Net.Clients.SpotApi
         public IKrakenRestClientSpotApiTrading Trading { get; }
 
         /// <inheritdoc />
-        public IKrakenRestClientSpotStakingApi Staking { get; }
+        public IKrakenRestClientSpotApiEarn Earn { get; }
 
         /// <inheritdoc />
         public string ExchangeName => "Kraken";
@@ -61,7 +61,7 @@ namespace Kraken.Net.Clients.SpotApi
             Account = new KrakenRestClientSpotApiAccount(this);
             ExchangeData = new KrakenRestClientSpotApiExchangeData(this); 
             Trading = new KrakenRestClientSpotApiTrading(this);
-            Staking = new KrakenRestClientSpotStakingApi(this);
+            Earn = new KrakenRestClientSpotApiEarn(this);
 
             RequestBodyFormat = RequestBodyFormat.FormData;
         }
@@ -360,6 +360,18 @@ namespace Kraken.Net.Clients.SpotApi
             }
 
             return false;
+        }
+
+        internal async Task<WebCallResult> Execute(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, bool ignoreRatelimit = false, RequestBodyFormat? bodyFormat = null)
+        {
+            var result = await SendRequestAsync<KrakenResult>(url, method, ct, parameters, signed, requestWeight: weight, ignoreRatelimit: ignoreRatelimit, requestBodyFormat: bodyFormat).ConfigureAwait(false);
+            if (!result)
+                return result.AsDatalessError(result.Error!);
+
+            if (result.Data.Error.Any())
+                return result.AsDatalessError(new ServerError(string.Join(", ", result.Data.Error)));
+
+            return result.AsDataless();
         }
 
         internal async Task<WebCallResult<T>> Execute<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, bool ignoreRatelimit = false, RequestBodyFormat? bodyFormat = null)

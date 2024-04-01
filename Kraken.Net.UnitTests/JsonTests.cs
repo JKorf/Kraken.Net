@@ -54,6 +54,14 @@ namespace Kraken.Net.UnitTests
         }
 
         [Test]
+        public async Task ValidateSpotEarnCalls()
+        {
+            await _comparer.ProcessSubject("SpotEarn", c => c.SpotApi.Earn,
+                useNestedJsonPropertyForAllCompare: new List<string> { "result" }
+                );
+        }
+
+        [Test]
         public async Task ValidateFuturesAccountCalls()
         {
             await _comparer.ProcessSubject("FuturesAccount", c => c.FuturesApi.Account,

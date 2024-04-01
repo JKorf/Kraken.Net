@@ -73,12 +73,14 @@ A Discord server is available [here](https://discord.gg/MSpeEtSY8t). Feel free t
 ### Spot Api
 |API|Supported|Location|
 |--|--:|--|
-|Market Data|✓|`restClient.SpotApi.ExchangeData`|
+|Spot Market Data|✓|`restClient.SpotApi.ExchangeData`|
+|Nft Market Data|X||
 |Account Data|✓|`restClient.SpotApi.Account` / `restClient.SpotApi.Trading`|
-|Trading|✓|`restClient.SpotApi.Trading`|
+|Spot Trading|✓|`restClient.SpotApi.Trading`|
+|NFT Trading|X||
 |Funding|✓|`restClient.SpotApi.Account`|
 |Subaccounts|X||
-|Earn|X||
+|Earn|✓|`restClient.SpotApi.Earn`|
 |Websocket Public Messages|✓|`socketClient.SpotApi`|
 |Websocket Private Messages|✓|`socketClient.SpotApi`|
 
