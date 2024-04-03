@@ -1600,18 +1600,6 @@
             Extension methods specific to using the Kraken API
             </summary>
         </member>
-        <member name="M:Kraken.Net.ExtensionMethods.KrakenExtensionMethods.ValidateKrakenSymbol(System.String)">
-            <summary>
-            Validate the string is a valid Kraken symbol.
-            </summary>
-            <param name="symbolString">string to validate</param>
-        </member>
-        <member name="M:Kraken.Net.ExtensionMethods.KrakenExtensionMethods.ValidateKrakenWebsocketSymbol(System.String)">
-            <summary>
-            Validate the string is a valid Kraken websocket symbol.
-            </summary>
-            <param name="symbolString">string to validate</param>
-        </member>
         <member name="T:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApi">
             <summary>
             Futuers API endpoints

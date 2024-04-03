@@ -85,7 +85,6 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenKlinesResult>> GetKlinesAsync(string symbol, KlineInterval interval, DateTime? since = null, CancellationToken ct = default)
         {
-            symbol.ValidateKrakenSymbol();
             var parameters = new Dictionary<string, object>()
             {
                 {"pair", symbol},
@@ -98,7 +97,6 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenOrderBook>> GetOrderBookAsync(string symbol, int? limit = null, CancellationToken ct = default)
         {
-            symbol.ValidateKrakenSymbol();
             var parameters = new Dictionary<string, object>()
             {
                 {"pair", symbol},
@@ -113,7 +111,6 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenTradesResult>> GetTradeHistoryAsync(string symbol, DateTime? since = null, int? limit = null, CancellationToken ct = default)
         {
-            symbol.ValidateKrakenSymbol();
             var parameters = new Dictionary<string, object>()
             {
                 {"pair", symbol},
@@ -126,7 +123,6 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenSpreadsResult>> GetRecentSpreadAsync(string symbol, DateTime? since = null, CancellationToken ct = default)
         {
-            symbol.ValidateKrakenSymbol();
             var parameters = new Dictionary<string, object>()
             {
                 {"pair", symbol},

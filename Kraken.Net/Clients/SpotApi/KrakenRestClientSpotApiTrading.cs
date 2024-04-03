@@ -130,7 +130,6 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenBatchOrderResult>> PlaceMultipleOrdersAsync(string symbol, IEnumerable<KrakenOrderRequest> orders, DateTime? deadline = null, bool? validateOnly = null, CancellationToken ct = default)
         {
-            symbol.ValidateKrakenSymbol();
             var parameters = new ParameterCollection
             {
                 { "pair", symbol },
@@ -169,7 +168,6 @@ namespace Kraken.Net.Clients.SpotApi
             decimal? secondaryClosePrice = null,
             CancellationToken ct = default)
         {
-            symbol.ValidateKrakenSymbol();
             var parameters = new Dictionary<string, object>()
             {
                 { "pair", symbol },
@@ -218,7 +216,6 @@ namespace Kraken.Net.Clients.SpotApi
             string? twoFactorPassword = null,
             CancellationToken ct = default)
         {
-            symbol.ValidateKrakenSymbol();
             var parameters = new Dictionary<string, object>()
             {
                 { "pair", symbol },

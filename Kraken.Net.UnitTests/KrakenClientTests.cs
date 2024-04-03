@@ -107,43 +107,6 @@ namespace Kraken.Net.UnitTests
             return JsonConvert.SerializeObject(result);
         }
 
-        [TestCase("BTC-USDT", false)]
-        [TestCase("NANO-USDT", false)]
-        [TestCase("NANO-BTC", false)]
-        [TestCase("ETH-BTC", false)]
-        [TestCase("BE-ETC", false)]
-        [TestCase("NANO-USDTD", false)]
-        [TestCase("BTCUSDT", true)]
-        [TestCase("BTCUSDTA", true)]
-        [TestCase("BTCUSDTAF", true)]
-        [TestCase("BTCUSD", true)]
-        [TestCase("NANOUSDT.d", true)]
-        public void CheckValidKrakenSymbol(string symbol, bool isValid)
-        {
-            if (isValid)
-                Assert.DoesNotThrow(() => symbol.ValidateKrakenSymbol());
-            else
-                Assert.Throws(typeof(ArgumentException), () => symbol.ValidateKrakenSymbol());
-        }
-
-        [TestCase("BTC/USDT", true)]
-        [TestCase("NANO/USDT", true)]
-        [TestCase("NANO/BTC", true)]
-        [TestCase("ETH/BTC", true)]
-        [TestCase("BE/ETC", true)]
-        [TestCase("B/ETC", true)]
-        [TestCase("/ETC", false)]
-        [TestCase("NANO/USDTD", true)]
-        [TestCase("BTCUSDT", false)]
-        [TestCase("BTCUSD", false)]
-        public void CheckValidKrakenWebsocketSymbol(string symbol, bool isValid)
-        {
-            if (isValid)
-                Assert.DoesNotThrow(() => symbol.ValidateKrakenWebsocketSymbol());
-            else
-                Assert.Throws(typeof(ArgumentException), () => symbol.ValidateKrakenWebsocketSymbol());
-        }
-
         [Test]
         public void CheckRestInterfaces()
         {

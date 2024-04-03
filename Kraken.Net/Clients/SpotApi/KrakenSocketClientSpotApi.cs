@@ -107,8 +107,6 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenStreamTick>> handler, CancellationToken ct = default)
         {
-            symbol.ValidateKrakenWebsocketSymbol();
-
             var subSymbol = SymbolToServer(symbol);
             var subscription = new KrakenSubscription<KrakenStreamTick>(_logger, "ticker", new[] { symbol }, null, null, handler);
             return await SubscribeAsync(subscription, ct).ConfigureAwait(false);
@@ -120,7 +118,6 @@ namespace Kraken.Net.Clients.SpotApi
             var symbolArray = symbols.ToArray();
             for (var i = 0; i < symbolArray.Length; i++)
             {
-                symbolArray[i].ValidateKrakenWebsocketSymbol();
                 symbolArray[i] = SymbolToServer(symbolArray[i]);
             }
 
@@ -135,9 +132,6 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(IEnumerable<string> symbols, KlineInterval interval, Action<DataEvent<KrakenStreamKline>> handler, CancellationToken ct = default)
         {
-            foreach (var symbol in symbols)
-                symbol.ValidateKrakenWebsocketSymbol();
-
             var subSymbols = symbols.Select(SymbolToServer);
 
             var subscription = new KrakenSubscription<KrakenStreamKline>(_logger, "ohlc", subSymbols.ToArray(), int.Parse(JsonConvert.SerializeObject(interval, new KlineIntervalConverter(false))), null, handler);
@@ -151,9 +145,6 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<IEnumerable<KrakenTrade>>> handler, CancellationToken ct = default)
         {
-            foreach (var symbol in symbols)
-                symbol.ValidateKrakenWebsocketSymbol();
-
             var subSymbols = symbols.Select(SymbolToServer);
             var subscription = new KrakenSubscription<IEnumerable<KrakenTrade>>(_logger, "trade", symbols.ToArray(), null, null, handler);
             return await SubscribeAsync(subscription, ct).ConfigureAwait(false);
@@ -166,9 +157,6 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToSpreadUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenStreamSpread>> handler, CancellationToken ct = default)
         {
-            foreach (var symbol in symbols)
-                symbol.ValidateKrakenWebsocketSymbol();
-
             var subscription = new KrakenSubscription<KrakenStreamSpread>(_logger, "spread", symbols.ToArray(), null, null, handler);
             return await SubscribeAsync(subscription, ct).ConfigureAwait(false);
         }
@@ -180,9 +168,6 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
 		public async Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(IEnumerable<string> symbols, int depth, Action<DataEvent<KrakenStreamOrderBook>> handler, CancellationToken ct = default)
         {
-            foreach (var symbol in symbols)
-                symbol.ValidateKrakenWebsocketSymbol();
-
             depth.ValidateIntValues(nameof(depth), 10, 25, 100, 500, 1000);
             var subSymbols = symbols.Select(SymbolToServer);
 
