@@ -140,7 +140,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             if (validateOnly == true)
                 parameters.AddOptionalParameter("validate", true);
-            return await _baseClient.Execute<KrakenBatchOrderResult>(_baseClient.GetUri("0/private/AddOrderBatch"), HttpMethod.Post, ct, parameters, true, bodyFormat: RequestBodyFormat.Json).ConfigureAwait(false);
+            return await _baseClient.Execute<KrakenBatchOrderResult>(_baseClient.GetUri("0/private/AddOrderBatch"), HttpMethod.Post, ct, parameters, true, bodyFormat: RequestBodyFormat.Json, weight: orders.Count() / 2, gate: KrakenExchange.RateLimiters.SpotOrderApi).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -194,7 +194,7 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.AddOptionalParameter("close[price2]", secondaryClosePrice?.ToString(CultureInfo.InvariantCulture));
             if (validateOnly == true)
                 parameters.AddOptionalParameter("validate", true);
-            var result = await _baseClient.Execute<KrakenPlacedOrder>(_baseClient.GetUri("0/private/AddOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            var result = await _baseClient.Execute<KrakenPlacedOrder>(_baseClient.GetUri("0/private/AddOrder"), HttpMethod.Post, ct, parameters, true, gate: KrakenExchange.RateLimiters.SpotOrderApi).ConfigureAwait(false);
             if (result)
                 _baseClient.InvokeOrderPlaced(new OrderId { SourceObject = result.Data, Id = result.Data.OrderIds.FirstOrDefault() });
             return result;

@@ -62,7 +62,7 @@ namespace Kraken.Net.Clients.SpotApi
             AddSystemSubscription(new HeartbeatSubscription(_logger));
             AddSystemSubscription(new SystemStatusSubscription(_logger));
 
-            //AddGenericHandler("AdditionalSubResponses", (messageEvent) => { });
+            RateLimiter = KrakenExchange.RateLimiters.SpotSocket;
         }
         #endregion
 

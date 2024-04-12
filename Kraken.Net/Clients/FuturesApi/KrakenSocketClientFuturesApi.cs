@@ -39,6 +39,7 @@ namespace Kraken.Net.Clients.SpotApi
         internal KrakenSocketClientFuturesApi(ILogger logger, KrakenSocketOptions options) :
             base(logger, options.Environment.FuturesSocketBaseAddress, options, options.FuturesOptions)
         {
+            RateLimiter = KrakenExchange.RateLimiters.FuturesSocket;
         }
         #endregion
 

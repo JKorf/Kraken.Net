@@ -32,28 +32,12 @@ namespace Kraken.Net.Objects.Options
         /// <summary>
         /// Options for the Spot API
         /// </summary>
-        public RestApiOptions SpotOptions { get; private set; } = new RestApiOptions()
-        {
-            RateLimiters = new List<IRateLimiter>
-            {
-                    new RateLimiter()
-                        .AddApiKeyLimit(15, TimeSpan.FromSeconds(45), false, false)
-                        .AddEndpointLimit(new [] { "/private/AddOrder", "/private/CancelOrder", "/private/CancelAll", "/private/CancelAllOrdersAfter" }, 60, TimeSpan.FromSeconds(60), null, true),
-            }
-        };
+        public RestApiOptions SpotOptions { get; private set; } = new RestApiOptions();
 
         /// <summary>
         /// Options for the Futures API
         /// </summary>
-        public RestApiOptions FuturesOptions { get; private set; } = new RestApiOptions()
-        {
-            //RateLimiters = new List<IRateLimiter>
-            //{
-            //        new RateLimiter()
-            //            .AddApiKeyLimit(15, TimeSpan.FromSeconds(45), false, false)
-            //            .AddEndpointLimit(new [] { "/private/AddOrder", "/private/CancelOrder", "/private/CancelAll", "/private/CancelAllOrdersAfter" }, 60, TimeSpan.FromSeconds(60), null, true),
-            //}
-        };
+        public RestApiOptions FuturesOptions { get; private set; } = new RestApiOptions();
 
         internal KrakenRestOptions Copy()
         {
