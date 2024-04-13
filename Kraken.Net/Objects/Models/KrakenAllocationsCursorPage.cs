@@ -52,6 +52,12 @@ namespace Kraken.Net.Objects.Models
         /// </summary>
         [JsonProperty("total_rewarded")]
         public KrakenAllocationRewarded TotalRewarded { get; set; } = null!;
+
+        /// <summary>
+        /// Information about the current payout period, absent if when there is no current payout period.
+        /// </summary>
+        [JsonProperty("payout")]
+        public KrakenAllocationPayout Payout { get; set; } = null!;
     }
 
     /// <summary>
@@ -120,5 +126,35 @@ namespace Kraken.Net.Objects.Models
         /// </summary>
         [JsonProperty("converted")]
         public decimal Converted { get; set; }
+    }
+
+    /// <summary>
+    /// Payout
+    /// </summary>
+    public class KrakenAllocationPayout
+    {
+        /// <summary>
+        /// Reward accumulated in the payout period until now
+        /// </summary>
+        [JsonProperty("accumulated_reward")]
+        public KrakenAllocationRewarded AccumulatedReward { get; set; } = default!;
+
+        /// <summary>
+        /// Estimated reward from now until the payout
+        /// </summary>
+        [JsonProperty("estimated_reward")]
+        public KrakenAllocationRewarded EstimatedReward { get; set; } = default!;
+
+        /// <summary>
+        /// Tentative date of the next reward payout.
+        /// </summary>
+        [JsonProperty("period_end")]
+        public DateTime PeriodEnd { get; set; }
+
+        /// <summary>
+        /// When the current payout period started. Either the date of the last payout or when it was enabled.
+        /// </summary>
+        [JsonProperty("period_start")]
+        public DateTime PeriodStart { get; set; }
     }
 }
