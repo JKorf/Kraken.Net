@@ -3126,14 +3126,9 @@
             Rate limiters configured for the Kraken API
             </summary>
         </member>
-        <member name="P:Kraken.Net.KrakenRateLimiters.SpotApi">
+        <member name="P:Kraken.Net.KrakenRateLimiters.SpotRest">
             <summary>
             Ratelimiter for Spot endpoints
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.KrakenRateLimiters.SpotOrderApi">
-            <summary>
-            Ratelimiter for Spot order endpoints
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Internal.KrakenSocketCancelAfterRequest">
