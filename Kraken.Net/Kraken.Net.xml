@@ -233,7 +233,7 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.ShouldRetryRequestAsync``1(CryptoExchange.Net.Objects.WebCallResult{``0},System.Int32)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.ShouldRetryRequestAsync``1(CryptoExchange.Net.RateLimiting.IRateLimitGate,CryptoExchange.Net.Objects.WebCallResult{``0},System.Int32)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.GetSymbolName(System.String,System.String)">
@@ -2973,9 +2973,9 @@
         <member name="T:Kraken.Net.Interfaces.IKrakenAccessLimiter">
             <inheritdoc />
         </member>
-        <member name="P:Kraken.Net.Interfaces.IKrakenAccessLimiter.Tier">
+        <member name="M:Kraken.Net.Interfaces.IKrakenAccessLimiter.Configure(Kraken.Net.Enums.RateLimitTier)">
             <summary>
-            The rate limiting tier
+            Configure the rate limiting tier
             </summary>
         </member>
         <member name="T:Kraken.Net.Interfaces.IKrakenFuturesOrder">
@@ -3108,7 +3108,7 @@
         </member>
         <member name="T:Kraken.Net.KrakenExchange">
             <summary>
-            Kraken exchange information and helpers
+            Kraken exchange information and configuration
             </summary>
         </member>
         <member name="P:Kraken.Net.KrakenExchange.ExchangeName">
@@ -3118,18 +3118,29 @@
         </member>
         <member name="P:Kraken.Net.KrakenExchange.RateLimiter">
             <summary>
-            Rate limiter for the Kraken API
+            Rate limiter configuration for the Kraken API
             </summary>
         </member>
         <member name="T:Kraken.Net.KrakenRateLimiters">
             <summary>
-            Rate limiters configured for the Kraken API
+            Rate limiter configuration for the Kraken API
             </summary>
         </member>
-        <member name="P:Kraken.Net.KrakenRateLimiters.SpotRest">
+        <member name="E:Kraken.Net.KrakenRateLimiters.RateLimitTriggered">
             <summary>
-            Ratelimiter for Spot endpoints
+            Event for when a rate limit is triggered
             </summary>
+        </member>
+        <member name="P:Kraken.Net.KrakenRateLimiters.Tier">
+            <summary>
+            The Tier to use when calculating rate limits
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.KrakenRateLimiters.Configure(Kraken.Net.Enums.RateLimitTier)">
+            <summary>
+            Configure the rate limit with a different tier
+            </summary>
+            <param name="tier"></param>
         </member>
         <member name="T:Kraken.Net.Objects.Internal.KrakenSocketCancelAfterRequest">
             <summary>

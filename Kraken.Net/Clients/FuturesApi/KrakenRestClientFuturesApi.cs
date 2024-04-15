@@ -48,7 +48,7 @@ namespace Kraken.Net.Clients.FuturesApi
         internal async Task<WebCallResult<U>> Execute<T, U>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 0)
             where T : KrakenFuturesResult<U>
         {
-            var result = await SendRequestAsync<T>(url, method, ct, parameters, signed, requestWeight: weight, gate: KrakenExchange.RateLimiters.FuturesApi).ConfigureAwait(false);
+            var result = await SendRequestAsync<T>(url, method, ct, parameters, signed, requestWeight: weight, gate: KrakenExchange.RateLimiter.FuturesApi).ConfigureAwait(false);
             if (!result)
                 return result.AsError<U>(result.Error!);
 
@@ -69,7 +69,7 @@ namespace Kraken.Net.Clients.FuturesApi
         internal async Task<WebCallResult<T>> Execute<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 0)
             where T : KrakenFuturesResult
         {
-            var result = await SendRequestAsync<T>(url, method, ct, parameters, signed, requestWeight: weight, gate: KrakenExchange.RateLimiters.FuturesApi).ConfigureAwait(false);
+            var result = await SendRequestAsync<T>(url, method, ct, parameters, signed, requestWeight: weight, gate: KrakenExchange.RateLimiter.FuturesApi).ConfigureAwait(false);
             if (!result)
                 return result.AsError<T>(result.Error!);
 
@@ -89,7 +89,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
         internal async Task<WebCallResult> Execute(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int requestWeight = 0)
         {
-            var result = await SendRequestAsync<KrakenFuturesResult>(url, method, ct, parameters, signed, requestWeight: requestWeight, gate: KrakenExchange.RateLimiters.FuturesApi).ConfigureAwait(false);
+            var result = await SendRequestAsync<KrakenFuturesResult>(url, method, ct, parameters, signed, requestWeight: requestWeight, gate: KrakenExchange.RateLimiter.FuturesApi).ConfigureAwait(false);
             if (!result)
                 return result.AsDatalessError(result.Error!);
 
@@ -110,7 +110,7 @@ namespace Kraken.Net.Clients.FuturesApi
         internal async Task<WebCallResult<T>> ExecuteBase<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int requestWeight = 0)
             where T : class
         {
-            return await SendRequestAsync<T>(url, method, ct, parameters, signed, requestWeight: requestWeight, gate: KrakenExchange.RateLimiters.FuturesApi).ConfigureAwait(false);
+            return await SendRequestAsync<T>(url, method, ct, parameters, signed, requestWeight: requestWeight, gate: KrakenExchange.RateLimiter.FuturesApi).ConfigureAwait(false);
         }
 
         /// <inheritdoc />

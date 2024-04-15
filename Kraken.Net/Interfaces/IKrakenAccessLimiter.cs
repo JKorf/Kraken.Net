@@ -10,8 +10,8 @@ namespace Kraken.Net.Interfaces
     public interface IKrakenAccessLimiter : IAccessLimiter
     {
         /// <summary>
-        /// The rate limiting tier
+        /// Configure the rate limiting tier
         /// </summary>
-        RateLimitTier Tier { get; set; }
+        void Configure(RateLimitTier tier);
     }
 }

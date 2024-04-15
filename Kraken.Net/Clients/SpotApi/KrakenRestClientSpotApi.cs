@@ -344,8 +344,11 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
-        protected override async Task<bool> ShouldRetryRequestAsync<T>(WebCallResult<T> callResult, int tries)
+        protected override async Task<bool> ShouldRetryRequestAsync<T>(IRateLimitGate? gate, WebCallResult<T> callResult, int tries)
         {
+            if (await base.ShouldRetryRequestAsync(gate, callResult, tries).ConfigureAwait(false))
+                return true;
+
             if (!callResult.Success)
                 return false;
 
@@ -365,7 +368,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         internal async Task<WebCallResult> Execute(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, RequestBodyFormat? bodyFormat = null)
         {
-            var result = await SendRequestAsync<KrakenResult>(url, method, ct, parameters, signed, requestWeight: weight, gate: KrakenExchange.RateLimiters.SpotRest, requestBodyFormat: bodyFormat).ConfigureAwait(false);
+            var result = await SendRequestAsync<KrakenResult>(url, method, ct, parameters, signed, requestWeight: weight, gate: KrakenExchange.RateLimiter.SpotRest, requestBodyFormat: bodyFormat).ConfigureAwait(false);
             if (!result)
                 return result.AsDatalessError(result.Error!);
 
@@ -377,7 +380,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         internal async Task<WebCallResult<T>> Execute<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, RequestBodyFormat? bodyFormat = null, IRateLimitGate? gate = null)
         {
-            var result = await SendRequestAsync<KrakenResult<T>>(url, method, ct, parameters, signed, requestWeight: weight, gate: gate ?? KrakenExchange.RateLimiters.SpotRest, requestBodyFormat: bodyFormat).ConfigureAwait(false);
+            var result = await SendRequestAsync<KrakenResult<T>>(url, method, ct, parameters, signed, requestWeight: weight, gate: gate ?? KrakenExchange.RateLimiter.SpotRest, requestBodyFormat: bodyFormat).ConfigureAwait(false);
             if (!result)
                 return result.AsError<T>(result.Error!);
 
