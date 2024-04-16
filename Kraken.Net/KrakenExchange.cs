@@ -1,6 +1,7 @@
 ﻿using CryptoExchange.Net.RateLimiting;
 using CryptoExchange.Net.RateLimiting.Filters;
 using CryptoExchange.Net.RateLimiting.Guards;
+using CryptoExchange.Net.RateLimiting.Interfaces;
 using Kraken.Net.Enums;
 
 namespace Kraken.Net
@@ -79,18 +80,18 @@ namespace Kraken.Net
             }
 
             SpotRest = new RateLimitGate("Spot Rest")
-                                        .AddGuard(new RateLimitGuard((def, host, key) => def.Path + def.Method, new PathStartFilter("0/public"), 1, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding))
-                                        .AddGuard(new RateLimitGuard((def, host, key) => key!.ToString(), new IGuardFilter[] { new AuthenticatedEndpointFilter(true) }, limit, TimeSpan.FromSeconds(1), RateLimitWindowType.Decay, decay));
+                                        .AddGuard(new RateLimitGuard(RateLimitGuard.PerEndpoint, new PathStartFilter("0/public"), 1, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding))
+                                        .AddGuard(new RateLimitGuard(RateLimitGuard.PerApiKey, new IGuardFilter[] { new AuthenticatedEndpointFilter(true) }, limit, TimeSpan.FromSeconds(1), RateLimitWindowType.Decay, decay));
 
             SpotSocket = new RateLimitGate("Spot Socket")
-                                        .AddGuard(new RateLimitGuard((def, host, key) => host, new LimitItemTypeFilter(RateLimitItemType.Connection), 150, TimeSpan.FromMinutes(10), RateLimitWindowType.Sliding)); // 150 connections per sliding 10 minutes
+                                        .AddGuard(new RateLimitGuard(RateLimitGuard.PerHost, new LimitItemTypeFilter(RateLimitItemType.Connection), 150, TimeSpan.FromMinutes(10), RateLimitWindowType.Sliding)); // 150 connections per sliding 10 minutes
 
             FuturesApi = new RateLimitGate("Futures Rest")
-                                        .AddGuard(new RateLimitGuard((def, host, key) => host, new PathStartFilter("derivatives/api"), 500, TimeSpan.FromSeconds(10), RateLimitWindowType.Fixed))
-                                        .AddGuard(new RateLimitGuard((def, host, key) => host, new PathStartFilter("api/history"), 100, TimeSpan.FromMinutes(10), RateLimitWindowType.Fixed));
+                                        .AddGuard(new RateLimitGuard(RateLimitGuard.PerHost, new PathStartFilter("derivatives/api"), 500, TimeSpan.FromSeconds(10), RateLimitWindowType.Fixed))
+                                        .AddGuard(new RateLimitGuard(RateLimitGuard.PerHost, new PathStartFilter("api/history"), 100, TimeSpan.FromMinutes(10), RateLimitWindowType.Fixed));
 
             FuturesSocket = new RateLimitGate("Futures Socket")
-                                        .AddGuard(new RateLimitGuard((def, host, key) => host, new LimitItemTypeFilter(RateLimitItemType.Connection), 100, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding));
+                                        .AddGuard(new RateLimitGuard(RateLimitGuard.PerHost, new LimitItemTypeFilter(RateLimitItemType.Connection), 100, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding));
 
             SpotRest.RateLimitTriggered += (x) => RateLimitTriggered?.Invoke(x);
             SpotSocket.RateLimitTriggered += (x) => RateLimitTriggered?.Invoke(x);

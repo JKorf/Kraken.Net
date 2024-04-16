@@ -233,7 +233,7 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.ShouldRetryRequestAsync``1(CryptoExchange.Net.RateLimiting.IRateLimitGate,CryptoExchange.Net.Objects.WebCallResult{``0},System.Int32)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.ShouldRetryRequestAsync``1(CryptoExchange.Net.RateLimiting.Interfaces.IRateLimitGate,CryptoExchange.Net.Objects.WebCallResult{``0},System.Int32)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.GetSymbolName(System.String,System.String)">
@@ -2969,14 +2969,6 @@
             <param name="timeout"></param>
             <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
             <returns></returns>
-        </member>
-        <member name="T:Kraken.Net.Interfaces.IKrakenAccessLimiter">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenAccessLimiter.Configure(Kraken.Net.Enums.RateLimitTier)">
-            <summary>
-            Configure the rate limiting tier
-            </summary>
         </member>
         <member name="T:Kraken.Net.Interfaces.IKrakenFuturesOrder">
             <summary>

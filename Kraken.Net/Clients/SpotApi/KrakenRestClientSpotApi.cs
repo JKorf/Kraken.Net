@@ -9,7 +9,7 @@ using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.Objects;
-using CryptoExchange.Net.RateLimiting;
+using CryptoExchange.Net.RateLimiting.Interfaces;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
