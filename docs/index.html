@@ -83,6 +83,7 @@
           <ul class="nav flex-column">
             <li class="nav-item"><a class="nav-link" href="#idocs_installation">Installation</a></li>
             <li class="nav-item"><a class="nav-link" href="#idocs_apiaccess">API Access</a></li>
+            <li class="nav-item"><a class="nav-link" href="#idocs_ratelimit">Rate limiting</a></li>
           </ul>
         </li>
         <li class="nav-item"><a class="nav-link active" href="#idocs_examples">Examples</a>
@@ -181,6 +182,28 @@
 });
 var socketClient = new KrakenSocketClient();</code></pre>
 		  
+        </section>
+		
+		<section id="idocs_ratelimit">
+          <h2>Rate limiting</h2>
+          
+		  <p>By default a rate limiter is enabled which makes sure the server rate limits aren't exceeded. For more info on what the rate limits for the Kraken API are see the <a href="https://docs.kraken.com/rest/#section/Rate-Limits/REST-API-Rate-Limits" target="_blank">Spot API docs</a> and <a href="https://docs.futures.kraken.com/#http-api-http-api-introduction-authentication-authent" target="_blank">Futures API docs</a>. Note that rate limiting is only implemented to prevent going over the request rate limit, it does not apply for order limits.</p>
+		  <p>Whether client ratelimiting is enabled in the library and what the behaviour should be when the limit is reached can be controlled with the <code>RatelimiterEnabled</code> and <code>RateLimitingBehaviour</code> client options</p>
+		  <pre><code>services.AddKraken(x =>
+    x.RatelimiterEnabled = true;
+    x.RateLimitingBehaviour = RateLimitingBehaviour.Wait;
+}, x =>
+{
+    x.RatelimiterEnabled = true;
+    x.RateLimitingBehaviour = RateLimitingBehaviour.Wait;
+});</code></pre>
+		  <p>To be notified of when a rate limit is hit the static <code>KrakenExchange.RateLimiter</code> exposes an event which triggers when a rate limit is reached</p>
+		  <pre><code>KrakenExchange.RateLimiter.RateLimitTriggered += (rateLimitEvent) => Console.WriteLine("Limit triggered: " + rateLimitEvent);
+
+// Output: Limit triggered: RateLimitEvent { ApiLimit = Spot Rest, LimitDescription = Limit of 15 with a decay rate of 0,33, RequestDefinition = POST 0/private/TradesHistory authenticated, Host = api.kraken.com, Current = 14, RequestWeight = 2, Limit = 15, TimePeriod = 00:00:01, DelayTime = 00:00:04, Behaviour = Wait }</code></pre>
+
+		  <p>Kraken applies different rate limits based on the account verification tier. By default the rate limit is set to the most conservative <code>Starter</code> tier. To change the rate limit tier call the <code>Configure</code> method</p>
+		  <pre><code>KrakenExchange.RateLimiter.Configure(Kraken.Net.Enums.RateLimitTier.Pro);</code></pre>
         </section>
         		
 		<hr class="divider">

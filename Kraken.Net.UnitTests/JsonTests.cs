@@ -16,7 +16,7 @@ namespace Kraken.Net.UnitTests
         {
             x.ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials("1234", "1234");
             x.OutputOriginalData = true;
-            x.RatelimiterEnabled = false;
+            x.RateLimiterEnabled = false;
         }));
         
         [Test]
