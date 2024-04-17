@@ -233,7 +233,7 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.ShouldRetryRequestAsync``1(CryptoExchange.Net.Objects.WebCallResult{``0},System.Int32)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.ShouldRetryRequestAsync``1(CryptoExchange.Net.RateLimiting.Interfaces.IRateLimitGate,CryptoExchange.Net.Objects.WebCallResult{``0},System.Int32)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.GetSymbolName(System.String,System.String)">
@@ -1313,6 +1313,26 @@
         <member name="F:Kraken.Net.Enums.PositionSide.Short">
             <summary>
             Short position
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.RateLimitTier">
+            <summary>
+            Tier to use for ratelimiting
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.RateLimitTier.Starter">
+            <summary>
+            Starter/default
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.RateLimitTier.Intermediate">
+            <summary>
+            Intermediate
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.RateLimitTier.Pro">
+            <summary>
+            PRo
             </summary>
         </member>
         <member name="T:Kraken.Net.Enums.SelfTradePreventionType">
@@ -3077,6 +3097,42 @@
             <param name="futuresRestAddress"></param>
             <param name="futuresSocketAddress"></param>
             <returns></returns>
+        </member>
+        <member name="T:Kraken.Net.KrakenExchange">
+            <summary>
+            Kraken exchange information and configuration
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.KrakenExchange.ExchangeName">
+            <summary>
+            Exchange name
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.KrakenExchange.RateLimiter">
+            <summary>
+            Rate limiter configuration for the Kraken API
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.KrakenRateLimiters">
+            <summary>
+            Rate limiter configuration for the Kraken API
+            </summary>
+        </member>
+        <member name="E:Kraken.Net.KrakenRateLimiters.RateLimitTriggered">
+            <summary>
+            Event for when a rate limit is triggered
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.KrakenRateLimiters.Tier">
+            <summary>
+            The Tier to use when calculating rate limits
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.KrakenRateLimiters.Configure(Kraken.Net.Enums.RateLimitTier)">
+            <summary>
+            Configure the rate limit with a different tier
+            </summary>
+            <param name="tier"></param>
         </member>
         <member name="T:Kraken.Net.Objects.Internal.KrakenSocketCancelAfterRequest">
             <summary>

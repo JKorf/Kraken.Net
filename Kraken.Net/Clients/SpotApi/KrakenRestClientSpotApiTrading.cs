@@ -140,7 +140,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             if (validateOnly == true)
                 parameters.AddOptionalParameter("validate", true);
-            return await _baseClient.Execute<KrakenBatchOrderResult>(_baseClient.GetUri("0/private/AddOrderBatch"), HttpMethod.Post, ct, parameters, true, bodyFormat: RequestBodyFormat.Json).ConfigureAwait(false);
+            return await _baseClient.Execute<KrakenBatchOrderResult>(_baseClient.GetUri("0/private/AddOrderBatch"), HttpMethod.Post, ct, parameters, true, bodyFormat: RequestBodyFormat.Json, weight: 0).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -194,7 +194,7 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.AddOptionalParameter("close[price2]", secondaryClosePrice?.ToString(CultureInfo.InvariantCulture));
             if (validateOnly == true)
                 parameters.AddOptionalParameter("validate", true);
-            var result = await _baseClient.Execute<KrakenPlacedOrder>(_baseClient.GetUri("0/private/AddOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            var result = await _baseClient.Execute<KrakenPlacedOrder>(_baseClient.GetUri("0/private/AddOrder"), HttpMethod.Post, ct, parameters, true, weight: 0).ConfigureAwait(false);
             if (result)
                 _baseClient.InvokeOrderPlaced(new OrderId { SourceObject = result.Data, Id = result.Data.OrderIds.FirstOrDefault() });
             return result;
@@ -245,7 +245,7 @@ namespace Kraken.Net.Clients.SpotApi
                 {"txid", orderId}
             };
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
-            var result = await _baseClient.Execute<KrakenCancelResult>(_baseClient.GetUri("0/private/CancelOrder"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            var result = await _baseClient.Execute<KrakenCancelResult>(_baseClient.GetUri("0/private/CancelOrder"), HttpMethod.Post, ct, parameters, true, weight: 0).ConfigureAwait(false);
             if (result)
                 _baseClient.InvokeOrderCanceled(new OrderId { SourceObject = result.Data, Id = orderId });
             return result;

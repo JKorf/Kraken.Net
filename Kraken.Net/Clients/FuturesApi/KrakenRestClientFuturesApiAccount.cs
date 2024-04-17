@@ -26,13 +26,13 @@ namespace Kraken.Net.Clients.FuturesApi
         /// <inheritdoc />
         public async Task<WebCallResult<Dictionary<string, KrakenBalances>>> GetBalancesAsync(CancellationToken ct = default)
         {
-            return await _baseClient.Execute<KrakenBalancesResult, Dictionary<string, KrakenBalances>>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/accounts")), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await _baseClient.Execute<KrakenBalancesResult, Dictionary<string, KrakenBalances>>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/accounts")), HttpMethod.Get, ct, signed: true, weight: 2).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task<WebCallResult<IEnumerable<KrakenFuturesPnlCurrency>>> GetPnlCurrencyAsync(CancellationToken ct = default)
         {
-            return await _baseClient.Execute<KrakenFuturesPnlCurrencyResult, IEnumerable<KrakenFuturesPnlCurrency>>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/pnlpreferences")), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await _baseClient.Execute<KrakenFuturesPnlCurrencyResult, IEnumerable<KrakenFuturesPnlCurrency>>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/pnlpreferences")), HttpMethod.Get, ct, signed: true, weight: 2).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -43,7 +43,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 { "pnlPreference", pnlCurrency },
                 { "symbol", symbol }
             };
-            return await _baseClient.Execute(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/pnlpreferences")), HttpMethod.Put, ct, parameters, signed: true).ConfigureAwait(false);
+            return await _baseClient.Execute(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/pnlpreferences")), HttpMethod.Put, ct, parameters, signed: true, requestWeight: 10).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -57,7 +57,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 { "toAccount", toAccount },
                 { "unit", asset }
             };
-            return await _baseClient.Execute(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/transfer")), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await _baseClient.Execute(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/transfer")), HttpMethod.Post, ct, parameters, signed: true, requestWeight: 10).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -72,7 +72,8 @@ namespace Kraken.Net.Clients.FuturesApi
             parameters.AddOptionalParameter("sort", sort);
             parameters.AddOptionalParameter("to", toId);
 
-            return await _baseClient.ExecuteBase<KrakenAccountLogResult>(new Uri(_baseClient.BaseAddress.AppendPath("api/history/v3/account-log")), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            var weight = limit == null ? 3 : limit <= 25 ? 1 : limit <= 50 ? 2 : limit <= 1000 ? 3 : limit <= 5000 ? 6 : 10;
+            return await _baseClient.ExecuteBase<KrakenAccountLogResult>(new Uri(_baseClient.BaseAddress.AppendPath("api/history/v3/account-log")), HttpMethod.Get, ct, parameters, signed: true, requestWeight: weight).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
