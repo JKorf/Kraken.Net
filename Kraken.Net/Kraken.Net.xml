@@ -4806,6 +4806,11 @@
             Total rewarded
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAllocation.Payout">
+            <summary>
+            Information about the current payout period, absent if when there is no current payout period.
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenAllocatedAmount">
             <summary>
             Allocated amounts
@@ -4864,6 +4869,31 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenAllocationRewarded.Converted">
             <summary>
             Rewarded in converted
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenAllocationPayout">
+            <summary>
+            Payout
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAllocationPayout.AccumulatedReward">
+            <summary>
+            Reward accumulated in the payout period until now
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAllocationPayout.EstimatedReward">
+            <summary>
+            Estimated reward from now until the payout
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAllocationPayout.PeriodEnd">
+            <summary>
+            Tentative date of the next reward payout.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAllocationPayout.PeriodStart">
+            <summary>
+            When the current payout period started. Either the date of the last payout or when it was enabled.
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenAssetInfo">
