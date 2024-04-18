@@ -325,6 +325,9 @@ namespace Kraken.Net.Clients.SpotApi
         protected string SymbolToServer(string input)
         {
             var split = input.Split('/');
+            if (split.Length != 2)
+                return input;
+
             var baseAsset = split[0];
             var quoteAsset = split[1];
             if (_symbolSynonyms.TryGetValue(baseAsset.ToUpperInvariant(), out var baseOutput))
