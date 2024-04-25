@@ -10,6 +10,16 @@ namespace Kraken.Net.Interfaces
     public interface IKrakenOrderBookFactory
     {
         /// <summary>
+        /// Spot order book factory methods
+        /// </summary>
+        public IOrderBookFactory<KrakenOrderBookOptions> Spot { get; }
+
+        /// <summary>
+        /// Futures order book factory methods
+        /// </summary>
+        public IOrderBookFactory<KrakenOrderBookOptions> Futures { get; }
+
+        /// <summary>
         /// Create a SymbolOrderBook for the Spot API
         /// </summary>
         /// <param name="symbol">The symbol</param>

@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Interfaces;
+using CryptoExchange.Net.OrderBook;
 using Kraken.Net.Interfaces;
 using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Objects.Options;
@@ -13,6 +14,12 @@ namespace Kraken.Net.SymbolOrderBooks
     {
         private readonly IServiceProvider _serviceProvider;
 
+        /// <inheritdoc />
+        public IOrderBookFactory<KrakenOrderBookOptions> Spot { get; }
+
+        /// <inheritdoc />
+        public IOrderBookFactory<KrakenOrderBookOptions> Futures { get; }
+
         /// <summary>
         /// ctor
         /// </summary>
@@ -20,6 +27,9 @@ namespace Kraken.Net.SymbolOrderBooks
         public KrakenOrderBookFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+
+            Spot = new OrderBookFactory<KrakenOrderBookOptions>((symbol, options) => CreateSpot(symbol, options), (baseAsset, quoteAsset, options) => CreateSpot(baseAsset.ToUpperInvariant() + quoteAsset.ToUpperInvariant(), options));
+            Futures = new OrderBookFactory<KrakenOrderBookOptions>((symbol, options) => CreateFutures(symbol, options), (baseAsset, quoteAsset, options) => CreateFutures(baseAsset.ToUpperInvariant() + quoteAsset.ToUpperInvariant(), options));
         }
 
         /// <inheritdoc />
