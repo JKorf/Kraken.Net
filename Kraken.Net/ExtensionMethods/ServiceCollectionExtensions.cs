@@ -59,7 +59,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddTransient<ICryptoRestClient, CryptoRestClient>();
             services.AddTransient<ICryptoSocketClient, CryptoSocketClient>();
-            services.AddSingleton<IKrakenOrderBookFactory, KrakenOrderBookFactory>();
+            services.AddTransient<IKrakenOrderBookFactory, KrakenOrderBookFactory>();
             services.AddTransient(x => x.GetRequiredService<IKrakenRestClient>().SpotApi.CommonSpotClient);
             if (socketClientLifeTime == null)
                 services.AddSingleton<IKrakenSocketClient, KrakenSocketClient>();

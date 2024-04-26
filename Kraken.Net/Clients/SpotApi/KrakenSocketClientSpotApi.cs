@@ -111,7 +111,7 @@ namespace Kraken.Net.Clients.SpotApi
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenStreamTick>> handler, CancellationToken ct = default)
         {
             var subSymbol = SymbolToServer(symbol);
-            var subscription = new KrakenSubscription<KrakenStreamTick>(_logger, "ticker", new[] { symbol }, null, null, handler);
+            var subscription = new KrakenSubscription<KrakenStreamTick>(_logger, "ticker", new[] { subSymbol }, null, null, handler);
             return await SubscribeAsync(subscription, ct).ConfigureAwait(false);
         }
 
@@ -124,7 +124,7 @@ namespace Kraken.Net.Clients.SpotApi
                 symbolArray[i] = SymbolToServer(symbolArray[i]);
             }
 
-            var subscription = new KrakenSubscription<KrakenStreamTick>(_logger, "ticker", symbols, null, null, handler);
+            var subscription = new KrakenSubscription<KrakenStreamTick>(_logger, "ticker", symbolArray, null, null, handler);
             return await SubscribeAsync(subscription, ct).ConfigureAwait(false);
         }
 
@@ -149,7 +149,7 @@ namespace Kraken.Net.Clients.SpotApi
         public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<IEnumerable<KrakenTrade>>> handler, CancellationToken ct = default)
         {
             var subSymbols = symbols.Select(SymbolToServer);
-            var subscription = new KrakenSubscription<IEnumerable<KrakenTrade>>(_logger, "trade", symbols.ToArray(), null, null, handler);
+            var subscription = new KrakenSubscription<IEnumerable<KrakenTrade>>(_logger, "trade", subSymbols.ToArray(), null, null, handler);
             return await SubscribeAsync(subscription, ct).ConfigureAwait(false);
         }
 
@@ -174,7 +174,7 @@ namespace Kraken.Net.Clients.SpotApi
             depth.ValidateIntValues(nameof(depth), 10, 25, 100, 500, 1000);
             var subSymbols = symbols.Select(SymbolToServer);
 
-            var subscription = new KrakenBookSubscription(_logger, symbols.ToArray(), depth, handler);
+            var subscription = new KrakenBookSubscription(_logger, subSymbols.ToArray(), depth, handler);
             return await SubscribeAsync(subscription, ct).ConfigureAwait(false);
         }
 

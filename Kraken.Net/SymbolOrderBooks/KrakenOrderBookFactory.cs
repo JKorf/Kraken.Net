@@ -28,7 +28,7 @@ namespace Kraken.Net.SymbolOrderBooks
         {
             _serviceProvider = serviceProvider;
 
-            Spot = new OrderBookFactory<KrakenOrderBookOptions>((symbol, options) => CreateSpot(symbol, options), (baseAsset, quoteAsset, options) => CreateSpot(baseAsset.ToUpperInvariant() + quoteAsset.ToUpperInvariant(), options));
+            Spot = new OrderBookFactory<KrakenOrderBookOptions>((symbol, options) => CreateSpot(symbol, options), (baseAsset, quoteAsset, options) => CreateSpot(baseAsset.ToUpperInvariant() + "/" + quoteAsset.ToUpperInvariant(), options));
             Futures = new OrderBookFactory<KrakenOrderBookOptions>((symbol, options) => CreateFutures(symbol, options), (baseAsset, quoteAsset, options) => CreateFutures(baseAsset.ToUpperInvariant() + quoteAsset.ToUpperInvariant(), options));
         }
 
