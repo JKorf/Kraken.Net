@@ -17,6 +17,19 @@ namespace Kraken.Net
         public static string ExchangeName => "Kraken";
 
         /// <summary>
+        /// Url to the main website
+        /// </summary>
+        public static string Url { get; } = "https://www.kraken.com";
+
+        /// <summary>
+        /// Urls to the API documentation
+        /// </summary>
+        public static string[] ApiDocsUrl { get; } = new[] {
+            "https://docs.kraken.com/rest/",
+            "https://docs.futures.kraken.com/"
+            };
+
+        /// <summary>
         /// Rate limiter configuration for the Kraken API
         /// </summary>
         public static KrakenRateLimiters RateLimiter { get; } = new KrakenRateLimiters();
