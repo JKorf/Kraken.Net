@@ -22,6 +22,9 @@
         <member name="P:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.ExchangeName">
             <inheritdoc />
         </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.FormatSymbol(System.String,System.String)">
+            <inheritdoc />
+        </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.ParseErrorResponse(System.Int32,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Collections.Generic.IEnumerable{System.String}}},CryptoExchange.Net.Interfaces.IMessageAccessor)">
             <inheritdoc />
         </member>
@@ -145,6 +148,9 @@
         <member name="P:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.ClientOptions">
             <inheritdoc />
         </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.FormatSymbol(System.String,System.String)">
+            <inheritdoc />
+        </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.GetListenerIdentifier(CryptoExchange.Net.Interfaces.IMessageAccessor)">
             <inheritdoc />
         </member>
@@ -229,6 +235,9 @@
             <summary>
             Event triggered when an order is canceled via this client
             </summary>
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.FormatSymbol(System.String,System.String)">
+            <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
@@ -410,6 +419,9 @@
             <inheritdoc />
         </member>
         <member name="P:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.ClientOptions">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.FormatSymbol(System.String,System.String)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.GetListenerIdentifier(CryptoExchange.Net.Interfaces.IMessageAccessor)">
@@ -3035,6 +3047,16 @@
             Kraken order book factory
             </summary>
         </member>
+        <member name="P:Kraken.Net.Interfaces.IKrakenOrderBookFactory.Spot">
+            <summary>
+            Spot order book factory methods
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Interfaces.IKrakenOrderBookFactory.Futures">
+            <summary>
+            Futures order book factory methods
+            </summary>
+        </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenOrderBookFactory.CreateSpot(System.String,System.Action{Kraken.Net.Objects.Options.KrakenOrderBookOptions})">
             <summary>
             Create a SymbolOrderBook for the Spot API
@@ -3106,6 +3128,16 @@
         <member name="P:Kraken.Net.KrakenExchange.ExchangeName">
             <summary>
             Exchange name
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.KrakenExchange.Url">
+            <summary>
+            Url to the main website
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.KrakenExchange.ApiDocsUrl">
+            <summary>
+            Urls to the API documentation
             </summary>
         </member>
         <member name="P:Kraken.Net.KrakenExchange.RateLimiter">
@@ -8128,6 +8160,12 @@
             </summary>
         </member>
         <member name="T:Kraken.Net.SymbolOrderBooks.KrakenOrderBookFactory">
+            <inheritdoc />
+        </member>
+        <member name="P:Kraken.Net.SymbolOrderBooks.KrakenOrderBookFactory.Spot">
+            <inheritdoc />
+        </member>
+        <member name="P:Kraken.Net.SymbolOrderBooks.KrakenOrderBookFactory.Futures">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.SymbolOrderBooks.KrakenOrderBookFactory.#ctor(System.IServiceProvider)">

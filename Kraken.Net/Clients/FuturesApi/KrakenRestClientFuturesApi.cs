@@ -45,6 +45,9 @@ namespace Kraken.Net.Clients.FuturesApi
         }
         #endregion
 
+        /// <inheritdoc />
+        public override string FormatSymbol(string baseAsset, string quoteAsset) => $"{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
+
         internal async Task<WebCallResult<U>> Execute<T, U>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 0)
             where T : KrakenFuturesResult<U>
         {
