@@ -124,6 +124,8 @@ Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/s
 * Version 4.6.2 - 28 Apr 2024
     * Added Url and ApiDocsUrl to KrakenExchange static info class
     * Added KrakenOrderBookFactory book creation method
+    * Fixed KrakenOrderBookFactory injection issue
+    * Updated CryptoExchange.Net to v7.4.0, see https://github.com/JKorf/CryptoExchange.Net?tab=readme-ov-file#release-notes for release notes
 
 * Version 4.6.1 - 23 Apr 2024
     * Updated CryptoExchange.Net to 7.3.3, see https://github.com/JKorf/CryptoExchange.Net?tab=readme-ov-file#release-notes for release notes
