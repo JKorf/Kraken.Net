@@ -17,55 +17,16 @@ using CryptoExchange.Net.Objects.Sockets;
 using System.Collections.Generic;
 using Kraken.Net.Objects.Models.Futures;
 using NUnit.Framework.Legacy;
+using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Authentication;
+using System.Net.Http;
+using CryptoExchange.Net.Testing.Implementations;
 
 namespace Kraken.Net.UnitTests
 {
     [TestFixture]
     public class KrakenClientTests
     {
-        //[TestCase()]
-        //public void TestConversions()
-        //{
-        //    var ignoreMethods = new string[]
-        //    {
-        //        "GetSymbols",
-        //        "GetOrderBook",
-        //        "GetServerTime",
-        //        "GetTickers",
-        //        "GetTradeHistory",
-        //    };
-        //    var defaultParameterValues = new Dictionary<string, object>
-        //    {
-        //        { "assets", new [] { "XBTUSD" } },
-        //        { "symbol", "XBTUSD" },
-        //        {"clientOrderId", null }
-        //    };
-
-        //    var methods = typeof(KrakenClient).GetMethods(BindingFlags.Public | BindingFlags.Instance);
-        //    var callResultMethods = methods.Where(m => m.ReturnType.IsGenericType && m.ReturnType.GetGenericTypeDefinition() == typeof(WebCallResult<>));
-        //    foreach (var method in callResultMethods)
-        //    {
-        //        var name = method.Name;
-        //        if (ignoreMethods.Contains(method.Name))
-        //            continue;
-
-        //        var expectedType = method.ReturnType.GetGenericArguments()[0];
-        //        var expected = typeof(TestHelpers).GetMethod("CreateObjectWithTestParameters").MakeGenericMethod(expectedType).Invoke(null, null);
-        //        var parameters = TestHelpers.CreateParametersForMethod(method, defaultParameterValues);
-        //        var client = TestHelpers.CreateResponseClient(SerializeExpected(expected), new KrakenClientOptions() { ApiCredentials = new ApiCredentials("Test", "Test"), LogLevel = LogLevel.Debug });
-
-        //        act
-        //       var result = method.Invoke(client, parameters);
-        //        var callResult = result.GetType().GetProperty("Success").GetValue(result);
-        //        var data = result.GetType().GetProperty("Data").GetValue(result);
-
-        //        assert
-        //        ClassicAssert.AreSame(true, callResult);
-        //        Assert.That(TestHelpers.AreEqual(expected, data), method.Name);
-        //    }
-        //}
-
-
         [TestCase()]
         public async Task TestErrorResult_Should_ResultInFailedCall()
         {
@@ -105,27 +66,6 @@ namespace Kraken.Net.UnitTests
             };
 
             return JsonConvert.SerializeObject(result);
-        }
-
-        [Test]
-        public void CheckRestInterfaces()
-        {
-            var assembly = Assembly.GetAssembly(typeof(KrakenRestClientSpotApi));
-            var ignore = new string[] { "IKrakenRestClientSpot" };
-            var clientInterfaces = assembly.GetTypes().Where(t => t.Name.StartsWith("IKrakenRestClientSpot") && !ignore.Contains(t.Name));
-
-            foreach (var clientInterface in clientInterfaces)
-            {
-                var implementation = assembly.GetTypes().Single(t => t.IsAssignableTo(clientInterface) && t != clientInterface);
-                int methods = 0;
-                foreach (var method in implementation.GetMethods().Where(m => m.ReturnType.IsAssignableTo(typeof(Task))))
-                {
-                    var interfaceMethod = clientInterface.GetMethod(method.Name, method.GetParameters().Select(p => p.ParameterType).ToArray());
-                    ClassicAssert.NotNull(interfaceMethod, $"Missing interface for method {method.Name} in {implementation.Name} implementing interface {clientInterface.Name}");
-                    methods++;
-                }
-                Debug.WriteLine($"{clientInterface.Name} {methods} methods validated");
-            }
         }
 
         [TestCase()]
@@ -203,6 +143,42 @@ namespace Kraken.Net.UnitTests
             ClassicAssert.IsFalse(result.Success);
             ClassicAssert.IsNotNull(result.Error);
             Assert.That(result.Error.Message == "Error occured");
+        }
+
+        [Test]
+        public void CheckSignatureExample()
+        {
+            var authProvider = new KrakenAuthenticationProvider(
+                new ApiCredentials("XX", "kQH5HW/8p1uGOVjbgWA7FunAmGO8lsSUXNsu3eow76sz84Q18fWxnyRzBHCd3pd5nE9qa99HAZtuZuj6F1huXg=="),
+                new TestNonceProvider(1616492376594)
+                );
+            var client = (RestApiClient)new KrakenRestClient().SpotApi;
+
+            CryptoExchange.Net.Testing.TestHelpers.CheckSignature(
+                client,
+                authProvider,
+                HttpMethod.Get,
+                "/0/private/AddOrder",
+                (uriParams, bodyParams, headers) =>
+                {
+                    return headers["API-Sign"].ToString();
+                },
+                "4/dpxb3iT4tp/ZCVEwSnEsLxx0bqyhLpdfOpc6fn7OR8+UClSV5n9E6aSS8MPtnRfp32bAb0nmbRn6H8ndwLUQ==",
+                new Dictionary<string, object>
+                {
+                    { "ordertype", "limit" },
+                    { "pair", "XBTUSD" },
+                    { "price", "37500" },
+                    { "type", "buy" },
+                    { "volume", "1.25" },
+                });
+        }
+
+        [Test]
+        public void CheckInterfaces()
+        {
+            CryptoExchange.Net.Testing.TestHelpers.CheckForMissingRestInterfaces<KrakenRestClient>();
+            CryptoExchange.Net.Testing.TestHelpers.CheckForMissingSocketInterfaces<KrakenSocketClient>();
         }
     }
 }
