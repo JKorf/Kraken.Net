@@ -1,0 +1,17 @@
+GET
+/derivatives/api/v3/history
+false
+{
+  "result": "success",
+  "history": [
+    {
+      "time": "2024-05-03T13:05:43.974Z",
+      "trade_id": 100,
+      "price": 61081,
+      "size": 25,
+      "side": "sell",
+      "type": "fill",
+      "uid": "d0692c0c-742e-4d88-862c-8bd63533e067"
+    }
+    ]
+    }

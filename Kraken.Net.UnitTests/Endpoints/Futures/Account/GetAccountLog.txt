@@ -1,0 +1,18 @@
+GET
+/api/history/v3/account-log
+true
+{
+  "accountUid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "logs": [
+    {
+      "asset": "string",
+      "booking_uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "date": "2019-08-24T14:15:22Z",
+      "id": 0,
+      "info": "futures trade",
+      "margin_account": "string",
+      "new_balance": 0,
+      "old_balance": 0
+    }
+  ]
+}

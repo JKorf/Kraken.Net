@@ -1,0 +1,9 @@
+POST
+/0/private/CancelAll
+true
+{
+  "error": [],
+  "result": {
+    "count": 1
+  }
+}

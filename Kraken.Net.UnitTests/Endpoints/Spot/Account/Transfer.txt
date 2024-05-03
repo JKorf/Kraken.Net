@@ -1,0 +1,9 @@
+POST
+/0/private/WalletTransfer
+true
+{
+  "error": [],
+  "result": {
+    "refid": "FTQcuak-V6Za8qrWnhzTx67yYHz8Tg"
+  }
+}

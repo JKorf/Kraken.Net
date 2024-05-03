@@ -31,6 +31,7 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Collateral value
         /// </summary>
+        [JsonProperty("collateral_value")]
         public decimal? CollateralValue { get; set; }
         /// <summary>
         /// Status

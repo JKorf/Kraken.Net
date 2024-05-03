@@ -32,5 +32,10 @@ namespace Kraken.Net.Objects.Models
         /// </summary>
         [JsonProperty("descr")]
         public KrakenPlacedOrderDescription Description { get; set; } = null!;
+        /// <summary>
+        /// Close order description
+        /// </summary>
+        [JsonProperty("close")]
+        public string? CloseOrderInfo { get; set; }
     }
 }

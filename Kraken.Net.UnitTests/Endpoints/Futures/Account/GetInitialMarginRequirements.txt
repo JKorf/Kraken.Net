@@ -1,0 +1,7 @@
+GET
+/derivatives/api/v3/initialmargin
+true
+{
+  "result": "success",
+  "serverTime": "2016-02-25T09:45:53.818Z",
+}

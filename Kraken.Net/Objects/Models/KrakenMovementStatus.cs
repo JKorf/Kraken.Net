@@ -58,6 +58,16 @@ namespace Kraken.Net.Objects.Models
         /// </summary>
         public string Status { get; set; } = string.Empty;
         /// <summary>
+        /// Additional status info
+        /// </summary>
+        [JsonProperty("status-prop")]
+        public string? AdditionalStatus { get; set; } = string.Empty;
+        /// <summary>
+        /// Withdrawal key name, as set up on your account
+        /// </summary>
+        [JsonProperty("key")]
+        public string? Key { get; set; }
+        /// <summary>
         /// Originators
         /// </summary>
         public IEnumerable<string>? Originators { get; set; } = Array.Empty<string>();

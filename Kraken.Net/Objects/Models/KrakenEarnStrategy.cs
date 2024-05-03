@@ -53,6 +53,11 @@ namespace Kraken.Net.Objects.Models
         [JsonProperty("can_deallocate")]
         public bool CanDeallocate { get; set; }
         /// <summary>
+        /// Reason for restrictions
+        /// </summary>
+        [JsonProperty("allocation_restriction_info")]
+        public IEnumerable<string> AllocationRestrictionInfo { get; set; } = Array.Empty<string>();
+        /// <summary>
         /// Yield source
         /// </summary>
         [JsonProperty("yield_source")]

@@ -1,0 +1,10 @@
+GET
+/0/public/SystemStatus
+false
+{
+  "error": [],
+  "result": {
+    "status": "online",
+    "timestamp": "2024-05-03T11:23:45Z"
+  }
+}

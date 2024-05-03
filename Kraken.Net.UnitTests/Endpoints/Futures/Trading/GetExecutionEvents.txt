@@ -1,0 +1,79 @@
+GET
+/api/history/v3/executions
+true
+{
+  "accountUid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "len": 0,
+  "serverTime": "2024-05-03T09:35:18.464Z",
+  "elements": [
+    {
+      "uid": "string",
+      "timestamp": 1604937694000,
+      "event": {
+        "execution": {
+          "execution": {
+            "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "makerOrder": {
+              "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+              "accountUid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+              "tradeable": "string",
+              "direction": "Buy",
+              "quantity": "1234.56789",
+              "filled": "1234.56789",
+              "timestamp": 1604937694000,
+              "limitPrice": "1234.56789",
+              "orderType": "Limit",
+              "clientId": "string",
+              "reduceOnly": true,
+              "lastUpdateTimestamp": 1604937694000
+            },
+            "takerOrder": {
+              "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+              "accountUid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+              "tradeable": "string",
+              "direction": "Buy",
+              "quantity": "1234.56789",
+              "filled": "1234.56789",
+              "timestamp": 1604937694000,
+              "limitPrice": "1234.56789",
+              "orderType": "Limit",
+              "clientId": "string",
+              "reduceOnly": true,
+              "lastUpdateTimestamp": 1604937694000
+            },
+            "timestamp": 1604937694000,
+            "quantity": "1234.56789",
+            "price": "1234.56789",
+            "markPrice": "1234.56789",
+            "limitFilled": true,
+            "oldTakerOrder": {
+              "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+              "accountUid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+              "tradeable": "string",
+              "direction": "Buy",
+              "quantity": "1234.56789",
+              "filled": "1234.56789",
+              "timestamp": 1604937694000,
+              "limitPrice": "1234.56789",
+              "orderType": "Limit",
+              "clientId": "string",
+              "reduceOnly": true,
+              "lastUpdateTimestamp": 1604937694000
+            },
+            "usdValue": "1234.56789",
+            "makerOrderData": {
+              "fee": "1234.56789",
+              "positionSize": "1234.56789"
+            },
+            "takerOrderData": {
+              "fee": "1234.56789",
+              "positionSize": "1234.56789"
+            }
+          },
+          "takerReducedQuantity": ""
+        }
+      }
+    }
+  ],
+  "continuationToken": "string"
+}

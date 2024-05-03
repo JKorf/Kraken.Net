@@ -1,0 +1,12 @@
+POST
+/0/private/EditOrder
+true
+{
+  "error": [],
+  "result": {
+    "descr": {
+      "order": "buy 1.25000000 XBTUSD @ limit 27500.0"
+    },
+    "txid": "OU22CG-KLAF2-FWUDD7"
+  }
+}

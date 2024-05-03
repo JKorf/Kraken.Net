@@ -1,0 +1,32 @@
+GET
+/0/public/Assets
+false
+{
+  "error": [],
+  "result": {
+    "XXBT": {
+      "aclass": "currency",
+      "altname": "XBT",
+      "decimals": 10,
+      "display_decimals": 5,
+      "collateral_value": 1,
+      "status": "enabled"
+    },
+    "ZEUR": {
+      "aclass": "currency",
+      "altname": "EUR",
+      "decimals": 4,
+      "display_decimals": 2,
+      "collateral_value": 1,
+      "status": "enabled"
+    },
+    "ZUSD": {
+      "aclass": "currency",
+      "altname": "USD",
+      "decimals": 4,
+      "display_decimals": 2,
+      "collateral_value": 1,
+      "status": "enabled"
+    }
+  }
+}

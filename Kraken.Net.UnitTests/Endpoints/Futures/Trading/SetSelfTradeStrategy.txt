@@ -1,0 +1,7 @@
+PUT
+/derivatives/api/v3/self-trade-strategy
+true
+{
+  "result": "success",
+  "serverTime": "2020-07-22T13:44:24.311Z"
+}

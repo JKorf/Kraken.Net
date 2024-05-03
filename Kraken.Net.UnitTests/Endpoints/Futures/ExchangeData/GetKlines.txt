@@ -1,0 +1,16 @@
+GET
+/api/charts/v1/mark/ETHUSDT/12h
+false
+{
+  "candles": [
+    {
+      "time": 1620816960000,
+      "high": "56475.00000000000",
+      "low": "55935.00000000000",
+      "open": "56294.00000000000",
+      "close": "56250.00000000000",
+      "volume": 10824
+    }
+  ],
+  "more_candles": true
+}

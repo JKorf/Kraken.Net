@@ -1,0 +1,16 @@
+GET
+/derivatives/api/v3/instruments/status
+false
+{
+  "result": "success",
+  "serverTime": "2024-05-03T13:15:34.1Z",
+  "instrumentStatus": [
+    {
+      "tradeable": "PF_COMPUSD",
+      "experiencingDislocation": false,
+      "priceDislocationDirection": null,
+      "experiencingExtremeVolatility": false,
+      "extremeVolatilityInitialMarginMultiplier": 1
+    }
+    ]
+}

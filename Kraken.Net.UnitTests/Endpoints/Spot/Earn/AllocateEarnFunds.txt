@@ -1,0 +1,7 @@
+POST
+/0/private/Earn/Allocate
+true
+{
+  "error": [],
+  "result": true
+}

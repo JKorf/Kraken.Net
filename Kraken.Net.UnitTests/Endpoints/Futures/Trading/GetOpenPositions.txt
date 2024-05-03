@@ -1,0 +1,34 @@
+GET
+/derivatives/api/v3/openpositions
+true
+{
+  "result": "success",
+  "openPositions": [
+    {
+      "side": "short",
+      "symbol": "PI_XBTUSD",
+      "price": 9392.749993345933,
+      "fillTime": "2020-07-22T14:39:12.376Z",
+      "size": 10000,
+      "unrealizedFunding": 0.00001045432180096817
+    },
+    {
+      "side": "long",
+      "symbol": "FI_XBTUSD_201225",
+      "price": 9399.749966754434,
+      "fillTime": "2020-07-22T14:39:12.376Z",
+      "size": 20000
+    },
+    {
+      "side": "long",
+      "symbol": "PF_DEFIUSD",
+      "price": 570,
+      "fillTime": "2022-04-20T19:15:25.438Z",
+      "size": 1,
+      "unrealizedFunding": -0.0073428045972263895,
+      "pnlCurrency": "BTC",
+      "maxFixedLeverage": 5
+    }
+  ],
+  "serverTime": "2020-07-22T14:39:12.376Z"
+}

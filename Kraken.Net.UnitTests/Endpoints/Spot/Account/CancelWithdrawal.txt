@@ -1,0 +1,7 @@
+POST
+/0/private/WithdrawCancel
+true
+{
+  "error": [],
+  "result": true
+}

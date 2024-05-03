@@ -1,0 +1,13 @@
+GET
+/derivatives/api/v3/leveragepreferences
+true
+{
+  "result": "success",
+  "serverTime": "2022-06-28T15:01:12.762Z",
+  "leveragePreferences": [
+    {
+      "symbol": "PF_XBTUSD",
+      "maxLeverage": 10
+    }
+  ]
+}

@@ -23,5 +23,15 @@ namespace Kraken.Net.Objects.Models
         /// </summary>
         [JsonProperty("new")]
         public bool IsNew { get; set; }
+        /// <summary>
+        /// Tag
+        /// </summary>
+        [JsonProperty("tag")]
+        public string? Tag { get; set; }
+        /// <summary>
+        /// Memo
+        /// </summary>
+        [JsonProperty("memo")]
+        public string? Memo { get; set; }
     }
 }

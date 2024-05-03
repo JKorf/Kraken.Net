@@ -1,0 +1,7 @@
+POST
+/derivatives/api/v3/transfer
+true
+{
+  "result": "success",
+  "serverTime": "2022-06-28T14:48:58.711Z"
+}

@@ -1,0 +1,9 @@
+POST
+/0/private/Earn/DeallocateStatus
+true
+{
+  "error": [],
+  "result": {
+    "pending": false
+  }
+}

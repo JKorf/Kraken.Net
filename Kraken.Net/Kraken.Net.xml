@@ -4599,6 +4599,71 @@
             Position size
             </summary>
         </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionOrder">
+            <summary>
+            Excecution order info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionOrder.ClientOrderId">
+            <summary>
+            Client order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionOrder.AccountUid">
+            <summary>
+            Account id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionOrder.Tradeable">
+            <summary>
+            Tradeable
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionOrder.QuantityFilled">
+            <summary>
+            Quantity filled
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionOrder.LastUpdateTime">
+            <summary>
+            Last update time
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionOrder.Price">
+            <summary>
+            Price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionOrder.OrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionOrder.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionOrder.ReduceOnly">
+            <summary>
+            Reduce only
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionOrder.Side">
+            <summary>
+            Order side
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionOrder.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionOrder.Type">
+            <summary>
+            Order type
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesUserTrade">
             <summary>
             User trade info
@@ -5109,6 +5174,16 @@
             If the address has been used before
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenDepositAddress.Tag">
+            <summary>
+            Tag
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenDepositAddress.Memo">
+            <summary>
+            Memo
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenDepositMethod">
             <summary>
             Info about a deposit method
@@ -5137,6 +5212,11 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenDepositMethod.GenerateAddress">
             <summary>
             Generate address
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenDepositMethod.MinimumDepositAmount">
+            <summary>
+            Minimum deposit amount
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenEarnStatus">
@@ -5192,6 +5272,11 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenEarnStrategy.CanDeallocate">
             <summary>
             Is deallocation available for this strategy
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenEarnStrategy.AllocationRestrictionInfo">
+            <summary>
+            Reason for restrictions
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenEarnStrategy.YieldSource">
@@ -5537,6 +5622,16 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenMovementStatus.Status">
             <summary>
             Status of the transaction
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenMovementStatus.AdditionalStatus">
+            <summary>
+            Additional status info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenMovementStatus.Key">
+            <summary>
+            Withdrawal key name, as set up on your account
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenMovementStatus.Originators">
@@ -5969,6 +6064,11 @@
             Description
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenPlacedBatchOrder.CloseOrderInfo">
+            <summary>
+            Close order description
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenPlacedOrder">
             <summary>
             Placed order info
@@ -6343,6 +6443,11 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenSymbol.LotDecimals">
             <summary>
             Lot decimals
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenSymbol.CostDecimals">
+            <summary>
+            Cost decimals
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenSymbol.LotMultiplier">

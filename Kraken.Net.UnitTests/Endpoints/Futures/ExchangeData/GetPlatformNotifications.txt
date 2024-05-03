@@ -1,0 +1,20 @@
+GET
+/derivatives/api/v3/notifications
+true
+{
+  "result": "success",
+  "notifications": [
+    {
+      "type": "general",
+      "priority": "low",
+      "note": "We've launched a new Telegram group."
+    },
+    {
+      "type": "settlement",
+      "priority": "medium",
+      "note": "Week contracts with maturity 29/Jun/2018 expire and settle.",
+      "effectiveTime": "2018-06-29T15:00:00Z"
+    }
+  ],
+  "serverTime": "2018-06-29T15:22:05.187Z"
+}

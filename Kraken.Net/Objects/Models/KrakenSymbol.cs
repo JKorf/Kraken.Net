@@ -55,6 +55,11 @@ namespace Kraken.Net.Objects.Models
         [JsonProperty("lot_decimals")]
         public int LotDecimals { get; set; }
         /// <summary>
+        /// Cost decimals
+        /// </summary>
+        [JsonProperty("cost_decimals")]
+        public int CostDecimals { get; set; }
+        /// <summary>
         /// Lot multiplier
         /// </summary>
         [JsonProperty("lot_multiplier")]

@@ -1,0 +1,9 @@
+POST
+/0/private/Earn/AllocateStatus
+true
+{
+  "error": [],
+  "result": {
+    "pending": false
+  }
+}

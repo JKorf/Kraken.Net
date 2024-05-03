@@ -28,6 +28,11 @@ namespace Kraken.Net.Objects.Models
         /// Generate address
         /// </summary>
         [JsonProperty("gen-address")]
-        public bool GenerateAddress { get; set; }
+        public bool? GenerateAddress { get; set; }
+        /// <summary>
+        /// Minimum deposit amount
+        /// </summary>
+        [JsonProperty("minimum")]
+        public decimal? MinimumDepositAmount { get; set; }
     }
 }

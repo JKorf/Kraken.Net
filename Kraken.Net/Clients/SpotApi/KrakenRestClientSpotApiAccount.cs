@@ -54,7 +54,6 @@ namespace Kraken.Net.Clients.SpotApi
             return await _baseClient.Execute<KrakenTradeBalance>(_baseClient.GetUri("0/private/TradeBalance"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
-
         /// <inheritdoc />
         public async Task<WebCallResult<Dictionary<string, KrakenPosition>>> GetOpenPositionsAsync(IEnumerable<string>? transactionIds = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
