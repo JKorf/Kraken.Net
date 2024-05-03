@@ -118,11 +118,11 @@ namespace Kraken.Net.Objects.Models
         /// Long position limit
         /// </summary>
         [JsonProperty("long_position_limit")]
-        public int LongPositionLimit { get; set; }
+        public long LongPositionLimit { get; set; }
         /// <summary>
         /// Short position limit
         /// </summary>
         [JsonProperty("short_position_limit")]
-        public int ShortPositionLimit { get; set; }
+        public long ShortPositionLimit { get; set; }
     }
 }
