@@ -28,7 +28,7 @@ namespace Kraken.Net.Clients.FuturesApi
         public async Task<WebCallResult<IEnumerable<KrakenFuturesUserTrade>>> GetUserTradesAsync(DateTime? startTime = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
-            parameters.AddOptionalParameter("lastFillTime", startTime?.ToString("u").Replace(" ", "T"));
+            parameters.AddOptionalParameter("lastFillTime", startTime?.ToString("o"));
 
             var weight = startTime == null ? 2 : 25;
             return await _baseClient.Execute<KrakenFuturesUserTradeResult, IEnumerable<KrakenFuturesUserTrade>>(new Uri(_baseClient.BaseAddress.AppendPath("derivatives/api/v3/fills")), HttpMethod.Get, ct, parameters, signed: true, weight: weight).ConfigureAwait(false);
