@@ -52,9 +52,10 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
-        public async Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, CancellationToken ct = default)
+        public async Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, string? countryCode = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
+            parameters.AddOptionalParameter("country_code", countryCode);
             if (symbols?.Any() == true)
                 parameters.AddOptionalParameter("pair", string.Join(",", symbols));
 

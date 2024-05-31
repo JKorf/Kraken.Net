@@ -355,7 +355,7 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetAssetsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetTickerAsync(System.String,System.Threading.CancellationToken)">
@@ -472,7 +472,7 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToUserTradeUpdatesAsync(System.String,System.Boolean,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenStreamUserTrade}}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.PlaceOrderAsync(System.String,System.String,Kraken.Net.Enums.OrderType,Kraken.Net.Enums.OrderSide,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.Nullable{System.Boolean})">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.PlaceOrderAsync(System.String,System.String,Kraken.Net.Enums.OrderType,Kraken.Net.Enums.OrderSide,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CancelOrderAsync(System.String,System.String)">
@@ -2511,11 +2511,12 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary of asset info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of symbols and info about them
             <para><a href="https://docs.kraken.com/rest/#operation/getTradableAssetPairs" /></para>
             </summary>
+            <param name="countryCode">Filter whats available for a specific country/region</param>
             <param name="symbols">Filter list for specific symbols</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary of symbol info</returns>
@@ -2908,7 +2909,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.PlaceOrderAsync(System.String,System.String,Kraken.Net.Enums.OrderType,Kraken.Net.Enums.OrderSide,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.Nullable{System.Boolean})">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.PlaceOrderAsync(System.String,System.String,Kraken.Net.Enums.OrderType,Kraken.Net.Enums.OrderSide,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
             <summary>
             Place a new order
             <para><a href="https://docs.kraken.com/websockets/#message-addOrder" /></para>
@@ -2945,6 +2946,7 @@
             <param name="secondaryClosePrice">Close order secondary price</param>
             <param name="flags">Order flags</param>
             <param name="reduceOnly">Reduce only order</param>
+            <param name="margin">Funds the order on margin using the maximum leverage for the pair. Note, absolute max leverage is 5.</param>
             <returns></returns>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.CancelOrderAsync(System.String,System.String)">
@@ -5737,6 +5739,11 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenOrder.Reason">
             <summary>
             Reason of failure
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrder.Margin">
+            <summary>
+            Indicates if the order is funded on margin.
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenOrder.TradeIds">
