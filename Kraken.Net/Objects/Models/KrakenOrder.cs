@@ -107,6 +107,11 @@ namespace Kraken.Net.Objects.Models
         /// </summary>
         public string Reason { get; set; } = string.Empty;
         /// <summary>
+        /// Indicates if the order is funded on margin.
+        /// </summary>
+        [JsonProperty("margin")]
+        public bool? Margin { get; set; }
+        /// <summary>
         /// Trade ids
         /// </summary>
         [JsonProperty("trades")]

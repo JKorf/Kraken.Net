@@ -199,6 +199,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="secondaryClosePrice">Close order secondary price</param>
         /// <param name="flags">Order flags</param>
         /// <param name="reduceOnly">Reduce only order</param>
+        /// <param name="margin">Funds the order on margin using the maximum leverage for the pair. Note, absolute max leverage is 5.</param>
         /// <returns></returns>
         Task<CallResult<KrakenStreamPlacedOrder>> PlaceOrderAsync(
             string websocketToken,
@@ -217,7 +218,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             decimal? closePrice = null,
             decimal? secondaryClosePrice = null,
             IEnumerable<OrderFlags>? flags = null,
-            bool? reduceOnly = null);
+            bool? reduceOnly = null,
+            bool? margin = null);
 
         /// <summary>
         /// Cancel an order

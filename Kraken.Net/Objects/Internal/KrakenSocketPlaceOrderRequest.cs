@@ -44,5 +44,7 @@ namespace Kraken.Net.Objects.Internal
         public string? Flags { get; set; }
         [JsonProperty("reduce_only", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? ReduceOnly { get; set; }
+        [JsonProperty("margin", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? Margin { get; set; }
     }
 }
