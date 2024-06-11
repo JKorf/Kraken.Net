@@ -121,6 +121,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.7.0 - 11 Jun 2024
+    * Fix Asset not set on response model in SpotApi.Account.GetAvailableBalancesAsync
+    * Updated CryptoExchange.Net to v7.6.0, see https://github.com/JKorf/CryptoExchange.Net?tab=readme-ov-file#release-notes for release notes
+
 * Version 4.6.6 - 02 Jun 2024
     * Added margin parameter to websocket SpotApi.PlaceOrderAsync
     * Added countryCode parameter to SpotApi.ExchangeData.GetSymbolsAsync
