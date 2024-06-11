@@ -26,7 +26,8 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 
         public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
         {
-            _handler.Invoke(message.As((KrakenStreamSystemStatus)message.Data!, null, SocketUpdateType.Update));
+            var data = (KrakenStreamSystemStatus)message.Data!;
+            _handler.Invoke(message.As(data, data.Event, null, SocketUpdateType.Update));
             return new CallResult(null);
         }
 

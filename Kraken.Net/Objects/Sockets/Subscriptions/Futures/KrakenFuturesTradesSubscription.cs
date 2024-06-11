@@ -66,12 +66,12 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         {
             if (message.Data is KrakenFuturesTradesSnapshotUpdate snapshot)
             {
-                _handler.Invoke(message.As(snapshot.Trades, snapshot.Symbol, SocketUpdateType.Snapshot));
+                _handler.Invoke(message.As(snapshot.Trades, snapshot.Feed, snapshot.Symbol, SocketUpdateType.Snapshot));
                 return new CallResult(null);
             }
             else if (message.Data is KrakenFuturesTradeUpdate update)
             {
-                _handler.Invoke(message.As<IEnumerable<KrakenFuturesTradeUpdate>>(new[] { update }, update.Symbol, SocketUpdateType.Update));
+                _handler.Invoke(message.As<IEnumerable<KrakenFuturesTradeUpdate>>(new[] { update }, update.Feed, update.Symbol, SocketUpdateType.Update));
                 return new CallResult(null);
             }
 

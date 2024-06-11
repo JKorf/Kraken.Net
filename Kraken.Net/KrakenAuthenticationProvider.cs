@@ -31,18 +31,18 @@ namespace Kraken.Net
             RestApiClient apiClient,
             Uri uri,
             HttpMethod method,
-            IDictionary<string, object> uriParams,
-            IDictionary<string, object> bodyParams,
+            IDictionary<string, object> uriParameters,
+            IDictionary<string, object> bodyParameters,
             Dictionary<string, string> headers,
             bool auth,
             ArrayParametersSerialization arraySerialization,
             HttpMethodParameterPosition parameterPosition,
-            RequestBodyFormat bodyFormat)
+            RequestBodyFormat requestBodyFormat)
         {
             if (!auth)
                 return;
 
-            var parameters = parameterPosition == HttpMethodParameterPosition.InUri ? uriParams : bodyParams;
+            var parameters = parameterPosition == HttpMethodParameterPosition.InUri ? uriParameters : bodyParameters;
 
             headers.Add("API-Key", _credentials.Key!.GetString());
             var nonce = _nonceProvider.GetNonce();

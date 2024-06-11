@@ -28,22 +28,22 @@ namespace Kraken.Net
         }
 
         public override void AuthenticateRequest(
-            RestApiClient apiClient, 
+            RestApiClient apiClient,
             Uri uri,
-            HttpMethod method, 
-            IDictionary<string, object> uriParams,
-            IDictionary<string, object> bodyParams,
+            HttpMethod method,
+            IDictionary<string, object> uriParameters,
+            IDictionary<string, object> bodyParameters,
             Dictionary<string, string> headers,
             bool auth,
             ArrayParametersSerialization arraySerialization,
-            HttpMethodParameterPosition parameterPosition, 
-            RequestBodyFormat bodyFormat)
+            HttpMethodParameterPosition parameterPosition,
+            RequestBodyFormat requestBodyFormat)
         {
             if (!auth)
                 return;
 
             headers.Add("APIKey", _credentials.Key!.GetString());
-            var parameters = parameterPosition == HttpMethodParameterPosition.InUri ? uriParams : bodyParams;
+            var parameters = parameterPosition == HttpMethodParameterPosition.InUri ? uriParameters : bodyParameters;
             var message = parameters.CreateParamString(false, arraySerialization) + uri.AbsolutePath.Replace("/derivatives", "");
             using var hash256 = SHA256.Create();
             var hash = hash256.ComputeHash(Encoding.UTF8.GetBytes(message));
