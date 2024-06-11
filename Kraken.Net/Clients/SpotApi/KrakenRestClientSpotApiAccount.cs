@@ -41,7 +41,14 @@ namespace Kraken.Net.Clients.SpotApi
         {
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
-            return await _baseClient.Execute<Dictionary<string, KrakenBalanceAvailable>>(_baseClient.GetUri("0/private/BalanceEx"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            var result = await _baseClient.Execute<Dictionary<string, KrakenBalanceAvailable>>(_baseClient.GetUri("0/private/BalanceEx"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (result)
+            {
+                foreach (var item in result.Data)
+                    item.Value.Asset = item.Key;
+            }
+
+            return result;
         }
 
         /// <inheritdoc />
