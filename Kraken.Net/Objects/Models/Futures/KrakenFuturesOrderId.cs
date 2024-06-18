@@ -5,7 +5,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Order id info
     /// </summary>
-    public class KrakenFuturesOrderId
+    public record KrakenFuturesOrderId
     {
         /// <summary>
         /// Client order id

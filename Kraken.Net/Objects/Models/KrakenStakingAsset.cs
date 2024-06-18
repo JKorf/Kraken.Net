@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents an asset that can be staked by the user.
     /// </summary>
-    public class KrakenStakingAsset
+    public record KrakenStakingAsset
     {
         /// <summary>
         /// Unique ID of the staking option (used in Stake/Unstake operations).

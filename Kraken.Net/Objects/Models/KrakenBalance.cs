@@ -3,7 +3,7 @@
     /// <summary>
     /// Balance info
     /// </summary>
-    public class KrakenBalance
+    public record KrakenBalance
     {
         /// <summary>
         /// Asset

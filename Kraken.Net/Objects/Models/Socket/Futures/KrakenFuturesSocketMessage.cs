@@ -6,7 +6,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Socket update
     /// </summary>
-    public class KrakenFuturesSocketMessage
+    public record KrakenFuturesSocketMessage
     {
         /// <summary>
         /// The event type
@@ -25,13 +25,13 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         public string? Error { get; set; }
     }
 
-    internal class KrakenFuturesSubscribeMessage : KrakenFuturesSocketMessage
+    internal record KrakenFuturesSubscribeMessage : KrakenFuturesSocketMessage
     {
         [JsonProperty("product_ids")]
         public List<string>? Symbols { get; set; }
     }
 
-    internal class KrakenFuturesSubscribeAuthMessage : KrakenFuturesSubscribeMessage
+    internal record KrakenFuturesSubscribeAuthMessage : KrakenFuturesSubscribeMessage
     {
         [JsonProperty("api_key")]
         public string ApiKey { get; set; } = string.Empty;
@@ -44,7 +44,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Update message
     /// </summary>
-    public class KrakenFuturesUpdateMessage : KrakenFuturesSocketMessage
+    public record KrakenFuturesUpdateMessage : KrakenFuturesSocketMessage
     {
         /// <summary>
         /// The symbol

@@ -5,7 +5,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Id
     /// </summary>
-    public class KrakenReferenceId
+    public record KrakenReferenceId
     {
         /// <summary>
         /// The id

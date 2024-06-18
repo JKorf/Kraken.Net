@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models
     /// Fee level details
     /// </summary>
     [JsonConverter(typeof(ArrayConverter))]
-    public class KrakenFeeEntry
+    public record KrakenFeeEntry
     {
         /// <summary>
         /// The minimal volume for this level

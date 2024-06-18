@@ -5,7 +5,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Info about a withdraw address
     /// </summary>
-    public class KrakenWithdrawAddress
+    public record KrakenWithdrawAddress
     {
         /// <summary>
         /// The actual address

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal class KrakenFuturesMaxOrderSizeInternal : KrakenFuturesResult
+    internal record KrakenFuturesMaxOrderSizeInternal : KrakenFuturesResult
     {
         [JsonProperty("buyPrice")]
         public decimal? BuyPrice { get; set; }
@@ -20,7 +20,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Max order size
     /// </summary>
-    public class KrakenFuturesMaxOrderSize
+    public record KrakenFuturesMaxOrderSize
     {
         /// <summary>
         /// Buy price

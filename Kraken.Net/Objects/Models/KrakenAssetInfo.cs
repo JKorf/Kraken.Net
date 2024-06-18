@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Info on an asset
     /// </summary>
-    public class KrakenAssetInfo
+    public record KrakenAssetInfo
     {
         /// <summary>
         /// Alternative name

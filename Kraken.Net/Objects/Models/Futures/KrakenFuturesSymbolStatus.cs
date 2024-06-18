@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal class KrakenFuturesSymbolStatusResult : KrakenFuturesResult<IEnumerable<KrakenFuturesSymbolStatus>>
+    internal record KrakenFuturesSymbolStatusResult : KrakenFuturesResult<IEnumerable<KrakenFuturesSymbolStatus>>
     {
         [JsonProperty("instrumentStatus")]
         public override IEnumerable<KrakenFuturesSymbolStatus> Data { get; set; } = new List<KrakenFuturesSymbolStatus>();
@@ -12,7 +12,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Symbol status
     /// </summary>
-    public class KrakenFuturesSymbolStatus
+    public record KrakenFuturesSymbolStatus
     {
         /// <summary>
         /// Extreme volatility initial margin multiplier

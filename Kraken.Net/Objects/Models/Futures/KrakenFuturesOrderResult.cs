@@ -6,19 +6,19 @@ using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal class KrakenFuturesOrderCancelResult : KrakenFuturesResult<KrakenFuturesOrderResult>
+    internal record KrakenFuturesOrderCancelResult : KrakenFuturesResult<KrakenFuturesOrderResult>
     {
         [JsonProperty("cancelStatus")]
         public override KrakenFuturesOrderResult Data { get; set; } = null!;
     }
 
-    internal class KrakenFuturesOrderPlaceResult : KrakenFuturesResult<KrakenFuturesOrderResult>
+    internal record KrakenFuturesOrderPlaceResult : KrakenFuturesResult<KrakenFuturesOrderResult>
     {
         [JsonProperty("sendStatus")]
         public override KrakenFuturesOrderResult Data { get; set; } = null!;
     }
 
-    internal class KrakenFuturesOrderEditResult : KrakenFuturesResult<KrakenFuturesOrderResult>
+    internal record KrakenFuturesOrderEditResult : KrakenFuturesResult<KrakenFuturesOrderResult>
     {
         [JsonProperty("editStatus")]
         public override KrakenFuturesOrderResult Data { get; set; } = null!;
@@ -27,7 +27,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Order status info
     /// </summary>
-    public class KrakenFuturesOrderResult
+    public record KrakenFuturesOrderResult
     {
         /// <summary>
         /// Order id
@@ -61,7 +61,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Order event
     /// </summary>
-    public class KrakenFuturesOrderEvent
+    public record KrakenFuturesOrderEvent
     {
         /// <summary>
         /// Event type

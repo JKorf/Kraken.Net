@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Earn status
     /// </summary>
-    public class KrakenEarnStatus
+    public record KrakenEarnStatus
     {
         /// <summary>
         /// Is pending

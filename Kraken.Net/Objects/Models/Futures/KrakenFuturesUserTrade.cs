@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal class KrakenFuturesUserTradeResult : KrakenFuturesResult<IEnumerable<KrakenFuturesUserTrade>>
+    internal record KrakenFuturesUserTradeResult : KrakenFuturesResult<IEnumerable<KrakenFuturesUserTrade>>
     {
         [JsonProperty("fills")]
         public override IEnumerable<KrakenFuturesUserTrade> Data { get; set; } = new List<KrakenFuturesUserTrade>();
@@ -15,7 +15,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// User trade info
     /// </summary>
-    public class KrakenFuturesUserTrade
+    public record KrakenFuturesUserTrade
     {
         /// <summary>
         /// Client order id

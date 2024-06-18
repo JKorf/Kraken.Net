@@ -8,7 +8,7 @@ namespace Kraken.Net.Objects.Models
     /// Kline data
     /// </summary>
     [JsonConverter(typeof(ArrayConverter))]
-    public class KrakenKline
+    public record KrakenKline
     {
         /// <summary>
         /// Timestamp of the kline
@@ -60,7 +60,7 @@ namespace Kraken.Net.Objects.Models
     /// Kline data from stream
     /// </summary>
     [JsonConverter(typeof(ArrayConverter))]
-    public class KrakenStreamKline
+    public record KrakenStreamKline
     {
         /// <summary>
         /// Timestamp of the kline

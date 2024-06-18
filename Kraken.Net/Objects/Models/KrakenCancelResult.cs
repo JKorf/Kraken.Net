@@ -6,7 +6,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Result of a cancel request
     /// </summary>
-    public class KrakenCancelResult
+    public record KrakenCancelResult
     {
         /// <summary>
         /// Amount of canceled orders

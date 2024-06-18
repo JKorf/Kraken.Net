@@ -5,7 +5,7 @@
     /// <summary>
     /// Kraken's response to a staking request.
     /// </summary>
-    public class KrakenStakeResponse
+    public record KrakenStakeResponse
     {
         /// <summary>
         /// Reference id which can be tracked back to a ledger entry corresponding to the

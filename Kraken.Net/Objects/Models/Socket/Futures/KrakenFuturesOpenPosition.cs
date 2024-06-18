@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Open positions update
     /// </summary>
-    public class KrakenFuturesOpenPositionUpdate : KrakenFuturesSocketMessage
+    public record KrakenFuturesOpenPositionUpdate : KrakenFuturesSocketMessage
     {
         /// <summary>
         /// Account
@@ -23,7 +23,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Open position info
     /// </summary>
-    public class KrakenFuturesOpenPosition
+    public record KrakenFuturesOpenPosition
     {
         /// <summary>
         /// The symbol

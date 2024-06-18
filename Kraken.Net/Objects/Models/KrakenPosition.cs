@@ -9,7 +9,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Position info
     /// </summary>
-    public class KrakenPosition
+    public record KrakenPosition
     {
         /// <summary>
         /// The position id

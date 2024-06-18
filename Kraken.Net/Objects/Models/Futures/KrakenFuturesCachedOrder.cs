@@ -10,7 +10,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Order info
     /// </summary>
-    public class KrakenFuturesCachedOrder : IKrakenFuturesOrder
+    public record KrakenFuturesCachedOrder : IKrakenFuturesOrder
     {
         /// <summary>
         /// Client order id

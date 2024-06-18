@@ -6,7 +6,7 @@ namespace Kraken.Net.Objects.Models.Socket
     /// <summary>
     /// Placed order result
     /// </summary>
-    public class KrakenStreamPlacedOrder: KrakenQueryEvent
+    public record KrakenStreamPlacedOrder: KrakenQueryEvent
     {
         /// <summary>
         /// Order description

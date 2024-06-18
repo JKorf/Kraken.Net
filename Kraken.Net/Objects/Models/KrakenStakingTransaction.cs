@@ -12,7 +12,7 @@
     /// <summary>
     /// Staking Transaction Info
     /// </summary>
-    public class KrakenStakingTransaction
+    public record KrakenStakingTransaction
     {
         /// <summary>
         /// Staking method as described by <see cref="KrakenStakingAsset.Method"/>.

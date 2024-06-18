@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal class KrakenBalancesResult : KrakenFuturesResult<Dictionary<string, KrakenBalances>>
+    internal record KrakenBalancesResult : KrakenFuturesResult<Dictionary<string, KrakenBalances>>
     {
         [JsonProperty("accounts")]
         public override Dictionary<string, KrakenBalances> Data { get; set; } = new Dictionary<string, KrakenBalances>();
@@ -14,7 +14,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// Kraken balances info
     /// </summary>
     [JsonConverter(typeof(KrakenFuturesBalancesConverter))]
-    public class KrakenBalances
+    public record KrakenBalances
     {
         /// <summary>
         /// Type of the balance info

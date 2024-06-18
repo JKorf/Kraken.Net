@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects.Models
 {
-    internal class KrakenServerTime
+    internal record KrakenServerTime
     {
         [JsonConverter(typeof(DateTimeConverter))]
         public DateTime UnixTime { get; set; }

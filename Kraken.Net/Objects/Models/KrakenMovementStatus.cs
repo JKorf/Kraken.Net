@@ -8,14 +8,14 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Deposit status info
     /// </summary>
-    public class KrakenMovementStatus
+    public record KrakenMovementStatus
     {
         /// <summary>
         /// The name of the deposit method
         /// </summary>
         public string Method { get; set; } = string.Empty;
         /// <summary>
-        /// The class of the asset
+        /// The record of the asset
         /// </summary>
         [JsonProperty("aclass")]
         public string AssetClass { get; set; } = string.Empty;

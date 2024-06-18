@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Allocations page
     /// </summary>
-    public class KrakenAllocationsCursorPage : KrakenCursorPage<KrakenAllocation>
+    public record KrakenAllocationsCursorPage : KrakenCursorPage<KrakenAllocation>
     {
         /// <summary>
         /// Converted asset
@@ -29,7 +29,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Allocation info
     /// </summary>
-    public class KrakenAllocation
+    public record KrakenAllocation
     {
         /// <summary>
         /// Strategy id
@@ -63,7 +63,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Allocated amounts
     /// </summary>
-    public class KrakenAllocatedAmount
+    public record KrakenAllocatedAmount
     {
         /// <summary>
         /// Bonding allocaitions
@@ -80,7 +80,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Bonding rewards
     /// </summary>
-    public class KrakenBondingAwarded : KrakenAllocationRewarded
+    public record KrakenBondingAwarded : KrakenAllocationRewarded
     {
         /// <summary>
         /// Allocation count
@@ -97,7 +97,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Bonding allocation
     /// </summary>
-    public class KrakenBondingAllocation : KrakenAllocationRewarded
+    public record KrakenBondingAllocation : KrakenAllocationRewarded
     {
         /// <summary>
         /// Create time
@@ -114,7 +114,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Rewards
     /// </summary>
-    public class KrakenAllocationRewarded
+    public record KrakenAllocationRewarded
     {
         /// <summary>
         /// Rewarded in native
@@ -131,7 +131,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Payout
     /// </summary>
-    public class KrakenAllocationPayout
+    public record KrakenAllocationPayout
     {
         /// <summary>
         /// Reward accumulated in the payout period until now

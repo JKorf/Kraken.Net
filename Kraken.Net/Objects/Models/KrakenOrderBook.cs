@@ -9,7 +9,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Order book
     /// </summary>
-    public class KrakenOrderBook
+    public record KrakenOrderBook
     {
         /// <summary>
         /// Asks in the book
@@ -25,7 +25,7 @@ namespace Kraken.Net.Objects.Models
     /// Order book entry
     /// </summary>
     [JsonConverter(typeof(ArrayConverter))]
-    public class KrakenOrderBookEntry : ISymbolOrderBookEntry
+    public record KrakenOrderBookEntry : ISymbolOrderBookEntry
     {
         /// <summary>
         /// Price of the entry
@@ -58,7 +58,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Stream order book
     /// </summary>
-    public class KrakenStreamOrderBook
+    public record KrakenStreamOrderBook
     {
         /// <summary>
         /// Asks
@@ -86,7 +86,7 @@ namespace Kraken.Net.Objects.Models
     /// Stream order book entry
     /// </summary>
     [JsonConverter(typeof(ArrayConverter))]
-    public class KrakenStreamOrderBookEntry : ISymbolOrderSequencedBookEntry
+    public record KrakenStreamOrderBookEntry : ISymbolOrderSequencedBookEntry
     {
         /// <summary>
         /// Price of the entry

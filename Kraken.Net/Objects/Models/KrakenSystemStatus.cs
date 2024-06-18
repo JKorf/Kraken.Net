@@ -8,7 +8,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// System status
     /// </summary>
-    public class KrakenSystemStatus
+    public record KrakenSystemStatus
     {
         /// <summary>
         /// Platform status

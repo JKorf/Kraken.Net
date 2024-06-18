@@ -3,7 +3,7 @@
     /// <summary>
     /// Kraken response to a query
     /// </summary>
-    public class KrakenQueryEvent: KrakenEvent
+    public record KrakenQueryEvent: KrakenEvent
     {
         /// <summary>
         /// Response status

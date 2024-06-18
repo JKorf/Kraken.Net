@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal class KrakenFuturesSymbolResult : KrakenFuturesResult<IEnumerable<KrakenFuturesSymbol>>
+    internal record KrakenFuturesSymbolResult : KrakenFuturesResult<IEnumerable<KrakenFuturesSymbol>>
     {
         [JsonProperty("instruments")]
         public override IEnumerable<KrakenFuturesSymbol> Data { get; set; } = new List<KrakenFuturesSymbol>();
@@ -15,7 +15,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Futures symbol info
     /// </summary>
-    public class KrakenFuturesSymbol
+    public record KrakenFuturesSymbol
     {
         /// <summary>
         /// Category
@@ -105,7 +105,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Margin level
     /// </summary>
-    public class KrakenFutureMarginLevel
+    public record KrakenFutureMarginLevel
     {
         /// <summary>
         /// The lower limit of the number of contracts to which this margin level applies

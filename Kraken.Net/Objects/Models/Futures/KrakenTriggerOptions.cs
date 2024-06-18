@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Trigger options
     /// </summary>
-    public class KrakenTriggerOptions
+    public record KrakenTriggerOptions
     {
         /// <summary>
         /// Trigger price

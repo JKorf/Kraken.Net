@@ -5,7 +5,7 @@ namespace Kraken.Net.Objects.Models
 	/// <summary>
 	/// Order info
 	/// </summary>
-	public class KrakenWithdraw
+	public record KrakenWithdraw
 	{
 		/// <summary>
 		/// Reference id

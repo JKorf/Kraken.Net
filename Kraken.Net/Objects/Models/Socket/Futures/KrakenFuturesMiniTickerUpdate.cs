@@ -8,7 +8,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Ticker info
     /// </summary>
-    public class KrakenFuturesMiniTickerUpdate : KrakenFuturesEvent
+    public record KrakenFuturesMiniTickerUpdate : KrakenFuturesEvent
     {
         /// <summary>
         /// The best current bid price

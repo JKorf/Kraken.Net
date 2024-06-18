@@ -10,7 +10,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Earn strategy info
     /// </summary>
-    public class KrakenEarnStrategy
+    public record KrakenEarnStrategy
     {
         /// <summary>
         /// Id
@@ -82,7 +82,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Lock type info
     /// </summary>
-    public class LockTypeInfo
+    public record LockTypeInfo
     {
         /// <summary>
         /// Duration of the bonding period, in seconds
@@ -134,7 +134,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Yield source type
     /// </summary>
-    public class YieldSourceType
+    public record YieldSourceType
     {
         /// <summary>
         /// Yield source type
@@ -146,7 +146,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Auto compound type
     /// </summary>
-    public class AutoCompoundType
+    public record AutoCompoundType
     {
         /// <summary>
         /// Whether it is the default (if Type is Optional)
@@ -163,7 +163,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Apr estimate
     /// </summary>
-    public class AprEstimate
+    public record AprEstimate
     {
         /// <summary>
         /// High estimate

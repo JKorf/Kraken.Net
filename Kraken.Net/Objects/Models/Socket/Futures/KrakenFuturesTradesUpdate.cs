@@ -10,7 +10,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Trades update
     /// </summary>
-    public class KrakenFuturesTradesSnapshotUpdate : KrakenFuturesEvent
+    public record KrakenFuturesTradesSnapshotUpdate : KrakenFuturesEvent
     {
         /// <summary>
         /// Trades
@@ -21,7 +21,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Trade info
     /// </summary>
-    public class KrakenFuturesTradeUpdate : KrakenFuturesUpdateMessage
+    public record KrakenFuturesTradeUpdate : KrakenFuturesUpdateMessage
     {
         /// <summary>
         /// Uid

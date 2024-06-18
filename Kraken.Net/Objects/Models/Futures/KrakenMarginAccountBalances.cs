@@ -6,7 +6,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Margin account balances
     /// </summary>
-    public class KrakenMarginAccountBalances : KrakenBalances
+    public record KrakenMarginAccountBalances : KrakenBalances
     {
         /// <summary>
         /// Balances
@@ -33,7 +33,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Margin requirements
     /// </summary>
-    public class KrakenMarginRequirements
+    public record KrakenMarginRequirements
     {
         /// <summary>
         /// The initial margin requirement of the account.
@@ -61,7 +61,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Auxiliary account info
     /// </summary>
-    public class KrakenAuxiliaryAccountInfo
+    public record KrakenAuxiliaryAccountInfo
     {
         /// <summary>
         /// The available funds of the account, in currency.

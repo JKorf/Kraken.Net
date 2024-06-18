@@ -5,7 +5,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Balance info
     /// </summary>
-    public class KrakenBalanceAvailable
+    public record KrakenBalanceAvailable
     {
         /// <summary>
         /// Asset

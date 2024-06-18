@@ -10,7 +10,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Snapshot book update
     /// </summary>
-    public class KrakenFuturesBookSnapshotUpdate : KrakenFuturesUpdateMessage
+    public record KrakenFuturesBookSnapshotUpdate : KrakenFuturesUpdateMessage
     {
         /// <summary>
         /// Timestamp
@@ -36,7 +36,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Order book entry
     /// </summary>
-    public class KrakenFuturesOrderBookEntry : ISymbolOrderBookEntry
+    public record KrakenFuturesOrderBookEntry : ISymbolOrderBookEntry
     {
         /// <summary>
         /// Quantity
@@ -52,7 +52,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Book update
     /// </summary>
-    public class KrakenFuturesBookUpdate : KrakenFuturesUpdateMessage, ISymbolOrderBookEntry
+    public record KrakenFuturesBookUpdate : KrakenFuturesUpdateMessage, ISymbolOrderBookEntry
     {
         /// <summary>
         /// Timestamp

@@ -4,7 +4,7 @@ using System;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal class KrakenFuturesCancelAfterResult : KrakenFuturesResult<KrakenFuturesCancelAfter>
+    internal record KrakenFuturesCancelAfterResult : KrakenFuturesResult<KrakenFuturesCancelAfter>
     {
         [JsonProperty("status")]
         public override KrakenFuturesCancelAfter Data { get; set; } = null!;
@@ -13,7 +13,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Cancel after info
     /// </summary>
-    public class KrakenFuturesCancelAfter
+    public record KrakenFuturesCancelAfter
     {
         /// <summary>
         /// Current timestamp

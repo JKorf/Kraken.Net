@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal class KrakenFuturesPlatfromNotificationInternalResult : KrakenFuturesResult
+    internal record KrakenFuturesPlatfromNotificationInternalResult : KrakenFuturesResult
     {
         public IEnumerable<KrakenFuturesPlatfromNotification> Notifications { get; set; } = Array.Empty<KrakenFuturesPlatfromNotification>();
     }
@@ -13,7 +13,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Platform info
     /// </summary>
-    public class KrakenFuturesPlatfromNotificationResult
+    public record KrakenFuturesPlatfromNotificationResult
     {
         /// <summary>
         /// Notifications
@@ -28,7 +28,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Platform notification info
     /// </summary>
-    public class KrakenFuturesPlatfromNotification
+    public record KrakenFuturesPlatfromNotification
     {
         /// <summary>
         /// The time that notification is taking effect.

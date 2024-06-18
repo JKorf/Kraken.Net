@@ -10,7 +10,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Order to place
     /// </summary>
-    public class KrakenOrderRequest
+    public record KrakenOrderRequest
     {
         /// <summary>
         /// Client order id

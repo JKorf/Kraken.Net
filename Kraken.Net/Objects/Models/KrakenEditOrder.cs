@@ -5,7 +5,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Edited order info
     /// </summary>
-    public class KrakenEditOrder
+    public record KrakenEditOrder
     {
         /// <summary>
         /// Order ids

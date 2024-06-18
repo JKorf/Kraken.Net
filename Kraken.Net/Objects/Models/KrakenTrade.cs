@@ -10,7 +10,7 @@ namespace Kraken.Net.Objects.Models
     /// Trade info
     /// </summary>
     [JsonConverter(typeof(ArrayConverter))]
-    public class KrakenTrade
+    public record KrakenTrade
     {
         /// <summary>
         /// Price of the trade

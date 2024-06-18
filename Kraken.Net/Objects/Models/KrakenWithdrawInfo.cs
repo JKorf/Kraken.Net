@@ -5,7 +5,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Withdraw info
     /// </summary>
-    public class KrakenWithdrawInfo
+    public record KrakenWithdrawInfo
     {
         /// <summary>
         /// Method that will be used

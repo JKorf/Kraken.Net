@@ -8,7 +8,7 @@ namespace Kraken.Net.Objects.Models
     /// Spread info
     /// </summary>
     [JsonConverter(typeof(ArrayConverter))]
-    public class KrakenSpread
+    public record KrakenSpread
     {
         /// <summary>
         /// Timestamp of the data
@@ -31,7 +31,7 @@ namespace Kraken.Net.Objects.Models
     /// Stream spread data
     /// </summary>
     [JsonConverter(typeof(ArrayConverter))]
-    public class KrakenStreamSpread
+    public record KrakenStreamSpread
     {
         /// <summary>
         /// Best bid price

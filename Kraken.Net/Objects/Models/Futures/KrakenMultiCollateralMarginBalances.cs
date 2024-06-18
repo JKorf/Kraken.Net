@@ -6,7 +6,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Multi-collateral margin account balances
     /// </summary>
-    public class KrakenMultiCollateralMarginBalances : KrakenBalances
+    public record KrakenMultiCollateralMarginBalances : KrakenBalances
     {
         /// <summary>
         /// Total initial margin held for open positions (USD).
@@ -66,7 +66,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Flex currency info
     /// </summary>
-    public class KrakenFlexCurrencySummary
+    public record KrakenFlexCurrencySummary
     {
         /// <summary>
         /// Margin (in base currency) available for trading.

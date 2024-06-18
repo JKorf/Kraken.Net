@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal class KrakenFuturesLeverageResult : KrakenFuturesResult<IEnumerable<KrakenFuturesLeverage>>
+    internal record KrakenFuturesLeverageResult : KrakenFuturesResult<IEnumerable<KrakenFuturesLeverage>>
     {
         [JsonProperty("leveragePreferences")]
         public override IEnumerable<KrakenFuturesLeverage> Data { get; set; } = Array.Empty<KrakenFuturesLeverage>();
@@ -13,7 +13,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Leverage setting
     /// </summary>
-    public class KrakenFuturesLeverage
+    public record KrakenFuturesLeverage
     {
         /// <summary>
         /// Symbol

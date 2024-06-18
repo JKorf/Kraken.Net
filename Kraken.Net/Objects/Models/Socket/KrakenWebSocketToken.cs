@@ -3,7 +3,7 @@
     /// <summary>
     /// Socket token
     /// </summary>
-    public class KrakenWebSocketToken
+    public record KrakenWebSocketToken
     {
         /// <summary>
         /// Token to use for connecting to private websockets

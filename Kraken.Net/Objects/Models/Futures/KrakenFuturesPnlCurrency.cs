@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal class KrakenFuturesPnlCurrencyResult : KrakenFuturesResult<IEnumerable<KrakenFuturesPnlCurrency>>
+    internal record KrakenFuturesPnlCurrencyResult : KrakenFuturesResult<IEnumerable<KrakenFuturesPnlCurrency>>
     {
         [JsonProperty("preferences")]
         public override IEnumerable<KrakenFuturesPnlCurrency> Data { get; set; } = Array.Empty<KrakenFuturesPnlCurrency>();
@@ -13,7 +13,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Profit and loss currency preference
     /// </summary>
-    public class KrakenFuturesPnlCurrency
+    public record KrakenFuturesPnlCurrency
     {
         /// <summary>
         /// Profit and loss currency

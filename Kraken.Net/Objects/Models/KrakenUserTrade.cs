@@ -10,7 +10,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// User trade info
     /// </summary>
-    public class KrakenUserTrade
+    public record KrakenUserTrade
     {
         /// <summary>
         /// Order id
@@ -122,7 +122,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Stream trade update
     /// </summary>
-    public class KrakenStreamUserTrade: KrakenUserTrade
+    public record KrakenStreamUserTrade: KrakenUserTrade
     {
         /// <summary>
         /// The update sequence number

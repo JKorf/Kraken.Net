@@ -9,7 +9,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// User execution events
     /// </summary>
-    public class KrakenFuturesUserExecutionEvents
+    public record KrakenFuturesUserExecutionEvents
     {
         /// <summary>
         /// Account id
@@ -38,7 +38,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Execution event info
     /// </summary>
-    public class KrakenFuturesExecutionElement
+    public record KrakenFuturesExecutionElement
     {
         /// <summary>
         /// Uid
@@ -58,7 +58,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Event info
     /// </summary>
-    public class KrakenFuturesExecutionEventWrapper
+    public record KrakenFuturesExecutionEventWrapper
     {
         /// <summary>
         /// Execution info
@@ -69,7 +69,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Execution info
     /// </summary>
-    public class KrakenFuturesExecutionEvent
+    public record KrakenFuturesExecutionEvent
     {
         /// <summary>
         /// Execution info
@@ -85,7 +85,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Execution info
     /// </summary>
-    public class KrakenFuturesExecution
+    public record KrakenFuturesExecution
     {
         /// <summary>
         /// Limit filled
@@ -141,7 +141,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Additional order data
     /// </summary>
-    public class KrakenFuturesOrderData
+    public record KrakenFuturesOrderData
     {
         /// <summary>
         /// Fee

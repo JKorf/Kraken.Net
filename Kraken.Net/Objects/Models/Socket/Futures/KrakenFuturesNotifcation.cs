@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Notification update
     /// </summary>
-    public class KrakenFuturesNotificationUpdate : KrakenFuturesSocketMessage
+    public record KrakenFuturesNotificationUpdate : KrakenFuturesSocketMessage
     {
         /// <summary>
         /// Notifications
@@ -18,7 +18,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Notication
     /// </summary>
-    public class KrakenFuturesNotifcation : KrakenFuturesPlatfromNotification
+    public record KrakenFuturesNotifcation : KrakenFuturesPlatfromNotification
     {
         /// <summary>
         /// Notification id

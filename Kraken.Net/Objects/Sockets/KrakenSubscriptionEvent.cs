@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Sockets
 {
-    internal class KrakenSubscriptionEvent : KrakenQueryEvent
+    internal record KrakenSubscriptionEvent : KrakenQueryEvent
     {
         [JsonProperty("channelID")]
         public long ChannelId { get; set; }

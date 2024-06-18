@@ -6,7 +6,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Tick info
     /// </summary>
-    public class KrakenTick
+    public record KrakenTick
     {
         /// <summary>
         /// High price info
@@ -53,7 +53,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Tick info
     /// </summary>
-    public class KrakenRestTick: KrakenTick
+    public record KrakenRestTick: KrakenTick
     {
         /// <summary>
         /// Symbol
@@ -69,7 +69,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Tick info
     /// </summary>
-    public class KrakenStreamTick : KrakenTick
+    public record KrakenStreamTick : KrakenTick
     {
         /// <summary>
         /// Open price info
@@ -83,7 +83,7 @@ namespace Kraken.Net.Objects.Models
     /// Tick detail info
     /// </summary>
     [JsonConverter(typeof(ArrayConverter))]
-    public class KrakenTickInfo
+    public record KrakenTickInfo
     {
         /// <summary>
         /// Value for today
@@ -101,7 +101,7 @@ namespace Kraken.Net.Objects.Models
     /// Last trade details
     /// </summary>
     [JsonConverter(typeof(ArrayConverter))]
-    public class KrakenLastTrade
+    public record KrakenLastTrade
     {
         /// <summary>
         /// Price of last trade
@@ -119,7 +119,7 @@ namespace Kraken.Net.Objects.Models
     /// Best entry info
     /// </summary>
     [JsonConverter(typeof(ArrayConverter))]
-    public class KrakenBestEntry
+    public record KrakenBestEntry
     {
         /// <summary>
         /// Price of best entry

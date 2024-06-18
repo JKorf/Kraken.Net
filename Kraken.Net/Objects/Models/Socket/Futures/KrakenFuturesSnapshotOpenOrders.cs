@@ -9,7 +9,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Snapshot book update
     /// </summary>
-    public class KrakenFuturesOpenOrdersSnapshotUpdate : KrakenFuturesUpdateMessage
+    public record KrakenFuturesOpenOrdersSnapshotUpdate : KrakenFuturesUpdateMessage
     {
         /// <summary>
         /// Account id
@@ -24,7 +24,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Open order update
     /// </summary>
-    public class KrakenFuturesOpenOrdersUpdate : KrakenFuturesUpdateMessage
+    public record KrakenFuturesOpenOrdersUpdate : KrakenFuturesUpdateMessage
     {
         /// <summary>
         /// Is cancel
@@ -49,7 +49,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Open order
     /// </summary>
-    public class KrakenFuturesSocketOpenOrder
+    public record KrakenFuturesSocketOpenOrder
     {
         /// <summary>
         /// Symbol
@@ -129,7 +129,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Trailing stop options
     /// </summary>
-    public class KrakenFuturesTrailingStopOptions
+    public record KrakenFuturesTrailingStopOptions
     {
         /// <summary>
         /// Max deviation

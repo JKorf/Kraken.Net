@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Deposit address
     /// </summary>
-    public class KrakenDepositAddress
+    public record KrakenDepositAddress
     {
         /// <summary>
         /// The actual address

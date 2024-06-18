@@ -5,7 +5,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Info about a deposit method
     /// </summary>
-    public class KrakenDepositMethod
+    public record KrakenDepositMethod
     {
         /// <summary>
         /// Name of the method

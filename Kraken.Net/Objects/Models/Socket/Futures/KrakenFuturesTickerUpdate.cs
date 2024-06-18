@@ -8,7 +8,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Ticker info
     /// </summary>
-    public class KrakenFuturesTickerUpdate: KrakenFuturesEvent
+    public record KrakenFuturesTickerUpdate: KrakenFuturesEvent
     {
         /// <summary>
         /// Timestamp

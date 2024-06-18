@@ -5583,7 +5583,7 @@
         </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenMovementStatus.AssetClass">
             <summary>
-            The class of the asset
+            The record of the asset
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenMovementStatus.Asset">

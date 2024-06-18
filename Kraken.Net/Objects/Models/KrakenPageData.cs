@@ -5,7 +5,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Base page data
     /// </summary>
-    public class KrakenPageData
+    public record KrakenPageData
     {
         /// <summary>
         /// Total number of records
@@ -16,7 +16,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Open orders page
     /// </summary>
-    public class OpenOrdersPage : KrakenPageData
+    public record OpenOrdersPage : KrakenPageData
     {
         /// <summary>
         /// Open orders
@@ -27,7 +27,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Closed orders page
     /// </summary>
-    public class KrakenClosedOrdersPage: KrakenPageData
+    public record KrakenClosedOrdersPage: KrakenPageData
     {
         /// <summary>
         /// Closed orders
@@ -38,7 +38,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// User trades page
     /// </summary>
-    public class KrakenUserTradesPage : KrakenPageData
+    public record KrakenUserTradesPage : KrakenPageData
     {
         /// <summary>
         /// Trades
@@ -49,7 +49,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Ledger page
     /// </summary>
-    public class KrakenLedgerPage : KrakenPageData
+    public record KrakenLedgerPage : KrakenPageData
     {
         /// <summary>
         /// Ledger entries

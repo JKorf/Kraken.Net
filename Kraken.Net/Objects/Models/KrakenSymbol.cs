@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Symbol info
     /// </summary>
-    public class KrakenSymbol
+    public record KrakenSymbol
     {
         /// <summary>
         /// Alternative name

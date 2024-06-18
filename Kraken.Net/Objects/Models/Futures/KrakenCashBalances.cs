@@ -5,7 +5,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Cash balances
     /// </summary>
-    public class KrakenCashBalances : KrakenBalances
+    public record KrakenCashBalances : KrakenBalances
     {
         /// <summary>
         /// Balances

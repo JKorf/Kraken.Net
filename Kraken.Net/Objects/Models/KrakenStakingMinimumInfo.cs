@@ -5,7 +5,7 @@
     /// <summary>
     /// Minimum amounts for staking/unstaking.
     /// </summary>
-    public class KrakenStakingMinimumInfo
+    public record KrakenStakingMinimumInfo
     {
         /// <summary>
         /// The minimum amount of value that can be staked.

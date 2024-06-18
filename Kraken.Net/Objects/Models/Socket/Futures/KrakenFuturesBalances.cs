@@ -8,7 +8,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Balance update
     /// </summary>
-    public class KrakenFuturesBalancesUpdate : KrakenFuturesSocketMessage
+    public record KrakenFuturesBalancesUpdate : KrakenFuturesSocketMessage
     {
         /// <summary>
         /// Account id
@@ -42,7 +42,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Flex futures
     /// </summary>
-    public class KrakenFlexFutures
+    public record KrakenFlexFutures
     {
         /// <summary>
         /// A map from collateral wallet names to collateral wallet structure
@@ -121,7 +121,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Cross margin balance
     /// </summary>
-    public class KrakenFlexCrossBalance
+    public record KrakenFlexCrossBalance
     {
         /// <summary>
         /// The total initial margin for open positions and open orders
@@ -193,7 +193,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Isolated margin balance
     /// </summary>
-    public class KrakenFlexIsolatedBalance
+    public record KrakenFlexIsolatedBalance
     {
         /// <summary>
         /// The total initial margin for open positions and open orders
@@ -235,7 +235,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Currency info
     /// </summary>
-    public class KrakenFlexFuturesCurrency
+    public record KrakenFlexFuturesCurrency
     {
         /// <summary>
         /// The currency quantity
@@ -268,7 +268,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Future balance
     /// </summary>
-    public class KrakenFutureBalance
+    public record KrakenFutureBalance
     {
         /// <summary>
         /// The name of the account

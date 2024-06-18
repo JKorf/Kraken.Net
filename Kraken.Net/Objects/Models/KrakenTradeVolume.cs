@@ -6,7 +6,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Trade volume info
     /// </summary>
-    public class KrakenTradeVolume
+    public record KrakenTradeVolume
     {
         /// <summary>
         /// Asset
@@ -32,7 +32,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Fee level info
     /// </summary>
-    public class KrakenFeeStruct
+    public record KrakenFeeStruct
     {
         /// <summary>
         /// Fee

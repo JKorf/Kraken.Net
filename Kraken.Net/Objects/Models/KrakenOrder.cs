@@ -11,7 +11,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Order info
     /// </summary>
-    public class KrakenOrder
+    public record KrakenOrder
     {
         /// <summary>
         /// The id of the order
@@ -121,7 +121,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Order details
     /// </summary>
-    public class KrakenOrderInfo
+    public record KrakenOrderInfo
     {
         /// <summary>
         /// The symbol of the order
@@ -164,7 +164,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Stream order update
     /// </summary>
-    public class KrakenStreamOrder: KrakenOrder
+    public record KrakenStreamOrder: KrakenOrder
     {
         /// <summary>
         /// The update sequence number

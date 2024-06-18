@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal class KrakenFuturesCancelledOrdersResult : KrakenFuturesResult<KrakenFuturesCancelledOrders>
+    internal record KrakenFuturesCancelledOrdersResult : KrakenFuturesResult<KrakenFuturesCancelledOrders>
     {
         [JsonProperty("cancelStatus")]
         public override KrakenFuturesCancelledOrders Data { get; set; } = null!;
@@ -14,7 +14,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Cancelled order info
     /// </summary>
-    public class KrakenFuturesCancelledOrders
+    public record KrakenFuturesCancelledOrders
     {
         /// <summary>
         /// Cancelled all or a specific symbol

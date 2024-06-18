@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal class KrakenFeeSchedulesResult : KrakenFuturesResult<IEnumerable<KrakenFeeSchedule>>
+    internal record KrakenFeeSchedulesResult : KrakenFuturesResult<IEnumerable<KrakenFeeSchedule>>
     {
         [JsonProperty("feeSchedules")]
         public override IEnumerable<KrakenFeeSchedule> Data { get; set; } = new List<KrakenFeeSchedule>();
@@ -12,7 +12,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Fee info
     /// </summary>
-    public class KrakenFeeSchedule
+    public record KrakenFeeSchedule
     {
         /// <summary>
         /// Name
@@ -31,7 +31,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Fee info when trading volume is above specific volume
     /// </summary>
-    public class KrakenFee
+    public record KrakenFee
     {
         /// <summary>
         /// Fee for maker orders

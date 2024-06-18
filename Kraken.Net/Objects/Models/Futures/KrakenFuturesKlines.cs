@@ -8,7 +8,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Kline info
     /// </summary>
-    public class KrakenFuturesKlines
+    public record KrakenFuturesKlines
     {
         /// <summary>
         /// True if there are more candles in the time range
@@ -25,7 +25,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Kline info
     /// </summary>
-    public class KrakenFuturesKline
+    public record KrakenFuturesKline
     {
         /// <summary>
         /// High price

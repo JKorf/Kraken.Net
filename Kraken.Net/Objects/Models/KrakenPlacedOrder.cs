@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Placed order info
     /// </summary>
-    public class KrakenPlacedOrder
+    public record KrakenPlacedOrder
     {
         /// <summary>
         /// Order ids
@@ -24,7 +24,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Order descriptions
     /// </summary>
-    public class KrakenPlacedOrderDescription
+    public record KrakenPlacedOrderDescription
     {
         /// <summary>
         /// Order description

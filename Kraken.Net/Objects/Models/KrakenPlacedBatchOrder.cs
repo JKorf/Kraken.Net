@@ -8,7 +8,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Batch order result
     /// </summary>
-    public class KrakenBatchOrderResult
+    public record KrakenBatchOrderResult
     {
         /// <summary>
         /// Orders
@@ -20,7 +20,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Placed batch order
     /// </summary>
-    public class KrakenPlacedBatchOrder
+    public record KrakenPlacedBatchOrder
     {
         /// <summary>
         /// Order id

@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models.Socket
     /// <summary>
     /// System status
     /// </summary>
-    public class KrakenStreamSystemStatus
+    public record KrakenStreamSystemStatus
     {
         /// <summary>
         /// Connection id

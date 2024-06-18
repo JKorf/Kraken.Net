@@ -2,7 +2,7 @@
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal class KrakenFuturesMarginRequirementsInternal : KrakenFuturesResult
+    internal record KrakenFuturesMarginRequirementsInternal : KrakenFuturesResult
     {
         [JsonProperty("initialMargin")]
         public decimal? InitialMargin { get; set; }
@@ -13,7 +13,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Minimal margin requirements
     /// </summary>
-    public class KrakenFuturesMarginRequirements
+    public record KrakenFuturesMarginRequirements
     {
         /// <summary>
         /// Initial margin

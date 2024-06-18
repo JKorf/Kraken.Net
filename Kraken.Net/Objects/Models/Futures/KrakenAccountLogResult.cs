@@ -8,7 +8,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Account log
     /// </summary>
-    public class KrakenAccountLogResult
+    public record KrakenAccountLogResult
     {
         /// <summary>
         /// Account id
@@ -24,7 +24,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Log entry
     /// </summary>
-    public class KrakenAccountLog
+    public record KrakenAccountLog
     {
         /// <summary>
         /// The asset

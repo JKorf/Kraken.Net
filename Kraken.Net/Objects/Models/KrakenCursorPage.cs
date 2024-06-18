@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Data page with a cusor for pagination
     /// </summary>
-    public class KrakenCursorPage<T>
+    public record KrakenCursorPage<T>
     {
         /// <summary>
         /// Cursor for the next page

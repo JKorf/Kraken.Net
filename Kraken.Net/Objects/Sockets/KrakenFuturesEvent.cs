@@ -5,7 +5,7 @@ namespace Kraken.Net.Objects.Sockets
     /// <summary>
     /// Socket event
     /// </summary>
-    public class KrakenFuturesEvent
+    public record KrakenFuturesEvent
     {
         /// <summary>
         /// The event type

@@ -9,7 +9,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Ledger entry info
     /// </summary>
-    public class KrakenLedgerEntry
+    public record KrakenLedgerEntry
     {
         /// <summary>
         /// The id

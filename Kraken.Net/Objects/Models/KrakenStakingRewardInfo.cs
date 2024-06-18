@@ -8,7 +8,7 @@
     /// <summary>
     /// Describes the rewards earned while staking.
     /// </summary>
-    public class KrakenStakingRewardInfo
+    public record KrakenStakingRewardInfo
     {
         /// <summary>
         /// Reward earned while staking.

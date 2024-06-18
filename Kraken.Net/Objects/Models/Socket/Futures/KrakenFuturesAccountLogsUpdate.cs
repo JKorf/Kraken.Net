@@ -8,7 +8,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Account log snapshot update
     /// </summary>
-    public class KrakenFuturesAccountLogsSnapshotUpdate : KrakenFuturesSocketMessage
+    public record KrakenFuturesAccountLogsSnapshotUpdate : KrakenFuturesSocketMessage
     {
         /// <summary>
         /// Account logs
@@ -19,7 +19,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// New account log update
     /// </summary>
-    public class KrakenFuturesAccountLogsUpdate : KrakenFuturesSocketMessage
+    public record KrakenFuturesAccountLogsUpdate : KrakenFuturesSocketMessage
     {
         /// <summary>
         /// New entry

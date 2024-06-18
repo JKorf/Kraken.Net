@@ -6,7 +6,7 @@ namespace Kraken.Net.Objects.Models.Socket
     /// <summary>
     /// Cancel after result
     /// </summary>
-    public class KrakenStreamCancelAfterResult : KrakenQueryEvent
+    public record KrakenStreamCancelAfterResult : KrakenQueryEvent
     {
         /// <summary>
         /// Current time
