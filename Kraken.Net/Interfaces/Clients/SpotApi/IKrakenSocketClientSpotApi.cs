@@ -200,6 +200,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="flags">Order flags</param>
         /// <param name="reduceOnly">Reduce only order</param>
         /// <param name="margin">Funds the order on margin using the maximum leverage for the pair. Note, absolute max leverage is 5.</param>
+        /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<CallResult<KrakenStreamPlacedOrder>> PlaceOrderAsync(
             string websocketToken,
@@ -219,7 +220,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             decimal? secondaryClosePrice = null,
             IEnumerable<OrderFlags>? flags = null,
             bool? reduceOnly = null,
-            bool? margin = null);
+            bool? margin = null, 
+            CancellationToken ct = default);
 
         /// <summary>
         /// Cancel an order
@@ -227,8 +229,9 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </summary>
         /// <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
         /// <param name="orderId">Id of the order to cancel</param>
+        /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<CallResult<bool>> CancelOrderAsync(string websocketToken, string orderId);
+        Task<CallResult<bool>> CancelOrderAsync(string websocketToken, string orderId, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel multiple orders
@@ -236,16 +239,18 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </summary>
         /// <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
         /// <param name="orderIds">Id of the orders to cancel</param>
+        /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<CallResult<bool>> CancelOrdersAsync(string websocketToken, IEnumerable<string> orderIds);
+        Task<CallResult<bool>> CancelOrdersAsync(string websocketToken, IEnumerable<string> orderIds, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel all open orders
         /// <para><a href="https://docs.kraken.com/websockets/#message-cancelAll" /></para>
         /// </summary>
         /// <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+        /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<CallResult<KrakenStreamCancelAllResult>> CancelAllOrdersAsync(string websocketToken);
+        Task<CallResult<KrakenStreamCancelAllResult>> CancelAllOrdersAsync(string websocketToken, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel all open orders after the timeout
@@ -253,7 +258,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </summary>
         /// <param name="timeout"></param>
         /// <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+        /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<CallResult<KrakenStreamCancelAfterResult>> CancelAllOrdersAfterAsync(string websocketToken, TimeSpan timeout);
+        Task<CallResult<KrakenStreamCancelAfterResult>> CancelAllOrdersAfterAsync(string websocketToken, TimeSpan timeout, CancellationToken ct = default);
     }
 }
