@@ -244,7 +244,8 @@ namespace Kraken.Net.Clients.SpotApi
             decimal? secondaryClosePrice = null,
             IEnumerable<OrderFlags>? flags = null,            
             bool? reduceOnly = null,
-            bool? margin = null)
+            bool? margin = null,
+            CancellationToken ct = default)
         {
             var request = new KrakenSocketPlaceOrderRequest
             {
@@ -271,15 +272,15 @@ namespace Kraken.Net.Clients.SpotApi
             };
 
             var query = new KrakenSpotQuery<KrakenStreamPlacedOrder>(request, false);
-            return await QueryAsync(_privateBaseAddress, query).ConfigureAwait(false);
+            return await QueryAsync(_privateBaseAddress, query, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        public Task<CallResult<bool>> CancelOrderAsync(string websocketToken, string orderId)
-            => CancelOrdersAsync(websocketToken, new[] { orderId });
+        public Task<CallResult<bool>> CancelOrderAsync(string websocketToken, string orderId, CancellationToken ct = default)
+            => CancelOrdersAsync(websocketToken, new[] { orderId }, ct);
 
         /// <inheritdoc />
-        public async Task<CallResult<bool>> CancelOrdersAsync(string websocketToken, IEnumerable<string> orderIds)
+        public async Task<CallResult<bool>> CancelOrdersAsync(string websocketToken, IEnumerable<string> orderIds, CancellationToken ct = default)
         {
             var request = new KrakenSocketCancelOrdersRequest
             {
@@ -290,12 +291,12 @@ namespace Kraken.Net.Clients.SpotApi
             };
 
             var query = new KrakenSpotQuery<KrakenQueryEvent>(request, false);
-            var result = await QueryAsync(_privateBaseAddress, query).ConfigureAwait(false);
+            var result = await QueryAsync(_privateBaseAddress, query, ct).ConfigureAwait(false);
             return result.As(result.Success);
         }
 
         /// <inheritdoc />
-        public async Task<CallResult<KrakenStreamCancelAllResult>> CancelAllOrdersAsync(string websocketToken)
+        public async Task<CallResult<KrakenStreamCancelAllResult>> CancelAllOrdersAsync(string websocketToken, CancellationToken ct = default)
         {
             var request = new KrakenSocketAuthRequest
             {
@@ -305,11 +306,11 @@ namespace Kraken.Net.Clients.SpotApi
             };
 
             var query = new KrakenSpotQuery<KrakenStreamCancelAllResult>(request, false);
-            return await QueryAsync(_privateBaseAddress, query).ConfigureAwait(false);
+            return await QueryAsync(_privateBaseAddress, query, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        public async Task<CallResult<KrakenStreamCancelAfterResult>> CancelAllOrdersAfterAsync(string websocketToken, TimeSpan timeout)
+        public async Task<CallResult<KrakenStreamCancelAfterResult>> CancelAllOrdersAfterAsync(string websocketToken, TimeSpan timeout, CancellationToken ct = default)
         {
             var request = new KrakenSocketCancelAfterRequest
             {
@@ -320,7 +321,7 @@ namespace Kraken.Net.Clients.SpotApi
             };
 
             var query = new KrakenSpotQuery<KrakenStreamCancelAfterResult>(request, false);
-            return await QueryAsync(_privateBaseAddress, query).ConfigureAwait(false);
+            return await QueryAsync(_privateBaseAddress, query, ct).ConfigureAwait(false);
         }
         #endregion
 
@@ -347,7 +348,7 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         protected override async Task<CallResult> RevitalizeRequestAsync(Subscription subscription)
         {
-            if (!(subscription is KrakenAuthSubscription authSubscription))
+            if (subscription is not KrakenAuthSubscription authSubscription)
                 return new CallResult(null);
 
             var apiCredentials = ApiOptions.ApiCredentials ?? ClientOptions.ApiCredentials;
