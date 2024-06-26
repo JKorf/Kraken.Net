@@ -4978,7 +4978,12 @@
         </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenAllocatedAmount.Bonding">
             <summary>
-            Bonding allocaitions
+            Bonding allocations
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenAllocatedAmount.Unbonding">
+            <summary>
+            Unbonding allocations
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenAllocatedAmount.Total">
