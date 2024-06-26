@@ -66,10 +66,15 @@ namespace Kraken.Net.Objects.Models
     public class KrakenAllocatedAmount
     {
         /// <summary>
-        /// Bonding allocaitions
+        /// Bonding allocations
         /// </summary>
         [JsonProperty("bonding")]
         public KrakenBondingAwarded Bonding { get; set; } = null!;
+        /// <summary>
+        /// Unbonding allocations
+        /// </summary>
+        [JsonProperty("unbonding")]
+        public KrakenBondingAwarded Unbonding { get; set; } = null!;
         /// <summary>
         /// Total allocations
         /// </summary>
