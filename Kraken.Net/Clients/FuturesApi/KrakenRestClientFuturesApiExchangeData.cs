@@ -13,7 +13,7 @@ using Kraken.Net.Interfaces.Clients.FuturesApi;
 namespace Kraken.Net.Clients.FuturesApi
 {
     /// <inheritdoc />
-    public class KrakenRestClientFuturesApiExchangeData : IKrakenRestClientFuturesApiExchangeData
+    internal class KrakenRestClientFuturesApiExchangeData : IKrakenRestClientFuturesApiExchangeData
     {
         private readonly KrakenRestClientFuturesApi _baseClient;
 

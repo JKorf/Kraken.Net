@@ -21,7 +21,7 @@ using Microsoft.Extensions.Logging;
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc />
-    public class KrakenSocketClientFuturesApi : SocketApiClient, IKrakenSocketClientFuturesApi
+    internal class KrakenSocketClientFuturesApi : SocketApiClient, IKrakenSocketClientFuturesApi
     {
         private static readonly MessagePath _eventPath = MessagePath.Get().Property("event");
         private static readonly MessagePath _feedPath = MessagePath.Get().Property("feed");

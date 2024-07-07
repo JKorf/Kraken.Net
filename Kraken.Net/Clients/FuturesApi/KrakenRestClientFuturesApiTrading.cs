@@ -15,7 +15,7 @@ using Kraken.Net.Interfaces.Clients.FuturesApi;
 namespace Kraken.Net.Clients.FuturesApi
 {
     /// <inheritdoc />
-    public class KrakenRestClientFuturesApiTrading : IKrakenRestClientFuturesApiTrading
+    internal class KrakenRestClientFuturesApiTrading : IKrakenRestClientFuturesApiTrading
     {
         private readonly KrakenRestClientFuturesApi _baseClient;
 

@@ -8,7 +8,7 @@ using System.Text;
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc />
-    public class KrakenRestClientSpotApiEarn : IKrakenRestClientSpotApiEarn
+    internal class KrakenRestClientSpotApiEarn : IKrakenRestClientSpotApiEarn
     {
         private readonly KrakenRestClientSpotApi _baseClient;
 

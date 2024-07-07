@@ -29,7 +29,7 @@ using Newtonsoft.Json;
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc />
-    public class KrakenSocketClientSpotApi : SocketApiClient, IKrakenSocketClientSpotApi
+    internal class KrakenSocketClientSpotApi : SocketApiClient, IKrakenSocketClientSpotApi
     {
         private static readonly MessagePath _idPath = MessagePath.Get().Property("reqid");
         private static readonly MessagePath _eventPath = MessagePath.Get().Property("event");

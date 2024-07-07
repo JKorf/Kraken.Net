@@ -7,7 +7,7 @@ using Kraken.Net.Objects.Options;
 namespace Kraken.Net.Clients.FuturesApi
 {
     /// <inheritdoc />
-    public class KrakenRestClientFuturesApi : RestApiClient, IKrakenRestClientFuturesApi
+    internal class KrakenRestClientFuturesApi : RestApiClient, IKrakenRestClientFuturesApi
     {
         #region fields
 

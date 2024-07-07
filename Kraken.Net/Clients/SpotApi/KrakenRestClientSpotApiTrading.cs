@@ -19,7 +19,7 @@ using Kraken.Net.ExtensionMethods;
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc />
-    public class KrakenRestClientSpotApiTrading : IKrakenRestClientSpotApiTrading
+    internal class KrakenRestClientSpotApiTrading : IKrakenRestClientSpotApiTrading
     {
         private readonly KrakenRestClientSpotApi _baseClient;
 

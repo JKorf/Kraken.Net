@@ -20,7 +20,7 @@ using Microsoft.Extensions.Logging;
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc cref="IKrakenRestClientSpotApi" />
-    public class KrakenRestClientSpotApi : RestApiClient, IKrakenRestClientSpotApi, ISpotClient
+    internal class KrakenRestClientSpotApi : RestApiClient, IKrakenRestClientSpotApi, ISpotClient
     {
         #region fields
 

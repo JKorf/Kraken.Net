@@ -14,7 +14,7 @@ using Kraken.Net.Enums;
 namespace Kraken.Net.Clients.FuturesApi
 {
     /// <inheritdoc />
-    public class KrakenRestClientFuturesApiAccount : IKrakenRestClientFuturesApiAccount
+    internal class KrakenRestClientFuturesApiAccount : IKrakenRestClientFuturesApiAccount
     {
         private readonly KrakenRestClientFuturesApi _baseClient;
 
