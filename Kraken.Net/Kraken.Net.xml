@@ -142,67 +142,136 @@
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.GetExecutionEventsAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="T:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi">
+        <member name="T:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi">
             <inheritdoc />
         </member>
-        <member name="P:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.ClientOptions">
+        <member name="P:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.ClientOptions">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.FormatSymbol(System.String,System.String)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.FormatSymbol(System.String,System.String)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.GetListenerIdentifier(CryptoExchange.Net.Interfaces.IMessageAccessor)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.GetListenerIdentifier(CryptoExchange.Net.Interfaces.IMessageAccessor)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.GetAuthenticationRequest(CryptoExchange.Net.Sockets.SocketConnection)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.GetAuthenticationRequest(CryptoExchange.Net.Sockets.SocketConnection)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToHeartbeatUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesHeartbeatUpdate}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SubscribeToHeartbeatUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesHeartbeatUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTickerUpdate}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SubscribeToTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTickerUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTickerUpdate}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTickerUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTradeUpdate}}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SubscribeToTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTradeUpdate}}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToTradeUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTradeUpdate}}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SubscribeToTradeUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesTradeUpdate}}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToMiniTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTickerUpdate}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SubscribeToMiniTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTickerUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToMiniTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTickerUpdate}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SubscribeToMiniTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesMiniTickerUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToOrderBookUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookUpdate}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SubscribeToOrderBookUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToOrderBookUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookUpdate}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SubscribeToOrderBookUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBookUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToOpenOrdersUpdatesAsync(System.Boolean,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesOpenOrdersSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesOpenOrdersUpdate}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SubscribeToOpenOrdersUpdatesAsync(System.Boolean,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesOpenOrdersSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesOpenOrdersUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToAccountLogUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesAccountLogsSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesAccountLogsUpdate}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SubscribeToAccountLogUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesAccountLogsSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesAccountLogsUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToOpenPositionUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesOpenPositionUpdate}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SubscribeToOpenPositionUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesOpenPositionUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToBalanceUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBalancesUpdate}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SubscribeToBalanceUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesBalancesUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToUserTradeUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesUserTradesUpdate}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SubscribeToUserTradeUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesUserTradesUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientFuturesApi.SubscribeToNotificationUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesNotificationUpdate}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SubscribeToNotificationUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesNotificationUpdate}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Kraken.Net.Clients.KrakenRestClient">
+            <inheritdoc cref="T:Kraken.Net.Interfaces.Clients.IKrakenRestClient" />
+        </member>
+        <member name="P:Kraken.Net.Clients.KrakenRestClient.SpotApi">
+            <inheritdoc />
+        </member>
+        <member name="P:Kraken.Net.Clients.KrakenRestClient.FuturesApi">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenRestClient.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
+            <summary>
+            Create a new instance of the KrakenRestClient using provided options
+            </summary>
+            <param name="optionsDelegate">Option configuration delegate</param>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenRestClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILoggerFactory,System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
+            <summary>
+            Create a new instance of the KrakenRestClient
+            </summary>
+            <param name="optionsDelegate">Option configuration delegate</param>
+            <param name="loggerFactory">The logger factory</param>
+            <param name="httpClient">Http client for this client</param>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenRestClient.SetDefaultOptions(System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
+            <summary>
+            Set the default options to be used when creating new clients
+            </summary>
+            <param name="optionsDelegate">Option configuration delegate</param>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenRestClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
+            <inheritdoc />
+        </member>
+        <member name="T:Kraken.Net.Clients.KrakenSocketClient">
+            <inheritdoc cref="T:Kraken.Net.Interfaces.Clients.IKrakenSocketClient" />
+        </member>
+        <member name="P:Kraken.Net.Clients.KrakenSocketClient.SpotApi">
+            <inheritdoc />
+        </member>
+        <member name="P:Kraken.Net.Clients.KrakenSocketClient.FuturesApi">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Create a new instance of the KrakenSocketClient
+            </summary>
+            <param name="loggerFactory">The logger</param>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions})">
+            <summary>
+            Create a new instance of the KrakenSocketClient
+            </summary>
+            <param name="optionsDelegate">Option configuration delegate</param>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Create a new instance of the KrakenSocketClient
+            </summary>
+            <param name="loggerFactory">The logger</param>
+            <param name="optionsDelegate">Option configuration delegate</param>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenSocketClient.SetDefaultOptions(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions})">
+            <summary>
+            Set the default options to be used when creating new clients
+            </summary>
+            <param name="optionsDelegate">Option configuration delegate</param>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenSocketClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi">
@@ -495,75 +564,6 @@
             <returns></returns>
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.RevitalizeRequestAsync(CryptoExchange.Net.Sockets.Subscription)">
-            <inheritdoc />
-        </member>
-        <member name="T:Kraken.Net.Clients.KrakenRestClient">
-            <inheritdoc cref="T:Kraken.Net.Interfaces.Clients.IKrakenRestClient" />
-        </member>
-        <member name="P:Kraken.Net.Clients.KrakenRestClient.SpotApi">
-            <inheritdoc />
-        </member>
-        <member name="P:Kraken.Net.Clients.KrakenRestClient.FuturesApi">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.KrakenRestClient.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
-            <summary>
-            Create a new instance of the KrakenRestClient using provided options
-            </summary>
-            <param name="optionsDelegate">Option configuration delegate</param>
-        </member>
-        <member name="M:Kraken.Net.Clients.KrakenRestClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILoggerFactory,System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
-            <summary>
-            Create a new instance of the KrakenRestClient
-            </summary>
-            <param name="optionsDelegate">Option configuration delegate</param>
-            <param name="loggerFactory">The logger factory</param>
-            <param name="httpClient">Http client for this client</param>
-        </member>
-        <member name="M:Kraken.Net.Clients.KrakenRestClient.SetDefaultOptions(System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
-            <summary>
-            Set the default options to be used when creating new clients
-            </summary>
-            <param name="optionsDelegate">Option configuration delegate</param>
-        </member>
-        <member name="M:Kraken.Net.Clients.KrakenRestClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
-            <inheritdoc />
-        </member>
-        <member name="T:Kraken.Net.Clients.KrakenSocketClient">
-            <inheritdoc cref="T:Kraken.Net.Interfaces.Clients.IKrakenSocketClient" />
-        </member>
-        <member name="P:Kraken.Net.Clients.KrakenSocketClient.SpotApi">
-            <inheritdoc />
-        </member>
-        <member name="P:Kraken.Net.Clients.KrakenSocketClient.FuturesApi">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
-            <summary>
-            Create a new instance of the KrakenSocketClient
-            </summary>
-            <param name="loggerFactory">The logger</param>
-        </member>
-        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions})">
-            <summary>
-            Create a new instance of the KrakenSocketClient
-            </summary>
-            <param name="optionsDelegate">Option configuration delegate</param>
-        </member>
-        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},Microsoft.Extensions.Logging.ILoggerFactory)">
-            <summary>
-            Create a new instance of the KrakenSocketClient
-            </summary>
-            <param name="loggerFactory">The logger</param>
-            <param name="optionsDelegate">Option configuration delegate</param>
-        </member>
-        <member name="M:Kraken.Net.Clients.KrakenSocketClient.SetDefaultOptions(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions})">
-            <summary>
-            Set the default options to be used when creating new clients
-            </summary>
-            <param name="optionsDelegate">Option configuration delegate</param>
-        </member>
-        <member name="M:Kraken.Net.Clients.KrakenSocketClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Converters.KrakenDictionaryResult`1">

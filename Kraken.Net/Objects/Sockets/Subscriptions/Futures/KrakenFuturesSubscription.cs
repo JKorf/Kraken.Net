@@ -38,7 +38,10 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                     Feed = _feed,
                     Symbols = _symbols
                 },
-                Authenticated);
+                Authenticated)
+            {
+                RequiredResponses = _symbols.Count()
+            };
         }
 
         public override Query? GetUnsubQuery()
@@ -50,7 +53,10 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                     Feed = _feed,
                     Symbols = _symbols
                 },
-                Authenticated);
+                Authenticated)
+            {
+                RequiredResponses = _symbols.Count()
+            };
         }
 
         public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)

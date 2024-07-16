@@ -42,7 +42,10 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 {
                     Event = "subscribe",
                 },
-                Authenticated);
+                Authenticated)
+            {
+                RequiredResponses = _symbols.Count()
+            };
         }
 
         public override Query? GetUnsubQuery()
@@ -52,7 +55,10 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 {
                     Event = "unsubscribe"
                 },
-                Authenticated);
+                Authenticated)
+            {
+                RequiredResponses = _symbols.Count()
+            };
         }
 
         public override CallResult<object> Deserialize(IMessageAccessor message, Type type)

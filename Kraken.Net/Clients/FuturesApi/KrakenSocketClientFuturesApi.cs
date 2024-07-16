@@ -18,7 +18,7 @@ using Kraken.Net.Objects.Sockets.Subscriptions.Futures;
 using Kraken.Net.Objects.Sockets.Subscriptions.Spot;
 using Microsoft.Extensions.Logging;
 
-namespace Kraken.Net.Clients.SpotApi
+namespace Kraken.Net.Clients.FuturesApi
 {
     /// <inheritdoc />
     internal class KrakenSocketClientFuturesApi : SocketApiClient, IKrakenSocketClientFuturesApi
@@ -40,6 +40,8 @@ namespace Kraken.Net.Clients.SpotApi
             base(logger, options.Environment.FuturesSocketBaseAddress, options, options.FuturesOptions)
         {
             RateLimiter = KrakenExchange.RateLimiter.FuturesSocket;
+
+            AddSystemSubscription(new KrakenFuturesInfoSubscription(_logger));
         }
         #endregion
 

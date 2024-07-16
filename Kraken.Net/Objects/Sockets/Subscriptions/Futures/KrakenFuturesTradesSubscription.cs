@@ -40,7 +40,10 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     Feed = "trade",
                     Symbols = _symbols
                 },
-                Authenticated);
+                Authenticated)
+            {
+                RequiredResponses = _symbols.Count()
+            };
         }
 
         public override Query? GetUnsubQuery()
@@ -52,7 +55,10 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     Feed = "trade",
                     Symbols = _symbols
                 },
-                Authenticated);
+                Authenticated)
+            {
+                RequiredResponses = _symbols.Count()
+            };
         }
 
         public override Type? GetMessageType(IMessageAccessor message)
