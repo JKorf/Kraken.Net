@@ -46,7 +46,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// Subscribe to mini ticker updates
         /// <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-ticker-lite" /></para>
         /// </summary>
-        /// <param name="symbol">The symbol to subscribe</param>
+        /// <param name="symbol">The symbol to subscribe, for example `PF_ETHUSD`</param>
         /// <param name="handler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -56,7 +56,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// Subscribe to mini ticker updates
         /// <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-ticker-lite" /></para>
         /// </summary>
-        /// <param name="symbols">The symbols to subscribe</param>
+        /// <param name="symbols">The symbols to subscribe, for example `PF_ETHUSD`</param>
         /// <param name="handler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -96,7 +96,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// Subscribe to order book updates
         /// <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-book" /></para>
         /// </summary>
-        /// <param name="symbols">The symbols to subscribe</param>
+        /// <param name="symbols">The symbols to subscribe, for example `PF_ETHUSD`</param>
         /// <param name="snapshotHandler">Handler for the initial snapshot data received when (re)connecting the stream</param>
         /// <param name="updateHandler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
@@ -107,7 +107,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// Subscribe to order book updates
         /// <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-book" /></para>
         /// </summary>
-        /// <param name="symbol">The symbol to subscribe</param>
+        /// <param name="symbol">The symbol to subscribe, for example `PF_ETHUSD`</param>
         /// <param name="snapshotHandler">Handler for the initial snapshot data received when (re)connecting the stream</param>
         /// <param name="updateHandler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
@@ -118,7 +118,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// Subscribe to ticker updates
         /// <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-ticker" /></para>
         /// </summary>
-        /// <param name="symbol">The symbol to subscribe</param>
+        /// <param name="symbol">The symbol to subscribe, for example `PF_ETHUSD`</param>
         /// <param name="handler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -128,7 +128,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// Subscribe to ticker updates
         /// <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-ticker" /></para>
         /// </summary>
-        /// <param name="symbols">The symbols to subscribe</param>
+        /// <param name="symbols">The symbols to subscribe, for example `PF_ETHUSD`</param>
         /// <param name="handler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -138,7 +138,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// Subscribe to public trade updates
         /// <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-trade" /></para>
         /// </summary>
-        /// <param name="symbol">The symbol to subscribe</param>
+        /// <param name="symbol">The symbol to subscribe, for example `PF_ETHUSD`</param>
         /// <param name="updateHandler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -148,7 +148,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// Subscribe to public trade updates
         /// <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-trade" /></para>
         /// </summary>
-        /// <param name="symbols">The symbols to subscribe</param>
+        /// <param name="symbols">The symbols to subscribe, for example `PF_ETHUSD`</param>
         /// <param name="updateHandler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>

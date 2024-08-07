@@ -1693,7 +1693,7 @@
             Set the PNL currency preference is used to determine which currency to pay out when realizing PNL gains.
             <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-multi-collateral-set-pnl-currency-preference-for-a-market" /></para>
             </summary>
-            <param name="symbol">Symbol to update</param>
+            <param name="symbol">Symbol to update, for example `PF_ETHUSD`</param>
             <param name="pnlCurrency">Currency to use</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
@@ -1703,7 +1703,7 @@
             Transfer between 2 margin accounts or between margin and cash account
             <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-transfers-initiate-wallet-transfer" /></para>
             </summary>
-            <param name="asset">The asset to transfer</param>
+            <param name="asset">The asset to transfer, for example `USDT`</param>
             <param name="quantity">The amount to transfer</param>
             <param name="fromAccount">The wallet (cash or margin account) to which funds should be credited</param>
             <param name="toAccount">The wallet (cash or margin account) from which funds should be debited</param>
@@ -1723,7 +1723,7 @@
             Get the initial margin requirements for the provided parameters
             <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-get-initial-margin-requirements" /></para>
             </summary>
-            <param name="symbol">The symbol</param>
+            <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
             <param name="orderType">Order type</param>
             <param name="side">Side</param>
             <param name="quantity">Quantity</param>
@@ -1736,7 +1736,7 @@
             Get the max order quantity
             <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-get-maximum-order-size" /></para>
             </summary>
-            <param name="symbol">The symbol</param>
+            <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
             <param name="orderType">Order type</param>
             <param name="price">Limit price</param>
             <param name="ct">Cancellation token</param>
@@ -1760,7 +1760,7 @@
             Get historical funding rates
             <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-historical-funding-rates-historical-funding-rates" /></para>
             </summary>
-            <param name="symbol">The symbol</param>
+            <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
@@ -1770,7 +1770,7 @@
             <para><a href="https://docs.futures.kraken.com/#http-api-charts-candles-market-candles" /></para>
             </summary>
             <param name="tickType">Type of price tick</param>
-            <param name="symbol">The symbol</param>
+            <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
             <param name="interval">Interval of the klines</param>
             <param name="startTime">Start time</param>
             <param name="endTime">End time</param>
@@ -1782,7 +1782,7 @@
             Get the orderbook
             <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-market-data-get-orderbook" /></para>
             </summary>
-            <param name="symbol">The symbol</param>
+            <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
@@ -1823,7 +1823,7 @@
             Get list of recent trades
             <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-market-data-get-trade-history" /></para>
             </summary>
-            <param name="symbol">The symbol</param>
+            <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
             <param name="startTime">Filter by start time</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
@@ -1848,7 +1848,7 @@
             Cancel all orders
             <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-cancel-all-orders" /></para>
             </summary>
-            <param name="symbol">Only cancel on this symbol</param>
+            <param name="symbol">Only cancel on this symbol, for example `PF_ETHUSD`</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
@@ -1946,7 +1946,7 @@
             Place a new order
             <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-send-order" /></para>
             </summary>
-            <param name="symbol">The symbol</param>
+            <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
             <param name="side">Order side</param>
             <param name="type">Order type</param>
             <param name="quantity">Order quantity</param>
@@ -1965,7 +1965,7 @@
             Set max leverage for a symbol
             <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-multi-collateral-set-the-leverage-setting-for-a-market" /></para>
             </summary>
-            <param name="symbol">The symbol</param>
+            <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
             <param name="maxLeverage">Max leverage</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
@@ -2017,7 +2017,7 @@
             Subscribe to mini ticker updates
             <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-ticker-lite" /></para>
             </summary>
-            <param name="symbol">The symbol to subscribe</param>
+            <param name="symbol">The symbol to subscribe, for example `PF_ETHUSD`</param>
             <param name="handler">Update handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -2027,7 +2027,7 @@
             Subscribe to mini ticker updates
             <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-ticker-lite" /></para>
             </summary>
-            <param name="symbols">The symbols to subscribe</param>
+            <param name="symbols">The symbols to subscribe, for example `PF_ETHUSD`</param>
             <param name="handler">Update handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -2067,7 +2067,7 @@
             Subscribe to order book updates
             <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-book" /></para>
             </summary>
-            <param name="symbols">The symbols to subscribe</param>
+            <param name="symbols">The symbols to subscribe, for example `PF_ETHUSD`</param>
             <param name="snapshotHandler">Handler for the initial snapshot data received when (re)connecting the stream</param>
             <param name="updateHandler">Update handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
@@ -2078,7 +2078,7 @@
             Subscribe to order book updates
             <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-book" /></para>
             </summary>
-            <param name="symbol">The symbol to subscribe</param>
+            <param name="symbol">The symbol to subscribe, for example `PF_ETHUSD`</param>
             <param name="snapshotHandler">Handler for the initial snapshot data received when (re)connecting the stream</param>
             <param name="updateHandler">Update handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
@@ -2089,7 +2089,7 @@
             Subscribe to ticker updates
             <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-ticker" /></para>
             </summary>
-            <param name="symbol">The symbol to subscribe</param>
+            <param name="symbol">The symbol to subscribe, for example `PF_ETHUSD`</param>
             <param name="handler">Update handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -2099,7 +2099,7 @@
             Subscribe to ticker updates
             <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-ticker" /></para>
             </summary>
-            <param name="symbols">The symbols to subscribe</param>
+            <param name="symbols">The symbols to subscribe, for example `PF_ETHUSD`</param>
             <param name="handler">Update handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -2109,7 +2109,7 @@
             Subscribe to public trade updates
             <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-trade" /></para>
             </summary>
-            <param name="symbol">The symbol to subscribe</param>
+            <param name="symbol">The symbol to subscribe, for example `PF_ETHUSD`</param>
             <param name="updateHandler">Update handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -2119,7 +2119,7 @@
             Subscribe to public trade updates
             <para><a href="https://docs.futures.kraken.com/#websocket-api-public-feeds-trade" /></para>
             </summary>
-            <param name="symbols">The symbols to subscribe</param>
+            <param name="symbols">The symbols to subscribe, for example `PF_ETHUSD`</param>
             <param name="updateHandler">Update handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -2232,8 +2232,9 @@
         <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetTradeBalanceAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get trade balance
+            <para><a href="https://docs.kraken.com/rest/#tag/Account-Data/operation/getExtendedBalance" /></para>
             </summary>
-            <param name="baseAsset">Base asset to get trade balance for</param>
+            <param name="baseAsset">Base asset to get trade balance for, for example `USDT`</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Trade balance data</returns>
@@ -2253,7 +2254,7 @@
             Get ledger entries info
             <para><a href="https://docs.kraken.com/rest/#operation/getLedgers" /></para>
             </summary>
-            <param name="assets">Filter list by asset names</param>
+            <param name="assets">Filter list by asset names, for example `USDT`</param>
             <param name="entryTypes">Filter list by entry types</param>
             <param name="startTime">Return data after this time</param>
             <param name="endTime">Return data before this time</param>
@@ -2277,7 +2278,7 @@
             Get trade volume
             <para><a href="https://docs.kraken.com/rest/#operation/getTradeVolume" /></para>
             </summary>
-            <param name="symbols">Symbols to get data for</param>
+            <param name="symbols">Symbols to get data for, for example `ETHUSDT`</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Trade fee info</returns>
@@ -2287,7 +2288,7 @@
             Get deposit methods
             <para><a href="https://docs.kraken.com/rest/#operation/getDepositMethods" /></para>
             </summary>
-            <param name="asset">Asset to get methods for</param>
+            <param name="asset">Asset to get methods for, for example `ETH`</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Array with methods for deposit</returns>
@@ -2297,7 +2298,7 @@
             Get deposit addresses for an asset
             <para><a href="https://docs.kraken.com/rest/#operation/getDepositAddresses" /></para>
             </summary>
-            <param name="asset">The asset to get the deposit address for</param>
+            <param name="asset">The asset to get the deposit address for, for example `ETH`</param>
             <param name="depositMethod">The method of deposit</param>
             <param name="generateNew">Whether to generate a new address</param>
             <param name="quantity">Amount you wish to deposit (only required for depositMethod=Bitcoin Lightning)</param>
@@ -2310,7 +2311,7 @@
             Get status of deposits
             <para><a href="https://docs.kraken.com/rest/#operation/getStatusRecentDeposits" /></para>
             </summary>
-            <param name="asset">Asset to get deposit info for</param>
+            <param name="asset">Asset to get deposit info for, for example `ETH`</param>
             <param name="depositMethod">The deposit method</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
@@ -2321,7 +2322,7 @@
             Retrieve fee information about potential withdrawals for a particular asset, key and amount.
             <para><a href="https://docs.kraken.com/rest/#operation/getWithdrawalInformation" /></para>
             </summary>
-            <param name="asset">The asset</param>
+            <param name="asset">The asset, for example `ETH`</param>
             <param name="key">The withdrawal key name</param>
             <param name="quantity">The quantity to withdraw</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
@@ -2333,7 +2334,7 @@
             Withdraw funds
             <para><a href="https://docs.kraken.com/rest/#operation/withdrawFunds" /></para>
             </summary>
-            <param name="asset">The asset being withdrawn</param>
+            <param name="asset">The asset being withdrawn, for example `ETH`</param>
             <param name="key">The withdrawal key name, as set up on your account</param>
             <param name="quantity">The quantity to withdraw, including fees</param>
             <param name="address">Crypto address that can be used to confirm address matches key(will return Invalid withdrawal address error if different)</param>
@@ -2346,7 +2347,7 @@
             Get withdraw addresses
             <para><a href="https://docs.kraken.com/rest/#operation/getWithdrawalAddresses" /></para>
             </summary>
-            <param name="asset">The asset to get the deposit address for</param>
+            <param name="asset">The asset to get the deposit address for, for example `ETH`</param>
             <param name="aclass">Filter addresses for specific asset class</param>
             <param name="method">Filter addresses for specific method</param>
             <param name="key">Find address for by withdrawal key name, as set up on your account</param>
@@ -2359,7 +2360,7 @@
             Retrieve a list of withdrawal methods available for the user.
             <para><a href="https://docs.kraken.com/rest/#operation/getWithdrawalMethods" /></para>
             </summary>
-            <param name="asset">The asset to get the deposit address for</param>
+            <param name="asset">The asset to get the deposit address for, for example `ETH`</param>
             <param name="aclass">Filter addresses for specific asset class</param>
             <param name="network">Filter methods for specific network</param>
             <param name="ct">Cancellation token</param>
@@ -2370,7 +2371,7 @@
             Get the token to connect to the private websocket streams
             <para><a href="https://docs.kraken.com/rest/#operation/getWebsocketsToken" /></para>
             </summary>
-            <param name="ct"></param>
+            <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWithdrawalStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
@@ -2378,7 +2379,7 @@
             Get status of withdrawals
             <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/getStatusRecentWithdrawals" /></para>
             </summary>
-            <param name="asset">Filter by asset</param>
+            <param name="asset">Filter by asset, for example `ETH`</param>
             <param name="withdrawalMethod">Filter by method</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
@@ -2389,7 +2390,7 @@
             Cancel an active withdrawal
             <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/cancelWithdrawal" /></para>
             </summary>
-            <param name="asset">Asset</param>
+            <param name="asset">Asset, for example `ETH`</param>
             <param name="referenceId">Reference id</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
@@ -2400,7 +2401,7 @@
             Transfer funds between wallets
             <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/walletTransfer" /></para>
             </summary>
-            <param name="asset">Asset</param>
+            <param name="asset">Asset, for example `ETH`</param>
             <param name="quantity">Quantity</param>
             <param name="fromWallet">Source wallet</param>
             <param name="toWallet">Target wallet</param>
@@ -2418,7 +2419,7 @@
             List earn strategies along with their parameters.
             <para><a href="https://docs.kraken.com/rest/#tag/Earn/operation/listStrategies"/></para>
             </summary>
-            <param name="asset">Filter by asset</param>
+            <param name="asset">Filter by asset, for example `USDT`</param>
             <param name="lockType">Filter by lock type</param>
             <param name="cursor">Next page cursor</param>
             <param name="limit">Result limit</param>
@@ -2444,7 +2445,7 @@
             Get status of the last allocation request
             <para><a href="https://docs.kraken.com/rest/#tag/Earn/operation/getAllocateStrategyStatus"/></para>
             </summary>
-            <param name="strategyId"></param>
+            <param name="strategyId">Strategy id</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
@@ -2507,7 +2508,7 @@
             Get a list of assets and info about them
             <para><a href="https://docs.kraken.com/rest/#operation/getAssetInfo" /></para>
             </summary>
-            <param name="assets">Filter list for specific assets</param>
+            <param name="assets">Filter list for specific assets, for example `ETH`</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary of asset info</returns>
         </member>
@@ -2517,7 +2518,7 @@
             <para><a href="https://docs.kraken.com/rest/#operation/getTradableAssetPairs" /></para>
             </summary>
             <param name="countryCode">Filter whats available for a specific country/region</param>
-            <param name="symbols">Filter list for specific symbols</param>
+            <param name="symbols">Filter list for specific symbols, for example `ETHUSDT`</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary of symbol info</returns>
         </member>
@@ -2526,7 +2527,7 @@
             Get tickers for symbol
             <para><a href="https://docs.kraken.com/rest/#operation/getTickerInformation" /></para>
             </summary>
-            <param name="symbol">Symbol to get tickers for</param>
+            <param name="symbol">Symbol to get tickers for, for example `ETHUSDT`</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with ticker info</returns>
         </member>
@@ -2535,7 +2536,7 @@
             Get tickers for symbols
             <para><a href="https://docs.kraken.com/rest/#operation/getTickerInformation" /></para>
             </summary>
-            <param name="symbols">Symbols to get tickers for</param>
+            <param name="symbols">Symbols to get tickers for, for example `ETHUSDT`</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with ticker info</returns>
         </member>
@@ -2544,7 +2545,7 @@
             Gets kline data for a symbol
             <para><a href="https://docs.kraken.com/rest/#operation/getOHLCData" /></para>
             </summary>
-            <param name="symbol">The symbol to get data for</param>
+            <param name="symbol">The symbol to get data for, for example `ETHUSDT`</param>
             <param name="interval">The interval of the klines</param>
             <param name="since">Return klines since a specific time</param>
             <param name="ct">Cancellation token</param>
@@ -2555,7 +2556,7 @@
             Get the order book for a symbol
             <para><a href="https://docs.kraken.com/rest/#operation/getOrderBook" /></para>
             </summary>
-            <param name="symbol">Symbol to get the book for</param>
+            <param name="symbol">Symbol to get the book for, for example `ETHUSDT`</param>
             <param name="limit">Limit to book to the best x bids/asks</param>
             <param name="ct">Cancellation token</param>
             <returns>Order book for the symbol</returns>
@@ -2565,7 +2566,7 @@
             Get a list of recent trades for a symbol
             <para><a href="https://docs.kraken.com/rest/#operation/getRecentTrades" /></para>
             </summary>
-            <param name="symbol">Symbol to get trades for</param>
+            <param name="symbol">Symbol to get trades for, for example `ETHUSDT`</param>
             <param name="since">Return trades since a specific time</param>
             <param name="limit">Max amount of results</param>
             <param name="ct">Cancellation token</param>
@@ -2576,7 +2577,7 @@
             Get spread data for a symbol
             <para><a href="https://docs.kraken.com/rest/#operation/getRecentSpreads" /></para>
             </summary>
-            <param name="symbol">Symbol to get spread data for</param>
+            <param name="symbol">Symbol to get spread data for, for example `ETHUSDT`</param>
             <param name="since">Return spread data since a specific time</param>
             <param name="ct">Cancellation token</param>
             <returns>Spread data</returns>
@@ -2670,7 +2671,7 @@
             <summary>
             Place multiple new orders
             </summary>
-            <param name="symbol">The symbol the order is on</param>
+            <param name="symbol">The symbol the order is on, for example `ETHUSDT`</param>
             <param name="orders">The orders to place</param>
             <param name="deadline">Deadline after which the orders will be rejected</param>
             <param name="validateOnly">Only validate inputs, don't actually place the order</param>
@@ -2682,27 +2683,27 @@
             Place a new order
             <para><a href="https://docs.kraken.com/rest/#operation/addOrder" /></para>
             </summary>
-            <param name="symbol">The symbol the order is on</param>
+            <param name="symbol">The symbol the order is on, for example `ETHUSDT`</param>
             <param name="side">The side of the order</param>
             <param name="type">The type of the order</param>
             <param name="quantity">The quantity of the order</param>
             <param name="clientOrderId">A client id to reference the order by</param>
-            <param name="price">Price of the order:
-            Limit=limit price,
-            StopLoss=stop loss price,
-            TakeProfit=take profit price,
-            StopLossProfit=stop loss price,
-            StopLossProfitLimit=stop loss price,
-            StopLossLimit=stop loss trigger price,
-            TakeProfitLimit=take profit trigger price,
-            TrailingStop=trailing stop offset,
-            TrailingStopLimit=trailing stop offset,
-            StopLossAndLimit=stop loss price,
+            <param name="price">Price of the order:<br />
+            Limit=limit price<br />
+            StopLoss=stop loss price<br />
+            TakeProfit=take profit price<br />
+            StopLossProfit=stop loss price<br />
+            StopLossProfitLimit=stop loss price<br />
+            StopLossLimit=stop loss trigger price<br />
+            TakeProfitLimit=take profit trigger price<br />
+            TrailingStop=trailing stop offset<br />
+            TrailingStopLimit=trailing stop offset<br />
+            StopLossAndLimit=stop loss price
             </param>
             <param name="secondaryPrice">Secondary price of an order:
-            StopLossProfit/StopLossProfitLimit=take profit price,
-            StopLossLimit/TakeProfitLimit=triggered limit price,
-            TrailingStopLimit=triggered limit offset,
+            StopLossProfit/StopLossProfitLimit=take profit price<br />
+            StopLossLimit/TakeProfitLimit=triggered limit price<br />
+            TrailingStopLimit=triggered limit offset<br />
             StopLossAndLimit=limit price</param>
             <param name="leverage">Desired leverage</param>
             <param name="startTime">Scheduled start time</param>
@@ -2726,7 +2727,7 @@
             Edit an order
             <para><a href="https://docs.kraken.com/rest/#operation/editOrder" /></para>
             </summary>
-            <param name="symbol">Symbol</param>
+            <param name="symbol">Symbol, for example `ETHUSDT`</param>
             <param name="orderId">Order id or client order id of the order to edit</param>
             <param name="quantity">New quantity</param>
             <param name="icebergQuanty">Iceberg quantity</param>
@@ -2779,7 +2780,7 @@
             Subscribe to ticker updates
             <para><a href="https://docs.kraken.com/websockets/#message-ticker" /></para>
             </summary>
-            <param name="symbol">Symbol to subscribe to</param>
+            <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -2789,7 +2790,7 @@
             Subscribe to ticker updates
             <para><a href="https://docs.kraken.com/websockets/#message-ticker" /></para>
             </summary>
-            <param name="symbols">Symbols to subscribe to</param>
+            <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -2799,7 +2800,7 @@
             Subscribe to kline updates
             <para><a href="https://docs.kraken.com/websockets/#message-ohlc" /></para>
             </summary>
-            <param name="symbol">Symbol to subscribe to</param>
+            <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="interval">Kline interval</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
@@ -2810,7 +2811,7 @@
             Subscribe to kline updates
             <para><a href="https://docs.kraken.com/websockets/#message-ohlc" /></para>
             </summary>
-            <param name="symbols">Symbols to subscribe to</param>
+            <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="interval">Kline interval</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
@@ -2821,7 +2822,7 @@
             Subscribe to trade updates
             <para><a href="https://docs.kraken.com/websockets/#message-trade" /></para>
             </summary>
-            <param name="symbol">Symbol to subscribe to</param>
+            <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -2831,7 +2832,7 @@
             Subscribe to trade updates
             <para><a href="https://docs.kraken.com/websockets/#message-trade" /></para>
             </summary>
-            <param name="symbols">Symbols to subscribe to</param>
+            <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -2841,7 +2842,7 @@
             Subscribe to spread updates
             <para><a href="https://docs.kraken.com/websockets/#message-spread" /></para>
             </summary>
-            <param name="symbol">Symbol to subscribe to</param>
+            <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -2851,7 +2852,7 @@
             Subscribe to spread updates
             <para><a href="https://docs.kraken.com/websockets/#message-spread" /></para>
             </summary>
-            <param name="symbols">Symbols to subscribe to</param>
+            <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -2861,29 +2862,19 @@
             Subscribe to depth updates
             <para><a href="https://docs.kraken.com/websockets/#message-book" /></para>
             </summary>
-            <param name="symbols">Symbols to subscribe to</param>
+            <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="depth">Depth of the initial order book snapshot. 10, 25, 100, 500 or 1000</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToOrderBookUpdatesAsync(System.String,System.Int32,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrderBook}},System.Threading.CancellationToken)">
-            <summary>
-            Subscribe to depth updates
-            <para><a href="https://docs.kraken.com/websockets/#message-book" /></para>
-            </summary>
-            <param name="symbol">Symbol to subscribe to</param>
-            <param name="depth">Depth of the initial order book snapshot. 10, 25, 100, 500 or 1000</param>
-            <param name="handler">Data handler</param>
-            <param name="ct">Cancellation token for closing this subscription</param>
-            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToOrderBookUpdatesAsync(System.String,System.Int32,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrderBook}},System.Threading.CancellationToken)" -->
         <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToOrderUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenStreamOrder}}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to open order updates
             <para><a href="https://docs.kraken.com/websockets/#message-openOrders" /></para>
             </summary>
-            <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="socketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -2893,7 +2884,7 @@
             Subscribe to own trade updates
             <para><a href="https://docs.kraken.com/websockets/#message-ownTrades" /></para>
             </summary>
-            <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="socketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -2903,7 +2894,7 @@
             Subscribe to own trade updates
             <para><a href="https://docs.kraken.com/websockets/#message-ownTrades" /></para>
             </summary>
-            <param name="socketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="socketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
             <param name="snapshot">Whether or not to receive a snapshot of the data upon subscribing</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
@@ -2914,28 +2905,28 @@
             Place a new order
             <para><a href="https://docs.kraken.com/websockets/#message-addOrder" /></para>
             </summary>
-            <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
-            <param name="symbol">The symbol the order is on</param>
+            <param name="websocketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
+            <param name="symbol">The symbol the order is on, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName"/></param>
             <param name="side">The side of the order</param>
             <param name="type">The type of the order</param>
             <param name="quantity">The quantity of the order</param>
             <param name="clientOrderId">A client id to reference the order by</param>
-            <param name="price">Price of the order:
-            Limit=limit price,
-            StopLoss=stop loss price,
-            TakeProfit=take profit price,
-            StopLossProfit=stop loss price,
-            StopLossProfitLimit=stop loss price,
-            StopLossLimit=stop loss trigger price,
-            TakeProfitLimit=take profit trigger price,
-            TrailingStop=trailing stop offset,
-            TrailingStopLimit=trailing stop offset,
-            StopLossAndLimit=stop loss price,
+            <param name="price">Price of the order:<br />
+            Limit=limit price<br />
+            StopLoss=stop loss price<br />
+            TakeProfit=take profit price<br />
+            StopLossProfit=stop loss price<br />
+            StopLossProfitLimit=stop loss price<br />
+            StopLossLimit=stop loss trigger price<br />
+            TakeProfitLimit=take profit trigger price<br />
+            TrailingStop=trailing stop offset<br />
+            TrailingStopLimit=trailing stop offset<br />
+            StopLossAndLimit=stop loss price
             </param>
-            <param name="secondaryPrice">Secondary price of an order:
-            StopLossProfit/StopLossProfitLimit=take profit price,
-            StopLossLimit/TakeProfitLimit=triggered limit price,
-            TrailingStopLimit=triggered limit offset,
+            <param name="secondaryPrice">Secondary price of an order:<br />
+            StopLossProfit/StopLossProfitLimit=take profit price<br />
+            StopLossLimit/TakeProfitLimit=triggered limit price<br />
+            TrailingStopLimit=triggered limit offset<br />
             StopLossAndLimit=limit price</param>
             <param name="leverage">Desired leverage</param>
             <param name="startTime">Scheduled start time</param>
@@ -2955,7 +2946,7 @@
             Cancel an order
             <para><a href="https://docs.kraken.com/websockets/#message-cancelOrder" /></para>
             </summary>
-            <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="websocketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
             <param name="orderId">Id of the order to cancel</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
@@ -2965,7 +2956,7 @@
             Cancel multiple orders
             <para><a href="https://docs.kraken.com/websockets/#message-cancelOrder" /></para>
             </summary>
-            <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="websocketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
             <param name="orderIds">Id of the orders to cancel</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
@@ -2975,7 +2966,7 @@
             Cancel all open orders
             <para><a href="https://docs.kraken.com/websockets/#message-cancelAll" /></para>
             </summary>
-            <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="websocketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
@@ -2985,7 +2976,7 @@
             <para><a href="https://docs.kraken.com/websockets/#message-cancelAllOrdersAfter" /></para>
             </summary>
             <param name="timeout"></param>
-            <param name="websocketToken">The socket token as retrieved by the GetWebsocketTokenAsync method in the KrakenClient</param>
+            <param name="websocketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>

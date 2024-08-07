@@ -25,7 +25,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// Get historical funding rates
         /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-historical-funding-rates-historical-funding-rates" /></para>
         /// </summary>
-        /// <param name="symbol">The symbol</param>
+        /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<IEnumerable<KrakenFundingRate>>> GetHistoricalFundingRatesAsync(string symbol, CancellationToken ct = default);
@@ -35,7 +35,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <para><a href="https://docs.futures.kraken.com/#http-api-charts-candles-market-candles" /></para>
         /// </summary>
         /// <param name="tickType">Type of price tick</param>
-        /// <param name="symbol">The symbol</param>
+        /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
         /// <param name="interval">Interval of the klines</param>
         /// <param name="startTime">Start time</param>
         /// <param name="endTime">End time</param>
@@ -47,7 +47,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// Get the orderbook
         /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-market-data-get-orderbook" /></para>
         /// </summary>
-        /// <param name="symbol">The symbol</param>
+        /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenFuturesOrderBook>> GetOrderBookAsync(string symbol, CancellationToken ct = default);
@@ -88,7 +88,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// Get list of recent trades
         /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-market-data-get-trade-history" /></para>
         /// </summary>
-        /// <param name="symbol">The symbol</param>
+        /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
         /// <param name="startTime">Filter by start time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>

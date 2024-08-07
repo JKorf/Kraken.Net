@@ -96,7 +96,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <summary>
         /// Place multiple new orders
         /// </summary>
-        /// <param name="symbol">The symbol the order is on</param>
+        /// <param name="symbol">The symbol the order is on, for example `ETHUSDT`</param>
         /// <param name="orders">The orders to place</param>
         /// <param name="deadline">Deadline after which the orders will be rejected</param>
         /// <param name="validateOnly">Only validate inputs, don't actually place the order</param>
@@ -108,27 +108,27 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Place a new order
         /// <para><a href="https://docs.kraken.com/rest/#operation/addOrder" /></para>
         /// </summary>
-        /// <param name="symbol">The symbol the order is on</param>
+        /// <param name="symbol">The symbol the order is on, for example `ETHUSDT`</param>
         /// <param name="side">The side of the order</param>
         /// <param name="type">The type of the order</param>
         /// <param name="quantity">The quantity of the order</param>
         /// <param name="clientOrderId">A client id to reference the order by</param>
-        /// <param name="price">Price of the order:
-        /// Limit=limit price,
-        /// StopLoss=stop loss price,
-        /// TakeProfit=take profit price,
-        /// StopLossProfit=stop loss price,
-        /// StopLossProfitLimit=stop loss price,
-        /// StopLossLimit=stop loss trigger price,
-        /// TakeProfitLimit=take profit trigger price,
-        /// TrailingStop=trailing stop offset,
-        /// TrailingStopLimit=trailing stop offset,
-        /// StopLossAndLimit=stop loss price,
+        /// <param name="price">Price of the order:<br />
+        /// Limit=limit price<br />
+        /// StopLoss=stop loss price<br />
+        /// TakeProfit=take profit price<br />
+        /// StopLossProfit=stop loss price<br />
+        /// StopLossProfitLimit=stop loss price<br />
+        /// StopLossLimit=stop loss trigger price<br />
+        /// TakeProfitLimit=take profit trigger price<br />
+        /// TrailingStop=trailing stop offset<br />
+        /// TrailingStopLimit=trailing stop offset<br />
+        /// StopLossAndLimit=stop loss price
         /// </param>
         /// <param name="secondaryPrice">Secondary price of an order:
-        /// StopLossProfit/StopLossProfitLimit=take profit price,
-        /// StopLossLimit/TakeProfitLimit=triggered limit price,
-        /// TrailingStopLimit=triggered limit offset,
+        /// StopLossProfit/StopLossProfitLimit=take profit price<br />
+        /// StopLossLimit/TakeProfitLimit=triggered limit price<br />
+        /// TrailingStopLimit=triggered limit offset<br />
         /// StopLossAndLimit=limit price</param>
         /// <param name="leverage">Desired leverage</param>
         /// <param name="startTime">Scheduled start time</param>
@@ -174,7 +174,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Edit an order
         /// <para><a href="https://docs.kraken.com/rest/#operation/editOrder" /></para>
         /// </summary>
-        /// <param name="symbol">Symbol</param>
+        /// <param name="symbol">Symbol, for example `ETHUSDT`</param>
         /// <param name="orderId">Order id or client order id of the order to edit</param>
         /// <param name="quantity">New quantity</param>
         /// <param name="icebergQuanty">Iceberg quantity</param>

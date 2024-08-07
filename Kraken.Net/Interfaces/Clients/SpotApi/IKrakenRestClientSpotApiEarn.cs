@@ -12,7 +12,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// List earn strategies along with their parameters.
         /// <para><a href="https://docs.kraken.com/rest/#tag/Earn/operation/listStrategies"/></para>
         /// </summary>
-        /// <param name="asset">Filter by asset</param>
+        /// <param name="asset">Filter by asset, for example `USDT`</param>
         /// <param name="lockType">Filter by lock type</param>
         /// <param name="cursor">Next page cursor</param>
         /// <param name="limit">Result limit</param>
@@ -38,7 +38,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Get status of the last allocation request
         /// <para><a href="https://docs.kraken.com/rest/#tag/Earn/operation/getAllocateStrategyStatus"/></para>
         /// </summary>
-        /// <param name="strategyId"></param>
+        /// <param name="strategyId">Strategy id</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>

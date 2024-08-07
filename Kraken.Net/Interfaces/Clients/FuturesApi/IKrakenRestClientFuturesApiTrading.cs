@@ -27,7 +27,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// Cancel all orders
         /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-cancel-all-orders" /></para>
         /// </summary>
-        /// <param name="symbol">Only cancel on this symbol</param>
+        /// <param name="symbol">Only cancel on this symbol, for example `PF_ETHUSD`</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenFuturesCancelledOrders>> CancelAllOrdersAsync(string? symbol = null, CancellationToken ct = default);
@@ -125,7 +125,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// Place a new order
         /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-send-order" /></para>
         /// </summary>
-        /// <param name="symbol">The symbol</param>
+        /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
         /// <param name="side">Order side</param>
         /// <param name="type">Order type</param>
         /// <param name="quantity">Order quantity</param>
@@ -144,7 +144,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// Set max leverage for a symbol
         /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-multi-collateral-set-the-leverage-setting-for-a-market" /></para>
         /// </summary>
-        /// <param name="symbol">The symbol</param>
+        /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
         /// <param name="maxLeverage">Max leverage</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>

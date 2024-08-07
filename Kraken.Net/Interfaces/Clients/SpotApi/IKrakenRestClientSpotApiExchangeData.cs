@@ -34,7 +34,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Get a list of assets and info about them
         /// <para><a href="https://docs.kraken.com/rest/#operation/getAssetInfo" /></para>
         /// </summary>
-        /// <param name="assets">Filter list for specific assets</param>
+        /// <param name="assets">Filter list for specific assets, for example `ETH`</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary of asset info</returns>
         Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(IEnumerable<string>? assets = null, CancellationToken ct = default);
@@ -44,7 +44,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <para><a href="https://docs.kraken.com/rest/#operation/getTradableAssetPairs" /></para>
         /// </summary>
         /// <param name="countryCode">Filter whats available for a specific country/region</param>
-        /// <param name="symbols">Filter list for specific symbols</param>
+        /// <param name="symbols">Filter list for specific symbols, for example `ETHUSDT`</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary of symbol info</returns>
         Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, string? countryCode = null, CancellationToken ct = default);
@@ -53,7 +53,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Get tickers for symbol
         /// <para><a href="https://docs.kraken.com/rest/#operation/getTickerInformation" /></para>
         /// </summary>
-        /// <param name="symbol">Symbol to get tickers for</param>
+        /// <param name="symbol">Symbol to get tickers for, for example `ETHUSDT`</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with ticker info</returns>
         Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickerAsync(string symbol, CancellationToken ct = default);
@@ -62,7 +62,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Get tickers for symbols
         /// <para><a href="https://docs.kraken.com/rest/#operation/getTickerInformation" /></para>
         /// </summary>
-        /// <param name="symbols">Symbols to get tickers for</param>
+        /// <param name="symbols">Symbols to get tickers for, for example `ETHUSDT`</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with ticker info</returns>
         Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(IEnumerable<string>? symbols = null, CancellationToken ct = default);
@@ -71,7 +71,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Gets kline data for a symbol
         /// <para><a href="https://docs.kraken.com/rest/#operation/getOHLCData" /></para>
         /// </summary>
-        /// <param name="symbol">The symbol to get data for</param>
+        /// <param name="symbol">The symbol to get data for, for example `ETHUSDT`</param>
         /// <param name="interval">The interval of the klines</param>
         /// <param name="since">Return klines since a specific time</param>
         /// <param name="ct">Cancellation token</param>
@@ -82,7 +82,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Get the order book for a symbol
         /// <para><a href="https://docs.kraken.com/rest/#operation/getOrderBook" /></para>
         /// </summary>
-        /// <param name="symbol">Symbol to get the book for</param>
+        /// <param name="symbol">Symbol to get the book for, for example `ETHUSDT`</param>
         /// <param name="limit">Limit to book to the best x bids/asks</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Order book for the symbol</returns>
@@ -92,7 +92,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Get a list of recent trades for a symbol
         /// <para><a href="https://docs.kraken.com/rest/#operation/getRecentTrades" /></para>
         /// </summary>
-        /// <param name="symbol">Symbol to get trades for</param>
+        /// <param name="symbol">Symbol to get trades for, for example `ETHUSDT`</param>
         /// <param name="since">Return trades since a specific time</param>
         /// <param name="limit">Max amount of results</param>
         /// <param name="ct">Cancellation token</param>
@@ -103,7 +103,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Get spread data for a symbol
         /// <para><a href="https://docs.kraken.com/rest/#operation/getRecentSpreads" /></para>
         /// </summary>
-        /// <param name="symbol">Symbol to get spread data for</param>
+        /// <param name="symbol">Symbol to get spread data for, for example `ETHUSDT`</param>
         /// <param name="since">Return spread data since a specific time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Spread data</returns>
