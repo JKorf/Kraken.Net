@@ -122,7 +122,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Subscribe to depth updates
         /// <para><a href="https://docs.kraken.com/websockets/#message-book" /></para>
         /// </summary>
-        /// <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable{string}?, string?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <<see cref="KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
+        /// <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable{string}?, string?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
         /// <param name="depth">Depth of the initial order book snapshot. 10, 25, 100, 500 or 1000</param>
         /// <param name="handler">Data handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
