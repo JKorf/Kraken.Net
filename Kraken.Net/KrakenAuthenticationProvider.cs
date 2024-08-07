@@ -24,16 +24,16 @@ namespace Kraken.Net
                 throw new Exception("Only Hmac authentication is supported");
 
             _nonceProvider = nonceProvider ?? new KrakenNonceProvider();
-            _hmacSecret = Convert.FromBase64String(credentials.Secret!.GetString());
+            _hmacSecret = Convert.FromBase64String(credentials.Secret);
         }
 
         public override void AuthenticateRequest(
             RestApiClient apiClient,
             Uri uri,
             HttpMethod method,
-            IDictionary<string, object> uriParameters,
-            IDictionary<string, object> bodyParameters,
-            Dictionary<string, string> headers,
+            ref IDictionary<string, object>? uriParameters,
+            ref IDictionary<string, object>? bodyParameters,
+            ref Dictionary<string, string>? headers,
             bool auth,
             ArrayParametersSerialization arraySerialization,
             HttpMethodParameterPosition parameterPosition,
@@ -42,9 +42,20 @@ namespace Kraken.Net
             if (!auth)
                 return;
 
-            var parameters = parameterPosition == HttpMethodParameterPosition.InUri ? uriParameters : bodyParameters;
+            IDictionary<string, object> parameters;
+            if (parameterPosition == HttpMethodParameterPosition.InUri)
+            {
+                uriParameters ??= new Dictionary<string, object>();
+                parameters = uriParameters;
+            }
+            else
+            {
+                bodyParameters ??= new Dictionary<string, object>();
+                parameters = bodyParameters;
+            }
 
-            headers.Add("API-Key", _credentials.Key!.GetString());
+            headers ??= new Dictionary<string, string>();
+            headers.Add("API-Key", _credentials.Key);
             var nonce = _nonceProvider.GetNonce();
             parameters.Add("nonce", nonce);
             string np;
