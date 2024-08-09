@@ -46,9 +46,9 @@ namespace Kraken.Net.Clients.FuturesApi
         #endregion
 
         /// <inheritdoc />
-        public override string FormatSymbol(string baseAsset, string quoteAsset, FuturesType? futuresType = null)
+        public override string FormatSymbol(string baseAsset, string quoteAsset, ApiType? futuresType = null)
         {
-            return $"{(futuresType == FuturesType.Linear ? "PF" : "PI")}_{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
+            return $"{(futuresType == ApiType.LinearFutures ? "PF" : "PI")}_{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
         }
 
         /// <inheritdoc />

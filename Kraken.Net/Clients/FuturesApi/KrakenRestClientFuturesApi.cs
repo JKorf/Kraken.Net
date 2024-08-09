@@ -7,7 +7,7 @@ using Kraken.Net.Objects.Options;
 namespace Kraken.Net.Clients.FuturesApi
 {
     /// <inheritdoc />
-    internal class KrakenRestClientFuturesApi : RestApiClient, IKrakenRestClientFuturesApi
+    internal partial class KrakenRestClientFuturesApi : RestApiClient, IKrakenRestClientFuturesApi
     {
         #region fields
 
@@ -46,9 +46,9 @@ namespace Kraken.Net.Clients.FuturesApi
         #endregion
 
         /// <inheritdoc />
-        public override string FormatSymbol(string baseAsset, string quoteAsset, FuturesType? futuresType = null)
+        public override string FormatSymbol(string baseAsset, string quoteAsset, ApiType? futuresType = null)
         {
-            return $"{(futuresType == FuturesType.Linear ? "PF" : "PI")}_{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
+            return $"{(futuresType == ApiType.LinearFutures ? "PF" : "PI")}_{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
         } 
 
         internal async Task<WebCallResult<U>> Execute<T, U>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 0)

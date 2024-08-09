@@ -10,6 +10,7 @@ using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.RateLimiting.Interfaces;
+using CryptoExchange.Net.SharedApis.Interfaces;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
@@ -20,7 +21,7 @@ using Microsoft.Extensions.Logging;
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc cref="IKrakenRestClientSpotApi" />
-    internal class KrakenRestClientSpotApi : RestApiClient, IKrakenRestClientSpotApi, ISpotClient
+    internal partial class KrakenRestClientSpotApi : RestApiClient, IKrakenRestClientSpotApi, ISpotClient
     {
         #region fields
 
@@ -69,7 +70,7 @@ namespace Kraken.Net.Clients.SpotApi
         #endregion
 
         /// <inheritdoc />
-        public override string FormatSymbol(string baseAsset, string quoteAsset, FuturesType? futuresType = null) => $"{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
+        public override string FormatSymbol(string baseAsset, string quoteAsset, ApiType? futuresType = null) => $"{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
 
         /// <inheritdoc />
         protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
@@ -446,5 +447,6 @@ namespace Kraken.Net.Clients.SpotApi
 
         /// <inheritdoc />
         public ISpotClient CommonSpotClient => this;
+        public ISharedClient SharedClient => this;
     }
 }

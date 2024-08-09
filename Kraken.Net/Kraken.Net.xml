@@ -22,7 +22,7 @@
         <member name="P:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.ExchangeName">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.FormatSymbol(System.String,System.String,System.Nullable{CryptoExchange.Net.Objects.FuturesType})">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.FormatSymbol(System.String,System.String,System.Nullable{CryptoExchange.Net.Objects.ApiType})">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.ParseErrorResponse(System.Int32,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Collections.Generic.IEnumerable{System.String}}},CryptoExchange.Net.Interfaces.IMessageAccessor)">
@@ -148,7 +148,7 @@
         <member name="P:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.ClientOptions">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.FormatSymbol(System.String,System.String,System.Nullable{CryptoExchange.Net.Objects.FuturesType})">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.FormatSymbol(System.String,System.String,System.Nullable{CryptoExchange.Net.Objects.ApiType})">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.GetListenerIdentifier(CryptoExchange.Net.Interfaces.IMessageAccessor)">
@@ -305,7 +305,7 @@
             Event triggered when an order is canceled via this client
             </summary>
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.FormatSymbol(System.String,System.String,System.Nullable{CryptoExchange.Net.Objects.FuturesType})">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.FormatSymbol(System.String,System.String,System.Nullable{CryptoExchange.Net.Objects.ApiType})">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
@@ -490,7 +490,7 @@
         <member name="P:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.ClientOptions">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.FormatSymbol(System.String,System.String,System.Nullable{CryptoExchange.Net.Objects.FuturesType})">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.FormatSymbol(System.String,System.String,System.Nullable{CryptoExchange.Net.Objects.ApiType})">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.GetListenerIdentifier(CryptoExchange.Net.Interfaces.IMessageAccessor)">
@@ -2133,48 +2133,6 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="T:Kraken.Net.Interfaces.Clients.IKrakenRestClient">
-            <summary>
-            Client for accessing the Kraken API. 
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Interfaces.Clients.IKrakenRestClient.SpotApi">
-            <summary>
-            Spot API endpoints
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Interfaces.Clients.IKrakenRestClient.FuturesApi">
-            <summary>
-            Futures API endpoints
-            </summary>
-        </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.IKrakenRestClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
-            <summary>
-            Set the API credentials for this client. All Api clients in this client will use the new credentials, regardless of earlier set options.
-            </summary>
-            <param name="credentials">The credentials to set</param>
-        </member>
-        <member name="T:Kraken.Net.Interfaces.Clients.IKrakenSocketClient">
-            <summary>
-            Client for accessing the Kraken websocket API. 
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Interfaces.Clients.IKrakenSocketClient.SpotApi">
-            <summary>
-            Spot Api
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Interfaces.Clients.IKrakenSocketClient.FuturesApi">
-            <summary>
-            Futures Api
-            </summary>
-        </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.IKrakenSocketClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
-            <summary>
-            Set the API credentials for this client. All Api clients in this client will use the new credentials, regardless of earlier set options.
-            </summary>
-            <param name="credentials">The credentials to set</param>
-        </member>
         <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi">
             <summary>
             Spot API endpoints
@@ -2989,6 +2947,48 @@
             <param name="websocketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
+        </member>
+        <member name="T:Kraken.Net.Interfaces.Clients.IKrakenRestClient">
+            <summary>
+            Client for accessing the Kraken API. 
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Interfaces.Clients.IKrakenRestClient.SpotApi">
+            <summary>
+            Spot API endpoints
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Interfaces.Clients.IKrakenRestClient.FuturesApi">
+            <summary>
+            Futures API endpoints
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.IKrakenRestClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
+            <summary>
+            Set the API credentials for this client. All Api clients in this client will use the new credentials, regardless of earlier set options.
+            </summary>
+            <param name="credentials">The credentials to set</param>
+        </member>
+        <member name="T:Kraken.Net.Interfaces.Clients.IKrakenSocketClient">
+            <summary>
+            Client for accessing the Kraken websocket API. 
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Interfaces.Clients.IKrakenSocketClient.SpotApi">
+            <summary>
+            Spot Api
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Interfaces.Clients.IKrakenSocketClient.FuturesApi">
+            <summary>
+            Futures Api
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.IKrakenSocketClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
+            <summary>
+            Set the API credentials for this client. All Api clients in this client will use the new credentials, regardless of earlier set options.
+            </summary>
+            <param name="credentials">The credentials to set</param>
         </member>
         <member name="T:Kraken.Net.Interfaces.IKrakenFuturesOrder">
             <summary>
