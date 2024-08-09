@@ -46,7 +46,10 @@ namespace Kraken.Net.Clients.FuturesApi
         #endregion
 
         /// <inheritdoc />
-        public override string FormatSymbol(string baseAsset, string quoteAsset) => $"{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
+        public override string FormatSymbol(string baseAsset, string quoteAsset, FuturesType? futuresType = null)
+        {
+            return $"{(futuresType == FuturesType.Linear ? "PF" : "PI")}_{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
+        }
 
         /// <inheritdoc />
         public override string GetListenerIdentifier(IMessageAccessor message)

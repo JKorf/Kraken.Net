@@ -69,7 +69,7 @@ namespace Kraken.Net.Clients.SpotApi
         #endregion
 
         /// <inheritdoc />
-        public override string FormatSymbol(string baseAsset, string quoteAsset) => $"{baseAsset.ToUpperInvariant()}/{quoteAsset.ToUpperInvariant()}";
+        public override string FormatSymbol(string baseAsset, string quoteAsset, FuturesType? futuresType = null) => $"{baseAsset.ToUpperInvariant()}/{quoteAsset.ToUpperInvariant()}";
 
         /// <inheritdoc />
         public override string? GetListenerIdentifier(IMessageAccessor message)
