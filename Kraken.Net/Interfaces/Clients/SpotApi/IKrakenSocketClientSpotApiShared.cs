@@ -5,11 +5,8 @@ using System.Text;
 
 namespace Kraken.Net.Interfaces.Clients.SpotApi
 {
-    public interface IKrakenRestClientSpotApiShared :
-        ITickerRestClient,
-        ISpotSymbolRestClient,
-        IKlineRestClient,
-        ITradeRestClient
+    public interface IKrakenSocketClientSpotApiShared :
+        ITickerSocketClient
     {
     }
 }

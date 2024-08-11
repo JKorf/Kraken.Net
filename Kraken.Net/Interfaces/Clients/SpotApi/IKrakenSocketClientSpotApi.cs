@@ -16,6 +16,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
     /// </summary>
     public interface IKrakenSocketClientSpotApi : ISocketApiClient, IDisposable
     {
+        IKrakenSocketClientSpotApiShared SharedClient { get; }
+
         /// <summary>
         /// Subscribe to system status updates
         /// <para><a href="https://docs.kraken.com/websockets/#message-systemStatus" /></para>

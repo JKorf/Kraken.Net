@@ -29,7 +29,7 @@ using Newtonsoft.Json;
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc />
-    internal class KrakenSocketClientSpotApi : SocketApiClient, IKrakenSocketClientSpotApi
+    internal partial class KrakenSocketClientSpotApi : SocketApiClient, IKrakenSocketClientSpotApi
     {
         private static readonly MessagePath _idPath = MessagePath.Get().Property("reqid");
         private static readonly MessagePath _eventPath = MessagePath.Get().Property("event");
@@ -70,6 +70,8 @@ namespace Kraken.Net.Clients.SpotApi
 
         /// <inheritdoc />
         public override string FormatSymbol(string baseAsset, string quoteAsset, ApiType? futuresType = null) => $"{baseAsset.ToUpperInvariant()}/{quoteAsset.ToUpperInvariant()}";
+
+        public IKrakenSocketClientSpotApiShared SharedClient => this;
 
         /// <inheritdoc />
         public override string? GetListenerIdentifier(IMessageAccessor message)
