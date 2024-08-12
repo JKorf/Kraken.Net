@@ -14,6 +14,7 @@ using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis.Models.Socket;
 using CryptoExchange.Net.SharedApis.Interfaces.Socket;
 using CryptoExchange.Net.SharedApis.SubscribeModels;
+using Kraken.Net.Objects.Options;
 
 namespace Kraken.Net.Clients.SpotApi
 {
@@ -44,5 +45,20 @@ namespace Kraken.Net.Clients.SpotApi
 
             return result;
         }
+
+        // Can be implemented with V2 websockets
+        //async Task<CallResult<UpdateSubscription>> IBalanceSocketClient.SubscribeToBalanceUpdatesAsync(SharedRequest request, Action<DataEvent<IEnumerable<SharedBalance>>> handler, CancellationToken ct)
+        //{
+        //    var result = await SubscribeTo(
+        //        update => handler(update.As(update.Data.Select(x => new SharedBalance(x.Asset, x.Available, x.Total)))),
+        //        ct: ct).ConfigureAwait(false);
+
+        //    return result;
+        //}
+
+        // Can be implemented with V2 websockets
+        //async Task<CallResult<UpdateSubscription>> ISpotOrderSocketClient.SubscribeToOrderUpdatesAsync(SharedRequest request, Action<DataEvent<IEnumerable<SharedSpotOrder>>> handler, CancellationToken ct)
+        //{
+        //}
     }
 }
