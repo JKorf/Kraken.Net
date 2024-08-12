@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CryptoExchange.Net.SharedApis.Models.Rest;
 
 namespace Kraken.Net.Clients.SpotApi
 {
@@ -32,15 +33,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!result)
                 return result.As<IEnumerable<SharedKline>>(default);
 
-            return result.As(result.Data.Data.Select(x => new SharedKline
-            {
-                BaseVolume = x.Volume,
-                ClosePrice = x.ClosePrice,
-                HighPrice = x.HighPrice,
-                LowPrice = x.LowPrice,
-                OpenPrice = x.OpenPrice,
-                OpenTime = x.OpenTime
-            }));
+            return result.As(result.Data.Data.Select(x => new SharedKline(x.OpenTime, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume)));
         }
 
         async Task<WebCallResult<IEnumerable<SharedSpotSymbol>>> ISpotSymbolRestClient.GetSymbolsAsync(SharedRequest request, CancellationToken ct)
@@ -49,15 +42,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!result)
                 return result.As<IEnumerable<SharedSpotSymbol>>(default);
 
-            return result.As(result.Data.Select(s => new SharedSpotSymbol
-            {
-                BaseAsset = s.Value.BaseAsset,
-                QuoteAsset = s.Value.QuoteAsset,
-                Name = s.Key,
-                MinTradeQuantity = s.Value.OrderMin,
-                QuantityDecimals = s.Value.Decimals,
-                PriceDecimals = s.Value.CostDecimals
-            }));
+            return result.As(result.Data.Select(s => new SharedSpotSymbol(s.Value.BaseAsset, s.Value.QuoteAsset, s.Key)));
         }
 
         async Task<WebCallResult<SharedTicker>> ITickerRestClient.GetTickerAsync(GetTickerRequest request, CancellationToken ct)
@@ -68,13 +53,8 @@ namespace Kraken.Net.Clients.SpotApi
             if (!result)
                 return result.As<SharedTicker>(default);
 
-            return result.As(new SharedTicker
-            {
-                Symbol = result.Data.Single().Value.Symbol,
-                HighPrice = result.Data.Single().Value.High.Value24H,
-                LastPrice = result.Data.Single().Value.LastTrade.Price,
-                LowPrice = result.Data.Single().Value.Low.Value24H,
-            });
+            var ticker = result.Data.Single();
+            return result.As(new SharedTicker(ticker.Value.Symbol, ticker.Value.LastTrade.Price, ticker.Value.High.Value24H, ticker.Value.Low.Value24H));
         }
 
         async Task<WebCallResult<IEnumerable<SharedTicker>>> ITickerRestClient.GetTickersAsync(SharedRequest request, CancellationToken ct)
@@ -83,12 +63,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!result)
                 return result.As<IEnumerable<SharedTicker>>(default);
 
-            return result.As(result.Data.Select(x => new SharedTicker
-            {
-                HighPrice = x.Value.High.Value24H,
-                LastPrice = x.Value.LastTrade.Price,
-                LowPrice = x.Value.Low.Value24H,
-            }));
+            return result.As(result.Data.Select(x => new SharedTicker(x.Value.Symbol, x.Value.LastTrade.Price, x.Value.High.Value24H, x.Value.Low.Value24H)));
         }
 
         async Task<WebCallResult<IEnumerable<SharedTrade>>> ITradeRestClient.GetTradesAsync(GetTradesRequest request, CancellationToken ct)
@@ -101,12 +76,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!result)
                 return result.As<IEnumerable<SharedTrade>>(default);
 
-            return result.As(result.Data.Data.Select(x => new SharedTrade
-            {
-                Price = x.Price,
-                Quantity = x.Quantity,
-                Timestamp = x.Timestamp
-            }));
+            return result.As(result.Data.Data.Select(x => new SharedTrade(x.Quantity, x.Price, x.Timestamp)));
         }
     }
 }
