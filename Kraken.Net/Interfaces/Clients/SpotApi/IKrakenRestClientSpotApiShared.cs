@@ -9,7 +9,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         ITickerRestClient,
         ISpotSymbolRestClient,
         IKlineRestClient,
-        ITradeRestClient
+        ITradeRestClient,
+        IBalanceRestClient
     {
     }
 }
