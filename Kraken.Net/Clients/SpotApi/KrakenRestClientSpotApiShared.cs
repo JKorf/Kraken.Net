@@ -112,7 +112,7 @@ namespace Kraken.Net.Clients.SpotApi
             return result.As(result.Data.Select(x => new SharedBalance(x.Key, x.Value.Available, x.Value.Total)));
         }
 
-        async Task<WebCallResult<SharedOrderId>> ISpotOrderRestClient.PlaceOrderAsync(PlaceSpotPlaceOrderRequest request, CancellationToken ct)
+        async Task<WebCallResult<SharedOrderId>> ISpotOrderRestClient.PlaceOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
         {
             uint cid = 0;
             if (request.ClientOrderId != null && !uint.TryParse(request.ClientOrderId, out cid))
@@ -134,7 +134,7 @@ namespace Kraken.Net.Clients.SpotApi
             return result.As(new SharedOrderId(result.Data.OrderIds.Single().ToString()));
         }
 
-        async Task<WebCallResult<SharedSpotOrder>> ISpotOrderRestClient.GetOrderAsync(GetOrderRequest request, CancellationToken ct = default)
+        async Task<WebCallResult<SharedSpotOrder>> ISpotOrderRestClient.GetOrderAsync(GetOrderRequest request, CancellationToken ct)
         {
             var order = await Trading.GetOrderAsync(request.OrderId).ConfigureAwait(false);
             if (!order)
@@ -163,7 +163,7 @@ namespace Kraken.Net.Clients.SpotApi
             });
         }
 
-        async Task<WebCallResult<IEnumerable<SharedSpotOrder>>> ISpotOrderRestClient.GetOpenOrdersAsync(GetOpenOrdersRequest request, CancellationToken ct = default)
+        async Task<WebCallResult<IEnumerable<SharedSpotOrder>>> ISpotOrderRestClient.GetOpenOrdersAsync(GetSpotOpenOrdersRequest request, CancellationToken ct)
         {
             string? symbol = null;
             if (request.BaseAsset != null && request.QuoteAsset != null)
@@ -196,7 +196,7 @@ namespace Kraken.Net.Clients.SpotApi
             }));
         }
 
-        async Task<WebCallResult<IEnumerable<SharedSpotOrder>>> ISpotOrderRestClient.GetClosedOrdersAsync(GetClosedOrdersRequest request, CancellationToken ct = default)
+        async Task<WebCallResult<IEnumerable<SharedSpotOrder>>> ISpotOrderRestClient.GetClosedOrdersAsync(GetSpotClosedOrdersRequest request, CancellationToken ct)
         {
             string? symbol = null;
             if (request.BaseAsset != null && request.QuoteAsset != null)
@@ -229,7 +229,7 @@ namespace Kraken.Net.Clients.SpotApi
             }));
         }
 
-        async Task<WebCallResult<IEnumerable<SharedUserTrade>>> ISpotOrderRestClient.GetOrderTradesAsync(GetOrderTradesRequest request, CancellationToken ct = default)
+        async Task<WebCallResult<IEnumerable<SharedUserTrade>>> ISpotOrderRestClient.GetOrderTradesAsync(GetOrderTradesRequest request, CancellationToken ct)
         {
             var order = await Trading.GetOrderAsync(request.OrderId, trades: true).ConfigureAwait(false);
             if (!order)
@@ -260,10 +260,35 @@ namespace Kraken.Net.Clients.SpotApi
             }));
         }
 
-        async Task<WebCallResult<IEnumerable<SharedUserTrade>>> ISpotOrderRestClient.GetUserTradesAsync(GetUserTradesRequest request, CancellationToken ct = default)
+        async Task<WebCallResult<IEnumerable<SharedUserTrade>>> ISpotOrderRestClient.GetUserTradesAsync(GetUserTradesRequest request, CancellationToken ct)
         {
+            var order = await Trading.GetUserTradesAsync(startTime: request.StartTime, endTime: request.EndTime).ConfigureAwait(false);
+            if (!order)
+                return order.As<IEnumerable<SharedUserTrade>>(default);
+
+            var symbol = FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType);
+            return order.As(order.Data.Trades.Where(t => t.Value.Symbol == symbol).Select(x => new SharedUserTrade(
+                x.Value.Symbol,
+                x.Value.OrderId.ToString(),
+                x.Value.Id.ToString(),
+                x.Value.Quantity,
+                x.Value.Price,
+                x.Value.Timestamp)
+            {
+                Fee = x.Value.Fee,
+                Role = x.Value.Maker ? SharedRole.Maker : SharedRole.Taker
+            }));
         }
-        
+
+        async Task<WebCallResult<SharedOrderId>> ISpotOrderRestClient.CancelOrderAsync(CancelOrderRequest request, CancellationToken ct)
+        {
+            var order = await Trading.CancelOrderAsync(request.OrderId).ConfigureAwait(false);
+            if (!order)
+                return order.As<SharedOrderId>(default);
+
+            return order.As(new SharedOrderId(order.Data.ToString()));
+        }
+
         private SharedOrderStatus ParseOrderStatus(OrderStatus status)
         {
             if (status == OrderStatus.Open || status == OrderStatus.Pending) return SharedOrderStatus.Open;
