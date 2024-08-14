@@ -43,10 +43,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="clientOrderId">Get orders by clientOrderId</param>
         /// <param name="orderId">Get order by its order id</param>
         /// <param name="consolidateTaker">Whether or not to consolidate trades by individual taker trades</param>
+        /// <param name="trades">Whether to include trades in the response</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with order info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? orderId = null, uint? clientOrderId = null, bool? consolidateTaker = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? orderId = null, uint? clientOrderId = null, bool? consolidateTaker = null, bool? trades = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get info on specific orders
@@ -55,10 +56,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="clientOrderId">Get orders by clientOrderId</param>
         /// <param name="orderIds">Get orders by their order ids</param>
         /// <param name="consolidateTaker">Whether or not to consolidate trades by individual taker trades</param>
+        /// <param name="trades">Whether to include trades in the response</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with order info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, uint? clientOrderId = null, bool? consolidateTaker = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, uint? clientOrderId = null, bool? consolidateTaker = null, bool? trades = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get trade history
