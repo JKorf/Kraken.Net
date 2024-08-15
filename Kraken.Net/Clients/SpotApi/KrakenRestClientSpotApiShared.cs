@@ -91,11 +91,10 @@ namespace Kraken.Net.Clients.SpotApi
             return result.AsExchangeResult(Exchange, result.Data.Select(x => new SharedTicker(x.Value.Symbol, x.Value.LastTrade.Price, x.Value.High.Value24H, x.Value.Low.Value24H)));
         }
 
-        async Task<ExchangeWebResult<IEnumerable<SharedTrade>>> ITradeRestClient.GetTradesAsync(GetTradesRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedTrade>>> IRecentTradeRestClient.GetRecentTradesAsync(GetRecentTradesRequest request, CancellationToken ct)
         {
             var result = await ExchangeData.GetTradeHistoryAsync(
                 FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType),
-                since: request.StartTime,
                 limit: request.Limit,
                 ct: ct).ConfigureAwait(false);
             if (!result)
@@ -261,11 +260,22 @@ namespace Kraken.Net.Clients.SpotApi
             }));
         }
 
-        async Task<ExchangeWebResult<IEnumerable<SharedUserTrade>>> ISpotOrderRestClient.GetUserTradesAsync(GetUserTradesRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedUserTrade>>> ISpotOrderRestClient.GetUserTradesAsync(GetUserTradesRequest request, INextPageToken? pageToken, CancellationToken ct)
         {
-            var order = await Trading.GetUserTradesAsync(startTime: request.StartTime, endTime: request.EndTime).ConfigureAwait(false);
+            // Determine page token
+            int? offset = null;
+            if (pageToken is OffsetToken token)
+                offset = token.Offset;
+
+            // Get data
+            var order = await Trading.GetUserTradesAsync(startTime: request.StartTime, endTime: request.EndTime, resultOffset: offset).ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, default);
+
+            // Get next token
+            OffsetToken? nextToken = null;
+            if (order.Data.Count > order.Data.Trades.Count)
+                nextToken = new OffsetToken((offset ?? 0) + order.Data.Trades.Count);
 
             var symbol = FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType);
             return order.AsExchangeResult(Exchange, order.Data.Trades.Where(t => t.Value.Symbol == symbol).Select(x => new SharedUserTrade(
@@ -278,7 +288,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 Fee = x.Value.Fee,
                 Role = x.Value.Maker ? SharedRole.Maker : SharedRole.Taker
-            }));
+            }), nextToken);
         }
 
         async Task<ExchangeWebResult<SharedOrderId>> ISpotOrderRestClient.CancelOrderAsync(CancelOrderRequest request, CancellationToken ct)
