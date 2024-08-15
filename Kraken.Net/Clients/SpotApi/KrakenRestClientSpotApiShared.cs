@@ -14,6 +14,7 @@ using CryptoExchange.Net.SharedApis.Models.Rest;
 using CryptoExchange.Net.SharedApis.Enums;
 using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models;
+using CryptoExchange.Net.SharedApis.Models;
 
 namespace Kraken.Net.Clients.SpotApi
 {
@@ -42,11 +43,11 @@ namespace Kraken.Net.Clients.SpotApi
                 SharedQuantityType.Both,
                 SharedQuantityType.BaseAssetQuantity);
 
-        async Task<WebCallResult<IEnumerable<SharedKline>>> IKlineRestClient.GetKlinesAsync(GetKlinesRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedKline>>> IKlineRestClient.GetKlinesAsync(GetKlinesRequest request, CancellationToken ct)
         {
-            var interval = (Enums.KlineInterval)request.Interval.TotalSeconds;
+            var interval = (Enums.KlineInterval)request.Interval;
             if (!Enum.IsDefined(typeof(Enums.KlineInterval), interval))
-                return new WebCallResult<IEnumerable<SharedKline>>(new ArgumentError("Interval not supported"));
+                return new ExchangeWebResult<IEnumerable<SharedKline>>(Exchange, new ArgumentError("Interval not supported"));
 
             var result = await ExchangeData.GetKlinesAsync(
                 FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType),
@@ -55,42 +56,42 @@ namespace Kraken.Net.Clients.SpotApi
                 ct: ct
                 ).ConfigureAwait(false);
             if (!result)
-                return result.As<IEnumerable<SharedKline>>(default);
+                return result.AsExchangeResult<IEnumerable<SharedKline>>(Exchange, default);
 
-            return result.As(result.Data.Data.Select(x => new SharedKline(x.OpenTime, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume)));
+            return result.AsExchangeResult(Exchange, result.Data.Data.Select(x => new SharedKline(x.OpenTime, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume)));
         }
 
-        async Task<WebCallResult<IEnumerable<SharedSpotSymbol>>> ISpotSymbolRestClient.GetSymbolsAsync(SharedRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedSpotSymbol>>> ISpotSymbolRestClient.GetSymbolsAsync(SharedRequest request, CancellationToken ct)
         {
             var result = await ExchangeData.GetSymbolsAsync(ct: ct).ConfigureAwait(false);
             if (!result)
-                return result.As<IEnumerable<SharedSpotSymbol>>(default);
+                return result.AsExchangeResult<IEnumerable<SharedSpotSymbol>>(Exchange, default);
 
-            return result.As(result.Data.Select(s => new SharedSpotSymbol(s.Value.BaseAsset, s.Value.QuoteAsset, s.Key)));
+            return result.AsExchangeResult(Exchange, result.Data.Select(s => new SharedSpotSymbol(s.Value.BaseAsset, s.Value.QuoteAsset, s.Key)));
         }
 
-        async Task<WebCallResult<SharedTicker>> ITickerRestClient.GetTickerAsync(GetTickerRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedTicker>> ITickerRestClient.GetTickerAsync(GetTickerRequest request, CancellationToken ct)
         {
             var result = await ExchangeData.GetTickerAsync(
                 FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType),
                 ct).ConfigureAwait(false);
             if (!result)
-                return result.As<SharedTicker>(default);
+                return result.AsExchangeResult<SharedTicker>(Exchange, default);
 
             var ticker = result.Data.Single();
-            return result.As(new SharedTicker(ticker.Value.Symbol, ticker.Value.LastTrade.Price, ticker.Value.High.Value24H, ticker.Value.Low.Value24H));
+            return result.AsExchangeResult(Exchange, new SharedTicker(ticker.Value.Symbol, ticker.Value.LastTrade.Price, ticker.Value.High.Value24H, ticker.Value.Low.Value24H));
         }
 
-        async Task<WebCallResult<IEnumerable<SharedTicker>>> ITickerRestClient.GetTickersAsync(SharedRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedTicker>>> ITickerRestClient.GetTickersAsync(SharedRequest request, CancellationToken ct)
         {
             var result = await ExchangeData.GetTickersAsync(ct: ct).ConfigureAwait(false);
             if (!result)
-                return result.As<IEnumerable<SharedTicker>>(default);
+                return result.AsExchangeResult<IEnumerable<SharedTicker>>(Exchange, default);
 
-            return result.As(result.Data.Select(x => new SharedTicker(x.Value.Symbol, x.Value.LastTrade.Price, x.Value.High.Value24H, x.Value.Low.Value24H)));
+            return result.AsExchangeResult(Exchange, result.Data.Select(x => new SharedTicker(x.Value.Symbol, x.Value.LastTrade.Price, x.Value.High.Value24H, x.Value.Low.Value24H)));
         }
 
-        async Task<WebCallResult<IEnumerable<SharedTrade>>> ITradeRestClient.GetTradesAsync(GetTradesRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedTrade>>> ITradeRestClient.GetTradesAsync(GetTradesRequest request, CancellationToken ct)
         {
             var result = await ExchangeData.GetTradeHistoryAsync(
                 FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType),
@@ -98,25 +99,25 @@ namespace Kraken.Net.Clients.SpotApi
                 limit: request.Limit,
                 ct: ct).ConfigureAwait(false);
             if (!result)
-                return result.As<IEnumerable<SharedTrade>>(default);
+                return result.AsExchangeResult<IEnumerable<SharedTrade>>(Exchange, default);
 
-            return result.As(result.Data.Data.Select(x => new SharedTrade(x.Quantity, x.Price, x.Timestamp)));
+            return result.AsExchangeResult(Exchange, result.Data.Data.Select(x => new SharedTrade(x.Quantity, x.Price, x.Timestamp)));
         }
 
-        async Task<WebCallResult<IEnumerable<SharedBalance>>> IBalanceRestClient.GetBalancesAsync(SharedRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedBalance>>> IBalanceRestClient.GetBalancesAsync(SharedRequest request, CancellationToken ct)
         {
             var result = await Account.GetAvailableBalancesAsync(ct: ct).ConfigureAwait(false);
             if (!result)
-                return result.As<IEnumerable<SharedBalance>>(default);
+                return result.AsExchangeResult<IEnumerable<SharedBalance>>(Exchange, default);
 
-            return result.As(result.Data.Select(x => new SharedBalance(x.Key, x.Value.Available, x.Value.Total)));
+            return result.AsExchangeResult(Exchange, result.Data.Select(x => new SharedBalance(x.Key, x.Value.Available, x.Value.Total)));
         }
 
-        async Task<WebCallResult<SharedOrderId>> ISpotOrderRestClient.PlaceOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedOrderId>> ISpotOrderRestClient.PlaceOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
         {
             uint cid = 0;
             if (request.ClientOrderId != null && !uint.TryParse(request.ClientOrderId, out cid))
-                return new WebCallResult<SharedOrderId>(new ArgumentError("Client order id needs to be a positive integer if specified"));
+                return new ExchangeWebResult<SharedOrderId>(Exchange, new ArgumentError("Client order id needs to be a positive integer if specified"));
 
             var result = await Trading.PlaceOrderAsync(
                 FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType),
@@ -129,22 +130,22 @@ namespace Kraken.Net.Clients.SpotApi
                 timeInForce: GetTimeInForce(request.TimeInForce)).ConfigureAwait(false);
 
             if (!result)
-                return result.As<SharedOrderId>(default);
+                return result.AsExchangeResult<SharedOrderId>(Exchange, default);
 
-            return result.As(new SharedOrderId(result.Data.OrderIds.Single().ToString()));
+            return result.AsExchangeResult(Exchange, new SharedOrderId(result.Data.OrderIds.Single().ToString()));
         }
 
-        async Task<WebCallResult<SharedSpotOrder>> ISpotOrderRestClient.GetOrderAsync(GetOrderRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedSpotOrder>> ISpotOrderRestClient.GetOrderAsync(GetOrderRequest request, CancellationToken ct)
         {
             var order = await Trading.GetOrderAsync(request.OrderId).ConfigureAwait(false);
             if (!order)
-                return order.As<SharedSpotOrder>(default);
+                return order.AsExchangeResult<SharedSpotOrder>(Exchange, default);
 
             var orderData = order.Data.SingleOrDefault();
             if (orderData.Value == null)
-                return new WebCallResult<SharedSpotOrder>(new ServerError("Order not found"));
+                return new ExchangeWebResult<SharedSpotOrder>(Exchange, new ServerError("Order not found"));
 
-            return order.As(new SharedSpotOrder(
+            return order.AsExchangeResult(Exchange, new SharedSpotOrder(
                 orderData.Value.OrderDetails.Symbol,
                 orderData.Value.Id.ToString(),
                 ParseOrderType(orderData.Value.OrderDetails.Type, orderData.Value.Oflags),
@@ -163,7 +164,7 @@ namespace Kraken.Net.Clients.SpotApi
             });
         }
 
-        async Task<WebCallResult<IEnumerable<SharedSpotOrder>>> ISpotOrderRestClient.GetOpenOrdersAsync(GetSpotOpenOrdersRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> ISpotOrderRestClient.GetOpenOrdersAsync(GetSpotOpenOrdersRequest request, CancellationToken ct)
         {
             string? symbol = null;
             if (request.BaseAsset != null && request.QuoteAsset != null)
@@ -171,13 +172,13 @@ namespace Kraken.Net.Clients.SpotApi
 
             var order = await Trading.GetOpenOrdersAsync().ConfigureAwait(false);
             if (!order)
-                return order.As<IEnumerable<SharedSpotOrder>>(default);
+                return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, default);
 
             IEnumerable<KrakenOrder> orders = order.Data.Open.Values.AsEnumerable();
             if (symbol != null)
                 orders = orders.Where(x => x.OrderDetails.Symbol == symbol);
 
-            return order.As(orders.Select(x => new SharedSpotOrder(
+            return order.AsExchangeResult(Exchange, orders.Select(x => new SharedSpotOrder(
                 x.OrderDetails.Symbol,
                 x.Id.ToString(),
                 ParseOrderType(x.OrderDetails.Type, x.Oflags),
@@ -196,7 +197,7 @@ namespace Kraken.Net.Clients.SpotApi
             }));
         }
 
-        async Task<WebCallResult<IEnumerable<SharedSpotOrder>>> ISpotOrderRestClient.GetClosedOrdersAsync(GetSpotClosedOrdersRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> ISpotOrderRestClient.GetClosedOrdersAsync(GetSpotClosedOrdersRequest request, CancellationToken ct)
         {
             string? symbol = null;
             if (request.BaseAsset != null && request.QuoteAsset != null)
@@ -204,13 +205,13 @@ namespace Kraken.Net.Clients.SpotApi
 
             var order = await Trading.GetClosedOrdersAsync(startTime: request.StartTime, endTime: request.EndTime).ConfigureAwait(false);
             if (!order)
-                return order.As<IEnumerable<SharedSpotOrder>>(default);
+                return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, default);
 
             IEnumerable<KrakenOrder> orders = order.Data.Closed.Values.AsEnumerable();
             if (symbol != null)
                 orders = orders.Where(x => x.OrderDetails.Symbol == symbol);
 
-            return order.As(orders.Select(x => new SharedSpotOrder(
+            return order.AsExchangeResult(Exchange, orders.Select(x => new SharedSpotOrder(
                 x.OrderDetails.Symbol,
                 x.Id.ToString(),
                 ParseOrderType(x.OrderDetails.Type, x.Oflags),
@@ -229,25 +230,25 @@ namespace Kraken.Net.Clients.SpotApi
             }));
         }
 
-        async Task<WebCallResult<IEnumerable<SharedUserTrade>>> ISpotOrderRestClient.GetOrderTradesAsync(GetOrderTradesRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedUserTrade>>> ISpotOrderRestClient.GetOrderTradesAsync(GetOrderTradesRequest request, CancellationToken ct)
         {
             var order = await Trading.GetOrderAsync(request.OrderId, trades: true).ConfigureAwait(false);
             if (!order)
-                return order.As<IEnumerable<SharedUserTrade>>(default);
+                return order.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, default);
 
             var orderData = order.Data.SingleOrDefault();
             if (orderData.Value == null)
-                return new WebCallResult<IEnumerable<SharedUserTrade>>(new ServerError("Order not found"));
+                return new ExchangeWebResult<IEnumerable<SharedUserTrade>>(Exchange, new ServerError("Order not found"));
 
             var trades = orderData.Value.TradeIds.ToList();
             if (!trades.Any())
-                return order.As<IEnumerable<SharedUserTrade>>(new SharedUserTrade[] { });
+                return order.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, new SharedUserTrade[] { });
 
             var tradeInfo = await Trading.GetUserTradeDetailsAsync(trades.Take(20), ct: ct).ConfigureAwait(false);
             if (!tradeInfo)
-                return tradeInfo.As<IEnumerable<SharedUserTrade>>(default);
+                return tradeInfo.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, default);
 
-            return tradeInfo.As(tradeInfo.Data.Select(x => new SharedUserTrade(
+            return tradeInfo.AsExchangeResult(Exchange, tradeInfo.Data.Select(x => new SharedUserTrade(
                 x.Value.Symbol,
                 x.Value.OrderId.ToString(),
                 x.Value.Id.ToString(),
@@ -260,14 +261,14 @@ namespace Kraken.Net.Clients.SpotApi
             }));
         }
 
-        async Task<WebCallResult<IEnumerable<SharedUserTrade>>> ISpotOrderRestClient.GetUserTradesAsync(GetUserTradesRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedUserTrade>>> ISpotOrderRestClient.GetUserTradesAsync(GetUserTradesRequest request, CancellationToken ct)
         {
             var order = await Trading.GetUserTradesAsync(startTime: request.StartTime, endTime: request.EndTime).ConfigureAwait(false);
             if (!order)
-                return order.As<IEnumerable<SharedUserTrade>>(default);
+                return order.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, default);
 
             var symbol = FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType);
-            return order.As(order.Data.Trades.Where(t => t.Value.Symbol == symbol).Select(x => new SharedUserTrade(
+            return order.AsExchangeResult(Exchange, order.Data.Trades.Where(t => t.Value.Symbol == symbol).Select(x => new SharedUserTrade(
                 x.Value.Symbol,
                 x.Value.OrderId.ToString(),
                 x.Value.Id.ToString(),
@@ -280,13 +281,13 @@ namespace Kraken.Net.Clients.SpotApi
             }));
         }
 
-        async Task<WebCallResult<SharedOrderId>> ISpotOrderRestClient.CancelOrderAsync(CancelOrderRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedOrderId>> ISpotOrderRestClient.CancelOrderAsync(CancelOrderRequest request, CancellationToken ct)
         {
             var order = await Trading.CancelOrderAsync(request.OrderId).ConfigureAwait(false);
             if (!order)
-                return order.As<SharedOrderId>(default);
+                return order.AsExchangeResult<SharedOrderId>(Exchange, default);
 
-            return order.As(new SharedOrderId(order.Data.ToString()));
+            return order.AsExchangeResult(Exchange, new SharedOrderId(order.Data.ToString()));
         }
 
         private SharedOrderStatus ParseOrderStatus(OrderStatus status)
