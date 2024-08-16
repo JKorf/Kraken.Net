@@ -43,22 +43,46 @@ namespace Kraken.Net.Clients.SpotApi
                 SharedQuantityType.Both,
                 SharedQuantityType.BaseAssetQuantity);
 
-        async Task<ExchangeWebResult<IEnumerable<SharedKline>>> IKlineRestClient.GetKlinesAsync(GetKlinesRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedKline>>> IKlineRestClient.GetKlinesAsync(GetKlinesRequest request, INextPageToken? pageToken, CancellationToken ct)
         {
             var interval = (Enums.KlineInterval)request.Interval;
             if (!Enum.IsDefined(typeof(Enums.KlineInterval), interval))
                 return new ExchangeWebResult<IEnumerable<SharedKline>>(Exchange, new ArgumentError("Interval not supported"));
 
+            var apiLimit = 720;
+            int limit = request.Filter?.Limit ?? apiLimit;
+            if (request.Filter?.StartTime.HasValue == true)
+                limit = (int)Math.Ceiling((DateTime.UtcNow - request.Filter.StartTime!.Value).TotalSeconds / (int)request.Interval);
+
+            if (limit > apiLimit)
+            {
+                // Not available via the API
+                var cutoff = DateTime.UtcNow.AddSeconds(-(int)request.Interval * apiLimit);
+                return new ExchangeWebResult<IEnumerable<SharedKline>>(Exchange, new ArgumentError($"Time filter outside of supported range. Can only request the most recent {apiLimit} klines i.e. data later than {cutoff} at this interval"));
+            }
+
+            // Pagination not supported, no time filter available (always most recent)
+
+            // Get data
             var result = await ExchangeData.GetKlinesAsync(
-                FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType),
+                request.GetSymbol(FormatSymbol),
                 interval,
-                request.StartTime,
+                DateTime.UtcNow.AddSeconds(-(int)request.Interval * limit),
                 ct: ct
                 ).ConfigureAwait(false);
             if (!result)
                 return result.AsExchangeResult<IEnumerable<SharedKline>>(Exchange, default);
 
-            return result.AsExchangeResult(Exchange, result.Data.Data.Select(x => new SharedKline(x.OpenTime, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume)));
+            // Filter the data based on requested timestamps
+            var data = result.Data.Data;
+            if (request.Filter?.StartTime.HasValue == true)
+                data = data.Where(d => d.OpenTime >= request.Filter.StartTime.Value);
+            if (request.Filter?.EndTime.HasValue == true)
+                data = data.Where(d => d.OpenTime < request.Filter.EndTime.Value);
+            if (request.Filter?.Limit.HasValue == true)
+                data = data.Take(request.Filter.Limit.Value);
+
+            return result.AsExchangeResult(Exchange, data.Select(x => new SharedKline(x.OpenTime, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume)));
         }
 
         async Task<ExchangeWebResult<IEnumerable<SharedSpotSymbol>>> ISpotSymbolRestClient.GetSymbolsAsync(SharedRequest request, CancellationToken ct)
@@ -73,7 +97,7 @@ namespace Kraken.Net.Clients.SpotApi
         async Task<ExchangeWebResult<SharedTicker>> ITickerRestClient.GetTickerAsync(GetTickerRequest request, CancellationToken ct)
         {
             var result = await ExchangeData.GetTickerAsync(
-                FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType),
+                request.GetSymbol(FormatSymbol),
                 ct).ConfigureAwait(false);
             if (!result)
                 return result.AsExchangeResult<SharedTicker>(Exchange, default);
@@ -94,7 +118,7 @@ namespace Kraken.Net.Clients.SpotApi
         async Task<ExchangeWebResult<IEnumerable<SharedTrade>>> IRecentTradeRestClient.GetRecentTradesAsync(GetRecentTradesRequest request, CancellationToken ct)
         {
             var result = await ExchangeData.GetTradeHistoryAsync(
-                FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType),
+                request.GetSymbol(FormatSymbol),
                 limit: request.Limit,
                 ct: ct).ConfigureAwait(false);
             if (!result)
@@ -119,7 +143,7 @@ namespace Kraken.Net.Clients.SpotApi
                 return new ExchangeWebResult<SharedOrderId>(Exchange, new ArgumentError("Client order id needs to be a positive integer if specified"));
 
             var result = await Trading.PlaceOrderAsync(
-                FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType),
+                request.GetSymbol(FormatSymbol),
                 request.Side == SharedOrderSide.Buy ? Enums.OrderSide.Buy : Enums.OrderSide.Sell,
                 GetPlaceOrderType(request.OrderType),
                 request.Quantity ?? request.QuoteQuantity ?? 0,
@@ -196,20 +220,23 @@ namespace Kraken.Net.Clients.SpotApi
             }));
         }
 
-        async Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> ISpotOrderRestClient.GetClosedOrdersAsync(GetSpotClosedOrdersRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> ISpotOrderRestClient.GetClosedOrdersAsync(GetSpotClosedOrdersRequest request, INextPageToken? pageToken, CancellationToken ct)
         {
-            string? symbol = null;
-            if (request.BaseAsset != null && request.QuoteAsset != null)
-                symbol = FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType);
+            // Determine page token
+            int? offset = null;
+            if (pageToken is OffsetToken token)
+                offset = token.Offset;
 
-            var order = await Trading.GetClosedOrdersAsync(startTime: request.StartTime, endTime: request.EndTime).ConfigureAwait(false);
+            var order = await Trading.GetClosedOrdersAsync(startTime: request.Filter?.StartTime, endTime: request.Filter?.EndTime, resultOffset: offset).ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, default);
 
-            IEnumerable<KrakenOrder> orders = order.Data.Closed.Values.AsEnumerable();
-            if (symbol != null)
-                orders = orders.Where(x => x.OrderDetails.Symbol == symbol);
+            // Get next token
+            OffsetToken? nextToken = null;
+            if (order.Data.Count > order.Data.Closed.Count)
+                nextToken = new OffsetToken((offset ?? 0) + order.Data.Closed.Count);
 
+            var orders = order.Data.Closed.Values.Where(x => x.OrderDetails.Symbol == request.GetSymbol(FormatSymbol));
             return order.AsExchangeResult(Exchange, orders.Select(x => new SharedSpotOrder(
                 x.OrderDetails.Symbol,
                 x.Id.ToString(),
@@ -226,7 +253,7 @@ namespace Kraken.Net.Clients.SpotApi
                 QuoteQuantityFilled = x.QuoteQuantityFilled,
                 AveragePrice = x.AveragePrice,
                 UpdateTime = x.CloseTime
-            }));
+            }), nextToken);
         }
 
         async Task<ExchangeWebResult<IEnumerable<SharedUserTrade>>> ISpotOrderRestClient.GetOrderTradesAsync(GetOrderTradesRequest request, CancellationToken ct)
@@ -268,7 +295,7 @@ namespace Kraken.Net.Clients.SpotApi
                 offset = token.Offset;
 
             // Get data
-            var order = await Trading.GetUserTradesAsync(startTime: request.StartTime, endTime: request.EndTime, resultOffset: offset).ConfigureAwait(false);
+            var order = await Trading.GetUserTradesAsync(startTime: request.Filter?.StartTime, endTime: request.Filter?.EndTime, resultOffset: offset).ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, default);
 
@@ -277,7 +304,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (order.Data.Count > order.Data.Trades.Count)
                 nextToken = new OffsetToken((offset ?? 0) + order.Data.Trades.Count);
 
-            var symbol = FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType);
+            var symbol = request.GetSymbol(FormatSymbol);
             return order.AsExchangeResult(Exchange, order.Data.Trades.Where(t => t.Value.Symbol == symbol).Select(x => new SharedUserTrade(
                 x.Value.Symbol,
                 x.Value.OrderId.ToString(),

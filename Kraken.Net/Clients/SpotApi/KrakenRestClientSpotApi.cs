@@ -447,6 +447,6 @@ namespace Kraken.Net.Clients.SpotApi
 
         /// <inheritdoc />
         public ISpotClient CommonSpotClient => this;
-        public ISharedClient SharedClient => this;
+        public IKrakenRestClientSpotApiShared SharedClient => this;
     }
 }
