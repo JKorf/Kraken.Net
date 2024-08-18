@@ -85,7 +85,7 @@ namespace Kraken.Net.Clients.SpotApi
             return result.AsExchangeResult(Exchange, data.Select(x => new SharedKline(x.OpenTime, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume)));
         }
 
-        async Task<ExchangeWebResult<IEnumerable<SharedSpotSymbol>>> ISpotSymbolRestClient.GetSymbolsAsync(SharedRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedSpotSymbol>>> ISpotSymbolRestClient.GetSpotSymbolsAsync(SharedRequest request, CancellationToken ct)
         {
             var result = await ExchangeData.GetSymbolsAsync(ct: ct).ConfigureAwait(false);
             if (!result)
@@ -136,11 +136,11 @@ namespace Kraken.Net.Clients.SpotApi
             return result.AsExchangeResult(Exchange, result.Data.Select(x => new SharedBalance(x.Key, x.Value.Available, x.Value.Total)));
         }
 
-        async Task<ExchangeWebResult<SharedOrderId>> ISpotOrderRestClient.PlaceOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedId>> ISpotOrderRestClient.PlaceOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
         {
             uint cid = 0;
             if (request.ClientOrderId != null && !uint.TryParse(request.ClientOrderId, out cid))
-                return new ExchangeWebResult<SharedOrderId>(Exchange, new ArgumentError("Client order id needs to be a positive integer if specified"));
+                return new ExchangeWebResult<SharedId>(Exchange, new ArgumentError("Client order id needs to be a positive integer if specified"));
 
             var result = await Trading.PlaceOrderAsync(
                 request.GetSymbol(FormatSymbol),
@@ -153,9 +153,9 @@ namespace Kraken.Net.Clients.SpotApi
                 timeInForce: GetTimeInForce(request.TimeInForce)).ConfigureAwait(false);
 
             if (!result)
-                return result.AsExchangeResult<SharedOrderId>(Exchange, default);
+                return result.AsExchangeResult<SharedId>(Exchange, default);
 
-            return result.AsExchangeResult(Exchange, new SharedOrderId(result.Data.OrderIds.Single().ToString()));
+            return result.AsExchangeResult(Exchange, new SharedId(result.Data.OrderIds.Single().ToString()));
         }
 
         async Task<ExchangeWebResult<SharedSpotOrder>> ISpotOrderRestClient.GetOrderAsync(GetOrderRequest request, CancellationToken ct)
@@ -318,13 +318,13 @@ namespace Kraken.Net.Clients.SpotApi
             }), nextToken);
         }
 
-        async Task<ExchangeWebResult<SharedOrderId>> ISpotOrderRestClient.CancelOrderAsync(CancelOrderRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedId>> ISpotOrderRestClient.CancelOrderAsync(CancelOrderRequest request, CancellationToken ct)
         {
             var order = await Trading.CancelOrderAsync(request.OrderId).ConfigureAwait(false);
             if (!order)
-                return order.AsExchangeResult<SharedOrderId>(Exchange, default);
+                return order.AsExchangeResult<SharedId>(Exchange, default);
 
-            return order.AsExchangeResult(Exchange, new SharedOrderId(order.Data.ToString()));
+            return order.AsExchangeResult(Exchange, new SharedId(order.Data.ToString()));
         }
 
         private SharedOrderStatus ParseOrderStatus(OrderStatus status)
