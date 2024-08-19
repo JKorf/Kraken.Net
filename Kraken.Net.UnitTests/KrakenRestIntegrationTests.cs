@@ -100,7 +100,7 @@ namespace Kraken.Net.UnitTests
         [Test]
         public async Task TestFuturesExchangeData()
         {
-            await RunAndCheckResult(client => client.FuturesApi.ExchangeData.GetPlatformNotificationsAsync(default), false);
+            await RunAndCheckResult(client => client.FuturesApi.ExchangeData.GetPlatformNotificationsAsync(default), true);
             await RunAndCheckResult(client => client.FuturesApi.ExchangeData.GetHistoricalFundingRatesAsync("PF_ETHUSD", default), false);
             await RunAndCheckResult(client => client.FuturesApi.ExchangeData.GetFeeSchedulesAsync(default), false);
             await RunAndCheckResult(client => client.FuturesApi.ExchangeData.GetSymbolsAsync(default), false);

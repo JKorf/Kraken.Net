@@ -8,7 +8,7 @@ Kraken.Net is a strongly typed client library for accessing the [Kraken REST and
 * Input parameters and response values are mapped to discriptive enum values where possible
 * Automatic websocket (re)connection management 
 * Client side rate limiting 
-* Cient side order book implementation
+* Client side order book implementation
 * Extensive logging
 * Support for different environments
 * Easy integration with other exchange client based on the CryptoExchange.Net base library
