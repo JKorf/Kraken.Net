@@ -25,12 +25,12 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Kline client
 
-        GetKlinesOptions IKlineRestClient.GetKlinesOptions { get; } = new GetKlinesOptions(false)
+        GetKlinesOptions IKlineRestClient.GetKlinesOptions { get; } = new GetKlinesOptions(false, false)
         {
             MaxTotalDataPoints = 720
         };
 
-        async Task<ExchangeWebResult<IEnumerable<SharedKline>>> IKlineRestClient.GetKlinesAsync(GetKlinesRequest request, INextPageToken? pageToken, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedKline>>> IKlineRestClient.GetKlinesAsync(GetKlinesRequest request, INextPageToken? pageToken, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             var interval = (Enums.KlineInterval)request.Interval;
             if (!Enum.IsDefined(typeof(Enums.KlineInterval), interval))
@@ -76,7 +76,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Spot Symbol client
 
-        async Task<ExchangeWebResult<IEnumerable<SharedSpotSymbol>>> ISpotSymbolRestClient.GetSpotSymbolsAsync(CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedSpotSymbol>>> ISpotSymbolRestClient.GetSpotSymbolsAsync(ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             var result = await ExchangeData.GetSymbolsAsync(ct: ct).ConfigureAwait(false);
             if (!result)
@@ -89,7 +89,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Ticker client
 
-        async Task<ExchangeWebResult<SharedTicker>> ITickerRestClient.GetTickerAsync(GetTickerRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedTicker>> ITickerRestClient.GetTickerAsync(GetTickerRequest request, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             var result = await ExchangeData.GetTickerAsync(
                 request.GetSymbol(FormatSymbol),
@@ -101,7 +101,7 @@ namespace Kraken.Net.Clients.SpotApi
             return result.AsExchangeResult(Exchange, new SharedTicker(ticker.Value.Symbol, ticker.Value.LastTrade.Price, ticker.Value.High.Value24H, ticker.Value.Low.Value24H));
         }
 
-        async Task<ExchangeWebResult<IEnumerable<SharedTicker>>> ITickerRestClient.GetTickersAsync(ApiType? apiType, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedTicker>>> ITickerRestClient.GetTickersAsync(ApiType? apiType, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             var result = await ExchangeData.GetTickersAsync(ct: ct).ConfigureAwait(false);
             if (!result)
@@ -116,7 +116,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         GetRecentTradesOptions IRecentTradeRestClient.GetRecentTradesOptions { get; } = new GetRecentTradesOptions(1000);
 
-        async Task<ExchangeWebResult<IEnumerable<SharedTrade>>> IRecentTradeRestClient.GetRecentTradesAsync(GetRecentTradesRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedTrade>>> IRecentTradeRestClient.GetRecentTradesAsync(GetRecentTradesRequest request, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             var result = await ExchangeData.GetTradeHistoryAsync(
                 request.GetSymbol(FormatSymbol),
@@ -131,6 +131,7 @@ namespace Kraken.Net.Clients.SpotApi
         #endregion
 
         #region Balance client
+        EndpointOptions IBalanceRestClient.GetBalancesOptions { get; } = new EndpointOptions(true);
 
         async Task<ExchangeWebResult<IEnumerable<SharedBalance>>> IBalanceRestClient.GetBalancesAsync(ApiType? apiType, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
@@ -219,7 +220,7 @@ namespace Kraken.Net.Clients.SpotApi
         {
             string? symbol = null;
             if (request.BaseAsset != null && request.QuoteAsset != null)
-                symbol = FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType);
+                symbol = FormatSymbol(request.BaseAsset, request.QuoteAsset, ApiType.Spot);
 
             var order = await Trading.GetOpenOrdersAsync().ConfigureAwait(false);
             if (!order)
@@ -405,8 +406,9 @@ namespace Kraken.Net.Clients.SpotApi
         #endregion
 
         #region Asset client
+        EndpointOptions IAssetRestClient.GetAssetsOptions { get; } = new EndpointOptions(true);
 
-        async Task<ExchangeWebResult<IEnumerable<SharedAsset>>> IAssetRestClient.GetAssetsAsync(CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedAsset>>> IAssetRestClient.GetAssetsAsync(ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             var assets = await Account.GetWithdrawMethodsAsync(ct: ct).ConfigureAwait(false);
             if (!assets)
@@ -426,7 +428,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Deposit client
 
-        async Task<ExchangeWebResult<IEnumerable<SharedDepositAddress>>> IDepositRestClient.GetDepositAddressesAsync(GetDepositAddressesRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedDepositAddress>>> IDepositRestClient.GetDepositAddressesAsync(GetDepositAddressesRequest request, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
 #warning network required
             var depositAddresses = await Account.GetDepositAddressesAsync(request.Asset, request.Network).ConfigureAwait(false);
@@ -440,7 +442,7 @@ namespace Kraken.Net.Clients.SpotApi
             ));
         }
 
-        async Task<ExchangeWebResult<IEnumerable<SharedDeposit>>> IDepositRestClient.GetDepositsAsync(GetDepositsRequest request, INextPageToken? pageToken, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedDeposit>>> IDepositRestClient.GetDepositsAsync(GetDepositsRequest request, INextPageToken? pageToken, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             // Determine page token
             int? offset = null;
@@ -470,7 +472,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Order Book client
         GetOrderBookOptions IOrderBookRestClient.GetOrderBookOptions { get; } = new GetOrderBookOptions(1, 500);
-        async Task<ExchangeWebResult<SharedOrderBook>> IOrderBookRestClient.GetOrderBookAsync(GetOrderBookRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedOrderBook>> IOrderBookRestClient.GetOrderBookAsync(GetOrderBookRequest request, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             var validationError = ((IOrderBookRestClient)this).GetOrderBookOptions.Validate(request);
             if (validationError != null)
@@ -490,7 +492,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Withdrawal client
 
-        async Task<ExchangeWebResult<IEnumerable<SharedWithdrawal>>> IWithdrawalRestClient.GetWithdrawalsAsync(GetWithdrawalsRequest request, INextPageToken? pageToken, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedWithdrawal>>> IWithdrawalRestClient.GetWithdrawalsAsync(GetWithdrawalsRequest request, INextPageToken? pageToken, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             // Determine page token
             int? offset = null;
