@@ -167,6 +167,10 @@ namespace Kraken.Net.Clients.SpotApi
             OrderType? closeOrderType = null,
             decimal? closePrice = null,
             decimal? secondaryClosePrice = null,
+            string? pricePrefixOperator = null,
+            string? priceSuffixOperator = null,
+            string? secondaryPricePrefixOperator = null,
+            string? secondaryPriceSuffixOperator = null,
             CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>()
@@ -178,9 +182,11 @@ namespace Kraken.Net.Clients.SpotApi
                 { "trading_agreement", "agree" }
             };
             parameters.AddOptionalParameter("oflags", flags == null ? null: string.Join(",", flags.Select(f => JsonConvert.SerializeObject(f, new OrderFlagsConverter(false)))));
-            parameters.AddOptionalParameter("price", price?.ToString(CultureInfo.InvariantCulture));
+            if (price != null)
+                parameters.AddOptionalParameter("price", $"{pricePrefixOperator}{price.Value.ToString(CultureInfo.InvariantCulture)}{priceSuffixOperator}");
+            if (secondaryPrice != null)
+                parameters.AddOptionalParameter("price2", $"{secondaryPricePrefixOperator}{secondaryPrice.Value.ToString(CultureInfo.InvariantCulture)}{secondaryPriceSuffixOperator}");
             parameters.AddOptionalParameter("userref", clientOrderId);
-            parameters.AddOptionalParameter("price2", secondaryPrice?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
             parameters.AddOptionalParameter("leverage", leverage?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("starttm", DateTimeConverter.ConvertToSeconds(startTime));
@@ -214,6 +220,10 @@ namespace Kraken.Net.Clients.SpotApi
             bool? cancelResponse = null,
             bool? validateOnly = null,
             uint? newClientOrderId = null,
+            string? pricePrefixOperator = null,
+            string? priceSuffixOperator = null,
+            string? secondaryPricePrefixOperator = null,
+            string? secondaryPriceSuffixOperator = null,
             string? twoFactorPassword = null,
             CancellationToken ct = default)
         {
@@ -224,8 +234,10 @@ namespace Kraken.Net.Clients.SpotApi
             };
             parameters.AddOptionalParameter("oflags", flags == null ? null : string.Join(",", flags.Select(f => JsonConvert.SerializeObject(f, new OrderFlagsConverter(false)))));
             parameters.AddOptionalParameter("volume", quantity?.ToString(CultureInfo.InvariantCulture));
-            parameters.AddOptionalParameter("price", price?.ToString(CultureInfo.InvariantCulture));
-            parameters.AddOptionalParameter("price2", secondaryPrice?.ToString(CultureInfo.InvariantCulture));
+            if (price != null)
+                parameters.AddOptionalParameter("price", $"{pricePrefixOperator}{price.Value.ToString(CultureInfo.InvariantCulture)}{priceSuffixOperator}");
+            if (secondaryPrice != null)
+                parameters.AddOptionalParameter("price2", $"{secondaryPricePrefixOperator}{secondaryPrice.Value.ToString(CultureInfo.InvariantCulture)}{secondaryPriceSuffixOperator}");
             parameters.AddOptionalParameter("cancel_response", cancelResponse);
             parameters.AddOptionalParameter("deadline", deadline);
             parameters.AddOptionalParameter("userref", newClientOrderId);

@@ -146,6 +146,10 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="closeOrderType">Close order type</param>
         /// <param name="closePrice">Close order price</param>
         /// <param name="secondaryClosePrice">Close order secondary price</param>
+        /// <param name="pricePrefixOperator">Prefix operator for the price field, `+` or `-` for a relative offset to the last traded price, `#` will either add or subtract the amount to the last traded price, depending on the direction and order type used. For trailing stop orders always `+` can be used for an absolute price</param>
+        /// <param name="priceSuffixOperator">Suffix operator for the price field. Only option is `%` to specify a relative percentage offset for trailing orders</param>
+        /// <param name="secondaryPricePrefixOperator">Prefix operator for the secondary price field, `+` or `-` for a relative offset to the last traded price, `#` will either add or subtract the amount to the last traded price, depending on the direction and order type used.</param>
+        /// <param name="secondaryPriceSuffixOperator">Suffix operator for the price field. Only option is `%` to specify a relative percentage offset for trailing orders</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Placed order info</returns>
         Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(
@@ -170,6 +174,10 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             OrderType? closeOrderType = null,
             decimal? closePrice = null,
             decimal? secondaryClosePrice = null,
+            string? pricePrefixOperator = null,
+            string? priceSuffixOperator = null,
+            string? secondaryPricePrefixOperator = null,
+            string? secondaryPriceSuffixOperator = null,
             CancellationToken ct = default);
 
         /// <summary>
@@ -187,6 +195,10 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="cancelResponse">Used to interpret if client wants to receive pending replace, before the order is completely replaced</param>
         /// <param name="validateOnly">Only validate inputs, don't actually place the order</param>
         /// <param name="newClientOrderId">New client order id</param>
+        /// <param name="pricePrefixOperator">Prefix operator for the price field, `+` or `-` for a relative offset to the last traded price, `#` will either add or subtract the amount to the last traded price, depending on the direction and order type used. For trailing stop orders always `+` can be used for an absolute price</param>
+        /// <param name="priceSuffixOperator">Suffix operator for the price field. Only option is `%` to specify a relative percentage offset for trailing orders</param>
+        /// <param name="secondaryPricePrefixOperator">Prefix operator for the secondary price field, `+` or `-` for a relative offset to the last traded price, `#` will either add or subtract the amount to the last traded price, depending on the direction and order type used.</param>
+        /// <param name="secondaryPriceSuffixOperator">Suffix operator for the price field. Only option is `%` to specify a relative percentage offset for trailing orders</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -203,6 +215,10 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             bool? validateOnly = null,
             uint? newClientOrderId = null,
             string? twoFactorPassword = null,
+            string? pricePrefixOperator = null,
+            string? priceSuffixOperator = null,
+            string? secondaryPricePrefixOperator = null,
+            string? secondaryPriceSuffixOperator = null,
             CancellationToken ct = default);
 
         /// <summary>
