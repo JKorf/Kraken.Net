@@ -6,7 +6,7 @@ using System.Text;
 namespace Kraken.Net.Interfaces.Clients.SpotApi
 {
     public interface IKrakenRestClientSpotApiShared :
-        IAssetRestClient,
+        IAssetsRestClient,
         IBalanceRestClient,
         IDepositRestClient,
         IKlineRestClient,
