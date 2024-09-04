@@ -16,6 +16,7 @@ namespace Kraken.Net.Clients.FuturesApi
     internal partial class KrakenRestClientFuturesApi : IKrakenRestClientFuturesApiShared
     {
         public string Exchange => KrakenExchange.ExchangeName;
+        public ApiType[] SupportedApiTypes { get; } = new ApiType[] {  };
 
         // TODO implement after library update
 

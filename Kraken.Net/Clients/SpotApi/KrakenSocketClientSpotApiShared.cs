@@ -22,6 +22,7 @@ namespace Kraken.Net.Clients.SpotApi
     internal partial class KrakenSocketClientSpotApi : IKrakenSocketClientSpotApiShared
     {
         public string Exchange => KrakenExchange.ExchangeName;
+        public ApiType[] SupportedApiTypes { get; } = new [] { ApiType.Spot };
 
         async Task<ExchangeResult<UpdateSubscription>> ITickerSocketClient.SubscribeToTickerUpdatesAsync(TickerSubscribeRequest request, Action<DataEvent<SharedSpotTicker>> handler, CancellationToken ct)
         {
