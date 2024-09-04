@@ -1,5 +1,6 @@
 ﻿using CryptoExchange.Net.Clients;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
+using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Models.Futures;
 using Kraken.Net.Objects.Options;
@@ -44,6 +45,8 @@ namespace Kraken.Net.Clients.FuturesApi
             RequestBodyEmptyContent = "";
         }
         #endregion
+
+        public IKrakenRestClientFuturesApiShared SharedClient => this;
 
         /// <inheritdoc />
         public override string FormatSymbol(string baseAsset, string quoteAsset, ApiType? futuresType = null)

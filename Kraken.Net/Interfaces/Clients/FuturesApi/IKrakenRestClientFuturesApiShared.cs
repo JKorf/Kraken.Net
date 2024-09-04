@@ -5,8 +5,9 @@ using System.Text;
 
 namespace Kraken.Net.Interfaces.Clients.SpotApi
 {
-    public interface IKrakenRestClientFuturesApiShared
+    public interface IKrakenRestClientFuturesApiShared : ISharedClient
     {
         // TODO implement after library update
+
     }
 }

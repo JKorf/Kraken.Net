@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Interfaces;
+using Kraken.Net.Interfaces.Clients.SpotApi;
 using System;
 
 namespace Kraken.Net.Interfaces.Clients.FuturesApi
@@ -22,5 +23,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// Endpoints related to orders and trades
         /// </summary>
         IKrakenRestClientFuturesApiTrading Trading { get; }
+
+        public IKrakenRestClientFuturesApiShared SharedClient { get; }
     }
 }

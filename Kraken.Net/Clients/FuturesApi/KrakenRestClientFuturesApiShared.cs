@@ -18,5 +18,6 @@ namespace Kraken.Net.Clients.FuturesApi
         public string Exchange => KrakenExchange.ExchangeName;
 
         // TODO implement after library update
+
     }
 }
