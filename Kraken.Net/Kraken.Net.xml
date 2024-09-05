@@ -1412,6 +1412,36 @@
             The type of transaction.
             </summary>
         </member>
+        <member name="T:Kraken.Net.Enums.SymbolStatus">
+            <summary>
+            Symbol status
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.SymbolStatus.Online">
+            <summary>
+            Online
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.SymbolStatus.CancelOnly">
+            <summary>
+            Only cancellation allowed
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.SymbolStatus.PostOnly">
+            <summary>
+            Only maker orders allowed
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.SymbolStatus.LimitOnly">
+            <summary>
+            Only limit orders allowed
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.SymbolStatus.ReduceOnly">
+            <summary>
+            Only allowed to reduce position
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Enums.SystemStatus">
             <summary>
             System status info

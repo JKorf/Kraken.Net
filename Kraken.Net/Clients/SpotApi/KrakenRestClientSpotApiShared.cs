@@ -93,7 +93,23 @@ namespace Kraken.Net.Clients.SpotApi
             if (!result)
                 return result.AsExchangeResult<IEnumerable<SharedSpotSymbol>>(Exchange, default);
 
-            return result.AsExchangeResult(Exchange, result.Data.Select(s => new SharedSpotSymbol(s.Value.BaseAsset, s.Value.QuoteAsset, s.Key)));
+            return result.AsExchangeResult(Exchange, result.Data.Select(s =>
+            {
+                var assets = GetAssets(s.Value.WebsocketName);
+                return new SharedSpotSymbol(assets.BaseAsset, assets.QuoteAsset, s.Key, s.Value.Status == SymbolStatus.Online)
+                {
+                    PriceDecimals = s.Value.CostDecimals,
+                    QuantityDecimals = s.Value.LotDecimals,
+                    MinTradeQuantity = s.Value.OrderMin,
+                    PriceStep = s.Value.TickSize
+                };
+            }));
+        }
+
+        private (string BaseAsset, string QuoteAsset) GetAssets(string name)
+        {
+            var split = name.Split('/');
+            return (split[0], split[1]);
         }
 
         #endregion
