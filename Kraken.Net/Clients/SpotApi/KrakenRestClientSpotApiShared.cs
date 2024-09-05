@@ -43,9 +43,9 @@ namespace Kraken.Net.Clients.SpotApi
                 return new ExchangeWebResult<IEnumerable<SharedKline>>(Exchange, validationError);
 
             var apiLimit = 720;
-            int limit = request.Filter?.Limit ?? apiLimit;
-            if (request.Filter?.StartTime.HasValue == true)
-                limit = (int)Math.Ceiling((DateTime.UtcNow - request.Filter.StartTime!.Value).TotalSeconds / (int)request.Interval);
+            int limit = request.Limit ?? apiLimit;
+            if (request.StartTime.HasValue == true)
+                limit = (int)Math.Ceiling((DateTime.UtcNow - request.StartTime!.Value).TotalSeconds / (int)request.Interval);
 
             if (limit > apiLimit)
             {
@@ -68,12 +68,12 @@ namespace Kraken.Net.Clients.SpotApi
 
             // Filter the data based on requested timestamps
             var data = result.Data.Data;
-            if (request.Filter?.StartTime.HasValue == true)
-                data = data.Where(d => d.OpenTime >= request.Filter.StartTime.Value);
-            if (request.Filter?.EndTime.HasValue == true)
-                data = data.Where(d => d.OpenTime < request.Filter.EndTime.Value);
-            if (request.Filter?.Limit.HasValue == true)
-                data = data.Take(request.Filter.Limit.Value);
+            if (request.StartTime.HasValue == true)
+                data = data.Where(d => d.OpenTime >= request.StartTime.Value);
+            if (request.EndTime.HasValue == true)
+                data = data.Where(d => d.OpenTime < request.EndTime.Value);
+            if (request.Limit.HasValue == true)
+                data = data.Take(request.Limit.Value);
 
             return result.AsExchangeResult(Exchange, data.Select(x => new SharedKline(x.OpenTime, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume)));
         }
@@ -317,7 +317,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (pageToken is OffsetToken token)
                 offset = token.Offset;
 
-            var order = await Trading.GetClosedOrdersAsync(startTime: request.Filter?.StartTime, endTime: request.Filter?.EndTime, resultOffset: offset).ConfigureAwait(false);
+            var order = await Trading.GetClosedOrdersAsync(startTime: request.StartTime, endTime: request.EndTime, resultOffset: offset).ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, default);
 
@@ -395,7 +395,7 @@ namespace Kraken.Net.Clients.SpotApi
                 offset = token.Offset;
 
             // Get data
-            var order = await Trading.GetUserTradesAsync(startTime: request.Filter?.StartTime, endTime: request.Filter?.EndTime, resultOffset: offset).ConfigureAwait(false);
+            var order = await Trading.GetUserTradesAsync(startTime: request.StartTime, endTime: request.EndTime, resultOffset: offset).ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, default);
 
@@ -571,8 +571,8 @@ namespace Kraken.Net.Clients.SpotApi
             var deposits = await Account.GetLedgerInfoAsync(
                 entryTypes: new[] { LedgerEntryType.Deposit },
                 assets: request.Asset != null ? new[] { request.Asset }: null,
-                startTime: request.Filter?.StartTime,
-                endTime: request.Filter?.EndTime,
+                startTime: request.StartTime,
+                endTime: request.EndTime,
                 resultOffset: offset,
                 ct: ct).ConfigureAwait(false);
             if (!deposits)
@@ -626,8 +626,8 @@ namespace Kraken.Net.Clients.SpotApi
             var withdrawals = await Account.GetLedgerInfoAsync(
                 entryTypes: new[] { LedgerEntryType.Withdrawal },
                 assets: request.Asset != null ? new[] { request.Asset } : null,
-                startTime: request.Filter?.StartTime,
-                endTime: request.Filter?.EndTime,
+                startTime: request.StartTime,
+                endTime: request.EndTime,
                 resultOffset: offset,
                 ct: ct).ConfigureAwait(false);
             if (!withdrawals)
