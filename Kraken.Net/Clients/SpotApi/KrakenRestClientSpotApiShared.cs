@@ -58,7 +58,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             // Get data
             var result = await ExchangeData.GetKlinesAsync(
-                request.Symbol.GetSymbol((baseAsset, quoteAsset) => FormatSymbol(baseAsset, quoteAsset, request.ApiType)),
+                request.Symbol.GetSymbol((baseAsset, quoteAsset, deliverDate) => FormatSymbol(baseAsset, quoteAsset, request.ApiType, deliverDate)),
                 interval,
                 DateTime.UtcNow.AddSeconds(-(int)request.Interval * limit),
                 ct: ct
@@ -124,7 +124,7 @@ namespace Kraken.Net.Clients.SpotApi
                 return new ExchangeWebResult<SharedSpotTicker>(Exchange, validationError);
 
             var result = await ExchangeData.GetTickerAsync(
-                request.Symbol.GetSymbol((baseAsset, quoteAsset) => FormatSymbol(baseAsset, quoteAsset, request.ApiType)),
+                request.Symbol.GetSymbol((baseAsset, quoteAsset, deliverDate) => FormatSymbol(baseAsset, quoteAsset, request.ApiType, deliverDate)),
                 ct).ConfigureAwait(false);
             if (!result)
                 return result.AsExchangeResult<SharedSpotTicker>(Exchange, default);
@@ -160,7 +160,7 @@ namespace Kraken.Net.Clients.SpotApi
                 return new ExchangeWebResult<IEnumerable<SharedTrade>>(Exchange, validationError);
 
             var result = await ExchangeData.GetTradeHistoryAsync(
-                request.Symbol.GetSymbol((baseAsset, quoteAsset) => FormatSymbol(baseAsset, quoteAsset, request.ApiType)),
+                request.Symbol.GetSymbol((baseAsset, quoteAsset, deliverDate) => FormatSymbol(baseAsset, quoteAsset, request.ApiType, deliverDate)),
                 limit: request.Limit,
                 ct: ct).ConfigureAwait(false);
             if (!result)
@@ -221,7 +221,7 @@ namespace Kraken.Net.Clients.SpotApi
                 return new ExchangeWebResult<SharedId>(Exchange, new ArgumentError("Client order id needs to be a positive integer if specified"));
 
             var result = await Trading.PlaceOrderAsync(
-                request.Symbol.GetSymbol((baseAsset, quoteAsset) => FormatSymbol(baseAsset, quoteAsset, request.ApiType)),
+                request.Symbol.GetSymbol((baseAsset, quoteAsset, deliverDate) => FormatSymbol(baseAsset, quoteAsset, request.ApiType, deliverDate)),
                 request.Side == SharedOrderSide.Buy ? Enums.OrderSide.Buy : Enums.OrderSide.Sell,
                 GetPlaceOrderType(request.OrderType),
                 request.Quantity ?? request.QuoteQuantity ?? 0,
@@ -277,7 +277,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (validationError != null)
                 return new ExchangeWebResult<IEnumerable<SharedSpotOrder>>(Exchange, validationError);
 
-            var symbol = request.Symbol?.GetSymbol((baseAsset, quoteAsset) => FormatSymbol(baseAsset, quoteAsset, ApiType.Spot));
+            var symbol = request.Symbol?.GetSymbol((baseAsset, quoteAsset, deliveryDate) => FormatSymbol(baseAsset, quoteAsset, ApiType.Spot, deliveryDate));
             var order = await Trading.GetOpenOrdersAsync().ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, default);
@@ -326,7 +326,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (order.Data.Count > order.Data.Closed.Count)
                 nextToken = new OffsetToken((offset ?? 0) + order.Data.Closed.Count);
 
-            var orders = order.Data.Closed.Values.Where(x => x.OrderDetails.Symbol == request.Symbol.GetSymbol((baseAsset, quoteAsset) => FormatSymbol(baseAsset, quoteAsset, request.ApiType)));
+            var orders = order.Data.Closed.Values.Where(x => x.OrderDetails.Symbol == request.Symbol.GetSymbol((baseAsset, quoteAsset, deliverDate) => FormatSymbol(baseAsset, quoteAsset, request.ApiType, deliverDate)));
             return order.AsExchangeResult(Exchange, orders.Select(x => new SharedSpotOrder(
                 x.OrderDetails.Symbol,
                 x.Id.ToString(),
@@ -404,7 +404,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (order.Data.Count > order.Data.Trades.Count)
                 nextToken = new OffsetToken((offset ?? 0) + order.Data.Trades.Count);
 
-            var symbol = request.Symbol.GetSymbol((baseAsset, quoteAsset) => FormatSymbol(baseAsset, quoteAsset, request.ApiType));
+            var symbol = request.Symbol.GetSymbol((baseAsset, quoteAsset, deliverDate) => FormatSymbol(baseAsset, quoteAsset, request.ApiType, deliverDate));
             return order.AsExchangeResult(Exchange, order.Data.Trades.Where(t => t.Value.Symbol == symbol).Select(x => new SharedUserTrade(
                 x.Value.Symbol,
                 x.Value.OrderId.ToString(),
@@ -597,7 +597,7 @@ namespace Kraken.Net.Clients.SpotApi
                 return new ExchangeWebResult<SharedOrderBook>(Exchange, validationError);
 
             var result = await ExchangeData.GetOrderBookAsync(
-                request.Symbol.GetSymbol((baseAsset, quoteAsset) => FormatSymbol(baseAsset, quoteAsset, request.ApiType)),
+                request.Symbol.GetSymbol((baseAsset, quoteAsset, deliverDate) => FormatSymbol(baseAsset, quoteAsset, request.ApiType, deliverDate)),
                 limit: request.Limit,
                 ct: ct).ConfigureAwait(false);
             if (!result)

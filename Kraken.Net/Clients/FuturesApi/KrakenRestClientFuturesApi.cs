@@ -49,9 +49,9 @@ namespace Kraken.Net.Clients.FuturesApi
         public IKrakenRestClientFuturesApiShared SharedClient => this;
 
         /// <inheritdoc />
-        public override string FormatSymbol(string baseAsset, string quoteAsset, ApiType? futuresType = null)
+        public override string FormatSymbol(string baseAsset, string quoteAsset, ApiType apiType, DateTime? deliverTime = null)
         {
-            return $"{(futuresType == ApiType.PerpetualLinear ? "PF" : futuresType == ApiType.PerpetualInverse ? "PI" : futuresType == ApiType.DeliveryLinear ? "FF": "FI")}_{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
+            return $"{(apiType == ApiType.PerpetualLinear ? "PF" : apiType == ApiType.PerpetualInverse ? "PI" : apiType == ApiType.DeliveryLinear ? "FF": "FI")}_{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}" + (!deliverTime.HasValue ? string.Empty : ("_" + deliverTime.Value.ToString("yyMMdd")));
         } 
 
         internal async Task<WebCallResult<U>> Execute<T, U>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 0)
