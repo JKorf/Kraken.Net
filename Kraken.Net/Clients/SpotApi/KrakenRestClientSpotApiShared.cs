@@ -550,7 +550,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             return depositAddresses.AsExchangeResult<IEnumerable<SharedDepositAddress>>(Exchange, depositAddresses.Data.Select(x => new SharedDepositAddress(request.Asset, x.Address)
             {
-                Tag = x.Tag
+                TagOrMemo = x.Tag
             }
             ));
         }
