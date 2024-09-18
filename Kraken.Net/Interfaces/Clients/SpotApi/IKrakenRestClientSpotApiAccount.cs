@@ -122,6 +122,16 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         Task<WebCallResult<IEnumerable<KrakenMovementStatus>>> GetDepositStatusAsync(string? asset = null, string? depositMethod = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
+        /// Get status of deposits by cursor loading
+        /// <para><a href="https://docs.kraken.com/rest/#operation/getStatusRecentDeposits" /></para>
+        /// </summary>
+        /// <param name="cursor">Pass "true" to activate or next cursor link</param>
+        /// <param name="limit">Batch size</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Deposit status list</returns>
+        Task<WebCallResult<KrakenDepositsStatusCursor>> GetDepositStatusByCursorAsync(string? cursor = null, int? limit = null, CancellationToken ct = default);
+
+        /// <summary>
         /// Retrieve fee information about potential withdrawals for a particular asset, key and amount.
         /// <para><a href="https://docs.kraken.com/rest/#operation/getWithdrawalInformation" /></para>
         /// </summary>
@@ -189,6 +199,16 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<IEnumerable<KrakenMovementStatus>>> GetWithdrawalStatusAsync(string? asset = null, string? withdrawalMethod = null, string? twoFactorPassword = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get status of withdrawals by cursor loading
+        /// <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/getStatusRecentWithdrawals" /></para>
+        /// </summary>
+        /// <param name="cursor">Pass "true" to activate or next cursor link</param>
+        /// <param name="limit">Batch size</param>        
+        /// <param name="ct">Cancellation token</param>
+        /// <returns></returns>
+        Task<WebCallResult<KrakenWithdrawalsStatusCursor>> GetWithdrawalStatusByCursorAsync(string? cursor = null, int? limit = null, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel an active withdrawal

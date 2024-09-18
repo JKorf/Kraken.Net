@@ -57,8 +57,11 @@ namespace Kraken.Net.UnitTests
             await RunAndCheckResult(client => client.SpotApi.Account.GetTradeVolumeAsync(default, default, default), true);
             await RunAndCheckResult(client => client.SpotApi.Account.GetDepositMethodsAsync("ETH", default, default), true);
             await RunAndCheckResult(client => client.SpotApi.Account.GetDepositStatusAsync(default, default, default, default), true);
+            await RunAndCheckResult(client => client.SpotApi.Account.GetDepositStatusByCursorAsync(default, default, default), true);
             await RunAndCheckResult(client => client.SpotApi.Account.GetWithdrawAddressesAsync(default, default, default, default, default, default), true);
             await RunAndCheckResult(client => client.SpotApi.Account.GetWithdrawMethodsAsync(default, default, default, default), true);
+            await RunAndCheckResult(client => client.SpotApi.Account.GetWithdrawalStatusAsync(default, default, default, default), true);
+            await RunAndCheckResult(client => client.SpotApi.Account.GetWithdrawalStatusByCursorAsync(default, default, default), true);
         }
 
         [Test]

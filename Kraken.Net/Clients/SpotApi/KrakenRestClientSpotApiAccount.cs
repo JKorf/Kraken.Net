@@ -166,6 +166,16 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
+        public async Task<WebCallResult<KrakenDepositsStatusCursor>> GetDepositStatusByCursorAsync(string? cursor = null, int? limit = null, CancellationToken ct = default)
+        {
+            var parameters = new Dictionary<string, object>();
+            parameters.AddOptionalParameter("cursor", cursor);
+            parameters.AddOptionalParameter("limit", limit);
+
+            return await _baseClient.Execute<KrakenDepositsStatusCursor>(_baseClient.GetUri("0/private/DepositStatus"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
         public async Task<WebCallResult<KrakenWithdrawInfo>> GetWithdrawInfoAsync(string asset, string key, decimal quantity, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             asset.ValidateNotNull(nameof(asset));
@@ -231,6 +241,16 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
             return await _baseClient.Execute<IEnumerable<KrakenMovementStatus>>(_baseClient.GetUri("0/private/WithdrawStatus"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<KrakenWithdrawalsStatusCursor>> GetWithdrawalStatusByCursorAsync(string? cursor = null, int? limit = null, CancellationToken ct = default)
+        {
+            var parameters = new Dictionary<string, object>();
+            parameters.AddOptionalParameter("cursor", cursor);
+            parameters.AddOptionalParameter("limit", limit);
+
+            return await _baseClient.Execute<KrakenWithdrawalsStatusCursor>(_baseClient.GetUri("0/private/WithdrawStatus"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <inheritdoc />

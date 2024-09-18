@@ -367,6 +367,9 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetDepositStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetDepositStatusByCursorAsync(System.String,System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetWithdrawInfoAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -380,6 +383,9 @@
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetWithdrawalStatusAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.GetWithdrawalStatusByCursorAsync(System.String,System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount.CancelWithdrawalAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
@@ -2317,6 +2323,16 @@
             <param name="ct">Cancellation token</param>
             <returns>Deposit status list</returns>
         </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetDepositStatusByCursorAsync(System.String,System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <summary>
+            Get status of deposits by cursor loading
+            <para><a href="https://docs.kraken.com/rest/#operation/getStatusRecentDeposits" /></para>
+            </summary>
+            <param name="cursor">Pass "true" to activate or next cursor link</param>
+            <param name="limit">Batch size</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Deposit status list</returns>
+        </member>
         <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWithdrawInfoAsync(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
             <summary>
             Retrieve fee information about potential withdrawals for a particular asset, key and amount.
@@ -2382,6 +2398,16 @@
             <param name="asset">Filter by asset, for example `ETH`</param>
             <param name="withdrawalMethod">Filter by method</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWithdrawalStatusByCursorAsync(System.String,System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <summary>
+            Get status of withdrawals by cursor loading
+            <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/getStatusRecentWithdrawals" /></para>
+            </summary>
+            <param name="cursor">Pass "true" to activate or next cursor link</param>
+            <param name="limit">Batch size</param>        
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
@@ -5240,6 +5266,11 @@
             Minimum deposit amount
             </summary>
         </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenDepositsStatusCursor">
+            <summary>
+            Deposits status info with cursor
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenEarnStatus">
             <summary>
             Earn status
@@ -6996,6 +7027,11 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenWithdrawAddress.Verified">
             <summary>
             Verified indicator
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenWithdrawalsStatusCursor">
+            <summary>
+            Withdrawals status info with cursor
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenWithdrawInfo">
