@@ -72,7 +72,6 @@ namespace Kraken.Net.Clients.SpotApi
         public async Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, uint? clientOrderId = null, bool? consolidateTaker = null, bool? trades = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
-            parameters.AddOptionalParameter("trades", true);
             parameters.AddOptionalParameter("userref", clientOrderId);
             parameters.AddOptionalParameter("txid", orderIds?.Any() == true ? string.Join(",", orderIds) : null);
             parameters.AddOptionalParameter("consolidate_taker", consolidateTaker);

@@ -122,6 +122,29 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         Task<WebCallResult<IEnumerable<KrakenMovementStatus>>> GetDepositStatusAsync(string? asset = null, string? depositMethod = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
+        /// Get deposit history
+        /// <para><a href="https://docs.kraken.com/rest/#operation/getStatusRecentDeposits" /></para>
+        /// </summary>
+        /// <param name="asset">Asset filter, for example `ETH`</param>
+        /// <param name="depositMethod">Deposit method</param>
+        /// <param name="startTime">Filter by start time</param>
+        /// <param name="endTime">Filter by end time</param>
+        /// <param name="limit">Max number of results</param>
+        /// <param name="cursor">Pagination cursor</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns></returns>
+        Task<WebCallResult<KrakenCursorPage<KrakenMovementStatus>>> GetDepositHistoryAsync(
+            string? asset = null,
+            string? depositMethod = null,
+            DateTime? startTime = null,
+            DateTime? endTime = null,
+            int? limit = null,
+            string? cursor = null,
+            string? twoFactorPassword = null,
+            CancellationToken ct = default);
+
+        /// <summary>
         /// Retrieve fee information about potential withdrawals for a particular asset, key and amount.
         /// <para><a href="https://docs.kraken.com/rest/#operation/getWithdrawalInformation" /></para>
         /// </summary>
@@ -189,6 +212,29 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<IEnumerable<KrakenMovementStatus>>> GetWithdrawalStatusAsync(string? asset = null, string? withdrawalMethod = null, string? twoFactorPassword = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get withdrawal history
+        /// <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/getStatusRecentWithdrawals" /></para>
+        /// </summary>
+        /// <param name="asset">Asset filter, for example `ETH`</param>
+        /// <param name="withdrawalMethod">Withdrawal method</param>
+        /// <param name="startTime">Filter by start time</param>
+        /// <param name="endTime">Filter by end time</param>
+        /// <param name="limit">Max number of results</param>
+        /// <param name="cursor">Pagination cursor</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns></returns>
+        Task<WebCallResult<KrakenCursorPage<KrakenMovementStatus>>> GetWithdrawalHistoryAsync(
+            string? asset = null,
+            string? withdrawalMethod = null,
+            DateTime? startTime = null,
+            DateTime? endTime = null,
+            int? limit = null,
+            string? cursor = null,
+            string? twoFactorPassword = null,
+            CancellationToken ct = default);
 
         /// <summary>
         /// Cancel an active withdrawal

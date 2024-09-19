@@ -90,7 +90,7 @@ namespace Kraken.Net.Clients.SpotApi
                 Name = s.Key,
                 MinTradeQuantity = s.Value.OrderMin,
                 QuantityDecimals = s.Value.LotDecimals,
-                PriceDecimals = s.Value.Decimals
+                PriceDecimals = s.Value.PriceDecimals
             }));
         }
 

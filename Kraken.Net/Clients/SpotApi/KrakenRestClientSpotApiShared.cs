@@ -30,7 +30,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Kline client
 
-        GetKlinesOptions IKlineRestClient.GetKlinesOptions { get; } = new GetKlinesOptions(SharedPaginationType.Descending, false)
+        GetKlinesOptions IKlineRestClient.GetKlinesOptions { get; } = new GetKlinesOptions(SharedPaginationType.NotSupported, false)
         {
             MaxTotalDataPoints = 720
         };
@@ -78,7 +78,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (request.Limit.HasValue == true)
                 data = data.Take(request.Limit.Value);
 
-            return result.AsExchangeResult(Exchange, data.Select(x => new SharedKline(x.OpenTime, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume)));
+            return result.AsExchangeResult<IEnumerable<SharedKline>>(Exchange, data.Select(x => new SharedKline(x.OpenTime, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume)).ToArray());
         }
 
         #endregion
@@ -96,17 +96,18 @@ namespace Kraken.Net.Clients.SpotApi
             if (!result)
                 return result.AsExchangeResult<IEnumerable<SharedSpotSymbol>>(Exchange, default);
 
-            return result.AsExchangeResult(Exchange, result.Data.Select(s =>
+            return result.AsExchangeResult<IEnumerable<SharedSpotSymbol>>(Exchange, result.Data.Select(s =>
             {
                 var assets = GetAssets(s.Value.WebsocketName);
                 return new SharedSpotSymbol(assets.BaseAsset, assets.QuoteAsset, s.Key, s.Value.Status == SymbolStatus.Online)
                 {
-                    PriceDecimals = s.Value.CostDecimals,
+                    PriceDecimals = s.Value.PriceDecimals,
                     QuantityDecimals = s.Value.LotDecimals,
                     MinTradeQuantity = s.Value.OrderMin,
-                    PriceStep = s.Value.TickSize
+                    PriceStep = s.Value.TickSize,
+                    MinNotionalValue = s.Value.MinValue
                 };
-            }));
+            }).ToArray());
         }
 
         private (string BaseAsset, string QuoteAsset) GetAssets(string name)
@@ -133,7 +134,7 @@ namespace Kraken.Net.Clients.SpotApi
                 return result.AsExchangeResult<SharedSpotTicker>(Exchange, default);
 
             var ticker = result.Data.Single();
-            return result.AsExchangeResult(Exchange, new SharedSpotTicker(ticker.Value.Symbol, ticker.Value.LastTrade.Price, ticker.Value.High.Value24H, ticker.Value.Low.Value24H, ticker.Value.Volume.Value24H, Math.Round(ticker.Value.OpenPrice / ticker.Value.LastTrade.Price * 100, 2)));
+            return result.AsExchangeResult(Exchange, new SharedSpotTicker(ticker.Value.Symbol, ticker.Value.LastTrade.Price, ticker.Value.High.Value24H, ticker.Value.Low.Value24H, ticker.Value.Volume.Value24H, ticker.Value.OpenPrice == 0 ? null : Math.Round(ticker.Value.LastTrade.Price / ticker.Value.OpenPrice * 100 - 100, 2)));
         }
 
         EndpointOptions<GetTickersRequest> ISpotTickerRestClient.GetSpotTickersOptions { get; } = new EndpointOptions<GetTickersRequest>(false);
@@ -147,7 +148,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!result)
                 return result.AsExchangeResult<IEnumerable<SharedSpotTicker>>(Exchange, default);
 
-            return result.AsExchangeResult(Exchange, result.Data.Select(x => new SharedSpotTicker(x.Value.Symbol, x.Value.LastTrade.Price, x.Value.High.Value24H, x.Value.Low.Value24H, x.Value.Volume.Value24H, Math.Round(x.Value.OpenPrice / x.Value.LastTrade.Price * 100, 2))));
+            return result.AsExchangeResult<IEnumerable<SharedSpotTicker>>(Exchange, result.Data.Select(x => new SharedSpotTicker(x.Value.Symbol, x.Value.LastTrade.Price, x.Value.High.Value24H, x.Value.Low.Value24H, x.Value.Volume.Value24H, x.Value.OpenPrice == 0 ? null : Math.Round(x.Value.LastTrade.Price / x.Value.OpenPrice * 100 - 100, 2))).ToArray());
         }
 
         #endregion
@@ -169,7 +170,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!result)
                 return result.AsExchangeResult<IEnumerable<SharedTrade>>(Exchange, default);
 
-            return result.AsExchangeResult(Exchange, result.Data.Data.Select(x => new SharedTrade(x.Quantity, x.Price, x.Timestamp)));
+            return result.AsExchangeResult<IEnumerable<SharedTrade>>(Exchange, result.Data.Data.Select(x => new SharedTrade(x.Quantity, x.Price, x.Timestamp)).ToArray());
         }
 
         #endregion
@@ -187,7 +188,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!result)
                 return result.AsExchangeResult<IEnumerable<SharedBalance>>(Exchange, default);
 
-            return result.AsExchangeResult(Exchange, result.Data.Select(x => new SharedBalance(x.Key, x.Value.Available, x.Value.Total)));
+            return result.AsExchangeResult<IEnumerable<SharedBalance>>(Exchange, result.Data.Select(x => new SharedBalance(x.Key, x.Value.Available, x.Value.Total)).ToArray());
         }
 
         #endregion
@@ -213,6 +214,9 @@ namespace Kraken.Net.Clients.SpotApi
                 SharedQuantityType.BaseAndQuoteAsset,
                 SharedQuantityType.BaseAsset));
 
+        SharedFeeDeductionType ISpotOrderRestClient.SpotFeeDeductionType => SharedFeeDeductionType.DeductFromOutput;
+        SharedFeeAssetType ISpotOrderRestClient.SpotFeeAssetType => SharedFeeAssetType.Variable;
+
         async Task<ExchangeWebResult<SharedId>> ISpotOrderRestClient.PlaceSpotOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
         {
             var validationError = ((ISpotOrderRestClient)this).PlaceSpotOrderOptions.ValidateRequest(Exchange, request, request.Symbol.ApiType, SupportedApiTypes);
@@ -231,7 +235,8 @@ namespace Kraken.Net.Clients.SpotApi
                 request.Price,
                 clientOrderId: request.ClientOrderId != null ? cid : null,
                 orderFlags: GetOrderFlags(request.OrderType, request.QuoteQuantity),
-                timeInForce: GetTimeInForce(request.TimeInForce)).ConfigureAwait(false);
+                timeInForce: GetTimeInForce(request.TimeInForce),
+                ct: ct).ConfigureAwait(false);
 
             if (!result)
                 return result.AsExchangeResult<SharedId>(Exchange, default);
@@ -246,7 +251,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (validationError != null)
                 return new ExchangeWebResult<SharedSpotOrder>(Exchange, validationError);
 
-            var order = await Trading.GetOrderAsync(request.OrderId).ConfigureAwait(false);
+            var order = await Trading.GetOrderAsync(request.OrderId, ct: ct).ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<SharedSpotOrder>(Exchange, default);
 
@@ -265,10 +270,11 @@ namespace Kraken.Net.Clients.SpotApi
                 ClientOrderId = orderData.Value.ClientOrderId,
                 Fee = orderData.Value.Fee,
                 Price = orderData.Value.OrderDetails.Price,
-                Quantity = orderData.Value.Quantity,
+                Quantity = orderData.Value.Oflags.Contains("viqc") ? null : orderData.Value.Quantity,
                 QuantityFilled = orderData.Value.QuantityFilled,
+                QuoteQuantity = orderData.Value.Oflags.Contains("viqc") ? orderData.Value.Quantity : null,
                 QuoteQuantityFilled = orderData.Value.QuoteQuantityFilled,
-                AveragePrice = orderData.Value.AveragePrice,
+                AveragePrice = orderData.Value.AveragePrice == 0 ? null : orderData.Value.AveragePrice,
                 UpdateTime = orderData.Value.CloseTime
             });
         }
@@ -281,7 +287,7 @@ namespace Kraken.Net.Clients.SpotApi
                 return new ExchangeWebResult<IEnumerable<SharedSpotOrder>>(Exchange, validationError);
 
             var symbol = request.Symbol?.GetSymbol(FormatSymbol);
-            var order = await Trading.GetOpenOrdersAsync().ConfigureAwait(false);
+            var order = await Trading.GetOpenOrdersAsync(ct: ct).ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, default);
 
@@ -289,7 +295,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (symbol != null)
                 orders = orders.Where(x => x.OrderDetails.Symbol == symbol);
 
-            return order.AsExchangeResult(Exchange, orders.Select(x => new SharedSpotOrder(
+            return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, orders.Select(x => new SharedSpotOrder(
                 x.OrderDetails.Symbol,
                 x.Id.ToString(),
                 ParseOrderType(x.OrderDetails.Type, x.Oflags),
@@ -300,15 +306,18 @@ namespace Kraken.Net.Clients.SpotApi
                 ClientOrderId = x.ClientOrderId,
                 Fee = x.Fee,
                 Price = x.OrderDetails.Price,
-                Quantity = x.Quantity,
+                Quantity = x.Oflags.Contains("viqc") ? null : x.Quantity,
                 QuantityFilled = x.QuantityFilled,
-                QuoteQuantityFilled = x.QuoteQuantityFilled,
-                AveragePrice = x.AveragePrice,
+                QuoteQuantity = x.Oflags.Contains("viqc") ? x.Quantity : null,
+                AveragePrice = x.AveragePrice == 0 ? null: x.AveragePrice,
                 UpdateTime = x.CloseTime
-            }));
+            }).ToArray());
         }
 
-        PaginatedEndpointOptions<GetClosedOrdersRequest> ISpotOrderRestClient.GetClosedSpotOrdersOptions { get; } = new PaginatedEndpointOptions<GetClosedOrdersRequest>(SharedPaginationType.Ascending, true);
+        PaginatedEndpointOptions<GetClosedOrdersRequest> ISpotOrderRestClient.GetClosedSpotOrdersOptions { get; } = new PaginatedEndpointOptions<GetClosedOrdersRequest>(SharedPaginationType.Descending, true)
+        {
+            RequestNotes = "Request always returns up to 50 results"
+        };
         async Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> ISpotOrderRestClient.GetClosedSpotOrdersAsync(GetClosedOrdersRequest request, INextPageToken? pageToken, CancellationToken ct)
         {
             var validationError = ((ISpotOrderRestClient)this).GetClosedSpotOrdersOptions.ValidateRequest(Exchange, request, request.Symbol.ApiType, SupportedApiTypes);
@@ -320,7 +329,11 @@ namespace Kraken.Net.Clients.SpotApi
             if (pageToken is OffsetToken token)
                 offset = token.Offset;
 
-            var order = await Trading.GetClosedOrdersAsync(startTime: request.StartTime, endTime: request.EndTime, resultOffset: offset).ConfigureAwait(false);
+            var order = await Trading.GetClosedOrdersAsync(
+                startTime: request.StartTime,
+                endTime: request.EndTime,
+                resultOffset: offset,
+                ct: ct).ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, default);
 
@@ -330,7 +343,7 @@ namespace Kraken.Net.Clients.SpotApi
                 nextToken = new OffsetToken((offset ?? 0) + order.Data.Closed.Count);
 
             var orders = order.Data.Closed.Values.Where(x => x.OrderDetails.Symbol == request.Symbol.GetSymbol(FormatSymbol));
-            return order.AsExchangeResult(Exchange, orders.Select(x => new SharedSpotOrder(
+            return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, orders.Select(x => new SharedSpotOrder(
                 x.OrderDetails.Symbol,
                 x.Id.ToString(),
                 ParseOrderType(x.OrderDetails.Type, x.Oflags),
@@ -341,12 +354,12 @@ namespace Kraken.Net.Clients.SpotApi
                 ClientOrderId = x.ClientOrderId,
                 Fee = x.Fee,
                 Price = x.OrderDetails.Price,
-                Quantity = x.Quantity,
+                Quantity = x.Oflags.Contains("viqc") ? null : x.Quantity,
                 QuantityFilled = x.QuantityFilled,
-                QuoteQuantityFilled = x.QuoteQuantityFilled,
-                AveragePrice = x.AveragePrice,
+                QuoteQuantity = x.Oflags.Contains("viqc") ? x.Quantity : null,
+                AveragePrice = x.AveragePrice == 0 ? null: x.AveragePrice,
                 UpdateTime = x.CloseTime
-            }), nextToken);
+            }).ToArray(), nextToken);
         }
 
         EndpointOptions<GetOrderTradesRequest> ISpotOrderRestClient.GetSpotOrderTradesOptions { get; } = new EndpointOptions<GetOrderTradesRequest>(true);
@@ -372,7 +385,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!tradeInfo)
                 return tradeInfo.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, default);
 
-            return tradeInfo.AsExchangeResult(Exchange, tradeInfo.Data.Select(x => new SharedUserTrade(
+            return tradeInfo.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, tradeInfo.Data.Select(x => new SharedUserTrade(
                 x.Value.Symbol,
                 x.Value.OrderId.ToString(),
                 x.Value.Id.ToString(),
@@ -382,10 +395,13 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 Fee = x.Value.Fee,
                 Role = x.Value.Maker ? SharedRole.Maker : SharedRole.Taker
-            }));
+            }).ToArray());
         }
 
-        PaginatedEndpointOptions<GetUserTradesRequest> ISpotOrderRestClient.GetSpotUserTradesOptions { get; } = new PaginatedEndpointOptions<GetUserTradesRequest>(SharedPaginationType.Ascending, true);
+        PaginatedEndpointOptions<GetUserTradesRequest> ISpotOrderRestClient.GetSpotUserTradesOptions { get; } = new PaginatedEndpointOptions<GetUserTradesRequest>(SharedPaginationType.Descending, true)
+        {
+            RequestNotes = "Request always returns up to 50 results"
+        };
         async Task<ExchangeWebResult<IEnumerable<SharedUserTrade>>> ISpotOrderRestClient.GetSpotUserTradesAsync(GetUserTradesRequest request, INextPageToken? pageToken, CancellationToken ct)
         {
             var validationError = ((ISpotOrderRestClient)this).GetSpotUserTradesOptions.ValidateRequest(Exchange, request, request.Symbol.ApiType, SupportedApiTypes);
@@ -398,7 +414,10 @@ namespace Kraken.Net.Clients.SpotApi
                 offset = token.Offset;
 
             // Get data
-            var order = await Trading.GetUserTradesAsync(startTime: request.StartTime, endTime: request.EndTime, resultOffset: offset).ConfigureAwait(false);
+            var order = await Trading.GetUserTradesAsync(
+                startTime: request.StartTime,
+                endTime: request.EndTime,
+                resultOffset: offset, ct: ct).ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, default);
 
@@ -408,7 +427,7 @@ namespace Kraken.Net.Clients.SpotApi
                 nextToken = new OffsetToken((offset ?? 0) + order.Data.Trades.Count);
 
             var symbol = request.Symbol.GetSymbol(FormatSymbol);
-            return order.AsExchangeResult(Exchange, order.Data.Trades.Where(t => t.Value.Symbol == symbol).Select(x => new SharedUserTrade(
+            return order.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, order.Data.Trades.Where(t => t.Value.Symbol == symbol).Select(x => new SharedUserTrade(
                 x.Value.Symbol,
                 x.Value.OrderId.ToString(),
                 x.Value.Id.ToString(),
@@ -418,7 +437,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 Fee = x.Value.Fee,
                 Role = x.Value.Maker ? SharedRole.Maker : SharedRole.Taker
-            }), nextToken);
+            }).ToArray(), nextToken);
         }
 
         EndpointOptions<CancelOrderRequest> ISpotOrderRestClient.CancelSpotOrderOptions { get; } = new EndpointOptions<CancelOrderRequest>(true);
@@ -428,7 +447,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (validationError != null)
                 return new ExchangeWebResult<SharedId>(Exchange, validationError);
 
-            var order = await Trading.CancelOrderAsync(request.OrderId).ConfigureAwait(false);
+            var order = await Trading.CancelOrderAsync(request.OrderId, ct: ct).ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<SharedId>(Exchange, default);
 
@@ -505,7 +524,7 @@ namespace Kraken.Net.Clients.SpotApi
                 {
                     FullName = x.Method,
                     MinWithdrawQuantity = x.Minimum
-                })
+                }).ToArray()
             });
         }
 
@@ -520,14 +539,14 @@ namespace Kraken.Net.Clients.SpotApi
             if (!assets)
                 return assets.AsExchangeResult<IEnumerable<SharedAsset>>(Exchange, default);
 
-            return assets.AsExchangeResult(Exchange, assets.Data.GroupBy(x => x.Asset).Select(x => new SharedAsset(x.Key)
+            return assets.AsExchangeResult<IEnumerable<SharedAsset>>(Exchange, assets.Data.GroupBy(x => x.Asset).Select(x => new SharedAsset(x.Key)
             {
                 Networks = x.Select(x => new SharedAssetNetwork(x.Network)
                 {
                     FullName = x.Method,
                     MinWithdrawQuantity = x.Minimum
-                })
-            }));
+                }).ToArray()
+            }).ToArray());
         }
 
         #endregion
@@ -555,7 +574,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 TagOrMemo = x.Tag
             }
-            ));
+            ).ToArray());
         }
 
         GetDepositsOptions IDepositRestClient.GetDepositsOptions { get; } = new GetDepositsOptions(SharedPaginationType.Descending, true);
@@ -566,27 +585,32 @@ namespace Kraken.Net.Clients.SpotApi
                 return new ExchangeWebResult<IEnumerable<SharedDeposit>>(Exchange, validationError);
 
             // Determine page token
-            int? offset = null;
-            if (pageToken is OffsetToken offsetToken)
-                offset = offsetToken.Offset;
+            string? cursor = null;
+            if (pageToken is CursorToken cursorToken)
+                cursor = cursorToken.Cursor;
 
             // Get data
-            var deposits = await Account.GetLedgerInfoAsync(
-                entryTypes: new[] { LedgerEntryType.Deposit },
-                assets: request.Asset != null ? new[] { request.Asset }: null,
+            var deposits = await Account.GetDepositHistoryAsync(
+                asset: request.Asset,
                 startTime: request.StartTime,
                 endTime: request.EndTime,
-                resultOffset: offset,
+                limit: request.Limit,
+                cursor: cursor,
                 ct: ct).ConfigureAwait(false);
             if (!deposits)
                 return deposits.AsExchangeResult<IEnumerable<SharedDeposit>>(Exchange, default);
 
             // Determine next token
-            OffsetToken? nextToken = null;
-            if (deposits.Data.Count > (offset ?? 0) + deposits.Data.Ledger.Count)
-                nextToken = new OffsetToken((offset ?? 0) + deposits.Data.Ledger.Count);
+            CursorToken? nextToken = null;
+            if (!string.IsNullOrEmpty(deposits.Data.NextCursor))
+                nextToken = new CursorToken(deposits.Data.NextCursor!);
 
-            return deposits.AsExchangeResult(Exchange, deposits.Data.Ledger.Values.Select(x => new SharedDeposit(x.Asset, x.Quantity, true, x.Timestamp)), nextToken);
+            return deposits.AsExchangeResult<IEnumerable<SharedDeposit>>(Exchange, deposits.Data.Items.Select(x => new SharedDeposit(x.Asset, x.Quantity, true, x.Timestamp)
+            {
+                Id = x.ReferenceId,
+                TransactionId = x.TransactionId,
+                Network = x.Method
+            }).ToArray(), nextToken);
         }
 
         #endregion
@@ -621,30 +645,33 @@ namespace Kraken.Net.Clients.SpotApi
                 return new ExchangeWebResult<IEnumerable<SharedWithdrawal>>(Exchange, validationError);
 
             // Determine page token
-            int? offset = null;
-            if (pageToken is OffsetToken offsetToken)
-                offset = offsetToken.Offset;
+            string? cursor = null;
+            if (pageToken is CursorToken cursorToken)
+                cursor = cursorToken.Cursor;
 
             // Get data
-            var withdrawals = await Account.GetLedgerInfoAsync(
-                entryTypes: new[] { LedgerEntryType.Withdrawal },
-                assets: request.Asset != null ? new[] { request.Asset } : null,
+            var withdrawals = await Account.GetWithdrawalHistoryAsync(
+                asset: request.Asset,
                 startTime: request.StartTime,
                 endTime: request.EndTime,
-                resultOffset: offset,
+                limit: request.Limit,
+                cursor: cursor,
                 ct: ct).ConfigureAwait(false);
             if (!withdrawals)
                 return withdrawals.AsExchangeResult<IEnumerable<SharedWithdrawal>>(Exchange, default);
 
             // Determine next token
-            OffsetToken? nextToken = null;
-            if (withdrawals.Data.Count > (offset ?? 0) + withdrawals.Data.Ledger.Count)
-                nextToken = new OffsetToken((offset ?? 0) + withdrawals.Data.Ledger.Count);
+            CursorToken? nextToken = null;
+            if (!string.IsNullOrEmpty(withdrawals.Data.NextCursor))
+                nextToken = new CursorToken(withdrawals.Data.NextCursor!);
 
-            return withdrawals.AsExchangeResult(Exchange, withdrawals.Data.Ledger.Values.Select(x => new SharedWithdrawal(x.Asset, string.Empty, x.Quantity, true, x.Timestamp)
+            return withdrawals.AsExchangeResult<IEnumerable<SharedWithdrawal>>(Exchange, withdrawals.Data.Items.Select(x => new SharedWithdrawal(x.Asset, x.Key, x.Quantity, x.Status == "Success", x.Timestamp)
             {
+                Id = x.ReferenceId,
+                TransactionId = x.TransactionId,
+                Network = x.Method,
                 Fee = x.Fee
-            }));
+            }).ToArray(), nextToken);
         }
 
         #endregion

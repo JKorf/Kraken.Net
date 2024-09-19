@@ -166,6 +166,29 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
+        public async Task<WebCallResult<KrakenCursorPage<KrakenMovementStatus>>> GetDepositHistoryAsync(
+            string? asset = null,
+            string? depositMethod = null,
+            DateTime? startTime = null,
+            DateTime? endTime = null,
+            int? limit = null,
+            string? cursor = null,
+            string? twoFactorPassword = null,
+            CancellationToken ct = default)
+        {
+            var parameters = new Dictionary<string, object>();
+            parameters.AddOptionalParameter("asset", asset);
+            parameters.AddOptionalParameter("method", depositMethod);
+            parameters.AddOptionalParameter("start", startTime);
+            parameters.AddOptionalParameter("end", endTime);
+            parameters.AddOptionalParameter("limit", limit);
+            parameters.AddOptionalParameter("cursor", cursor ?? "true");
+            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+
+            return await _baseClient.Execute<KrakenCursorPage<KrakenMovementStatus>>(_baseClient.GetUri("0/private/DepositStatus"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
         public async Task<WebCallResult<KrakenWithdrawInfo>> GetWithdrawInfoAsync(string asset, string key, decimal quantity, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             asset.ValidateNotNull(nameof(asset));
@@ -231,6 +254,29 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
             return await _baseClient.Execute<IEnumerable<KrakenMovementStatus>>(_baseClient.GetUri("0/private/WithdrawStatus"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<KrakenCursorPage<KrakenMovementStatus>>> GetWithdrawalHistoryAsync(
+            string? asset = null,
+            string? withdrawalMethod = null,
+            DateTime? startTime = null,
+            DateTime? endTime = null,
+            int? limit = null,
+            string? cursor = null,
+            string? twoFactorPassword = null,
+            CancellationToken ct = default)
+        {
+            var parameters = new Dictionary<string, object>();
+            parameters.AddOptionalParameter("asset", asset);
+            parameters.AddOptionalParameter("method", withdrawalMethod);
+            parameters.AddOptionalParameter("start", startTime);
+            parameters.AddOptionalParameter("end", endTime);
+            parameters.AddOptionalParameter("limit", limit);
+            parameters.AddOptionalParameter("cursor", cursor ?? "true");
+            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+
+            return await _baseClient.Execute<KrakenCursorPage<KrakenMovementStatus>>(_baseClient.GetUri("0/private/WithdrawStatus"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <inheritdoc />

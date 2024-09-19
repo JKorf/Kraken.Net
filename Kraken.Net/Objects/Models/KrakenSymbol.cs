@@ -49,7 +49,7 @@ namespace Kraken.Net.Objects.Models
         /// Decimals of the symbol
         /// </summary>
         [JsonProperty("pair_decimals")]
-        public int Decimals { get; set; }
+        public int PriceDecimals { get; set; }
         /// <summary>
         /// Lot decimals
         /// </summary>
