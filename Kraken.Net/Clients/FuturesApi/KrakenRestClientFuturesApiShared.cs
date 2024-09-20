@@ -17,7 +17,7 @@ namespace Kraken.Net.Clients.FuturesApi
     internal partial class KrakenRestClientFuturesApi : IKrakenRestClientFuturesApiShared
     {
         public string Exchange => KrakenExchange.ExchangeName;
-        public ApiType[] SupportedApiTypes { get; } = new ApiType[] {  };
+        public TradingMode[] SupportedApiTypes { get; } = new TradingMode[] {  };
 
         public void SetDefaultExchangeParameter(string key, object value) => ExchangeParameters.SetStaticParameter(Exchange, key, value);
         public void ResetDefaultExchangeParameters() => ExchangeParameters.ResetStaticParameters();

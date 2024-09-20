@@ -23,7 +23,7 @@ namespace Kraken.Net.Clients.SpotApi
     internal partial class KrakenSocketClientSpotApi : IKrakenSocketClientSpotApiShared
     {
         public string Exchange => KrakenExchange.ExchangeName;
-        public ApiType[] SupportedApiTypes { get; } = new [] { ApiType.Spot };
+        public TradingMode[] SupportedApiTypes { get; } = new [] { TradingMode.Spot };
 
         public void SetDefaultExchangeParameter(string key, object value) => ExchangeParameters.SetStaticParameter(Exchange, key, value);
         public void ResetDefaultExchangeParameters() => ExchangeParameters.ResetStaticParameters();
