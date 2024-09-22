@@ -2,7 +2,6 @@
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.SharedApis.Interfaces;
-using CryptoExchange.Net.SharedApis.RequestModels;
 using CryptoExchange.Net.SharedApis.ResponseModels;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace Kraken.Net.Clients.FuturesApi
     internal partial class KrakenRestClientFuturesApi : IKrakenRestClientFuturesApiShared
     {
         public string Exchange => KrakenExchange.ExchangeName;
-        public TradingMode[] SupportedApiTypes { get; } = new TradingMode[] {  };
+        public TradingMode[] SupportedTradingModes { get; } = new TradingMode[] {  };
 
         public void SetDefaultExchangeParameter(string key, object value) => ExchangeParameters.SetStaticParameter(Exchange, key, value);
         public void ResetDefaultExchangeParameters() => ExchangeParameters.ResetStaticParameters();
