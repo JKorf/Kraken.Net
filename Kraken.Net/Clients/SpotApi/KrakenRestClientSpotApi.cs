@@ -1,22 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using CryptoExchange.Net.Authentication;
-using CryptoExchange.Net.Clients;
+﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Interfaces.CommonClients;
-using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.RateLimiting.Interfaces;
-using CryptoExchange.Net.SharedApis.Interfaces;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Options;
-using Microsoft.Extensions.Logging;
 
 namespace Kraken.Net.Clients.SpotApi
 {

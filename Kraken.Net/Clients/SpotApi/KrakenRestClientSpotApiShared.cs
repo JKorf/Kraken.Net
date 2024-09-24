@@ -1,23 +1,7 @@
-﻿using Kraken.Net;
-using Kraken.Net.Interfaces.Clients.SpotApi;
-using CryptoExchange.Net.Objects;
-using CryptoExchange.Net.SharedApis.Interfaces;
-using CryptoExchange.Net.SharedApis.ResponseModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using CryptoExchange.Net.SharedApis.Models.Rest;
-using CryptoExchange.Net.SharedApis.Enums;
+﻿using Kraken.Net.Interfaces.Clients.SpotApi;
+using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models;
-using CryptoExchange.Net.SharedApis.Models;
-using CryptoExchange.Net.SharedApis.Interfaces.Rest.Spot;
-using CryptoExchange.Net.SharedApis.Models.Options.Endpoints;
-using CryptoExchange.Net.SharedApis.Interfaces.Rest;
-using CryptoExchange.Net.SharedApis.Models.Options;
 
 namespace Kraken.Net.Clients.SpotApi
 {
@@ -268,7 +252,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 ClientOrderId = orderData.Value.ClientOrderId,
                 Fee = orderData.Value.Fee,
-                OrderPrice = orderData.Value.OrderDetails.Price,
+                OrderPrice = orderData.Value.OrderDetails.Price == 0 ? null : orderData.Value.OrderDetails.Price,
                 Quantity = orderData.Value.Oflags.Contains("viqc") ? null : orderData.Value.Quantity,
                 QuantityFilled = orderData.Value.QuantityFilled,
                 QuoteQuantity = orderData.Value.Oflags.Contains("viqc") ? orderData.Value.Quantity : null,
@@ -304,7 +288,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 ClientOrderId = x.ClientOrderId,
                 Fee = x.Fee,
-                OrderPrice = x.OrderDetails.Price,
+                OrderPrice = x.OrderDetails.Price == 0 ? null : x.OrderDetails.Price,
                 Quantity = x.Oflags.Contains("viqc") ? null : x.Quantity,
                 QuantityFilled = x.QuantityFilled,
                 QuoteQuantity = x.Oflags.Contains("viqc") ? x.Quantity : null,
@@ -352,7 +336,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 ClientOrderId = x.ClientOrderId,
                 Fee = x.Fee,
-                OrderPrice = x.OrderDetails.Price,
+                OrderPrice = x.OrderDetails.Price == 0 ? null : x.OrderDetails.Price,
                 Quantity = x.Oflags.Contains("viqc") ? null : x.Quantity,
                 QuantityFilled = x.QuantityFilled,
                 QuoteQuantity = x.Oflags.Contains("viqc") ? x.Quantity : null,
@@ -388,6 +372,7 @@ namespace Kraken.Net.Clients.SpotApi
                 x.Value.Symbol,
                 x.Value.OrderId.ToString(),
                 x.Value.Id.ToString(),
+                x.Value.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
                 x.Value.Quantity,
                 x.Value.Price,
                 x.Value.Timestamp)
@@ -430,6 +415,7 @@ namespace Kraken.Net.Clients.SpotApi
                 x.Value.Symbol,
                 x.Value.OrderId.ToString(),
                 x.Value.Id.ToString(),
+                x.Value.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
                 x.Value.Quantity,
                 x.Value.Price,
                 x.Value.Timestamp)
@@ -636,7 +622,10 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Withdrawal client
 
-        GetWithdrawalsOptions IWithdrawalRestClient.GetWithdrawalsOptions { get; } = new GetWithdrawalsOptions(SharedPaginationSupport.Descending, true);
+        GetWithdrawalsOptions IWithdrawalRestClient.GetWithdrawalsOptions { get; } = new GetWithdrawalsOptions(SharedPaginationSupport.Descending, true)
+        {
+            RequestNotes = "The Address field contains the label of the saved withdrawal address, not the actual address"
+        };
         async Task<ExchangeWebResult<IEnumerable<SharedWithdrawal>>> IWithdrawalRestClient.GetWithdrawalsAsync(GetWithdrawalsRequest request, INextPageToken? pageToken, CancellationToken ct)
         {
             var validationError = ((IWithdrawalRestClient)this).GetWithdrawalsOptions.ValidateRequest(Exchange, request, TradingMode.Spot, SupportedTradingModes);
@@ -664,7 +653,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!string.IsNullOrEmpty(withdrawals.Data.NextCursor))
                 nextToken = new CursorToken(withdrawals.Data.NextCursor!);
 
-            return withdrawals.AsExchangeResult<IEnumerable<SharedWithdrawal>>(Exchange, TradingMode.Spot, withdrawals.Data.Items.Select(x => new SharedWithdrawal(x.Asset, x.Key, x.Quantity, x.Status == "Success", x.Timestamp)
+            return withdrawals.AsExchangeResult<IEnumerable<SharedWithdrawal>>(Exchange, TradingMode.Spot, withdrawals.Data.Items.Select(x => new SharedWithdrawal(x.Asset, x.Key ?? string.Empty, x.Quantity, x.Status == "Success", x.Timestamp)
             {
                 Id = x.ReferenceId,
                 TransactionId = x.TransactionId,

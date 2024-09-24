@@ -24,6 +24,9 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </summary>
         IKrakenRestClientFuturesApiTrading Trading { get; }
 
+        /// <summary>
+        /// Get the shared rest requests client
+        /// </summary>
         public IKrakenRestClientFuturesApiShared SharedClient { get; }
     }
 }

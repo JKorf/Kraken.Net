@@ -1,11 +1,10 @@
-﻿using CryptoExchange.Net.SharedApis.Interfaces.Rest;
-using CryptoExchange.Net.SharedApis.Interfaces.Rest.Spot;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CryptoExchange.Net.SharedApis;
 
 namespace Kraken.Net.Interfaces.Clients.SpotApi
 {
+    /// <summary>
+    /// Shared interface for Spot rest API usage
+    /// </summary>
     public interface IKrakenRestClientSpotApiShared :
         IAssetsRestClient,
         IBalanceRestClient,

@@ -1,7 +1,4 @@
-﻿using CryptoExchange.Net.Interfaces;
-using CryptoExchange.Net.Interfaces.CommonClients;
-using CryptoExchange.Net.SharedApis.Interfaces;
-using System;
+﻿using CryptoExchange.Net.Interfaces.CommonClients;
 
 namespace Kraken.Net.Interfaces.Clients.SpotApi
 {
@@ -35,6 +32,10 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </summary>
         /// <returns></returns>
         public ISpotClient CommonSpotClient { get; }
+
+        /// <summary>
+        /// Get the shared rest requests client
+        /// </summary>
         public IKrakenRestClientSpotApiShared SharedClient { get; }
     }
 }

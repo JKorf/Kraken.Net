@@ -1688,6 +1688,11 @@
             Endpoints related to orders and trades
             </summary>
         </member>
+        <member name="P:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApi.SharedClient">
+            <summary>
+            Get the shared rest requests client
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiAccount">
             <summary>
             Kraken futures account endpoints. Account endpoints include balance info, withdraw/deposit info and requesting and account settings
@@ -2169,6 +2174,11 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
+        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientFuturesApiShared">
+            <summary>
+            Shared interface for Futures rest API usage
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi">
             <summary>
             Spot API endpoints
@@ -2199,6 +2209,11 @@
             Get the ISpotClient for this client. This is a common interface which allows for some basic operations without knowing any details of the exchange.
             </summary>
             <returns></returns>
+        </member>
+        <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi.SharedClient">
+            <summary>
+            Get the shared rest requests client
+            </summary>
         </member>
         <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount">
             <summary>
@@ -2606,6 +2621,11 @@
             <param name="ct">Cancellation token</param>
             <returns>Spread data</returns>
         </member>
+        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiShared">
+            <summary>
+            Shared interface for Spot rest API usage
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading">
             <summary>
             Kraken trading endpoints, placing and mananging orders.
@@ -2798,6 +2818,11 @@
         <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi">
             <summary>
             Spot API
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SharedClient">
+            <summary>
+            Get the shared socket subscription client
             </summary>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToSystemStatusUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenStreamSystemStatus}},System.Threading.CancellationToken)">
@@ -3023,6 +3048,11 @@
             <param name="websocketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
+        </member>
+        <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApiShared">
+            <summary>
+            Shared interface for Spot socket API usage
+            </summary>
         </member>
         <member name="T:Kraken.Net.Interfaces.Clients.IKrakenRestClient">
             <summary>
