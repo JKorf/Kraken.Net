@@ -670,7 +670,7 @@ namespace Kraken.Net.Clients.SpotApi
         {
             RequiredExchangeParameters = new List<ParameterDescription>
             {
-                new ParameterDescription("key", typeof(string), "The name of the withdrawal address as defined in the web UI", "KucoinBitcoinAddress1")
+                new ParameterDescription("keyName", typeof(string), "The name of the withdrawal address as defined in the web UI", "KucoinBitcoinAddress1")
             }
         };
 
@@ -680,7 +680,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (validationError != null)
                 return new ExchangeWebResult<SharedId>(Exchange, validationError);
 
-            var keyName = request.ExchangeParameters!.GetValue<string>(Exchange, "key");
+            var keyName = ExchangeParameters.GetValue<string>(request.ExchangeParameters, Exchange, "keyName");
 
             // Get data
             var withdrawal = await Account.WithdrawAsync(
