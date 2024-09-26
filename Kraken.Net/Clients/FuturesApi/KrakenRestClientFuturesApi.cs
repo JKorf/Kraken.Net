@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;

@@ -22,7 +22,7 @@
         <member name="P:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.ExchangeName">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.Objects.TradingMode,System.Nullable{System.DateTime})">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.ParseErrorResponse(System.Int32,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Collections.Generic.IEnumerable{System.String}}},CryptoExchange.Net.Interfaces.IMessageAccessor)">
@@ -151,7 +151,7 @@
         <member name="P:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SharedClient">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.Objects.TradingMode,System.Nullable{System.DateTime})">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.GetListenerIdentifier(CryptoExchange.Net.Interfaces.IMessageAccessor)">
@@ -308,7 +308,7 @@
             Event triggered when an order is canceled via this client
             </summary>
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.Objects.TradingMode,System.Nullable{System.DateTime})">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
@@ -499,7 +499,7 @@
         <member name="P:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.ClientOptions">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.Objects.TradingMode,System.Nullable{System.DateTime})">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
             <inheritdoc />
         </member>
         <member name="P:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SharedClient">

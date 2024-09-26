@@ -10,6 +10,7 @@ using CryptoExchange.Net.Converters;
 using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
+using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Converters;
 using Kraken.Net.Enums;
