@@ -21,7 +21,7 @@ using Microsoft.Extensions.Logging;
 namespace Kraken.Net.Clients.FuturesApi
 {
     /// <inheritdoc />
-    internal class KrakenSocketClientFuturesApi : SocketApiClient, IKrakenSocketClientFuturesApi
+    internal partial class KrakenSocketClientFuturesApi : SocketApiClient, IKrakenSocketClientFuturesApi
     {
         private static readonly MessagePath _eventPath = MessagePath.Get().Property("event");
         private static readonly MessagePath _feedPath = MessagePath.Get().Property("feed");
@@ -44,6 +44,9 @@ namespace Kraken.Net.Clients.FuturesApi
             AddSystemSubscription(new KrakenFuturesInfoSubscription(_logger));
         }
         #endregion
+
+        /// <inheritdoc />
+        public IKrakenSocketClientFuturesApiShared SharedClient => this;
 
         /// <inheritdoc />
         public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)

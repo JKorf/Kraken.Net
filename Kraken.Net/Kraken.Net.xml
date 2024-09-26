@@ -148,6 +148,9 @@
         <member name="P:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.ClientOptions">
             <inheritdoc />
         </member>
+        <member name="P:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SharedClient">
+            <inheritdoc />
+        </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.Objects.TradingMode,System.Nullable{System.DateTime})">
             <inheritdoc />
         </member>
@@ -497,6 +500,9 @@
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.Objects.TradingMode,System.Nullable{System.DateTime})">
+            <inheritdoc />
+        </member>
+        <member name="P:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SharedClient">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.GetListenerIdentifier(CryptoExchange.Net.Interfaces.IMessageAccessor)">
@@ -2025,6 +2031,11 @@
             Futures API
             </summary>
         </member>
+        <member name="P:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SharedClient">
+            <summary>
+            Get the shared socket subscription client. This interface is shared with other exhanges to allow for a common implementation for different exchanges.
+            </summary>
+        </member>
         <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SubscribeToAccountLogUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesAccountLogsSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesAccountLogsUpdate}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to account updates
@@ -2173,6 +2184,11 @@
             <param name="handler">Handler for the initial snapshot data received when (re)connecting the stream</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="T:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApiShared">
+            <summary>
+            Shared interface for Futures socket API usage
+            </summary>
         </member>
         <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientFuturesApiShared">
             <summary>

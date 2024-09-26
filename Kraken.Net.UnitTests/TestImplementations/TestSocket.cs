@@ -20,6 +20,7 @@ namespace Kucoin.Net.UnitTests.TestImplementations
         public event Func<Task> OnReconnected;
         public event Func<Task> OnReconnecting;
         public event Func<int, Task> OnRequestRateLimited;
+        public event Func<Task> OnConnectRateLimited;
 #pragma warning restore 0067
         public event Func<int, Task> OnRequestSent;
         public event Func<WebSocketMessageType, ReadOnlyMemory<byte>, Task> OnStreamMessage;

@@ -71,6 +71,7 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null) => $"{baseAsset.ToUpperInvariant()}/{quoteAsset.ToUpperInvariant()}";
 
+        /// <inheritdoc />
         public IKrakenSocketClientSpotApiShared SharedClient => this;
 
         /// <inheritdoc />
