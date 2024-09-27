@@ -64,6 +64,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.RegisterSharedRestInterfaces(x => x.GetRequiredService<IKrakenRestClient>().SpotApi.SharedClient);
             services.RegisterSharedSocketInterfaces(x => x.GetRequiredService<IKrakenSocketClient>().SpotApi.SharedClient);
+            services.RegisterSharedRestInterfaces(x => x.GetRequiredService<IKrakenRestClient>().FuturesApi.SharedClient);
+            services.RegisterSharedSocketInterfaces(x => x.GetRequiredService<IKrakenSocketClient>().FuturesApi.SharedClient);
 
             if (socketClientLifeTime == null)
                 services.AddSingleton<IKrakenSocketClient, KrakenSocketClient>();
