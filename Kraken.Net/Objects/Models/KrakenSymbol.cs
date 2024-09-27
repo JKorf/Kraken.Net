@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Kraken.Net.Enums;
 using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects.Models
@@ -48,7 +49,7 @@ namespace Kraken.Net.Objects.Models
         /// Decimals of the symbol
         /// </summary>
         [JsonProperty("pair_decimals")]
-        public int Decimals { get; set; }
+        public int PriceDecimals { get; set; }
         /// <summary>
         /// Lot decimals
         /// </summary>
@@ -118,7 +119,7 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Status
         /// </summary>
-        public string? Status { get; set; }
+        public SymbolStatus Status { get; set; }
         /// <summary>
         /// Long position limit
         /// </summary>

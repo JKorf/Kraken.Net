@@ -1,5 +1,7 @@
 ﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
+using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Models.Futures;
 using Kraken.Net.Objects.Options;
@@ -7,7 +9,7 @@ using Kraken.Net.Objects.Options;
 namespace Kraken.Net.Clients.FuturesApi
 {
     /// <inheritdoc />
-    internal class KrakenRestClientFuturesApi : RestApiClient, IKrakenRestClientFuturesApi
+    internal partial class KrakenRestClientFuturesApi : RestApiClient, IKrakenRestClientFuturesApi
     {
         #region fields
 
@@ -45,8 +47,13 @@ namespace Kraken.Net.Clients.FuturesApi
         }
         #endregion
 
+        public IKrakenRestClientFuturesApiShared SharedClient => this;
+
         /// <inheritdoc />
-        public override string FormatSymbol(string baseAsset, string quoteAsset) => $"{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
+        public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
+        {
+            return $"{(tradingMode == TradingMode.PerpetualLinear ? "PF" : tradingMode == TradingMode.PerpetualInverse ? "PI" : tradingMode == TradingMode.DeliveryLinear ? "FF": "FI")}_{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}" + (!deliverTime.HasValue ? string.Empty : ("_" + deliverTime.Value.ToString("yyMMdd")));
+        } 
 
         internal async Task<WebCallResult<U>> Execute<T, U>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 0)
             where T : KrakenFuturesResult<U>

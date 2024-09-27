@@ -114,6 +114,11 @@ namespace Kraken.Net.Objects.Models
         [JsonProperty("net")]
         public decimal? ClosedProfitLoss { get; set; }
         /// <summary>
+        /// True if trade was executed with user as maker
+        /// </summary>
+        [JsonProperty("maker")]
+        public bool Maker { get; set; }
+        /// <summary>
         /// Trade ids
         /// </summary>
         public IEnumerable<string> Trades { get; set; } = Array.Empty<string>();

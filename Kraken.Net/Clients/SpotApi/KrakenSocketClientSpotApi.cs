@@ -10,6 +10,7 @@ using CryptoExchange.Net.Converters;
 using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
+using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Converters;
 using Kraken.Net.Enums;
@@ -29,7 +30,7 @@ using Newtonsoft.Json;
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc />
-    internal class KrakenSocketClientSpotApi : SocketApiClient, IKrakenSocketClientSpotApi
+    internal partial class KrakenSocketClientSpotApi : SocketApiClient, IKrakenSocketClientSpotApi
     {
         private static readonly MessagePath _idPath = MessagePath.Get().Property("reqid");
         private static readonly MessagePath _eventPath = MessagePath.Get().Property("event");
@@ -69,7 +70,10 @@ namespace Kraken.Net.Clients.SpotApi
         #endregion
 
         /// <inheritdoc />
-        public override string FormatSymbol(string baseAsset, string quoteAsset) => $"{baseAsset.ToUpperInvariant()}/{quoteAsset.ToUpperInvariant()}";
+        public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null) => $"{baseAsset.ToUpperInvariant()}/{quoteAsset.ToUpperInvariant()}";
+
+        /// <inheritdoc />
+        public IKrakenSocketClientSpotApiShared SharedClient => this;
 
         /// <inheritdoc />
         public override string? GetListenerIdentifier(IMessageAccessor message)

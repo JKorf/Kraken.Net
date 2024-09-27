@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using CryptoExchange.Net.Authentication;
-using CryptoExchange.Net.Clients;
+﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Interfaces.CommonClients;
-using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.RateLimiting.Interfaces;
+using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Options;
-using Microsoft.Extensions.Logging;
 
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc cref="IKrakenRestClientSpotApi" />
-    internal class KrakenRestClientSpotApi : RestApiClient, IKrakenRestClientSpotApi, ISpotClient
+    internal partial class KrakenRestClientSpotApi : RestApiClient, IKrakenRestClientSpotApi, ISpotClient
     {
         #region fields
 
@@ -69,7 +61,7 @@ namespace Kraken.Net.Clients.SpotApi
         #endregion
 
         /// <inheritdoc />
-        public override string FormatSymbol(string baseAsset, string quoteAsset) => $"{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
+        public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null) => $"{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
 
         /// <inheritdoc />
         protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
@@ -89,7 +81,7 @@ namespace Kraken.Net.Clients.SpotApi
                 Name = s.Key,
                 MinTradeQuantity = s.Value.OrderMin,
                 QuantityDecimals = s.Value.LotDecimals,
-                PriceDecimals = s.Value.Decimals
+                PriceDecimals = s.Value.PriceDecimals
             }));
         }
 
@@ -446,5 +438,6 @@ namespace Kraken.Net.Clients.SpotApi
 
         /// <inheritdoc />
         public ISpotClient CommonSpotClient => this;
+        public IKrakenRestClientSpotApiShared SharedClient => this;
     }
 }

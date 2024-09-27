@@ -8,6 +8,7 @@ using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
+using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Objects;
@@ -21,7 +22,7 @@ using Microsoft.Extensions.Logging;
 namespace Kraken.Net.Clients.FuturesApi
 {
     /// <inheritdoc />
-    internal class KrakenSocketClientFuturesApi : SocketApiClient, IKrakenSocketClientFuturesApi
+    internal partial class KrakenSocketClientFuturesApi : SocketApiClient, IKrakenSocketClientFuturesApi
     {
         private static readonly MessagePath _eventPath = MessagePath.Get().Property("event");
         private static readonly MessagePath _feedPath = MessagePath.Get().Property("feed");
@@ -46,7 +47,13 @@ namespace Kraken.Net.Clients.FuturesApi
         #endregion
 
         /// <inheritdoc />
-        public override string FormatSymbol(string baseAsset, string quoteAsset) => $"{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
+        public IKrakenSocketClientFuturesApiShared SharedClient => this;
+
+        /// <inheritdoc />
+        public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
+        {
+            return $"{(tradingMode == TradingMode.PerpetualLinear ? "PF" : tradingMode == TradingMode.PerpetualInverse ? "PI" : tradingMode == TradingMode.DeliveryLinear ? "FF" : "FI")}_{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}" + (!deliverTime.HasValue ? string.Empty : ("_" + deliverTime.Value.ToString("yyMMdd")));
+        }
 
         /// <inheritdoc />
         public override string GetListenerIdentifier(IMessageAccessor message)

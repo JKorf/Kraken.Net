@@ -20,5 +20,9 @@ namespace Kraken.Net.Objects.Models
         /// </summary>
         [JsonProperty("items")]
         public IEnumerable<T> Items { get; set; } = Array.Empty<T>();
+        [JsonProperty("withdrawals")]
+        internal IEnumerable<T> Withdrawals { set => Items = value; }
+        [JsonProperty("deposits")]
+        internal IEnumerable<T> Deposits { set => Items = value; }
     }
 }
