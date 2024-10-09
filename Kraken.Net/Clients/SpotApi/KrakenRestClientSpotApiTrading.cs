@@ -155,7 +155,8 @@ namespace Kraken.Net.Clients.SpotApi
             DateTime? startTime = null,
             DateTime? expireTime = null,
             bool? validateOnly = null,
-            uint? clientOrderId = null,
+            uint? userReference = null,
+            string? clientOrderId = null,
             IEnumerable<OrderFlags>? flags = null,
             string? twoFactorPassword = null,
             TimeInForce? timeInForce = null,
@@ -186,6 +187,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (secondaryPrice != null)
                 parameters.AddOptionalParameter("price2", $"{secondaryPricePrefixOperator}{secondaryPrice.Value.ToString(CultureInfo.InvariantCulture)}{secondaryPriceSuffixOperator}");
             parameters.AddOptionalParameter("userref", clientOrderId);
+            parameters.AddOptional("cl_ord_id", clientOrderId);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
             parameters.AddOptionalParameter("leverage", leverage?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("starttm", DateTimeConverter.ConvertToSeconds(startTime));

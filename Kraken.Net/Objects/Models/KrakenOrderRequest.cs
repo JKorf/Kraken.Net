@@ -8,10 +8,15 @@ namespace Kraken.Net.Objects.Models
     public record KrakenOrderRequest
     {
         /// <summary>
-        /// Client order id
+        /// User reference
         /// </summary>
         [JsonPropertyName("userref"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public uint? ClientOrderId { get; set; }
+        public uint? UserReference { get; set; }
+        /// <summary>
+        /// Client order id
+        /// </summary>
+        [JsonPropertyName("cl_ord_id"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? ClientOrderId { get; set; }
         /// <summary>
         /// Order type
         /// </summary>

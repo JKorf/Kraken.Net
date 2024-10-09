@@ -198,7 +198,7 @@ namespace Kraken.Net.Clients.SpotApi
                     clientId = id;
             }
 
-            var result = await Trading.PlaceOrderAsync(symbol, GetOrderSide(side), GetOrderType(type), quantity, price: price, clientOrderId: clientId, ct: ct).ConfigureAwait(false);
+            var result = await Trading.PlaceOrderAsync(symbol, GetOrderSide(side), GetOrderType(type), quantity, price: price, userReference: clientId, ct: ct).ConfigureAwait(false);
             if (!result)
                 return result.As<OrderId>(null);
 

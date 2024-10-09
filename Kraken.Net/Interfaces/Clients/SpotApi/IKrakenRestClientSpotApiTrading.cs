@@ -114,6 +114,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="side">The side of the order</param>
         /// <param name="type">The type of the order</param>
         /// <param name="quantity">The quantity of the order</param>
+        /// <param name="userReference">A numeric id to reference the order by</param>
         /// <param name="clientOrderId">A client id to reference the order by</param>
         /// <param name="price">Price of the order:<br />
         /// Limit=limit price<br />
@@ -163,7 +164,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             DateTime? startTime = null,
             DateTime? expireTime = null,
             bool? validateOnly = null,
-            uint? clientOrderId = null,
+            uint? userReference = null,
+            string? clientOrderId = null,
             IEnumerable<OrderFlags>? orderFlags = null,
             string? twoFactorPassword = null,
             TimeInForce? timeInForce = null,

@@ -206,17 +206,13 @@ namespace Kraken.Net.Clients.SpotApi
             if (validationError != null)
                 return new ExchangeWebResult<SharedId>(Exchange, validationError);
 
-            uint cid = 0;
-            if (request.ClientOrderId != null && !uint.TryParse(request.ClientOrderId, out cid))
-                return new ExchangeWebResult<SharedId>(Exchange, new ArgumentError("Client order id needs to be a positive integer if specified"));
-
             var result = await Trading.PlaceOrderAsync(
                 request.Symbol.GetSymbol(FormatSymbol),
                 request.Side == SharedOrderSide.Buy ? Enums.OrderSide.Buy : Enums.OrderSide.Sell,
                 GetPlaceOrderType(request.OrderType),
                 request.Quantity ?? request.QuoteQuantity ?? 0,
                 request.Price,
-                clientOrderId: request.ClientOrderId != null ? cid : null,
+                clientOrderId: request.ClientOrderId,
                 orderFlags: GetOrderFlags(request.OrderType, request.QuoteQuantity),
                 timeInForce: GetTimeInForce(request.TimeInForce),
                 ct: ct).ConfigureAwait(false);
@@ -250,7 +246,7 @@ namespace Kraken.Net.Clients.SpotApi
                 ParseOrderStatus(orderData.Value.Status),
                 orderData.Value.CreateTime)
             {
-                ClientOrderId = orderData.Value.ClientOrderId,
+                ClientOrderId = orderData.Value.ReferenceId,
                 Fee = orderData.Value.Fee,
                 OrderPrice = orderData.Value.OrderDetails.Price == 0 ? null : orderData.Value.OrderDetails.Price,
                 Quantity = orderData.Value.Oflags.Contains("viqc") ? null : orderData.Value.Quantity,
@@ -286,7 +282,7 @@ namespace Kraken.Net.Clients.SpotApi
                 ParseOrderStatus(x.Status),
                 x.CreateTime)
             {
-                ClientOrderId = x.ClientOrderId,
+                ClientOrderId = x.ReferenceId,
                 Fee = x.Fee,
                 OrderPrice = x.OrderDetails.Price == 0 ? null : x.OrderDetails.Price,
                 Quantity = x.Oflags.Contains("viqc") ? null : x.Quantity,
@@ -334,7 +330,7 @@ namespace Kraken.Net.Clients.SpotApi
                 ParseOrderStatus(x.Status),
                 x.CreateTime)
             {
-                ClientOrderId = x.ClientOrderId,
+                ClientOrderId = x.ReferenceId,
                 Fee = x.Fee,
                 OrderPrice = x.OrderDetails.Price == 0 ? null : x.OrderDetails.Price,
                 Quantity = x.Oflags.Contains("viqc") ? null : x.Quantity,
