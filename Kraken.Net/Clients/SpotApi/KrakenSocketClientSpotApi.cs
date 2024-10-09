@@ -24,8 +24,6 @@ using Kraken.Net.Objects.Options;
 using Kraken.Net.Objects.Sockets;
 using Kraken.Net.Objects.Sockets.Queries;
 using Kraken.Net.Objects.Sockets.Subscriptions.Spot;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace Kraken.Net.Clients.SpotApi
 {
@@ -68,6 +66,10 @@ namespace Kraken.Net.Clients.SpotApi
             SetDedicatedConnection(_privateBaseAddress, false);
         }
         #endregion
+
+        protected override IByteMessageAccessor CreateAccessor() => new SystemTextJsonByteMessageAccessor();
+
+        protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer();
 
         /// <inheritdoc />
         public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null) => $"{baseAsset.ToUpperInvariant()}/{quoteAsset.ToUpperInvariant()}";
@@ -143,7 +145,7 @@ namespace Kraken.Net.Clients.SpotApi
         {
             var subSymbols = symbols.Select(SymbolToServer);
 
-            var subscription = new KrakenSubscription<KrakenStreamKline>(_logger, "ohlc", subSymbols.ToArray(), int.Parse(JsonConvert.SerializeObject(interval, new KlineIntervalConverter(false))), null, handler);
+            var subscription = new KrakenSubscription<KrakenStreamKline>(_logger, "ohlc", subSymbols.ToArray(), int.Parse(EnumConverter.GetString(interval)), null, handler);
             return await SubscribeAsync(subscription, ct).ConfigureAwait(false);
         }
 
@@ -259,7 +261,7 @@ namespace Kraken.Net.Clients.SpotApi
                 Type = side,
                 OrderType = type,
                 Volume = quantity.ToString(CultureInfo.InvariantCulture),
-                ClientOrderId = clientOrderId?.ToString(),
+                ClientOrderId = clientOrderId,
                 Price = price?.ToString(CultureInfo.InvariantCulture),
                 SecondaryPrice = secondaryPrice?.ToString(CultureInfo.InvariantCulture),
                 Leverage = leverage?.ToString(CultureInfo.InvariantCulture),
@@ -272,7 +274,7 @@ namespace Kraken.Net.Clients.SpotApi
                 ReduceOnly = reduceOnly,
                 RequestId = ExchangeHelpers.NextId(),
                 Margin = margin,
-                Flags = flags == null ? null : string.Join(",", flags.Select(f => JsonConvert.SerializeObject(f, new OrderFlagsConverter(false))))
+                Flags = flags == null ? null : string.Join(",", flags.Select(EnumConverter.GetString))
             };
 
             var query = new KrakenSpotQuery<KrakenStreamPlacedOrder>(request, false);

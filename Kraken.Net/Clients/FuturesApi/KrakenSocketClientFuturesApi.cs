@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using CryptoExchange.Net.Authentication;
-using CryptoExchange.Net.Clients;
+﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Converters.MessageParsing;
-using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Sockets;
@@ -17,7 +10,6 @@ using Kraken.Net.Objects.Options;
 using Kraken.Net.Objects.Sockets.Queries;
 using Kraken.Net.Objects.Sockets.Subscriptions.Futures;
 using Kraken.Net.Objects.Sockets.Subscriptions.Spot;
-using Microsoft.Extensions.Logging;
 
 namespace Kraken.Net.Clients.FuturesApi
 {
@@ -45,6 +37,10 @@ namespace Kraken.Net.Clients.FuturesApi
             AddSystemSubscription(new KrakenFuturesInfoSubscription(_logger));
         }
         #endregion
+
+        protected override IByteMessageAccessor CreateAccessor() => new SystemTextJsonByteMessageAccessor();
+
+        protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer();
 
         /// <inheritdoc />
         public IKrakenSocketClientFuturesApiShared SharedClient => this;

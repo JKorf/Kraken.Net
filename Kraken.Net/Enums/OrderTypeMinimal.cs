@@ -1,4 +1,6 @@
-﻿namespace Kraken.Net.Enums
+﻿using CryptoExchange.Net.Attributes;
+
+namespace Kraken.Net.Enums
 {
     /// <summary>
     /// Order type, limited to market or limit
@@ -8,10 +10,12 @@
         /// <summary>
         /// Limit order
         /// </summary>
+        [Map("l")]
         Limit,
         /// <summary>
         /// Symbol order
         /// </summary>
+        [Map("m")]
         Market
     }
 }

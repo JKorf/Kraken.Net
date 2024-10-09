@@ -1,14 +1,10 @@
-﻿using CryptoExchange.Net.Converters;
-using Kraken.Net.Enums;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
     internal record KrakenFuturesUserTradeResult : KrakenFuturesResult<IEnumerable<KrakenFuturesUserTrade>>
     {
-        [JsonProperty("fills")]
+        [JsonPropertyName("fills")]
         public override IEnumerable<KrakenFuturesUserTrade> Data { get; set; } = new List<KrakenFuturesUserTrade>();
     }
 
@@ -20,46 +16,50 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Client order id
         /// </summary>
-        [JsonProperty("cliOrdId")]
+        [JsonPropertyName("cliOrdId")]
         public string? ClientOrderId { get; set; }
         /// <summary>
         /// Time of the trade
         /// </summary>
         [JsonConverter(typeof(DateTimeConverter))]
+        [JsonPropertyName("fillTime")]
         public DateTime FillTime { get; set; }
         /// <summary>
         /// Type of trade
         /// </summary>
-        [JsonProperty("fillType")]
+        [JsonPropertyName("fillType")]
         [JsonConverter(typeof(EnumConverter))]
         public TradeType Type { get; set; }
         /// <summary>
         /// Trade id
         /// </summary>
-        [JsonProperty("fill_id")]
+        [JsonPropertyName("fill_id")]
         public string Id { get; set; } = string.Empty;
         /// <summary>
         /// Order id
         /// </summary>
-        [JsonProperty("order_id")]
+        [JsonPropertyName("order_id")]
         public string OrderId { get; set; } = string.Empty;
         /// <summary>
         /// Price
         /// </summary>
+        [JsonPropertyName("price")]
         public decimal Price { get; set; }
         /// <summary>
         /// Side
         /// </summary>
         [JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("side")]
         public OrderSide Side { get; set; }
         /// <summary>
         /// Quantity
         /// </summary>
-        [JsonProperty("size")]
+        [JsonPropertyName("size")]
         public decimal Quantity { get; set; }
         /// <summary>
         /// Symbol
         /// </summary>
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; } = string.Empty;
     }
 }

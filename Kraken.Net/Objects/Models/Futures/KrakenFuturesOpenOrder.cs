@@ -1,15 +1,11 @@
-﻿using CryptoExchange.Net.Converters;
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 using Kraken.Net.Interfaces;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
     internal record KrakenFuturesOpenOrderResult : KrakenFuturesResult<IEnumerable<KrakenFuturesOpenOrder>>
     {
-        [JsonProperty("openOrders")]
+        [JsonPropertyName("openOrders")]
         public override IEnumerable<KrakenFuturesOpenOrder> Data { get; set; } = Array.Empty<KrakenFuturesOpenOrder>();
     }
 
@@ -21,28 +17,28 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Client order id
         /// </summary>
-        [JsonProperty("cliOrdId")]
+        [JsonPropertyName("cliOrdId")]
         public string? ClientOrderId { get; set; }
         /// <summary>
         /// Quantity filled
         /// </summary>
-        [JsonProperty("filledSize")]
+        [JsonPropertyName("filledSize")]
         public decimal QuantityFilled { get; set; }
         /// <summary>
         /// Last update time
         /// </summary>
         [JsonConverter(typeof(DateTimeConverter))]
-        [JsonProperty("lastUpdateTime")]
+        [JsonPropertyName("lastUpdateTime")]
         public DateTime? LastUpdateTime { get; set; }
         /// <summary>
         /// Price
         /// </summary>
-        [JsonProperty("limitPrice")]
+        [JsonPropertyName("limitPrice")]
         public decimal? Price { get; set; }
         /// <summary>
         /// Order id
         /// </summary>
-        [JsonProperty("order_id")]
+        [JsonPropertyName("order_id")]
         public string OrderId { get; set; } = string.Empty;
         /// <summary>
         /// Quantity
@@ -55,46 +51,52 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Quantity
         /// </summary>
-        [JsonProperty("unfilledSize")]
+        [JsonPropertyName("unfilledSize")]
         public decimal QuantityRemaining { get; set; }
         /// <summary>
         /// Reduce only
         /// </summary>
+        [JsonPropertyName("reduceOnly")]
         public bool ReduceOnly { get; set; }
         /// <summary>
         /// Order side
         /// </summary>
         [JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("side")]
         public OrderSide Side { get; set; }
         /// <summary>
         /// Symbol
         /// </summary>
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; } = string.Empty;
         /// <summary>
         /// Timestamp
         /// </summary>
         [JsonConverter(typeof(DateTimeConverter))]
-        [JsonProperty("receivedTime")]
+        [JsonPropertyName("receivedTime")]
         public DateTime Timestamp { get; set; }
         /// <summary>
         /// Order type
         /// </summary>
-        [JsonProperty("orderType")]
+        [JsonPropertyName("orderType")]
         [JsonConverter(typeof(EnumConverter))]
         public FuturesOrderType Type { get; set; }
         /// <summary>
         /// Order status
         /// </summary>
         [JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("status")]
         public OpenOrderStatus Status { get; set; }
         /// <summary>
         /// Trigger signal
         /// </summary>
         [JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("triggerSignal")]
         public TriggerSignal? TriggerSignal { get; set; }
         /// <summary>
         /// Stop price
         /// </summary>
+        [JsonPropertyName("stopPrice")]
         public decimal? StopPrice { get; set; }
     }
 }

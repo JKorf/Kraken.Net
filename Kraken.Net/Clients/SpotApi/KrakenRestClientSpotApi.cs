@@ -67,6 +67,10 @@ namespace Kraken.Net.Clients.SpotApi
         protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
             => new KrakenAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new KrakenNonceProvider());
 
+        protected override IStreamMessageAccessor CreateAccessor() => new SystemTextJsonStreamMessageAccessor();
+
+        protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer();
+
         #region common interface
 
         async Task<WebCallResult<IEnumerable<Symbol>>> IBaseRestClient.GetSymbolsAsync(CancellationToken ct)
@@ -361,9 +365,9 @@ namespace Kraken.Net.Clients.SpotApi
             return false;
         }
 
-        internal async Task<WebCallResult> Execute(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, RequestBodyFormat? bodyFormat = null)
+        internal async Task<WebCallResult> SendAsync(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null)
         {
-            var result = await SendRequestAsync<KrakenResult>(url, method, ct, parameters, signed, requestWeight: weight, gate: KrakenExchange.RateLimiter.SpotRest, requestBodyFormat: bodyFormat).ConfigureAwait(false);
+            var result = await base.SendAsync<KrakenResult>(BaseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
             if (!result)
                 return result.AsDatalessError(result.Error!);
 
@@ -373,9 +377,12 @@ namespace Kraken.Net.Clients.SpotApi
             return result.AsDataless();
         }
 
-        internal async Task<WebCallResult<T>> Execute<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, RequestBodyFormat? bodyFormat = null, IRateLimitGate? gate = null)
+        internal Task<WebCallResult<T>> SendAsync<T>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) 
+            => SendToAddressAsync<T>(BaseAddress, definition, parameters, cancellationToken, weight);
+
+        internal async Task<WebCallResult<T>> SendToAddressAsync<T>(string baseAddress, RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) 
         {
-            var result = await SendRequestAsync<KrakenResult<T>>(url, method, ct, parameters, signed, requestWeight: weight, gate: gate ?? KrakenExchange.RateLimiter.SpotRest, requestBodyFormat: bodyFormat).ConfigureAwait(false);
+            var result = await base.SendAsync<KrakenResult<T>>(baseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
             if (!result)
                 return result.AsError<T>(result.Error!);
 
@@ -384,6 +391,30 @@ namespace Kraken.Net.Clients.SpotApi
 
             return result.As(result.Data.Result);
         }
+
+        //internal async Task<WebCallResult> Execute(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, RequestBodyFormat? bodyFormat = null)
+        //{
+        //    var result = await SendRequestAsync<KrakenResult>(url, method, ct, parameters, signed, requestWeight: weight, gate: KrakenExchange.RateLimiter.SpotRest, requestBodyFormat: bodyFormat).ConfigureAwait(false);
+        //    if (!result)
+        //        return result.AsDatalessError(result.Error!);
+
+        //    if (result.Data.Error.Any())
+        //        return result.AsDatalessError(new ServerError(string.Join(", ", result.Data.Error)));
+
+        //    return result.AsDataless();
+        //}
+
+        //internal async Task<WebCallResult<T>> Execute<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, RequestBodyFormat? bodyFormat = null, IRateLimitGate? gate = null)
+        //{
+        //    var result = await SendRequestAsync<KrakenResult<T>>(url, method, ct, parameters, signed, requestWeight: weight, gate: gate ?? KrakenExchange.RateLimiter.SpotRest, requestBodyFormat: bodyFormat).ConfigureAwait(false);
+        //    if (!result)
+        //        return result.AsError<T>(result.Error!);
+
+        //    if (result.Data.Error.Any())
+        //        return result.AsError<T>(new ServerError(string.Join(", ", result.Data.Error)));
+
+        //    return result.As(result.Data.Result);
+        //}
 
         /// <summary>
         /// Get the name of a symbol for Kraken based on the base and quote asset

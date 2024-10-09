@@ -48,12 +48,12 @@ namespace Kraken.Net
             IDictionary<string, object> parameters;
             if (parameterPosition == HttpMethodParameterPosition.InUri)
             {
-                uriParameters ??= new Dictionary<string, object>();
+                uriParameters ??= new ParameterCollection();
                 parameters = uriParameters;
             }
             else
             {
-                bodyParameters ??= new Dictionary<string, object>();
+                bodyParameters ??= new ParameterCollection();
                 parameters = bodyParameters;
             }
 

@@ -1,13 +1,10 @@
 ﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
     internal record KrakenFuturesOrderBookResult : KrakenFuturesResult<KrakenFuturesOrderBook>
     {
-        [JsonProperty("orderBook")]
+        [JsonPropertyName("orderBook")]
         public override KrakenFuturesOrderBook Data { get; set; } = null!;
     }
 
@@ -19,10 +16,12 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// List of asks
         /// </summary>
+        [JsonPropertyName("asks")]
         public IEnumerable<KrakenFuturesOrderBookEntry> Asks { get; set; } = Array.Empty<KrakenFuturesOrderBookEntry>();
         /// <summary>
         /// List of bids
         /// </summary>
+        [JsonPropertyName("bids")]
         public IEnumerable<KrakenFuturesOrderBookEntry> Bids { get; set; } = Array.Empty<KrakenFuturesOrderBookEntry>();
     }
 

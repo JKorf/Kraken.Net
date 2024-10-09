@@ -1,6 +1,4 @@
-﻿using System;
-using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using CryptoExchange.Net.Converters;
 
 namespace Kraken.Net.Objects.Models
 {
@@ -19,25 +17,25 @@ namespace Kraken.Net.Objects.Models
         /// The open price for this kline
         /// </summary>
         [ArrayProperty(1)]
-        [JsonProperty("open")]
+        [JsonPropertyName("open")]
         public decimal OpenPrice { get; set; }
         /// <summary>
         /// The highest price during this kline
         /// </summary>
         [ArrayProperty(2)]
-        [JsonProperty("high")]
+        [JsonPropertyName("high")]
         public decimal HighPrice { get; set; }
         /// <summary>
         /// The lowest price during this kline
         /// </summary>
         [ArrayProperty(3)]
-        [JsonProperty("low")]
+        [JsonPropertyName("low")]
         public decimal LowPrice { get; set; }
         /// <summary>
         /// The close price of this kline (or price of last trade if kline isn't closed yet)
         /// </summary>
         [ArrayProperty(4)]
-        [JsonProperty("close")]
+        [JsonPropertyName("close")]
         public decimal ClosePrice { get; set; }
         /// <summary>
         /// The volume weighted average price

@@ -1,7 +1,4 @@
 ﻿using Kraken.Net.Objects.Models.Futures;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
@@ -13,6 +10,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Account logs
         /// </summary>
+        [JsonPropertyName("logs")]
         public IEnumerable<KrakenAccountLog> Logs { get; set; } = Array.Empty<KrakenAccountLog>();
     }
 
@@ -24,7 +22,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// New entry
         /// </summary>
-        [JsonProperty("new_entry")]
+        [JsonPropertyName("new_entry")]
         public KrakenAccountLog NewEntry { get; set; } = null!;
     }
 }

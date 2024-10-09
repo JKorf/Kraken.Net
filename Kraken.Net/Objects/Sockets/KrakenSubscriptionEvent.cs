@@ -1,19 +1,16 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
-namespace Kraken.Net.Objects.Sockets
+﻿namespace Kraken.Net.Objects.Sockets
 {
     internal record KrakenSubscriptionEvent : KrakenQueryEvent
     {
-        [JsonProperty("channelID")]
+        [JsonPropertyName("channelID")]
         public long ChannelId { get; set; }
-        [JsonProperty("channelName")]
+        [JsonPropertyName("channelName")]
         public string ChannelName { get; set; } = string.Empty;
-        [JsonProperty("pair")]
+        [JsonPropertyName("pair")]
         public string Symbol { get; set; } = string.Empty;
-        [JsonProperty("reqId")]
+        [JsonPropertyName("reqId")]
         public int RequestId { get; set; }
-        [JsonProperty("subscription")]
+        [JsonPropertyName("subscription")]
         public Dictionary<string, string> Subscription { get; set; } = new Dictionary<string, string>();
     }
 }

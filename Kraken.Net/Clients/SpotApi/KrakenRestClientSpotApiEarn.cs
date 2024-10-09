@@ -1,15 +1,13 @@
 ﻿using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc />
     internal class KrakenRestClientSpotApiEarn : IKrakenRestClientSpotApiEarn
     {
+        private static readonly RequestDefinitionCache _definitions = new RequestDefinitionCache();
         private readonly KrakenRestClientSpotApi _baseClient;
 
         internal KrakenRestClientSpotApiEarn(KrakenRestClientSpotApi baseClient)
@@ -27,7 +25,9 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.AddOptional("limit", limit);
             parameters.AddOptional("asc", asc.HasValue ? asc == true : null);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
-            return await _baseClient.Execute<KrakenCursorPage<KrakenEarnStrategy>>(_baseClient.GetUri("0/private/Earn/Strategies"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+
+            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/Earn/Strategies", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            return await _baseClient.SendAsync<KrakenCursorPage<KrakenEarnStrategy>>(request, parameters, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -38,7 +38,9 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.AddOptional("hide_zero_allocations", hideZeroAllocations);
             parameters.AddOptional("asc", asc.HasValue ? asc == true : null);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
-            return await _baseClient.Execute<KrakenAllocationsCursorPage>(_baseClient.GetUri("0/private/Earn/Allocations"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+
+            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/Earn/Allocations", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            return await _baseClient.SendAsync<KrakenAllocationsCursorPage>(request, parameters, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -49,7 +51,9 @@ namespace Kraken.Net.Clients.SpotApi
                 { "strategy_id", strategyId }
             };
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
-            return await _baseClient.Execute<KrakenEarnStatus>(_baseClient.GetUri("0/private/Earn/AllocateStatus"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+
+            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/Earn/AllocateStatus", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            return await _baseClient.SendAsync<KrakenEarnStatus>(request, parameters, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -60,7 +64,9 @@ namespace Kraken.Net.Clients.SpotApi
                 { "strategy_id", strategyId }
             };
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
-            return await _baseClient.Execute<KrakenEarnStatus>(_baseClient.GetUri("0/private/Earn/DeallocateStatus"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+
+            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/Earn/DeallocateStatus", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            return await _baseClient.SendAsync<KrakenEarnStatus>(request, parameters, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -72,7 +78,9 @@ namespace Kraken.Net.Clients.SpotApi
                 { "amount", quantity.ToString(CultureInfo.InvariantCulture) }
             };
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
-            return await _baseClient.Execute(_baseClient.GetUri("0/private/Earn/Allocate"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+
+            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/Earn/Allocate", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            return await _baseClient.SendAsync(request, parameters, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -84,7 +92,9 @@ namespace Kraken.Net.Clients.SpotApi
                 { "amount", quantity.ToString(CultureInfo.InvariantCulture) }
             };
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
-            return await _baseClient.Execute(_baseClient.GetUri("0/private/Earn/Deallocate"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+
+            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/Earn/Deallocate", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            return await _baseClient.SendAsync(request, parameters, ct).ConfigureAwait(false);
         }
     }
 }

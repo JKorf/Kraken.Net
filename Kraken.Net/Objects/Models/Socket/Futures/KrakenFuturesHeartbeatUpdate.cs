@@ -1,7 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Kraken.Net.Objects.Sockets;
-using Newtonsoft.Json;
-using System;
+﻿using Kraken.Net.Objects.Sockets;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
@@ -13,7 +10,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Timestamp
         /// </summary>
-        [JsonProperty("time")]
+        [JsonPropertyName("time")]
         [JsonConverter(typeof(DateTimeConverter))]
         public DateTime Timestamp { get; set; }
     }

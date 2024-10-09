@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-
+﻿
 namespace Kraken.Net.Objects.Models
 {
     /// <summary>
@@ -10,29 +9,32 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Name of the method
         /// </summary>
+        [JsonPropertyName("method")]
         public string Method { get; set; } = string.Empty;
         /// <summary>
         /// Deposit limit (max) of the method
         /// </summary>
+        [JsonPropertyName("limit"), JsonConverter(typeof(NumberStringConverter))]
         public string Limit { get; set; } = string.Empty;
         /// <summary>
         /// The deposit fee for the method
         /// </summary>
+        [JsonPropertyName("fee")]
         public decimal Fee { get; set; }
         /// <summary>
         /// The fee for setting up an address
         /// </summary>
-        [JsonProperty("address-setup-fee")]
+        [JsonPropertyName("address-setup-fee")]
         public decimal? AddressSetupFee { get; set; }
         /// <summary>
         /// Generate address
         /// </summary>
-        [JsonProperty("gen-address")]
+        [JsonPropertyName("gen-address")]
         public bool? GenerateAddress { get; set; }
         /// <summary>
         /// Minimum deposit amount
         /// </summary>
-        [JsonProperty("minimum")]
+        [JsonPropertyName("minimum")]
         public decimal? MinimumDepositAmount { get; set; }
     }
 }

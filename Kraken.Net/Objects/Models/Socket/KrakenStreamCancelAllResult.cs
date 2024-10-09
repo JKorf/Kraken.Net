@@ -10,6 +10,7 @@ namespace Kraken.Net.Objects.Models.Socket
         /// <summary>
         /// Number of orders canceled
         /// </summary>
+        [JsonPropertyName("count")]
         public int Count { get; set; }
     }
 }

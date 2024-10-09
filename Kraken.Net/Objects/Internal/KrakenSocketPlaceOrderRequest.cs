@@ -1,6 +1,4 @@
-﻿using Kraken.Net.Converters;
-using Kraken.Net.Enums;
-using Newtonsoft.Json;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Internal
 {
@@ -9,42 +7,42 @@ namespace Kraken.Net.Objects.Internal
     /// </summary>
     internal class KrakenSocketPlaceOrderRequest: KrakenSocketAuthRequest
     {
-        [JsonProperty("pair")]
+        [JsonPropertyName("pair")]
         public string Symbol { get; set; } = string.Empty;
-        [JsonProperty("ordertype")]
-        [JsonConverter(typeof(OrderTypeConverter))]
+        [JsonPropertyName("ordertype")]
+        [JsonConverter(typeof(EnumConverter))]
         public OrderType OrderType { get; set; }
-        [JsonProperty("type")]
-        [JsonConverter(typeof(OrderSideConverter))]
+        [JsonPropertyName("type")]
+        [JsonConverter(typeof(EnumConverter))]
         public OrderSide Type { get; set; }
-        [JsonProperty("leverage", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("leverage"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Leverage { get; set; }
-        [JsonProperty("volume", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("volume"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Volume { get; set; }
-        [JsonProperty("userref", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string? ClientOrderId { get; set; }
-        [JsonProperty("price", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("userref"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public uint? ClientOrderId { get; set; }
+        [JsonPropertyName("price"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Price { get; set; }
-        [JsonProperty("price2", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("price2"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? SecondaryPrice { get; set; }
-        [JsonProperty("starttm", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("starttm"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? StartTime { get; set; }
-        [JsonProperty("expiretm", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("expiretm"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? ExpireTime { get; set; }
-        [JsonProperty("validate", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("validate"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool? ValidateOnly { get; set; }
-        [JsonProperty("close[ordertype]", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonConverter(typeof(OrderTypeConverter))]
+        [JsonPropertyName("close[ordertype]"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonConverter(typeof(EnumConverter))]
         public OrderType? CloseOrderType { get; set; }
-        [JsonProperty("close[price]", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("close[price]"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? ClosePrice { get; set; }
-        [JsonProperty("close[price2]", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("close[price2]"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? SecondaryClosePrice { get; set; }
-        [JsonProperty("oflags", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("oflags"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Flags { get; set; }
-        [JsonProperty("reduce_only", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("reduce_only"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool? ReduceOnly { get; set; }
-        [JsonProperty("margin", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("margin"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool? Margin { get; set; }
     }
 }

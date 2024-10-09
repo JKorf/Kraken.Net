@@ -1,5 +1,4 @@
 ﻿using Kraken.Net.Objects.Sockets;
-using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects.Models.Socket
 {
@@ -11,12 +10,12 @@ namespace Kraken.Net.Objects.Models.Socket
         /// <summary>
         /// Order description
         /// </summary>
-        [JsonProperty("descr")]
+        [JsonPropertyName("descr")]
         public string Description { get; set; } = string.Empty;
         /// <summary>
         /// Placed order id
         /// </summary>
-        [JsonProperty("txId")]
+        [JsonPropertyName("txId")]
         public string OrderId { get; set; } = string.Empty;
     }
 }

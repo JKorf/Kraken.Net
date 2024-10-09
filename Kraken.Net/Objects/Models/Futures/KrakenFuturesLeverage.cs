@@ -1,12 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     internal record KrakenFuturesLeverageResult : KrakenFuturesResult<IEnumerable<KrakenFuturesLeverage>>
     {
-        [JsonProperty("leveragePreferences")]
+        [JsonPropertyName("leveragePreferences")]
         public override IEnumerable<KrakenFuturesLeverage> Data { get; set; } = Array.Empty<KrakenFuturesLeverage>();
     }
 
@@ -18,10 +14,12 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Symbol
         /// </summary>
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; } = string.Empty;
         /// <summary>
         /// Max leverage
         /// </summary>
+        [JsonPropertyName("maxLeverage")]
         public decimal MaxLeverage { get; set; }
     }
 }

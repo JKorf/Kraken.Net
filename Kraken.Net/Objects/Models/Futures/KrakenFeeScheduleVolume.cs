@@ -1,11 +1,8 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     internal record KrakenFeeScheduleVolumeResult : KrakenFuturesResult<Dictionary<string, decimal>>
     {
-        [JsonProperty("volumesByFeeSchedule")]
+        [JsonPropertyName("volumesByFeeSchedule")]
         public override Dictionary<string, decimal> Data { get; set; } = new Dictionary<string, decimal>();
     }
 }

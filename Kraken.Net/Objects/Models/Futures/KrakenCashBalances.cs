@@ -10,6 +10,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Balances
         /// </summary>
+        [JsonPropertyName("balances")]
         public Dictionary<string, decimal> Balances { get; set; } = new Dictionary<string, decimal>();
     }
 }

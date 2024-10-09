@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Kraken.Net.Objects.Internal
+﻿namespace Kraken.Net.Objects.Internal
 {
     /// <summary>
     /// Socket request base
@@ -10,12 +8,12 @@ namespace Kraken.Net.Objects.Internal
         /// <summary>
         /// Request id
         /// </summary>
-        [JsonProperty("reqid")]
+        [JsonPropertyName("reqid")]
         public int RequestId { get; set; }
         /// <summary>
         /// Event
         /// </summary>
-        [JsonProperty("event")]
+        [JsonPropertyName("event")]
         public string Event { get; set; } = string.Empty;
     }
 
@@ -24,7 +22,7 @@ namespace Kraken.Net.Objects.Internal
         /// <summary>
         /// Token
         /// </summary>
-        [JsonProperty("token")]
+        [JsonPropertyName("token")]
         public string Token { get; set; } = string.Empty;
     }
 }

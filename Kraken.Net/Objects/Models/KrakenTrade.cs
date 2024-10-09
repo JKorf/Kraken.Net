@@ -1,8 +1,5 @@
-﻿using System;
-using CryptoExchange.Net.Converters;
-using Kraken.Net.Converters;
+﻿using CryptoExchange.Net.Converters;
 using Kraken.Net.Enums;
-using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects.Models
 {
@@ -30,12 +27,12 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Side
         /// </summary>
-        [ArrayProperty(3), JsonConverter(typeof(OrderSideConverter))]
+        [ArrayProperty(3), JsonConverter(typeof(EnumConverter))]
         public OrderSide Side { get; set; }
         /// <summary>
         /// Order type
         /// </summary>
-        [ArrayProperty(4), JsonConverter(typeof(OrderTypeMinimalConverter))]
+        [ArrayProperty(4), JsonConverter(typeof(EnumConverter))]
         public OrderTypeMinimal Type { get; set; }
 
         /// <summary>

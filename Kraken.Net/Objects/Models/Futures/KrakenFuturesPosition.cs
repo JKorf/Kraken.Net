@@ -1,14 +1,10 @@
-﻿using CryptoExchange.Net.Converters;
-using Kraken.Net.Enums;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
     internal record KrakenFuturesPositionResult : KrakenFuturesResult<IEnumerable<KrakenFuturesPosition>>
     {
-        [JsonProperty("openPositions")]
+        [JsonPropertyName("openPositions")]
         public override IEnumerable<KrakenFuturesPosition> Data { get; set; } = Array.Empty<KrakenFuturesPosition>();
     }
 
@@ -21,41 +17,43 @@ namespace Kraken.Net.Objects.Models.Futures
         /// Position enter time
         /// </summary>
         [JsonConverter(typeof(DateTimeConverter))]
+        [JsonPropertyName("fillTime")]
         public DateTime FillTime { get; set; }
         /// <summary>
         /// Max leverage selected for isolated position
         /// </summary>
+        [JsonPropertyName("maxFixedLeverage")]
         public decimal? MaxFixedLeverage { get; set; }
         /// <summary>
         /// Selected pnl currency for the position (default: USD)
         /// </summary>
+        [JsonPropertyName("pnlCurrency")]
         public string? ProfitAndLossCurrency { get; set; }
         /// <summary>
         /// The average price at which the position was entered into.
         /// </summary>
+        [JsonPropertyName("price")]
         public decimal Price { get; set; }
         /// <summary>
         /// The direction of the position.
         /// </summary>
         [JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("side")]
         public PositionSide Side { get; set; }
         /// <summary>
         /// The size of the position.
         /// </summary>
-        [JsonProperty("size")]
-        public decimal Quantity { get; set; }
+        [JsonPropertyName("size")]
+        public int Quantity { get; set; }
         /// <summary>
         /// The symbol
         /// </summary>
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; } = string.Empty;
-        /// <summary>
-        /// The profit and loss currency
-        /// </summary>
-        [JsonProperty("pnlCurrency")]
-        public string? PnlCurrency { get; set; }
         /// <summary>
         /// Unrealised funding on the position.
         /// </summary>
+        [JsonPropertyName("unrealizedFunding")]
         public decimal? UnrealizedFunding { get; set; }
     }
 }

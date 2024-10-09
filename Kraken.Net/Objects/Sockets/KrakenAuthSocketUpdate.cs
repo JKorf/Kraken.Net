@@ -1,6 +1,5 @@
 ﻿using CryptoExchange.Net.Attributes;
 using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects.Sockets
 {
@@ -19,7 +18,7 @@ namespace Kraken.Net.Objects.Sockets
 
     internal class KrakenAuthSequence
     {
-        [JsonProperty("sequence")]
+        [JsonPropertyName("sequence")]
         public int Sequence { get; set; }
     }
 }

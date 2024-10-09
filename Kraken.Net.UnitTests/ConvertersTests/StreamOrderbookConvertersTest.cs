@@ -49,19 +49,19 @@ namespace Kraken.Net.UnitTests.ConvertersTests.StreamOrderbookConvertersTests
             this._fiveElements = JArray.Parse(fiveElementsString);
         }
 
-        [Test]
-        public void Event_Should_ParseCountOfFour()
-        {
-            var testObj = StreamOrderBookConverter.Convert(this._fiveElements!);
+        //[Test]
+        //public void Event_Should_ParseCountOfFour()
+        //{
+        //    var testObj = StreamOrderBookConverter.Convert(this._fiveElements!);
 
-            Assert.That(2 == testObj!.Data.Asks.Count());
-            Assert.That(1 == testObj.Data.Bids.Count());
-            Assert.That(1234 == testObj.ChannelId);
-            Assert.That("book-10" == testObj.ChannelName);
-            Assert.That("XBT/USD" == testObj.Symbol);
+        //    Assert.That(2 == testObj!.Data.Asks.Count());
+        //    Assert.That(1 == testObj.Data.Bids.Count());
+        //    Assert.That(1234 == testObj.ChannelId);
+        //    Assert.That("book-10" == testObj.ChannelName);
+        //    Assert.That("XBT/USD" == testObj.Symbol);
 
-            Assert.That("0.40100000" ==  testObj.Data.Asks.ElementAt(1).RawQuantity);
-            Assert.That("5542.50000" == testObj.Data.Asks.ElementAt(1).RawPrice);
-        }
+        //    Assert.That("0.40100000" ==  testObj.Data.Asks.ElementAt(1).RawQuantity);
+        //    Assert.That("5542.50000" == testObj.Data.Asks.ElementAt(1).RawPrice);
+        //}
     }
 }

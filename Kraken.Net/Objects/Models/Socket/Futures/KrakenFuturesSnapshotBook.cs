@@ -1,9 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using CryptoExchange.Net.Interfaces;
-using Kraken.Net.Enums;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
@@ -16,20 +11,23 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// Timestamp
         /// </summary>
         [JsonConverter(typeof(DateTimeConverter))]
+        [JsonPropertyName("timestamp")]
         public DateTime Timestamp { get; set; }
         /// <summary>
         /// Sequence number
         /// </summary>
-        [JsonProperty("seq")]
+        [JsonPropertyName("seq")]
         public long Sequence { get; set; }
 
         /// <summary>
         /// List of asks
         /// </summary>
+        [JsonPropertyName("asks")]
         public IEnumerable<KrakenFuturesOrderBookEntry> Asks { get; set; } = Array.Empty<KrakenFuturesOrderBookEntry>();
         /// <summary>
         /// List of bids
         /// </summary>
+        [JsonPropertyName("bids")]
         public IEnumerable<KrakenFuturesOrderBookEntry> Bids { get; set; } = Array.Empty<KrakenFuturesOrderBookEntry>();
     }
 
@@ -41,11 +39,12 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Quantity
         /// </summary>
-        [JsonProperty("qty")]
+        [JsonPropertyName("qty")]
         public decimal Quantity { get; set; }
         /// <summary>
         /// Price
         /// </summary>
+        [JsonPropertyName("price")]
         public decimal Price { get; set; }
     }
 
@@ -58,25 +57,28 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// Timestamp
         /// </summary>
         [JsonConverter(typeof(DateTimeConverter))]
+        [JsonPropertyName("timestamp")]
         public DateTime Timestamp { get; set; }
         /// <summary>
         /// Sequence number
         /// </summary>
-        [JsonProperty("seq")]
+        [JsonPropertyName("seq")]
         public long Sequence { get; set; }
         /// <summary>
         /// Side
         /// </summary>
         [JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("side")]
         public OrderSide Side { get; set; }
         /// <summary>
         /// Quantity
         /// </summary>
-        [JsonProperty("qty")]
+        [JsonPropertyName("qty")]
         public decimal Quantity { get; set; }
         /// <summary>
         /// Price
         /// </summary>
+        [JsonPropertyName("price")]
         public decimal Price { get; set; }
     }
 }

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Clients;
-using CryptoExchange.Net.Interfaces;
-using CryptoExchange.Net.Objects;
 using Kraken.Net.Objects;
 using Newtonsoft.Json;
 
@@ -15,6 +8,7 @@ namespace Kraken.Net
 {
     internal class KrakenAuthenticationProvider: AuthenticationProvider
     {
+        private static readonly IMessageSerializer _serializer = new SystemTextJsonMessageSerializer();
         private readonly INonceProvider _nonceProvider;
         private readonly byte[] _hmacSecret;
 
@@ -45,12 +39,12 @@ namespace Kraken.Net
             IDictionary<string, object> parameters;
             if (parameterPosition == HttpMethodParameterPosition.InUri)
             {
-                uriParameters ??= new Dictionary<string, object>();
+                uriParameters ??= new ParameterCollection();
                 parameters = uriParameters;
             }
             else
             {
-                bodyParameters ??= new Dictionary<string, object>();
+                bodyParameters ??= new ParameterCollection();
                 parameters = bodyParameters;
             }
 
@@ -62,7 +56,8 @@ namespace Kraken.Net
             if (uri.PathAndQuery == "/0/private/AddOrderBatch")
             {
                 // Only endpoint using json body data atm
-                np = nonce + JsonConvert.SerializeObject(parameters);
+                np = nonce + GetSerializedBody(_serializer, parameters);
+                
             }
             else
             {

@@ -1,17 +1,8 @@
-﻿using CryptoExchange.Net;
-using CryptoExchange.Net.Objects;
-using CryptoExchange.Net.Objects.Sockets;
+﻿using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
-using Kraken.Net.Converters;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models;
 using Kraken.Net.Objects.Sockets.Queries;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
@@ -63,7 +54,8 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 
         public override CallResult<object> Deserialize(IMessageAccessor message, Type type)
         {
-            return new CallResult<object>(StreamOrderBookConverter.Convert((JArray)message.Underlying!)!);
+            return null;
+            //return new CallResult<object>(StreamOrderBookConverter.Convert((JArray)message.Underlying!)!);
         }
 
         public override void HandleSubQueryResponse(KrakenSubscriptionEvent message)

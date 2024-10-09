@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CryptoExchange.Net.Converters;
-using Kraken.Net.Converters;
-using Kraken.Net.Enums;
-using Newtonsoft.Json;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models
 {
@@ -15,13 +10,13 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Order id
         /// </summary>
-        [JsonProperty("ordertxid")]
+        [JsonPropertyName("ordertxid")]
         public string OrderId { get; set; } = string.Empty;
 
         /// <summary>
         /// Pos id
         /// </summary>
-        [JsonProperty("postxid")]
+        [JsonPropertyName("postxid")]
         public string PosId { get; set; } = string.Empty;
 
         /// <summary>
@@ -33,94 +28,99 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Symbol
         /// </summary>
-        [JsonProperty("pair")]
+        [JsonPropertyName("pair")]
         public string Symbol { get; set; } = string.Empty;
         /// <summary>
         /// Timestamp of trade
         /// </summary>
-        [JsonProperty("time"), JsonConverter(typeof(DateTimeConverter))]
+        [JsonPropertyName("time"), JsonConverter(typeof(DateTimeConverter))]
         public DateTime Timestamp { get; set; }
         /// <summary>
         /// Side
         /// </summary>
-        [JsonProperty("type"), JsonConverter(typeof(OrderSideConverter))]
+        [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
         public OrderSide Side { get; set; }
         /// <summary>
         /// Order type
         /// </summary>
-        [JsonProperty("ordertype"), JsonConverter(typeof(OrderTypeConverter))]
+        [JsonPropertyName("ordertype"), JsonConverter(typeof(EnumConverter))]
         public OrderType Type { get; set; }
         /// <summary>
         /// Price of the trade
         /// </summary>
+        [JsonPropertyName("price")]
         public decimal Price { get; set; }
         /// <summary>
         /// Cost of the trade
         /// </summary>
-        [JsonProperty("cost")]
+        [JsonPropertyName("cost")]
         public decimal QuoteQuantity { get; set; }
         /// <summary>
         /// Fee paid for trade
         /// </summary>
+        [JsonPropertyName("fee")]
         public decimal Fee { get; set; }
         /// <summary>
         /// Quantity of the trade
         /// </summary>
-        [JsonProperty("vol")]
+        [JsonPropertyName("vol")]
         public decimal Quantity { get; set; }
         /// <summary>
         /// Margin
         /// </summary>
+        [JsonPropertyName("margin")]
         public decimal Margin { get; set; }
 
         /// <summary>
         /// Misc info
         /// </summary>
+        [JsonPropertyName("misc")]
         public string Misc { get; set; } = string.Empty;
 
         /// <summary>
         /// Position status
         /// </summary>
-        [JsonProperty("posstatus")]
+        [JsonPropertyName("posstatus")]
         public string PositionStatus { get; set; } = string.Empty;
         /// <summary>
         /// Closed average price
         /// </summary>
-        [JsonProperty("cprice")]
+        [JsonPropertyName("cprice")]
         public decimal? ClosedAveragePrice { get; set; }
         /// <summary>
         /// Closed cost
         /// </summary>
-        [JsonProperty("ccost")]
+        [JsonPropertyName("ccost")]
         public decimal? ClosedCost { get; set; }
         /// <summary>
         /// Closed fee
         /// </summary>
-        [JsonProperty("cfee")]
+        [JsonPropertyName("cfee")]
         public decimal? ClosedFee { get; set; }
         /// <summary>
         /// Closed quantity
         /// </summary>
-        [JsonProperty("cvol")]
+        [JsonPropertyName("cvol")]
         public decimal? ClosedQuantity { get; set; }
         /// <summary>
         /// Closed margin
         /// </summary>
-        [JsonProperty("cmargin")]
+        [JsonPropertyName("cmargin")]
         public decimal? ClosedMargin { get; set; }
         /// <summary>
         /// Closed net profit/loss
         /// </summary>
-        [JsonProperty("net")]
+        [JsonPropertyName("net")]
         public decimal? ClosedProfitLoss { get; set; }
         /// <summary>
         /// True if trade was executed with user as maker
         /// </summary>
-        [JsonProperty("maker")]
+        [JsonPropertyName("maker")]
         public bool Maker { get; set; }
         /// <summary>
         /// Trade ids
         /// </summary>
+        [JsonPropertyName("trades")]
         public IEnumerable<string> Trades { get; set; } = Array.Empty<string>();
     }
 
@@ -132,6 +132,7 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// The update sequence number
         /// </summary>
+        [JsonPropertyName("sequenceNumber")]
         public int SequenceNumber { get; set; }
     }
 }

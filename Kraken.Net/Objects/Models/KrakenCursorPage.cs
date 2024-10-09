@@ -12,17 +12,17 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Cursor for the next page
         /// </summary>
-        [JsonProperty("next_cursor")]
+        [JsonPropertyName("next_cursor")]
         public string? NextCursor { get; set; }
 
         /// <summary>
         /// Page data
         /// </summary>
-        [JsonProperty("items")]
+        [JsonPropertyName("items")]
         public IEnumerable<T> Items { get; set; } = Array.Empty<T>();
-        [JsonProperty("withdrawals")]
+        [JsonPropertyName("withdrawals")]
         internal IEnumerable<T> Withdrawals { set => Items = value; }
-        [JsonProperty("deposits")]
+        [JsonPropertyName("deposits")]
         internal IEnumerable<T> Deposits { set => Items = value; }
     }
 }

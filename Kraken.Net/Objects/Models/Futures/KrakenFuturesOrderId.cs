@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     /// <summary>
     /// Order id info
@@ -10,12 +8,12 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Client order id
         /// </summary>
-        [JsonProperty("cliOrdId")]
+        [JsonPropertyName("cliOrdId")]
         public string? ClientOrderId { get; set; }
         /// <summary>
         /// Order id
         /// </summary>
-        [JsonProperty("order_id")]
+        [JsonPropertyName("order_id")]
         public string OrderId { get; set; } = string.Empty;
     }
 }

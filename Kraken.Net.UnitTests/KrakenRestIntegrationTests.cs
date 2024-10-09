@@ -1,13 +1,9 @@
 ﻿using Kraken.Net.Clients;
-using Kraken.Net.Objects;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Testing;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Kraken.Net.UnitTests

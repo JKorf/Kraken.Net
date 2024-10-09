@@ -1,15 +1,8 @@
-﻿using CryptoExchange.Net;
-using CryptoExchange.Net.Objects;
-using CryptoExchange.Net.Objects.Sockets;
-using Kraken.Net.Clients;
-using Kraken.Net.UnitTests.TestImplementations;
+﻿using Kraken.Net.UnitTests.TestImplementations;
 using Kucoin.Net.UnitTests.TestImplementations;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Kraken.Net.UnitTests

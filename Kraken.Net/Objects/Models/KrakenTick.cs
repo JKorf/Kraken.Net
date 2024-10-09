@@ -1,5 +1,4 @@
 ﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects.Models
 {
@@ -11,42 +10,42 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// High price info
         /// </summary>
-        [JsonProperty("h")]
+        [JsonPropertyName("h")]
         public KrakenTickInfo High { get; set; } = default!;
         /// <summary>
         /// Low price info
         /// </summary>
-        [JsonProperty("l")]
+        [JsonPropertyName("l")]
         public KrakenTickInfo Low { get; set; } = default!;
         /// <summary>
         /// Last trade info
         /// </summary>
-        [JsonProperty("c")]
+        [JsonPropertyName("c")]
         public KrakenLastTrade LastTrade { get; set; } = default!;
         /// <summary>
         /// Best ask info
         /// </summary>
-        [JsonProperty("a")]
+        [JsonPropertyName("a")]
         public KrakenBestEntry BestAsks { get; set; } = default!;
         /// <summary>
         /// Best bid info
         /// </summary>
-        [JsonProperty("b")]
+        [JsonPropertyName("b")]
         public KrakenBestEntry BestBids { get; set; } = default!;
         /// <summary>
         /// Trade count info
         /// </summary>
-        [JsonProperty("t")]
+        [JsonPropertyName("t")]
         public KrakenTickInfo Trades { get; set; } = default!;
         /// <summary>
         /// Volume weighted average price info
         /// </summary>
-        [JsonProperty("p")]
+        [JsonPropertyName("p")]
         public KrakenTickInfo VolumeWeightedAveragePrice { get; set; } = default!;
         /// <summary>
         /// Volume info
         /// </summary>
-        [JsonProperty("v")]
+        [JsonPropertyName("v")]
         public KrakenTickInfo Volume { get; set; } = default!;
     }
 
@@ -58,11 +57,12 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Symbol
         /// </summary>
+        [JsonPropertyName("symbol")]
         public string Symbol { get; set; } = string.Empty;
         /// <summary>
         /// Open price
         /// </summary>
-        [JsonProperty("o")]
+        [JsonPropertyName("o")]
         public decimal OpenPrice { get; set; }
     }
 
@@ -74,7 +74,7 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Open price info
         /// </summary>
-        [JsonProperty("o")]
+        [JsonPropertyName("o")]
         public KrakenTickInfo Open { get; set; } = default!;
 
     }

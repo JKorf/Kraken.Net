@@ -1,9 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Batch order result
@@ -13,7 +8,7 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Orders
         /// </summary>
-        [JsonProperty("orders")]
+        [JsonPropertyName("orders")]
         public IEnumerable<KrakenPlacedBatchOrder> Orders { get; set; } = Array.Empty<KrakenPlacedBatchOrder>();
     }
 
@@ -25,17 +20,17 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Order id
         /// </summary>
-        [JsonProperty("txid")]
+        [JsonPropertyName("txid")]
         public string OrderId { get; set; } = null!;
         /// <summary>
         /// Description
         /// </summary>
-        [JsonProperty("descr")]
+        [JsonPropertyName("descr")]
         public KrakenPlacedOrderDescription Description { get; set; } = null!;
         /// <summary>
         /// Close order description
         /// </summary>
-        [JsonProperty("close")]
+        [JsonPropertyName("close")]
         public string? CloseOrderInfo { get; set; }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Kraken.Net.Objects.Internal
+﻿namespace Kraken.Net.Objects.Internal
 {
     /// <summary>
     /// Place order request
@@ -10,7 +8,7 @@ namespace Kraken.Net.Objects.Internal
         /// <summary>
         /// Timeout
         /// </summary>
-        [JsonProperty("timeout")]
+        [JsonPropertyName("timeout")]
         public int Timeout { get; set; }
     }
 }

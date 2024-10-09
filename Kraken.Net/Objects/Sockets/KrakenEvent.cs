@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Kraken.Net.Objects.Sockets
+﻿namespace Kraken.Net.Objects.Sockets
 {
     /// <summary>
     /// Kraken message event
@@ -10,7 +8,7 @@ namespace Kraken.Net.Objects.Sockets
         /// <summary>
         /// The message event
         /// </summary>
-        [JsonProperty("event")]
+        [JsonPropertyName("event")]
         public string Event { get; set; } = null!;
     }
 }

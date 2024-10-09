@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
-
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Trade volume info
@@ -11,21 +8,23 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Asset
         /// </summary>
-        [JsonProperty("currency")]
+        [JsonPropertyName("currency")]
         public string Asset { get; set; } = string.Empty;
         /// <summary>
         /// Volume
         /// </summary>
+        [JsonPropertyName("volume")]
         public decimal Volume { get; set; }
 
         /// <summary>
         /// Fees structure
         /// </summary>
+        [JsonPropertyName("fees")]
         public Dictionary<string, KrakenFeeStruct> Fees { get; set; } = new Dictionary<string, KrakenFeeStruct>();
         /// <summary>
         /// Maker fees structure
         /// </summary>
-        [JsonProperty("fees_maker")]
+        [JsonPropertyName("fees_maker")]
         public Dictionary<string, KrakenFeeStruct> MakerFees { get; set; } = new Dictionary<string, KrakenFeeStruct>();
     }
 
@@ -37,28 +36,32 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Fee
         /// </summary>
+        [JsonPropertyName("fee")]
         public decimal Fee { get; set; }
         /// <summary>
         /// Minimal fee
         /// </summary>
-        [JsonProperty("minfee")]
+        [JsonPropertyName("minfee")]
         public decimal MinimalFee { get; set; }
         /// <summary>
         /// Maximal fee
         /// </summary>
-        [JsonProperty("maxfee")]
+        [JsonPropertyName("maxfee")]
         public decimal MaximumFee { get; set; }
         /// <summary>
         /// Next fee
         /// </summary>
+        [JsonPropertyName("nextFee")]
         public decimal? NextFee { get; set; }
         /// <summary>
         /// Next volume
         /// </summary>
+        [JsonPropertyName("nextVolume")]
         public decimal? NextVolume { get; set; }
         /// <summary>
         /// Tier volume
         /// </summary>
+        [JsonPropertyName("tierVolume")]
         public decimal TierVolume { get; set; }
     }
 }

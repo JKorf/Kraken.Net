@@ -1,35 +1,32 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
-namespace Kraken.Net.Objects.Sockets
+﻿namespace Kraken.Net.Objects.Sockets
 {
     internal class KrakenFuturesRequest
     {
         /// <summary>
         /// The event type
         /// </summary>
-        [JsonProperty("event")]
+        [JsonPropertyName("event")]
         public string Event { get; set; } = string.Empty;
         /// <summary>
         /// The feed
         /// </summary>
-        [JsonProperty("feed")]
+        [JsonPropertyName("feed")]
         public string Feed { get; set; } = string.Empty;
 
         /// <summary>
         /// The symbols
         /// </summary>
-        [JsonProperty("product_ids")]
+        [JsonPropertyName("product_ids")]
         public List<string>? Symbols { get; set; }
     }
 
     internal class KrakenFuturesAuthRequest : KrakenFuturesRequest
     {
-        [JsonProperty("api_key")]
+        [JsonPropertyName("api_key")]
         public string ApiKey { get; set; } = string.Empty;
-        [JsonProperty("original_challenge")]
+        [JsonPropertyName("original_challenge")]
         public string OriginalChallenge { get; set; } = string.Empty;
-        [JsonProperty("signed_challenge")]
+        [JsonPropertyName("signed_challenge")]
         public string SignedChallenge { get; set; } = string.Empty;
     }
 }

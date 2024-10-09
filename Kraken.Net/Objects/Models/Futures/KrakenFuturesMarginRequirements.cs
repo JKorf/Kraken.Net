@@ -1,12 +1,10 @@
-﻿using Newtonsoft.Json;
-
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     internal record KrakenFuturesMarginRequirementsInternal : KrakenFuturesResult
     {
-        [JsonProperty("initialMargin")]
+        [JsonPropertyName("initialMargin")]
         public decimal? InitialMargin { get; set; }
-        [JsonProperty("price")]
+        [JsonPropertyName("price")]
         public decimal? Price { get; set; }
     }
 
@@ -18,12 +16,12 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Initial margin
         /// </summary>
-        [JsonProperty("initialMargin")]
+        [JsonPropertyName("initialMargin")]
         public decimal? InitialMargin { get; set; }
         /// <summary>
         /// Price
         /// </summary>
-        [JsonProperty("price")]
+        [JsonPropertyName("price")]
         public decimal? Price { get; set; }
     }
 }

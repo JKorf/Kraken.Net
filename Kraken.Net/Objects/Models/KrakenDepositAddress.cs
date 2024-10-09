@@ -1,8 +1,4 @@
-﻿using System;
-using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
-
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Deposit address
@@ -12,26 +8,27 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// The actual address
         /// </summary>
+        [JsonPropertyName("address")]
         public string Address { get; set; } = string.Empty;
         /// <summary>
         /// The expire time of the address
         /// </summary>
-        [JsonProperty("expiretm"), JsonConverter(typeof(DateTimeConverter))]
+        [JsonPropertyName("expiretm"), JsonConverter(typeof(DateTimeConverter))]
         public DateTime ExpireTime { get; set; }
         /// <summary>
         /// If the address has been used before
         /// </summary>
-        [JsonProperty("new")]
+        [JsonPropertyName("new")]
         public bool IsNew { get; set; }
         /// <summary>
         /// Tag
         /// </summary>
-        [JsonProperty("tag")]
+        [JsonPropertyName("tag")]
         public string? Tag { get; set; }
         /// <summary>
         /// Memo
         /// </summary>
-        [JsonProperty("memo")]
+        [JsonPropertyName("memo")]
         public string? Memo { get; set; }
     }
 }

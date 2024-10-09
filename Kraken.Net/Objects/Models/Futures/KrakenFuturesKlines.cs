@@ -1,9 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     /// <summary>
     /// Kline info
@@ -13,12 +8,12 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// True if there are more candles in the time range
         /// </summary>
-        [JsonProperty("more_candles")]
+        [JsonPropertyName("more_candles")]
         public bool MoreKlines { get; set; }
         /// <summary>
         /// Candles
         /// </summary>
-        [JsonProperty("candles")]
+        [JsonPropertyName("candles")]
         public IEnumerable<KrakenFuturesKline> Klines { get; set; } = Array.Empty<KrakenFuturesKline>();
     }
 
@@ -30,31 +25,32 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// High price
         /// </summary>
-        [JsonProperty("high")]
+        [JsonPropertyName("high")]
         public decimal HighPrice { get; set; }
         /// <summary>
         /// Low price
         /// </summary>
-        [JsonProperty("low")]
+        [JsonPropertyName("low")]
         public decimal LowPrice { get; set; }
         /// <summary>
         /// Close price
         /// </summary>
-        [JsonProperty("close")]
+        [JsonPropertyName("close")]
         public decimal ClosePrice { get; set; }
         /// <summary>
         /// Open price
         /// </summary>
-        [JsonProperty("open")]
+        [JsonPropertyName("open")]
         public decimal OpenPrice { get; set; }
         /// <summary>
         /// Volume
         /// </summary>
+        [JsonPropertyName("volume")]
         public decimal Volume { get; set; }
         /// <summary>
         /// Timestamp
         /// </summary>
-        [JsonProperty("time")]
+        [JsonPropertyName("time")]
         [JsonConverter(typeof(DateTimeConverter))]
         public DateTime Timestamp { get; set; }
     }

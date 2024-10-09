@@ -1,6 +1,5 @@
 ﻿using CryptoExchange.Net.Attributes;
 using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
 
 namespace Kraken.Net.Objects.Sockets
 {

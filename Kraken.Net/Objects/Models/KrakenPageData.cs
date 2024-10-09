@@ -10,6 +10,7 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Total number of records
         /// </summary>
+        [JsonPropertyName("count")]
         public int Count { get; set; }
     }
 
@@ -21,6 +22,7 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Open orders
         /// </summary>
+        [JsonPropertyName("open")]
         public Dictionary<string, KrakenOrder> Open { get; set; } = new Dictionary<string, KrakenOrder>();
     }
 
@@ -32,6 +34,7 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Closed orders
         /// </summary>
+        [JsonPropertyName("closed")]
         public Dictionary<string, KrakenOrder> Closed { get; set; } = new Dictionary<string, KrakenOrder>();
     }
 
@@ -43,6 +46,7 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Trades
         /// </summary>
+        [JsonPropertyName("trades")]
         public Dictionary<string, KrakenUserTrade> Trades { get; set; } = new Dictionary<string, KrakenUserTrade>();
     }
 
@@ -54,6 +58,7 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Ledger entries
         /// </summary>
+        [JsonPropertyName("ledger")]
         public Dictionary<string, KrakenLedgerEntry> Ledger { get; set; } = new Dictionary<string, KrakenLedgerEntry>();
     }
 }

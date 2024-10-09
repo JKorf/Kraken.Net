@@ -1,8 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Kraken.Net.Enums;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
@@ -14,11 +10,12 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Account
         /// </summary>
+        [JsonPropertyName("account")]
         public string Account { get; set; } = string.Empty;
         /// <summary>
         /// Trades
         /// </summary>
-        [JsonProperty("fills")]
+        [JsonPropertyName("fills")]
         public IEnumerable<KrakenFuturesUserTrade> Trades { get; set; } = Array.Empty<KrakenFuturesUserTrade>();
     }
 
@@ -30,67 +27,69 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Symbol
         /// </summary>
-        [JsonProperty("instrument")]
+        [JsonPropertyName("instrument")]
         public string Symbol { get; set; } = string.Empty;
         /// <summary>
         /// Timestamp
         /// </summary>
-        [JsonProperty("time")]
+        [JsonPropertyName("time")]
         [JsonConverter(typeof(DateTimeConverter))]
         public DateTime Timestamp { get; set; }
         /// <summary>
         /// Price
         /// </summary>
+        [JsonPropertyName("price")]
         public decimal Price { get; set; }
         /// <summary>
         /// Quantity
         /// </summary>
-        [JsonProperty("qty")]
+        [JsonPropertyName("qty")]
         public decimal Quantity { get; set; }
         /// <summary>
         /// Sequence number
         /// </summary>
-        [JsonProperty("seq")]
+        [JsonPropertyName("seq")]
         public long Sequence { get; set; }
         /// <summary>
         /// Is buy
         /// </summary>
+        [JsonPropertyName("buy")]
         public bool Buy { get; set; }
         /// <summary>
         /// Order id
         /// </summary>
-        [JsonProperty("order_id")]
+        [JsonPropertyName("order_id")]
         public string OrderId { get; set; } = string.Empty;
         /// <summary>
         /// Trade id
         /// </summary>
-        [JsonProperty("fill_id")]
+        [JsonPropertyName("fill_id")]
         public string TradeId { get; set; } = string.Empty;
         /// <summary>
         /// Trade type
         /// </summary>
         [JsonConverter(typeof(EnumConverter))]
-        [JsonProperty("fill_type")]
+        [JsonPropertyName("fill_type")]
         public TradeType TradeType { get; set; }
         /// <summary>
         /// Fee paid on trade
         /// </summary>
-        [JsonProperty("fee_paid")]
+        [JsonPropertyName("fee_paid")]
         public decimal FeePaid { get; set; }
         /// <summary>
         /// Fee currency
         /// </summary>
-        [JsonProperty("fee_currency")]
+        [JsonPropertyName("fee_currency")]
         public string FeeCurrency { get; set; } = string.Empty;
         /// <summary>
         /// Order type of the taker
         /// </summary>
-        [JsonProperty("taker_order_type")]
+        [JsonPropertyName("taker_order_type")]
         public string TakerOrderType { get; set; } = string.Empty;
         /// <summary>
         /// Order type
         /// </summary>
-        [JsonProperty("order_type")]
+        [JsonPropertyName("order_type")]
         public string OrderType { get; set; } = string.Empty;
     }
 }

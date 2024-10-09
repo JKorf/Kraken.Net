@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Trade balance info
@@ -10,47 +8,47 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Combined balance
         /// </summary>
-        [JsonProperty("eb")]
+        [JsonPropertyName("eb")]
         public decimal CombinedBalance { get; set; }
         /// <summary>
         /// Trade balance
         /// </summary>
-        [JsonProperty("tb")]
+        [JsonPropertyName("tb")]
         public decimal TradeBalance { get; set; }
         /// <summary>
         /// Margin open positions
         /// </summary>
-        [JsonProperty("m")]
+        [JsonPropertyName("m")]
         public decimal MarginOpenPositions { get; set; }
         /// <summary>
         /// Unrealized net profit in open positions
         /// </summary>
-        [JsonProperty("n")]
+        [JsonPropertyName("n")]
         public decimal OpenPositionsUnrealizedNetProfit { get; set; }
         /// <summary>
         /// Cost basis for open positions
         /// </summary>
-        [JsonProperty("c")]
+        [JsonPropertyName("c")]
         public decimal OpenPositionsCostBasis { get; set; }
         /// <summary>
         /// Open positions valuation
         /// </summary>
-        [JsonProperty("v")]
+        [JsonPropertyName("v")]
         public decimal OpenPositionsValuation { get; set; }
         /// <summary>
         /// Equity
         /// </summary>
-        [JsonProperty("e")]
+        [JsonPropertyName("e")]
         public decimal Equity { get; set; }
         /// <summary>
         /// Free margin
         /// </summary>
-        [JsonProperty("mf")]
+        [JsonPropertyName("mf")]
         public decimal FreeMargin { get; set; }
         /// <summary>
         /// Margin level
         /// </summary>
-        [JsonProperty("ml")]
+        [JsonPropertyName("ml")]
         public decimal MarginLevel { get; set; }
     }
 }

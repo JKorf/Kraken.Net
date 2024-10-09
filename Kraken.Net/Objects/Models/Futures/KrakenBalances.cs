@@ -1,12 +1,11 @@
 ﻿using Kraken.Net.Converters;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
     internal record KrakenBalancesResult : KrakenFuturesResult<Dictionary<string, KrakenBalances>>
     {
-        [JsonProperty("accounts")]
+        [JsonPropertyName("accounts")]
         public override Dictionary<string, KrakenBalances> Data { get; set; } = new Dictionary<string, KrakenBalances>();
     }
 
@@ -19,6 +18,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Type of the balance info
         /// </summary>
+        [JsonPropertyName("type")]
         public string Type { get; set; } = string.Empty;
     }
 }
