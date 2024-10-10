@@ -16,6 +16,8 @@ namespace Kraken.Net.Clients.SpotApi
             _baseClient = baseClient;
         }
 
+        #region Get Server Time
+
         /// <inheritdoc />
         public async Task<WebCallResult<DateTime>> GetServerTimeAsync(CancellationToken ct = default)
         {
@@ -26,12 +28,20 @@ namespace Kraken.Net.Clients.SpotApi
             return result.As(result.Data.UnixTime);
         }
 
+        #endregion
+
+        #region Get System Status
+
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenSystemStatus>> GetSystemStatusAsync(CancellationToken ct = default)
         {
             var request = _definitions.GetOrCreate(HttpMethod.Get, "0/public/SystemStatus", KrakenExchange.RateLimiter.SpotRest, 1, false);
             return await _baseClient.SendAsync<KrakenSystemStatus>(request, null, ct).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Get Assets
 
         /// <inheritdoc />
         public async Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(IEnumerable<string>? assets = null, CancellationToken ct = default)
@@ -43,6 +53,10 @@ namespace Kraken.Net.Clients.SpotApi
             var request = _definitions.GetOrCreate(HttpMethod.Get, "0/public/Assets", KrakenExchange.RateLimiter.SpotRest, 1, false);
             return await _baseClient.SendAsync<Dictionary<string, KrakenAssetInfo>>(request, parameters, ct).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Get Symbols
 
         /// <inheritdoc />
         public async Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, string? countryCode = null, CancellationToken ct = default)
@@ -56,9 +70,17 @@ namespace Kraken.Net.Clients.SpotApi
             return await _baseClient.SendAsync<Dictionary<string, KrakenSymbol>>(request, parameters, ct).ConfigureAwait(false);
         }
 
+        #endregion
+
+        #region Get Ticker
+
         /// <inheritdoc />
         public Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickerAsync(string symbol, CancellationToken ct = default)
             => GetTickersAsync(new[] { symbol }, ct);
+
+        #endregion
+
+        #region Get Tickers
 
         /// <inheritdoc />
         public async Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(IEnumerable<string>? symbols = null, CancellationToken ct = default)
@@ -78,6 +100,10 @@ namespace Kraken.Net.Clients.SpotApi
             return result;
         }
 
+        #endregion
+
+        #region Get Klines
+
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenKlinesResult>> GetKlinesAsync(string symbol, KlineInterval interval, DateTime? since = null, CancellationToken ct = default)
         {
@@ -91,6 +117,10 @@ namespace Kraken.Net.Clients.SpotApi
             var request = _definitions.GetOrCreate(HttpMethod.Get, "0/public/OHLC", KrakenExchange.RateLimiter.SpotRest, 1, false);
             return await _baseClient.SendAsync<KrakenKlinesResult>(request, parameters, ct).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Get Order Book
 
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenOrderBook>> GetOrderBookAsync(string symbol, int? limit = null, CancellationToken ct = default)
@@ -108,6 +138,10 @@ namespace Kraken.Net.Clients.SpotApi
             return result.As(result.Data.First().Value);
         }
 
+        #endregion
+
+        #region Get Trade History
+
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenTradesResult>> GetTradeHistoryAsync(string symbol, DateTime? since = null, int? limit = null, CancellationToken ct = default)
         {
@@ -122,6 +156,10 @@ namespace Kraken.Net.Clients.SpotApi
             return await _baseClient.SendAsync<KrakenTradesResult>(request, parameters, ct).ConfigureAwait(false);
         }
 
+        #endregion
+
+        #region Get Recent Spread
+
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenSpreadsResult>> GetRecentSpreadAsync(string symbol, DateTime? since = null, CancellationToken ct = default)
         {
@@ -134,5 +172,7 @@ namespace Kraken.Net.Clients.SpotApi
             var request = _definitions.GetOrCreate(HttpMethod.Get, "0/public/Spread", KrakenExchange.RateLimiter.SpotRest, 1, false);
             return await _baseClient.SendAsync<KrakenSpreadsResult>(request, parameters, ct).ConfigureAwait(false);
         }
+
+        #endregion
     }
 }

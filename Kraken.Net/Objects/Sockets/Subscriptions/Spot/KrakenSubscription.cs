@@ -1,101 +1,101 @@
-﻿using CryptoExchange.Net;
-using CryptoExchange.Net.Objects;
-using CryptoExchange.Net.Objects.Sockets;
-using CryptoExchange.Net.Sockets;
-using Kraken.Net.Objects.Internal;
-using Kraken.Net.Objects.Sockets.Queries;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿//using CryptoExchange.Net;
+//using CryptoExchange.Net.Objects;
+//using CryptoExchange.Net.Objects.Sockets;
+//using CryptoExchange.Net.Sockets;
+//using Kraken.Net.Objects.Internal;
+//using Kraken.Net.Objects.Sockets.Queries;
+//using Microsoft.Extensions.Logging;
+//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Threading.Tasks;
 
-namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
-{
-    internal class KrakenSubscription<T> : Subscription<KrakenSubscriptionEvent, KrakenSubscriptionEvent>
-    {
-        private string _topic;
-        private int? _interval;
-        private bool? _snapshot;
-        private IEnumerable<string>? _symbols;
-        private readonly Action<DataEvent<T>> _handler;
+//namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
+//{
+//    internal class KrakenSubscription<T> : Subscription<KrakenSubscriptionEvent, KrakenSubscriptionEvent>
+//    {
+//        private string _topic;
+//        private int? _interval;
+//        private bool? _snapshot;
+//        private IEnumerable<string>? _symbols;
+//        private readonly Action<DataEvent<T>> _handler;
 
-        public override HashSet<string> ListenerIdentifiers { get; set; }
+//        public override HashSet<string> ListenerIdentifiers { get; set; }
 
-        private static readonly Dictionary<string, string> _replaceMap = new Dictionary<string, string>
-        {
-            { "btc", "xbt" },
-            { "doge", "xdg" },
-        };
+//        private static readonly Dictionary<string, string> _replaceMap = new Dictionary<string, string>
+//        {
+//            { "btc", "xbt" },
+//            { "doge", "xdg" },
+//        };
 
-        public KrakenSubscription(ILogger logger, string topic, IEnumerable<string>? symbols, int? interval, bool? snapshot, Action<DataEvent<T>> handler) : base(logger, false)
-        {
-            _topic = topic;
-            _symbols = symbols;
-            _handler = handler;
-            _snapshot = snapshot;
-            _interval = interval;
+//        public KrakenSubscription(ILogger logger, string topic, IEnumerable<string>? symbols, int? interval, bool? snapshot, Action<DataEvent<T>> handler) : base(logger, false)
+//        {
+//            _topic = topic;
+//            _symbols = symbols;
+//            _handler = handler;
+//            _snapshot = snapshot;
+//            _interval = interval;
 
-            ListenerIdentifiers = symbols?.Any() == true ? new HashSet<string>(symbols.Select(s => topic.ToLowerInvariant() + "-" + GetSymbolTopic(s))) : new HashSet<string> { topic };
-        }
+//            ListenerIdentifiers = symbols?.Any() == true ? new HashSet<string>(symbols.Select(s => topic.ToLowerInvariant() + "-" + GetSymbolTopic(s))) : new HashSet<string> { topic };
+//        }
 
-        private string GetSymbolTopic(string symbol)
-        {
-            var split = symbol.Split('/');
-            if (split.Length < 2)
-                return symbol;
+//        private string GetSymbolTopic(string symbol)
+//        {
+//            var split = symbol.Split('/');
+//            if (split.Length < 2)
+//                return symbol;
 
-            var baseAsset = split[0].ToLowerInvariant();
-            var quoteAsset = split[1].ToLowerInvariant();
+//            var baseAsset = split[0].ToLowerInvariant();
+//            var quoteAsset = split[1].ToLowerInvariant();
 
-            if (_replaceMap.TryGetValue(baseAsset, out var replacementBase))
-                baseAsset = replacementBase;
+//            if (_replaceMap.TryGetValue(baseAsset, out var replacementBase))
+//                baseAsset = replacementBase;
 
-            if (_replaceMap.TryGetValue(quoteAsset, out var replacementQuote))
-                quoteAsset = replacementQuote;
+//            if (_replaceMap.TryGetValue(quoteAsset, out var replacementQuote))
+//                quoteAsset = replacementQuote;
 
-            return $"{baseAsset}/{quoteAsset}";
-        }
+//            return $"{baseAsset}/{quoteAsset}";
+//        }
 
-        public override Type? GetMessageType(IMessageAccessor message) => typeof(KrakenSocketUpdate<T>);
+//        public override Type? GetMessageType(IMessageAccessor message) => typeof(KrakenSocketUpdate<T>);
 
-        public override Query? GetSubQuery(SocketConnection connection)
-        {
-            return new KrakenSpotQuery<KrakenSubscriptionEvent>(
-                new KrakenSubscribeRequest(_topic, null, _interval, _snapshot, null, ExchangeHelpers.NextId(), _symbols?.ToArray())
-                {
-                    Event = "subscribe",
-                },
-                Authenticated)
-            {
-                RequiredResponses = _symbols.Count()
-            };
-        }
+//        public override Query? GetSubQuery(SocketConnection connection)
+//        {
+//            return new KrakenSpotQuery<KrakenSubscriptionEvent>(
+//                new KrakenSubscribeRequest(_topic, null, _interval, _snapshot, null, ExchangeHelpers.NextId(), _symbols?.ToArray())
+//                {
+//                    Event = "subscribe",
+//                },
+//                Authenticated)
+//            {
+//                RequiredResponses = _symbols.Count()
+//            };
+//        }
 
-        public override Query? GetUnsubQuery()
-        {
-            return new KrakenSpotQuery<KrakenSubscriptionEvent>(
-                new KrakenSubscribeRequest(_topic, null, _interval, _snapshot, null, ExchangeHelpers.NextId(), _symbols?.ToArray())
-                {
-                    Event = "unsubscribe"
-                },
-                Authenticated)
-            {
-                RequiredResponses = _symbols.Count()
-            };
-        }
+//        public override Query? GetUnsubQuery()
+//        {
+//            return new KrakenSpotQuery<KrakenSubscriptionEvent>(
+//                new KrakenSubscribeRequest(_topic, null, _interval, _snapshot, null, ExchangeHelpers.NextId(), _symbols?.ToArray())
+//                {
+//                    Event = "unsubscribe"
+//                },
+//                Authenticated)
+//            {
+//                RequiredResponses = _symbols.Count()
+//            };
+//        }
 
-        public override void HandleSubQueryResponse(KrakenSubscriptionEvent message)
-        {
-            ListenerIdentifiers = _symbols?.Any() == true ? new HashSet<string>(_symbols.Select(s => message.ChannelName + "-" + GetSymbolTopic(s))) : new HashSet<string> { message.ChannelName };
-        }
+//        public override void HandleSubQueryResponse(KrakenSubscriptionEvent message)
+//        {
+//            ListenerIdentifiers = _symbols?.Any() == true ? new HashSet<string>(_symbols.Select(s => message.ChannelName + "-" + GetSymbolTopic(s))) : new HashSet<string> { message.ChannelName };
+//        }
 
-        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
-        {
-            var data = (KrakenSocketUpdate<T>)message.Data!;
-            _handler.Invoke(message.As(data.Data, data.ChannelName, data.Symbol, SocketUpdateType.Update));
-            return new CallResult(null);
-        }
+//        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
+//        {
+//            var data = (KrakenSocketUpdate<T>)message.Data!;
+//            _handler.Invoke(message.As(data.Data, data.ChannelName, data.Symbol, SocketUpdateType.Update));
+//            return new CallResult(null);
+//        }
 
-    }
-}
+//    }
+//}

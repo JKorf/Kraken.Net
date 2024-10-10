@@ -9,7 +9,7 @@ namespace Kraken.Net.Objects.Internal
         public IEnumerable<string> Error { get; set; } = Array.Empty<string>();
     }
 
-    internal class KrakenResult<T>: KrakenResult
+    internal class KrakenResult<T> : KrakenResult
     {
         [JsonPropertyName("result")]
         public T Result { get; set; } = default!;

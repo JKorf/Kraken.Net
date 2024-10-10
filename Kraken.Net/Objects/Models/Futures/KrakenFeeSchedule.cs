@@ -1,5 +1,11 @@
 ﻿namespace Kraken.Net.Objects.Models.Futures
 {
+    internal record KrakenFeeScheduleVolumeResult : KrakenFuturesResult<Dictionary<string, decimal>>
+    {
+        [JsonPropertyName("feeSchedules")]
+        public override Dictionary<string, decimal> Data { get; set; } = new Dictionary<string, decimal>();
+    }
+
     internal record KrakenFeeSchedulesResult : KrakenFuturesResult<IEnumerable<KrakenFeeSchedule>>
     {
         [JsonPropertyName("feeSchedules")]

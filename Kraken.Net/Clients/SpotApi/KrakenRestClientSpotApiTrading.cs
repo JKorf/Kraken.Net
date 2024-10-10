@@ -16,6 +16,7 @@ namespace Kraken.Net.Clients.SpotApi
             _baseClient = baseClient;
         }
 
+        #region Get Open Orders
 
         /// <inheritdoc />
         public async Task<WebCallResult<OpenOrdersPage>> GetOpenOrdersAsync(uint? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default)
@@ -34,6 +35,10 @@ namespace Kraken.Net.Clients.SpotApi
             }
             return result;
         }
+
+        #endregion
+
+        #region Get Closed Orders
 
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenClosedOrdersPage>> GetClosedOrdersAsync(uint? clientOrderId = null, DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default)
@@ -56,9 +61,17 @@ namespace Kraken.Net.Clients.SpotApi
             return result;
         }
 
+        #endregion
+
+        #region Get Order
+
         /// <inheritdoc />
         public Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? orderId = null, uint? clientOrderId = null, bool? consolidateTaker = null, bool? trades = null, string? twoFactorPassword = null, CancellationToken ct = default)
             => GetOrdersAsync(orderId == null ? null : new[] { orderId }, clientOrderId, consolidateTaker, trades, twoFactorPassword, ct);
+
+        #endregion
+
+        #region Get Orders
 
         /// <inheritdoc />
         public async Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, uint? clientOrderId = null, bool? consolidateTaker = null, bool? trades = null, string? twoFactorPassword = null, CancellationToken ct = default)
@@ -80,6 +93,10 @@ namespace Kraken.Net.Clients.SpotApi
             }
             return result;
         }
+
+        #endregion
+
+        #region Get User Trades
 
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, bool? consolidateTaker = null, string? twoFactorPassword = null, CancellationToken ct = default)
@@ -103,10 +120,18 @@ namespace Kraken.Net.Clients.SpotApi
             return result;
         }
 
+        #endregion
+
+        #region Get User Trade Details
+
         /// <inheritdoc />
         public Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsync(string tradeId, string? twoFactorPassword = null, CancellationToken ct = default)
             => GetUserTradeDetailsAsync(new[] { tradeId }, twoFactorPassword, ct);
 
+
+        #endregion
+
+        #region Get User Trade Details
 
         /// <inheritdoc />
         public async Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsync(IEnumerable<string> tradeIds, string? twoFactorPassword = null, CancellationToken ct = default)
@@ -126,6 +151,10 @@ namespace Kraken.Net.Clients.SpotApi
             return result;
         }
 
+        #endregion
+
+        #region Place Multiple Orders
+
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenBatchOrderResult>> PlaceMultipleOrdersAsync(string symbol, IEnumerable<KrakenOrderRequest> orders, DateTime? deadline = null, bool? validateOnly = null, CancellationToken ct = default)
         {
@@ -142,6 +171,10 @@ namespace Kraken.Net.Clients.SpotApi
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/AddOrderBatch", KrakenExchange.RateLimiter.SpotRest, 0, true, requestBodyFormat: RequestBodyFormat.Json);
             return await _baseClient.SendAsync<KrakenBatchOrderResult>(request, parameters, ct).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Place Order
 
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(
@@ -210,6 +243,10 @@ namespace Kraken.Net.Clients.SpotApi
             return result;
         }
 
+        #endregion
+
+        #region Edit Order
+
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenEditOrder>> EditOrderAsync(
             string symbol,
@@ -253,6 +290,10 @@ namespace Kraken.Net.Clients.SpotApi
             return await _baseClient.SendAsync<KrakenEditOrder>(request, parameters, ct).ConfigureAwait(false);
         }
 
+        #endregion
+
+        #region Cancel Order
+
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenCancelResult>> CancelOrderAsync(string orderId, string? twoFactorPassword = null, CancellationToken ct = default)
         {
@@ -270,6 +311,10 @@ namespace Kraken.Net.Clients.SpotApi
             return result;
         }
 
+        #endregion
+
+        #region Cancel All Orders
+
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenCancelResult>> CancelAllOrdersAsync(string? twoFactorPassword = null, CancellationToken ct = default)
         {
@@ -283,6 +328,10 @@ namespace Kraken.Net.Clients.SpotApi
             return result;
         }
 
+        #endregion
+
+        #region Cancel All Orders After
+
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenCancelAfterResult>> CancelAllOrdersAfterAsync(TimeSpan cancelAfter, string? twoFactorPassword = null, CancellationToken ct = default)
         {
@@ -293,5 +342,7 @@ namespace Kraken.Net.Clients.SpotApi
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/CancelAllOrdersAfter", KrakenExchange.RateLimiter.SpotRest, 1, true);
             return await _baseClient.SendAsync<KrakenCancelAfterResult>(request, parameters, ct).ConfigureAwait(false);
         }
+
+        #endregion
     }
 }

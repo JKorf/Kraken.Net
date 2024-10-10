@@ -8,7 +8,7 @@
         /// <summary>
         /// Request id
         /// </summary>
-        [JsonPropertyName("reqid")]
+        [JsonPropertyName("req_id")]
         public int RequestId { get; set; }
         /// <summary>
         /// Event

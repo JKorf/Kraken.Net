@@ -517,68 +517,43 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToSystemStatusUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenStreamSystemStatus}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamTick}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamTick}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToKlineUpdatesAsync(System.String,Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamKline}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToKlineUpdatesAsync(System.String,Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate}}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToKlineUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamKline}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToKlineUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate}}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenTrade}}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.KrakenTradeUpdate}}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToTradeUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenTrade}}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToTradeUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.KrakenTradeUpdate}}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToSpreadUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamSpread}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToAggregatedOrderBookUpdatesAsync(System.String,System.Int32,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenBookUpdate}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToSpreadUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamSpread}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToAggregatedOrderBookUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenBookUpdate}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToOrderBookUpdatesAsync(System.String,System.Int32,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrderBook}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToInvidualOrderBookUpdatesAsync(System.String,System.Int32,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenIndividualBookUpdate}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToOrderBookUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrderBook}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToInvidualOrderBookUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenIndividualBookUpdate}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToOrderUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenStreamOrder}}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToInstrumentUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenInstrumentUpdate}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToUserTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenStreamUserTrade}}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToBalanceUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.KrakenBalanceSnapshot}}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.Futures.KrakenBalanceUpdate}}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToUserTradeUpdatesAsync(System.String,System.Boolean,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenStreamUserTrade}}},System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.PlaceOrderAsync(System.String,System.String,Kraken.Net.Enums.OrderType,Kraken.Net.Enums.OrderSide,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CancelOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CancelOrdersAsync(System.String,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CancelAllOrdersAsync(System.String,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CancelAllOrdersAfterAsync(System.String,System.TimeSpan,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SymbolToServer(System.String)">
-            <summary>
-            Maps an input symbol to a server symbol
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.RevitalizeRequestAsync(CryptoExchange.Net.Sockets.Subscription)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToOrderUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate}}},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Converters.KrakenDictionaryResult`1">
@@ -637,6 +612,16 @@
             Funding temp disabled
             </summary>
         </member>
+        <member name="F:Kraken.Net.Enums.AssetStatus.Disabled">
+            <summary>
+            Disabled
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.AssetStatus.WorkInProcess">
+            <summary>
+            Work in process
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Enums.AutoCompound">
             <summary>
             Auto compound
@@ -655,6 +640,181 @@
         <member name="F:Kraken.Net.Enums.AutoCompound.Optional">
             <summary>
             Optional
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.BalanceUpdateCategory">
+            <summary>
+            Category
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateCategory.Deposit">
+            <summary>
+            Deposit
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateCategory.Withdrawal">
+            <summary>
+            Withdrawal
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateCategory.Trade">
+            <summary>
+            Trade
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateCategory.MarginTrade">
+            <summary>
+            Margin trade
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateCategory.MarginSettle">
+            <summary>
+            Margin settle
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateCategory.MarginConversion">
+            <summary>
+            Margin conversion
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateCategory.Conversion">
+            <summary>
+            Conversion
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateCategory.Credit">
+            <summary>
+            Credit
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateCategory.Marginrollover">
+            <summary>
+            Marginrollover
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateCategory.StakingRewards">
+            <summary>
+            Staking rewards
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateCategory.Instant">
+            <summary>
+            Instant
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateCategory.EquityTrade">
+            <summary>
+            Equity trade
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateCategory.Airdrop">
+            <summary>
+            Airdrop
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateCategory.EquityDividend">
+            <summary>
+            Equity dividend
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateCategory.RewardBonus">
+            <summary>
+            Reward bonus
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateCategory.Nft">
+            <summary>
+            Nft
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateCategory.BlockTrade">
+            <summary>
+            Block trade
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.BalanceUpdateType">
+            <summary>
+            Balance update type
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateType.Deposit">
+            <summary>
+            Deposit
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateType.Withdrawal">
+            <summary>
+            Withdrawal
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateType.Trade">
+            <summary>
+            Trade
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateType.Margin">
+            <summary>
+            Margin
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateType.Adjustment">
+            <summary>
+            Adjustment
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateType.Rollover">
+            <summary>
+            Rollover
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateType.Credit">
+            <summary>
+            Credit
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateType.Transfer">
+            <summary>
+            Transfer
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateType.Settled">
+            <summary>
+            Settled
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateType.Staking">
+            <summary>
+            Staking
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateType.Sale">
+            <summary>
+            Sale
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateType.Reserve">
+            <summary>
+            Reserve
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateType.Conversion">
+            <summary>
+            Conversion
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateType.Dividend">
+            <summary>
+            Dividend
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateType.Reward">
+            <summary>
+            Reward
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.BalanceUpdateType.CreatorFee">
+            <summary>
+            Creator fee
             </summary>
         </member>
         <member name="T:Kraken.Net.Enums.FuturesKlineInterval">
@@ -1162,6 +1322,76 @@
             The size of the order is partially but not entirely filled
             </summary>
         </member>
+        <member name="T:Kraken.Net.Enums.OrderBookChange">
+            <summary>
+            Order book event
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderBookChange.Add">
+            <summary>
+            Add
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderBookChange.Modify">
+            <summary>
+            Modify
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderBookChange.Delete">
+            <summary>
+            Delete
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.OrderEventType">
+            <summary>
+            Order event type
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderEventType.PendingNew">
+            <summary>
+            Order request has been received and validated but the order is not live yet.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderEventType.New">
+            <summary>
+            Order has been created and is live in the engine.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderEventType.Trade">
+            <summary>
+            The order has received a fill.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderEventType.Filled">
+            <summary>
+            The order has been fully filled.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderEventType.Canceled">
+            <summary>
+            The order has been cancelled.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderEventType.Expired">
+            <summary>
+            The order has expired.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderEventType.Amended">
+            <summary>
+            There is a user initiated amend on the order, i.e. limit price change.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderEventType.Restated">
+            <summary>
+            There is a engine initiated amend on the order for maintenance of position or book, see reason field, i.e. reduce non-tradable liquidity.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderEventType.Status">
+            <summary>
+            The order has a status update, i.e. trigger price has been updated.
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Enums.OrderFlags">
             <summary>
             Flags for an order
@@ -1233,6 +1463,41 @@
             </summary>
         </member>
         <member name="F:Kraken.Net.Enums.OrderStatus.Expired">
+            <summary>
+            Expired
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.OrderStatusUpdate">
+            <summary>
+            Status of an order
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderStatusUpdate.Pending">
+            <summary>
+            Pending
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderStatusUpdate.New">
+            <summary>
+            Active, not filled
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderStatusUpdate.PartiallyFilled">
+            <summary>
+            Active, partially filled
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderStatusUpdate.Filled">
+            <summary>
+            Fully filled
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderStatusUpdate.Canceled">
+            <summary>
+            Canceled
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.OrderStatusUpdate.Expired">
             <summary>
             Expired
             </summary>
@@ -1437,6 +1702,21 @@
             Only allowed to reduce position
             </summary>
         </member>
+        <member name="F:Kraken.Net.Enums.SymbolStatus.Delisted">
+            <summary>
+            Delisted
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.SymbolStatus.Maintenance">
+            <summary>
+            Maintenance
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.SymbolStatus.WorkInProcess">
+            <summary>
+            Work in process
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Enums.SystemStatus">
             <summary>
             System status info
@@ -1630,6 +1910,21 @@
         <member name="F:Kraken.Net.Enums.TriggerSignal.Last">
             <summary>
             Last trade price
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.WalletType">
+            <summary>
+            Wallet type
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.WalletType.Spot">
+            <summary>
+            Spot
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.WalletType.Earn">
+            <summary>
+            Earn
             </summary>
         </member>
         <member name="T:Kraken.Net.Enums.YieldSource">
@@ -2843,7 +3138,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamTick}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to ticker updates
             <para><a href="https://docs.kraken.com/websockets/#message-ticker" /></para>
@@ -2853,7 +3148,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamTick}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to ticker updates
             <para><a href="https://docs.kraken.com/websockets/#message-ticker" /></para>
@@ -2863,7 +3158,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToKlineUpdatesAsync(System.String,Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamKline}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToKlineUpdatesAsync(System.String,Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate}}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to kline updates
             <para><a href="https://docs.kraken.com/websockets/#message-ohlc" /></para>
@@ -2874,7 +3169,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This streamv subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToKlineUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamKline}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToKlineUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate}}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to kline updates
             <para><a href="https://docs.kraken.com/websockets/#message-ohlc" /></para>
@@ -2885,178 +3180,104 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This streamv subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenTrade}}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.KrakenTradeUpdate}}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <summary>
             Subscribe to trade updates
             <para><a href="https://docs.kraken.com/websockets/#message-trade" /></para>
             </summary>
             <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="handler">Data handler</param>
+            <param name="snapshot">Whether or not a snapshot of the last trades should be send after subscribing</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToTradeUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenTrade}}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToTradeUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.KrakenTradeUpdate}}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <summary>
             Subscribe to trade updates
             <para><a href="https://docs.kraken.com/websockets/#message-trade" /></para>
             </summary>
             <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="handler">Data handler</param>
+            <param name="snapshot">Whether or not a snapshot of the last trades should be send after subscribing</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToSpreadUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamSpread}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToAggregatedOrderBookUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenBookUpdate}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <summary>
-            Subscribe to spread updates
-            <para><a href="https://docs.kraken.com/websockets/#message-spread" /></para>
-            </summary>
-            <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
-            <param name="handler">Data handler</param>
-            <param name="ct">Cancellation token for closing this subscription</param>
-            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToSpreadUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamSpread}},System.Threading.CancellationToken)">
-            <summary>
-            Subscribe to spread updates
-            <para><a href="https://docs.kraken.com/websockets/#message-spread" /></para>
-            </summary>
-            <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
-            <param name="handler">Data handler</param>
-            <param name="ct">Cancellation token for closing this subscription</param>
-            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToOrderBookUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrderBook}},System.Threading.CancellationToken)">
-            <summary>
-            Subscribe to depth updates
+            Subscribe to order book updates. Order book entries are aggregated per price level
             <para><a href="https://docs.kraken.com/websockets/#message-book" /></para>
             </summary>
             <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="depth">Depth of the initial order book snapshot. 10, 25, 100, 500 or 1000</param>
             <param name="handler">Data handler</param>
+            <param name="snapshot">Whether or not a snapshot of the last book state should be send after subscribing</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToOrderBookUpdatesAsync(System.String,System.Int32,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.KrakenStreamOrderBook}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToAggregatedOrderBookUpdatesAsync(System.String,System.Int32,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenBookUpdate}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <summary>
-            Subscribe to depth updates
+            Subscribe to order book updates. Order book entries are aggregated per price level
             <para><a href="https://docs.kraken.com/websockets/#message-book" /></para>
             </summary>
             <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="depth">Depth of the initial order book snapshot. 10, 25, 100, 500 or 1000</param>
             <param name="handler">Data handler</param>
+            <param name="snapshot">Whether or not a snapshot of the last book state should be send after subscribing</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToOrderUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenStreamOrder}}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToInvidualOrderBookUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenIndividualBookUpdate}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <summary>
-            Subscribe to open order updates
-            <para><a href="https://docs.kraken.com/websockets/#message-openOrders" /></para>
+            Subscribe to the full order book with individual orders. Requires authentication.
+            <para><a href="https://docs.kraken.com/websockets/#message-book" /></para>
             </summary>
-            <param name="socketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
+            <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
+            <param name="depth">Depth of the initial order book snapshot. 10, 100 or 1000</param>
             <param name="handler">Data handler</param>
+            <param name="snapshot">Whether or not a snapshot of the last book state should be send after subscribing</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToUserTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenStreamUserTrade}}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToInvidualOrderBookUpdatesAsync(System.String,System.Int32,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenIndividualBookUpdate}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <summary>
-            Subscribe to own trade updates
-            <para><a href="https://docs.kraken.com/websockets/#message-ownTrades" /></para>
+            Subscribe to the full order book with individual orders. Requires authentication.
+            <para><a href="https://docs.kraken.com/websockets/#message-book" /></para>
             </summary>
-            <param name="socketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
+            <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
+            <param name="depth">Depth of the initial order book snapshot. 10, 100 or 1000</param>
             <param name="handler">Data handler</param>
+            <param name="snapshot">Whether or not a snapshot of the last book state should be send after subscribing</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToUserTradeUpdatesAsync(System.String,System.Boolean,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.KrakenStreamUserTrade}}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToInstrumentUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenInstrumentUpdate}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <summary>
-            Subscribe to own trade updates
-            <para><a href="https://docs.kraken.com/websockets/#message-ownTrades" /></para>
+            Subscribe to instrument (asset and symbol) updates
             </summary>
-            <param name="socketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
-            <param name="snapshot">Whether or not to receive a snapshot of the data upon subscribing</param>
             <param name="handler">Data handler</param>
+            <param name="snapshot">Whether or not a snapshot of the current instruments state should be send after subscribing</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.PlaceOrderAsync(System.String,System.String,Kraken.Net.Enums.OrderType,Kraken.Net.Enums.OrderSide,System.Decimal,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToBalanceUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.KrakenBalanceSnapshot}}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.Futures.KrakenBalanceUpdate}}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <summary>
-            Place a new order
-            <para><a href="https://docs.kraken.com/websockets/#message-addOrder" /></para>
+            Subscribe to user balances updates
             </summary>
-            <param name="websocketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
-            <param name="symbol">The symbol the order is on, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName"/></param>
-            <param name="side">The side of the order</param>
-            <param name="type">The type of the order</param>
-            <param name="quantity">The quantity of the order</param>
-            <param name="clientOrderId">A client id to reference the order by</param>
-            <param name="price">Price of the order:<br />
-            Limit=limit price<br />
-            StopLoss=stop loss price<br />
-            TakeProfit=take profit price<br />
-            StopLossProfit=stop loss price<br />
-            StopLossProfitLimit=stop loss price<br />
-            StopLossLimit=stop loss trigger price<br />
-            TakeProfitLimit=take profit trigger price<br />
-            TrailingStop=trailing stop offset<br />
-            TrailingStopLimit=trailing stop offset<br />
-            StopLossAndLimit=stop loss price
-            </param>
-            <param name="secondaryPrice">Secondary price of an order:<br />
-            StopLossProfit/StopLossProfitLimit=take profit price<br />
-            StopLossLimit/TakeProfitLimit=triggered limit price<br />
-            TrailingStopLimit=triggered limit offset<br />
-            StopLossAndLimit=limit price</param>
-            <param name="leverage">Desired leverage</param>
-            <param name="startTime">Scheduled start time</param>
-            <param name="expireTime">Expiration time</param>
-            <param name="validateOnly">Only validate inputs, don't actually place the order</param>
-            <param name="closeOrderType">Close order type</param>
-            <param name="closePrice">Close order price</param>
-            <param name="secondaryClosePrice">Close order secondary price</param>
-            <param name="flags">Order flags</param>
-            <param name="reduceOnly">Reduce only order</param>
-            <param name="margin">Funds the order on margin using the maximum leverage for the pair. Note, absolute max leverage is 5.</param>
-            <param name="ct">Cancellation token</param>
-            <returns></returns>
+            <param name="snapshotHandler">Handler for the initial snapshot data send after subscribing</param>
+            <param name="updateHandler">Handler for update data when changes occur</param>
+            <param name="snapshot">Whether or not a snapshot of the current balances should be send after subscribing</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.CancelOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToOrderUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate}}},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <summary>
-            Cancel an order
-            <para><a href="https://docs.kraken.com/websockets/#message-cancelOrder" /></para>
+            Subscribe to user order updates
             </summary>
-            <param name="websocketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
-            <param name="orderId">Id of the order to cancel</param>
-            <param name="ct">Cancellation token</param>
-            <returns></returns>
-        </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.CancelOrdersAsync(System.String,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
-            <summary>
-            Cancel multiple orders
-            <para><a href="https://docs.kraken.com/websockets/#message-cancelOrder" /></para>
-            </summary>
-            <param name="websocketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
-            <param name="orderIds">Id of the orders to cancel</param>
-            <param name="ct">Cancellation token</param>
-            <returns></returns>
-        </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.CancelAllOrdersAsync(System.String,System.Threading.CancellationToken)">
-            <summary>
-            Cancel all open orders
-            <para><a href="https://docs.kraken.com/websockets/#message-cancelAll" /></para>
-            </summary>
-            <param name="websocketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
-            <param name="ct">Cancellation token</param>
-            <returns></returns>
-        </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.CancelAllOrdersAfterAsync(System.String,System.TimeSpan,System.Threading.CancellationToken)">
-            <summary>
-            Cancel all open orders after the timeout
-            <para><a href="https://docs.kraken.com/websockets/#message-cancelAllOrdersAfter" /></para>
-            </summary>
-            <param name="timeout"></param>
-            <param name="websocketToken">The socket token as retrieved by the <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount.GetWebsocketTokenAsync(System.Threading.CancellationToken)">restClient.SpotApi.Account.GetWebsocketTokenAsync</see> method</param>
-            <param name="ct">Cancellation token</param>
-            <returns></returns>
+            <param name="updateHandler">Data handler. Depending on the event not all fields on the update event are filled</param>
+            <param name="snapshotOrder">Whether or not a snapshot of the current open orders should be send after subscribing</param>
+            <param name="snapshotTrades">Whether or not a snapshot of the last 50 user trades should be send after subscribing</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
         <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApiShared">
             <summary>
@@ -3288,26 +3509,6 @@
             Configure the rate limit with a different tier
             </summary>
             <param name="tier"></param>
-        </member>
-        <member name="T:Kraken.Net.Objects.Internal.KrakenSocketCancelAfterRequest">
-            <summary>
-            Place order request
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Internal.KrakenSocketCancelAfterRequest.Timeout">
-            <summary>
-            Timeout
-            </summary>
-        </member>
-        <member name="T:Kraken.Net.Objects.Internal.KrakenSocketCancelOrdersRequest">
-            <summary>
-            Cancel orders request
-            </summary>
-        </member>
-        <member name="T:Kraken.Net.Objects.Internal.KrakenSocketPlaceOrderRequest">
-            <summary>
-            Place order request
-            </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Internal.KrakenSocketRequest">
             <summary>
@@ -7013,6 +7214,71 @@
             Minimum amount
             </summary>
         </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.Futures.KrakenBalanceUpdate">
+            <summary>
+            Balance update
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenBalanceUpdate.LedgerId">
+            <summary>
+            Ledger id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenBalanceUpdate.ReferenceId">
+            <summary>
+            Reference id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenBalanceUpdate.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenBalanceUpdate.BalanceUpdateType">
+            <summary>
+            Type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenBalanceUpdate.Asset">
+            <summary>
+            Asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenBalanceUpdate.AssetClass">
+            <summary>
+            Asset class
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenBalanceUpdate.Category">
+            <summary>
+            Category
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenBalanceUpdate.WalletType">
+            <summary>
+            Wallet type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenBalanceUpdate.WalletId">
+            <summary>
+            Wallet id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenBalanceUpdate.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenBalanceUpdate.Fee">
+            <summary>
+            Fee
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenBalanceUpdate.Balance">
+            <summary>
+            Balance
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesAccountLogsSnapshotUpdate">
             <summary>
             Account log snapshot update
@@ -7988,44 +8254,329 @@
             Order type
             </summary>
         </member>
-        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenStreamCancelAfterResult">
+        <member name="T:Kraken.Net.Objects.Models.Socket.Futures.KrakenInstrumentUpdate">
             <summary>
-            Cancel after result
+            Symbol and asset updates
             </summary>
         </member>
-        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenStreamCancelAfterResult.CurrentTime">
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenInstrumentUpdate.Assets">
             <summary>
-            Current time
+            Assets
             </summary>
         </member>
-        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenStreamCancelAfterResult.TriggerTime">
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenInstrumentUpdate.Symbols">
             <summary>
-            Trigger time
+            Symbols
             </summary>
         </member>
-        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenStreamCancelAllResult">
+        <member name="T:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateAsset">
             <summary>
-            Cancel all result
+            Asset info
             </summary>
         </member>
-        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenStreamCancelAllResult.Count">
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateAsset.Asset">
             <summary>
-            Number of orders canceled
+            Asset
             </summary>
         </member>
-        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenStreamPlacedOrder">
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateAsset.AssetStatus">
             <summary>
-            Placed order result
+            Status
             </summary>
         </member>
-        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenStreamPlacedOrder.Description">
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateAsset.Precision">
             <summary>
-            Order description
+            Precision
             </summary>
         </member>
-        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenStreamPlacedOrder.OrderId">
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateAsset.PrecisionDisplay">
             <summary>
-            Placed order id
+            Recommended display precision
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateAsset.Borrowable">
+            <summary>
+            Borrowable
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateAsset.CollateralValue">
+            <summary>
+            Collateral value
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateAsset.MarginRate">
+            <summary>
+            Margin rate
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateSymbol">
+            <summary>
+            Symbol info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateSymbol.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateSymbol.BaseAsset">
+            <summary>
+            Base asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateSymbol.QuoteAsset">
+            <summary>
+            Quote asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateSymbol.SymbolStatus">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateSymbol.QuantityPrecision">
+            <summary>
+            Quantity precision
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateSymbol.QuantityStep">
+            <summary>
+            Quantity increment step
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateSymbol.PricePrecision">
+            <summary>
+            Price precision
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateSymbol.CostPrecision">
+            <summary>
+            Cost precision
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateSymbol.Marginable">
+            <summary>
+            Marginable
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateSymbol.HasIndex">
+            <summary>
+            Has index
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateSymbol.MinNotionalValue">
+            <summary>
+            Minimal notional value of an order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateSymbol.MarginInitial">
+            <summary>
+            Initial margin requirement
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateSymbol.PositionLimitLong">
+            <summary>
+            Position limit long
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateSymbol.PositionLimitShort">
+            <summary>
+            Position limit short
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateSymbol.PriceStep">
+            <summary>
+            Price increment step
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenSymbolUpdateSymbol.MinOrderQuantity">
+            <summary>
+            Min order quantity
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenBalanceSnapshot">
+            <summary>
+            Snapshot data
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenBalanceSnapshot.Asset">
+            <summary>
+            Asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenBalanceSnapshot.AssetClass">
+            <summary>
+            Asset class
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenBalanceSnapshot.Balance">
+            <summary>
+            Balance
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenBalanceSnapshot.Wallets">
+            <summary>
+            Wallets
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenBalanceSnapshotWallet">
+            <summary>
+            Wallet info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenBalanceSnapshotWallet.WalletType">
+            <summary>
+            Type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenBalanceSnapshotWallet.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenBalanceSnapshotWallet.Balance">
+            <summary>
+            Balance
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenBookUpdate">
+            <summary>
+            Order book update
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenBookUpdate.Symbol">
+            <summary>
+            The symbol
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenBookUpdate.Asks">
+            <summary>
+            Asks in the book
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenBookUpdate.Bids">
+            <summary>
+            Bids in the book
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenBookUpdateEntry">
+            <summary>
+            Order book entry
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenBookUpdateEntry.Price">
+            <summary>
+            The price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenBookUpdateEntry.Quantity">
+            <summary>
+            The quantity
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenIndividualBookUpdate">
+            <summary>
+            Book update
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenIndividualBookUpdate.Symbol">
+            <summary>
+            The symbol
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenIndividualBookUpdate.Asks">
+            <summary>
+            Asks in the book
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenIndividualBookUpdate.Bids">
+            <summary>
+            Bids in the book
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenIndividualBookUpdateEntry">
+            <summary>
+            Book order entry
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenIndividualBookUpdateEntry.OrderId">
+            <summary>
+            The order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenIndividualBookUpdateEntry.Price">
+            <summary>
+            Price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenIndividualBookUpdateEntry.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenIndividualBookUpdateEntry.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenIndividualBookUpdateEntry.Event">
+            <summary>
+            Event
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate">
+            <summary>
+            Kline/candlestick info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate.OpenPrice">
+            <summary>
+            Open price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate.HighPrice">
+            <summary>
+            High price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate.LowPrice">
+            <summary>
+            Low price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate.ClosePrice">
+            <summary>
+            Close price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate.Trades">
+            <summary>
+            Number of trades
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate.Volume">
+            <summary>
+            Volume
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate.Vwap">
+            <summary>
+            Volume weighted average price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate.OpenTime">
+            <summary>
+            Open timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate.KlineInterval">
+            <summary>
+            Interval
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.Socket.KrakenStreamSystemStatus">
@@ -8038,11 +8589,6 @@
             Connection id
             </summary>
         </member>
-        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenStreamSystemStatus.Event">
-            <summary>
-            Name of the event
-            </summary>
-        </member>
         <member name="P:Kraken.Net.Objects.Models.Socket.KrakenStreamSystemStatus.Status">
             <summary>
             Status
@@ -8051,6 +8597,116 @@
         <member name="P:Kraken.Net.Objects.Models.Socket.KrakenStreamSystemStatus.Version">
             <summary>
             Version
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenStreamSystemStatus.ApiVersion">
+            <summary>
+            API Version
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate">
+            <summary>
+            Ticker info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate.BestBidPrice">
+            <summary>
+            Price of best bid
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate.BestBidQuantity">
+            <summary>
+            Quantity of the best bid
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate.BestAskPrice">
+            <summary>
+            Price of best ask
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate.BestAskQuantity">
+            <summary>
+            Quantity of the best ask
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate.LastPrice">
+            <summary>
+            Last trade price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate.Volume">
+            <summary>
+            Volume
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate.Vwap">
+            <summary>
+            Volume weighted average price of last 24 hours
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate.LowPrice">
+            <summary>
+            Low price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate.HighPrice">
+            <summary>
+            High price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate.PriceChange">
+            <summary>
+            Price change in the last 24 hours
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate.PriceChangePercentage">
+            <summary>
+            Price change percentage in last 24 hours
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenTradeUpdate">
+            <summary>
+            Trade info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTradeUpdate.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTradeUpdate.Side">
+            <summary>
+            Side
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTradeUpdate.Price">
+            <summary>
+            Price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTradeUpdate.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTradeUpdate.OrderType">
+            <summary>
+            Order type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTradeUpdate.TradeId">
+            <summary>
+            Trade id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenTradeUpdate.Timestamp">
+            <summary>
+            Timestamp
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.Socket.KrakenWebSocketToken">
@@ -8148,9 +8804,9 @@
             Kraken message event
             </summary>
         </member>
-        <member name="P:Kraken.Net.Objects.Sockets.KrakenEvent.Event">
+        <member name="P:Kraken.Net.Objects.Sockets.KrakenEvent.Channel">
             <summary>
-            The message event
+            The channel
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Sockets.KrakenFuturesEvent">
@@ -8208,19 +8864,209 @@
             The symbols
             </summary>
         </member>
-        <member name="T:Kraken.Net.Objects.Sockets.KrakenQueryEvent">
+        <member name="T:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate">
             <summary>
-            Kraken response to a query
+            Kraken order update
             </summary>
         </member>
-        <member name="P:Kraken.Net.Objects.Sockets.KrakenQueryEvent.Status">
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.OrderId">
             <summary>
-            Response status
+            Order id
             </summary>
         </member>
-        <member name="P:Kraken.Net.Objects.Sockets.KrakenQueryEvent.ErrorMessage">
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.Symbol">
             <summary>
-            Optional error message 
+            Symbol
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.ClientOrderId">
+            <summary>
+            Client order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.NotionalValue">
+            <summary>
+            Notional value
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.OrderQuantity">
+            <summary>
+            Order quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.FilledValue">
+            <summary>
+            Filled quantity value
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.IcebergQuantity">
+            <summary>
+            Display quantity for iceberg orders
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.TimeInForce">
+            <summary>
+            Time in force
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.OrderEventType">
+            <summary>
+            Order event
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.OrderSide">
+            <summary>
+            Side
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.OrderType">
+            <summary>
+            Order type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.OrderUserReference">
+            <summary>
+            Order user reference
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.LimitPrice">
+            <summary>
+            Limit price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.StopPrice">
+            <summary>
+            Stop price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.OrderStatus">
+            <summary>
+            Order status
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.FeeUsdEquiv">
+            <summary>
+            Fee paid expressed in USD
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.FeeAssetPreference">
+            <summary>
+            Fee asset preference
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.EffectiveTime">
+            <summary>
+            Scheduled start time of the order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.ExpireTime">
+            <summary>
+            Scheduled expiration time of the order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.AveragePrice">
+            <summary>
+            Average order trade price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.Fees">
+            <summary>
+            Fees paid
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.Amended">
+            <summary>
+            Whether the order has been amended
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.Liquidated">
+            <summary>
+            Indicates if the order has been liquidated by the engine
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.Margin">
+            <summary>
+            Indicates if the order can be funded on margin
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.MarginBorrow">
+            <summary>
+            Indicates if an execution is on margin, i.e. if the trade increased or reduced size of margin borrowing. On trade events only
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.NoMarketPriceProtection">
+            <summary>
+            Indicates if the order has market price protection
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.PostOnly">
+            <summary>
+            Post only flag
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.ReduceOnly">
+            <summary>
+            Reduce only flag
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.PositionStatus">
+            <summary>
+            Indicates status of the position on a margin order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.Reason">
+            <summary>
+            The reason associated with an event, if applicable
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.ExecutionId">
+            <summary>
+            Id of the execution this update is for
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.LastTradeId">
+            <summary>
+            Id of the trade this update is for
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.LastTradeQuantity">
+            <summary>
+            Quantity of the trade this update is for
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.LastTradePrice">
+            <summary>
+            Price of the trade this update is for
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.LastTradeValue">
+            <summary>
+            Value of the trade this update is for
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.LastTradeRole">
+            <summary>
+            Trade role of the trade this update is for, maker or taker
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdateFee">
+            <summary>
+            Fee info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdateFee.Asset">
+            <summary>
+            Fee asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdateFee.Quantity">
+            <summary>
+            Quantity
             </summary>
         </member>
         <member name="T:Kraken.Net.SymbolOrderBooks.KrakenFuturesSymbolOrderBook">

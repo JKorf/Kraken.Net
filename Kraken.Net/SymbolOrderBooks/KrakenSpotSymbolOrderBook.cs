@@ -66,20 +66,21 @@ namespace Kraken.Net.SymbolOrderBooks
         /// <inheritdoc />
         protected override async Task<CallResult<UpdateSubscription>> DoStartAsync(CancellationToken ct)
         {
-            var result = await _socketClient.SpotApi.SubscribeToOrderBookUpdatesAsync(Symbol, Levels!.Value, ProcessUpdate).ConfigureAwait(false);
-            if (!result)
-                return result;
+            return new CallResult<UpdateSubscription>(new ServerError(""));
+            //var result = await _socketClient.SpotApi.SubscribeToOrderBookUpdatesAsync(Symbol, Levels!.Value, ProcessUpdate).ConfigureAwait(false);
+            //if (!result)
+            //    return result;
 
-            if (ct.IsCancellationRequested)
-            {
-                await result.Data.CloseAsync().ConfigureAwait(false);
-                return result.AsError<UpdateSubscription>(new CancellationRequestedError());
-            }
+            //if (ct.IsCancellationRequested)
+            //{
+            //    await result.Data.CloseAsync().ConfigureAwait(false);
+            //    return result.AsError<UpdateSubscription>(new CancellationRequestedError());
+            //}
 
-            Status = OrderBookStatus.Syncing;
+            //Status = OrderBookStatus.Syncing;
 
-            var setResult = await WaitForSetOrderBookAsync(_initialDataTimeout, ct).ConfigureAwait(false);
-            return setResult ? result : new CallResult<UpdateSubscription>(setResult.Error!);
+            //var setResult = await WaitForSetOrderBookAsync(_initialDataTimeout, ct).ConfigureAwait(false);
+            //return setResult ? result : new CallResult<UpdateSubscription>(setResult.Error!);
         }
 
         /// <inheritdoc />

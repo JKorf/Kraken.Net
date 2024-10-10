@@ -15,6 +15,8 @@ namespace Kraken.Net.Clients.SpotApi
             _baseClient = baseClient;
         }
 
+        #region Get Strategies
+
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenCursorPage<KrakenEarnStrategy>>> GetStrategiesAsync(string? asset = null, LockType? lockType = null, string? cursor = null, int? limit = null, bool? asc = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
@@ -30,6 +32,10 @@ namespace Kraken.Net.Clients.SpotApi
             return await _baseClient.SendAsync<KrakenCursorPage<KrakenEarnStrategy>>(request, parameters, ct).ConfigureAwait(false);
         }
 
+        #endregion
+
+        #region Get Allocations
+
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenAllocationsCursorPage>> GetAllocationsAsync(string? convertAsset = null, bool? hideZeroAllocations = null, bool? asc = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
@@ -42,6 +48,10 @@ namespace Kraken.Net.Clients.SpotApi
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/Earn/Allocations", KrakenExchange.RateLimiter.SpotRest, 1, true);
             return await _baseClient.SendAsync<KrakenAllocationsCursorPage>(request, parameters, ct).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Get Allocation Status
 
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenEarnStatus>> GetAllocationStatusAsync(string strategyId, string? twoFactorPassword = null, CancellationToken ct = default)
@@ -56,6 +66,10 @@ namespace Kraken.Net.Clients.SpotApi
             return await _baseClient.SendAsync<KrakenEarnStatus>(request, parameters, ct).ConfigureAwait(false);
         }
 
+        #endregion
+
+        #region Get Deallocation Status
+
         /// <inheritdoc />
         public async Task<WebCallResult<KrakenEarnStatus>> GetDeallocationStatusAsync(string strategyId, string? twoFactorPassword = null, CancellationToken ct = default)
         {
@@ -68,6 +82,10 @@ namespace Kraken.Net.Clients.SpotApi
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/Earn/DeallocateStatus", KrakenExchange.RateLimiter.SpotRest, 1, true);
             return await _baseClient.SendAsync<KrakenEarnStatus>(request, parameters, ct).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Allocate Earn Funds
 
         /// <inheritdoc />
         public async Task<WebCallResult> AllocateEarnFundsAsync(string strategyId, decimal quantity, string? twoFactorPassword = null, CancellationToken ct = default)
@@ -83,6 +101,10 @@ namespace Kraken.Net.Clients.SpotApi
             return await _baseClient.SendAsync(request, parameters, ct).ConfigureAwait(false);
         }
 
+        #endregion
+
+        #region Deallocate Earn Funds
+
         /// <inheritdoc />
         public async Task<WebCallResult> DeallocateEarnFundsAsync(string strategyId, decimal quantity, string? twoFactorPassword = null, CancellationToken ct = default)
         {
@@ -96,5 +118,7 @@ namespace Kraken.Net.Clients.SpotApi
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/Earn/Deallocate", KrakenExchange.RateLimiter.SpotRest, 1, true);
             return await _baseClient.SendAsync(request, parameters, ct).ConfigureAwait(false);
         }
+
+        #endregion
     }
 }

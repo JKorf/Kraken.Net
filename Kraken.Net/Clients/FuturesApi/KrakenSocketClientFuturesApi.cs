@@ -82,12 +82,18 @@ namespace Kraken.Net.Clients.FuturesApi
         /// <inheritdoc />
         protected override Query? GetAuthenticationRequest(SocketConnection connection) => new KrakenFuturesAuthQuery(((KrakenFuturesAuthenticationProvider)AuthenticationProvider!).GetApiKey());
 
+        #region Heartbeat
+
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToHeartbeatUpdatesAsync(Action<DataEvent<KrakenFuturesHeartbeatUpdate>> handler, CancellationToken ct = default)
         {
             var subscription = new KrakenFuturesSubscription<KrakenFuturesHeartbeatUpdate>(_logger, "heartbeat", null, handler);
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Ticker
 
         /// <inheritdoc />
         public Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesTickerUpdate>> handler, CancellationToken ct = default)
@@ -99,6 +105,10 @@ namespace Kraken.Net.Clients.FuturesApi
             var subscription = new KrakenFuturesSubscription<KrakenFuturesTickerUpdate>(_logger, "ticker", symbols.ToList(), handler);
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Trade
 
         /// <inheritdoc />
         public Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<IEnumerable<KrakenFuturesTradeUpdate>>> handler, CancellationToken ct = default)
@@ -114,6 +124,10 @@ namespace Kraken.Net.Clients.FuturesApi
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
+        #endregion
+
+        #region Mini Ticker
+
         /// <inheritdoc />
         public Task<CallResult<UpdateSubscription>> SubscribeToMiniTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesMiniTickerUpdate>> handler, CancellationToken ct = default)
             => SubscribeToMiniTickerUpdatesAsync(new List<string> { symbol }, handler, ct);
@@ -124,6 +138,10 @@ namespace Kraken.Net.Clients.FuturesApi
             var subscription = new KrakenFuturesSubscription<KrakenFuturesMiniTickerUpdate>(_logger, "ticker_lite", symbols.ToList(), handler);
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Order Book
 
         /// <inheritdoc />
         public Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(
@@ -144,6 +162,10 @@ namespace Kraken.Net.Clients.FuturesApi
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
+        #endregion
+
+        #region Open Orders
+
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToOpenOrdersUpdatesAsync(
             bool verbose,
@@ -155,6 +177,10 @@ namespace Kraken.Net.Clients.FuturesApi
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
+        #endregion
+
+        #region Account Log
+
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToAccountLogUpdatesAsync(
             Action<DataEvent<KrakenFuturesAccountLogsSnapshotUpdate>> snapshotHandler,
@@ -165,6 +191,10 @@ namespace Kraken.Net.Clients.FuturesApi
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
+        #endregion
+
+        #region Open Position
+
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToOpenPositionUpdatesAsync(
             Action<DataEvent<KrakenFuturesOpenPositionUpdate>> handler,
@@ -173,6 +203,10 @@ namespace Kraken.Net.Clients.FuturesApi
             var subscription = new KrakenFuturesOpenPositionsSubscription(_logger, handler);
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Balances
 
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsync(
@@ -183,6 +217,10 @@ namespace Kraken.Net.Clients.FuturesApi
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
+        #endregion
+
+        #region User Trade
+
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(
             Action<DataEvent<KrakenFuturesUserTradesUpdate>> handler,
@@ -192,6 +230,10 @@ namespace Kraken.Net.Clients.FuturesApi
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
+        #endregion
+
+        #region Notification
+
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToNotificationUpdatesAsync(
             Action<DataEvent<KrakenFuturesNotificationUpdate>> handler,
@@ -200,5 +242,7 @@ namespace Kraken.Net.Clients.FuturesApi
             var subscription = new KrakenFuturesNotificationSubscription(_logger, handler);
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
+
+        #endregion
     }
 }

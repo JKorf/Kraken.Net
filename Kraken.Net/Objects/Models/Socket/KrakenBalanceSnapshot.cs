@@ -1,0 +1,58 @@
+﻿using Kraken.Net.Enums;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Kraken.Net.Objects.Models.Socket
+{
+    /// <summary>
+    /// Snapshot data
+    /// </summary>
+    public record KrakenBalanceSnapshot
+    {
+        /// <summary>
+        /// Asset
+        /// </summary>
+        [JsonPropertyName("asset")]
+        public string Asset { get; set; } = string.Empty;
+        /// <summary>
+        /// Asset class
+        /// </summary>
+        [JsonPropertyName("asset_class")]
+        public string AssetClass { get; set; } = string.Empty;
+        /// <summary>
+        /// Balance
+        /// </summary>
+        [JsonPropertyName("balance")]
+        public decimal Balance { get; set; }
+        /// <summary>
+        /// Wallets
+        /// </summary>
+        [JsonPropertyName("wallets")]
+        public IEnumerable<KrakenBalanceSnapshotWallet> Wallets { get; set; } = Array.Empty<KrakenBalanceSnapshotWallet>();
+    }
+
+    /// <summary>
+    /// Wallet info
+    /// </summary>
+    public record KrakenBalanceSnapshotWallet
+    {
+        /// <summary>
+        /// Type
+        /// </summary>
+        [JsonPropertyName("type")]
+        public WalletType WalletType { get; set; }
+        /// <summary>
+        /// Id
+        /// </summary>
+        [JsonPropertyName("id")]
+        public string Id { get; set; } = string.Empty;
+        /// <summary>
+        /// Balance
+        /// </summary>
+        [JsonPropertyName("balance")]
+        public decimal Balance { get; set; }
+    }
+
+
+}

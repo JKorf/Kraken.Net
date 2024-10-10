@@ -10,12 +10,12 @@ namespace Kraken.Net.Enums
         /// <summary>
         /// Maker
         /// </summary>
-        [Map("maker")]
+        [Map("maker", "m")]
         Maker,
         /// <summary>
         /// Taker
         /// </summary>
-        [Map("taker")]
+        [Map("taker", "t")]
         Taker,
         /// <summary>
         /// Liquidation

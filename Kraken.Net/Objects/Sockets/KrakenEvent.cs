@@ -6,9 +6,9 @@
     public record KrakenEvent
     {
         /// <summary>
-        /// The message event
+        /// The channel
         /// </summary>
-        [JsonPropertyName("event")]
-        public string Event { get; set; } = null!;
+        [JsonPropertyName("channel")]
+        public string Channel { get; set; } = null!;
     }
 }
