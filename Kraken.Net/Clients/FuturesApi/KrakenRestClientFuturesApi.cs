@@ -3,7 +3,6 @@ using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
-using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models.Futures;
 using Kraken.Net.Objects.Options;
 

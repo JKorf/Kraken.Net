@@ -1,8 +1,4 @@
-﻿using Kraken.Net.Enums;
-using Kraken.Net.Objects.Models.Socket;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Kraken.Net.Objects.Models.Socket;
 
 namespace Kraken.Net.Objects.Internal
 {

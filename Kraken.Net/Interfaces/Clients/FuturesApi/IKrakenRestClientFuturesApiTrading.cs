@@ -1,10 +1,5 @@
-﻿using CryptoExchange.Net.Objects;
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models.Futures;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Kraken.Net.Interfaces.Clients.FuturesApi
 {

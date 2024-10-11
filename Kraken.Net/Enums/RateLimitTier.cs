@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kraken.Net.Enums
+﻿namespace Kraken.Net.Enums
 {
     /// <summary>
     /// Tier to use for ratelimiting

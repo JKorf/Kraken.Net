@@ -3,7 +3,6 @@ using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models.Socket;
-using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Sockets.Queries;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot

@@ -1,12 +1,7 @@
-﻿using CryptoExchange.Net.Objects;
-using CryptoExchange.Net.Objects.Sockets;
+﻿using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models.Socket;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {

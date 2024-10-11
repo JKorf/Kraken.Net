@@ -1,9 +1,4 @@
-﻿using CryptoExchange.Net.Objects;
-using Kraken.Net.Enums;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models;
 using Kraken.Net.Objects.Models.Socket;
 

@@ -1,5 +1,4 @@
 ﻿using Kraken.Net.Enums;
-using System;
 
 namespace Kraken.Net.Interfaces
 {

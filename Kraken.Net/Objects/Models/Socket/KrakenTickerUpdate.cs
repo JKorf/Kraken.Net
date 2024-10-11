@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kraken.Net.Objects.Models.Socket
+﻿namespace Kraken.Net.Objects.Models.Socket
 {
     /// <summary>
     /// Ticker info

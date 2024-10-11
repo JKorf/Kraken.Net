@@ -1,11 +1,5 @@
-﻿using CryptoExchange.Net.Authentication;
-using CryptoExchange.Net.Clients;
-using CryptoExchange.Net.Interfaces;
-using CryptoExchange.Net.Objects;
+﻿using CryptoExchange.Net.Clients;
 using Kraken.Net.Objects;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 

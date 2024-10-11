@@ -1,14 +1,10 @@
-﻿using System;
-using System.Net.Http;
-using CryptoExchange.Net.Authentication;
-using CryptoExchange.Net.Clients;
+﻿using CryptoExchange.Net.Clients;
 using Kraken.Net.Clients.FuturesApi;
 using Kraken.Net.Clients.SpotApi;
 using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects.Options;
-using Microsoft.Extensions.Logging;
 
 namespace Kraken.Net.Clients
 {

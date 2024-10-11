@@ -1,6 +1,4 @@
-﻿using Kraken.Net.Objects.Sockets;
-
-namespace Kraken.Net.Objects.Models.Socket
+﻿namespace Kraken.Net.Objects.Models.Socket
 {
     /// <summary>
     /// Amend order result

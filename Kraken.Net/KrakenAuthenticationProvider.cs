@@ -2,7 +2,6 @@
 using System.Text;
 using CryptoExchange.Net.Clients;
 using Kraken.Net.Objects;
-using Newtonsoft.Json;
 
 namespace Kraken.Net
 {

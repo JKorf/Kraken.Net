@@ -5,10 +5,6 @@ using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models.Socket;
 using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Sockets.Queries;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {

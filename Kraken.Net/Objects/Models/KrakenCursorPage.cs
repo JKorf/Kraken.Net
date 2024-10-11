@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Data page with a cusor for pagination

@@ -1,6 +1,4 @@
-﻿using CryptoExchange.Net.Interfaces;
-using Kraken.Net.Objects.Options;
-using System;
+﻿using Kraken.Net.Objects.Options;
 
 namespace Kraken.Net.Interfaces
 {

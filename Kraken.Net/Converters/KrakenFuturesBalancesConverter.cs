@@ -1,5 +1,4 @@
 ﻿using Kraken.Net.Objects.Models.Futures;
-using System;
 
 namespace Kraken.Net.Converters
 {

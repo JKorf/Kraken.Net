@@ -58,7 +58,7 @@ var lastPrice = tickerResult.Data.First().Value.LastTrade.Price;
 var socketClient = new KrakenSocketClient();
 var tickerSubscriptionResult = socketClient.SpotApi.SubscribeToTickerUpdatesAsync("ETH/USD", (update) =>
 {
-	var lastPrice = update.Data.LastTrade.Price;
+	var lastPrice = update.Data.LastPrice;
 });
 ```
 
@@ -92,42 +92,58 @@ A Discord server is available [here](https://discord.gg/MSpeEtSY8t). Feel free t
 
 ## Supported functionality
 
-### Spot Api
+### Spot REST
 |API|Supported|Location|
 |--|--:|--|
-|Spot Market Data|✓|`restClient.SpotApi.ExchangeData`|
-|Nft Market Data|X||
+|Market Data|✓|`restClient.SpotApi.ExchangeData`|
 |Account Data|✓|`restClient.SpotApi.Account` / `restClient.SpotApi.Trading`|
-|Spot Trading|✓|`restClient.SpotApi.Trading`|
-|NFT Trading|X||
+|Trading|✓|`restClient.SpotApi.Trading`|
 |Funding|✓|`restClient.SpotApi.Account`|
 |Subaccounts|X||
 |Earn|✓|`restClient.SpotApi.Earn`|
-|Websocket Public Messages|✓|`socketClient.SpotApi`|
-|Websocket Private Messages|✓|`socketClient.SpotApi`|
+|NFT Market Data|X||
+|NFT Trading|X||
 
-### Futures Api
+### Spot Api Websocket V2
 |API|Supported|Location|
 |--|--:|--|
-|Account Information|✓|`restClient.FuturesApi.Account`|
+|User Trading|✓|`socketClient.SpotApi`|
+|User Data|✓|`socketClient.SpotApi`|
+|Market Data|✓|`socketClient.SpotApi`|
+|Admin|✓|`socketClient.SpotApi`|
+
+### Spot FIX
+|API|Supported|Location|
+|--|--:|--|
+|*|X||
+
+### Futures REST
+|API|Supported|Location|
+|--|--:|--|
+|Trading Market Data|✓|`restClient.FuturesApi.ExchangeData`|
+|Trading Instrument Details|✓|`restClient.FuturesApi.ExchangeData`|
+|Trading Fee Schedules|✓|`restClient.FuturesApi.ExchangeData`|
+|Trading Account Info|✓|`restClient.FuturesApi.Account` / `restClient.FuturesApi.Trading`|
+|Trading Order Management|✓|`restClient.FuturesApi.Trading`|
+|Subaccounts|X||
+|Transfers|✓|`restClient.FuturesApi.Account`|
 |Assignment Program|X||
-|Fee Schedules|✓|`restClient.FuturesApi.ExchangeData`|
+|Multi-Collateral|✓|`restClient.FuturesApi.Account` / `restClient.FuturesApi.Trading`|
 |General|✓|`restClient.FuturesApi.ExchangeData`|
 |Historical data|✓|`restClient.FuturesApi.Trading`|
 |Historical Funding Rates|✓|`restClient.FuturesApi.ExchangeData`|
-|Instrument Details|✓|`restClient.FuturesApi.ExchangeData`|
-|Market Data|✓|`restClient.FuturesApi.ExchangeData`|
-|Multi-Collateral|✓|`restClient.FuturesApi.Account` / `restClient.FuturesApi.Trading`|
-|Order Management|✓|`restClient.FuturesApi.Trading`|
-|Subaccounts|X||
-|Trading settings|X||
-|Transfers|✓|`restClient.FuturesApi.Account`|
-|Account History|✓|`restClient.FuturesApi.Account` / `restClient.FuturesApi.Trading`|
-|Market History|✓|`restClient.FuturesApi.ExchangeData`|
-|Analytics|X||
-|Candles|✓|`restClient.FuturesApi.ExchangeData`|
-|Websocket Public Feeds|✓|`socketClient.FuturesApi`|
-|Websocket Private Feeds|✓|`socketClient.FuturesApi`|
+|History Account History|✓|`restClient.FuturesApi.Account` / `restClient.FuturesApi.Trading`|
+|History Market History|✓|`restClient.FuturesApi.ExchangeData`|
+|Charts Candles|✓|`restClient.FuturesApi.ExchangeData`|
+|Charts Analytics|X||
+
+### Futures Websocket
+|API|Supported|Location|
+|--|--:|--|
+|Trading Market Data|✓|`restClient.FuturesApi.ExchangeData`|
+|User Data|✓|`socketClient.FuturesApi`|
+|Market Data|✓|`socketClient.FuturesApi`|
+|Admin|✓|`socketClient.FuturesApi`|
 
 ## Support the project
 Any support is greatly appreciated.

@@ -1,8 +1,5 @@
-﻿using CryptoExchange.Net.Objects;
-using CryptoExchange.Net.Objects.Sockets;
+﻿using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Kraken.Net.Objects.Sockets.Queries
 {

@@ -1,10 +1,5 @@
-﻿using CryptoExchange.Net.Objects;
-using Kraken.Net.Converters;
+﻿using Kraken.Net.Converters;
 using Kraken.Net.Enums;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Kraken.Net.Objects.Models;
 
 namespace Kraken.Net.Interfaces.Clients.SpotApi

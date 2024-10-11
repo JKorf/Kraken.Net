@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kraken.Net.Objects.Internal
+﻿namespace Kraken.Net.Objects.Internal
 {
     internal class KrakenSocketSubRequest
     {

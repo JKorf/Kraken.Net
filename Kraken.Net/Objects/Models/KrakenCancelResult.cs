@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Result of a cancel request

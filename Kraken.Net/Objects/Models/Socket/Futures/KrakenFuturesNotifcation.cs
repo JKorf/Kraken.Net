@@ -1,6 +1,4 @@
 ﻿using Kraken.Net.Objects.Models.Futures;
-using System;
-using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {

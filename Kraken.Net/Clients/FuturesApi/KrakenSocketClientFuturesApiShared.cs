@@ -2,9 +2,6 @@
 using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kraken.Net.Clients.FuturesApi
 {

@@ -1,10 +1,4 @@
-﻿using Kraken.Net.Enums;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-
-namespace Kraken.Net.Objects.Models.Socket
+﻿namespace Kraken.Net.Objects.Models.Socket
 {
     /// <summary>
     /// Order book update

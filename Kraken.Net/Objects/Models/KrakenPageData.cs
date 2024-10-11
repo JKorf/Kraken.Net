@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Base page data

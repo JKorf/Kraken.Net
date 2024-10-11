@@ -1,15 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using CryptoExchange.Net.Interfaces;
-using CryptoExchange.Net.Objects;
-using CryptoExchange.Net.Objects.Sockets;
+﻿using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.OrderBook;
 using Kraken.Net.Clients;
 using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Options;
-using Microsoft.Extensions.Logging;
 
 namespace Kraken.Net.SymbolOrderBooks
 {

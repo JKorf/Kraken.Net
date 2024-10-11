@@ -1,11 +1,5 @@
-﻿using CryptoExchange.Net.Interfaces;
-using CryptoExchange.Net.Objects;
-using CryptoExchange.Net.Objects.Sockets;
+﻿using CryptoExchange.Net.Objects.Sockets;
 using Kraken.Net.Objects.Models.Socket.Futures;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Kraken.Net.Interfaces.Clients.FuturesApi
 {
