@@ -6,8 +6,13 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
     /// Shared interface for Futures socket API usage
     /// </summary>
     public interface IKrakenSocketClientFuturesApiShared
-        : ISharedClient
-        //Can be implemented with V2 websockets
+        : ITickerSocketClient,
+        ITradeSocketClient,
+        IBookTickerSocketClient,
+        IBalanceSocketClient,
+        IFuturesOrderSocketClient,
+        IUserTradeSocketClient,
+        IPositionSocketClient
     {
     }
 }

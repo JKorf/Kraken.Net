@@ -2,6 +2,7 @@
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Objects.Internal;
+using Kraken.Net.Objects.Models.Socket;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -20,6 +21,12 @@ namespace Kraken.Net.Objects.Sockets.Queries
         {
             if (message.Data.Success)
                 return message.ToCallResult();
+            else if (message.Data is KrakenSocketResponseV2<IEnumerable<KrakenOrderResult>> response // We'll want to return the actual response data, so return as no error and handle it in the method itself
+                || message.Data.Error == "Already subscribed") // Duplicate subscription shouldn't be treated as an error
+            {
+                
+                return message.ToCallResult();
+            }
             else
                 return new CallResult<KrakenSocketResponseV2<TResponse>>(new ServerError(message.Data.Error!));
         }

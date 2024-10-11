@@ -2,12 +2,16 @@
 using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
+using CryptoExchange.Net.Sockets;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
+using Kraken.Net.Objects.Internal;
+using Kraken.Net.Objects.Models;
 using Kraken.Net.Objects.Models.Socket;
 using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Options;
+using Kraken.Net.Objects.Sockets.Queries;
 using Kraken.Net.Objects.Sockets.Subscriptions.Spot;
 using System.Collections.Concurrent;
 
@@ -89,6 +93,8 @@ namespace Kraken.Net.Clients.SpotApi
         protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
             => new KrakenAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new KrakenNonceProvider());
 
+        #region Streams
+
         #region System Status
 
         /// <inheritdoc />
@@ -105,7 +111,7 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenTickerUpdate>> handler, CancellationToken ct = default)
         {
-            var subscription = new KrakenSubscription<IEnumerable<KrakenTickerUpdate>>(_logger, "ticker", [symbol], null, null, null,
+            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenTickerUpdate>>(_logger, "ticker", [symbol], null, null, null,
                 x => handler(x.As(x.Data.First()).WithSymbol(x.Data.First().Symbol))
                 );
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
@@ -114,7 +120,7 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenTickerUpdate>> handler, CancellationToken ct = default)
         {
-            var subscription = new KrakenSubscription<IEnumerable<KrakenTickerUpdate>>(_logger, "ticker", symbols, null, null, null,
+            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenTickerUpdate>>(_logger, "ticker", symbols, null, null, null,
                 x => handler(x.As(x.Data.First()).WithSymbol(x.Data.First().Symbol))
                 );
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
@@ -131,7 +137,7 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(IEnumerable<string> symbols, KlineInterval interval, Action<DataEvent<IEnumerable<KrakenKlineUpdate>>> handler, CancellationToken ct = default)
         {
-            var subscription = new KrakenSubscription<IEnumerable<KrakenKlineUpdate>>(_logger, "ohlc", symbols.ToArray(), int.Parse(EnumConverter.GetString(interval)), null, null,
+            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenKlineUpdate>>(_logger, "ohlc", symbols.ToArray(), int.Parse(EnumConverter.GetString(interval)), null, null,
                 x => handler(x.WithSymbol(x.Data.First().Symbol))
                 );
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
@@ -148,7 +154,7 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<IEnumerable<KrakenTradeUpdate>>> handler, bool? snapshot = null, CancellationToken ct = default)
         {
-            var subscription = new KrakenSubscription<IEnumerable<KrakenTradeUpdate>>(_logger, "trade", symbols.ToArray(), null, snapshot, null,
+            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenTradeUpdate>>(_logger, "trade", symbols.ToArray(), null, snapshot, null,
                 x => handler(x.WithSymbol(x.Data.First().Symbol))
                 );
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
@@ -167,7 +173,7 @@ namespace Kraken.Net.Clients.SpotApi
         {
             depth.ValidateIntValues(nameof(depth), 10, 25, 100, 500, 1000);
 
-            var subscription = new KrakenSubscription<IEnumerable<KrakenBookUpdate>>(_logger, "book", symbols.ToArray(), null, snapshot, null,
+            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenBookUpdate>>(_logger, "book", symbols.ToArray(), null, snapshot, null,
                 x => handler(x.As(x.Data.First()).WithSymbol(x.Data.First().Symbol))
                 );
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
@@ -190,7 +196,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!token)
                 return new CallResult<UpdateSubscription>(token.Error!);
 
-            var subscription = new KrakenSubscription<IEnumerable<KrakenIndividualBookUpdate>>(_logger, "level3", symbols.ToArray(), null, snapshot, token.Data,
+            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenIndividualBookUpdate>>(_logger, "level3", symbols.ToArray(), null, snapshot, token.Data,
                 x => handler(x.As(x.Data.First()).WithSymbol(x.Data.First().Symbol))
                 );
             return await SubscribeAsync(_privateBaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
@@ -203,7 +209,7 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToInstrumentUpdatesAsync(Action<DataEvent<KrakenInstrumentUpdate>> handler, bool? snapshot = null, CancellationToken ct = default)
         {
-            var subscription = new KrakenSubscription<KrakenInstrumentUpdate>(_logger, "instrument", null, null, snapshot, null, handler);
+            var subscription = new KrakenSubscriptionV2<KrakenInstrumentUpdate>(_logger, "instrument", null, null, snapshot, null, handler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -243,194 +249,378 @@ namespace Kraken.Net.Clients.SpotApi
 
         #endregion
 
-        //      #region Order Updates
+        #endregion
 
-        //      /// <inheritdoc />
-        //      public async Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(string socketToken, Action<DataEvent<IEnumerable<KrakenStreamOrder>>> handler, CancellationToken ct = default)
-        //      {
-        //          var innerHandler = new Action<DataEvent<KrakenAuthSocketUpdate<IEnumerable<Dictionary<string, KrakenStreamOrder>>>>>(data =>
-        //          {
-        //              foreach (var item in data.Data.Data)
-        //              {
-        //                  foreach (var value in item)
-        //                  {
-        //                      value.Value.Id = value.Key;
-        //                      value.Value.SequenceNumber = data.Data.Sequence.Sequence;
-        //                  }
-        //              }
+        #region Queries
 
-        //              handler.Invoke(data.As<IEnumerable<KrakenStreamOrder>>(data.Data.Data.SelectMany(d => d.Values).ToList()));
-        //          });
+        #region Place Order
 
-        //          var subscription = new KrakenAuthSubscription<IEnumerable<Dictionary<string, KrakenStreamOrder>>>(_logger, "openOrders", socketToken, innerHandler);
-        //          return await SubscribeAsync(_privateBaseAddress, subscription, ct).ConfigureAwait(false);
-        //      }
+        /// <inheritdoc />
+        public async Task<CallResult<KrakenOrderResult>> PlaceOrderAsync(
+            string symbol,
+            OrderSide side,
+            OrderType type,
+            decimal quantity,
+            string? clientOrderId = null,
+            uint? userReference = null,
+            decimal? limitPrice = null,
+            PriceType? limitPriceType = null,
+            TimeInForce? timeInForce = null,
+            bool? reduceOnly = null,
+            bool? margin = null,
+            bool? postOnly = null,
+            DateTime? startTime = null,
+            DateTime? expireTime = null,
+            DateTime? deadline = null,
+            decimal? icebergQuantity = null,
+            FeePreference? feePreference = null,
+            bool? noMarketPriceProtection = null,
+            SelfTradePreventionType? selfTradePreventionType = null,
+            decimal? quoteQuantity = null,
+            bool? validateOnly = null,
 
-        //      #endregion
+            Trigger? triggerPriceReference = null,
+            decimal? triggerPrice = null,
+            PriceType? triggerPriceType = null,
 
-        //      #region User Trade
+            OrderType? conditionalOrderType = null,
+            decimal? conditionalLimitPrice = null,
+            PriceType? conditionalLimitPriceType = null,
+            decimal? conditionalTriggerPrice = null,
+            PriceType? conditionalTriggerPriceType = null,
 
-        //      /// <inheritdoc />
-        //      public Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(string socketToken, Action<DataEvent<IEnumerable<KrakenStreamUserTrade>>> handler, CancellationToken ct = default)
-        //          => SubscribeToUserTradeUpdatesAsync(socketToken, true, handler, ct);
+            CancellationToken ct = default)
+        {
 
-        //      /// <inheritdoc />
-        //      public async Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(string socketToken, bool snapshot, Action<DataEvent<IEnumerable<KrakenStreamUserTrade>>> handler, CancellationToken ct = default)
-        //      {
-        //          var innerHandler = new Action<DataEvent<KrakenAuthSocketUpdate<IEnumerable<Dictionary<string, KrakenStreamUserTrade>>>>>(data =>
-        //          {
-        //              foreach (var item in data.Data.Data)
-        //              {
-        //                  foreach (var value in item)
-        //                  {
-        //                      value.Value.Id = value.Key;
-        //                      value.Value.SequenceNumber = data.Data.Sequence.Sequence;
-        //                  }
-        //              }
-        //              handler.Invoke(data.As(data.Data.Data.SelectMany(d => d.Values)));
-        //          });
+            var token = await GetTokenAsync().ConfigureAwait(false);
+            if (!token)
+                return new CallResult<KrakenOrderResult>(token.Error!);
 
-        //          var subscription = new KrakenAuthSubscription<IEnumerable<Dictionary<string, KrakenStreamUserTrade>>>(_logger, "ownTrades", socketToken, innerHandler);
-        //          return await SubscribeAsync(_privateBaseAddress, subscription, ct).ConfigureAwait(false);
-        //      }
+            var request = new KrakenSocketPlaceOrderRequestV2
+            {
+                Token = token.Data,
+                Symbol = symbol,
+                Side = side,
+                OrderType = type,
+                Quantity = quantity,
+                ClientOrderId = clientOrderId,
+                UserReference = userReference,
+                Price = limitPrice,
+                LimitPriceType = limitPriceType,
+                TimeInForce = timeInForce,
+                ReduceOnly = reduceOnly,
+                Margin = margin,
+                PostOnly = postOnly,
+                EffectiveTime = startTime?.ToRfc3339String(),
+                ExpireTime = expireTime?.ToRfc3339String(),
+                Deadline = deadline?.ToRfc3339String(),
+                IcebergQuantity  = icebergQuantity,
+                FeePreference = feePreference,
+                NoMarketPriceProtection = noMarketPriceProtection,
+                SelfTradePreventionType = selfTradePreventionType,
+                QuoteQuantity = quoteQuantity,
+                ValidateOnly = validateOnly,
+            };
 
-        //      #endregion
+            if (triggerPrice != null)
+            {
+                request.Trigger = new KrakenSocketPlaceOrderRequestV2Trigger
+                {
+                    LimitPriceType = triggerPriceType,
+                    Price = triggerPrice,
+                    Reference = triggerPriceReference
+                };
+            }
 
-        //      #region Place Order
+            if (conditionalOrderType != null) 
+            {
+                request.Conditional = new KrakenSocketPlaceOrderRequestV2Condition
+                {
+                    LimitPriceType = conditionalLimitPriceType,
+                    OrderType = conditionalOrderType.Value,
+                    Price = conditionalLimitPrice,
+                    TriggerPrice = conditionalTriggerPrice,
+                    TriggerPriceType = conditionalTriggerPriceType
+                };
+            }
 
-        //      /// <inheritdoc />
-        //      public async Task<CallResult<KrakenStreamPlacedOrder>> PlaceOrderAsync(
-        //          string websocketToken,
-        //          string symbol,
-        //          OrderType type,
-        //          OrderSide side,
-        //          decimal quantity,
-        //          uint? clientOrderId = null,
-        //          decimal? price = null,
-        //          decimal? secondaryPrice = null,
-        //          decimal? leverage = null,
-        //          DateTime? startTime = null,
-        //          DateTime? expireTime = null,
-        //          bool? validateOnly = null,
-        //          OrderType? closeOrderType = null,
-        //          decimal? closePrice = null,
-        //          decimal? secondaryClosePrice = null,
-        //          IEnumerable<OrderFlags>? flags = null,            
-        //          bool? reduceOnly = null,
-        //          bool? margin = null,
-        //          CancellationToken ct = default)
-        //      {
-        //          var request = new KrakenSocketPlaceOrderRequest
-        //          {
-        //              Event = "addOrder",
-        //              Token = websocketToken,
-        //              Symbol = symbol,
-        //              Type = side,
-        //              OrderType = type,
-        //              Volume = quantity.ToString(CultureInfo.InvariantCulture),
-        //              ClientOrderId = clientOrderId,
-        //              Price = price?.ToString(CultureInfo.InvariantCulture),
-        //              SecondaryPrice = secondaryPrice?.ToString(CultureInfo.InvariantCulture),
-        //              Leverage = leverage?.ToString(CultureInfo.InvariantCulture),
-        //              StartTime = (startTime.HasValue && startTime > DateTime.UtcNow) ? DateTimeConverter.ConvertToSeconds(startTime).ToString() : null,
-        //              ExpireTime = expireTime.HasValue ? DateTimeConverter.ConvertToSeconds(expireTime).ToString() : null,
-        //              ValidateOnly = validateOnly,
-        //              CloseOrderType = closeOrderType,
-        //              ClosePrice = closePrice?.ToString(CultureInfo.InvariantCulture),
-        //              SecondaryClosePrice = secondaryClosePrice?.ToString(CultureInfo.InvariantCulture),
-        //              ReduceOnly = reduceOnly,
-        //              RequestId = ExchangeHelpers.NextId(),
-        //              Margin = margin,
-        //              Flags = flags == null ? null : string.Join(",", flags.Select(EnumConverter.GetString))
-        //          };
+            var requestMessage = new KrakenSocketRequestV2<KrakenSocketPlaceOrderRequestV2>
+            {
+                Method = "add_order",
+                RequestId = ExchangeHelpers.NextId(),
+                Parameters = request
+            };
 
-        //          var query = new KrakenSpotQuery<KrakenStreamPlacedOrder>(request, false);
-        //          return await QueryAsync(_privateBaseAddress, query, ct).ConfigureAwait(false);
-        //      }
+            var query = new KrakenSpotQueryV2<KrakenOrderResult, KrakenSocketPlaceOrderRequestV2>(requestMessage, false);
+            var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
+            return result.As<KrakenOrderResult>(result.Data?.Result);
+        }
 
-        //      #endregion
+        #endregion
 
-        //      #region Cancel Order
+        #region Place Multiple Orders
 
-        //      /// <inheritdoc />
-        //      public Task<CallResult<bool>> CancelOrderAsync(string websocketToken, string orderId, CancellationToken ct = default)
-        //          => CancelOrdersAsync(websocketToken, new[] { orderId }, ct);
+        /// <inheritdoc />
+        public async Task<CallResult<IEnumerable<KrakenOrderResult>>> PlaceMultipleOrdersAsync(
+            string symbol,
+            IEnumerable<KrakenSocketOrderRequest> orders,
+            DateTime? deadline = null,
+            bool? validateOnly = null,
+            CancellationToken ct = default)
+        {
+            var token = await GetTokenAsync().ConfigureAwait(false);
+            if (!token)
+                return new CallResult<IEnumerable<KrakenOrderResult>>(token.Error!);
 
-        //      /// <inheritdoc />
-        //      public async Task<CallResult<bool>> CancelOrdersAsync(string websocketToken, IEnumerable<string> orderIds, CancellationToken ct = default)
-        //      {
-        //          var request = new KrakenSocketCancelOrdersRequest
-        //          {
-        //              Event = "cancelOrder",
-        //              OrderIds = orderIds,
-        //              Token = websocketToken,
-        //              RequestId = ExchangeHelpers.NextId()
-        //          };
+            var request = new KrakenSocketPlaceMultipleOrderRequestV2
+            {
+                Token = token.Data,
+                Symbol = symbol,
+                ValidateOnly = validateOnly,
+                Deadline = deadline?.ToRfc3339String(),
+                Orders = orders
+            };
 
-        //          var query = new KrakenSpotQuery<KrakenQueryEvent>(request, false);
-        //          var result = await QueryAsync(_privateBaseAddress, query, ct).ConfigureAwait(false);
-        //          return result.As(result.Success);
-        //      }
+            var requestMessage = new KrakenSocketRequestV2<KrakenSocketPlaceMultipleOrderRequestV2>
+            {
+                Method = "batch_add",
+                RequestId = ExchangeHelpers.NextId(),
+                Parameters = request
+            };
 
-        //      #endregion
+            var query = new KrakenSpotQueryV2<IEnumerable<KrakenOrderResult>, KrakenSocketPlaceMultipleOrderRequestV2>(requestMessage, false);
+            var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
+            if (!result)
+                return result.As<IEnumerable<KrakenOrderResult>>(default);
 
-        //      #region Cancel All Orders
+            if (!result.Data.Success)
+                return new CallResult<IEnumerable<KrakenOrderResult>>(result.Data.Result, result.OriginalData, new ServerError("Order placement failed"));
 
-        //      /// <inheritdoc />
-        //      public async Task<CallResult<KrakenStreamCancelAllResult>> CancelAllOrdersAsync(string websocketToken, CancellationToken ct = default)
-        //      {
-        //          var request = new KrakenSocketAuthRequest
-        //          {
-        //              Event = "cancelAll",
-        //              Token = websocketToken,
-        //              RequestId = ExchangeHelpers.NextId()
-        //          };
+            return result.As<IEnumerable<KrakenOrderResult>>(result.Data?.Result);
+        }
 
-        //          var query = new KrakenSpotQuery<KrakenStreamCancelAllResult>(request, false);
-        //          return await QueryAsync(_privateBaseAddress, query, ct).ConfigureAwait(false);
-        //      }
+        #endregion
 
-        //      #endregion
+        #region Edit Order
 
-        //      #region Cancel All Orders After
+        /// <inheritdoc />
+        public async Task<CallResult<KrakenSocketAmendOrderResult>> EditOrderAsync(
+            string? orderId = null,
+            string? clientOrderId = null,
+            decimal? limitPrice = null,
+            PriceType? limitPriceType = null,
+            decimal? quantity = null,
+            decimal? icebergQuantity = null,
+            bool? postOnly = null,
+            decimal? triggerPrice = null,
+            PriceType? triggerPriceType = null,
+            DateTime? deadline = null,
+            CancellationToken ct = default)
+        {
+            var token = await GetTokenAsync().ConfigureAwait(false);
+            if (!token)
+                return new CallResult<KrakenSocketAmendOrderResult>(token.Error!);
 
-        //      /// <inheritdoc />
-        //      public async Task<CallResult<KrakenStreamCancelAfterResult>> CancelAllOrdersAfterAsync(string websocketToken, TimeSpan timeout, CancellationToken ct = default)
-        //      {
-        //          var request = new KrakenSocketCancelAfterRequest
-        //          {
-        //              Event = "cancelAllOrdersAfter",
-        //              Token = websocketToken,
-        //              Timeout = (int)Math.Round(timeout.TotalSeconds),
-        //              RequestId = ExchangeHelpers.NextId()
-        //          };
+            var request = new KrakenSocketEditOrderRequest
+            {
+                Token = token.Data,
+                ClientOrderId = clientOrderId,
+                Deadline = deadline?.ToRfc3339String(),
+                IcebergQuantity = icebergQuantity,
+                LimitPriceType = limitPriceType,
+                OrderId = orderId,
+                PostOnly = postOnly,
+                Price = limitPrice,
+                Quantity = quantity,
+                TriggerPrice = triggerPrice,
+                TriggerPriceType = triggerPriceType
+            };
+            var requestMessage = new KrakenSocketRequestV2<KrakenSocketEditOrderRequest>
+            {
+                Method = "amend_order",
+                RequestId = ExchangeHelpers.NextId(),
+                Parameters = request
+            };
 
-        //          var query = new KrakenSpotQuery<KrakenStreamCancelAfterResult>(request, false);
-        //          return await QueryAsync(_privateBaseAddress, query, ct).ConfigureAwait(false);
-        //      }
+            var query = new KrakenSpotQueryV2<KrakenSocketAmendOrderResult, KrakenSocketEditOrderRequest>(requestMessage, false);
+            var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
+            return result.As<KrakenSocketAmendOrderResult>(result.Data?.Result);
+        }
 
-        //      #endregion
+        #endregion
 
-        ///// <inheritdoc />
-        //protected override async Task<CallResult> RevitalizeRequestAsync(Subscription subscription)
-        //{
-        //    if (subscription is not KrakenAuthSubscription authSubscription)
-        //        return new CallResult(null);
+        #region Replace Order
 
-        //    var apiCredentials = ApiOptions.ApiCredentials ?? ClientOptions.ApiCredentials;
-        //    var restClient = new KrakenRestClient(x =>
-        //    {
-        //        x.ApiCredentials = apiCredentials;
-        //        x.Environment = ClientOptions.Environment;
-        //    });
+        /// <inheritdoc />
+        public async Task<CallResult<KrakenSocketReplaceOrderResult>> ReplaceOrderAsync(
+            string symbol,
+            string? orderId = null,
+            string? clientOrderId = null,
+            decimal? quantity = null,
+            uint? userReference = null,
+            decimal? limitPrice = null,
+            bool? reduceOnly = null,
+            bool? postOnly = null,
+            DateTime? deadline = null,
+            decimal? icebergQuantity = null,
+            FeePreference? feePreference = null,
+            bool? noMarketPriceProtection = null,
+            bool? validateOnly = null,
 
-        //    var newToken = await restClient.SpotApi.Account.GetWebsocketTokenAsync().ConfigureAwait(false);
-        //    if (!newToken.Success)
-        //        return newToken.AsDataless();
+            Trigger? triggerPriceReference = null,
+            decimal? triggerPrice = null,
+            PriceType? triggerPriceType = null,
+            CancellationToken ct = default)
+        {
+            var token = await GetTokenAsync().ConfigureAwait(false);
+            if (!token)
+                return new CallResult<KrakenSocketReplaceOrderResult>(token.Error!);
 
-        //    authSubscription.UpdateToken(newToken.Data.Token);
-        //    return new CallResult(null);
-        //}
+            var request = new KrakenSocketReplaceOrderRequest
+            {
+                Token = token.Data,
+                Deadline = deadline?.ToRfc3339String(),
+                IcebergQuantity = icebergQuantity,
+                OrderId = orderId,
+                PostOnly = postOnly,
+                Price = limitPrice,
+                Quantity = quantity,
+                FeePreference = feePreference,
+                NoMarketPriceProtection = noMarketPriceProtection,
+                ReduceOnly = reduceOnly,
+                Symbol = symbol,
+                UserReference = userReference,
+                ValidateOnly = validateOnly,
+            };
+
+            if (triggerPrice != null)
+            {
+                request.Trigger = new KrakenSocketPlaceOrderRequestV2Trigger
+                {
+                    LimitPriceType = triggerPriceType,
+                    Price = triggerPrice,
+                    Reference = triggerPriceReference
+                };
+            }
+
+            var requestMessage = new KrakenSocketRequestV2<KrakenSocketReplaceOrderRequest>
+            {
+                Method = "edit_order",
+                RequestId = ExchangeHelpers.NextId(),
+                Parameters = request
+            };
+
+            var query = new KrakenSpotQueryV2<KrakenSocketReplaceOrderResult, KrakenSocketReplaceOrderRequest>(requestMessage, false);
+            var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
+            return result.As<KrakenSocketReplaceOrderResult>(result.Data?.Result);
+        }
+
+        #endregion
+
+        #region Cancel Order
+
+        /// <inheritdoc />
+        public Task<CallResult<KrakenOrderResult>> CancelOrderAsync(string orderId, CancellationToken ct = default)
+            => CancelOrdersAsync(new[] { orderId }, ct);
+
+        /// <inheritdoc />
+        public async Task<CallResult<KrakenOrderResult>> CancelOrdersAsync(IEnumerable<string> orderIds, CancellationToken ct = default)
+        {
+            var token = await GetTokenAsync().ConfigureAwait(false);
+            if (!token)
+                return new CallResult<KrakenOrderResult>(token.Error!);
+
+            var request = new KrakenSocketCancelOrdersRequestV2
+            {
+                OrderIds = orderIds.ToArray(),
+                Token = token.Data
+            };
+            var requestMessage = new KrakenSocketRequestV2<KrakenSocketCancelOrdersRequestV2>
+            {
+                Method = "cancel_order",
+                RequestId = ExchangeHelpers.NextId(),
+                Parameters = request
+            };
+
+            var query = new KrakenSpotQueryV2<KrakenOrderResult, KrakenSocketCancelOrdersRequestV2>(requestMessage, false);
+            var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
+            return result.As<KrakenOrderResult>(result.Data?.Result);
+        }
+
+        #endregion
+
+        #region Cancel All Orders
+
+        /// <inheritdoc />
+        public async Task<CallResult<KrakenStreamCancelAllResult>> CancelAllOrdersAsync(CancellationToken ct = default)
+        {
+            var token = await GetTokenAsync().ConfigureAwait(false);
+            if (!token)
+                return new CallResult<KrakenStreamCancelAllResult>(token.Error!);
+
+            var request = new KrakenSocketAuthRequestV2
+            {
+                Token = token.Data
+            };
+            var requestMessage = new KrakenSocketRequestV2<KrakenSocketAuthRequestV2>
+            {
+                Method = "cancel_all",
+                RequestId = ExchangeHelpers.NextId(),
+                Parameters = request
+            };
+
+            var query = new KrakenSpotQueryV2<KrakenStreamCancelAllResult, KrakenSocketAuthRequestV2>(requestMessage, false);
+            var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
+            return result.As<KrakenStreamCancelAllResult>(result.Data?.Result);
+        }
+
+        #endregion
+
+        #region Cancel All Orders After
+
+        /// <inheritdoc />
+        public async Task<CallResult<KrakenCancelAfterResult>> CancelAllOrdersAfterAsync(TimeSpan timeout, CancellationToken ct = default)
+        {
+            var token = await GetTokenAsync().ConfigureAwait(false);
+            if (!token)
+                return new CallResult<KrakenCancelAfterResult>(token.Error!);
+
+            var request = new KrakenSocketCancelAfterRequest
+            {
+                Token = token.Data,
+                Timeout = (int)timeout.TotalSeconds
+            };
+            var requestMessage = new KrakenSocketRequestV2<KrakenSocketCancelAfterRequest>
+            {
+                Method = "cancel_all_orders_after",
+                RequestId = ExchangeHelpers.NextId(),
+                Parameters = request
+            };
+
+            var query = new KrakenSpotQueryV2<KrakenCancelAfterResult, KrakenSocketCancelAfterRequest>(requestMessage, false);
+            var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
+            return result.As<KrakenCancelAfterResult>(result.Data?.Result);
+        }
+
+        #endregion
+
+        #endregion
+
+        /// <inheritdoc />
+        protected override async Task<CallResult> RevitalizeRequestAsync(Subscription subscription)
+        {
+            var krakenSubscription = (KrakenSubscription)subscription;
+
+            if (!krakenSubscription.TokenRequired)
+                return new CallResult(null);
+
+            var token = await GetTokenAsync().ConfigureAwait(false);
+            if (!token)
+                return token.AsDataless();
+
+            krakenSubscription.Token = token.Data;
+            return new CallResult(null);
+        }
 
         private async Task<CallResult<string>> GetTokenAsync()
         {
@@ -451,6 +641,8 @@ namespace Kraken.Net.Clients.SpotApi
             var result = await restClient.SpotApi.Account.GetWebsocketTokenAsync().ConfigureAwait(false);
             if (result)
                 _tokenCache[apiCredentials.Key] = new CachedToken { Token = result.Data.Token, Expire = DateTime.UtcNow.AddSeconds(result.Data.Expires - 5) };
+            else
+                _logger.LogWarning("Failed to retrieve websocket token: {Error}", result.Error);
 
             return result.As<string>(result.Data?.Token);
         }

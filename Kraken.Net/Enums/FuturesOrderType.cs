@@ -11,7 +11,7 @@ namespace Kraken.Net.Enums
         /// <summary>
         /// Limit order
         /// </summary>
-        [Map("lmt")]
+        [Map("lmt", "limit")]
         Limit,
         /// <summary>
         /// Post only limit order
@@ -31,7 +31,7 @@ namespace Kraken.Net.Enums
         /// <summary>
         /// Stop order
         /// </summary>
-        [Map("stp")]
+        [Map("stp", "stop")]
         Stop,
         /// <summary>
         /// Take profit order

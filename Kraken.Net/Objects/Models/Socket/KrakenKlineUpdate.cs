@@ -54,7 +54,7 @@ namespace Kraken.Net.Objects.Models.Socket
         /// Open timestamp
         /// </summary>
         [JsonPropertyName("interval_begin")]
-        public string OpenTime { get; set; } = string.Empty;
+        public DateTime OpenTime { get; set; }
         /// <summary>
         /// Interval
         /// </summary>

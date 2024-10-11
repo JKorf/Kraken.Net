@@ -12,25 +12,35 @@ using System.Threading.Tasks;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
-    internal class KrakenSubscription<T> : Subscription<KrakenSocketResponseV2<KrakenSocketSubResponse>, KrakenSocketResponseV2<KrakenSocketSubResponse>>
+    internal abstract class KrakenSubscription : Subscription<KrakenSocketResponseV2<KrakenSocketSubResponse>, KrakenSocketResponseV2<KrakenSocketSubResponse>>
+    {
+        public string? Token { get; set; }
+        public bool TokenRequired { get; set; }
+
+        protected KrakenSubscription(ILogger logger, bool auth) : base(logger, false)
+        {
+            TokenRequired = auth;
+        }
+    }
+
+    internal class KrakenSubscriptionV2<T> : KrakenSubscription
     {
         private string _topic;
         private int? _interval;
         private bool? _snapshot;
-        private string? _token;
         private IEnumerable<string>? _symbols;
         private readonly Action<DataEvent<T>> _handler;
 
         public override HashSet<string> ListenerIdentifiers { get; set; }
 
-        public KrakenSubscription(ILogger logger, string topic, IEnumerable<string>? symbols, int? interval, bool? snapshot, string? token, Action<DataEvent<T>> handler) : base(logger, false)
+        public KrakenSubscriptionV2(ILogger logger, string topic, IEnumerable<string>? symbols, int? interval, bool? snapshot, string? token, Action<DataEvent<T>> handler) : base(logger, token != null)
         {
             _topic = topic;
             _symbols = symbols;
             _handler = handler;
             _snapshot = snapshot;
             _interval = interval;
-            _token = token;
+            Token = token;
 
             ListenerIdentifiers = symbols?.Any() == true ? new HashSet<string>(symbols.Select(s => topic + "-" + s)) : new HashSet<string> { topic };
         }
@@ -50,7 +60,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                         Symbol = _symbols?.ToArray(),
                         Interval = _interval,
                         Snapshot = _snapshot,
-                        Token = _token
+                        Token = Token
                     }
                 }, Authenticated)
                 {
@@ -75,11 +85,6 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             {
                 RequiredResponses = _symbols?.Count() ?? 1
             };
-        }
-
-        public override void HandleSubQueryResponse(KrakenSocketResponseV2<KrakenSocketSubResponse> message)
-        {
-            ListenerIdentifiers = _symbols?.Any() == true ? new HashSet<string>(_symbols.Select(s => message.Result.Channel + "-" + s)) : new HashSet<string> { message.Result.Channel };
         }
 
         public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)

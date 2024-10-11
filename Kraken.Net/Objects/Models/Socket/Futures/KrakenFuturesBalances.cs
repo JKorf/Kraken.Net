@@ -25,7 +25,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Holdings
         /// </summary>
-        [JsonPropertyName("holdings")]
+        [JsonPropertyName("holding")]
         public Dictionary<string, decimal>? Holdings { get; set; }
         /// <summary>
         /// Futures balances

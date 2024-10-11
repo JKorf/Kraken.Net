@@ -8,7 +8,7 @@ using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
 using Newtonsoft.Json;
 
-namespace Kucoin.Net.UnitTests.TestImplementations
+namespace Kraken.Net.UnitTests.TestImplementations
 {
     public class TestSocket: IWebsocket
     {

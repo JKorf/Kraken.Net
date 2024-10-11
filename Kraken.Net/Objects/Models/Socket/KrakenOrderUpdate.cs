@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
+namespace Kraken.Net.Objects.Models.Socket
 {
     /// <summary>
     /// Kraken order update
@@ -26,10 +26,10 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         [JsonPropertyName("cl_ord_id")]
         public string? ClientOrderId { get; set; }
         /// <summary>
-        /// Notional value
+        /// Order quantity in quote asset
         /// </summary>
         [JsonPropertyName("cash_order_qty")]
-        public decimal? NotionalValue { get; set; }
+        public decimal? QuoteOrderQuantity { get; set; }
         /// <summary>
         /// Order quantity
         /// </summary>
@@ -39,7 +39,12 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         /// Filled quantity value
         /// </summary>
         [JsonPropertyName("cum_cost")]
-        public decimal? FilledValue { get; set; }
+        public decimal? ValueFilled { get; set; }
+        /// <summary>
+        /// Filled quantity
+        /// </summary>
+        [JsonPropertyName("cum_qty")]
+        public decimal? QuantityFilled { get; set; }
         /// <summary>
         /// Display quantity for iceberg orders
         /// </summary>

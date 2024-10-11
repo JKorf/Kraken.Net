@@ -553,7 +553,34 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToBalanceUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.KrakenBalanceSnapshot}}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.Futures.KrakenBalanceUpdate}}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToOrderUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate}}},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToOrderUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate}}},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.OrderType,System.Decimal,System.String,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.PriceType},System.Nullable{Kraken.Net.Enums.TimeInForce},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.FeePreference},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.SelfTradePreventionType},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.Trigger},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.PriceType},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.PriceType},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.PriceType},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.PlaceMultipleOrdersAsync(System.String,System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.EditOrderAsync(System.String,System.String,System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.PriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.PriceType},System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.ReplaceOrderAsync(System.String,System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.DateTime},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.FeePreference},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.Trigger},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.PriceType},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CancelOrderAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CancelOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CancelAllOrdersAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CancelAllOrdersAfterAsync(System.TimeSpan,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.RevitalizeRequestAsync(CryptoExchange.Net.Sockets.Subscription)">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Converters.KrakenDictionaryResult`1">
@@ -815,6 +842,21 @@
         <member name="F:Kraken.Net.Enums.BalanceUpdateType.CreatorFee">
             <summary>
             Creator fee
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.FeePreference">
+            <summary>
+            Fee preference
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FeePreference.Static">
+            <summary>
+            In base asset, default for buy orders
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.FeePreference.Quote">
+            <summary>
+            In quote asset, default for sell orders
             </summary>
         </member>
         <member name="T:Kraken.Net.Enums.FuturesKlineInterval">
@@ -1605,6 +1647,26 @@
         <member name="F:Kraken.Net.Enums.PositionSide.Short">
             <summary>
             Short position
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.PriceType">
+            <summary>
+            Price type
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.PriceType.Static">
+            <summary>
+            Static market price for the asset, i.e. 30000 for BTC/USD.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.PriceType.Percentage">
+            <summary>
+            Percentage offset from the reference price, i.e. -10% from index price.
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.PriceType.Quote">
+            <summary>
+            Notional offset from the reference price in the quote currency, i.e, 150 BTC/USD from last price
             </summary>
         </member>
         <member name="T:Kraken.Net.Enums.RateLimitTier">
@@ -3269,7 +3331,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToOrderUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate}}},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToOrderUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate}}},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <summary>
             Subscribe to user order updates
             </summary>
@@ -3278,6 +3340,129 @@
             <param name="snapshotTrades">Whether or not a snapshot of the last 50 user trades should be send after subscribing</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.OrderType,System.Decimal,System.String,System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.PriceType},System.Nullable{Kraken.Net.Enums.TimeInForce},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.FeePreference},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.SelfTradePreventionType},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.Trigger},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.PriceType},System.Nullable{Kraken.Net.Enums.OrderType},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.PriceType},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.PriceType},System.Threading.CancellationToken)">
+            <summary>
+            Place a new order
+            <para><a href="https://docs.kraken.com/websockets/#message-addOrder" /></para>
+            </summary>
+            <param name="symbol">The symbol the order is on, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName"/></param>
+            <param name="side">The side of the order</param>
+            <param name="type">The type of the order</param>
+            <param name="quantity">The quantity of the order</param>
+            <param name="clientOrderId">Client order id</param>
+            <param name="userReference">User reference id</param>
+            <param name="limitPrice">Order limit price</param>
+            <param name="limitPriceType">Limit price type</param>
+            <param name="timeInForce">Time in force</param>
+            <param name="reduceOnly">Reduce only order</param>
+            <param name="margin">Funds the order on margin using the maximum leverage for the pair. Note, absolute max leverage is 5.</param>
+            <param name="postOnly">Post only order flag</param>
+            <param name="startTime">Scheduled start time</param>
+            <param name="expireTime">Expiration time</param>
+            <param name="deadline">Deadline time, the engine will prevent this order from matching after this time, it provides protection against latency on time sensitive orders.</param>
+            <param name="icebergQuantity">Display size for iceberg orders</param>
+            <param name="feePreference">Fee preference</param>
+            <param name="noMarketPriceProtection">Execute without market price protection</param>
+            <param name="selfTradePreventionType">Self trade prevention type</param>
+            <param name="quoteQuantity">Quantity in quote asset (buy market orders only)</param>
+            <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+            <param name="triggerPriceReference">Order trigger price reference</param>
+            <param name="triggerPrice">Order trigger price</param>
+            <param name="triggerPriceType">Order trigger price type</param>
+            <param name="conditionalOrderType">Conditional order type</param>
+            <param name="conditionalLimitPrice">Conditional order limit price</param>
+            <param name="conditionalLimitPriceType">Conditional order limit price type</param>
+            <param name="conditionalTriggerPrice">Conditional order trigger price</param>
+            <param name="conditionalTriggerPriceType">Conditional order trigger price type</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.EditOrderAsync(System.String,System.String,System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.PriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.PriceType},System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+            <summary>
+            Edit an existing order
+            </summary>
+            <param name="orderId">Order id, either this or clientOrderId should be provided</param>
+            <param name="clientOrderId">Client order id, either this or orderId should be provided</param>
+            <param name="limitPrice">New limit price</param>
+            <param name="limitPriceType">New limit price type</param>
+            <param name="quantity">New quantity</param>
+            <param name="icebergQuantity">New iceberg quantity</param>
+            <param name="postOnly">New post only flag</param>
+            <param name="triggerPrice">New trigger price</param>
+            <param name="triggerPriceType">New trigger price type</param>
+            <param name="deadline">Deadline</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.ReplaceOrderAsync(System.String,System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.UInt32},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.DateTime},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.FeePreference},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.Trigger},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.PriceType},System.Threading.CancellationToken)">
+            <summary>
+            Replace an existing order
+            </summary>
+            <param name="symbol">The symbol the order is on, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName"/></param>
+            <param name="orderId">Order id, either this or clientOrderId should be provided</param>
+            <param name="clientOrderId">Client order id, either this or orderId should be provided</param>
+            <param name="quantity">The quantity of the order</param>
+            <param name="userReference">User reference id</param>
+            <param name="limitPrice">Order limit price</param>
+            <param name="reduceOnly">Reduce only order</param>
+            <param name="postOnly">Post only order flag</param>
+            <param name="deadline">Deadline time, the engine will prevent this order from matching after this time, it provides protection against latency on time sensitive orders.</param>
+            <param name="icebergQuantity">Display size for iceberg orders</param>
+            <param name="feePreference">Fee preference</param>
+            <param name="noMarketPriceProtection">Execute without market price protection</param>
+            <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+            <param name="triggerPriceReference">Order trigger price reference</param>
+            <param name="triggerPrice">Order trigger price</param>
+            <param name="triggerPriceType">Order trigger price type</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.PlaceMultipleOrdersAsync(System.String,System.Collections.Generic.IEnumerable{Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+            <summary>
+            Place multiple orders in a single request
+            </summary>
+            <param name="symbol">Symbol to place the orders on</param>
+            <param name="orders">Order info</param>
+            <param name="deadline">Deadline time, the engine will prevent this order from matching after this time, it provides protection against latency on time sensitive orders.</param>
+            <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.CancelOrderAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Cancel an order
+            <para><a href="https://docs.kraken.com/websockets/#message-cancelOrder" /></para>
+            </summary>
+            <param name="orderId">Id of the order to cancel</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.CancelOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Cancel multiple orders
+            <para><a href="https://docs.kraken.com/websockets/#message-cancelOrder" /></para>
+            </summary>
+            <param name="orderIds">Id of the orders to cancel</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.CancelAllOrdersAsync(System.Threading.CancellationToken)">
+            <summary>
+            Cancel all open orders
+            <para><a href="https://docs.kraken.com/websockets/#message-cancelAll" /></para>
+            </summary>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.CancelAllOrdersAfterAsync(System.TimeSpan,System.Threading.CancellationToken)">
+            <summary>
+            Cancel all open orders after the timeout
+            <para><a href="https://docs.kraken.com/websockets/#message-cancelAllOrdersAfter" /></para>
+            </summary>
+            <param name="timeout"></param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
         </member>
         <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApiShared">
             <summary>
@@ -3510,24 +3695,64 @@
             </summary>
             <param name="tier"></param>
         </member>
-        <member name="T:Kraken.Net.Objects.Internal.KrakenSocketRequest">
+        <member name="T:Kraken.Net.Objects.Internal.KrakenSocketCancelAfterRequest">
             <summary>
-            Socket request base
+            Cancel orders after request
             </summary>
         </member>
-        <member name="P:Kraken.Net.Objects.Internal.KrakenSocketRequest.RequestId">
+        <member name="P:Kraken.Net.Objects.Internal.KrakenSocketCancelAfterRequest.Timeout">
             <summary>
-            Request id
+            Timeout
             </summary>
         </member>
-        <member name="P:Kraken.Net.Objects.Internal.KrakenSocketRequest.Event">
+        <member name="T:Kraken.Net.Objects.Internal.KrakenSocketPlaceOrderRequestV2Trigger">
             <summary>
-            Event
+            Order trigger
             </summary>
         </member>
-        <member name="P:Kraken.Net.Objects.Internal.KrakenSocketAuthRequest.Token">
+        <member name="P:Kraken.Net.Objects.Internal.KrakenSocketPlaceOrderRequestV2Trigger.Reference">
             <summary>
-            Token
+            Trigger price reference
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Internal.KrakenSocketPlaceOrderRequestV2Trigger.Price">
+            <summary>
+            Trigger price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Internal.KrakenSocketPlaceOrderRequestV2Trigger.LimitPriceType">
+            <summary>
+            Trigger price type
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Internal.KrakenSocketPlaceOrderRequestV2Condition">
+            <summary>
+            Order condition
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Internal.KrakenSocketPlaceOrderRequestV2Condition.OrderType">
+            <summary>
+            Order type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Internal.KrakenSocketPlaceOrderRequestV2Condition.Price">
+            <summary>
+            Limit price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Internal.KrakenSocketPlaceOrderRequestV2Condition.LimitPriceType">
+            <summary>
+            Limit price type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Internal.KrakenSocketPlaceOrderRequestV2Condition.TriggerPrice">
+            <summary>
+            Trigger rpice
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Internal.KrakenSocketPlaceOrderRequestV2Condition.TriggerPriceType">
+            <summary>
+            Trigger price type
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.KrakenApiAddresses">
@@ -8459,6 +8684,11 @@
             Bids in the book
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenBookUpdate.Checksum">
+            <summary>
+            Checksum
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.Socket.KrakenBookUpdateEntry">
             <summary>
             Order book entry
@@ -8577,6 +8807,396 @@
         <member name="P:Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate.KlineInterval">
             <summary>
             Interval
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenOrderResult">
+            <summary>
+            Order result
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderResult.OrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderResult.ClientOrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderResult.UserReference">
+            <summary>
+            User reference id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderResult.Error">
+            <summary>
+            Error
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderResult.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate">
+            <summary>
+            Kraken order update
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.OrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.ClientOrderId">
+            <summary>
+            Client order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.QuoteOrderQuantity">
+            <summary>
+            Order quantity in quote asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.OrderQuantity">
+            <summary>
+            Order quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.ValueFilled">
+            <summary>
+            Filled quantity value
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.QuantityFilled">
+            <summary>
+            Filled quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.IcebergQuantity">
+            <summary>
+            Display quantity for iceberg orders
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.TimeInForce">
+            <summary>
+            Time in force
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.OrderEventType">
+            <summary>
+            Order event
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.OrderSide">
+            <summary>
+            Side
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.OrderType">
+            <summary>
+            Order type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.OrderUserReference">
+            <summary>
+            Order user reference
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.LimitPrice">
+            <summary>
+            Limit price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.StopPrice">
+            <summary>
+            Stop price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.OrderStatus">
+            <summary>
+            Order status
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.FeeUsdEquiv">
+            <summary>
+            Fee paid expressed in USD
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.FeeAssetPreference">
+            <summary>
+            Fee asset preference
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.EffectiveTime">
+            <summary>
+            Scheduled start time of the order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.ExpireTime">
+            <summary>
+            Scheduled expiration time of the order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.AveragePrice">
+            <summary>
+            Average order trade price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.Fees">
+            <summary>
+            Fees paid
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.Amended">
+            <summary>
+            Whether the order has been amended
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.Liquidated">
+            <summary>
+            Indicates if the order has been liquidated by the engine
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.Margin">
+            <summary>
+            Indicates if the order can be funded on margin
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.MarginBorrow">
+            <summary>
+            Indicates if an execution is on margin, i.e. if the trade increased or reduced size of margin borrowing. On trade events only
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.NoMarketPriceProtection">
+            <summary>
+            Indicates if the order has market price protection
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.PostOnly">
+            <summary>
+            Post only flag
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.ReduceOnly">
+            <summary>
+            Reduce only flag
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.PositionStatus">
+            <summary>
+            Indicates status of the position on a margin order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.Reason">
+            <summary>
+            The reason associated with an event, if applicable
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.ExecutionId">
+            <summary>
+            Id of the execution this update is for
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.LastTradeId">
+            <summary>
+            Id of the trade this update is for
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.LastTradeQuantity">
+            <summary>
+            Quantity of the trade this update is for
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.LastTradePrice">
+            <summary>
+            Price of the trade this update is for
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.LastTradeValue">
+            <summary>
+            Value of the trade this update is for
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdate.LastTradeRole">
+            <summary>
+            Trade role of the trade this update is for, maker or taker
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdateFee">
+            <summary>
+            Fee info
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdateFee.Asset">
+            <summary>
+            Fee asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenOrderUpdateFee.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenSocketAmendOrderResult">
+            <summary>
+            Amend order result
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketAmendOrderResult.AmendId">
+            <summary>
+            Amend id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketAmendOrderResult.OrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketAmendOrderResult.ClientOrderId">
+            <summary>
+            Client order id
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest">
+            <summary>
+            Order request
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.OrderType">
+            <summary>
+            Order type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.Side">
+            <summary>
+            Order side
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.QuoteQuantity">
+            <summary>
+            Quote quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.Conditional">
+            <summary>
+            Conditional order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.IcebergQuantity">
+            <summary>
+            Iceberg quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.StartTime">
+            <summary>
+            Start time
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.ExpireTime">
+            <summary>
+            Expire time
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.FeePreference">
+            <summary>
+            Fee preference setting
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.Price">
+            <summary>
+            Limit price
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.LimitPriceType">
+            <summary>
+            Limit price type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.Margin">
+            <summary>
+            Funds the order on margin using the maximum leverage for the pair (maximum is leverage of 5).
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.NoMarketPriceProtection">
+            <summary>
+            Disable market price protection
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.ClientOrderId">
+            <summary>
+            Client order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.UserReference">
+            <summary>
+            User reference
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.Quantity">
+            <summary>
+            Order quantity
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.PostOnly">
+            <summary>
+            Post only flag
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.ReduceOnly">
+            <summary>
+            Reduce only flag
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.SelfTradePreventionType">
+            <summary>
+            Self trade prevention type
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.TimeInForce">
+            <summary>
+            Time in force
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketOrderRequest.Trigger">
+            <summary>
+            Trigger info
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenSocketReplaceOrderResult">
+            <summary>
+            Replace order result
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketReplaceOrderResult.OrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenSocketReplaceOrderResult.OriginalOrderId">
+            <summary>
+            The original order id
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Socket.KrakenStreamCancelAllResult">
+            <summary>
+            Cancel all result
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenStreamCancelAllResult.Count">
+            <summary>
+            Number of orders canceled
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.Socket.KrakenStreamSystemStatus">
@@ -8864,211 +9484,6 @@
             The symbols
             </summary>
         </member>
-        <member name="T:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate">
-            <summary>
-            Kraken order update
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.OrderId">
-            <summary>
-            Order id
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.Symbol">
-            <summary>
-            Symbol
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.ClientOrderId">
-            <summary>
-            Client order id
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.NotionalValue">
-            <summary>
-            Notional value
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.OrderQuantity">
-            <summary>
-            Order quantity
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.FilledValue">
-            <summary>
-            Filled quantity value
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.IcebergQuantity">
-            <summary>
-            Display quantity for iceberg orders
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.TimeInForce">
-            <summary>
-            Time in force
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.OrderEventType">
-            <summary>
-            Order event
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.OrderSide">
-            <summary>
-            Side
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.OrderType">
-            <summary>
-            Order type
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.OrderUserReference">
-            <summary>
-            Order user reference
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.LimitPrice">
-            <summary>
-            Limit price
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.StopPrice">
-            <summary>
-            Stop price
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.OrderStatus">
-            <summary>
-            Order status
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.FeeUsdEquiv">
-            <summary>
-            Fee paid expressed in USD
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.FeeAssetPreference">
-            <summary>
-            Fee asset preference
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.EffectiveTime">
-            <summary>
-            Scheduled start time of the order
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.ExpireTime">
-            <summary>
-            Scheduled expiration time of the order
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.Timestamp">
-            <summary>
-            Timestamp
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.AveragePrice">
-            <summary>
-            Average order trade price
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.Fees">
-            <summary>
-            Fees paid
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.Amended">
-            <summary>
-            Whether the order has been amended
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.Liquidated">
-            <summary>
-            Indicates if the order has been liquidated by the engine
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.Margin">
-            <summary>
-            Indicates if the order can be funded on margin
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.MarginBorrow">
-            <summary>
-            Indicates if an execution is on margin, i.e. if the trade increased or reduced size of margin borrowing. On trade events only
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.NoMarketPriceProtection">
-            <summary>
-            Indicates if the order has market price protection
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.PostOnly">
-            <summary>
-            Post only flag
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.ReduceOnly">
-            <summary>
-            Reduce only flag
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.PositionStatus">
-            <summary>
-            Indicates status of the position on a margin order
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.Reason">
-            <summary>
-            The reason associated with an event, if applicable
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.ExecutionId">
-            <summary>
-            Id of the execution this update is for
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.LastTradeId">
-            <summary>
-            Id of the trade this update is for
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.LastTradeQuantity">
-            <summary>
-            Quantity of the trade this update is for
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.LastTradePrice">
-            <summary>
-            Price of the trade this update is for
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.LastTradeValue">
-            <summary>
-            Value of the trade this update is for
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdate.LastTradeRole">
-            <summary>
-            Trade role of the trade this update is for, maker or taker
-            </summary>
-        </member>
-        <member name="T:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdateFee">
-            <summary>
-            Fee info
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdateFee.Asset">
-            <summary>
-            Fee asset
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Sockets.Subscriptions.Spot.KrakenOrderUpdateFee.Quantity">
-            <summary>
-            Quantity
-            </summary>
-        </member>
         <member name="T:Kraken.Net.SymbolOrderBooks.KrakenFuturesSymbolOrderBook">
             <summary>
             Live order book implementation
@@ -9144,9 +9559,6 @@
             <param name="socketClient">Socket client instance</param>
         </member>
         <member name="M:Kraken.Net.SymbolOrderBooks.KrakenSpotSymbolOrderBook.DoStartAsync(System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenSpotSymbolOrderBook.DoReset">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.SymbolOrderBooks.KrakenSpotSymbolOrderBook.DoChecksum(System.Int32)">

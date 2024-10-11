@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using CryptoExchange.Net.Objects;
+﻿using System.Text;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.OrderBook;
 using Force.Crc32;
 using Kraken.Net.Clients;
 using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Objects.Models;
+using Kraken.Net.Objects.Models.Socket;
 using Kraken.Net.Objects.Options;
-using Microsoft.Extensions.Logging;
 
 namespace Kraken.Net.SymbolOrderBooks
 {
@@ -23,7 +17,6 @@ namespace Kraken.Net.SymbolOrderBooks
     {
         private readonly IKrakenSocketClient _socketClient;
         private readonly bool _clientOwner;
-        private bool _initialSnapshotDone;
         private readonly TimeSpan _initialDataTimeout;
 
         /// <summary>
@@ -66,41 +59,32 @@ namespace Kraken.Net.SymbolOrderBooks
         /// <inheritdoc />
         protected override async Task<CallResult<UpdateSubscription>> DoStartAsync(CancellationToken ct)
         {
-            return new CallResult<UpdateSubscription>(new ServerError(""));
-            //var result = await _socketClient.SpotApi.SubscribeToOrderBookUpdatesAsync(Symbol, Levels!.Value, ProcessUpdate).ConfigureAwait(false);
-            //if (!result)
-            //    return result;
+            var result = await _socketClient.SpotApi.SubscribeToAggregatedOrderBookUpdatesAsync(Symbol, Levels!.Value, ProcessUpdate, true).ConfigureAwait(false);
+            if (!result)
+                return result;
 
-            //if (ct.IsCancellationRequested)
-            //{
-            //    await result.Data.CloseAsync().ConfigureAwait(false);
-            //    return result.AsError<UpdateSubscription>(new CancellationRequestedError());
-            //}
-
-            //Status = OrderBookStatus.Syncing;
-
-            //var setResult = await WaitForSetOrderBookAsync(_initialDataTimeout, ct).ConfigureAwait(false);
-            //return setResult ? result : new CallResult<UpdateSubscription>(setResult.Error!);
-        }
-
-        /// <inheritdoc />
-        protected override void DoReset()
-        {
-            _initialSnapshotDone = false;
-        }
-
-        private void ProcessUpdate(DataEvent<KrakenStreamOrderBook> data)
-        {
-            if (!_initialSnapshotDone)
+            if (ct.IsCancellationRequested)
             {
-                var maxNumber = Math.Max(data.Data.Bids.Max(b => b.Sequence), data.Data.Asks.Max(b => b.Sequence));
-                SetInitialOrderBook(maxNumber, data.Data.Bids, data.Data.Asks);
-                _initialSnapshotDone = true;
+                await result.Data.CloseAsync().ConfigureAwait(false);
+                return result.AsError<UpdateSubscription>(new CancellationRequestedError());
+            }
+
+            Status = OrderBookStatus.Syncing;
+
+            var setResult = await WaitForSetOrderBookAsync(_initialDataTimeout, ct).ConfigureAwait(false);
+            return setResult ? result : new CallResult<UpdateSubscription>(setResult.Error!);
+        }
+
+        private void ProcessUpdate(DataEvent<KrakenBookUpdate> data)
+        {
+            if (data.UpdateType == SocketUpdateType.Snapshot)
+            {
+                SetInitialOrderBook(DateTime.UtcNow.Ticks, data.Data.Bids, data.Data.Asks);
             }
             else
             {
-                UpdateOrderBook(data.Data.Bids, data.Data.Asks);
-                AddChecksum((int)data.Data.Checksum!);
+                UpdateOrderBook(DateTime.UtcNow.Ticks, data.Data.Bids, data.Data.Asks);
+                //AddChecksum((int)data.Data.Checksum!);
             }
         }
 

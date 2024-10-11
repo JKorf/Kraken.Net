@@ -10,14 +10,16 @@ namespace Kraken.Net.Objects.Sockets.Queries
     {
         public override HashSet<string> ListenerIdentifiers { get; set; }
 
-        public KrakenFuturesAuthQuery(string apiKey) : base(new KrakenChallengeRequest { ApiKey = apiKey, Channel = "challenge" }, false)
+        public KrakenFuturesAuthQuery(string apiKey) : base(new KrakenChallengeRequest { ApiKey = apiKey, Event = "challenge" }, false)
         {
-            ListenerIdentifiers = new HashSet<string>() { "challenge" };
+            ListenerIdentifiers = new HashSet<string>() { "challenge", "alert" };
         }
 
         public override CallResult<KrakenChallengeResponse> HandleMessage(SocketConnection connection, DataEvent<KrakenChallengeResponse> message)
         {
-            // TODO test error?
+            if (message.Data.Event == "alert")
+                return new CallResult<KrakenChallengeResponse>(default, message.OriginalData, new ServerError(message.Data.Message));
+
             var authProvider = (KrakenFuturesAuthenticationProvider)connection.ApiClient.AuthenticationProvider!;
             var sign = authProvider.AuthenticateWebsocketChallenge(message.Data.Message);
             connection.Properties["OriginalChallenge"] = message.Data.Message;

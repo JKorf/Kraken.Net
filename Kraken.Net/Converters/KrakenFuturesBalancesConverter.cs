@@ -5,28 +5,6 @@ namespace Kraken.Net.Converters
 {
     internal class KrakenFuturesBalancesConverter : JsonConverter<KrakenBalances>
     {
-        //public override bool CanConvert(Type objectType)
-        //{
-        //    return typeof(KrakenBalances).IsAssignableFrom(objectType);
-        //}
-
-        //public override object ReadJson(JsonReader reader,
-        //    Type objectType, object? existingValue, JsonSerializer serializer)
-        //{
-        
-        //}
-
-        //public override bool CanWrite
-        //{
-        //    get { return false; }
-        //}
-
-        //public override void WriteJson(JsonWriter writer,
-        //    object? value, JsonSerializer serializer)
-        //{
-        //    throw new NotImplementedException();
-        //} 
-
         public override KrakenBalances? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var doc = JsonDocument.ParseValue(ref reader);

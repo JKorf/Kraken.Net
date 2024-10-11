@@ -26,6 +26,11 @@ namespace Kraken.Net.Objects.Models.Socket
         /// </summary>
         [JsonPropertyName("bids")]
         public IEnumerable<KrakenBookUpdateEntry> Bids { get; set; } = Array.Empty<KrakenBookUpdateEntry>();
+        /// <summary>
+        /// Checksum
+        /// </summary>
+        [JsonPropertyName("checksum")]
+        public long Checksum { get; set; }
     }
 
     /// <summary>
