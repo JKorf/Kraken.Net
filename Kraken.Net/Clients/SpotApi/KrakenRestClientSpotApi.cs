@@ -392,30 +392,6 @@ namespace Kraken.Net.Clients.SpotApi
             return result.As(result.Data.Result);
         }
 
-        //internal async Task<WebCallResult> Execute(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, RequestBodyFormat? bodyFormat = null)
-        //{
-        //    var result = await SendRequestAsync<KrakenResult>(url, method, ct, parameters, signed, requestWeight: weight, gate: KrakenExchange.RateLimiter.SpotRest, requestBodyFormat: bodyFormat).ConfigureAwait(false);
-        //    if (!result)
-        //        return result.AsDatalessError(result.Error!);
-
-        //    if (result.Data.Error.Any())
-        //        return result.AsDatalessError(new ServerError(string.Join(", ", result.Data.Error)));
-
-        //    return result.AsDataless();
-        //}
-
-        //internal async Task<WebCallResult<T>> Execute<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 1, RequestBodyFormat? bodyFormat = null, IRateLimitGate? gate = null)
-        //{
-        //    var result = await SendRequestAsync<KrakenResult<T>>(url, method, ct, parameters, signed, requestWeight: weight, gate: gate ?? KrakenExchange.RateLimiter.SpotRest, requestBodyFormat: bodyFormat).ConfigureAwait(false);
-        //    if (!result)
-        //        return result.AsError<T>(result.Error!);
-
-        //    if (result.Data.Error.Any())
-        //        return result.AsError<T>(new ServerError(string.Join(", ", result.Data.Error)));
-
-        //    return result.As(result.Data.Result);
-        //}
-
         /// <summary>
         /// Get the name of a symbol for Kraken based on the base and quote asset
         /// </summary>

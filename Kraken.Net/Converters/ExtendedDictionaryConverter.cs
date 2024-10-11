@@ -4,7 +4,6 @@ namespace Kraken.Net.Converters
 {
     internal class ExtendedDictionaryConverter<T, U>: JsonConverter<T> where T : KrakenDictionaryResult<U>
     {
-
         public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var doc = JsonDocument.ParseValue(ref reader);
@@ -30,21 +29,6 @@ namespace Kraken.Net.Converters
             }
 
             return (T)Convert.ChangeType(result, typeToConvert);
-            //return result;
-            //var obj = JObject.Load(reader);
-            //var inner = obj.First;
-            //if (inner?.First == null)
-            //    return null;
-
-            //var data = inner.First.ToObject<T>();
-            //var result = (KrakenDictionaryResult<T>)Activator.CreateInstance(objectType);
-            //result.Data = data!;
-            //var lastValue = obj["last"];
-            //if (lastValue != null)
-            //{
-            //    result.LastUpdateTime = lastValue.ToObject<DateTime>(new JsonSerializer() { Converters = { new DateTimeConverter() } });
-            //}
-            //return Convert.ChangeType(result, objectType);
         }
 
         public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)

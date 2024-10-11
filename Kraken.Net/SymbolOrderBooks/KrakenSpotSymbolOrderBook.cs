@@ -84,7 +84,8 @@ namespace Kraken.Net.SymbolOrderBooks
             else
             {
                 UpdateOrderBook(DateTime.UtcNow.Ticks, data.Data.Bids, data.Data.Asks);
-                //AddChecksum((int)data.Data.Checksum!);
+                if (data.Data.Checksum <= int.MaxValue)
+                    AddChecksum((int)data.Data.Checksum!);
             }
         }
 
@@ -94,15 +95,15 @@ namespace Kraken.Net.SymbolOrderBooks
             var checksumValues = new List<string>();
             for (var i = 0; i < 10; i++)
             {
-                var ask = (KrakenStreamOrderBookEntry)_asks.ElementAt(i).Value;
-                checksumValues.Add(ToChecksumString(ask.RawPrice));
-                checksumValues.Add(ToChecksumString(ask.RawQuantity));
+                var ask = (KrakenBookUpdateEntry)_asks.ElementAt(i).Value;
+                checksumValues.Add(ToChecksumString(ask.Price));
+                checksumValues.Add(ToChecksumString(ask.Quantity));
             }
             for (var i = 0; i < 10; i++)
             {
-                var bid = (KrakenStreamOrderBookEntry)_bids.ElementAt(i).Value;
-                checksumValues.Add(ToChecksumString(bid.RawPrice));
-                checksumValues.Add(ToChecksumString(bid.RawQuantity));
+                var bid = (KrakenBookUpdateEntry)_bids.ElementAt(i).Value;
+                checksumValues.Add(ToChecksumString(bid.Price));
+                checksumValues.Add(ToChecksumString(bid.Quantity));
             }
 
             var checksumString = string.Join("", checksumValues);
@@ -117,9 +118,9 @@ namespace Kraken.Net.SymbolOrderBooks
             return true;
         }
 
-        private static string ToChecksumString(string value)
+        private static string ToChecksumString(decimal value)
         {
-            return value.Replace(".", "").TrimStart('0');
+            return value.ToString(CultureInfo.InvariantCulture).Replace(".", "").TrimStart('0');
         }
 
         /// <inheritdoc />

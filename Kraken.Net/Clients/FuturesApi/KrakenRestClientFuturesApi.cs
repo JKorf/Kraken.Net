@@ -59,27 +59,6 @@ namespace Kraken.Net.Clients.FuturesApi
             return $"{(tradingMode == TradingMode.PerpetualLinear ? "PF" : tradingMode == TradingMode.PerpetualInverse ? "PI" : tradingMode == TradingMode.DeliveryLinear ? "FF": "FI")}_{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}" + (!deliverTime.HasValue ? string.Empty : ("_" + deliverTime.Value.ToString("yyMMdd")));
         } 
 
-        //internal async Task<WebCallResult<U>> Execute<T, U>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 0)
-        //    where T : KrakenFuturesResult<U>
-        //{
-        //    var result = await SendRequestAsync<T>(url, method, ct, parameters, signed, requestWeight: weight, gate: KrakenExchange.RateLimiter.FuturesApi).ConfigureAwait(false);
-        //    if (!result)
-        //        return result.AsError<U>(result.Error!);
-
-        //    if (result.Data.Errors?.Any() == true)
-        //    {
-        //        if (result.Data.Errors.Count() > 1)
-        //            return result.AsError<U>(new ServerError(string.Join(", ", result.Data.Errors.Select(e => e.Code + ":" + e.Message))));
-        //        else
-        //            return result.AsError<U>(new ServerError(result.Data.Errors.First().Code, result.Data.Errors.First().Message));
-        //    }
-
-        //    if (!string.IsNullOrEmpty(result.Data.Error))
-        //        return result.AsError<U>(new ServerError(result.Data.Error!));
-
-        //    return result.As(result.Data.Data);
-        //}
-
         internal async Task<WebCallResult<U>> SendToAddressAsync<T, U>(string baseAddress, RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T : KrakenFuturesResult<U>
         {
             var result = await base.SendAsync<T>(baseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
@@ -129,65 +108,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
         internal async Task<WebCallResult<T>> SendRawAsync<T>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T: class
             => await base.SendAsync<T>(BaseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
-        //internal async Task<WebCallResult<T>> SendToAddressAsync<T>(string baseAddress, RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T : KrakenFuturesResult
-        //{
-        //    var result = await base.SendAsync<KrakenFuturesResult<T>>(baseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
-        //    if (!result)
-        //        return result.AsError<T>(result.Error!);
-
-        //    if (result.Data.Error.Any())
-        //        return result.AsError<T>(new ServerError(string.Join(", ", result.Data.Error)));
-
-        //    return result.As(result.Data.Result);
-        //}
-
-        //internal async Task<WebCallResult<T>> Execute<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int weight = 0)
-        //    where T : KrakenFuturesResult
-        //{
-        //    var result = await SendRequestAsync<T>(url, method, ct, parameters, signed, requestWeight: weight, gate: KrakenExchange.RateLimiter.FuturesApi).ConfigureAwait(false);
-        //    if (!result)
-        //        return result.AsError<T>(result.Error!);
-
-        //    if (result.Data.Errors?.Any() == true)
-        //    {
-        //        if (result.Data.Errors.Count() > 1)
-        //            return result.AsError<T>(new ServerError(string.Join(", ", result.Data.Errors.Select(e => e.Code + ":" + e.Message))));
-        //        else
-        //            return result.AsError<T>(new ServerError(result.Data.Errors.First().Code, result.Data.Errors.First().Message));
-        //    }
-
-        //    if (!string.IsNullOrEmpty(result.Data.Error))
-        //        return result.AsError<T>(new ServerError(result.Data.Error!));
-
-        //    return result.As(result.Data);
-        //}
-
-        //internal async Task<WebCallResult> Execute(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int requestWeight = 0)
-        //{
-        //    var result = await SendRequestAsync<KrakenFuturesResult>(url, method, ct, parameters, signed, requestWeight: requestWeight, gate: KrakenExchange.RateLimiter.FuturesApi).ConfigureAwait(false);
-        //    if (!result)
-        //        return result.AsDatalessError(result.Error!);
-
-        //    if (result.Data.Errors?.Any() == true)
-        //    {
-        //        if (result.Data.Errors.Count() > 1)
-        //            return result.AsDatalessError(new ServerError(string.Join(", ", result.Data.Errors.Select(e => e.Code + ":" + e.Message))));
-        //        else
-        //            return result.AsDatalessError(new ServerError(result.Data.Errors.First().Code, result.Data.Errors.First().Message));
-        //    }
-
-        //    if (!string.IsNullOrEmpty(result.Data.Error))
-        //        return result.AsDatalessError(new ServerError(result.Data.Error!));
-
-        //    return result.AsDataless();
-        //}
-
-        //internal async Task<WebCallResult<T>> ExecuteBase<T>(Uri url, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, int requestWeight = 0)
-        //    where T : class
-        //{
-        //    return await SendRequestAsync<T>(url, method, ct, parameters, signed, requestWeight: requestWeight, gate: KrakenExchange.RateLimiter.FuturesApi).ConfigureAwait(false);
-        //}
-
+        
         /// <inheritdoc />
         protected override Error ParseErrorResponse(int httpStatusCode, IEnumerable<KeyValuePair<string, IEnumerable<string>>> responseHeaders, IMessageAccessor accessor)
         {
