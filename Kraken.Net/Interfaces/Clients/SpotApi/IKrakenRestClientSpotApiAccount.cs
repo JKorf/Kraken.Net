@@ -11,7 +11,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
     {
         /// <summary>
         /// Get balances
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getAccountBalance" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-account-balance" /></para>
         /// </summary>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
@@ -20,7 +20,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get balances including quantity in holding
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getTradeBalance" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-trade-balance" /></para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
@@ -29,7 +29,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get trade balance
-        /// <para><a href="https://docs.kraken.com/rest/#tag/Account-Data/operation/getExtendedBalance" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-extended-balance" /></para>
         /// </summary>
         /// <param name="baseAsset">Base asset to get trade balance for, for example `USDT`</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
@@ -40,7 +40,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get a list of open positions
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getOpenPositions" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-open-positions" /></para>
         /// </summary>
         /// <param name="transactionIds">Filter by transaction ids</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
@@ -50,7 +50,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get ledger entries info
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getLedgers" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-ledgers" /></para>
         /// </summary>
         /// <param name="assets">Filter list by asset names, for example `USDT`</param>
         /// <param name="entryTypes">Filter list by entry types</param>
@@ -64,7 +64,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get info on specific ledger entries
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getLedgersInfo" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-ledgers-info" /></para>
         /// </summary>
         /// <param name="ledgerIds">The ids to get info for</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
@@ -74,7 +74,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get trade volume
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getTradeVolume" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-trade-volume" /></para>
         /// </summary>
         /// <param name="symbols">Symbols to get data for, for example `ETHUSDT`</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
@@ -84,7 +84,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get deposit methods
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getDepositMethods" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-deposit-methods" /></para>
         /// </summary>
         /// <param name="asset">Asset to get methods for, for example `ETH`</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
@@ -94,7 +94,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get deposit addresses for an asset
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getDepositAddresses" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-deposit-addresses" /></para>
         /// </summary>
         /// <param name="asset">The asset to get the deposit address for, for example `ETH`</param>
         /// <param name="depositMethod">The method of deposit</param>
@@ -107,7 +107,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get status of deposits
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getStatusRecentDeposits" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-status-recent-deposits" /></para>
         /// </summary>
         /// <param name="asset">Asset to get deposit info for, for example `ETH`</param>
         /// <param name="depositMethod">The deposit method</param>
@@ -118,7 +118,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get deposit history
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getStatusRecentDeposits" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-status-recent-deposits" /></para>
         /// </summary>
         /// <param name="asset">Asset filter, for example `ETH`</param>
         /// <param name="depositMethod">Deposit method</param>
@@ -141,7 +141,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Retrieve fee information about potential withdrawals for a particular asset, key and amount.
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getWithdrawalInformation" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-withdrawal-information" /></para>
         /// </summary>
         /// <param name="asset">The asset, for example `ETH`</param>
         /// <param name="key">The withdrawal key name</param>
@@ -154,7 +154,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Withdraw funds
-        /// <para><a href="https://docs.kraken.com/rest/#operation/withdrawFunds" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/withdraw-funds" /></para>
         /// </summary>
         /// <param name="asset">The asset being withdrawn, for example `ETH`</param>
         /// <param name="key">The withdrawal key name, as set up on your account</param>
@@ -167,7 +167,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get withdraw addresses
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getWithdrawalAddresses" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-withdrawal-addresses" /></para>
         /// </summary>
         /// <param name="asset">The asset to get the deposit address for, for example `ETH`</param>
         /// <param name="aclass">Filter addresses for specific asset class</param>
@@ -180,7 +180,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Retrieve a list of withdrawal methods available for the user.
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getWithdrawalMethods" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-withdrawal-methods" /></para>
         /// </summary>
         /// <param name="asset">The asset to get the deposit address for, for example `ETH`</param>
         /// <param name="aclass">Filter addresses for specific asset class</param>
@@ -190,8 +190,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         Task<WebCallResult<IEnumerable<KrakenWithdrawMethod>>> GetWithdrawMethodsAsync(string? asset = null, string? aclass = null, string? network = null, CancellationToken ct = default);
 
         /// <summary>
-        /// Get the token to connect to the private websocket streams
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getWebsocketsToken" /></para>
+        /// Get the token to connect to the private websocket streams. Note that this endpoint is used internally and there is normally no need to call this.
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-websockets-token" /></para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -199,7 +199,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get status of withdrawals
-        /// <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/getStatusRecentWithdrawals" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-status-recent-withdrawals" /></para>
         /// </summary>
         /// <param name="asset">Filter by asset, for example `ETH`</param>
         /// <param name="withdrawalMethod">Filter by method</param>
@@ -210,7 +210,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get withdrawal history
-        /// <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/getStatusRecentWithdrawals" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-status-recent-withdrawals" /></para>
         /// </summary>
         /// <param name="asset">Asset filter, for example `ETH`</param>
         /// <param name="withdrawalMethod">Withdrawal method</param>
@@ -233,7 +233,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Cancel an active withdrawal
-        /// <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/cancelWithdrawal" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/cancel-withdrawal" /></para>
         /// </summary>
         /// <param name="asset">Asset, for example `ETH`</param>
         /// <param name="referenceId">Reference id</param>
@@ -244,7 +244,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Transfer funds between wallets
-        /// <para><a href="https://docs.kraken.com/rest/#tag/User-Funding/operation/walletTransfer" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/wallet-transfer" /></para>
         /// </summary>
         /// <param name="asset">Asset, for example `ETH`</param>
         /// <param name="quantity">Quantity</param>

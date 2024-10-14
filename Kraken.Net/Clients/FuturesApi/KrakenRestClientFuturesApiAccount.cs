@@ -18,10 +18,10 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Get Balances
 
         /// <inheritdoc />
-        public async Task<WebCallResult<Dictionary<string, KrakenBalances>>> GetBalancesAsync(CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenFuturesBalances>> GetBalancesAsync(CancellationToken ct = default)
         {
-            var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v3/accounts", KrakenExchange.RateLimiter.SpotRest, 2, true);
-            return await _baseClient.SendAsync<KrakenBalancesResult, Dictionary<string, KrakenBalances>>(request, null, ct).ConfigureAwait(false);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v3/accounts", KrakenExchange.RateLimiter.FuturesApi, 2, true);
+            return await _baseClient.SendAsync<KrakenBalancesResult, KrakenFuturesBalances>(request, null, ct).ConfigureAwait(false);
         }
 
         #endregion
@@ -31,7 +31,7 @@ namespace Kraken.Net.Clients.FuturesApi
         /// <inheritdoc />
         public async Task<WebCallResult<IEnumerable<KrakenFuturesPnlCurrency>>> GetPnlCurrencyAsync(CancellationToken ct = default)
         {
-            var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v3/pnlpreferences", KrakenExchange.RateLimiter.SpotRest, 2, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v3/pnlpreferences", KrakenExchange.RateLimiter.FuturesApi, 2, true);
             return await _baseClient.SendAsync<KrakenFuturesPnlCurrencyResult, IEnumerable<KrakenFuturesPnlCurrency>>(request, null, ct).ConfigureAwait(false);
         }
 
@@ -48,7 +48,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 { "symbol", symbol }
             };
 
-            var request = _definitions.GetOrCreate(HttpMethod.Put, "derivatives/api/v3/pnlpreferences", KrakenExchange.RateLimiter.SpotRest, 10, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Put, "derivatives/api/v3/pnlpreferences", KrakenExchange.RateLimiter.FuturesApi, 10, true);
             return await _baseClient.SendAsync(request, parameters, ct).ConfigureAwait(false);
         }
 
@@ -68,7 +68,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 { "unit", asset }
             };
 
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "derivatives/api/v3/transfer", KrakenExchange.RateLimiter.SpotRest, 10, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, "derivatives/api/v3/transfer", KrakenExchange.RateLimiter.FuturesApi, 10, true);
             return await _baseClient.SendAsync(request, parameters, ct).ConfigureAwait(false);
         }
 
@@ -89,7 +89,7 @@ namespace Kraken.Net.Clients.FuturesApi
             parameters.AddOptionalParameter("to", toId);
 
             var weight = limit == null ? 3 : limit <= 25 ? 1 : limit <= 50 ? 2 : limit <= 1000 ? 3 : limit <= 5000 ? 6 : 10;
-            var request = _definitions.GetOrCreate(HttpMethod.Get, "api/history/v3/account-log", KrakenExchange.RateLimiter.SpotRest, weight, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, "api/history/v3/account-log", KrakenExchange.RateLimiter.FuturesApi, weight, true);
             return await _baseClient.SendRawAsync<KrakenAccountLogResult>(request, null, ct).ConfigureAwait(false);
         }
 
@@ -100,7 +100,7 @@ namespace Kraken.Net.Clients.FuturesApi
         /// <inheritdoc />
         public async Task<WebCallResult<Dictionary<string, decimal>>> GetFeeScheduleVolumeAsync(CancellationToken ct = default)
         {
-            var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v3/feeschedules/volumes", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v3/feeschedules/volumes", KrakenExchange.RateLimiter.FuturesApi, 1, true);
             return await _baseClient.SendAsync<KrakenFeeScheduleVolumeResult, Dictionary<string, decimal>>(request, null, ct).ConfigureAwait(false);
         }
 
@@ -118,7 +118,7 @@ namespace Kraken.Net.Clients.FuturesApi
             parameters.AddString("size", quantity);
             parameters.AddOptionalString("limitPrice", price);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v3/initialmargin", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v3/initialmargin", KrakenExchange.RateLimiter.FuturesApi, 1, true);
             var result = await _baseClient.SendRawAsync<KrakenFuturesMarginRequirementsInternal> (request, null, ct).ConfigureAwait(false);
             if (!result)
                 return result.As<KrakenFuturesMarginRequirements>(null);
@@ -145,7 +145,7 @@ namespace Kraken.Net.Clients.FuturesApi
             parameters.AddEnum("orderType", orderType);
             parameters.AddOptionalString("limitPrice", price);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v3/initialmargin/maxordersize", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v3/initialmargin/maxordersize", KrakenExchange.RateLimiter.FuturesApi, 1, true);
             var result = await _baseClient.SendRawAsync<KrakenFuturesMaxOrderSizeInternal>(request, null, ct).ConfigureAwait(false);
             if (!result)
                 return result.As<KrakenFuturesMaxOrderSize>(null);

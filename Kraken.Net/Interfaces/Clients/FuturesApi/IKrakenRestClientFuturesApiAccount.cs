@@ -10,7 +10,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
     {
         /// <summary>
         /// Get account log entries
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-history-account-history-get-account-log" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/history/account-log" /></para>
         /// </summary>
         /// <param name="startTime">Return results after this time</param>
         /// <param name="endTime">Return results before this time</param>
@@ -25,15 +25,15 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get asset balances and margin info
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-account-information-get-wallets" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-accounts" /></para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<Dictionary<string, KrakenBalances>>> GetBalancesAsync(CancellationToken ct = default);
+        Task<WebCallResult<KrakenFuturesBalances>> GetBalancesAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get the PNL currency preference is used to determine which currency to pay out when realizing PNL gains.
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-multi-collateral-get-pnl-currency-preference-for-a-market" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-pnl-currency-preference" /></para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -41,7 +41,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Set the PNL currency preference is used to determine which currency to pay out when realizing PNL gains.
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-multi-collateral-set-pnl-currency-preference-for-a-market" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/set-pnl-currency-preference" /></para>
         /// </summary>
         /// <param name="symbol">Symbol to update, for example `PF_ETHUSD`</param>
         /// <param name="pnlCurrency">Currency to use</param>
@@ -51,7 +51,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Transfer between 2 margin accounts or between margin and cash account
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-transfers-initiate-wallet-transfer" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/transfer" /></para>
         /// </summary>
         /// <param name="asset">The asset to transfer, for example `USDT`</param>
         /// <param name="quantity">The amount to transfer</param>
@@ -63,7 +63,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get fee schedule volume
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-fee-schedules-get-fee-schedule-volumes" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-user-fee-schedule-volumes-v-3" /></para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -71,7 +71,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get the initial margin requirements for the provided parameters
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-get-initial-margin-requirements" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-initial-margin" /></para>
         /// </summary>
         /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
         /// <param name="orderType">Order type</param>
@@ -84,7 +84,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get the max order quantity
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-get-maximum-order-size" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-max-order-size" /></para>
         /// </summary>
         /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
         /// <param name="orderType">Order type</param>

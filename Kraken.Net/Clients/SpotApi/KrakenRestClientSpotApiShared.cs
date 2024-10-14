@@ -246,7 +246,7 @@ namespace Kraken.Net.Clients.SpotApi
                 ParseOrderStatus(orderData.Value.Status),
                 orderData.Value.CreateTime)
             {
-                ClientOrderId = orderData.Value.ReferenceId,
+                ClientOrderId = orderData.Value.ClientOrderId,
                 Fee = orderData.Value.Fee,
                 OrderPrice = orderData.Value.OrderDetails.Price == 0 ? null : orderData.Value.OrderDetails.Price,
                 Quantity = orderData.Value.Oflags.Contains("viqc") ? null : orderData.Value.Quantity,
@@ -282,7 +282,7 @@ namespace Kraken.Net.Clients.SpotApi
                 ParseOrderStatus(x.Status),
                 x.CreateTime)
             {
-                ClientOrderId = x.ReferenceId,
+                ClientOrderId = x.ClientOrderId,
                 Fee = x.Fee,
                 OrderPrice = x.OrderDetails.Price == 0 ? null : x.OrderDetails.Price,
                 Quantity = x.Oflags.Contains("viqc") ? null : x.Quantity,
@@ -330,7 +330,7 @@ namespace Kraken.Net.Clients.SpotApi
                 ParseOrderStatus(x.Status),
                 x.CreateTime)
             {
-                ClientOrderId = x.ReferenceId,
+                ClientOrderId = x.ClientOrderId,
                 Fee = x.Fee,
                 OrderPrice = x.OrderDetails.Price == 0 ? null : x.OrderDetails.Price,
                 Quantity = x.Oflags.Contains("viqc") ? null : x.Quantity,

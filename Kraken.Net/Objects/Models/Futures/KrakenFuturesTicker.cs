@@ -1,9 +1,15 @@
 ﻿namespace Kraken.Net.Objects.Models.Futures
 {
-    internal record KrakenFuturesTickerResult : KrakenFuturesResult<IEnumerable<KrakenFuturesTicker>>
+    internal record KrakenFuturesTickersResult : KrakenFuturesResult<IEnumerable<KrakenFuturesTicker>>
     {
         [JsonPropertyName("tickers")]
         public override IEnumerable<KrakenFuturesTicker> Data { get; set; } = Array.Empty<KrakenFuturesTicker>();
+    }
+
+    internal record KrakenFuturesTickerResult : KrakenFuturesResult<KrakenFuturesTicker>
+    {
+        [JsonPropertyName("ticker")]
+        public override KrakenFuturesTicker Data { get; set; } = null!;
     }
 
     /// <summary>

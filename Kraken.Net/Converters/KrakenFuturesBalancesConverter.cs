@@ -2,30 +2,38 @@
 
 namespace Kraken.Net.Converters
 {
-    internal class KrakenFuturesBalancesConverter : JsonConverter<KrakenBalances>
+    internal class KrakenFuturesBalancesConverter : JsonConverter<KrakenFuturesBalances>
     {
-        public override KrakenBalances? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override KrakenFuturesBalances? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var doc = JsonDocument.ParseValue(ref reader);
-            KrakenBalances? balances = null;
-            var type = doc.RootElement.GetProperty("type").GetString();
-
-            switch (type)
+            var result = new KrakenFuturesBalances();
+            var marginAccounts = new List<KrakenMarginAccountBalances>();
+            foreach (var element in doc.RootElement.EnumerateObject())
             {
-                case "marginAccount":
-                    balances = doc.Deserialize<KrakenMarginAccountBalances>();
-                    break;
-                case "cashAccount":
-                    balances = doc.Deserialize<KrakenCashBalances>();
-                    break;
-                case "multiCollateralMarginAccount":
-                    balances = doc.Deserialize<KrakenMultiCollateralMarginBalances>();
-                    break;
+                var type = element.Value.GetProperty("type").GetString();
+
+                switch (type)
+                {
+                    case "marginAccount":
+                        var balance = element.Value.Deserialize<KrakenMarginAccountBalances>()!;
+                        balance.Symbol = element.Name;
+                        marginAccounts.Add(balance);
+                        break;
+                    case "cashAccount":
+                        result.CashAccount = element.Value.Deserialize<KrakenCashBalances>()!;
+                        break;
+                    case "multiCollateralMarginAccount":
+                        result.MultiCollateralMarginAccount = element.Value.Deserialize<KrakenMultiCollateralMarginBalances>()!;
+                        break;
+                }
             }
-            return balances;
+
+            result.MarginAccounts = marginAccounts;
+            return result;
         }
 
-        public override void Write(Utf8JsonWriter writer, KrakenBalances value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, KrakenFuturesBalances value, JsonSerializerOptions options)
         {
             writer.WriteNullValue();
         }

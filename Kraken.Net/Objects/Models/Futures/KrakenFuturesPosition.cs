@@ -44,7 +44,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// The size of the position.
         /// </summary>
         [JsonPropertyName("size")]
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
         /// <summary>
         /// The symbol
         /// </summary>

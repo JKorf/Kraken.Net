@@ -10,7 +10,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
     {
         /// <summary>
         /// Get a list of open orders
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getOpenOrders" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-open-orders" /></para>
         /// </summary>
         /// <param name="clientOrderId">Filter by client order id</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
@@ -20,7 +20,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get a list of closed orders
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getClosedOrders" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-closed-orders" /></para>
         /// </summary>
         /// <param name="clientOrderId">Filter by client order id</param>
         /// <param name="startTime">Return data after this time</param>
@@ -33,7 +33,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get info on specific order
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getOrdersInfo" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-orders-info" /></para>
         /// </summary>
         /// <param name="clientOrderId">Get orders by clientOrderId</param>
         /// <param name="orderId">Get order by its order id</param>
@@ -46,7 +46,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get info on specific orders
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getOrdersInfo" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-orders-info" /></para>
         /// </summary>
         /// <param name="clientOrderId">Get orders by clientOrderId</param>
         /// <param name="orderIds">Get orders by their order ids</param>
@@ -59,7 +59,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get trade history
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getTradeHistory" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-trade-history" /></para>
         /// </summary>
         /// <param name="startTime">Return data after this time</param>
         /// <param name="endTime">Return data before this time</param>
@@ -72,7 +72,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get info on specific trades
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getTradesInfo" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-trades-info" /></para>
         /// </summary>
         /// <param name="tradeId">The trade to get info on</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
@@ -82,7 +82,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get info on specific trades
-        /// <para><a href="https://docs.kraken.com/rest/#operation/getTradesInfo" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-trades-info" /></para>
         /// </summary>
         /// <param name="tradeIds">The trades to get info on</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
@@ -92,6 +92,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Place multiple new orders
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/add-order-batch" /></para>
         /// </summary>
         /// <param name="symbol">The symbol the order is on, for example `ETHUSDT`</param>
         /// <param name="orders">The orders to place</param>
@@ -103,7 +104,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Place a new order
-        /// <para><a href="https://docs.kraken.com/rest/#operation/addOrder" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/add-order" /></para>
         /// </summary>
         /// <param name="symbol">The symbol the order is on, for example `ETHUSDT`</param>
         /// <param name="side">The side of the order</param>
@@ -179,7 +180,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Edit an order
-        /// <para><a href="https://docs.kraken.com/rest/#operation/editOrder" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/edit-order" /></para>
         /// </summary>
         /// <param name="symbol">Symbol, for example `ETHUSDT`</param>
         /// <param name="orderId">Order id or client order id of the order to edit</param>
@@ -220,7 +221,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Cancel an order
-        /// <para><a href="https://docs.kraken.com/rest/#operation/cancelOrder" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/cancel-order" /></para>
         /// </summary>
         /// <param name="orderId">The id of the order to cancel</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
@@ -230,7 +231,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Cancel all orders
-        /// <para><a href="https://docs.kraken.com/rest/#operation/cancelAllOrders" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/cancel-all-orders" /></para>
         /// </summary>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>

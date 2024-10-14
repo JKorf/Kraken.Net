@@ -10,7 +10,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
     {
         /// <summary>
         /// Get fee schedules
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-fee-schedules-get-fee-schedules" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-fee-schedules-v-3" /></para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -18,7 +18,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get historical funding rates
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-historical-funding-rates-historical-funding-rates" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/historical-funding-rates" /></para>
         /// </summary>
         /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
         /// <param name="ct">Cancellation token</param>
@@ -27,7 +27,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get klines/candle data
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-charts-candles-market-candles" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/charts/candles" /></para>
         /// </summary>
         /// <param name="tickType">Type of price tick</param>
         /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
@@ -40,7 +40,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get the orderbook
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-market-data-get-orderbook" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-orderbook" /></para>
         /// </summary>
         /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
         /// <param name="ct">Cancellation token</param>
@@ -49,7 +49,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get platform notifications
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-general-get-notifications" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-notifications" /></para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -57,7 +57,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get a list of symbols
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-instrument-details-get-instruments" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-instruments" /></para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -65,15 +65,24 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get a list of symbols statuses
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-instrument-details-get-instrument-status-list" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/instruments-status" /></para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<IEnumerable<KrakenFuturesSymbolStatus>>> GetSymbolStatusAsync(CancellationToken ct = default);
 
         /// <summary>
+        /// Get ticker
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-ticker" /></para>
+        /// </summary>
+        /// <param name="symbol">Symbol to get ticker for</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns></returns>
+        Task<WebCallResult<KrakenFuturesTicker>> GetTickerAsync(string symbol, CancellationToken ct = default);
+
+        /// <summary>
         /// Get tickers
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-market-data-get-tickers" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-tickers" /></para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -81,7 +90,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get list of recent trades
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-market-data-get-trade-history" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-history" /></para>
         /// </summary>
         /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
         /// <param name="startTime">Filter by start time</param>

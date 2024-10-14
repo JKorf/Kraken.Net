@@ -29,7 +29,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// Order book entry
     /// </summary>
     [JsonConverter(typeof(ArrayConverter))]
-    public record KrakenFuturesOrderBookEntry
+    public record KrakenFuturesOrderBookEntry : ISymbolOrderBookEntry
     {
         /// <summary>
         /// Price

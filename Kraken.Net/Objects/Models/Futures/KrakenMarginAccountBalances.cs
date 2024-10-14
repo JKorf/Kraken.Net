@@ -6,6 +6,10 @@
     public record KrakenMarginAccountBalances : KrakenBalances
     {
         /// <summary>
+        /// Symbol
+        /// </summary>
+        public string Symbol { get; set; } = string.Empty;
+        /// <summary>
         /// Balances
         /// </summary>
         [JsonPropertyName("balances")]
