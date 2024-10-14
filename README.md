@@ -159,6 +159,34 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 5.0.0 - 14 Oct 2024
+    * Updated CryptoExchange.Net to version 8.0.3, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/8.0.3
+    * Updated the library to use System.Text.Json for (de)serialization instead of Json.Net
+    * Updated Spot websocket implementation from V1 to V2
+        * Moved requesting of WebSocket token for private endpoints from user endpoint to internal
+        * Removed automatic mapping of BTC to XBT (V2 API used BTC as symbol instead of the previous XBT)
+        * Respone models have been updated to V2
+        * Spread subscription has been removed, part of Ticker stream now
+        * Added individual order book subscription
+        * Added instrument subscription
+        * Added user balances subscription
+        * UserTrade subscription has been removed, part of Order stream now
+        * Added socketClient.SpotApi.PlaceMultipleOrdersAsync endpoint
+        * Added socketClient.SpotApi.EditOrderAsync endpoint
+    * Added socketClient.SpotApi.ReplaceOrderAsync endpoint
+    * Added Shared implementation for Futures WebSocket and REST APIs
+    * Extended Shared implementation for Spot WebSocket API
+    * Added restClient.SpotApi.Trading.CancelAllOrdersAfterAsync endpoint
+    * Added restClient.FuturesApi.ExchangeData.GetTickerAsync endpoint
+    * Added restClient.FuturesApi.Trading.GetOrdrAync endpoint
+    * Renamed clientOrderId to userReference parameters in Spot orders as it was implemented with the `userref` field
+    * Added new clientOrderId parameter to Spot orders using the correct `cl_ord_id` field
+    * Updated Shared Spot REST implementation to use new clientOrderId property
+    * Updated restClient.FuturesApi.GetBalancesAsync response so it's more discoverable
+    * Updated AssetStatus Enum values
+    * Updated SymbolStatus Enum values
+    * Fixed deserialization issue FuturesApi.Trading.GetOpenPositionsAsync
+
 * Version 4.12.0 - 27 Sep 2024
     * Updated CryptoExchange.Net to version 8.0.0, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/8.0.0
     * Added partial Shared client interfaces implementation for Spot and FuturesApi Rest and Socket clients
