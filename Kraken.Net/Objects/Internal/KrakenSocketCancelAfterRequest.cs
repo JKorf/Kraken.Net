@@ -1,16 +1,14 @@
-﻿using Newtonsoft.Json;
-
-namespace Kraken.Net.Objects.Internal
+﻿namespace Kraken.Net.Objects.Internal
 {
     /// <summary>
-    /// Place order request
+    /// Cancel orders after request
     /// </summary>
-    internal class KrakenSocketCancelAfterRequest : KrakenSocketAuthRequest
+    internal class KrakenSocketCancelAfterRequest : KrakenSocketAuthRequestV2
     {
         /// <summary>
         /// Timeout
         /// </summary>
-        [JsonProperty("timeout")]
+        [JsonPropertyName("timeout")]
         public int Timeout { get; set; }
     }
 }

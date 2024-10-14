@@ -1,16 +1,18 @@
-﻿using Newtonsoft.Json;
-
-namespace Kraken.Net.Objects.Sockets
+﻿namespace Kraken.Net.Objects.Sockets
 {
-    internal record KrakenChallengeRequest : KrakenEvent
+    internal record KrakenChallengeRequest
     {
-        [JsonProperty("api_key")]
+        [JsonPropertyName("event")]
+        public string Event { get; set; } = string.Empty;
+        [JsonPropertyName("api_key")]
         public string ApiKey { get; set; } = string.Empty;
     }
 
     internal record KrakenChallengeResponse : KrakenEvent
     {
-        [JsonProperty("message")]
+        [JsonPropertyName("event")]
+        public string? Event { get; set; }
+        [JsonPropertyName("message")]
         public string Message { get; set; } = string.Empty;
     }
 }

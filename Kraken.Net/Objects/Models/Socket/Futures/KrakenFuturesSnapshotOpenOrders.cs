@@ -1,8 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Kraken.Net.Enums;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
@@ -14,10 +10,12 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Account id
         /// </summary>
+        [JsonPropertyName("account")]
         public string Account { get; set; } = string.Empty;
         /// <summary>
         /// Current open orders
         /// </summary>
+        [JsonPropertyName("orders")]
         public IEnumerable<KrakenFuturesSocketOpenOrder> Orders { get; set; } = Array.Empty<KrakenFuturesSocketOpenOrder>();
     }
 
@@ -29,20 +27,22 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Is cancel
         /// </summary>
-        [JsonProperty("is_cancel")]
+        [JsonPropertyName("is_cancel")]
         public bool IsCancel { get; set; }
         /// <summary>
         /// Reason
         /// </summary>
+        [JsonPropertyName("reason")]
         public string Reason { get; set; } = string.Empty;
         /// <summary>
         /// Reason
         /// </summary>
-        [JsonProperty("order_id")]
+        [JsonPropertyName("order_id")]
         public string OrderId { get; set; } = string.Empty;
         /// <summary>
         /// Order info
         /// </summary>
+        [JsonPropertyName("order")]
         public KrakenFuturesSocketOpenOrder? Order { get; set; } = null!;
     }
 
@@ -54,75 +54,76 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Symbol
         /// </summary>
-        [JsonProperty("instrument")]
+        [JsonPropertyName("instrument")]
         public string Symbol { get; set; } = string.Empty;
         /// <summary>
         /// Timestamp
         /// </summary>
-        [JsonProperty("time")]
+        [JsonPropertyName("time")]
         [JsonConverter(typeof(DateTimeConverter))]
         public DateTime Timestamp { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        [JsonProperty("last_update_time")]
+        [JsonPropertyName("last_update_time")]
         [JsonConverter(typeof(DateTimeConverter))]
         public DateTime LastUpdateTime { get; set; }
         /// <summary>
         /// Quantitiy
         /// </summary>
-        [JsonProperty("qty")]
+        [JsonPropertyName("qty")]
         public decimal Quantity { get; set; }
         /// <summary>
         /// Filled quantity
         /// </summary>
-        [JsonProperty("filled")]
+        [JsonPropertyName("filled")]
         public decimal QuantityFilled { get; set; }
         /// <summary>
         /// Limit price
         /// </summary>
-        [JsonProperty("limit_price")]
+        [JsonPropertyName("limit_price")]
         public decimal Price { get; set; }
         /// <summary>
         /// Stop price
         /// </summary>
-        [JsonProperty("stop_price")]
+        [JsonPropertyName("stop_price")]
         public decimal? StopPrice { get; set; }
         /// <summary>
         /// Order type
         /// </summary>
-        [JsonProperty("type")]
-        public string Type { get; set; } = string.Empty;
+        [JsonPropertyName("type")]
+        public FuturesOrderType Type { get; set; }
         /// <summary>
         /// Order id
         /// </summary>
-        [JsonProperty("order_id")]
+        [JsonPropertyName("order_id")]
         public string OrderId { get; set; } = string.Empty;
         /// <summary>
         /// Client order id
         /// </summary>
-        [JsonProperty("cli_ord_id")]
+        [JsonPropertyName("cli_ord_id")]
         public string? ClientOrderId { get; set; }
         /// <summary>
         /// Side
         /// </summary>
-        [JsonProperty("direction")]
+        [JsonPropertyName("direction")]
         [JsonConverter(typeof(EnumConverter))]
         public OrderSide Side { get; set; }
         /// <summary>
         /// Reduce only
         /// </summary>
-        [JsonProperty("reduce_only")]
+        [JsonPropertyName("reduce_only")]
         public bool ReduceOnly { get; set; }
         /// <summary>
         /// Trigger signal
         /// </summary>
         [JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("triggerSignal")]
         public TriggerSignal? TriggerSignal { get; set; }
         /// <summary>
         /// Trailing stop options
         /// </summary>
-        [JsonProperty("trailing_stop_options")]
+        [JsonPropertyName("trailing_stop_options")]
         public KrakenFuturesTrailingStopOptions? TrailingStopOptions { get; set; }
     }
 
@@ -134,12 +135,13 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Max deviation
         /// </summary>
-        [JsonProperty("max_deviation")]
+        [JsonPropertyName("max_deviation")]
         public decimal? MaxDeviation { get; set; }
         /// <summary>
         /// Unit
         /// </summary>
         [JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("unit")]
         public TrailingStopDeviationUnit Unit { get; set; }
     }
 }

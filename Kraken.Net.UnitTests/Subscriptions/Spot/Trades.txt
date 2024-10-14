@@ -1,0 +1,18 @@
+> { "method": "subscribe", "params": { "channel": "trade", "symbol": ["ETH/USDT"] }, "req_id": "|1|" }
+< { "method": "subscribe", "result": { "channel": "trade", "snapshot": true, "symbol": "ETH/USDT" }, "success": true,"time_in": "2023-09-25T09:04:31.742599Z", "time_out": "2023-09-25T09:04:31.742648Z", "req_id": |1| }
+= 
+{
+    "channel": "trade",
+    "type": "update",
+    "data": [
+        {
+            "symbol": "ETH/USDT",
+            "side": "sell",
+            "price": 0.5117,
+            "qty": 40.0,
+            "ord_type": "market",
+            "trade_id": 4665906,
+            "timestamp": "2023-09-25T07:49:37.708706Z"
+        }
+    ]
+}

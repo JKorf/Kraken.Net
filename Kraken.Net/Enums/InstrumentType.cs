@@ -21,7 +21,7 @@ namespace Kraken.Net.Enums
         /// Vanilla futures
         /// </summary>
         [Map("futures_vanilla")]
-        ValillaFutures,
+        VanillaFutures,
         /// <summary>
         /// Spot index
         /// </summary>

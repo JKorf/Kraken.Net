@@ -1,0 +1,10 @@
+POST
+/0/private/CancelAllOrdersAfter
+true
+{
+  "error": [],
+  "result": {
+    "currentTime": "2023-03-24T17:41:56Z",
+    "triggerTime": "2023-03-24T17:42:56Z"
+  }
+}

@@ -1,9 +1,5 @@
-﻿using CryptoExchange.Net.Converters;
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 using Kraken.Net.Objects.Sockets;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
@@ -15,6 +11,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Trades
         /// </summary>
+        [JsonPropertyName("trades")]
         public IEnumerable<KrakenFuturesTradeUpdate> Trades { get; set; } = Array.Empty<KrakenFuturesTradeUpdate>();
     }
 
@@ -26,35 +23,39 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Uid
         /// </summary>
+        [JsonPropertyName("uid")]
         public string Uid { get; set; } = string.Empty;
         /// <summary>
         /// Order side
         /// </summary>
         [JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("side")]
         public OrderSide Side { get; set; }
         /// <summary>
         /// Trade type
         /// </summary>
+        [JsonPropertyName("type")]
         public string Type { get; set; } = string.Empty;
         /// <summary>
         /// Sequence number
         /// </summary>
-        [JsonProperty("seq")]
+        [JsonPropertyName("seq")]
         public long Sequence { get; set; }
         /// <summary>
         /// Timestamp
         /// </summary>
-        [JsonProperty("time")]
+        [JsonPropertyName("time")]
         [JsonConverter(typeof(DateTimeConverter))]
         public DateTime Timestamp { get; set; }
         /// <summary>
         /// Quantity
         /// </summary>
-        [JsonProperty("qty")]
+        [JsonPropertyName("qty")]
         public decimal Quantity { get; set; }
         /// <summary>
         /// Trade price
         /// </summary>
+        [JsonPropertyName("price")]
         public decimal Price { get; set; }
     }
 }

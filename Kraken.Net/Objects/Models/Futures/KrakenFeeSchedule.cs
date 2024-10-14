@@ -1,11 +1,14 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
+    internal record KrakenFeeScheduleVolumeResult : KrakenFuturesResult<Dictionary<string, decimal>>
+    {
+        [JsonPropertyName("feeSchedules")]
+        public override Dictionary<string, decimal> Data { get; set; } = new Dictionary<string, decimal>();
+    }
+
     internal record KrakenFeeSchedulesResult : KrakenFuturesResult<IEnumerable<KrakenFeeSchedule>>
     {
-        [JsonProperty("feeSchedules")]
+        [JsonPropertyName("feeSchedules")]
         public override IEnumerable<KrakenFeeSchedule> Data { get; set; } = new List<KrakenFeeSchedule>();
     }
 
@@ -17,14 +20,17 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Name
         /// </summary>
+        [JsonPropertyName("name")]
         public string Name { get; set; } = string.Empty;
         /// <summary>
         /// Id
         /// </summary>
+        [JsonPropertyName("uid")]
         public string Uid { get; set; } = string.Empty;
         /// <summary>
         /// Fee tiers
         /// </summary>
+        [JsonPropertyName("tiers")]
         public IEnumerable<KrakenFee> Tiers { get; set; } = new List<KrakenFee>();
     }
 
@@ -36,14 +42,17 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Fee for maker orders
         /// </summary>
+        [JsonPropertyName("makerFee")]
         public decimal MakerFee { get; set; }
         /// <summary>
         /// Fee for taker orders
         /// </summary>
+        [JsonPropertyName("takerFee")]
         public decimal TakerFee { get; set; }
         /// <summary>
         /// Usd trade volume threshold
         /// </summary>
+        [JsonPropertyName("usdVolume")]
         public decimal UsdVolume { get; set; }
     }
 }

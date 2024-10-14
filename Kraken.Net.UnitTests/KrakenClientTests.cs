@@ -1,19 +1,8 @@
-﻿using Newtonsoft.Json;
-using NUnit.Framework;
-using System;
-using Kraken.Net.Objects;
+﻿using NUnit.Framework;
 using Kraken.Net.UnitTests.TestImplementations;
 using System.Threading.Tasks;
-using System.Reflection;
-using System.Linq;
-using System.Diagnostics;
-using CryptoExchange.Net.Sockets;
-using CryptoExchange.Net.Objects;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Clients;
-using Kraken.Net.Clients.SpotApi;
-using Kraken.Net.ExtensionMethods;
-using CryptoExchange.Net.Objects.Sockets;
 using System.Collections.Generic;
 using Kraken.Net.Objects.Models.Futures;
 using NUnit.Framework.Legacy;
@@ -21,6 +10,7 @@ using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Authentication;
 using System.Net.Http;
 using CryptoExchange.Net.Testing.Implementations;
+using System.Text.Json;
 
 namespace Kraken.Net.UnitTests
 {
@@ -65,7 +55,7 @@ namespace Kraken.Net.UnitTests
                 Error = new string[] {}
             };
 
-            return JsonConvert.SerializeObject(result);
+            return JsonSerializer.Serialize(result);
         }
 
         [TestCase()]
@@ -97,7 +87,7 @@ namespace Kraken.Net.UnitTests
                 }
             };
 
-            TestHelpers.SetResponse((KrakenRestClient)client, JsonConvert.SerializeObject(resultObj));
+            TestHelpers.SetResponse((KrakenRestClient)client, JsonSerializer.Serialize(resultObj));
 
             // act
             var result = await client.SpotApi.ExchangeData.GetAssetsAsync();
@@ -134,7 +124,7 @@ namespace Kraken.Net.UnitTests
                 Error = "Error occured"
             };
 
-            TestHelpers.SetResponse((KrakenRestClient)client, JsonConvert.SerializeObject(resultObj), System.Net.HttpStatusCode.BadRequest);
+            TestHelpers.SetResponse((KrakenRestClient)client, JsonSerializer.Serialize(resultObj), System.Net.HttpStatusCode.BadRequest);
 
             // act
             var result = await client.FuturesApi.ExchangeData.GetTickersAsync();

@@ -1,0 +1,23 @@
+> { "method": "subscribe", "params": { "channel": "ticker", "symbol": ["ETH/USDT"] }, "req_id": "|1|" }
+< { "method": "subscribe", "result": { "channel": "ticker", "snapshot": true, "symbol": "ETH/USDT" }, "success": true,"time_in": "2023-09-25T09:04:31.742599Z", "time_out": "2023-09-25T09:04:31.742648Z", "req_id": |1| }
+= 
+{
+    "channel": "ticker",
+    "type": "update",
+    "data": [
+        {
+            "symbol": "ETH/USDT",
+            "bid": 0.10025,
+            "bid_qty": 740.0,
+            "ask": 0.10035,
+            "ask_qty": 740.0,
+            "last": 0.10035,
+            "volume": 997038.98383185,
+            "vwap": 0.10148,
+            "low": 0.09979,
+            "high": 0.10285,
+            "change": -0.00017,
+            "change_pct": -0.17
+        }
+    ]
+}

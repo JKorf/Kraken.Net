@@ -10,7 +10,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
     {
         /// <summary>
         /// List earn strategies along with their parameters.
-        /// <para><a href="https://docs.kraken.com/rest/#tag/Earn/operation/listStrategies"/></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/list-strategies"/></para>
         /// </summary>
         /// <param name="asset">Filter by asset, for example `USDT`</param>
         /// <param name="lockType">Filter by lock type</param>
@@ -24,7 +24,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get earn allocations
-        /// <para><a href="https://docs.kraken.com/rest/#tag/Earn/operation/listAllocations"/></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/list-allocations"/></para>
         /// </summary>
         /// <param name="convertAsset">Convert asset, defaults to USD</param>
         /// <param name="hideZeroAllocations">Hide zero allocations</param>
@@ -36,7 +36,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get status of the last allocation request
-        /// <para><a href="https://docs.kraken.com/rest/#tag/Earn/operation/getAllocateStrategyStatus"/></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-allocate-strategy-status"/></para>
         /// </summary>
         /// <param name="strategyId">Strategy id</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
@@ -46,7 +46,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get status of the last deallocation request
-        /// <para><a href="https://docs.kraken.com/rest/#tag/Earn/operation/getDeallocateStrategyStatus"/></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-deallocate-strategy-status"/></para>
         /// </summary>
         /// <param name="strategyId">Strategy id</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
@@ -56,7 +56,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Allocate earn funds to a strategy
-        /// <para><a href="https://docs.kraken.com/rest/#tag/Earn/operation/allocateStrategy"/></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/allocate-strategy"/></para>
         /// </summary>
         /// <param name="strategyId">Strategy id</param>
         /// <param name="quantity">Amount to allocate</param>
@@ -67,7 +67,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Deallocate previously allocated funds
-        /// <para><a href="https://docs.kraken.com/rest/#tag/Earn/operation/deallocateStrategy"/></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/deallocate-strategy"/></para>
         /// </summary>
         /// <param name="strategyId">Strategy id</param>
         /// <param name="quantity">Amount to deallocate</param>

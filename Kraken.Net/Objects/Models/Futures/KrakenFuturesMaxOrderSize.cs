@@ -1,19 +1,14 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     internal record KrakenFuturesMaxOrderSizeInternal : KrakenFuturesResult
     {
-        [JsonProperty("buyPrice")]
+        [JsonPropertyName("buyPrice")]
         public decimal? BuyPrice { get; set; }
-        [JsonProperty("maxBuySize")]
+        [JsonPropertyName("maxBuySize")]
         public decimal? MaxBuyQuantity { get; set; }
-        [JsonProperty("maxSellSize")]
+        [JsonPropertyName("maxSellSize")]
         public decimal? MaxSellQuantity { get; set; }
-        [JsonProperty("sellPrice")]
+        [JsonPropertyName("sellPrice")]
         public decimal? SellPrice { get; set; }
     }
 
@@ -25,22 +20,22 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Buy price
         /// </summary>
-        [JsonProperty("buyPrice")]
+        [JsonPropertyName("buyPrice")]
         public decimal? BuyPrice { get; set; }
         /// <summary>
         /// Max buy quantity
         /// </summary>
-        [JsonProperty("maxBuySize")]
+        [JsonPropertyName("maxBuySize")]
         public decimal? MaxBuyQuantity { get; set; }
         /// <summary>
         /// Max sell quantity
         /// </summary>
-        [JsonProperty("maxSellSize")]
+        [JsonPropertyName("maxSellSize")]
         public decimal? MaxSellQuantity { get; set; }
         /// <summary>
         /// Sell price
         /// </summary>
-        [JsonProperty("sellPrice")]
+        [JsonPropertyName("sellPrice")]
         public decimal? SellPrice { get; set; }
     }
 }

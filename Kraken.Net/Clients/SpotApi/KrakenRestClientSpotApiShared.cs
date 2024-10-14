@@ -206,17 +206,13 @@ namespace Kraken.Net.Clients.SpotApi
             if (validationError != null)
                 return new ExchangeWebResult<SharedId>(Exchange, validationError);
 
-            uint cid = 0;
-            if (request.ClientOrderId != null && !uint.TryParse(request.ClientOrderId, out cid))
-                return new ExchangeWebResult<SharedId>(Exchange, new ArgumentError("Client order id needs to be a positive integer if specified"));
-
             var result = await Trading.PlaceOrderAsync(
                 request.Symbol.GetSymbol(FormatSymbol),
                 request.Side == SharedOrderSide.Buy ? Enums.OrderSide.Buy : Enums.OrderSide.Sell,
                 GetPlaceOrderType(request.OrderType),
                 request.Quantity ?? request.QuoteQuantity ?? 0,
                 request.Price,
-                clientOrderId: request.ClientOrderId != null ? cid : null,
+                clientOrderId: request.ClientOrderId,
                 orderFlags: GetOrderFlags(request.OrderType, request.QuoteQuantity),
                 timeInForce: GetTimeInForce(request.TimeInForce),
                 ct: ct).ConfigureAwait(false);

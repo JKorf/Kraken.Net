@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
-namespace Kraken.Net.Objects.Models.Socket.Futures
+﻿namespace Kraken.Net.Objects.Models.Socket.Futures
 {
     /// <summary>
     /// Socket update
@@ -11,33 +8,33 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// The event type
         /// </summary>
-        [JsonProperty("event")]
+        [JsonPropertyName("event")]
         public string Event { get; set; } = string.Empty;
         /// <summary>
         /// The feed
         /// </summary>
-        [JsonProperty("feed")]
+        [JsonPropertyName("feed")]
         public string Feed { get; set; } = string.Empty;
         /// <summary>
         /// Error if any
         /// </summary>
-        [JsonProperty("error")]
+        [JsonPropertyName("error")]
         public string? Error { get; set; }
     }
 
     internal record KrakenFuturesSubscribeMessage : KrakenFuturesSocketMessage
     {
-        [JsonProperty("product_ids")]
+        [JsonPropertyName("product_ids")]
         public List<string>? Symbols { get; set; }
     }
 
     internal record KrakenFuturesSubscribeAuthMessage : KrakenFuturesSubscribeMessage
     {
-        [JsonProperty("api_key")]
+        [JsonPropertyName("api_key")]
         public string ApiKey { get; set; } = string.Empty;
-        [JsonProperty("original_challenge")]
+        [JsonPropertyName("original_challenge")]
         public string OriginalChallenge { get; set; } = string.Empty;
-        [JsonProperty("signed_challenge")]
+        [JsonPropertyName("signed_challenge")]
         public string SignedChallenge { get; set; } = string.Empty;
     }
 
@@ -49,7 +46,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// The symbol
         /// </summary>
-        [JsonProperty("product_id")]
+        [JsonPropertyName("product_id")]
         public string Symbol { get; set; } = string.Empty;
     }
 }

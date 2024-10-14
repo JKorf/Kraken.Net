@@ -1,13 +1,8 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     internal record KrakenFundingRatesResult : KrakenFuturesResult<IEnumerable<KrakenFundingRate>>
     {
-        [JsonProperty("rates")]
+        [JsonPropertyName("rates")]
         public override IEnumerable<KrakenFundingRate> Data { get; set; } = Array.Empty<KrakenFundingRate>();
     }
 
@@ -19,15 +14,18 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Funding rate
         /// </summary>
+        [JsonPropertyName("fundingRate")]
         public decimal FundingRate { get; set; }
         /// <summary>
         /// Relative funding rate
         /// </summary>
+        [JsonPropertyName("relativeFundingRate")]
         public decimal RelativeFundingRate { get; set; }
         /// <summary>
         /// Timestamp
         /// </summary>
         [JsonConverter(typeof(DateTimeConverter))]
+        [JsonPropertyName("timestamp")]
         public DateTime Timestamp { get; set; }
     }
 }

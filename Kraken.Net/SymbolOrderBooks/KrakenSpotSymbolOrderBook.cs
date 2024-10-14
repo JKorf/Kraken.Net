@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using CryptoExchange.Net.Objects;
+﻿using System.Text;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.OrderBook;
 using Force.Crc32;
 using Kraken.Net.Clients;
 using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Objects.Models;
+using Kraken.Net.Objects.Models.Socket;
 using Kraken.Net.Objects.Options;
-using Microsoft.Extensions.Logging;
 
 namespace Kraken.Net.SymbolOrderBooks
 {
@@ -23,7 +17,6 @@ namespace Kraken.Net.SymbolOrderBooks
     {
         private readonly IKrakenSocketClient _socketClient;
         private readonly bool _clientOwner;
-        private bool _initialSnapshotDone;
         private readonly TimeSpan _initialDataTimeout;
 
         /// <summary>
@@ -66,7 +59,7 @@ namespace Kraken.Net.SymbolOrderBooks
         /// <inheritdoc />
         protected override async Task<CallResult<UpdateSubscription>> DoStartAsync(CancellationToken ct)
         {
-            var result = await _socketClient.SpotApi.SubscribeToOrderBookUpdatesAsync(Symbol, Levels!.Value, ProcessUpdate).ConfigureAwait(false);
+            var result = await _socketClient.SpotApi.SubscribeToAggregatedOrderBookUpdatesAsync(Symbol, Levels!.Value, ProcessUpdate, true).ConfigureAwait(false);
             if (!result)
                 return result;
 
@@ -82,24 +75,17 @@ namespace Kraken.Net.SymbolOrderBooks
             return setResult ? result : new CallResult<UpdateSubscription>(setResult.Error!);
         }
 
-        /// <inheritdoc />
-        protected override void DoReset()
+        private void ProcessUpdate(DataEvent<KrakenBookUpdate> data)
         {
-            _initialSnapshotDone = false;
-        }
-
-        private void ProcessUpdate(DataEvent<KrakenStreamOrderBook> data)
-        {
-            if (!_initialSnapshotDone)
+            if (data.UpdateType == SocketUpdateType.Snapshot)
             {
-                var maxNumber = Math.Max(data.Data.Bids.Max(b => b.Sequence), data.Data.Asks.Max(b => b.Sequence));
-                SetInitialOrderBook(maxNumber, data.Data.Bids, data.Data.Asks);
-                _initialSnapshotDone = true;
+                SetInitialOrderBook(DateTime.UtcNow.Ticks, data.Data.Bids, data.Data.Asks);
             }
             else
             {
-                UpdateOrderBook(data.Data.Bids, data.Data.Asks);
-                AddChecksum((int)data.Data.Checksum!);
+                UpdateOrderBook(DateTime.UtcNow.Ticks, data.Data.Bids, data.Data.Asks);
+                if (data.Data.Checksum <= int.MaxValue)
+                    AddChecksum((int)data.Data.Checksum!);
             }
         }
 
@@ -109,15 +95,15 @@ namespace Kraken.Net.SymbolOrderBooks
             var checksumValues = new List<string>();
             for (var i = 0; i < 10; i++)
             {
-                var ask = (KrakenStreamOrderBookEntry)_asks.ElementAt(i).Value;
-                checksumValues.Add(ToChecksumString(ask.RawPrice));
-                checksumValues.Add(ToChecksumString(ask.RawQuantity));
+                var ask = (KrakenBookUpdateEntry)_asks.ElementAt(i).Value;
+                checksumValues.Add(ToChecksumString(ask.Price));
+                checksumValues.Add(ToChecksumString(ask.Quantity));
             }
             for (var i = 0; i < 10; i++)
             {
-                var bid = (KrakenStreamOrderBookEntry)_bids.ElementAt(i).Value;
-                checksumValues.Add(ToChecksumString(bid.RawPrice));
-                checksumValues.Add(ToChecksumString(bid.RawQuantity));
+                var bid = (KrakenBookUpdateEntry)_bids.ElementAt(i).Value;
+                checksumValues.Add(ToChecksumString(bid.Price));
+                checksumValues.Add(ToChecksumString(bid.Quantity));
             }
 
             var checksumString = string.Join("", checksumValues);
@@ -132,9 +118,9 @@ namespace Kraken.Net.SymbolOrderBooks
             return true;
         }
 
-        private static string ToChecksumString(string value)
+        private static string ToChecksumString(decimal value)
         {
-            return value.Replace(".", "").TrimStart('0');
+            return value.ToString(CultureInfo.InvariantCulture).Replace(".", "").TrimStart('0');
         }
 
         /// <inheritdoc />

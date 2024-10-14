@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Placed order info
@@ -12,12 +8,12 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Order ids
         /// </summary>
-        [JsonProperty("txid")]
+        [JsonPropertyName("txid")]
         public IEnumerable<string> OrderIds { get; set; } = Array.Empty<string>();
         /// <summary>
         /// Descriptions
         /// </summary>
-        [JsonProperty("descr")]
+        [JsonPropertyName("descr")]
         public KrakenPlacedOrderDescription Descriptions { get; set; } = default!;
     }
 
@@ -29,12 +25,12 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Order description
         /// </summary>
-        [JsonProperty("order")]
+        [JsonPropertyName("order")]
         public string OrderDescription { get; set; } = string.Empty;
         /// <summary>
         /// Close order description
         /// </summary>
-        [JsonProperty("close")]
+        [JsonPropertyName("close")]
         public string CloseOrderDescription { get; set; } = string.Empty;
     }
 }

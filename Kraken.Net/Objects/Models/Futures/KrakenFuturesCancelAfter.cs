@@ -1,12 +1,8 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
-using System;
-
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     internal record KrakenFuturesCancelAfterResult : KrakenFuturesResult<KrakenFuturesCancelAfter>
     {
-        [JsonProperty("status")]
+        [JsonPropertyName("status")]
         public override KrakenFuturesCancelAfter Data { get; set; } = null!;
     }
 
@@ -19,11 +15,13 @@ namespace Kraken.Net.Objects.Models.Futures
         /// Current timestamp
         /// </summary>
         [JsonConverter(typeof(DateTimeConverter))]
+        [JsonPropertyName("currentTime")]
         public DateTime CurrentTime { get; set; }
         /// <summary>
         /// Trigger time
         /// </summary>
         [JsonConverter(typeof(DateTimeConverter))]
+        [JsonPropertyName("triggerTime")]
         public DateTime? TriggerTime { get; set; }
     }
 }

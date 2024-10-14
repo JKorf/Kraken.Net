@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CryptoExchange.Net.Converters;
-using CryptoExchange.Net.Interfaces;
-using Newtonsoft.Json;
+﻿using CryptoExchange.Net.Converters;
 
 namespace Kraken.Net.Objects.Models
 {
@@ -14,11 +10,13 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Asks in the book
         /// </summary>
-        public IEnumerable<ISymbolOrderBookEntry> Asks { get; set; } = Array.Empty<KrakenOrderBookEntry>();
+        [JsonPropertyName("asks")]
+        public IEnumerable<KrakenOrderBookEntry> Asks { get; set; } = Array.Empty<KrakenOrderBookEntry>();
         /// <summary>
         /// Bids in the book
         /// </summary>
-        public IEnumerable<ISymbolOrderBookEntry> Bids { get; set; } = Array.Empty<KrakenOrderBookEntry>();
+        [JsonPropertyName("bids")]
+        public IEnumerable<KrakenOrderBookEntry> Bids { get; set; } = Array.Empty<KrakenOrderBookEntry>();
     }
 
     /// <summary>
@@ -63,22 +61,24 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Asks
         /// </summary>
-        [JsonProperty("as")]
+        [JsonPropertyName("as")]
         public IEnumerable<KrakenStreamOrderBookEntry> Asks { get; set; } = Array.Empty<KrakenStreamOrderBookEntry>();
         /// <summary>
         /// Bids
         /// </summary>
-        [JsonProperty("bs")]
+        [JsonPropertyName("bs")]
         public IEnumerable<KrakenStreamOrderBookEntry> Bids { get; set; } = Array.Empty<KrakenStreamOrderBookEntry>();
 
         /// <summary>
         /// Checksum
         /// </summary>
+        [JsonPropertyName("checksum")]
         public uint? Checksum { get; set; }
 
         /// <summary>
         /// Is this a snapshot?
         /// </summary>
+        [JsonPropertyName("snapshot")]
         internal bool Snapshot { get; set; }
     }
 

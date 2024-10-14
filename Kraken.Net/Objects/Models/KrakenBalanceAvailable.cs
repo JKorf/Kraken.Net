@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Balance info
@@ -10,17 +8,18 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Asset
         /// </summary>
+        [JsonPropertyName("asset")]
         public string Asset { get; set; } = string.Empty;
         /// <summary>
         /// Balance
         /// </summary>
-        [JsonProperty("balance")]
+        [JsonPropertyName("balance")]
         public decimal Total { get; set; }
 
         /// <summary>
         /// The quantity currently locked into a trade
         /// </summary>
-        [JsonProperty("hold_trade")]
+        [JsonPropertyName("hold_trade")]
         public decimal Locked { get; set; }
 
         /// <summary>

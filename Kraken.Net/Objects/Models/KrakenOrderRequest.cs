@@ -1,9 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Kraken.Net.Converters;
-using Kraken.Net.Enums;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models
 {
@@ -13,79 +8,84 @@ namespace Kraken.Net.Objects.Models
     public record KrakenOrderRequest
     {
         /// <summary>
+        /// User reference
+        /// </summary>
+        [JsonPropertyName("userref"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public uint? UserReference { get; set; }
+        /// <summary>
         /// Client order id
         /// </summary>
-        [JsonProperty("userref", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("cl_ord_id"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? ClientOrderId { get; set; }
         /// <summary>
         /// Order type
         /// </summary>
-        [JsonProperty("ordertype"), JsonConverter(typeof(OrderTypeConverter))]
+        [JsonPropertyName("ordertype")]
         public OrderType OrderType { get; set; }
         /// <summary>
         /// Order side
         /// </summary>
-        [JsonProperty("type"), JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("type"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public OrderSide Side { get; set; }
         /// <summary>
         /// Quantity
         /// </summary>
-        [JsonProperty("volume"), JsonConverter(typeof(DecimalStringWriterConverter))]
+        [JsonPropertyName("volume"), JsonConverter(typeof(DecimalStringWriterConverter))]
         public decimal Quantity { get; set; }
         /// <summary>
         /// Iceberg quantity
         /// </summary>
-        [JsonProperty("displayvol", DefaultValueHandling = DefaultValueHandling.Ignore), JsonConverter(typeof(DecimalStringWriterConverter))]
+        [JsonPropertyName("displayvol"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(DecimalStringWriterConverter))]
         public decimal? IcebergQuanty { get; set; }
         /// <summary>
         /// Price
         /// </summary>
-        [JsonProperty("price", DefaultValueHandling = DefaultValueHandling.Ignore), JsonConverter(typeof(DecimalStringWriterConverter))]
+        [JsonPropertyName("price"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(DecimalStringWriterConverter))]
         public decimal? Price { get; set; }
         /// <summary>
         /// Secondary price
         /// </summary>
-        [JsonProperty("price2", DefaultValueHandling = DefaultValueHandling.Ignore), JsonConverter(typeof(DecimalStringWriterConverter))]
+        [JsonPropertyName("price2"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(DecimalStringWriterConverter))]
         public decimal? SecondaryPrice { get; set; }
         /// <summary>
         /// Trigger
         /// </summary>
-        [JsonProperty("trigger", DefaultValueHandling = DefaultValueHandling.Ignore), JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("trigger"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(EnumConverter))]
         public Trigger? Trigger { get; set; }
         /// <summary>
         /// Leverage
         /// </summary>
-        [JsonProperty("leverage", DefaultValueHandling = DefaultValueHandling.Ignore), JsonConverter(typeof(DecimalStringWriterConverter))]
+        [JsonPropertyName("leverage"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(DecimalStringWriterConverter))]
         public decimal? Leverage { get; set; }
         /// <summary>
         /// Reduce only
         /// </summary>
-        [JsonProperty("reduce_only", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("reduce_only"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool? ReduceOnly { get; set; }
         /// <summary>
         /// Self trade prevention type
         /// </summary>
-        [JsonProperty("stptype", DefaultValueHandling = DefaultValueHandling.Ignore), JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("stptype"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(EnumConverter))]
         public SelfTradePreventionType? SelfTradePreventionType { get; set; }
         /// <summary>
         /// Order flags
         /// </summary>
-        [JsonProperty("oflags", DefaultValueHandling = DefaultValueHandling.Ignore, ItemConverterType = typeof(OrderFlagsConverter))]
+        [JsonPropertyName("oflags"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IEnumerable<OrderFlags>? Flags { get; set; }
         /// <summary>
         /// Time in force
         /// </summary>
-        [JsonProperty("timeinforce", DefaultValueHandling = DefaultValueHandling.Ignore), JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("timeinforce"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(EnumConverter))]
         public TimeInForce? TimeInForce { get; set; }
         /// <summary>
         /// Start time
         /// </summary>
-        [JsonProperty("starttm", DefaultValueHandling = DefaultValueHandling.Ignore), JsonConverter(typeof(DateTimeConverter))]
+        [JsonPropertyName("starttm"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(DateTimeConverter))]
         public DateTime? StartTime { get; set; }
         /// <summary>
         /// Expire time
         /// </summary>
-        [JsonProperty("expiretm", DefaultValueHandling = DefaultValueHandling.Ignore), JsonConverter(typeof(DateTimeConverter))]
+        [JsonPropertyName("expiretm"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(DateTimeConverter))]
         public DateTime? ExpireTime { get; set; }
     }
 }

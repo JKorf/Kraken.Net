@@ -1,0 +1,53 @@
+> { "method": "subscribe", "params": { "channel": "level3", "symbol": ["ETH/USDT"] }, "req_id": "|1|" }
+< { "method": "subscribe", "result": { "channel": "level3", "snapshot": true, "symbol": "ETH/USDT" }, "success": true,"time_in": "2023-09-25T09:04:31.742599Z", "time_out": "2023-09-25T09:04:31.742648Z", "req_id": |1| }
+= 
+{
+    "channel": "level3",
+    "type": "snapshot",
+    "data": [
+        {
+            "symbol": "ETH/USDT",
+            "checksum": 281817320,
+            "bids": [
+                {
+                    "order_id": "O6ZQNQ-BXL4E-5WGINO",
+                    "limit_price": 0.5629,
+                    "order_qty": 111.56125344,
+                    "timestamp": "2023-10-06T17:35:00.279389650Z"
+                },
+                {
+                    "order_id": "OEP26Y-YAFEF-OFR62B",
+                    "limit_price": 0.5625,
+                    "order_qty": 6390.19338,
+                    "timestamp": "2023-10-06T18:19:55.056070105Z"
+                },
+                {
+                    "order_id": "OKNAY7-67JRK-AIZ4JO",
+                    "limit_price": 0.5625,
+                    "order_qty": 14084.5,
+                    "timestamp": "2023-10-06T18:20:55.357467423Z"
+                }
+            ],
+            "asks": [
+                {
+                    "order_id": "OLLSXO-HDMT3-BUOKEI",
+                    "limit_price": 0.563,
+                    "order_qty": 4422.9978357,
+                    "timestamp": "2023-10-06T18:18:20.734897896Z"
+                },
+                {
+                    "order_id": "O5SR5W-L7OLY-BLDEJV",
+                    "limit_price": 0.563,
+                    "order_qty": 420.0,
+                    "timestamp": "2023-10-06T18:18:20.738706230Z"
+                },
+                {
+                    "order_id": "OXV6QS-2GG4Q-F4EECM",
+                    "limit_price": 0.563,
+                    "order_qty": 490.0,
+                    "timestamp": "2023-10-06T18:18:21.064657206Z"
+                }
+            ]
+        }
+    ]
+}

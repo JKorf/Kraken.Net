@@ -1,7 +1,4 @@
-﻿using System;
-using Kraken.Net.Converters;
-using Kraken.Net.Enums;
-using Newtonsoft.Json;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models
 {
@@ -13,11 +10,13 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Platform status
         /// </summary>
-        [JsonConverter(typeof(SystemStatusConverter))]
+        [JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("status")]
         public SystemStatus Status { get; set; }
         /// <summary>
         /// Timestamp
         /// </summary>
+        [JsonPropertyName("timestamp")]
         public DateTime Timestamp { get; set; }
     }
 }

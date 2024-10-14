@@ -1,6 +1,4 @@
-﻿using Kraken.Net.Converters;
-using Kraken.Net.Enums;
-using Newtonsoft.Json;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket
 {
@@ -12,19 +10,23 @@ namespace Kraken.Net.Objects.Models.Socket
         /// <summary>
         /// Connection id
         /// </summary>
-        public string ConnectionId { get; set; } = string.Empty;
-        /// <summary>
-        /// Name of the event
-        /// </summary>
-        public string Event { get; set; } = string.Empty;
+        [JsonPropertyName("connection_id")]
+        public long ConnectionId { get; set; }
         /// <summary>
         /// Status
         /// </summary>
-        [JsonConverter(typeof(SystemStatusConverter))]
+        [JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("system")]
         public SystemStatus Status { get; set; }
         /// <summary>
         /// Version
         /// </summary>
+        [JsonPropertyName("version")]
         public string Version { get; set; } = string.Empty;
+        /// <summary>
+        /// API Version
+        /// </summary>
+        [JsonPropertyName("api_version")]
+        public string ApiVersion { get; set; } = string.Empty;
     }
 }

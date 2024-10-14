@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     /// <summary>
     /// Cash balances
@@ -10,6 +8,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Balances
         /// </summary>
+        [JsonPropertyName("balances")]
         public Dictionary<string, decimal> Balances { get; set; } = new Dictionary<string, decimal>();
     }
 }

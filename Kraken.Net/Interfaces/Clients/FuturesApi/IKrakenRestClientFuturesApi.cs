@@ -1,6 +1,4 @@
-﻿using CryptoExchange.Net.Interfaces;
-using Kraken.Net.Interfaces.Clients.SpotApi;
-using System;
+﻿using Kraken.Net.Interfaces.Clients.SpotApi;
 
 namespace Kraken.Net.Interfaces.Clients.FuturesApi
 {

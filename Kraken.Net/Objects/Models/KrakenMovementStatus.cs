@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
-
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Deposit status info
@@ -13,63 +8,68 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// The name of the deposit method
         /// </summary>
+        [JsonPropertyName("method")]
         public string Method { get; set; } = string.Empty;
         /// <summary>
         /// The record of the asset
         /// </summary>
-        [JsonProperty("aclass")]
+        [JsonPropertyName("aclass")]
         public string AssetClass { get; set; } = string.Empty;
         /// <summary>
         /// The asset name
         /// </summary>
+        [JsonPropertyName("asset")]
         public string Asset { get; set; } = string.Empty;
         /// <summary>
         /// Reference id
         /// </summary>
-        [JsonProperty("refid")]
+        [JsonPropertyName("refid")]
         public string ReferenceId { get; set; } = string.Empty;
         /// <summary>
         /// Transaction id
         /// </summary>
-        [JsonProperty("txid")]
+        [JsonPropertyName("txid")]
         public string TransactionId { get; set; } = string.Empty;
         /// <summary>
         /// Info about the transaction
         /// </summary>
-        [JsonProperty("info")]
+        [JsonPropertyName("info")]
         public string TransactionInfo { get; set; } = string.Empty;
         /// <summary>
         /// The quantity involved in the deposit
         /// </summary>
-        [JsonProperty("amount")]
+        [JsonPropertyName("amount")]
         public decimal Quantity { get; set; }
         /// <summary>
         /// The fee paid for the deposit
         /// </summary>
+        [JsonPropertyName("fee")]
         public decimal Fee { get; set; }
         /// <summary>
         /// The timestamp
         /// </summary>
         [JsonConverter(typeof(DateTimeConverter))]
-        [JsonProperty("time")]
+        [JsonPropertyName("time")]
         public DateTime Timestamp { get; set; }
         /// <summary>
         /// Status of the transaction
         /// </summary>
+        [JsonPropertyName("status")]
         public string Status { get; set; } = string.Empty;
         /// <summary>
         /// Additional status info
         /// </summary>
-        [JsonProperty("status-prop")]
+        [JsonPropertyName("status-prop")]
         public string? AdditionalStatus { get; set; } = string.Empty;
         /// <summary>
         /// Withdrawal key name, as set up on your account
         /// </summary>
-        [JsonProperty("key")]
+        [JsonPropertyName("key")]
         public string? Key { get; set; }
         /// <summary>
         /// Originators
         /// </summary>
+        [JsonPropertyName("originators")]
         public IEnumerable<string>? Originators { get; set; } = Array.Empty<string>();
     }
 }

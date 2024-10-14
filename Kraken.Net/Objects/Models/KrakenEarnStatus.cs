@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Earn status
@@ -12,7 +8,7 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Is pending
         /// </summary>
-        [JsonProperty("pending")]
+        [JsonPropertyName("pending")]
         public bool Pending { get; set; }
     }
 }

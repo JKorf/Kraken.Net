@@ -1,7 +1,4 @@
-﻿using CryptoExchange.Net.Interfaces;
-using System;
-
-namespace Kraken.Net.Objects
+﻿namespace Kraken.Net.Objects
 {
     internal class KrakenNonceProvider : INonceProvider
     {

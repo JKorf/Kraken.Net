@@ -1,5 +1,4 @@
-﻿using CryptoExchange.Net.Objects;
-using Kraken.Net.Objects;
+﻿using Kraken.Net.Objects;
 
 namespace Kraken.Net
 {

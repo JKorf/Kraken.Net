@@ -1,11 +1,8 @@
-﻿using CryptoExchange.Net.Interfaces;
-using CryptoExchange.Net.OrderBook;
+﻿using CryptoExchange.Net.OrderBook;
 using Kraken.Net.Interfaces;
 using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Objects.Options;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System;
 
 namespace Kraken.Net.SymbolOrderBooks
 {

@@ -1,7 +1,4 @@
 ﻿using CryptoExchange.Net.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kraken.Net.Enums
 {
@@ -34,6 +31,21 @@ namespace Kraken.Net.Enums
         /// Only allowed to reduce position
         /// </summary>
         [Map("reduce_only")]
-        ReduceOnly
+        ReduceOnly,
+        /// <summary>
+        /// Delisted
+        /// </summary>
+        [Map("delisted")]
+        Delisted,
+        /// <summary>
+        /// Maintenance
+        /// </summary>
+        [Map("maintenance")]
+        Maintenance,
+        /// <summary>
+        /// Work in process
+        /// </summary>
+        [Map("work_in_progress")]
+        WorkInProcess
     }
 }

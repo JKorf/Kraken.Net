@@ -9,10 +9,9 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         ITickerSocketClient,
         ITradeSocketClient,
         IBookTickerSocketClient,
-        IKlineSocketClient
-        //Can be implemented with V2 websockets
-        //IBalanceSocketClient, 
-        //ISpotOrderSocketClient
+        IKlineSocketClient,
+        IBalanceSocketClient,
+        ISpotOrderSocketClient
     {
     }
 }

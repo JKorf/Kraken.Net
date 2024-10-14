@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Allocations page
@@ -12,17 +8,17 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Converted asset
         /// </summary>
-        [JsonProperty("converted_asset")]
+        [JsonPropertyName("converted_asset")]
         public string ConvertedAsset { get; set; } = string.Empty;
         /// <summary>
         /// Total allocated
         /// </summary>
-        [JsonProperty("total_allocated")]
+        [JsonPropertyName("total_allocated")]
         public decimal TotalAllocated { get; set; }
         /// <summary>
         /// Total rewarded
         /// </summary>
-        [JsonProperty("total_rewarded")]
+        [JsonPropertyName("total_rewarded")]
         public decimal TotalRewarded { get; set; }
     }
 
@@ -34,29 +30,29 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Strategy id
         /// </summary>
-        [JsonProperty("strategy_id")]
+        [JsonPropertyName("strategy_id")]
         public string StrategyId { get; set; } = string.Empty;
         /// <summary>
         /// Native asset
         /// </summary>
-        [JsonProperty("native_asset")]
+        [JsonPropertyName("native_asset")]
         public string Asset { get; set; } = string.Empty;
 
         /// <summary>
         /// Allocated amounts
         /// </summary>
-        [JsonProperty("amount_allocated")]
+        [JsonPropertyName("amount_allocated")]
         public KrakenAllocatedAmount AmountAllocated { get; set; } = null!;
         /// <summary>
         /// Total rewarded
         /// </summary>
-        [JsonProperty("total_rewarded")]
+        [JsonPropertyName("total_rewarded")]
         public KrakenAllocationRewarded TotalRewarded { get; set; } = null!;
 
         /// <summary>
         /// Information about the current payout period, absent if when there is no current payout period.
         /// </summary>
-        [JsonProperty("payout")]
+        [JsonPropertyName("payout")]
         public KrakenAllocationPayout Payout { get; set; } = null!;
     }
 
@@ -68,17 +64,17 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Bonding allocations
         /// </summary>
-        [JsonProperty("bonding")]
+        [JsonPropertyName("bonding")]
         public KrakenBondingAwarded Bonding { get; set; } = null!;
         /// <summary>
         /// Unbonding allocations
         /// </summary>
-        [JsonProperty("unbonding")]
+        [JsonPropertyName("unbonding")]
         public KrakenBondingAwarded Unbonding { get; set; } = null!;
         /// <summary>
         /// Total allocations
         /// </summary>
-        [JsonProperty("total")]
+        [JsonPropertyName("total")]
         public KrakenAllocationRewarded Total { get; set; } = null!;
     }
 
@@ -90,12 +86,12 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Allocation count
         /// </summary>
-        [JsonProperty("allocation_count")]
+        [JsonPropertyName("allocation_count")]
         public int AllocationCount { get; set; }
         /// <summary>
         /// Allocations
         /// </summary>
-        [JsonProperty("allocations")]
+        [JsonPropertyName("allocations")]
         public IEnumerable<KrakenBondingAllocation> Allocations { get; set; } = Array.Empty<KrakenBondingAllocation>();
     }
 
@@ -107,12 +103,12 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Create time
         /// </summary>
-        [JsonProperty("created_at")]
+        [JsonPropertyName("created_at")]
         public DateTime CreateTime { get; set; }
         /// <summary>
         /// Expire time
         /// </summary>
-        [JsonProperty("expires")]
+        [JsonPropertyName("expires")]
         public DateTime ExpireTime { get; set; }
     }
 
@@ -124,12 +120,12 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Rewarded in native
         /// </summary>
-        [JsonProperty("native")]
+        [JsonPropertyName("native")]
         public decimal Native { get; set; }
         /// <summary>
         /// Rewarded in converted
         /// </summary>
-        [JsonProperty("converted")]
+        [JsonPropertyName("converted")]
         public decimal Converted { get; set; }
     }
 
@@ -141,25 +137,25 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Reward accumulated in the payout period until now
         /// </summary>
-        [JsonProperty("accumulated_reward")]
+        [JsonPropertyName("accumulated_reward")]
         public KrakenAllocationRewarded AccumulatedReward { get; set; } = default!;
 
         /// <summary>
         /// Estimated reward from now until the payout
         /// </summary>
-        [JsonProperty("estimated_reward")]
+        [JsonPropertyName("estimated_reward")]
         public KrakenAllocationRewarded EstimatedReward { get; set; } = default!;
 
         /// <summary>
         /// Tentative date of the next reward payout.
         /// </summary>
-        [JsonProperty("period_end")]
+        [JsonPropertyName("period_end")]
         public DateTime PeriodEnd { get; set; }
 
         /// <summary>
         /// When the current payout period started. Either the date of the last payout or when it was enabled.
         /// </summary>
-        [JsonProperty("period_start")]
+        [JsonPropertyName("period_start")]
         public DateTime PeriodStart { get; set; }
     }
 }

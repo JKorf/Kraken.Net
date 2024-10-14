@@ -1,6 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Kraken.Net.Enums;
-using Newtonsoft.Json;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models
 {
@@ -12,31 +10,33 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Alternative name
         /// </summary>
-        [JsonProperty("altname")]
+        [JsonPropertyName("altname")]
         public string AlternateName { get; set; } = string.Empty;
         /// <summary>
         /// Class of the asset
         /// </summary>
-        [JsonProperty("aclass")]
+        [JsonPropertyName("aclass")]
         public string AssetClass { get; set; } = string.Empty;
         /// <summary>
         /// Decimal precision of the asset
         /// </summary>
+        [JsonPropertyName("decimals")]
         public int Decimals { get; set; }
         /// <summary>
         /// Decimals to display
         /// </summary>
-        [JsonProperty("display_decimals")]
+        [JsonPropertyName("display_decimals")]
         public int DisplayDecimals { get; set; }
         /// <summary>
         /// Collateral value
         /// </summary>
-        [JsonProperty("collateral_value")]
+        [JsonPropertyName("collateral_value")]
         public decimal? CollateralValue { get; set; }
         /// <summary>
         /// Status
         /// </summary>
         [JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("status")]
         public AssetStatus Status { get; set; }
     }
 }

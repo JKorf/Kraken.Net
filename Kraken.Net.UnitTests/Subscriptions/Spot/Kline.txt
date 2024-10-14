@@ -1,0 +1,23 @@
+> { "method": "subscribe", "params": { "channel": "ohlc", "symbol": ["ETH/USDT"], "interval": 5 }, "req_id": "|1|" }
+< { "method": "subscribe", "result": { "channel": "ohlc", "snapshot": true, "symbol": "ETH/USDT", "interval": 5  }, "success": true,"time_in": "2023-09-25T09:04:31.742599Z", "time_out": "2023-09-25T09:04:31.742648Z", "req_id": |1| }
+= 
+{
+    "channel": "ohlc",
+    "type": "update",
+    "timestamp": "2023-10-04T16:26:30.524394914Z",
+    "data": [
+        {
+            "symbol": "ETH/USDT",
+            "open": 0.5624,
+            "high": 0.5628,
+            "low": 0.5622,
+            "close": 0.5627,
+            "trades": 12,
+            "volume": 30927.68066226,
+            "vwap": 0.5626,
+            "interval_begin": "2023-10-04T16:25:00.000000000Z",
+            "interval": 5,
+            "timestamp": "2023-10-04T16:30:00.000000Z"
+        }
+    ]
+}

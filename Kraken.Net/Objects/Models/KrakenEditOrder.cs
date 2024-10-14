@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Edited order info
@@ -10,12 +8,12 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Order ids
         /// </summary>
-        [JsonProperty("txid")]
+        [JsonPropertyName("txid")]
         public string OrderId { get; set; } = string.Empty;
         /// <summary>
         /// Descriptions
         /// </summary>
-        [JsonProperty("descr")]
+        [JsonPropertyName("descr")]
         public KrakenPlacedOrderDescription Descriptions { get; set; } = default!;
     }
 }

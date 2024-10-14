@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
 	/// <summary>
 	/// Order info
@@ -10,7 +8,7 @@ namespace Kraken.Net.Objects.Models
 		/// <summary>
 		/// Reference id
 		/// </summary>
-		[JsonProperty("refid")]
+		[JsonPropertyName("refid")]
 		public string ReferenceId { get; set; } = string.Empty;
 	}
 }

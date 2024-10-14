@@ -1,50 +1,41 @@
 ﻿using Kraken.Net.Objects.Models.Futures;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
 
 namespace Kraken.Net.Converters
 {
-    internal class KrakenFuturesBalancesConverter : JsonConverter
+    internal class KrakenFuturesBalancesConverter : JsonConverter<KrakenFuturesBalances>
     {
-        public override bool CanConvert(Type objectType)
+        public override KrakenFuturesBalances? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return typeof(KrakenBalances).IsAssignableFrom(objectType);
-        }
-
-        public override object ReadJson(JsonReader reader,
-            Type objectType, object? existingValue, JsonSerializer serializer)
-        {
-            JObject jo = JObject.Load(reader);
-
-            KrakenBalances balances = null!;
-            var type = (string?)jo["type"];
-            switch (type)
+            var doc = JsonDocument.ParseValue(ref reader);
+            var result = new KrakenFuturesBalances();
+            var marginAccounts = new List<KrakenMarginAccountBalances>();
+            foreach (var element in doc.RootElement.EnumerateObject())
             {
-                case "marginAccount":
-                    balances = new KrakenMarginAccountBalances();
-                    break;
-                case "cashAccount":
-                    balances = new KrakenCashBalances();
-                    break;
-                case "multiCollateralMarginAccount":
-                    balances = new KrakenMultiCollateralMarginBalances();
-                    break;
+                var type = element.Value.GetProperty("type").GetString();
+
+                switch (type)
+                {
+                    case "marginAccount":
+                        var balance = element.Value.Deserialize<KrakenMarginAccountBalances>()!;
+                        balance.Symbol = element.Name;
+                        marginAccounts.Add(balance);
+                        break;
+                    case "cashAccount":
+                        result.CashAccount = element.Value.Deserialize<KrakenCashBalances>()!;
+                        break;
+                    case "multiCollateralMarginAccount":
+                        result.MultiCollateralMarginAccount = element.Value.Deserialize<KrakenMultiCollateralMarginBalances>()!;
+                        break;
+                }
             }
 
-            serializer.Populate(jo.CreateReader(), balances);
-            return balances;
+            result.MarginAccounts = marginAccounts;
+            return result;
         }
 
-        public override bool CanWrite
+        public override void Write(Utf8JsonWriter writer, KrakenFuturesBalances value, JsonSerializerOptions options)
         {
-            get { return false; }
-        }
-
-        public override void WriteJson(JsonWriter writer,
-            object? value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
+            writer.WriteNullValue();
         }
     }
 }
