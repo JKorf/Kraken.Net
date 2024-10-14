@@ -29,14 +29,14 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Cash account
         /// </summary>
-        public KrakenCashBalances CashAccount { get; set; }
+        public KrakenCashBalances CashAccount { get; set; } = null!;
         /// <summary>
         /// Multi collateral margin account
         /// </summary>
-        public KrakenMultiCollateralMarginBalances MultiCollateralMarginAccount { get; set; }
+        public KrakenMultiCollateralMarginBalances MultiCollateralMarginAccount { get; set; } = null!;
         /// <summary>
         /// Margin accounts
         /// </summary>
-        public IEnumerable<KrakenMarginAccountBalances> MarginAccounts { get; set; }
+        public IEnumerable<KrakenMarginAccountBalances> MarginAccounts { get; set; } = [];
     }
 }

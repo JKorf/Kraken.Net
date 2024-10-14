@@ -23,7 +23,7 @@ namespace Kraken.Net.Objects.Models
         /// Client reference id
         /// </summary>
         [JsonPropertyName("userref")]
-        public uint UserReference { get; set; }
+        public uint? UserReference { get; set; }
         /// <summary>
         /// Client reference id
         /// </summary>
