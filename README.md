@@ -159,6 +159,11 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 5.0.1 - 21 Oct 2024
+    * Fixed socketClient.SpotApi.SubscribeToAggregatedOrderBookUpdatesAsync and SubscribeToInvidualOrderBookUpdatesAsync not passing the depth parameter to the server
+    * Fixed userReference parameter incorrectly set at restClient.SpotApi.Trading.PlaceOrderAsync
+    * Fixed timestamp serialization for socketClient.SpotApi queries
+
 * Version 5.0.0 - 14 Oct 2024
     * Updated CryptoExchange.Net to version 8.0.3, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/8.0.3
     * Updated the library to use System.Text.Json for (de)serialization instead of Json.Net
