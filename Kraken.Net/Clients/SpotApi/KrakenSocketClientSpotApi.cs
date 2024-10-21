@@ -311,9 +311,9 @@ namespace Kraken.Net.Clients.SpotApi
                 ReduceOnly = reduceOnly,
                 Margin = margin,
                 PostOnly = postOnly,
-                EffectiveTime = startTime?.ToRfc3339String(),
-                ExpireTime = expireTime?.ToRfc3339String(),
-                Deadline = deadline?.ToRfc3339String(),
+                EffectiveTime = startTime?.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+                ExpireTime = expireTime?.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+                Deadline = deadline?.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'"),
                 IcebergQuantity  = icebergQuantity,
                 FeePreference = feePreference,
                 NoMarketPriceProtection = noMarketPriceProtection,
@@ -377,7 +377,7 @@ namespace Kraken.Net.Clients.SpotApi
                 Token = token.Data,
                 Symbol = symbol,
                 ValidateOnly = validateOnly,
-                Deadline = deadline?.ToRfc3339String(),
+                Deadline = deadline?.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'"),
                 Orders = orders
             };
 
@@ -425,7 +425,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 Token = token.Data,
                 ClientOrderId = clientOrderId,
-                Deadline = deadline?.ToRfc3339String(),
+                Deadline = deadline?.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'"),
                 IcebergQuantity = icebergQuantity,
                 LimitPriceType = limitPriceType,
                 OrderId = orderId,
@@ -479,7 +479,7 @@ namespace Kraken.Net.Clients.SpotApi
             var request = new KrakenSocketReplaceOrderRequest
             {
                 Token = token.Data,
-                Deadline = deadline?.ToRfc3339String(),
+                Deadline = deadline?.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'"),
                 IcebergQuantity = icebergQuantity,
                 OrderId = orderId,
                 PostOnly = postOnly,
