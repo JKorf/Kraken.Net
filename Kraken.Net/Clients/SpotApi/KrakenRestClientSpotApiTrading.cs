@@ -219,7 +219,7 @@ namespace Kraken.Net.Clients.SpotApi
                 parameters.AddOptionalParameter("price", $"{pricePrefixOperator}{price.Value.ToString(CultureInfo.InvariantCulture)}{priceSuffixOperator}");
             if (secondaryPrice != null)
                 parameters.AddOptionalParameter("price2", $"{secondaryPricePrefixOperator}{secondaryPrice.Value.ToString(CultureInfo.InvariantCulture)}{secondaryPriceSuffixOperator}");
-            parameters.AddOptionalParameter("userref", clientOrderId);
+            parameters.AddOptionalParameter("userref", userReference);
             parameters.AddOptional("cl_ord_id", clientOrderId);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
             parameters.AddOptionalParameter("leverage", leverage?.ToString(CultureInfo.InvariantCulture));
