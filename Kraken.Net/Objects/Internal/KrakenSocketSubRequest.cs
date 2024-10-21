@@ -10,6 +10,9 @@
         [JsonPropertyName("interval"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int? Interval { get; set; }
 
+        [JsonPropertyName("depth"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public int? Depth { get; set; }
+
         [JsonPropertyName("snapshot"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool? Snapshot { get; set; }
 

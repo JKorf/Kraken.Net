@@ -21,17 +21,19 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         private string _topic;
         private int? _interval;
         private bool? _snapshot;
+        private int? _depth;
         private IEnumerable<string>? _symbols;
         private readonly Action<DataEvent<T>> _handler;
 
         public override HashSet<string> ListenerIdentifiers { get; set; }
 
-        public KrakenSubscriptionV2(ILogger logger, string topic, IEnumerable<string>? symbols, int? interval, bool? snapshot, string? token, Action<DataEvent<T>> handler) : base(logger, token != null)
+        public KrakenSubscriptionV2(ILogger logger, string topic, IEnumerable<string>? symbols, int? interval, bool? snapshot, int? depth, string? token, Action<DataEvent<T>> handler) : base(logger, token != null)
         {
             _topic = topic;
             _symbols = symbols;
             _handler = handler;
             _snapshot = snapshot;
+            _depth = depth;
             _interval = interval;
             Token = token;
 
@@ -52,6 +54,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                         Channel = _topic,
                         Symbol = _symbols?.ToArray(),
                         Interval = _interval,
+                        Depth = _depth,
                         Snapshot = _snapshot,
                         Token = Token
                     }

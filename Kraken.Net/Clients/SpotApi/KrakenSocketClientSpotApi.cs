@@ -111,7 +111,7 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenTickerUpdate>> handler, CancellationToken ct = default)
         {
-            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenTickerUpdate>>(_logger, "ticker", [symbol], null, null, null,
+            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenTickerUpdate>>(_logger, "ticker", [symbol], null, null, null, null,
                 x => handler(x.As(x.Data.First()).WithSymbol(x.Data.First().Symbol))
                 );
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
@@ -120,7 +120,7 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenTickerUpdate>> handler, CancellationToken ct = default)
         {
-            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenTickerUpdate>>(_logger, "ticker", symbols, null, null, null,
+            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenTickerUpdate>>(_logger, "ticker", symbols, null, null, null, null,
                 x => handler(x.As(x.Data.First()).WithSymbol(x.Data.First().Symbol))
                 );
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
@@ -137,7 +137,7 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(IEnumerable<string> symbols, KlineInterval interval, Action<DataEvent<IEnumerable<KrakenKlineUpdate>>> handler, CancellationToken ct = default)
         {
-            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenKlineUpdate>>(_logger, "ohlc", symbols.ToArray(), int.Parse(EnumConverter.GetString(interval)), null, null,
+            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenKlineUpdate>>(_logger, "ohlc", symbols.ToArray(), int.Parse(EnumConverter.GetString(interval)), null, null, null,
                 x => handler(x.WithSymbol(x.Data.First().Symbol))
                 );
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
@@ -154,7 +154,7 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<IEnumerable<KrakenTradeUpdate>>> handler, bool? snapshot = null, CancellationToken ct = default)
         {
-            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenTradeUpdate>>(_logger, "trade", symbols.ToArray(), null, snapshot, null,
+            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenTradeUpdate>>(_logger, "trade", symbols.ToArray(), null, snapshot, null, null,
                 x => handler(x.WithSymbol(x.Data.First().Symbol))
                 );
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
@@ -173,7 +173,7 @@ namespace Kraken.Net.Clients.SpotApi
         {
             depth.ValidateIntValues(nameof(depth), 10, 25, 100, 500, 1000);
 
-            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenBookUpdate>>(_logger, "book", symbols.ToArray(), null, snapshot, null,
+            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenBookUpdate>>(_logger, "book", symbols.ToArray(), null, snapshot, depth, null,
                 x => handler(x.As(x.Data.First()).WithSymbol(x.Data.First().Symbol))
                 );
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
@@ -196,7 +196,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!token)
                 return new CallResult<UpdateSubscription>(token.Error!);
 
-            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenIndividualBookUpdate>>(_logger, "level3", symbols.ToArray(), null, snapshot, token.Data,
+            var subscription = new KrakenSubscriptionV2<IEnumerable<KrakenIndividualBookUpdate>>(_logger, "level3", symbols.ToArray(), null, snapshot, depth, token.Data,
                 x => handler(x.As(x.Data.First()).WithSymbol(x.Data.First().Symbol))
                 );
             return await SubscribeAsync(_privateBaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
@@ -209,7 +209,7 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToInstrumentUpdatesAsync(Action<DataEvent<KrakenInstrumentUpdate>> handler, bool? snapshot = null, CancellationToken ct = default)
         {
-            var subscription = new KrakenSubscriptionV2<KrakenInstrumentUpdate>(_logger, "instrument", null, null, snapshot, null, handler);
+            var subscription = new KrakenSubscriptionV2<KrakenInstrumentUpdate>(_logger, "instrument", null, null, snapshot, null, null, handler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
