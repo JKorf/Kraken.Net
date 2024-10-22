@@ -159,6 +159,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 5.0.2 - 22 Oct 2024
+    * Fixed websocket subscription request revitalization throwing an exception
+
 * Version 5.0.1 - 21 Oct 2024
     * Fixed socketClient.SpotApi.SubscribeToAggregatedOrderBookUpdatesAsync and SubscribeToInvidualOrderBookUpdatesAsync not passing the depth parameter to the server
     * Fixed userReference parameter incorrectly set at restClient.SpotApi.Trading.PlaceOrderAsync
