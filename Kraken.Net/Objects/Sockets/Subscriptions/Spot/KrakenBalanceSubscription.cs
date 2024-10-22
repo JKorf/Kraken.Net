@@ -8,7 +8,7 @@ using Kraken.Net.Objects.Sockets.Queries;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
-    internal class KrakenBalanceSubscription : Subscription<KrakenSocketResponseV2<KrakenSocketSubResponse>, KrakenSocketResponseV2<KrakenSocketSubResponse>>
+    internal class KrakenBalanceSubscription : KrakenSubscription
     {
         private static readonly MessagePath _typePath = MessagePath.Get().Property("type");
 
@@ -16,14 +16,13 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         private readonly Action<DataEvent<IEnumerable<KrakenBalanceUpdate>>> _updateHandler;
 
         private bool? _snapshot;
-        private string _token;
 
         public override HashSet<string> ListenerIdentifiers { get; set; }
 
-        public KrakenBalanceSubscription(ILogger logger, bool? snapshot, string token, Action<DataEvent<IEnumerable<KrakenBalanceSnapshot>>>? snapshotHandler, Action<DataEvent<IEnumerable<KrakenBalanceUpdate>>> updateHandler) : base(logger, false)
+        public KrakenBalanceSubscription(ILogger logger, bool? snapshot, string token, Action<DataEvent<IEnumerable<KrakenBalanceSnapshot>>>? snapshotHandler, Action<DataEvent<IEnumerable<KrakenBalanceUpdate>>> updateHandler) : base(logger, true)
         {
             _snapshot = snapshot;
-            _token = token;
+            Token = token;
 
             _snapshotHandler = snapshotHandler;
             _updateHandler = updateHandler;
@@ -50,7 +49,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                     {
                         Channel = "balances",
                         Snapshot = _snapshot,
-                        Token = _token
+                        Token = Token
                     }
                 }, false);
         }
@@ -66,7 +65,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                     {
                         Channel = "balances",
                         Snapshot = _snapshot,
-                        Token = _token
+                        Token = Token
                     }
                 }, false);
         }

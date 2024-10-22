@@ -7,7 +7,7 @@ using Kraken.Net.Objects.Sockets.Queries;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
-    internal class KrakenOrderSubscription : Subscription<KrakenSocketResponseV2<KrakenSocketSubResponse>, KrakenSocketResponseV2<KrakenSocketSubResponse>>
+    internal class KrakenOrderSubscription : KrakenSubscription
     {
         private static readonly MessagePath _typePath = MessagePath.Get().Property("type");
 
@@ -15,15 +15,14 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 
         private bool? _snapshotOrder;
         private bool? _snapshotTrades;
-        private string _token;
 
         public override HashSet<string> ListenerIdentifiers { get; set; }
 
-        public KrakenOrderSubscription(ILogger logger, bool? snapshotOrder, bool? snapshotTrades, string token, Action<DataEvent<IEnumerable<KrakenOrderUpdate>>> updateHandler) : base(logger, false)
+        public KrakenOrderSubscription(ILogger logger, bool? snapshotOrder, bool? snapshotTrades, string token, Action<DataEvent<IEnumerable<KrakenOrderUpdate>>> updateHandler) : base(logger, true)
         {
             _snapshotOrder = snapshotOrder;
             _snapshotTrades = snapshotTrades;
-            _token = token;
+            Token = token;
 
             _updateHandler = updateHandler;
 
@@ -47,7 +46,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                         Channel = "executions",
                         SnapshotOrders = _snapshotOrder,
                         SnapshotTrades = _snapshotTrades,
-                        Token = _token
+                        Token = Token
                     }
                 }, false);
         }
@@ -62,7 +61,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                     Parameters = new KrakenSocketSubRequest
                     {
                         Channel = "executions",
-                        Token = _token
+                        Token = Token
                     }
                 }, false);
         }

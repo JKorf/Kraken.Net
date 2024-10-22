@@ -609,7 +609,12 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         protected override async Task<CallResult> RevitalizeRequestAsync(Subscription subscription)
         {
-            var krakenSubscription = (KrakenSubscription)subscription;
+            var krakenSubscription = subscription as KrakenSubscription;
+            if (krakenSubscription == null)
+            {
+                // Heartbeat subscription
+                return new CallResult(null);
+            }
 
             if (!krakenSubscription.TokenRequired)
                 return new CallResult(null);
