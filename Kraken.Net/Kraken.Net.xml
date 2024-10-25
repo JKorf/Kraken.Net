@@ -3618,6 +3618,14 @@
             Futures order book factory methods
             </summary>
         </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenOrderBookFactory.Create(CryptoExchange.Net.SharedApis.SharedSymbol,System.Action{Kraken.Net.Objects.Options.KrakenOrderBookOptions})">
+            <summary>
+            Create a SymbolOrderBook for the symbol
+            </summary>
+            <param name="symbol">The symbol</param>
+            <param name="options">Book options</param>
+            <returns></returns>
+        </member>
         <member name="M:Kraken.Net.Interfaces.IKrakenOrderBookFactory.CreateSpot(System.String,System.Action{Kraken.Net.Objects.Options.KrakenOrderBookOptions})">
             <summary>
             Create a SymbolOrderBook for the Spot API
@@ -3632,6 +3640,30 @@
             </summary>
             <param name="symbol">The symbol</param>
             <param name="options">Order book options</param>
+            <returns></returns>
+        </member>
+        <member name="T:Kraken.Net.Interfaces.IKrakenTrackerFactory">
+            <summary>
+            Tracker factory
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenTrackerFactory.CreateKlineTracker(CryptoExchange.Net.SharedApis.SharedSymbol,CryptoExchange.Net.SharedApis.SharedKlineInterval,System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
+            <summary>
+            Create a new kline tracker
+            </summary>
+            <param name="symbol">The symbol</param>
+            <param name="interval">Kline interval</param>
+            <param name="limit">The max amount of klines to retain</param>
+            <param name="period">The max period the data should be retained</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenTrackerFactory.CreateTradeTracker(CryptoExchange.Net.SharedApis.SharedSymbol,System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
+            <summary>
+            Create a new trade tracker for a symbol
+            </summary>
+            <param name="symbol">The symbol</param>
+            <param name="limit">The max amount of klines to retain</param>
+            <param name="period">The max period the data should be retained</param>
             <returns></returns>
         </member>
         <member name="T:Kraken.Net.KrakenEnvironment">
@@ -3701,6 +3733,16 @@
             Urls to the API documentation
             </summary>
         </member>
+        <member name="M:Kraken.Net.KrakenExchange.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
+            <summary>
+            Format a base and quote asset to a Kraken recognized symbol 
+            </summary>
+            <param name="baseAsset">Base asset</param>
+            <param name="quoteAsset">Quote asset</param>
+            <param name="tradingMode">Trading mode</param>
+            <param name="deliverTime">Delivery time for delivery futures</param>
+            <returns></returns>
+        </member>
         <member name="P:Kraken.Net.KrakenExchange.RateLimiter">
             <summary>
             Rate limiter configuration for the Kraken API
@@ -3726,6 +3768,21 @@
             Configure the rate limit with a different tier
             </summary>
             <param name="tier"></param>
+        </member>
+        <member name="T:Kraken.Net.KrakenTrackerFactory">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenTrackerFactory.#ctor(System.IServiceProvider)">
+            <summary>
+            ctor
+            </summary>
+            <param name="serviceProvider">Service provider for resolving logging and clients</param>
+        </member>
+        <member name="M:Kraken.Net.KrakenTrackerFactory.CreateKlineTracker(CryptoExchange.Net.SharedApis.SharedSymbol,CryptoExchange.Net.SharedApis.SharedKlineInterval,System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenTrackerFactory.CreateTradeTracker(CryptoExchange.Net.SharedApis.SharedSymbol,System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
+            <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Objects.Internal.KrakenSocketCancelAfterRequest">
             <summary>
@@ -9587,6 +9644,9 @@
             ctor
             </summary>
             <param name="serviceProvider">Service provider for resolving logging and clients</param>
+        </member>
+        <member name="M:Kraken.Net.SymbolOrderBooks.KrakenOrderBookFactory.Create(CryptoExchange.Net.SharedApis.SharedSymbol,System.Action{Kraken.Net.Objects.Options.KrakenOrderBookOptions})">
+            <inheritdoc />
         </member>
         <member name="M:Kraken.Net.SymbolOrderBooks.KrakenOrderBookFactory.CreateSpot(System.String,System.Action{Kraken.Net.Objects.Options.KrakenOrderBookOptions})">
             <inheritdoc />

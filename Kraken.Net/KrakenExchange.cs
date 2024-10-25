@@ -2,6 +2,7 @@
 using CryptoExchange.Net.RateLimiting.Filters;
 using CryptoExchange.Net.RateLimiting.Guards;
 using CryptoExchange.Net.RateLimiting.Interfaces;
+using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Enums;
 
 namespace Kraken.Net
@@ -28,6 +29,22 @@ namespace Kraken.Net
             "https://docs.kraken.com/rest/",
             "https://docs.futures.kraken.com/"
             };
+
+        /// <summary>
+        /// Format a base and quote asset to a Kraken recognized symbol 
+        /// </summary>
+        /// <param name="baseAsset">Base asset</param>
+        /// <param name="quoteAsset">Quote asset</param>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="deliverTime">Delivery time for delivery futures</param>
+        /// <returns></returns>
+        public static string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
+        {
+            if (tradingMode == TradingMode.Spot)
+                return $"{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
+
+            return $"{(tradingMode == TradingMode.PerpetualLinear ? "PF" : tradingMode == TradingMode.PerpetualInverse ? "PI" : tradingMode == TradingMode.DeliveryLinear ? "FF" : "FI")}_{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}" + (!deliverTime.HasValue ? string.Empty : ("_" + deliverTime.Value.ToString("yyMMdd")));
+        }
 
         /// <summary>
         /// Rate limiter configuration for the Kraken API

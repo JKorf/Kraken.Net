@@ -38,7 +38,10 @@ namespace Kraken.Net.Clients.SpotApi
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
 
             var symbol = request.Symbol.GetSymbol(FormatSymbol);
-            var result = await SubscribeToTradeUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, update.Data.Select(x => new SharedTrade(x.Quantity, x.Price, x.Timestamp)))), false, ct).ConfigureAwait(false);
+            var result = await SubscribeToTradeUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, update.Data.Select(x => new SharedTrade(x.Quantity, x.Price, x.Timestamp)
+            {
+                Side = x.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell
+            }))), false, ct).ConfigureAwait(false);
 
             return new ExchangeResult<UpdateSubscription>(Exchange, result);
         }

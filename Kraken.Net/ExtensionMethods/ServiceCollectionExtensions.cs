@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Clients;
+using Kraken.Net;
 using Kraken.Net.Clients;
 using Kraken.Net.Interfaces;
 using Kraken.Net.Interfaces.Clients;
@@ -57,6 +58,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<ICryptoRestClient, CryptoRestClient>();
             services.AddTransient<ICryptoSocketClient, CryptoSocketClient>();
             services.AddTransient<IKrakenOrderBookFactory, KrakenOrderBookFactory>();
+            services.AddTransient<IKrakenTrackerFactory, KrakenTrackerFactory>();
             services.AddTransient(x => x.GetRequiredService<IKrakenRestClient>().SpotApi.CommonSpotClient);
 
             services.RegisterSharedRestInterfaces(x => x.GetRequiredService<IKrakenRestClient>().SpotApi.SharedClient);

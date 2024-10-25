@@ -1,4 +1,5 @@
-﻿using Kraken.Net.Objects.Options;
+﻿using CryptoExchange.Net.SharedApis;
+using Kraken.Net.Objects.Options;
 
 namespace Kraken.Net.Interfaces
 {
@@ -16,6 +17,14 @@ namespace Kraken.Net.Interfaces
         /// Futures order book factory methods
         /// </summary>
         public IOrderBookFactory<KrakenOrderBookOptions> Futures { get; }
+
+        /// <summary>
+        /// Create a SymbolOrderBook for the symbol
+        /// </summary>
+        /// <param name="symbol">The symbol</param>
+        /// <param name="options">Book options</param>
+        /// <returns></returns>
+        ISymbolOrderBook Create(SharedSymbol symbol, Action<KrakenOrderBookOptions>? options = null);
 
         /// <summary>
         /// Create a SymbolOrderBook for the Spot API
