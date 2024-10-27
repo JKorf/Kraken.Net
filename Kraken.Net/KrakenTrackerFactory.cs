@@ -1,6 +1,7 @@
 ﻿using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Trackers.Klines;
 using CryptoExchange.Net.Trackers.Trades;
+using Kraken.Net.Clients;
 using Kraken.Net.Interfaces;
 using Kraken.Net.Interfaces.Clients;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,14 @@ namespace Kraken.Net
     /// <inheritdoc />
     public class KrakenTrackerFactory : IKrakenTrackerFactory
     {
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceProvider? _serviceProvider;
+
+        /// <summary>
+        /// ctor
+        /// </summary>
+        public KrakenTrackerFactory()
+        {
+        }
 
         /// <summary>
         /// ctor
@@ -24,11 +32,11 @@ namespace Kraken.Net
         /// <inheritdoc />
         public IKlineTracker CreateKlineTracker(SharedSymbol symbol, SharedKlineInterval interval, int? limit = null, TimeSpan? period = null)
         {
-            IKlineRestClient restClient = _serviceProvider.GetRequiredService<IKrakenRestClient>().SpotApi.SharedClient;
-            IKlineSocketClient socketClient = _serviceProvider.GetRequiredService<IKrakenSocketClient>().SpotApi.SharedClient;
+            var restClient = (_serviceProvider?.GetRequiredService<IKrakenRestClient>() ?? new KrakenRestClient()).SpotApi.SharedClient;
+            var socketClient = (_serviceProvider?.GetRequiredService<IKrakenSocketClient>() ?? new KrakenSocketClient()).SpotApi.SharedClient;
 
             return new KlineTracker(
-                _serviceProvider.GetRequiredService<ILoggerFactory>().CreateLogger(restClient.Exchange),
+                _serviceProvider?.GetRequiredService<ILoggerFactory>().CreateLogger(restClient.Exchange),
                 restClient,
                 socketClient,
                 symbol,
@@ -40,23 +48,27 @@ namespace Kraken.Net
         /// <inheritdoc />
         public ITradeTracker CreateTradeTracker(SharedSymbol symbol, int? limit = null, TimeSpan? period = null)
         {
-            IRecentTradeRestClient? restClient = null;
-            ITradeSocketClient socketClient;
+            var restClient = _serviceProvider?.GetRequiredService<IKrakenRestClient>() ?? new KrakenRestClient();
+            var socketClient = _serviceProvider?.GetRequiredService<IKrakenSocketClient>() ?? new KrakenSocketClient();
+
+            IRecentTradeRestClient? sharedRestClient;
+            ITradeSocketClient sharedSocketClient;
             if (symbol.TradingMode == TradingMode.Spot)
             {
-                restClient = _serviceProvider.GetRequiredService<IKrakenRestClient>().SpotApi.SharedClient;
-                socketClient = _serviceProvider.GetRequiredService<IKrakenSocketClient>().SpotApi.SharedClient;
+                sharedRestClient = restClient.SpotApi.SharedClient;
+                sharedSocketClient = socketClient.SpotApi.SharedClient;
             }
             else
             {
-                restClient = _serviceProvider.GetRequiredService<IKrakenRestClient>().FuturesApi.SharedClient;
-                socketClient = _serviceProvider.GetRequiredService<IKrakenSocketClient>().FuturesApi.SharedClient;
+                sharedRestClient = restClient.FuturesApi.SharedClient;
+                sharedSocketClient = socketClient.FuturesApi.SharedClient;
             }
 
             return new TradeTracker(
-                _serviceProvider.GetRequiredService<ILoggerFactory>().CreateLogger(restClient.Exchange),
-                restClient,
-                socketClient,
+                _serviceProvider?.GetRequiredService<ILoggerFactory>().CreateLogger(restClient.Exchange),
+                sharedRestClient,
+                null,
+                sharedSocketClient,
                 symbol,
                 limit,
                 period
