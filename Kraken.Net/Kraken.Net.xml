@@ -3772,6 +3772,11 @@
         <member name="T:Kraken.Net.KrakenTrackerFactory">
             <inheritdoc />
         </member>
+        <member name="M:Kraken.Net.KrakenTrackerFactory.#ctor">
+            <summary>
+            ctor
+            </summary>
+        </member>
         <member name="M:Kraken.Net.KrakenTrackerFactory.#ctor(System.IServiceProvider)">
             <summary>
             ctor

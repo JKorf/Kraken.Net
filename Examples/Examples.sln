@@ -7,6 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kraken.Examples.Api", "Krak
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kraken.Examples.Console", "Kraken.Examples.Console\Kraken.Examples.Console.csproj", "{FD4F95C8-D9B7-4F81-9245-4CE667DFD421}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kraken.Net", "..\Kraken.Net\Kraken.Net.csproj", "{00A92FF0-9CA4-4EBE-8642-18AC90974F3A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kraken.Examples.OrderBook", "Kraken.Examples.OrderBook\Kraken.Examples.OrderBook.csproj", "{9838F221-C2AC-4DF8-A1E7-58DD78EF027C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kraken.Examples.Tracker", "Kraken.Examples.Tracker\Kraken.Examples.Tracker.csproj", "{494D13E5-964C-4C0B-A44F-9B22584E78E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +27,18 @@ Global
 		{FD4F95C8-D9B7-4F81-9245-4CE667DFD421}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD4F95C8-D9B7-4F81-9245-4CE667DFD421}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD4F95C8-D9B7-4F81-9245-4CE667DFD421}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00A92FF0-9CA4-4EBE-8642-18AC90974F3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00A92FF0-9CA4-4EBE-8642-18AC90974F3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00A92FF0-9CA4-4EBE-8642-18AC90974F3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00A92FF0-9CA4-4EBE-8642-18AC90974F3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9838F221-C2AC-4DF8-A1E7-58DD78EF027C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9838F221-C2AC-4DF8-A1E7-58DD78EF027C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9838F221-C2AC-4DF8-A1E7-58DD78EF027C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9838F221-C2AC-4DF8-A1E7-58DD78EF027C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{494D13E5-964C-4C0B-A44F-9B22584E78E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{494D13E5-964C-4C0B-A44F-9B22584E78E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{494D13E5-964C-4C0B-A44F-9B22584E78E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{494D13E5-964C-4C0B-A44F-9B22584E78E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

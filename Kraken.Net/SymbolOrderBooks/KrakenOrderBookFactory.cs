@@ -37,10 +37,10 @@ namespace Kraken.Net.SymbolOrderBooks
         /// <inheritdoc />
         public ISymbolOrderBook Create(SharedSymbol symbol, Action<KrakenOrderBookOptions>? options = null)
         {
-            var symbolName = KrakenExchange.FormatSymbol(symbol.BaseAsset, symbol.QuoteAsset, symbol.TradingMode, symbol.DeliverTime);
             if (symbol.TradingMode == TradingMode.Spot)
-                return CreateSpot(symbolName, options);
+                return CreateSpot(symbol.BaseAsset + "/" + symbol.QuoteAsset, options);
 
+            var symbolName = KrakenExchange.FormatSymbol(symbol.BaseAsset, symbol.QuoteAsset, symbol.TradingMode, symbol.DeliverTime);
             return CreateFutures(symbolName, options);
         }
 
