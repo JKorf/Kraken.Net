@@ -75,7 +75,10 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                     {
                         Channel = _topic,
                         Symbol = _symbols?.ToArray(),
-                        Interval = _interval
+                        Interval = _interval,
+                        Depth = _depth,
+                        Snapshot = _snapshot,
+                        Token = Token
                     }
                 }, Authenticated)
             {

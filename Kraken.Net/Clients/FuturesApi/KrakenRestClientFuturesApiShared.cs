@@ -149,7 +149,10 @@ namespace Kraken.Net.Clients.FuturesApi
             if (request.Limit != null)
                 data = data.Take(request.Limit.Value).ToArray();
 
-            return result.AsExchangeResult<IEnumerable<SharedTrade>>(Exchange, request.Symbol.TradingMode, data.Select(x => new SharedTrade(x.Quantity!.Value, x.Price, x.Timestamp!.Value)).ToArray());
+            return result.AsExchangeResult<IEnumerable<SharedTrade>>(Exchange, request.Symbol.TradingMode, data.Select(x => new SharedTrade(x.Quantity!.Value, x.Price, x.Timestamp!.Value)
+            {
+                Side = x.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell
+            }).ToArray());
         }
 
         #endregion
@@ -243,7 +246,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
             var time = DateTime.UtcNow;
 
-            return resultTicker.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedFuturesTicker(resultTicker.Data.Symbol, resultTicker.Data.LastPrice ?? 0, 0, 0, resultTicker.Data.Volume24h, (resultTicker.Data.OpenPrice24h > 0 && resultTicker.Data.LastPrice > 0) ? Math.Round(resultTicker.Data.LastPrice.Value / resultTicker.Data.OpenPrice24h.Value * 100 - 100, 2) : null)
+            return resultTicker.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedFuturesTicker(resultTicker.Data.Symbol, resultTicker.Data.LastPrice, null, null, resultTicker.Data.Volume24h, (resultTicker.Data.OpenPrice24h > 0 && resultTicker.Data.LastPrice > 0) ? Math.Round(resultTicker.Data.LastPrice.Value / resultTicker.Data.OpenPrice24h.Value * 100 - 100, 2) : null)
             {
                 MarkPrice = resultTicker.Data.MarkPrice,
                 IndexPrice = resultTicker.Data.IndexPrice,
@@ -273,7 +276,7 @@ namespace Kraken.Net.Clients.FuturesApi
             }
 
             var time = DateTime.UtcNow;
-            return resultTicker.AsExchangeResult<IEnumerable<SharedFuturesTicker>>(Exchange, request.TradingMode == null ? SupportedTradingModes : new[] { request.TradingMode.Value }, data.Select(x => new SharedFuturesTicker(x.Symbol, x.LastPrice ?? 0, 0, 0, x.Volume24h, (x.OpenPrice24h > 0 && x.LastPrice > 0) ? Math.Round(x.LastPrice.Value / x.OpenPrice24h.Value * 100 - 100, 2) : null)
+            return resultTicker.AsExchangeResult<IEnumerable<SharedFuturesTicker>>(Exchange, request.TradingMode == null ? SupportedTradingModes : new[] { request.TradingMode.Value }, data.Select(x => new SharedFuturesTicker(x.Symbol, x.LastPrice, null, null, x.Volume24h, (x.OpenPrice24h > 0 && x.LastPrice > 0) ? Math.Round(x.LastPrice.Value / x.OpenPrice24h.Value * 100 - 100, 2) : null)
             {
                 MarkPrice = x.MarkPrice,
                 IndexPrice = x.IndexPrice,

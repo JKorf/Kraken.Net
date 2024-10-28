@@ -19,7 +19,7 @@ logFactory.AddProvider(new TraceLoggerProvider());
 var socketClient = new KrakenSocketClient(logFactory);
 var subscription = await socketClient.SpotApi.SubscribeToTickerUpdatesAsync("ETH/USDT", update =>
 {
-    Console.WriteLine($"Websocket client ticker price for ETHUSDT: {update.Data.LastTrade.Price}");
+    Console.WriteLine($"Websocket client ticker price for ETHUSDT: {update.Data.LastPrice}");
 });
 
 Console.ReadLine();
