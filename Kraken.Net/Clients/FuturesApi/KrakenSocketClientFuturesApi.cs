@@ -78,7 +78,7 @@ namespace Kraken.Net.Clients.FuturesApi
             => new KrakenFuturesAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new KrakenNonceProvider());
 
         /// <inheritdoc />
-        protected override Query? GetAuthenticationRequest(SocketConnection connection) => new KrakenFuturesAuthQuery(((KrakenFuturesAuthenticationProvider)AuthenticationProvider!).GetApiKey());
+        protected override Task<Query?> GetAuthenticationRequestAsync(SocketConnection connection) => Task.FromResult<Query?>(new KrakenFuturesAuthQuery(((KrakenFuturesAuthenticationProvider)AuthenticationProvider!).GetApiKey()));
 
         #region Heartbeat
 
