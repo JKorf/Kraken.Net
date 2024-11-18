@@ -47,6 +47,26 @@ namespace Kraken.Net
         }
 
         /// <summary>
+        /// ctor for DI, use <see cref="CreateCustom"/> for creating a custom environment
+        /// </summary>
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+        public KrakenEnvironment() : base(TradeEnvironmentNames.Live)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+        { }
+
+        /// <summary>
+        /// Get the Kraken environment by name
+        /// </summary>
+        public static KrakenEnvironment? GetEnvironmentByName(string? name)
+         => name switch
+         {
+             TradeEnvironmentNames.Live => Live,
+             "" => Live,
+             null => Live,
+             _ => default
+         };
+
+        /// <summary>
         /// Live environment
         /// </summary>
         public static KrakenEnvironment Live { get; }

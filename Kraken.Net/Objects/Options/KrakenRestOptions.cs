@@ -10,10 +10,18 @@ namespace Kraken.Net.Objects.Options
         /// <summary>
         /// Default options for new KrakenRestClients
         /// </summary>
-        public static KrakenRestOptions Default { get; set; } = new KrakenRestOptions()
+        internal static KrakenRestOptions Default { get; set; } = new KrakenRestOptions()
         {
             Environment = KrakenEnvironment.Live
         };
+
+        /// <summary>
+        /// ctor
+        /// </summary>
+        public KrakenRestOptions()
+        {
+            Default?.Set(this);
+        }
 
         /// <summary>
         /// The static password configured as two-factor authentication for the API key. Will be send as otp parameter on private requests.
@@ -35,14 +43,14 @@ namespace Kraken.Net.Objects.Options
         /// </summary>
         public RestApiOptions FuturesOptions { get; private set; } = new RestApiOptions();
 
-        internal KrakenRestOptions Copy()
+        internal KrakenRestOptions Set(KrakenRestOptions targetOptions)
         {
-            var options = Copy<KrakenRestOptions>();
-            options.SpotOptions = SpotOptions.Copy<RestApiOptions>();
-            options.FuturesOptions = FuturesOptions.Copy<RestApiOptions>();
-            options.NonceProvider = NonceProvider;
-            options.StaticTwoFactorAuthenticationPassword = StaticTwoFactorAuthenticationPassword;
-            return options;
+            targetOptions = base.Set<KrakenRestOptions>(targetOptions);
+            targetOptions.StaticTwoFactorAuthenticationPassword = StaticTwoFactorAuthenticationPassword;
+            targetOptions.NonceProvider = NonceProvider;
+            targetOptions.SpotOptions = SpotOptions.Set(targetOptions.SpotOptions);
+            targetOptions.FuturesOptions = FuturesOptions.Set(targetOptions.FuturesOptions);
+            return targetOptions;
         }
     }
 }

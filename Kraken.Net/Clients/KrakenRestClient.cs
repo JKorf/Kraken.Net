@@ -5,6 +5,7 @@ using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects.Options;
+using Microsoft.Extensions.Options;
 
 namespace Kraken.Net.Clients
 {
@@ -26,26 +27,24 @@ namespace Kraken.Net.Clients
         /// Create a new instance of the KrakenRestClient using provided options
         /// </summary>
         /// <param name="optionsDelegate">Option configuration delegate</param>
-        public KrakenRestClient(Action<KrakenRestOptions>? optionsDelegate = null) : this(null, null, optionsDelegate)
+        public KrakenRestClient(Action<KrakenRestOptions>? optionsDelegate = null)
+            : this(null, null, Options.Create(ApplyOptionsDelegate(optionsDelegate)))
         {
         }
 
         /// <summary>
         /// Create a new instance of the KrakenRestClient
         /// </summary>
-        /// <param name="optionsDelegate">Option configuration delegate</param>
+        /// <param name="options">Option configuration</param>
         /// <param name="loggerFactory">The logger factory</param>
         /// <param name="httpClient">Http client for this client</param>
-        public KrakenRestClient(HttpClient? httpClient, ILoggerFactory? loggerFactory, Action<KrakenRestOptions>? optionsDelegate = null)
+        public KrakenRestClient(HttpClient? httpClient, ILoggerFactory? loggerFactory, IOptions<KrakenRestOptions> options)
             : base(loggerFactory, "Kraken")
         {
-            var options = KrakenRestOptions.Default.Copy();
-            if (optionsDelegate != null)
-                optionsDelegate(options);
-            Initialize(options);
+            Initialize(options.Value);
 
-            SpotApi = AddApiClient(new KrakenRestClientSpotApi(_logger, httpClient, options));
-            FuturesApi = AddApiClient(new KrakenRestClientFuturesApi(_logger, httpClient, options));
+            SpotApi = AddApiClient(new KrakenRestClientSpotApi(_logger, httpClient, options.Value));
+            FuturesApi = AddApiClient(new KrakenRestClientFuturesApi(_logger, httpClient, options.Value));
         }
         #endregion
 
@@ -57,9 +56,7 @@ namespace Kraken.Net.Clients
         /// <param name="optionsDelegate">Option configuration delegate</param>
         public static void SetDefaultOptions(Action<KrakenRestOptions> optionsDelegate)
         {
-            var options = KrakenRestOptions.Default.Copy();
-            optionsDelegate(options);
-            KrakenRestOptions.Default = options;
+            KrakenRestOptions.Default = ApplyOptionsDelegate(optionsDelegate);
         }
 
         /// <inheritdoc />
