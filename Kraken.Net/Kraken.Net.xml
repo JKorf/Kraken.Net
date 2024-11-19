@@ -229,11 +229,11 @@
             </summary>
             <param name="optionsDelegate">Option configuration delegate</param>
         </member>
-        <member name="M:Kraken.Net.Clients.KrakenRestClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILoggerFactory,System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
+        <member name="M:Kraken.Net.Clients.KrakenRestClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.Extensions.Options.IOptions{Kraken.Net.Objects.Options.KrakenRestOptions})">
             <summary>
             Create a new instance of the KrakenRestClient
             </summary>
-            <param name="optionsDelegate">Option configuration delegate</param>
+            <param name="options">Option configuration</param>
             <param name="loggerFactory">The logger factory</param>
             <param name="httpClient">Http client for this client</param>
         </member>
@@ -255,24 +255,18 @@
         <member name="P:Kraken.Net.Clients.KrakenSocketClient.FuturesApi">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
-            <summary>
-            Create a new instance of the KrakenSocketClient
-            </summary>
-            <param name="loggerFactory">The logger</param>
-        </member>
         <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions})">
             <summary>
             Create a new instance of the KrakenSocketClient
             </summary>
             <param name="optionsDelegate">Option configuration delegate</param>
         </member>
-        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},Microsoft.Extensions.Logging.ILoggerFactory)">
+        <member name="M:Kraken.Net.Clients.KrakenSocketClient.#ctor(Microsoft.Extensions.Options.IOptions{Kraken.Net.Objects.Options.KrakenSocketOptions},Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
             Create a new instance of the KrakenSocketClient
             </summary>
             <param name="loggerFactory">The logger</param>
-            <param name="optionsDelegate">Option configuration delegate</param>
+            <param name="options">Option configuration</param>
         </member>
         <member name="M:Kraken.Net.Clients.KrakenSocketClient.SetDefaultOptions(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions})">
             <summary>
@@ -3275,7 +3269,7 @@
             Subscribe to ticker updates
             <para><a href="https://docs.kraken.com/api/docs/websocket-v2/ticker" /></para>
             </summary>
-            <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="!:IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable&lt;string&gt;?, string?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
+            <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -3285,7 +3279,7 @@
             Subscribe to ticker updates
             <para><a href="https://docs.kraken.com/api/docs/websocket-v2/ticker" /></para>
             </summary>
-            <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="!:IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable&lt;string&gt;?, string?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
+            <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
@@ -3295,7 +3289,7 @@
             Subscribe to kline updates
             <para><a href="https://docs.kraken.com/api/docs/websocket-v2/ohlc" /></para>
             </summary>
-            <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="!:IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable&lt;string&gt;?, string?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
+            <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="interval">Kline interval</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
@@ -3306,7 +3300,7 @@
             Subscribe to kline updates
             <para><a href="https://docs.kraken.com/api/docs/websocket-v2/ohlc" /></para>
             </summary>
-            <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="!:IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable&lt;string&gt;?, string?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
+            <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="interval">Kline interval</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
@@ -3317,7 +3311,7 @@
             Subscribe to trade updates
             <para><a href="https://docs.kraken.com/api/docs/websocket-v2/trade" /></para>
             </summary>
-            <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="!:IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable&lt;string&gt;?, string?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
+            <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="handler">Data handler</param>
             <param name="snapshot">Whether or not a snapshot of the last trades should be send after subscribing</param>
             <param name="ct">Cancellation token for closing this subscription</param>
@@ -3328,7 +3322,7 @@
             Subscribe to trade updates
             <para><a href="https://docs.kraken.com/api/docs/websocket-v2/trade" /></para>
             </summary>
-            <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="!:IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable&lt;string&gt;?, string?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
+            <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="handler">Data handler</param>
             <param name="snapshot">Whether or not a snapshot of the last trades should be send after subscribing</param>
             <param name="ct">Cancellation token for closing this subscription</param>
@@ -3339,7 +3333,7 @@
             Subscribe to order book updates. Order book entries are aggregated per price level
             <para><a href="https://docs.kraken.com/api/docs/websocket-v2/book" /></para>
             </summary>
-            <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="!:IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable&lt;string&gt;?, string?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
+            <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="depth">Depth of the initial order book snapshot. 10, 25, 100, 500 or 1000</param>
             <param name="handler">Data handler</param>
             <param name="snapshot">Whether or not a snapshot of the last book state should be send after subscribing</param>
@@ -3351,7 +3345,7 @@
             Subscribe to order book updates. Order book entries are aggregated per price level
             <para><a href="https://docs.kraken.com/api/docs/websocket-v2/book" /></para>
             </summary>
-            <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="!:IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable&lt;string&gt;?, string?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
+            <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="depth">Depth of the initial order book snapshot. 10, 25, 100, 500 or 1000</param>
             <param name="handler">Data handler</param>
             <param name="snapshot">Whether or not a snapshot of the last book state should be send after subscribing</param>
@@ -3363,7 +3357,7 @@
             Subscribe to the full order book with individual orders. Requires authentication.
             <para><a href="https://docs.kraken.com/api/docs/websocket-v2/level3" /></para>
             </summary>
-            <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="!:IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable&lt;string&gt;?, string?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
+            <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="depth">Depth of the initial order book snapshot. 10, 100 or 1000</param>
             <param name="handler">Data handler</param>
             <param name="snapshot">Whether or not a snapshot of the last book state should be send after subscribing</param>
@@ -3375,7 +3369,7 @@
             Subscribe to the full order book with individual orders. Requires authentication.
             <para><a href="https://docs.kraken.com/api/docs/websocket-v2/level3" /></para>
             </summary>
-            <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="!:IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable&lt;string&gt;?, string?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
+            <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="depth">Depth of the initial order book snapshot. 10, 100 or 1000</param>
             <param name="handler">Data handler</param>
             <param name="snapshot">Whether or not a snapshot of the last book state should be send after subscribing</param>
@@ -3419,7 +3413,7 @@
             Place a new order
             <para><a href="https://docs.kraken.com/api/docs/websocket-v2/add_order" /></para>
             </summary>
-            <param name="symbol">The symbol the order is on, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="!:IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable&lt;string&gt;?, string?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName"/></param>
+            <param name="symbol">The symbol the order is on, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName"/></param>
             <param name="side">The side of the order</param>
             <param name="type">The type of the order</param>
             <param name="quantity">The quantity of the order</param>
@@ -3474,7 +3468,7 @@
             Replace an existing order
             <para><a href="https://docs.kraken.com/api/docs/websocket-v2/edit_order" /></para>
             </summary>
-            <param name="symbol">The symbol the order is on, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="!:IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable&lt;string&gt;?, string?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName"/></param>
+            <param name="symbol">The symbol the order is on, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName"/></param>
             <param name="orderId">Order id, either this or clientOrderId should be provided</param>
             <param name="clientOrderId">Client order id, either this or orderId should be provided</param>
             <param name="quantity">The quantity of the order</param>
@@ -3698,6 +3692,16 @@
             Futures Socket client address
             </summary>
         </member>
+        <member name="M:Kraken.Net.KrakenEnvironment.#ctor">
+            <summary>
+            ctor for DI, use <see cref="M:Kraken.Net.KrakenEnvironment.CreateCustom(System.String,System.String,System.String,System.String,System.String,System.String)"/> for creating a custom environment
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.KrakenEnvironment.GetEnvironmentByName(System.String)">
+            <summary>
+            Get the Kraken environment by name
+            </summary>
+        </member>
         <member name="P:Kraken.Net.KrakenEnvironment.Live">
             <summary>
             Live environment
@@ -3723,6 +3727,16 @@
         <member name="P:Kraken.Net.KrakenExchange.ExchangeName">
             <summary>
             Exchange name
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.KrakenExchange.DisplayName">
+            <summary>
+            Exchange name
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.KrakenExchange.ImageUrl">
+            <summary>
+            Url to exchange image
             </summary>
         </member>
         <member name="P:Kraken.Net.KrakenExchange.Url">
@@ -9465,6 +9479,36 @@
             Expires after x seconds
             </summary>
         </member>
+        <member name="T:Kraken.Net.Objects.Options.KrakenOptions">
+            <summary>
+            Kraken options
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Options.KrakenOptions.Rest">
+            <summary>
+            Rest client options
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Options.KrakenOptions.Socket">
+            <summary>
+            Socket client options
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Options.KrakenOptions.Environment">
+            <summary>
+            Trade environment. Contains info about URL's to use to connect to the API. Use `KrakenEnvironment` to swap environment, for example `Environment = KrakenEnvironment.Live`
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Options.KrakenOptions.ApiCredentials">
+            <summary>
+            The api credentials used for signing requests.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Options.KrakenOptions.SocketClientLifeTime">
+            <summary>
+            The DI service lifetime for the IKrakenSocketClient
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Options.KrakenOrderBookOptions">
             <summary>
             Options for the Kraken SymbolOrderBook
@@ -9495,6 +9539,11 @@
             Default options for new KrakenRestClients
             </summary>
         </member>
+        <member name="M:Kraken.Net.Objects.Options.KrakenRestOptions.#ctor">
+            <summary>
+            ctor
+            </summary>
+        </member>
         <member name="P:Kraken.Net.Objects.Options.KrakenRestOptions.StaticTwoFactorAuthenticationPassword">
             <summary>
             The static password configured as two-factor authentication for the API key. Will be send as otp parameter on private requests.
@@ -9523,6 +9572,11 @@
         <member name="P:Kraken.Net.Objects.Options.KrakenSocketOptions.Default">
             <summary>
             Default options for new KrakenRestClients
+            </summary>
+        </member>
+        <member name="M:Kraken.Net.Objects.Options.KrakenSocketOptions.#ctor">
+            <summary>
+            ctor
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.Options.KrakenSocketOptions.NonceProvider">
@@ -9720,15 +9774,26 @@
             Extensions for DI
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddKraken(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Kraken.Net.Objects.Options.KrakenRestOptions},System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},System.Nullable{Microsoft.Extensions.DependencyInjection.ServiceLifetime})">
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddKraken(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
-            Add the IKrakenClient and IKrakenSocketClient to the sevice collection so they can be injected
+            Add services such as the IKrakenRestClient and IKrakenSocketClient. Configures the services based on the provided configuration.
             </summary>
             <param name="services">The service collection</param>
-            <param name="defaultRestOptionsDelegate">Set default options for the rest client</param>
-            <param name="defaultSocketOptionsDelegate">Set default options for the socket client</param>
-            <param name="socketClientLifeTime">The lifetime of the IKrakenSocketClient for the service collection. Defaults to Singleton.</param>
+            <param name="configuration">The configuration(section) containing the options</param>
             <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddKraken(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Kraken.Net.Objects.Options.KrakenOptions})">
+            <summary>
+            Add services such as the IKrakenRestClient and IKrakenSocketClient. Services will be configured based on the provided options.
+            </summary>
+            <param name="services">The service collection</param>
+            <param name="optionsDelegate">Set options for the Kraken services</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddKraken(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Kraken.Net.Objects.Options.KrakenRestOptions},System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},System.Nullable{Microsoft.Extensions.DependencyInjection.ServiceLifetime})">
+            <summary>
+            DEPRECATED; use <see cref="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddKraken(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Kraken.Net.Objects.Options.KrakenOptions})" /> instead
+            </summary>
         </member>
     </members>
 </doc>

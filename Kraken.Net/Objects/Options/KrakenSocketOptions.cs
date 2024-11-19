@@ -10,11 +10,19 @@ namespace Kraken.Net.Objects.Options
         /// <summary>
         /// Default options for new KrakenRestClients
         /// </summary>
-        public static KrakenSocketOptions Default { get; set; } = new KrakenSocketOptions()
+        internal static KrakenSocketOptions Default { get; set; } = new KrakenSocketOptions()
         {
             SocketSubscriptionsCombineTarget = 10,
             Environment = KrakenEnvironment.Live
         };
+
+        /// <summary>
+        /// ctor
+        /// </summary>
+        public KrakenSocketOptions()
+        {
+            Default?.Set(this);
+        }
 
         /// <summary>
         /// Optional nonce provider for signing requests. Careful providing a custom provider; once a nonce is sent to the server, every request after that needs a higher nonce than that
@@ -31,13 +39,13 @@ namespace Kraken.Net.Objects.Options
         /// </summary>
         public SocketApiOptions FuturesOptions { get; private set; } = new SocketApiOptions() { MaxSocketConnections = 100 };
 
-        internal KrakenSocketOptions Copy()
+        internal KrakenSocketOptions Set(KrakenSocketOptions targetOptions)
         {
-            var options = Copy<KrakenSocketOptions>();
-            options.SpotOptions = SpotOptions.Copy<SocketApiOptions>();
-            options.FuturesOptions = FuturesOptions.Copy<SocketApiOptions>();
-            options.NonceProvider = NonceProvider;
-            return options;
+            targetOptions = base.Set<KrakenSocketOptions>(targetOptions);
+            targetOptions.NonceProvider = NonceProvider;
+            targetOptions.SpotOptions = SpotOptions.Set(targetOptions.SpotOptions);
+            targetOptions.FuturesOptions = FuturesOptions.Set(targetOptions.FuturesOptions);
+            return targetOptions;
         }
     }
 }

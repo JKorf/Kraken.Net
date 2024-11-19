@@ -18,6 +18,16 @@ namespace Kraken.Net
         public static string ExchangeName => "Kraken";
 
         /// <summary>
+        /// Exchange name
+        /// </summary>
+        public static string DisplayName => "Kraken";
+
+        /// <summary>
+        /// Url to exchange image
+        /// </summary>
+        public static string ImageUrl { get; } = "https://raw.githubusercontent.com/JKorf/Kraken.Net/master/Kraken.Net/Icon/icon.png";
+
+        /// <summary>
         /// Url to the main website
         /// </summary>
         public static string Url { get; } = "https://www.kraken.com";

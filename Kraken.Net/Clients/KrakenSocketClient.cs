@@ -5,6 +5,7 @@ using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects.Options;
+using Microsoft.Extensions.Options;
 
 namespace Kraken.Net.Clients
 {
@@ -24,16 +25,9 @@ namespace Kraken.Net.Clients
         /// <summary>
         /// Create a new instance of the KrakenSocketClient
         /// </summary>
-        /// <param name="loggerFactory">The logger</param>
-        public KrakenSocketClient(ILoggerFactory? loggerFactory = null) : this((x) => { }, loggerFactory)
-        {
-        }
-
-        /// <summary>
-        /// Create a new instance of the KrakenSocketClient
-        /// </summary>
         /// <param name="optionsDelegate">Option configuration delegate</param>
-        public KrakenSocketClient(Action<KrakenSocketOptions> optionsDelegate) : this(optionsDelegate, null)
+        public KrakenSocketClient(Action<KrakenSocketOptions>? optionsDelegate = null)
+            : this(Options.Create(ApplyOptionsDelegate(optionsDelegate)), null)
         {
         }
 
@@ -41,15 +35,13 @@ namespace Kraken.Net.Clients
         /// Create a new instance of the KrakenSocketClient
         /// </summary>
         /// <param name="loggerFactory">The logger</param>
-        /// <param name="optionsDelegate">Option configuration delegate</param>
-        public KrakenSocketClient(Action<KrakenSocketOptions> optionsDelegate, ILoggerFactory? loggerFactory = null) : base(loggerFactory, "Kraken")
+        /// <param name="options">Option configuration</param>
+        public KrakenSocketClient(IOptions<KrakenSocketOptions> options, ILoggerFactory? loggerFactory = null) : base(loggerFactory, "Kraken")
         {
-            var options = KrakenSocketOptions.Default.Copy();
-            optionsDelegate(options);
-            Initialize(options);
+            Initialize(options.Value);
 
-            SpotApi = AddApiClient(new KrakenSocketClientSpotApi(_logger, options));
-            FuturesApi = AddApiClient(new KrakenSocketClientFuturesApi(_logger, options));
+            SpotApi = AddApiClient(new KrakenSocketClientSpotApi(_logger, options.Value));
+            FuturesApi = AddApiClient(new KrakenSocketClientFuturesApi(_logger, options.Value));
         }
         #endregion
 
@@ -61,9 +53,7 @@ namespace Kraken.Net.Clients
         /// <param name="optionsDelegate">Option configuration delegate</param>
         public static void SetDefaultOptions(Action<KrakenSocketOptions> optionsDelegate)
         {
-            var options = KrakenSocketOptions.Default.Copy();
-            optionsDelegate(options);
-            KrakenSocketOptions.Default = options;
+            KrakenSocketOptions.Default = ApplyOptionsDelegate(optionsDelegate);
         }
 
         /// <inheritdoc />

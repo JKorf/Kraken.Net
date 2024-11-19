@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using Kraken.Net.Objects.Options;
 
 namespace Kraken.Net.UnitTests
 {
@@ -23,11 +25,11 @@ namespace Kraken.Net.UnitTests
             var sec = Environment.GetEnvironmentVariable("APISECRET");
 
             Authenticated = key != null && sec != null;
-            return new KrakenRestClient(null, loggerFactory, opts =>
+            return new KrakenRestClient(null, loggerFactory, Options.Create(new KrakenRestOptions
             {
-                opts.OutputOriginalData = true;
-                opts.ApiCredentials = Authenticated ? new ApiCredentials(key, sec) : null;
-            });
+                OutputOriginalData = true,
+                ApiCredentials = Authenticated ? new ApiCredentials(key, sec) : null
+            }));
         }
 
         [Test]
