@@ -30,9 +30,10 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-asset-info" /></para>
         /// </summary>
         /// <param name="assets">Filter list for specific assets, for example `ETH`</param>
+        /// <param name="newAssetNameResponse">When set to true the asset names will be in the new format, for example `BTC` instead of `XBT`. Default is false.</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary of asset info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(IEnumerable<string>? assets = null, CancellationToken ct = default);
+        Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(IEnumerable<string>? assets = null, bool? newAssetNameResponse = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get a list of symbols and info about them
@@ -40,9 +41,10 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </summary>
         /// <param name="countryCode">Filter whats available for a specific country/region</param>
         /// <param name="symbols">Filter list for specific symbols, for example `ETHUSDT`</param>
+        /// <param name="newAssetNameResponse">When set to true the asset names will be in the new format, for example `BTC` instead of `XBT`. Default is false.</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary of symbol info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, string? countryCode = null, CancellationToken ct = default);
+        Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, string? countryCode = null, bool? newAssetNameResponse = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get tickers for symbol

@@ -44,9 +44,10 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Assets
 
         /// <inheritdoc />
-        public async Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(IEnumerable<string>? assets = null, CancellationToken ct = default)
+        public async Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(IEnumerable<string>? assets = null, bool? newAssetNameResponse = null, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection();
+            parameters.AddOptional("assetVersion", newAssetNameResponse);
             if (assets?.Any() == true)
                 parameters.AddOptionalParameter("asset", string.Join(",", assets));
 
@@ -59,10 +60,11 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Symbols
 
         /// <inheritdoc />
-        public async Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, string? countryCode = null, CancellationToken ct = default)
+        public async Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, string? countryCode = null, bool? newAssetNameResponse = null, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection();
             parameters.AddOptionalParameter("country_code", countryCode);
+            parameters.AddOptional("assetVersion", newAssetNameResponse);
             if (symbols?.Any() == true)
                 parameters.AddOptionalParameter("pair", string.Join(",", symbols));
 
