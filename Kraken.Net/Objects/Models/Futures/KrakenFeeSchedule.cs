@@ -2,7 +2,7 @@
 {
     internal record KrakenFeeScheduleVolumeResult : KrakenFuturesResult<Dictionary<string, decimal>>
     {
-        [JsonPropertyName("feeSchedules")]
+        [JsonPropertyName("volumesByFeeSchedule")]
         public override Dictionary<string, decimal> Data { get; set; } = new Dictionary<string, decimal>();
     }
 

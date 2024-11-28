@@ -9484,31 +9484,6 @@
             Kraken options
             </summary>
         </member>
-        <member name="P:Kraken.Net.Objects.Options.KrakenOptions.Rest">
-            <summary>
-            Rest client options
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Options.KrakenOptions.Socket">
-            <summary>
-            Socket client options
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Options.KrakenOptions.Environment">
-            <summary>
-            Trade environment. Contains info about URL's to use to connect to the API. Use `KrakenEnvironment` to swap environment, for example `Environment = KrakenEnvironment.Live`
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Options.KrakenOptions.ApiCredentials">
-            <summary>
-            The api credentials used for signing requests.
-            </summary>
-        </member>
-        <member name="P:Kraken.Net.Objects.Options.KrakenOptions.SocketClientLifeTime">
-            <summary>
-            The DI service lifetime for the IKrakenSocketClient
-            </summary>
-        </member>
         <member name="T:Kraken.Net.Objects.Options.KrakenOrderBookOptions">
             <summary>
             Options for the Kraken SymbolOrderBook

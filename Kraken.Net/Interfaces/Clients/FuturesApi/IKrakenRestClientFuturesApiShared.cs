@@ -16,7 +16,8 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         IMarkPriceKlineRestClient,
         IOpenInterestRestClient,
         ILeverageRestClient,
-        IFuturesOrderRestClient
+        IFuturesOrderRestClient,
+        IFeeRestClient
     {
     }
 }
