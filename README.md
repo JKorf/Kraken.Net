@@ -161,6 +161,13 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 5.4.0 - 28 Nov 2024
+    * Updated CryptoExchange.Net to version 8.4.0, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/8.4.0
+    * Added GetFeesAsync Shared REST client implementations
+    * Updated BinanceOptions to LibraryOptions implementation
+    * Updated test and analyzer package versions
+    * CryptoExchange update, fixed restClient.FuturesApi.Account.GetFeeScheduleVolumeAsync deserialization
+
 * Version 5.3.0 - 19 Nov 2024
     * Updated CryptoExchange.Net to version 8.3.0, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/8.3.0
     * Added support for loading client settings from IConfiguration
