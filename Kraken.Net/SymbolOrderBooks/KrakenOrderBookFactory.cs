@@ -26,12 +26,8 @@ namespace Kraken.Net.SymbolOrderBooks
         {
             _serviceProvider = serviceProvider;
 
-            Spot = new OrderBookFactory<KrakenOrderBookOptions>(
-                CreateSpot,
-                (sharedSymbol, options) => CreateSpot(KrakenExchange.FormatSymbol(sharedSymbol.BaseAsset, sharedSymbol.QuoteAsset, sharedSymbol.TradingMode, sharedSymbol.DeliverTime), options));
-            Futures = new OrderBookFactory<KrakenOrderBookOptions>(
-                CreateFutures,
-                (sharedSymbol, options) => CreateFutures(KrakenExchange.FormatSymbol(sharedSymbol.BaseAsset, sharedSymbol.QuoteAsset, sharedSymbol.TradingMode, sharedSymbol.DeliverTime), options));
+            Spot = new OrderBookFactory<KrakenOrderBookOptions>(CreateSpot, Create);
+            Futures = new OrderBookFactory<KrakenOrderBookOptions>(CreateFutures, Create);
         }
 
         /// <inheritdoc />
@@ -40,7 +36,7 @@ namespace Kraken.Net.SymbolOrderBooks
             if (symbol.TradingMode == TradingMode.Spot)
                 return CreateSpot(symbol.BaseAsset + "/" + symbol.QuoteAsset, options);
 
-            var symbolName = KrakenExchange.FormatSymbol(symbol.BaseAsset, symbol.QuoteAsset, symbol.TradingMode, symbol.DeliverTime);
+            var symbolName = symbol.GetSymbol(KrakenExchange.FormatSymbol);
             return CreateFutures(symbolName, options);
         }
 
