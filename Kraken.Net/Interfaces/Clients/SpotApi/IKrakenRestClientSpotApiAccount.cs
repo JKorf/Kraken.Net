@@ -13,17 +13,18 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Get balances
         /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-account-balance" /></para>
         /// </summary>
+        /// <param name="newAssetNameResponse">When set to true the asset names will be in the new format, for example `BTC` instead of `XBT`. Default is false.</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with balances for assets</returns>
-        Task<WebCallResult<Dictionary<string, decimal>>> GetBalancesAsync(string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<Dictionary<string, decimal>>> GetBalancesAsync(bool? newAssetNameResponse = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get balances including quantity in holding
         /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-trade-balance" /></para>
         /// </summary>
-        /// <param name="ct">Cancellation token</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with balances for assets</returns>
         Task<WebCallResult<Dictionary<string, KrakenBalanceAvailable>>> GetAvailableBalancesAsync(string? twoFactorPassword = null, CancellationToken ct = default);
 

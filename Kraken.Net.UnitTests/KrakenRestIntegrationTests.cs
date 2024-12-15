@@ -47,7 +47,7 @@ namespace Kraken.Net.UnitTests
         [Test]
         public async Task TestSpotAccount()
         {
-            await RunAndCheckResult(client => client.SpotApi.Account.GetBalancesAsync(default, default), true);
+            await RunAndCheckResult(client => client.SpotApi.Account.GetBalancesAsync(default, default, default), true);
             await RunAndCheckResult(client => client.SpotApi.Account.GetAvailableBalancesAsync(default, default), true);
             await RunAndCheckResult(client => client.SpotApi.Account.GetTradeBalanceAsync(default, default, default), true);
             await RunAndCheckResult(client => client.SpotApi.Account.GetOpenPositionsAsync(default, default, default), true);
