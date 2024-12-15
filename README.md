@@ -162,6 +162,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 5.4.2 - 15 Dec 2024
+    * Added newAssetNameResponse parameter to restClient.SpotApi.Account.GetBalancesAsync
+
 * Version 5.4.1 - 03 Dec 2024
     * Updated CryptoExchange.Net to version 8.4.3, see https://github.com/JKorf/CryptoExchange.Net/releases/
     * Fixed orderbook creation via KrakenOrderBookFactory
