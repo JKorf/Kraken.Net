@@ -34,7 +34,6 @@ namespace Kraken.Net.Objects.Options
         /// </summary>
         public SocketApiOptions SpotOptions { get; private set; } = new SocketApiOptions()
         {
-            SocketNoDataTimeout = TimeSpan.FromSeconds(10)
         };
 
         /// <summary>

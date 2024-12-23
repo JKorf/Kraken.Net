@@ -57,6 +57,20 @@ namespace Kraken.Net.Clients.SpotApi
             RateLimiter = KrakenExchange.RateLimiter.SpotSocket;
                         
             SetDedicatedConnection(_privateBaseAddress, false);
+
+            RegisterPeriodicQuery(
+                "Ping",
+                TimeSpan.FromSeconds(30),
+                x => new KrakenSpotPingQuery(),
+                (connection, result) =>
+                {
+                    if (result.Error?.Message.Equals("Query timeout") == true)
+                    {
+                        // Ping timeout, reconnect
+                        _logger.LogWarning("[Sckt {SocketId}] Ping response timeout, reconnecting", connection.SocketId);
+                        _ = connection.TriggerReconnectAsync();
+                    }
+                });
         }
         #endregion
 
