@@ -34,7 +34,7 @@ namespace Kraken.Net.Clients.FuturesApi
         {
             RateLimiter = KrakenExchange.RateLimiter.FuturesSocket;
 
-            AddSystemSubscription(new KrakenFuturesInfoSubscription(_logger));
+            AddSystemSubscription(new KrakenFuturesInfoSubscription(_logger));                
         }
         #endregion
 

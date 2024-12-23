@@ -1,4 +1,5 @@
-﻿using Kraken.Net.Interfaces.Clients.FuturesApi;
+﻿using CryptoExchange.Net.Objects.Options;
+using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 
 namespace Kraken.Net.Interfaces.Clients
@@ -16,6 +17,12 @@ namespace Kraken.Net.Interfaces.Clients
         /// Futures Api
         /// </summary>
         IKrakenSocketClientFuturesApi FuturesApi { get; }
+
+        /// <summary>
+        /// Update specific options
+        /// </summary>
+        /// <param name="options">Options to update. Only specific options are changable after the client has been created</param>
+        void SetOptions(UpdateOptions options);
 
         /// <summary>
         /// Set the API credentials for this client. All Api clients in this client will use the new credentials, regardless of earlier set options.

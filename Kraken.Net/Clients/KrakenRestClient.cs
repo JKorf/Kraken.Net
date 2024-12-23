@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Objects.Options;
 using Kraken.Net.Clients.FuturesApi;
 using Kraken.Net.Clients.SpotApi;
 using Kraken.Net.Interfaces.Clients;
@@ -49,6 +50,13 @@ namespace Kraken.Net.Clients
         #endregion
 
         #region methods
+
+        /// <inheritdoc />
+        public void SetOptions(UpdateOptions options)
+        {
+            SpotApi.SetOptions(options);
+            FuturesApi.SetOptions(options);
+        }
 
         /// <summary>
         /// Set the default options to be used when creating new clients

@@ -32,7 +32,10 @@ namespace Kraken.Net.Objects.Options
         /// <summary>
         /// Options for the Spot API
         /// </summary>
-        public SocketApiOptions SpotOptions { get; private set; } = new SocketApiOptions();
+        public SocketApiOptions SpotOptions { get; private set; } = new SocketApiOptions()
+        {
+            SocketNoDataTimeout = TimeSpan.FromSeconds(10)
+        };
 
         /// <summary>
         /// Options for the Futures API

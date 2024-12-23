@@ -237,6 +237,9 @@
             <param name="loggerFactory">The logger factory</param>
             <param name="httpClient">Http client for this client</param>
         </member>
+        <member name="M:Kraken.Net.Clients.KrakenRestClient.SetOptions(CryptoExchange.Net.Objects.Options.UpdateOptions)">
+            <inheritdoc />
+        </member>
         <member name="M:Kraken.Net.Clients.KrakenRestClient.SetDefaultOptions(System.Action{Kraken.Net.Objects.Options.KrakenRestOptions})">
             <summary>
             Set the default options to be used when creating new clients
@@ -267,6 +270,9 @@
             </summary>
             <param name="loggerFactory">The logger</param>
             <param name="options">Option configuration</param>
+        </member>
+        <member name="M:Kraken.Net.Clients.KrakenSocketClient.SetOptions(CryptoExchange.Net.Objects.Options.UpdateOptions)">
+            <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.KrakenSocketClient.SetDefaultOptions(System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions})">
             <summary>
@@ -2569,6 +2575,12 @@
             Futures API endpoints
             </summary>
         </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.IKrakenRestClient.SetOptions(CryptoExchange.Net.Objects.Options.UpdateOptions)">
+            <summary>
+            Update specific options
+            </summary>
+            <param name="options">Options to update. Only specific options are changable after the client has been created</param>
+        </member>
         <member name="M:Kraken.Net.Interfaces.Clients.IKrakenRestClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
             <summary>
             Set the API credentials for this client. All Api clients in this client will use the new credentials, regardless of earlier set options.
@@ -2589,6 +2601,12 @@
             <summary>
             Futures Api
             </summary>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.IKrakenSocketClient.SetOptions(CryptoExchange.Net.Objects.Options.UpdateOptions)">
+            <summary>
+            Update specific options
+            </summary>
+            <param name="options">Options to update. Only specific options are changable after the client has been created</param>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.IKrakenSocketClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
             <summary>
