@@ -3768,6 +3768,11 @@
             Urls to the API documentation
             </summary>
         </member>
+        <member name="P:Kraken.Net.KrakenExchange.Type">
+            <summary>
+            Type of exchange
+            </summary>
+        </member>
         <member name="M:Kraken.Net.KrakenExchange.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
             <summary>
             Format a base and quote asset to a Kraken recognized symbol 
