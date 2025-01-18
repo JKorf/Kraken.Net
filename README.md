@@ -162,6 +162,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 5.5.3 - 18 Jan 2025
+    * Fix restClient.FuturesApi.Trading.GetUserTradesAsync startTime parameter not being applied
+
 * Version 5.5.2 - 07 Jan 2025
     * Updated CryptoExchange.Net version
     * Added Type property to KrakenExchange class
