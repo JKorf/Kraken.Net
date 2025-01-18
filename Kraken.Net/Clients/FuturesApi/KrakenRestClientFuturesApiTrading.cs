@@ -25,7 +25,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
             var weight = startTime == null ? 2 : 25;
             var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v3/fills", KrakenExchange.RateLimiter.FuturesApi, 1, true);
-            return await _baseClient.SendAsync<KrakenFuturesUserTradeResult, IEnumerable<KrakenFuturesUserTrade>>(request, null, ct).ConfigureAwait(false);
+            return await _baseClient.SendAsync<KrakenFuturesUserTradeResult, IEnumerable<KrakenFuturesUserTrade>>(request, parameters, ct).ConfigureAwait(false);
         }
 
         #endregion
