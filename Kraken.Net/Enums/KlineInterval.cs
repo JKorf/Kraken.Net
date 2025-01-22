@@ -46,11 +46,11 @@ namespace Kraken.Net.Enums
         /// 1w
         /// </summary>
         [Map("10080")]
-        OneWeek = 60 * 60 * 7,
+        OneWeek = 60 * 60 * 24 * 7,
         /// <summary>
         /// 15d
         /// </summary>
         [Map("21600")]
-        FifteenDays = 60 * 60 * 15
+        FifteenDays = 60 * 60 * 24 * 15
     }
 }
