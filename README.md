@@ -163,6 +163,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 5.5.4 - 22 Jan 2025
+    * Fixed IAssetsRestClient.GetAssetAsync not marked as authenticated method
+    * Fixed incorrect int values for OneWeek and FifteenDays in KlineInterval enum
+
 * Version 5.5.3 - 18 Jan 2025
     * Fix restClient.FuturesApi.Trading.GetUserTradesAsync startTime parameter not being applied
 
