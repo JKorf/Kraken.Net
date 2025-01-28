@@ -163,6 +163,11 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 5.6.0 - 28 Jan 2025
+    * Added support for `NewAssetNames` ExchangeParameter in shared implementation symbol and asset requests
+    * Added check for authentication when requesting assets, return only asset names if no credentials provided
+    * Updated restClient.SpotApi.Trading.GetClosedOrdersAsync parameters
+
 * Version 5.5.4 - 22 Jan 2025
     * Fixed IAssetsRestClient.GetAssetAsync not marked as authenticated method
     * Fixed incorrect int values for OneWeek and FifteenDays in KlineInterval enum
