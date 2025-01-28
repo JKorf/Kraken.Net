@@ -74,7 +74,8 @@ namespace Kraken.Net.Clients.SpotApi
             if (validationError != null)
                 return new ExchangeWebResult<IEnumerable<SharedSpotSymbol>>(Exchange, validationError);
 
-            var result = await ExchangeData.GetSymbolsAsync(ct: ct).ConfigureAwait(false);
+            var useNewAssetResponse = ExchangeParameters.GetValue<bool?>(request.ExchangeParameters, Exchange, "NewAssetNames");
+            var result = await ExchangeData.GetSymbolsAsync(newAssetNameResponse: useNewAssetResponse, ct: ct).ConfigureAwait(false);
             if (!result)
                 return result.AsExchangeResult<IEnumerable<SharedSpotSymbol>>(Exchange, null, default);
 
@@ -509,25 +510,44 @@ namespace Kraken.Net.Clients.SpotApi
             });
         }
 
-        EndpointOptions<GetAssetsRequest> IAssetsRestClient.GetAssetsOptions { get; } = new EndpointOptions<GetAssetsRequest>(true);
+        EndpointOptions<GetAssetsRequest> IAssetsRestClient.GetAssetsOptions { get; } = new EndpointOptions<GetAssetsRequest>(false)
+        {
+            RequestNotes = "If API credentials are set and the NewAssetNames Exchange Parameter is not set to true then withdrawal networks will also be returned"
+        };
         async Task<ExchangeWebResult<IEnumerable<SharedAsset>>> IAssetsRestClient.GetAssetsAsync(GetAssetsRequest request, CancellationToken ct)
         {
             var validationError = ((IAssetsRestClient)this).GetAssetsOptions.ValidateRequest(Exchange, request, TradingMode.Spot, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeWebResult<IEnumerable<SharedAsset>>(Exchange, validationError);
 
-            var assets = await Account.GetWithdrawMethodsAsync(ct: ct).ConfigureAwait(false);
-            if (!assets)
-                return assets.AsExchangeResult<IEnumerable<SharedAsset>>(Exchange, null, default);
+            var useNewAssetResponse = ExchangeParameters.GetValue<bool?>(request.ExchangeParameters, Exchange, "NewAssetNames");
 
-            return assets.AsExchangeResult<IEnumerable<SharedAsset>>(Exchange, TradingMode.Spot, assets.Data.GroupBy(x => x.Asset).Select(x => new SharedAsset(x.Key)
+            if (Authenticated && useNewAssetResponse != true)
             {
-                Networks = x.Select(x => new SharedAssetNetwork(x.Network)
+                var assets = await Account.GetWithdrawMethodsAsync(ct: ct).ConfigureAwait(false);
+                if (!assets)
+                    return assets.AsExchangeResult<IEnumerable<SharedAsset>>(Exchange, null, default);
+
+                return assets.AsExchangeResult<IEnumerable<SharedAsset>>(Exchange, TradingMode.Spot, assets.Data.GroupBy(x => x.Asset).Select(x => new SharedAsset(x.Key)
                 {
-                    FullName = x.Method,
-                    MinWithdrawQuantity = x.Minimum
-                }).ToArray()
-            }).ToArray());
+                    Networks = x.Select(x => new SharedAssetNetwork(x.Network)
+                    {
+                        FullName = x.Method,
+                        MinWithdrawQuantity = x.Minimum
+                    }).ToArray()
+                }).ToArray());
+            }
+            else
+            {
+                var assets = await ExchangeData.GetAssetsAsync(newAssetNameResponse: useNewAssetResponse, ct: ct).ConfigureAwait(false);
+                if (!assets)
+                    return assets.AsExchangeResult<IEnumerable<SharedAsset>>(Exchange, null, default);
+
+                return assets.AsExchangeResult<IEnumerable<SharedAsset>>(Exchange, TradingMode.Spot, assets.Data.Select(x => new SharedAsset(x.Key)
+                {
+                    FullName = x.Value.AlternateName
+                }).ToArray());
+            }
         }
 
         #endregion
