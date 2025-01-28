@@ -41,14 +41,26 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Closed Orders
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenClosedOrdersPage>> GetClosedOrdersAsync(uint? clientOrderId = null, DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenClosedOrdersPage>> GetClosedOrdersAsync(
+            uint? userRef = null,
+            DateTime? startTime = null,
+            DateTime? endTime = null,
+            int? resultOffset = null, 
+            string? clientOrderId = null,
+            SearchTime? searchTime = null,
+            bool? consolidateTaker = null,
+            string? twoFactorPassword = null,
+            CancellationToken ct = default)
         {
             var parameters = new ParameterCollection();
             parameters.AddOptionalParameter("trades", true);
-            parameters.AddOptionalParameter("userref", clientOrderId);
+            parameters.AddOptionalParameter("userref", userRef);
+            parameters.AddOptionalParameter("cl_ord_id", clientOrderId);
             parameters.AddOptionalParameter("start", DateTimeConverter.ConvertToSeconds(startTime));
             parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToSeconds(endTime));
             parameters.AddOptionalParameter("ofs", resultOffset);
+            parameters.AddOptionalEnum("closetime", searchTime);
+            parameters.AddOptional("consolidate_taker", consolidateTaker);
             parameters.AddOptionalParameter("otp", twoFactorPassword);
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/ClosedOrders", KrakenExchange.RateLimiter.SpotRest, 1, true);

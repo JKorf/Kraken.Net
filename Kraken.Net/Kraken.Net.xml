@@ -466,7 +466,7 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.GetOpenOrdersAsync(System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.GetClosedOrdersAsync(System.Nullable{System.UInt32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.GetClosedOrdersAsync(System.Nullable{System.UInt32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Nullable{Kraken.Net.Enums.SearchTime},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.GetOrderAsync(System.String,System.Nullable{System.UInt32},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
@@ -1693,6 +1693,26 @@
         <member name="F:Kraken.Net.Enums.RateLimitTier.Pro">
             <summary>
             PRo
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Enums.SearchTime">
+            <summary>
+            Timestamp to use for searching
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.SearchTime.Open">
+            <summary>
+            Open time
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.SearchTime.Close">
+            <summary>
+            Close time
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.SearchTime.Both">
+            <summary>
+            Both open and close time
             </summary>
         </member>
         <member name="T:Kraken.Net.Enums.SelfTradePreventionType">
@@ -3078,15 +3098,18 @@
             <param name="ct">Cancellation token</param>
             <returns>List of open orders</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.GetClosedOrdersAsync(System.Nullable{System.UInt32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.GetClosedOrdersAsync(System.Nullable{System.UInt32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Nullable{Kraken.Net.Enums.SearchTime},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of closed orders
             <para><a href="https://docs.kraken.com/api/docs/rest-api/get-closed-orders" /></para>
             </summary>
-            <param name="clientOrderId">Filter by client order id</param>
+            <param name="userRef">Filter by user reference</param>
             <param name="startTime">Return data after this time</param>
             <param name="endTime">Return data before this time</param>
             <param name="resultOffset">Offset the results by</param>
+            <param name="clientOrderId">Filter by client order id</param>
+            <param name="searchTime">Which time to use when searching</param>
+            <param name="consolidateTaker">Whether or not to consolidate trades by individual taker trades</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Closed orders page</returns>

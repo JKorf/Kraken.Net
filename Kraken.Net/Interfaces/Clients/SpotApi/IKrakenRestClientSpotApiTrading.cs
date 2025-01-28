@@ -22,14 +22,17 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Get a list of closed orders
         /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-closed-orders" /></para>
         /// </summary>
-        /// <param name="clientOrderId">Filter by client order id</param>
+        /// <param name="userRef">Filter by user reference</param>
         /// <param name="startTime">Return data after this time</param>
         /// <param name="endTime">Return data before this time</param>
         /// <param name="resultOffset">Offset the results by</param>
+        /// <param name="clientOrderId">Filter by client order id</param>
+        /// <param name="searchTime">Which time to use when searching</param>
+        /// <param name="consolidateTaker">Whether or not to consolidate trades by individual taker trades</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Closed orders page</returns>
-        Task<WebCallResult<KrakenClosedOrdersPage>> GetClosedOrdersAsync(uint? clientOrderId = null, DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenClosedOrdersPage>> GetClosedOrdersAsync(uint? userRef = null, DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? clientOrderId = null, SearchTime? searchTime = null, bool? consolidateTaker = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get info on specific order
