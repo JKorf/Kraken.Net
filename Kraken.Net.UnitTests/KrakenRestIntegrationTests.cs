@@ -78,7 +78,7 @@ namespace Kraken.Net.UnitTests
         public async Task TestSpotTrading()
         {
             await RunAndCheckResult(client => client.SpotApi.Trading.GetOpenOrdersAsync(default, default, default), true);
-            await RunAndCheckResult(client => client.SpotApi.Trading.GetClosedOrdersAsync(default, default, default, default, default, default), true);
+            await RunAndCheckResult(client => client.SpotApi.Trading.GetClosedOrdersAsync(default, default, default, default, default, default, default, default, default), true);
             await RunAndCheckResult(client => client.SpotApi.Trading.GetUserTradesAsync(default, default, default, default, default, default), true);
         }
 
