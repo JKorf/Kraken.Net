@@ -8871,6 +8871,11 @@
             Checksum
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.KrakenBookUpdate.Timestamp">
+            <summary>
+            Data timestamp
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Objects.Models.Socket.KrakenBookUpdateEntry">
             <summary>
             Order book entry

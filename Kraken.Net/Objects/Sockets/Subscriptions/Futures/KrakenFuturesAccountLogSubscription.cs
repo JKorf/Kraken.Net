@@ -51,12 +51,12 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         {
             if (message.Data is KrakenFuturesAccountLogsSnapshotUpdate snapshot)
             {
-                _snapshotHandler.Invoke(message.As(snapshot, snapshot.Feed, null, SocketUpdateType.Snapshot));
+                _snapshotHandler.Invoke(message.As(snapshot, snapshot.Feed, null, SocketUpdateType.Snapshot).WithDataTimestamp(snapshot.Logs.Any() ? snapshot.Logs.Max(x => x.Timestamp) : null));
                 return new CallResult(null);
             }
             else if (message.Data is KrakenFuturesAccountLogsUpdate update)
             {
-                _updateHandler.Invoke(message.As(update, update.Feed, null, SocketUpdateType.Update));
+                _updateHandler.Invoke(message.As(update, update.Feed, null, SocketUpdateType.Update).WithDataTimestamp(update.NewEntry.Timestamp));
                 return new CallResult(null);
             }
 

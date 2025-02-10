@@ -73,9 +73,9 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
         {
             if (message.Data is KrakenSocketUpdateV2<IEnumerable<KrakenBalanceSnapshot>> snapshot)
-                _snapshotHandler?.Invoke(message.As(snapshot.Data, "balances", null, SocketUpdateType.Snapshot));
+                _snapshotHandler?.Invoke(message.As(snapshot.Data, "balances", null, SocketUpdateType.Snapshot).WithDataTimestamp(snapshot.Timestamp));
             else if (message.Data is KrakenSocketUpdateV2<IEnumerable<KrakenBalanceUpdate>> update)
-                _updateHandler?.Invoke(message.As(update.Data, "balances", null, SocketUpdateType.Update));
+                _updateHandler?.Invoke(message.As(update.Data, "balances", null, SocketUpdateType.Update).WithDataTimestamp(update.Timestamp));
             return new CallResult(null);
         }
     }

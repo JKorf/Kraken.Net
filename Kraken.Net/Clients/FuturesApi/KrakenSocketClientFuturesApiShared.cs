@@ -173,7 +173,7 @@ namespace Kraken.Net.Clients.FuturesApi
                         return;
 
                     handler(update.AsExchangeEvent<IEnumerable<SharedPosition>>(Exchange, update.Data.Positions.Select(
-                        x => new SharedPosition(x.Symbol, Math.Abs(x.Balance), update.Timestamp)
+                        x => new SharedPosition(x.Symbol, Math.Abs(x.Balance), update.DataTime ?? update.ReceiveTime)
                     {
                         AverageOpenPrice = x.EntryPrice,
                             PositionSide = x.Balance > 0 ? SharedPositionSide.Long : SharedPositionSide.Short,

@@ -11,7 +11,7 @@ using Kraken.Net.Objects.Options;
 namespace Kraken.Net.UnitTests
 {
     [NonParallelizable]
-    internal class KrakenRestIntegrationTests : RestIntergrationTest<KrakenRestClient>
+    internal class KrakenRestIntegrationTests : RestIntegrationTest<KrakenRestClient>
     {
         public override bool Run { get; set; }
 

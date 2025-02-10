@@ -64,7 +64,16 @@ namespace Kraken.Net.Clients.SpotApi
         #endregion
 
         #region Kline client
-        SubscribeKlineOptions IKlineSocketClient.SubscribeKlineOptions { get; } = new SubscribeKlineOptions(false);
+        SubscribeKlineOptions IKlineSocketClient.SubscribeKlineOptions { get; } = new SubscribeKlineOptions(false,
+            SharedKlineInterval.OneMinute,
+            SharedKlineInterval.ThreeMinutes,
+            SharedKlineInterval.FiveMinutes,
+            SharedKlineInterval.FifteenMinutes,
+            SharedKlineInterval.ThirtyMinutes,
+            SharedKlineInterval.OneHour,
+            SharedKlineInterval.FourHours,
+            SharedKlineInterval.OneDay,
+            SharedKlineInterval.OneWeek);
         async Task<ExchangeResult<UpdateSubscription>> IKlineSocketClient.SubscribeToKlineUpdatesAsync(SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, CancellationToken ct)
         {
             var interval = (Enums.KlineInterval)request.Interval;

@@ -25,6 +25,11 @@
         /// </summary>
         [JsonPropertyName("checksum")]
         public long Checksum { get; set; }
+        /// <summary>
+        /// Data timestamp
+        /// </summary>
+        [JsonPropertyName("timestamp")]
+        public DateTime Timestamp { get; set; }
     }
 
     /// <summary>

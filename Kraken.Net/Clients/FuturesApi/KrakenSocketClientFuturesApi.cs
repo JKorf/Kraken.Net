@@ -85,7 +85,7 @@ namespace Kraken.Net.Clients.FuturesApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToHeartbeatUpdatesAsync(Action<DataEvent<KrakenFuturesHeartbeatUpdate>> handler, CancellationToken ct = default)
         {
-            var subscription = new KrakenFuturesSubscription<KrakenFuturesHeartbeatUpdate>(_logger, "heartbeat", null, handler);
+            var subscription = new KrakenFuturesSubscription<KrakenFuturesHeartbeatUpdate>(_logger, "heartbeat", null, x => handler(x.WithDataTimestamp(x.Data.Timestamp)));
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -100,7 +100,7 @@ namespace Kraken.Net.Clients.FuturesApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesTickerUpdate>> handler, CancellationToken ct = default)
         {
-            var subscription = new KrakenFuturesSubscription<KrakenFuturesTickerUpdate>(_logger, "ticker", symbols.ToList(), handler);
+            var subscription = new KrakenFuturesSubscription<KrakenFuturesTickerUpdate>(_logger, "ticker", symbols.ToList(), x => handler(x.WithDataTimestamp(x.Data.Timestamp)));
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -118,7 +118,7 @@ namespace Kraken.Net.Clients.FuturesApi
             Action<DataEvent<IEnumerable<KrakenFuturesTradeUpdate>>> handler,
             CancellationToken ct = default)
         {
-            var subscription = new KrakenFuturesTradesSubscription(_logger, symbols.ToList(), handler);
+            var subscription = new KrakenFuturesTradesSubscription(_logger, symbols.ToList(), x => handler(x.WithDataTimestamp(x.Data.Max(x => x.Timestamp))));
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -133,7 +133,7 @@ namespace Kraken.Net.Clients.FuturesApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToMiniTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesMiniTickerUpdate>> handler, CancellationToken ct = default)
         {
-            var subscription = new KrakenFuturesSubscription<KrakenFuturesMiniTickerUpdate>(_logger, "ticker_lite", symbols.ToList(), handler);
+            var subscription = new KrakenFuturesSubscription<KrakenFuturesMiniTickerUpdate>(_logger, "ticker_lite", symbols.ToList(), x => handler(x));
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
