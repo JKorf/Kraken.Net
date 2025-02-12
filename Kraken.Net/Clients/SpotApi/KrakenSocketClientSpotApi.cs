@@ -79,7 +79,16 @@ namespace Kraken.Net.Clients.SpotApi
         protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer();
 
         /// <inheritdoc />
-        public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null) => $"{baseAsset.ToUpperInvariant()}/{quoteAsset.ToUpperInvariant()}";
+        public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
+        {
+            if (baseAsset == "XBT")
+                baseAsset = "BTC";
+
+            if (quoteAsset == "XBT")
+                quoteAsset = "BTC";
+
+            return $"{baseAsset.ToUpperInvariant()}/{quoteAsset.ToUpperInvariant()}";
+        }
 
         /// <inheritdoc />
         public IKrakenSocketClientSpotApiShared SharedClient => this;
