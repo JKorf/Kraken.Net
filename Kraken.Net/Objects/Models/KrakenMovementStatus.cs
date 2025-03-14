@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Models
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Deposit status info
     /// </summary>
+    [SerializationModel]
     public record KrakenMovementStatus
     {
         /// <summary>
@@ -70,6 +72,6 @@
         /// Originators
         /// </summary>
         [JsonPropertyName("originators")]
-        public IEnumerable<string>? Originators { get; set; } = Array.Empty<string>();
+        public string[]? Originators { get; set; } = Array.Empty<string>();
     }
 }

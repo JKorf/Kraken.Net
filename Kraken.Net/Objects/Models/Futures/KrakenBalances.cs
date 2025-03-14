@@ -1,7 +1,9 @@
-﻿using Kraken.Net.Converters;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Converters;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
+    [SerializationModel]
     internal record KrakenBalancesResult : KrakenFuturesResult<KrakenFuturesBalances>
     {
         [JsonPropertyName("accounts")]
@@ -12,6 +14,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Kraken balances info
     /// </summary>
+    [SerializationModel]
     public record KrakenBalances
     {
         /// <summary>
@@ -24,6 +27,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Balance info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesBalances
     {
         /// <summary>
@@ -37,6 +41,6 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Margin accounts
         /// </summary>
-        public IEnumerable<KrakenMarginAccountBalances> MarginAccounts { get; set; } = [];
+        public KrakenMarginAccountBalances[] MarginAccounts { get; set; } = [];
     }
 }

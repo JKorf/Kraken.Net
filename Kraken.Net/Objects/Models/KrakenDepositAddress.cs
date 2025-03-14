@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Models
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Deposit address
     /// </summary>
+    [SerializationModel]
     public record KrakenDepositAddress
     {
         /// <summary>

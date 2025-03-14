@@ -1,4 +1,5 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Internal
 {
@@ -7,10 +8,10 @@ namespace Kraken.Net.Objects.Internal
         [JsonPropertyName("symbol")]
         public string Symbol { get; set; } = string.Empty;
         [JsonPropertyName("order_type")]
-        [JsonConverter(typeof(EnumConverter))]
+
         public OrderType OrderType { get; set; }
         [JsonPropertyName("side")]
-        [JsonConverter(typeof(EnumConverter))]
+
         public OrderSide Side { get; set; }
         [JsonPropertyName("order_qty"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public decimal? Quantity { get; set; }
@@ -19,7 +20,7 @@ namespace Kraken.Net.Objects.Internal
         [JsonPropertyName("limit_price_type"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public PriceType? LimitPriceType { get; set; }
         [JsonPropertyName("time_in_force"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(EnumConverter))]
+
         public TimeInForce? TimeInForce { get; set; }
         [JsonPropertyName("margin"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool? Margin { get; set; }
@@ -59,6 +60,7 @@ namespace Kraken.Net.Objects.Internal
     /// <summary>
     /// Order trigger
     /// </summary>
+    [SerializationModel]
     public record KrakenSocketPlaceOrderRequestV2Trigger
     {
         /// <summary>
@@ -81,6 +83,7 @@ namespace Kraken.Net.Objects.Internal
     /// <summary>
     /// Order condition
     /// </summary>
+    [SerializationModel]
     public record KrakenSocketPlaceOrderRequestV2Condition
     {
         /// <summary>

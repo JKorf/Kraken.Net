@@ -1,9 +1,11 @@
-﻿
+using CryptoExchange.Net.Converters.SystemTextJson;
+
 namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Info about a deposit method
     /// </summary>
+    [SerializationModel]
     public record KrakenDepositMethod
     {
         /// <summary>

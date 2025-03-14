@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Models
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Result of a cancel request
     /// </summary>
+    [SerializationModel]
     public record KrakenCancelResult
     {
         /// <summary>
@@ -14,6 +16,6 @@
         /// Pending cancelation orders
         /// </summary>
         [JsonPropertyName("pending")]
-        public IEnumerable<long> Pending { get; set; } = Array.Empty<long>();
+        public long[] Pending { get; set; } = Array.Empty<long>();
     }
 }

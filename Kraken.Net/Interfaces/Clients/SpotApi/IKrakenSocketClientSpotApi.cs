@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
+using CryptoExchange.Net.Objects.Sockets;
 using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models;
 using Kraken.Net.Objects.Models.Socket;
@@ -54,7 +54,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="handler">Data handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This streamv subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, KlineInterval interval, Action<DataEvent<IEnumerable<KrakenKlineUpdate>>> handler, CancellationToken ct = default);
+        Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, KlineInterval interval, Action<DataEvent<KrakenKlineUpdate[]>> handler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to kline updates
@@ -65,7 +65,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="handler">Data handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This streamv subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(IEnumerable<string> symbols, KlineInterval interval, Action<DataEvent<IEnumerable<KrakenKlineUpdate>>> handler, CancellationToken ct = default);
+        Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(IEnumerable<string> symbols, KlineInterval interval, Action<DataEvent<KrakenKlineUpdate[]>> handler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to trade updates
@@ -76,7 +76,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="snapshot">Whether or not a snapshot of the last trades should be send after subscribing</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<IEnumerable<KrakenTradeUpdate>>> handler, bool? snapshot = null, CancellationToken ct = default);
+        Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<KrakenTradeUpdate[]>> handler, bool? snapshot = null, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to trade updates
@@ -87,7 +87,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="snapshot">Whether or not a snapshot of the last trades should be send after subscribing</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<IEnumerable<KrakenTradeUpdate>>> handler, bool? snapshot = null, CancellationToken ct = default);
+        Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenTradeUpdate[]>> handler, bool? snapshot = null, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to order book updates. Order book entries are aggregated per price level
@@ -124,7 +124,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="snapshot">Whether or not a snapshot of the last book state should be send after subscribing</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToInvidualOrderBookUpdatesAsync(IEnumerable<string> symbols, int depth, Action<DataEvent<KrakenIndividualBookUpdate>> handler, bool? snapshot = null, CancellationToken ct = default);
+        Task<CallResult<UpdateSubscription>> SubscribeToIndividualOrderBookUpdatesAsync(IEnumerable<string> symbols, int depth, Action<DataEvent<KrakenIndividualBookUpdate>> handler, bool? snapshot = null, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to the full order book with individual orders. Requires authentication.
@@ -136,7 +136,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="snapshot">Whether or not a snapshot of the last book state should be send after subscribing</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToInvidualOrderBookUpdatesAsync(string symbol, int depth, Action<DataEvent<KrakenIndividualBookUpdate>> handler, bool? snapshot = null, CancellationToken ct = default);
+        Task<CallResult<UpdateSubscription>> SubscribeToIndividualOrderBookUpdatesAsync(string symbol, int depth, Action<DataEvent<KrakenIndividualBookUpdate>> handler, bool? snapshot = null, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to instrument (asset and symbol) updates
@@ -157,7 +157,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="snapshot">Whether or not a snapshot of the current balances should be send after subscribing</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsync(Action<DataEvent<IEnumerable<KrakenBalanceSnapshot>>>? snapshotHandler, Action<DataEvent<IEnumerable<KrakenBalanceUpdate>>> updateHandler, bool? snapshot = null, CancellationToken ct = default);
+        Task<CallResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsync(Action<DataEvent<KrakenBalanceSnapshot[]>>? snapshotHandler, Action<DataEvent<IEnumerable<KrakenBalanceUpdate>>> updateHandler, bool? snapshot = null, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to user order updates
@@ -169,7 +169,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(
-            Action<DataEvent<IEnumerable<KrakenOrderUpdate>>> updateHandler,
+            Action<DataEvent<KrakenOrderUpdate[]>> updateHandler,
             bool? snapshotOrder = null,
             bool? snapshotTrades = null,
             CancellationToken ct = default);
@@ -325,7 +325,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="validateOnly">Only validate inputs, don't actually place the order</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<CallResult<IEnumerable<KrakenOrderResult>>> PlaceMultipleOrdersAsync(
+        Task<CallResult<KrakenOrderResult[]>> PlaceMultipleOrdersAsync(
             string symbol,
             IEnumerable<KrakenSocketOrderRequest> orders,
             DateTime? deadline = null,

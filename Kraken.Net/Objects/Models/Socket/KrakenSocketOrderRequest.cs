@@ -1,4 +1,5 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 using Kraken.Net.Objects.Internal;
 
 namespace Kraken.Net.Objects.Models.Socket
@@ -6,19 +7,20 @@ namespace Kraken.Net.Objects.Models.Socket
     /// <summary>
     /// Order request
     /// </summary>
+    [SerializationModel]
     public record KrakenSocketOrderRequest
     {
         /// <summary>
         /// Order type
         /// </summary>
         [JsonPropertyName("order_type")]
-        [JsonConverter(typeof(EnumConverter))]
+
         public OrderType OrderType { get; set; }
         /// <summary>
         /// Order side
         /// </summary>
         [JsonPropertyName("side")]
-        [JsonConverter(typeof(EnumConverter))]
+
         public OrderSide Side { get; set; }
         /// <summary>
         /// Quote quantity
@@ -104,7 +106,7 @@ namespace Kraken.Net.Objects.Models.Socket
         /// Time in force
         /// </summary>
         [JsonPropertyName("time_in_force"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(EnumConverter))]
+
         public TimeInForce? TimeInForce { get; set; }
         /// <summary>
         /// Trigger info

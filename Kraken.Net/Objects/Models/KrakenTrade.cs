@@ -1,12 +1,15 @@
-﻿using CryptoExchange.Net.Converters;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Converters;
 using Kraken.Net.Enums;
+using Kraken.Net.Converters;
 
 namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Trade info
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter))]
+    [JsonConverter(typeof(ArrayConverter<KrakenTrade, KrakenSourceGenerationContext>))]
+    [SerializationModel]
     public record KrakenTrade
     {
         /// <summary>
@@ -27,12 +30,12 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Side
         /// </summary>
-        [ArrayProperty(3), JsonConverter(typeof(EnumConverter))]
+        [ArrayProperty(3)]
         public OrderSide Side { get; set; }
         /// <summary>
         /// Order type
         /// </summary>
-        [ArrayProperty(4), JsonConverter(typeof(EnumConverter))]
+        [ArrayProperty(4)]
         public OrderTypeMinimal Type { get; set; }
 
         /// <summary>

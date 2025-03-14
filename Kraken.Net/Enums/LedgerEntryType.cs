@@ -1,10 +1,13 @@
-﻿using CryptoExchange.Net.Attributes;
+using System.Text.Json.Serialization;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Attributes;
 
 namespace Kraken.Net.Enums
 {
     /// <summary>
     /// The type of a ledger entry
     /// </summary>
+    [JsonConverter(typeof(EnumConverter<LedgerEntryType>))]
     public enum LedgerEntryType
     {
         /// <summary>

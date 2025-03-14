@@ -1,14 +1,17 @@
-﻿namespace Kraken.Net.Objects.Models.Futures
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Futures
 {
-    internal record KrakenFuturesLeverageResult : KrakenFuturesResult<IEnumerable<KrakenFuturesLeverage>>
+    [SerializationModel]
+    internal record KrakenFuturesLeverageResult : KrakenFuturesResult<KrakenFuturesLeverage[]>
     {
         [JsonPropertyName("leveragePreferences")]
-        public override IEnumerable<KrakenFuturesLeverage> Data { get; set; } = Array.Empty<KrakenFuturesLeverage>();
+        public override KrakenFuturesLeverage[] Data { get; set; } = Array.Empty<KrakenFuturesLeverage>();
     }
 
     /// <summary>
     /// Leverage setting
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesLeverage
     {
         /// <summary>

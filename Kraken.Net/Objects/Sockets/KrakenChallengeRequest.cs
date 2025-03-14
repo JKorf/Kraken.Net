@@ -1,5 +1,7 @@
-﻿namespace Kraken.Net.Objects.Sockets
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Sockets
 {
+    [SerializationModel]
     internal record KrakenChallengeRequest
     {
         [JsonPropertyName("event")]
@@ -8,6 +10,7 @@
         public string ApiKey { get; set; } = string.Empty;
     }
 
+    [SerializationModel]
     internal record KrakenChallengeResponse : KrakenEvent
     {
         [JsonPropertyName("event")]

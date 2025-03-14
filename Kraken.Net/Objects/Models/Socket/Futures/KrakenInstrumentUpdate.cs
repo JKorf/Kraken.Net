@@ -1,27 +1,30 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
     /// <summary>
     /// Symbol and asset updates
     /// </summary>
+    [SerializationModel]
     public record KrakenInstrumentUpdate
     {
         /// <summary>
         /// Assets
         /// </summary>
         [JsonPropertyName("assets")]
-        public IEnumerable<KrakenSymbolUpdateAsset> Assets { get; set; } = Array.Empty<KrakenSymbolUpdateAsset>();
+        public KrakenSymbolUpdateAsset[] Assets { get; set; } = Array.Empty<KrakenSymbolUpdateAsset>();
         /// <summary>
         /// Symbols
         /// </summary>
         [JsonPropertyName("pairs")]
-        public IEnumerable<KrakenSymbolUpdateSymbol> Symbols { get; set; } = Array.Empty<KrakenSymbolUpdateSymbol>();
+        public KrakenSymbolUpdateSymbol[] Symbols { get; set; } = Array.Empty<KrakenSymbolUpdateSymbol>();
     }
 
     /// <summary>
     /// Asset info
     /// </summary>
+    [SerializationModel]
     public record KrakenSymbolUpdateAsset
     {
         /// <summary>
@@ -64,6 +67,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Symbol info
     /// </summary>
+    [SerializationModel]
     public record KrakenSymbolUpdateSymbol
     {
         /// <summary>

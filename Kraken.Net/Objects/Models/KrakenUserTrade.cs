@@ -1,10 +1,12 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// User trade info
     /// </summary>
+    [SerializationModel]
     public record KrakenUserTrade
     {
         /// <summary>
@@ -38,12 +40,12 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Side
         /// </summary>
-        [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("type")]
         public OrderSide Side { get; set; }
         /// <summary>
         /// Order type
         /// </summary>
-        [JsonPropertyName("ordertype"), JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("ordertype")]
         public OrderType Type { get; set; }
         /// <summary>
         /// Price of the trade
@@ -121,12 +123,13 @@ namespace Kraken.Net.Objects.Models
         /// Trade ids
         /// </summary>
         [JsonPropertyName("trades")]
-        public IEnumerable<string> Trades { get; set; } = Array.Empty<string>();
+        public string[] Trades { get; set; } = Array.Empty<string>();
     }
 
     /// <summary>
     /// Stream trade update
     /// </summary>
+    [SerializationModel]
     public record KrakenStreamUserTrade: KrakenUserTrade
     {
         /// <summary>

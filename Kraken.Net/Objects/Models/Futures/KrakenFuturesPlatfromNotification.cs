@@ -1,21 +1,24 @@
-﻿namespace Kraken.Net.Objects.Models.Futures
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Futures
 {
+    [SerializationModel]
     internal record KrakenFuturesPlatfromNotificationInternalResult : KrakenFuturesResult
     {
         [JsonPropertyName("notifications")]
-        public IEnumerable<KrakenFuturesPlatfromNotification> Notifications { get; set; } = Array.Empty<KrakenFuturesPlatfromNotification>();
+        public KrakenFuturesPlatfromNotification[] Notifications { get; set; } = Array.Empty<KrakenFuturesPlatfromNotification>();
     }
 
     /// <summary>
     /// Platform info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesPlatfromNotificationResult
     {
         /// <summary>
         /// Notifications
         /// </summary>
         [JsonPropertyName("notifications")]
-        public IEnumerable<KrakenFuturesPlatfromNotification> Notifications { get; set; } = Array.Empty<KrakenFuturesPlatfromNotification>();
+        public KrakenFuturesPlatfromNotification[] Notifications { get; set; } = Array.Empty<KrakenFuturesPlatfromNotification>();
         /// <summary>
         /// Server time
         /// </summary>
@@ -26,6 +29,7 @@
     /// <summary>
     /// Platform notification info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesPlatfromNotification
     {
         /// <summary>

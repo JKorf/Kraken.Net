@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
+using CryptoExchange.Net.Objects.Sockets;
 using Kraken.Net.Objects.Models.Socket.Futures;
 
 namespace Kraken.Net.Interfaces.Clients.FuturesApi
@@ -141,7 +141,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="updateHandler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<IEnumerable<KrakenFuturesTradeUpdate>>> updateHandler, CancellationToken ct = default);
+        Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesTradeUpdate[]>> updateHandler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to public trade updates
@@ -151,7 +151,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="updateHandler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<IEnumerable<KrakenFuturesTradeUpdate>>> updateHandler, CancellationToken ct = default);
+        Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesTradeUpdate[]>> updateHandler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to user trades updates

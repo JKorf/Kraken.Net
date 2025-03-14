@@ -1,10 +1,13 @@
-﻿using CryptoExchange.Net.Attributes;
+using System.Text.Json.Serialization;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Attributes;
 
 namespace Kraken.Net.Enums
 {
     /// <summary>
     /// The time interval of kline data, the int value respresents the time in seconds
     /// </summary>
+    [JsonConverter(typeof(EnumConverter<KlineInterval>))]
     public enum KlineInterval
     {
         /// <summary>

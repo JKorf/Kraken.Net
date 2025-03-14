@@ -1,10 +1,12 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Symbol info
     /// </summary>
+    [SerializationModel]
     public record KrakenSymbol
     {
         /// <summary>
@@ -66,22 +68,22 @@ namespace Kraken.Net.Objects.Models
         /// Buy leverage amounts
         /// </summary>
         [JsonPropertyName("leverage_buy")]
-        public IEnumerable<decimal> LeverageBuy { get; set; } = Array.Empty<decimal>();
+        public decimal[] LeverageBuy { get; set; } = Array.Empty<decimal>();
         /// <summary>
         /// Sell leverage amounts
         /// </summary>
         [JsonPropertyName("leverage_sell")]
-        public IEnumerable<decimal> LeverageSell { get; set; } = Array.Empty<decimal>();
+        public decimal[] LeverageSell { get; set; } = Array.Empty<decimal>();
         /// <summary>
         /// Fee structure
         /// </summary>
         [JsonPropertyName("fees")]
-        public IEnumerable<KrakenFeeEntry> Fees { get; set; } = Array.Empty<KrakenFeeEntry>();
+        public KrakenFeeEntry[] Fees { get; set; } = Array.Empty<KrakenFeeEntry>();
         /// <summary>
         /// Maker fee structure
         /// </summary>
         [JsonPropertyName("fees_maker")]
-        public IEnumerable<KrakenFeeEntry> FeesMaker { get; set; } = Array.Empty<KrakenFeeEntry>();
+        public KrakenFeeEntry[] FeesMaker { get; set; } = Array.Empty<KrakenFeeEntry>();
 
         /// <summary>
         /// The asset the fee is deducted from

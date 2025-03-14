@@ -1,19 +1,23 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
+    [SerializationModel]
     internal record KrakenFuturesOrderCancelResult : KrakenFuturesResult<KrakenFuturesOrderResult>
     {
         [JsonPropertyName("cancelStatus")]
         public override KrakenFuturesOrderResult Data { get; set; } = null!;
     }
 
+    [SerializationModel]
     internal record KrakenFuturesOrderPlaceResult : KrakenFuturesResult<KrakenFuturesOrderResult>
     {
         [JsonPropertyName("sendStatus")]
         public override KrakenFuturesOrderResult Data { get; set; } = null!;
     }
 
+    [SerializationModel]
     internal record KrakenFuturesOrderEditResult : KrakenFuturesResult<KrakenFuturesOrderResult>
     {
         [JsonPropertyName("editStatus")]
@@ -23,6 +27,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Order status info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesOrderResult
     {
         /// <summary>
@@ -47,19 +52,20 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Order status
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("status")]
         public KrakenFuturesOrderActionStatus Status { get; set; }
         /// <summary>
         /// Order events
         /// </summary>
         [JsonPropertyName("orderEvents")]
-        public IEnumerable<KrakenFuturesOrderEvent> OrderEvents { get; set; } = Array.Empty<KrakenFuturesOrderEvent>();
+        public KrakenFuturesOrderEvent[] OrderEvents { get; set; } = Array.Empty<KrakenFuturesOrderEvent>();
     }
 
     /// <summary>
     /// Order event
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesOrderEvent
     {
         /// <summary>

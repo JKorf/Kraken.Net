@@ -1,10 +1,12 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket
 {
     /// <summary>
     /// Snapshot data
     /// </summary>
+    [SerializationModel]
     public record KrakenBalanceSnapshot
     {
         /// <summary>
@@ -26,12 +28,13 @@ namespace Kraken.Net.Objects.Models.Socket
         /// Wallets
         /// </summary>
         [JsonPropertyName("wallets")]
-        public IEnumerable<KrakenBalanceSnapshotWallet> Wallets { get; set; } = Array.Empty<KrakenBalanceSnapshotWallet>();
+        public KrakenBalanceSnapshotWallet[] Wallets { get; set; } = Array.Empty<KrakenBalanceSnapshotWallet>();
     }
 
     /// <summary>
     /// Wallet info
     /// </summary>
+    [SerializationModel]
     public record KrakenBalanceSnapshotWallet
     {
         /// <summary>

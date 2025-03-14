@@ -1,14 +1,17 @@
-﻿namespace Kraken.Net.Objects.Models.Futures
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Futures
 {
-    internal record KrakenFundingRatesResult : KrakenFuturesResult<IEnumerable<KrakenFundingRate>>
+    [SerializationModel]
+    internal record KrakenFundingRatesResult : KrakenFuturesResult<KrakenFundingRate[]>
     {
         [JsonPropertyName("rates")]
-        public override IEnumerable<KrakenFundingRate> Data { get; set; } = Array.Empty<KrakenFundingRate>();
+        public override KrakenFundingRate[] Data { get; set; } = Array.Empty<KrakenFundingRate>();
     }
 
     /// <summary>
     /// Funding rate info
     /// </summary>
+    [SerializationModel]
     public record KrakenFundingRate
     {
         /// <summary>

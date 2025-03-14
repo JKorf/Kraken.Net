@@ -1,10 +1,12 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
     /// <summary>
     /// Snapshot book update
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesOpenOrdersSnapshotUpdate : KrakenFuturesUpdateMessage
     {
         /// <summary>
@@ -16,12 +18,13 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// Current open orders
         /// </summary>
         [JsonPropertyName("orders")]
-        public IEnumerable<KrakenFuturesSocketOpenOrder> Orders { get; set; } = Array.Empty<KrakenFuturesSocketOpenOrder>();
+        public KrakenFuturesSocketOpenOrder[] Orders { get; set; } = Array.Empty<KrakenFuturesSocketOpenOrder>();
     }
 
     /// <summary>
     /// Open order update
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesOpenOrdersUpdate : KrakenFuturesUpdateMessage
     {
         /// <summary>
@@ -49,6 +52,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Open order
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesSocketOpenOrder
     {
         /// <summary>
@@ -107,7 +111,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// Side
         /// </summary>
         [JsonPropertyName("direction")]
-        [JsonConverter(typeof(EnumConverter))]
+
         public OrderSide Side { get; set; }
         /// <summary>
         /// Reduce only
@@ -117,7 +121,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Trigger signal
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("triggerSignal")]
         public TriggerSignal? TriggerSignal { get; set; }
         /// <summary>
@@ -130,6 +134,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Trailing stop options
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesTrailingStopOptions
     {
         /// <summary>
@@ -140,7 +145,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Unit
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("unit")]
         public TrailingStopDeviationUnit Unit { get; set; }
     }

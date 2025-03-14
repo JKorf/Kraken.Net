@@ -1,10 +1,13 @@
-﻿using CryptoExchange.Net.Attributes;
+using System.Text.Json.Serialization;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Attributes;
 
 namespace Kraken.Net.Enums
 {
     /// <summary>
     /// Flags for an order
     /// </summary>
+    [JsonConverter(typeof(EnumConverter<OrderFlags>))]
     public enum OrderFlags
     {
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 using Kraken.Net.Objects.Sockets;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
@@ -6,18 +7,20 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Trades update
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesTradesSnapshotUpdate : KrakenFuturesEvent
     {
         /// <summary>
         /// Trades
         /// </summary>
         [JsonPropertyName("trades")]
-        public IEnumerable<KrakenFuturesTradeUpdate> Trades { get; set; } = Array.Empty<KrakenFuturesTradeUpdate>();
+        public KrakenFuturesTradeUpdate[] Trades { get; set; } = Array.Empty<KrakenFuturesTradeUpdate>();
     }
 
     /// <summary>
     /// Trade info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesTradeUpdate : KrakenFuturesUpdateMessage
     {
         /// <summary>
@@ -28,7 +31,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Order side
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("side")]
         public OrderSide Side { get; set; }
         /// <summary>

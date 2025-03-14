@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
@@ -109,13 +109,13 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Trade
 
         /// <inheritdoc />
-        public Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<IEnumerable<KrakenFuturesTradeUpdate>>> handler, CancellationToken ct = default)
+        public Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesTradeUpdate[]>> handler, CancellationToken ct = default)
             => SubscribeToTradeUpdatesAsync(new List<string> { symbol }, handler, ct);
 
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(
             IEnumerable<string> symbols,
-            Action<DataEvent<IEnumerable<KrakenFuturesTradeUpdate>>> handler,
+            Action<DataEvent<KrakenFuturesTradeUpdate[]>> handler,
             CancellationToken ct = default)
         {
             var subscription = new KrakenFuturesTradesSubscription(_logger, symbols.ToList(), x => handler(x.WithDataTimestamp(x.Data.Max(x => x.Timestamp))));

@@ -1,4 +1,4 @@
-﻿using Kraken.Net.Objects.Models.Futures;
+using Kraken.Net.Objects.Models.Futures;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 
@@ -37,14 +37,14 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Get Historical Funding Rates
 
         /// <inheritdoc />
-        public async Task<WebCallResult<IEnumerable<KrakenFundingRate>>> GetHistoricalFundingRatesAsync(string symbol, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenFundingRate[]>> GetHistoricalFundingRatesAsync(string symbol, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection
             {
                 { "symbol", symbol }
             };
             var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v4/historicalfundingrates", KrakenExchange.RateLimiter.FuturesApi, 1, false);
-            return await _baseClient.SendAsync<KrakenFundingRatesResult, IEnumerable<KrakenFundingRate>>(request, parameters, ct).ConfigureAwait(false);
+            return await _baseClient.SendAsync<KrakenFundingRatesResult, KrakenFundingRate[]>(request, parameters, ct).ConfigureAwait(false);
         }
 
         #endregion
@@ -52,10 +52,10 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Get Fee Schedules
 
         /// <inheritdoc />
-        public async Task<WebCallResult<IEnumerable<KrakenFeeSchedule>>> GetFeeSchedulesAsync(CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenFeeSchedule[]>> GetFeeSchedulesAsync(CancellationToken ct = default)
         {
             var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v3/feeschedules", KrakenExchange.RateLimiter.FuturesApi, 1, false);
-            return await _baseClient.SendAsync<KrakenFeeSchedulesResult, IEnumerable<KrakenFeeSchedule>>(request, null, ct).ConfigureAwait(false);
+            return await _baseClient.SendAsync<KrakenFeeSchedulesResult, KrakenFeeSchedule[]>(request, null, ct).ConfigureAwait(false);
         }
 
         #endregion
@@ -63,10 +63,10 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Get Symbols
 
         /// <inheritdoc />
-        public async Task<WebCallResult<IEnumerable<KrakenFuturesSymbol>>> GetSymbolsAsync(CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenFuturesSymbol[]>> GetSymbolsAsync(CancellationToken ct = default)
         {
             var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v3/instruments", KrakenExchange.RateLimiter.FuturesApi, 1, false);
-            return await _baseClient.SendAsync<KrakenFuturesSymbolResult, IEnumerable<KrakenFuturesSymbol>>(request, null, ct).ConfigureAwait(false);
+            return await _baseClient.SendAsync<KrakenFuturesSymbolResult, KrakenFuturesSymbol[]>(request, null, ct).ConfigureAwait(false);
         }
 
         #endregion
@@ -74,10 +74,10 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Get Symbol Status
 
         /// <inheritdoc />
-        public async Task<WebCallResult<IEnumerable<KrakenFuturesSymbolStatus>>> GetSymbolStatusAsync(CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenFuturesSymbolStatus[]>> GetSymbolStatusAsync(CancellationToken ct = default)
         {
             var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v3/instruments/status", KrakenExchange.RateLimiter.FuturesApi, 1, false);
-            return await _baseClient.SendAsync<KrakenFuturesSymbolStatusResult, IEnumerable<KrakenFuturesSymbolStatus>>(request, null, ct).ConfigureAwait(false);
+            return await _baseClient.SendAsync<KrakenFuturesSymbolStatusResult, KrakenFuturesSymbolStatus[]>(request, null, ct).ConfigureAwait(false);
         }
 
         #endregion
@@ -85,7 +85,7 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Get Trades
 
         /// <inheritdoc />
-        public async Task<WebCallResult<IEnumerable<KrakenFuturesTrade>>> GetTradesAsync(string symbol, DateTime? startTime = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenFuturesTrade[]>> GetTradesAsync(string symbol, DateTime? startTime = null, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection()
             {
@@ -93,7 +93,7 @@ namespace Kraken.Net.Clients.FuturesApi
             };
             parameters.AddOptionalParameter("lastTime", startTime?.ToString("u").Replace(" ", "T"));
             var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v3/history", KrakenExchange.RateLimiter.FuturesApi, 1, false);
-            return await _baseClient.SendAsync<KrakenFuturesTradeResult, IEnumerable<KrakenFuturesTrade>>(request, parameters, ct).ConfigureAwait(false);
+            return await _baseClient.SendAsync<KrakenFuturesTradeResult, KrakenFuturesTrade[]>(request, parameters, ct).ConfigureAwait(false);
         }
 
         #endregion
@@ -127,10 +127,10 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Get Tickers
 
         /// <inheritdoc />
-        public async Task<WebCallResult<IEnumerable<KrakenFuturesTicker>>> GetTickersAsync(CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenFuturesTicker[]>> GetTickersAsync(CancellationToken ct = default)
         {
             var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v3/tickers", KrakenExchange.RateLimiter.FuturesApi, 1, false);
-            return await _baseClient.SendAsync<KrakenFuturesTickersResult, IEnumerable<KrakenFuturesTicker>>(request, null, ct).ConfigureAwait(false);
+            return await _baseClient.SendAsync<KrakenFuturesTickersResult, KrakenFuturesTicker[]>(request, null, ct).ConfigureAwait(false);
         }
 
         #endregion

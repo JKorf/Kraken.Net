@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Models.Socket.Futures
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Socket.Futures
 {
     /// <summary>
     /// Socket update
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesSocketMessage
     {
         /// <summary>
@@ -22,12 +24,14 @@
         public string? Error { get; set; }
     }
 
+    [SerializationModel]
     internal record KrakenFuturesSubscribeMessage : KrakenFuturesSocketMessage
     {
         [JsonPropertyName("product_ids")]
         public List<string>? Symbols { get; set; }
     }
 
+    [SerializationModel]
     internal record KrakenFuturesSubscribeAuthMessage : KrakenFuturesSubscribeMessage
     {
         [JsonPropertyName("api_key")]
@@ -41,6 +45,7 @@
     /// <summary>
     /// Update message
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesUpdateMessage : KrakenFuturesSocketMessage
     {
         /// <summary>

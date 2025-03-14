@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Sockets
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Sockets
 {
     /// <summary>
     /// Kraken message event
     /// </summary>
+    [SerializationModel]
     public record KrakenEvent
     {
         /// <summary>

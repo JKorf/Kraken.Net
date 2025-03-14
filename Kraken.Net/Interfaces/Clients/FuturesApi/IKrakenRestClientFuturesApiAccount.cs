@@ -1,4 +1,4 @@
-﻿using Kraken.Net.Enums;
+using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models.Futures;
 
 namespace Kraken.Net.Interfaces.Clients.FuturesApi
@@ -37,7 +37,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<IEnumerable<KrakenFuturesPnlCurrency>>> GetPnlCurrencyAsync(CancellationToken ct = default);
+        Task<WebCallResult<KrakenFuturesPnlCurrency[]>> GetPnlCurrencyAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Set the PNL currency preference is used to determine which currency to pay out when realizing PNL gains.

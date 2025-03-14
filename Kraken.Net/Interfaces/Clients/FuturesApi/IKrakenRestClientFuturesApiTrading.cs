@@ -1,4 +1,4 @@
-﻿using Kraken.Net.Enums;
+using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models.Futures;
 
 namespace Kraken.Net.Interfaces.Clients.FuturesApi
@@ -71,7 +71,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<IEnumerable<KrakenFuturesLeverage>>> GetLeverageAsync(CancellationToken ct = default);
+        Task<WebCallResult<KrakenFuturesLeverage[]>> GetLeverageAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get open orders
@@ -79,7 +79,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<IEnumerable<KrakenFuturesOpenOrder>>> GetOpenOrdersAsync(CancellationToken ct = default);
+        Task<WebCallResult<KrakenFuturesOpenOrder[]>> GetOpenOrdersAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get open positions
@@ -87,7 +87,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<IEnumerable<KrakenFuturesPosition>>> GetOpenPositionsAsync(CancellationToken ct = default);
+        Task<WebCallResult<KrakenFuturesPosition[]>> GetOpenPositionsAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get order by id
@@ -107,7 +107,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="clientOrderIds">Client order ids list</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<IEnumerable<KrakenFuturesOrderStatus>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, IEnumerable<string>? clientOrderIds = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenFuturesOrderStatus[]>> GetOrdersAsync(IEnumerable<string>? orderIds = null, IEnumerable<string>? clientOrderIds = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get current self trade strategy
@@ -124,7 +124,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="startTime">Filter by start time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<IEnumerable<KrakenFuturesUserTrade>>> GetUserTradesAsync(DateTime? startTime = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenFuturesUserTrade[]>> GetUserTradesAsync(DateTime? startTime = null, CancellationToken ct = default);
 
         /// <summary>
         /// Place a new order

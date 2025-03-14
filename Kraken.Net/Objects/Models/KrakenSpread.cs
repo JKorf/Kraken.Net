@@ -1,11 +1,14 @@
-﻿using CryptoExchange.Net.Converters;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Converters;
+using Kraken.Net.Converters;
 
 namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Spread info
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter))]
+    [JsonConverter(typeof(ArrayConverter<KrakenSpread, KrakenSourceGenerationContext>))]
+    [SerializationModel]
     public record KrakenSpread
     {
         /// <summary>
@@ -28,7 +31,8 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Stream spread data
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter))]
+    [JsonConverter(typeof(ArrayConverter<KrakenStreamSpread, KrakenSourceGenerationContext>))]
+    [SerializationModel]
     public record KrakenStreamSpread
     {
         /// <summary>

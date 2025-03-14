@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Models.Futures
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Futures
 {
     /// <summary>
     /// Kline info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesKlines
     {
         /// <summary>
@@ -14,12 +16,13 @@
         /// Candles
         /// </summary>
         [JsonPropertyName("candles")]
-        public IEnumerable<KrakenFuturesKline> Klines { get; set; } = Array.Empty<KrakenFuturesKline>();
+        public KrakenFuturesKline[] Klines { get; set; } = Array.Empty<KrakenFuturesKline>();
     }
 
     /// <summary>
     /// Kline info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesKline
     {
         /// <summary>

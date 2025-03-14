@@ -1,10 +1,12 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket
 {
     /// <summary>
     /// Kline/candlestick info
     /// </summary>
+    [SerializationModel]
     public record KrakenKlineUpdate
     {
         /// <summary>

@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Models
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Allocations page
     /// </summary>
+    [SerializationModel]
     public record KrakenAllocationsCursorPage : KrakenCursorPage<KrakenAllocation>
     {
         /// <summary>
@@ -25,6 +27,7 @@
     /// <summary>
     /// Allocation info
     /// </summary>
+    [SerializationModel]
     public record KrakenAllocation
     {
         /// <summary>
@@ -59,6 +62,7 @@
     /// <summary>
     /// Allocated amounts
     /// </summary>
+    [SerializationModel]
     public record KrakenAllocatedAmount
     {
         /// <summary>
@@ -81,6 +85,7 @@
     /// <summary>
     /// Bonding rewards
     /// </summary>
+    [SerializationModel]
     public record KrakenBondingAwarded : KrakenAllocationRewarded
     {
         /// <summary>
@@ -92,12 +97,13 @@
         /// Allocations
         /// </summary>
         [JsonPropertyName("allocations")]
-        public IEnumerable<KrakenBondingAllocation> Allocations { get; set; } = Array.Empty<KrakenBondingAllocation>();
+        public KrakenBondingAllocation[] Allocations { get; set; } = Array.Empty<KrakenBondingAllocation>();
     }
 
     /// <summary>
     /// Bonding allocation
     /// </summary>
+    [SerializationModel]
     public record KrakenBondingAllocation : KrakenAllocationRewarded
     {
         /// <summary>
@@ -115,6 +121,7 @@
     /// <summary>
     /// Rewards
     /// </summary>
+    [SerializationModel]
     public record KrakenAllocationRewarded
     {
         /// <summary>
@@ -132,6 +139,7 @@
     /// <summary>
     /// Payout
     /// </summary>
+    [SerializationModel]
     public record KrakenAllocationPayout
     {
         /// <summary>

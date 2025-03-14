@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Models
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Withdraw info
     /// </summary>
+    [SerializationModel]
     public record KrakenWithdrawInfo
     {
         /// <summary>

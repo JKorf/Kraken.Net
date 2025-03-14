@@ -1,5 +1,7 @@
-﻿namespace Kraken.Net.Objects.Models.Futures
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Futures
 {
+    [SerializationModel]
     internal record KrakenFuturesCancelAfterResult : KrakenFuturesResult<KrakenFuturesCancelAfter>
     {
         [JsonPropertyName("status")]
@@ -9,6 +11,7 @@
     /// <summary>
     /// Cancel after info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesCancelAfter
     {
         /// <summary>

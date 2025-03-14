@@ -11,11 +11,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         private readonly MessagePath _feedPath = MessagePath.Get().Property("feed");
 
         private List<string>? _symbols;
-        protected readonly Action<DataEvent<IEnumerable<KrakenFuturesTradeUpdate>>> _handler;
+        protected readonly Action<DataEvent<KrakenFuturesTradeUpdate[]>> _handler;
 
         public override HashSet<string> ListenerIdentifiers { get; set; }
 
-        public KrakenFuturesTradesSubscription(ILogger logger, List<string> symbols, Action<DataEvent<IEnumerable<KrakenFuturesTradeUpdate>>> handler) : base(logger, false)
+        public KrakenFuturesTradesSubscription(ILogger logger, List<string> symbols, Action<DataEvent<KrakenFuturesTradeUpdate[]>> handler) : base(logger, false)
         {
             _symbols = symbols;
             _handler = handler;
@@ -71,7 +71,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             }
             else if (message.Data is KrakenFuturesTradeUpdate update)
             {
-                _handler.Invoke(message.As<IEnumerable<KrakenFuturesTradeUpdate>>(new[] { update }, update.Feed, update.Symbol, SocketUpdateType.Update));
+                _handler.Invoke(message.As<KrakenFuturesTradeUpdate[]>(new[] { update }, update.Feed, update.Symbol, SocketUpdateType.Update));
                 return new CallResult(null);
             }
 

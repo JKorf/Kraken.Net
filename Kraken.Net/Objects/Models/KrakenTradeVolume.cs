@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Models
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Trade volume info
     /// </summary>
+    [SerializationModel]
     public record KrakenTradeVolume
     {
         /// <summary>
@@ -31,6 +33,7 @@
     /// <summary>
     /// Fee level info
     /// </summary>
+    [SerializationModel]
     public record KrakenFeeStruct
     {
         /// <summary>

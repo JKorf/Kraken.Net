@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Models.Futures
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Futures
 {
     /// <summary>
     /// Cash balances
     /// </summary>
+    [SerializationModel]
     public record KrakenCashBalances : KrakenBalances
     {
         /// <summary>

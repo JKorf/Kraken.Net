@@ -1,10 +1,12 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
     /// <summary>
     /// Snapshot book update
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesBookSnapshotUpdate : KrakenFuturesUpdateMessage
     {
         /// <summary>
@@ -23,17 +25,18 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// List of asks
         /// </summary>
         [JsonPropertyName("asks")]
-        public IEnumerable<KrakenFuturesOrderBookEntry> Asks { get; set; } = Array.Empty<KrakenFuturesOrderBookEntry>();
+        public KrakenFuturesOrderBookEntry[] Asks { get; set; } = Array.Empty<KrakenFuturesOrderBookEntry>();
         /// <summary>
         /// List of bids
         /// </summary>
         [JsonPropertyName("bids")]
-        public IEnumerable<KrakenFuturesOrderBookEntry> Bids { get; set; } = Array.Empty<KrakenFuturesOrderBookEntry>();
+        public KrakenFuturesOrderBookEntry[] Bids { get; set; } = Array.Empty<KrakenFuturesOrderBookEntry>();
     }
 
     /// <summary>
     /// Order book entry
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesOrderBookEntry : ISymbolOrderBookEntry
     {
         /// <summary>
@@ -51,6 +54,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Book update
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesBookUpdate : KrakenFuturesUpdateMessage, ISymbolOrderBookEntry
     {
         /// <summary>
@@ -67,7 +71,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Side
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("side")]
         public OrderSide Side { get; set; }
         /// <summary>

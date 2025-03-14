@@ -1,16 +1,19 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal record KrakenFuturesSymbolResult : KrakenFuturesResult<IEnumerable<KrakenFuturesSymbol>>
+    [SerializationModel]
+    internal record KrakenFuturesSymbolResult : KrakenFuturesResult<KrakenFuturesSymbol[]>
     {
         [JsonPropertyName("instruments")]
-        public override IEnumerable<KrakenFuturesSymbol> Data { get; set; } = new List<KrakenFuturesSymbol>();
+        public override KrakenFuturesSymbol[] Data { get; set; } = new List<KrakenFuturesSymbol>();
     }
 
     /// <summary>
     /// Futures symbol info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesSymbol
     {
         /// <summary>
@@ -58,7 +61,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// A list containing the margin schedules
         /// </summary>
         [JsonPropertyName("marginLevels")]
-        public IEnumerable<KrakenFutureMarginLevel>? MarginLevels { get; set; }
+        public KrakenFutureMarginLevel[]? MarginLevels { get; set; }
         /// <summary>
         /// Maximum number of contracts that one can hold in a position
         /// </summary>
@@ -84,7 +87,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// Margin levels for retail clients (investor category no longer eligible for trading).
         /// </summary>
         [JsonPropertyName("retailMarginLevels")]
-        public IEnumerable<KrakenFutureMarginLevel>? RetailMarginLevels { get; set; }
+        public KrakenFutureMarginLevel[]? RetailMarginLevels { get; set; }
         /// <summary>
         /// Symbols
         /// </summary>
@@ -94,7 +97,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// Tag for the contract (currently does not return a value).
         /// </summary>
         [JsonPropertyName("tags")]
-        public IEnumerable<string> Tags { get; set; } = Array.Empty<string>();
+        public string[] Tags { get; set; } = Array.Empty<string>();
         /// <summary>
         /// Tick size of the contract being traded.
         /// </summary>
@@ -108,7 +111,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Type of the symbol
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("type")]
         public SymbolType Type { get; set; }
         /// <summary>
@@ -121,6 +124,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Margin level
     /// </summary>
+    [SerializationModel]
     public record KrakenFutureMarginLevel
     {
         /// <summary>

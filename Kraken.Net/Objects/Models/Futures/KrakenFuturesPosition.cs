@@ -1,16 +1,19 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal record KrakenFuturesPositionResult : KrakenFuturesResult<IEnumerable<KrakenFuturesPosition>>
+    [SerializationModel]
+    internal record KrakenFuturesPositionResult : KrakenFuturesResult<KrakenFuturesPosition[]>
     {
         [JsonPropertyName("openPositions")]
-        public override IEnumerable<KrakenFuturesPosition> Data { get; set; } = Array.Empty<KrakenFuturesPosition>();
+        public override KrakenFuturesPosition[] Data { get; set; } = Array.Empty<KrakenFuturesPosition>();
     }
 
     /// <summary>
     /// Futures position info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesPosition
     {
         /// <summary>
@@ -37,7 +40,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// The direction of the position.
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("side")]
         public PositionSide Side { get; set; }
         /// <summary>

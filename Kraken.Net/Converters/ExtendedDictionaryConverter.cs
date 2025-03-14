@@ -63,24 +63,24 @@ namespace Kraken.Net.Converters
     /// <summary>
     /// Kline result
     /// </summary>
-    [JsonConverter(typeof(ExtendedDictionaryConverter<KrakenKlinesResult, IEnumerable<KrakenKline>>))]
-    public class KrakenKlinesResult : KrakenDictionaryResult<IEnumerable<KrakenKline>>
+    [JsonConverter(typeof(ExtendedDictionaryConverter<KrakenKlinesResult, KrakenKline[]>))]
+    public class KrakenKlinesResult : KrakenDictionaryResult<KrakenKline[]>
     {
     }
 
     /// <summary>
     /// Trade result
     /// </summary>
-    [JsonConverter(typeof(ExtendedDictionaryConverter<KrakenTradesResult, IEnumerable<KrakenTrade>>))]
-    public class KrakenTradesResult : KrakenDictionaryResult<IEnumerable<KrakenTrade>>
+    [JsonConverter(typeof(ExtendedDictionaryConverter<KrakenTradesResult, KrakenTrade[]>))]
+    public class KrakenTradesResult : KrakenDictionaryResult<KrakenTrade[]>
     {
     }
 
     /// <summary>
     /// Spread result
     /// </summary>
-    [JsonConverter(typeof(ExtendedDictionaryConverter<KrakenSpreadsResult, IEnumerable<KrakenSpread>>))]
-    public class KrakenSpreadsResult : KrakenDictionaryResult<IEnumerable<KrakenSpread>>
+    [JsonConverter(typeof(ExtendedDictionaryConverter<KrakenSpreadsResult, KrakenSpread[]>))]
+    public class KrakenSpreadsResult : KrakenDictionaryResult<KrakenSpread[]>
     {
     }
 }

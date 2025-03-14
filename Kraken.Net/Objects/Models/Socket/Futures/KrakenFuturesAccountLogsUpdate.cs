@@ -1,22 +1,25 @@
-﻿using Kraken.Net.Objects.Models.Futures;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Objects.Models.Futures;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
     /// <summary>
     /// Account log snapshot update
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesAccountLogsSnapshotUpdate : KrakenFuturesSocketMessage
     {
         /// <summary>
         /// Account logs
         /// </summary>
         [JsonPropertyName("logs")]
-        public IEnumerable<KrakenAccountLog> Logs { get; set; } = Array.Empty<KrakenAccountLog>();
+        public KrakenAccountLog[] Logs { get; set; } = Array.Empty<KrakenAccountLog>();
     }
 
     /// <summary>
     /// New account log update
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesAccountLogsUpdate : KrakenFuturesSocketMessage
     {
         /// <summary>

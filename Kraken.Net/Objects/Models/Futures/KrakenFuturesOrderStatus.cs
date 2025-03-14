@@ -1,16 +1,19 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal record KrakenFuturesOrderStatusResult : KrakenFuturesResult<IEnumerable<KrakenFuturesOrderStatus>>
+    [SerializationModel]
+    internal record KrakenFuturesOrderStatusResult : KrakenFuturesResult<KrakenFuturesOrderStatus[]>
     {
         [JsonPropertyName("orders")]
-        public override IEnumerable<KrakenFuturesOrderStatus> Data { get; set; } = Array.Empty<KrakenFuturesOrderStatus>();
+        public override KrakenFuturesOrderStatus[] Data { get; set; } = Array.Empty<KrakenFuturesOrderStatus>();
     }
 
     /// <summary>
     /// Order status info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesOrderStatus
     {
         /// <summary>
@@ -26,7 +29,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Order status
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("status")]
         public KrakenFuturesOrderActiveStatus Status { get; set; }
         /// <summary>

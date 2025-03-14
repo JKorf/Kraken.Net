@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Models.Socket
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Socket
 {
     /// <summary>
     /// Order result
     /// </summary>
+    [SerializationModel]
     public record KrakenOrderResult
     {
         /// <summary>

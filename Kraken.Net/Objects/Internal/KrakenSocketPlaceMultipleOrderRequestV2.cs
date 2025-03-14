@@ -1,4 +1,4 @@
-﻿using Kraken.Net.Objects.Models.Socket;
+using Kraken.Net.Objects.Models.Socket;
 
 namespace Kraken.Net.Objects.Internal
 {
@@ -11,7 +11,7 @@ namespace Kraken.Net.Objects.Internal
         [JsonPropertyName("deadline"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Deadline { get; set; }
         [JsonPropertyName("orders")]
-        public IEnumerable<KrakenSocketOrderRequest> Orders { get; set; } = Array.Empty<KrakenSocketOrderRequest>();
+        public KrakenSocketOrderRequest[] Orders { get; set; } = Array.Empty<KrakenSocketOrderRequest>();
     }
 
 }

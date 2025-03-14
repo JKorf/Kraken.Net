@@ -1,10 +1,12 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Position info
     /// </summary>
+    [SerializationModel]
     public record KrakenPosition
     {
         /// <summary>
@@ -40,12 +42,12 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Side
         /// </summary>
-        [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("type")]
         public OrderSide Side { get; set; }
         /// <summary>
         /// Type
         /// </summary>
-        [JsonPropertyName("ordertype"), JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("ordertype")]
         public OrderType Type { get; set; }
         /// <summary>
         /// Cost

@@ -1,7 +1,6 @@
 using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models;
 using Kraken.Net.Interfaces.Clients.SpotApi;
-using CryptoExchange.Net.CommonObjects;
 
 namespace Kraken.Net.Clients.SpotApi
 {
@@ -174,7 +173,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 { "pair", symbol },
                 { "trading_agreement", "agree" },
-                { "orders", orders }
+                { "orders", orders.ToArray() }
             };
             parameters.AddOptional("deadline", deadline);
 

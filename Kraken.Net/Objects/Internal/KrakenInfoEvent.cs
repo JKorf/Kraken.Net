@@ -1,5 +1,7 @@
-﻿namespace Kraken.Net.Objects.Internal
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Internal
 {
+    [SerializationModel]
     internal record KrakenInfoEvent
     {
         [JsonPropertyName("event")]
