@@ -2,7 +2,7 @@
 
 namespace Kraken.Net.Converters
 {
-    internal class ExtendedDictionaryConverter<T, U>: JsonConverter<T> where T : KrakenDictionaryResult<U>
+    internal class ExtendedDictionaryConverter<T, U>: JsonConverter<T> where T : KrakenDictionaryResult<U>, new()
     {
         public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -10,7 +10,7 @@ namespace Kraken.Net.Converters
             var inner = doc.RootElement.EnumerateObject().First().Value;
 
             var data = inner.Deserialize<U>();
-            var result = (T)Activator.CreateInstance(typeToConvert);
+            var result = new T();
             result.Data = data!;
             if (doc.RootElement.TryGetProperty("last", out var lastElement))
             {

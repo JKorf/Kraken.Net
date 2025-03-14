@@ -250,8 +250,6 @@ namespace Kraken.Net.Clients.SpotApi
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/AddOrder", KrakenExchange.RateLimiter.SpotRest, 0, true);
             var result = await _baseClient.SendAsync<KrakenPlacedOrder>(request, parameters, ct).ConfigureAwait(false);
-            if (result)
-                _baseClient.InvokeOrderPlaced(new OrderId { SourceObject = result.Data, Id = result.Data.OrderIds.FirstOrDefault() });
             return result;
         }
 
@@ -318,8 +316,6 @@ namespace Kraken.Net.Clients.SpotApi
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/CancelOrder", KrakenExchange.RateLimiter.SpotRest, 1, true);
             var result = await _baseClient.SendAsync<KrakenCancelResult>(request, parameters, ct).ConfigureAwait(false);
-            if (result)
-                _baseClient.InvokeOrderCanceled(new OrderId { SourceObject = result.Data, Id = orderId });
             return result;
         }
 
@@ -335,8 +331,6 @@ namespace Kraken.Net.Clients.SpotApi
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/CancelAll", KrakenExchange.RateLimiter.SpotRest, 1, true);
             var result = await _baseClient.SendAsync<KrakenCancelResult>(request, parameters, ct).ConfigureAwait(false);
-            if (result)
-                _baseClient.InvokeOrderCanceled(new OrderId { SourceObject = result.Data });
             return result;
         }
 
