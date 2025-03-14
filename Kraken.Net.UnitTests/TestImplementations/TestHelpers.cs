@@ -7,10 +7,12 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
+using CryptoExchange.Net.Converters.SystemTextJson;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
@@ -21,7 +23,6 @@ using Kraken.Net.Objects;
 using Kraken.Net.Objects.Options;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Newtonsoft.Json;
 
 namespace Kraken.Net.UnitTests.TestImplementations
 {
@@ -159,7 +160,7 @@ namespace Kraken.Net.UnitTests.TestImplementations
         public static IKrakenRestClient CreateResponseClient<T>(T response, Action<KrakenRestOptions> options = null)
         {
             var client = (KrakenRestClient)CreateClient(options);
-            SetResponse(client, JsonConvert.SerializeObject(response));
+            SetResponse(client, JsonSerializer.Serialize(response, SerializerOptions.WithConverters(KrakenExchange.SerializerContext)));
             return client;
         }
 
@@ -178,7 +179,7 @@ namespace Kraken.Net.UnitTests.TestImplementations
             var request = new Mock<IRequest>();
             request.Setup(c => c.Uri).Returns(new Uri("http://www.test.com"));
             request.Setup(c => c.GetResponseAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult(response.Object));
-            request.Setup(c => c.GetHeaders()).Returns(new Dictionary<string, IEnumerable<string>>());
+            request.Setup(c => c.GetHeaders()).Returns([]);
 
             var factory = Mock.Get(client.SpotApi.RequestFactory);
             factory.Setup(c => c.Create(It.IsAny<HttpMethod>(), It.IsAny<Uri>(), It.IsAny<int>()))

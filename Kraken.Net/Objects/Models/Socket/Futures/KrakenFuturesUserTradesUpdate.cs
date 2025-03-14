@@ -18,14 +18,14 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// Trades
         /// </summary>
         [JsonPropertyName("fills")]
-        public KrakenFuturesUserTrade[] Trades { get; set; } = Array.Empty<KrakenFuturesUserTrade>();
+        public KrakenFuturesStreamUserTrade[] Trades { get; set; } = Array.Empty<KrakenFuturesStreamUserTrade>();
     }
 
     /// <summary>
     /// User trade update info
     /// </summary>
     [SerializationModel]
-    public record KrakenFuturesUserTrade
+    public record KrakenFuturesStreamUserTrade
     {
         /// <summary>
         /// Symbol

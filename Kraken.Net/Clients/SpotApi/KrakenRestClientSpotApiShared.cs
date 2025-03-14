@@ -505,6 +505,65 @@ namespace Kraken.Net.Clients.SpotApi
 
         #endregion
 
+        #region Spot Client Id Order Client
+
+        EndpointOptions<GetOrderRequest> ISpotOrderClientIdClient.GetSpotOrderByClientOrderIdOptions { get; } = new EndpointOptions<GetOrderRequest>(true);
+        async Task<ExchangeWebResult<SharedSpotOrder>> ISpotOrderClientIdClient.GetSpotOrderByClientOrderIdAsync(GetOrderRequest request, CancellationToken ct)
+        {
+            var validationError = ((ISpotOrderRestClient)this).GetSpotOrderOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
+            if (validationError != null)
+                return new ExchangeWebResult<SharedSpotOrder>(Exchange, validationError);
+
+            var order = await Trading.GetOpenOrdersAsync(clientOrderId: request.OrderId, ct: ct).ConfigureAwait(false);
+            if (!order)
+                return order.AsExchangeResult<SharedSpotOrder>(Exchange, null, default);
+
+            var orderData = order.Data.Open.SingleOrDefault().Value;
+            if (orderData == null)
+            {
+                var pageOrder = await Trading.GetClosedOrdersAsync(clientOrderId: request.OrderId, ct: ct).ConfigureAwait(false);
+                orderData = pageOrder.Data.Closed.SingleOrDefault().Value;
+            }
+
+            if (orderData == null)
+                return new ExchangeWebResult<SharedSpotOrder>(Exchange, new ServerError("Order not found"));
+
+            return order.AsExchangeResult(Exchange, TradingMode.Spot, new SharedSpotOrder(
+                ExchangeSymbolCache.ParseSymbol(_topicId, orderData.OrderDetails.Symbol),
+                orderData.OrderDetails.Symbol,
+                orderData.Id.ToString(),
+                ParseOrderType(orderData.OrderDetails.Type, orderData.Oflags),
+                orderData.OrderDetails.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
+                ParseOrderStatus(orderData.Status),
+                orderData.CreateTime)
+            {
+                ClientOrderId = orderData.ClientOrderId,
+                Fee = orderData.Fee,
+                OrderPrice = orderData.OrderDetails.Price == 0 ? null : orderData.OrderDetails.Price,
+                Quantity = orderData.Oflags.Contains("viqc") ? null : orderData.Quantity,
+                QuantityFilled = orderData.QuantityFilled,
+                QuoteQuantity = orderData.Oflags.Contains("viqc") ? orderData.Quantity : null,
+                QuoteQuantityFilled = orderData.QuoteQuantityFilled,
+                AveragePrice = orderData.AveragePrice == 0 ? null : orderData.AveragePrice,
+                UpdateTime = orderData.CloseTime
+            });
+        }
+
+        EndpointOptions<CancelOrderRequest> ISpotOrderClientIdClient.CancelSpotOrderByClientOrderIdOptions { get; } = new EndpointOptions<CancelOrderRequest>(true);
+        async Task<ExchangeWebResult<SharedId>> ISpotOrderClientIdClient.CancelSpotOrderByClientOrderIdAsync(CancelOrderRequest request, CancellationToken ct)
+        {
+            var validationError = ((ISpotOrderRestClient)this).CancelSpotOrderOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
+            if (validationError != null)
+                return new ExchangeWebResult<SharedId>(Exchange, validationError);
+
+            var order = await Trading.CancelOrderAsync(clientOrderId: request.OrderId, ct: ct).ConfigureAwait(false);
+            if (!order)
+                return order.AsExchangeResult<SharedId>(Exchange, null, default);
+
+            return order.AsExchangeResult(Exchange, TradingMode.Spot, new SharedId(order.Data.OrderId));
+        }
+        #endregion
+
         #region Asset client
         EndpointOptions<GetAssetRequest> IAssetsRestClient.GetAssetOptions { get; } = new EndpointOptions<GetAssetRequest>(true);
         async Task<ExchangeWebResult<SharedAsset>> IAssetsRestClient.GetAssetAsync(GetAssetRequest request, CancellationToken ct)

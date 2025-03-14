@@ -4,7 +4,7 @@ using Kraken.Net.Objects.Models;
 namespace Kraken.Net.Interfaces.Clients.SpotApi
 {
     /// <summary>
-    /// Kraken trading endpoints, placing and mananging orders.
+    /// Kraken trading endpoints, placing and managing orders.
     /// </summary>
     public interface IKrakenRestClientSpotApiTrading
     {
@@ -12,11 +12,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Get a list of open orders
         /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-open-orders" /></para>
         /// </summary>
+        /// <param name="userReference">Filter by user reference</param>
         /// <param name="clientOrderId">Filter by client order id</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of open orders</returns>
-        Task<WebCallResult<OpenOrdersPage>> GetOpenOrdersAsync(uint? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<OpenOrdersPage>> GetOpenOrdersAsync(uint? userReference = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get a list of closed orders
@@ -226,11 +227,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Cancel an order
         /// <para><a href="https://docs.kraken.com/api/docs/rest-api/cancel-order" /></para>
         /// </summary>
-        /// <param name="orderId">The id of the order to cancel</param>
+        /// <param name="orderId">The id of the order to cancel. Either this or clientOrderId should be provided</param>
+        /// <param name="clientOrderId">The client order id of the order to cancel. Either this or orderId should be provided</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Cancel result</returns>
-        Task<WebCallResult<KrakenCancelResult>> CancelOrderAsync(string orderId, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenCancelResult>> CancelOrderAsync(string? orderId = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel all orders

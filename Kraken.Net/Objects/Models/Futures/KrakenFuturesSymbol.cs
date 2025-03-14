@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models.Futures
     internal record KrakenFuturesSymbolResult : KrakenFuturesResult<KrakenFuturesSymbol[]>
     {
         [JsonPropertyName("instruments")]
-        public override KrakenFuturesSymbol[] Data { get; set; } = new List<KrakenFuturesSymbol>();
+        public override KrakenFuturesSymbol[] Data { get; set; } = [];
     }
 
     /// <summary>

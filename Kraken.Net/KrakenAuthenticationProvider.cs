@@ -7,7 +7,7 @@ namespace Kraken.Net
 {
     internal class KrakenAuthenticationProvider: AuthenticationProvider
     {
-        private static readonly IMessageSerializer _serializer = new SystemTextJsonMessageSerializer();
+        private static readonly IMessageSerializer _serializer = new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange.SerializerContext));
         private readonly INonceProvider _nonceProvider;
         private readonly byte[] _hmacSecret;
 

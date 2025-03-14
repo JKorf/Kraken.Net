@@ -4,10 +4,10 @@ using Kraken.Net.Enums;
 namespace Kraken.Net.Objects.Models.Futures
 {
     [SerializationModel]
-    internal record KrakenFuturesTradeResult : KrakenFuturesResult<KrakenFuturesTrade>
+    internal record KrakenFuturesTradeResult : KrakenFuturesResult<KrakenFuturesTrade[]>
     {
         [JsonPropertyName("history")]
-        public override KrakenFuturesTrade Data { get; set; } = new List<KrakenFuturesTrade>();
+        public override KrakenFuturesTrade[] Data { get; set; } = [];
     }
 
     /// <summary>

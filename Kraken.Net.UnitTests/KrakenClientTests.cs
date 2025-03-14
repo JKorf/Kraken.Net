@@ -85,7 +85,7 @@ namespace Kraken.Net.UnitTests
             var client = TestHelpers.CreateClient();
             var resultObj = new KrakenResult()
             {
-                Error = new List<string>
+                Error = new string[]
                 {
                     "Error occured"
                 }

@@ -29,7 +29,7 @@ namespace Kraken.Net.Converters
                 }
             }
 
-            result.MarginAccounts = marginAccounts;
+            result.MarginAccounts = marginAccounts.ToArray();
             return result;
         }
 

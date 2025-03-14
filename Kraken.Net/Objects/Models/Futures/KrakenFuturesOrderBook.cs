@@ -42,7 +42,7 @@ namespace Kraken.Net.Objects.Models.Futures
         [ArrayProperty(0)]
         public decimal Price { get; set; }
         /// <summary>
-        /// Quantiy
+        /// Quantity
         /// </summary>
         [ArrayProperty(1)]
         public decimal Quantity { get; set; }

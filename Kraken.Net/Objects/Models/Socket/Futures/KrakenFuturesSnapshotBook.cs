@@ -25,19 +25,19 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// List of asks
         /// </summary>
         [JsonPropertyName("asks")]
-        public KrakenFuturesOrderBookEntry[] Asks { get; set; } = Array.Empty<KrakenFuturesOrderBookEntry>();
+        public KrakenFuturesStreamOrderBookEntry[] Asks { get; set; } = Array.Empty<KrakenFuturesStreamOrderBookEntry>();
         /// <summary>
         /// List of bids
         /// </summary>
         [JsonPropertyName("bids")]
-        public KrakenFuturesOrderBookEntry[] Bids { get; set; } = Array.Empty<KrakenFuturesOrderBookEntry>();
+        public KrakenFuturesStreamOrderBookEntry[] Bids { get; set; } = Array.Empty<KrakenFuturesStreamOrderBookEntry>();
     }
 
     /// <summary>
     /// Order book entry
     /// </summary>
     [SerializationModel]
-    public record KrakenFuturesOrderBookEntry : ISymbolOrderBookEntry
+    public record KrakenFuturesStreamOrderBookEntry : ISymbolOrderBookEntry
     {
         /// <summary>
         /// Quantity

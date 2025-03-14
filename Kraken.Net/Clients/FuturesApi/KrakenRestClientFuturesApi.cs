@@ -57,7 +57,7 @@ namespace Kraken.Net.Clients.FuturesApi
         public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
                 => KrakenExchange.FormatSymbol(baseAsset, quoteAsset, tradingMode, deliverTime);
 
-        internal async Task<WebCallResult<U>> SendToAddressAsync<T, U>(string baseAddress, RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T : KrakenFuturesResult<U>
+        internal async Task<WebCallResult<U>> SendToAddressAsync<T,U>(string baseAddress, RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T : KrakenFuturesResult<U>
         {
             var result = await base.SendAsync<T>(baseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
             if (!result)
@@ -101,8 +101,8 @@ namespace Kraken.Net.Clients.FuturesApi
             return result.As(result.Data.Data);
         }
 
-        internal Task<WebCallResult<U>> SendAsync<T, U>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T : KrakenFuturesResult<U>
-            => SendToAddressAsync<T, U>(BaseAddress, definition, parameters, cancellationToken, weight);
+        internal Task<WebCallResult<U>> SendAsync<T,U>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T : KrakenFuturesResult<U>
+            => SendToAddressAsync<T,U>(BaseAddress, definition, parameters, cancellationToken, weight);
 
         internal async Task<WebCallResult<T>> SendRawAsync<T>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T: class
             => await base.SendAsync<T>(BaseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
