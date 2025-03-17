@@ -450,7 +450,7 @@
         <member name="T:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.GetOpenOrdersAsync(System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.GetOpenOrdersAsync(System.Nullable{System.UInt32},System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.GetClosedOrdersAsync(System.Nullable{System.UInt32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Nullable{Kraken.Net.Enums.SearchTime},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
@@ -480,7 +480,7 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.EditOrderAsync(System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Collections.Generic.IEnumerable{Kraken.Net.Enums.OrderFlags},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.UInt32},System.String,System.String,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.CancelOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.CancelOrderAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.CancelAllOrdersAsync(System.String,System.Threading.CancellationToken)">
@@ -6166,14 +6166,15 @@
         </member>
         <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading">
             <summary>
-            Kraken trading endpoints, placing and mananging orders.
+            Kraken trading endpoints, placing and managing orders.
             </summary>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.GetOpenOrdersAsync(System.Nullable{System.UInt32},System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.GetOpenOrdersAsync(System.Nullable{System.UInt32},System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get a list of open orders
             <para><a href="https://docs.kraken.com/api/docs/rest-api/get-open-orders" /></para>
             </summary>
+            <param name="userReference">Filter by user reference</param>
             <param name="clientOrderId">Filter by client order id</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
@@ -6339,12 +6340,13 @@
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.CancelOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.CancelOrderAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Cancel an order
             <para><a href="https://docs.kraken.com/api/docs/rest-api/cancel-order" /></para>
             </summary>
-            <param name="orderId">The id of the order to cancel</param>
+            <param name="orderId">The id of the order to cancel. Either this or clientOrderId should be provided</param>
+            <param name="clientOrderId">The client order id of the order to cancel. Either this or orderId should be provided</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
             <param name="ct">Cancellation token</param>
             <returns>Cancel result</returns>

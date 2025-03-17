@@ -1,4 +1,5 @@
 ﻿using Kraken.Net.Objects.Models.Futures;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Kraken.Net.Converters
 {
@@ -16,15 +17,15 @@ namespace Kraken.Net.Converters
                 switch (type)
                 {
                     case "marginAccount":
-                        var balance = element.Value.Deserialize<KrakenMarginAccountBalances>()!;
+                        var balance = element.Value.Deserialize<KrakenMarginAccountBalances>((JsonTypeInfo<KrakenMarginAccountBalances>)options.GetTypeInfo(typeof(KrakenMarginAccountBalances)))!;
                         balance.Symbol = element.Name;
                         marginAccounts.Add(balance);
                         break;
                     case "cashAccount":
-                        result.CashAccount = element.Value.Deserialize<KrakenCashBalances>()!;
+                        result.CashAccount = element.Value.Deserialize<KrakenCashBalances>((JsonTypeInfo<KrakenCashBalances>)options.GetTypeInfo(typeof(KrakenCashBalances)))!;
                         break;
                     case "multiCollateralMarginAccount":
-                        result.MultiCollateralMarginAccount = element.Value.Deserialize<KrakenMultiCollateralMarginBalances>()!;
+                        result.MultiCollateralMarginAccount = element.Value.Deserialize<KrakenMultiCollateralMarginBalances>((JsonTypeInfo<KrakenMultiCollateralMarginBalances>)options.GetTypeInfo(typeof(KrakenMultiCollateralMarginBalances)))!;
                         break;
                 }
             }

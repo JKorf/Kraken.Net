@@ -59,7 +59,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
 
             var symbol = request.Symbol.GetSymbol(FormatSymbol);
-            var result = await SubscribeToTickerUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, new SharedBookTicker(ExchangeSymbolCache.ParseSymbol(_topicId, update.Data.Symbol!), update.Data.Symbol, update.Data.BestAskPrice, update.Data.BestAskQuantity, update.Data.BestBidPrice, update.Data.BestBidQuantity))), ct).ConfigureAwait(false);
+            var result = await SubscribeToTickerUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, new SharedBookTicker(ExchangeSymbolCache.ParseSymbol(_topicId, update.Data.Symbol!), update.Data.Symbol!, update.Data.BestAskPrice, update.Data.BestAskQuantity, update.Data.BestBidPrice, update.Data.BestBidQuantity))), ct).ConfigureAwait(false);
 
             return new ExchangeResult<UpdateSubscription>(Exchange, result);
         }
@@ -78,7 +78,7 @@ namespace Kraken.Net.Clients.FuturesApi
                     if (update.UpdateType == SocketUpdateType.Snapshot || update.Data.FlexFutures == null)
                         return;
 
-                    handler(update.AsExchangeEvent<SharedBalance[]>(Exchange, update.Data.FlexFutures.Currencies.Select(x =>
+                    handler(update.AsExchangeEvent<SharedBalance[]>(Exchange, update.Data.FlexFutures.Currencies!.Select(x =>
                     new SharedBalance(x.Key, x.Value.Available, x.Value.Quantity)).ToArray()));
                 },
                 ct: ct).ConfigureAwait(false);

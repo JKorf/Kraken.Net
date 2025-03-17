@@ -10,7 +10,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
     {
         private readonly MessagePath _feedPath = MessagePath.Get().Property("feed");
 
-        private List<string>? _symbols;
+        private List<string> _symbols;
         protected readonly Action<DataEvent<KrakenFuturesBookSnapshotUpdate>> _snapshotHandler;
         protected readonly Action<DataEvent<KrakenFuturesBookUpdate>> _updateHandler;
 

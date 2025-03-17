@@ -1,4 +1,5 @@
 ﻿using Kraken.Net.Objects.Models;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Kraken.Net.Converters
 {
@@ -9,7 +10,7 @@ namespace Kraken.Net.Converters
             var doc = JsonDocument.ParseValue(ref reader);
             var inner = doc.RootElement.EnumerateObject().First().Value;
 
-            var data = inner.Deserialize<U>();
+            var data = inner.Deserialize<U>((JsonTypeInfo<U>)options.GetTypeInfo(typeof(U)));
             var result = new T();
             result.Data = data!;
             if (doc.RootElement.TryGetProperty("last", out var lastElement))
@@ -35,7 +36,7 @@ namespace Kraken.Net.Converters
         {
             writer.WriteStartObject();
             writer.WritePropertyName("data");
-            writer.WriteRawValue(JsonSerializer.Serialize(value.Data));
+            writer.WriteRawValue(JsonSerializer.Serialize(value.Data, (JsonTypeInfo<T>)options.GetTypeInfo(typeof(T))));
             writer.WriteNumber("last", (long)DateTimeConverter.ConvertToSeconds(value.LastUpdateTime));
             writer.WriteEndObject();
         }

@@ -73,17 +73,4 @@ namespace Kraken.Net
             headers.Add("API-Sign", sign);
         }
     }
-
-    internal class KrakenParameterComparer : IComparer<string>
-    {
-        public int Compare(string x, string y)
-        {
-            if (string.Equals(x, "nonce", StringComparison.Ordinal))
-                return -1;
-            if (string.Equals(y, "nonce", StringComparison.Ordinal))
-                return 1;
-
-            return x.CompareTo(y);
-        }
-    }
 }

@@ -560,7 +560,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!order)
                 return order.AsExchangeResult<SharedId>(Exchange, null, default);
 
-            return order.AsExchangeResult(Exchange, TradingMode.Spot, new SharedId(order.Data.Pending.FirstOrDefault()?.ToString() ?? request.OrderId));
+            return order.AsExchangeResult(Exchange, TradingMode.Spot, new SharedId(order.Data.Pending.FirstOrDefault().ToString() ?? request.OrderId));
         }
         #endregion
 

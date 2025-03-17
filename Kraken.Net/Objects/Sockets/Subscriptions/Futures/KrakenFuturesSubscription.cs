@@ -34,7 +34,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 },
                 Authenticated)
             {
-                RequiredResponses = _symbols.Count()
+                RequiredResponses = _symbols?.Count() ?? 1
             };
         }
 
@@ -49,7 +49,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 },
                 Authenticated)
             {
-                RequiredResponses = _symbols.Count()
+                RequiredResponses = _symbols?.Count() ?? 1
             };
         }
 
