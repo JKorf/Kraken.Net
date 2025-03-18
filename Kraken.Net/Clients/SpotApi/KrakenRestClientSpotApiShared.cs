@@ -226,10 +226,10 @@ namespace Kraken.Net.Clients.SpotApi
                 request.Symbol.GetSymbol(FormatSymbol),
                 request.Side == SharedOrderSide.Buy ? Enums.OrderSide.Buy : Enums.OrderSide.Sell,
                 GetPlaceOrderType(request.OrderType),
-                request.Quantity ?? request.QuoteQuantity ?? 0,
+                request.Quantity?.QuantityInBaseAsset ?? request.Quantity?.QuantityInQuoteAsset ?? 0,
                 request.Price,
                 clientOrderId: request.ClientOrderId,
-                orderFlags: GetOrderFlags(request.OrderType, request.QuoteQuantity),
+                orderFlags: GetOrderFlags(request.OrderType, request.Quantity?.QuantityInQuoteAsset),
                 timeInForce: GetTimeInForce(request.TimeInForce),
                 ct: ct).ConfigureAwait(false);
 
@@ -266,10 +266,8 @@ namespace Kraken.Net.Clients.SpotApi
                 ClientOrderId = orderData.Value.ClientOrderId,
                 Fee = orderData.Value.Fee,
                 OrderPrice = orderData.Value.OrderDetails.Price == 0 ? null : orderData.Value.OrderDetails.Price,
-                Quantity = orderData.Value.Oflags.Contains("viqc") ? null : orderData.Value.Quantity,
-                QuantityFilled = orderData.Value.QuantityFilled,
-                QuoteQuantity = orderData.Value.Oflags.Contains("viqc") ? orderData.Value.Quantity : null,
-                QuoteQuantityFilled = orderData.Value.QuoteQuantityFilled,
+                OrderQuantity = new SharedOrderQuantity(orderData.Value.Oflags.Contains("viqc") ? null : orderData.Value.Quantity, orderData.Value.Oflags.Contains("viqc") ? orderData.Value.Quantity : null),
+                QuantityFilled = new SharedOrderQuantity(orderData.Value.QuantityFilled, orderData.Value.QuoteQuantityFilled),
                 AveragePrice = orderData.Value.AveragePrice == 0 ? null : orderData.Value.AveragePrice,
                 UpdateTime = orderData.Value.CloseTime
             });
@@ -303,9 +301,8 @@ namespace Kraken.Net.Clients.SpotApi
                 ClientOrderId = x.ClientOrderId,
                 Fee = x.Fee,
                 OrderPrice = x.OrderDetails.Price == 0 ? null : x.OrderDetails.Price,
-                Quantity = x.Oflags.Contains("viqc") ? null : x.Quantity,
-                QuantityFilled = x.QuantityFilled,
-                QuoteQuantity = x.Oflags.Contains("viqc") ? x.Quantity : null,
+                OrderQuantity = new SharedOrderQuantity(x.Oflags.Contains("viqc") ? null : x.Quantity, x.Oflags.Contains("viqc") ? x.Quantity : null),
+                QuantityFilled = new SharedOrderQuantity(x.QuantityFilled, x.QuoteQuantityFilled),
                 AveragePrice = x.AveragePrice == 0 ? null: x.AveragePrice,
                 UpdateTime = x.CloseTime
             }).ToArray());
@@ -352,9 +349,8 @@ namespace Kraken.Net.Clients.SpotApi
                 ClientOrderId = x.ClientOrderId,
                 Fee = x.Fee,
                 OrderPrice = x.OrderDetails.Price == 0 ? null : x.OrderDetails.Price,
-                Quantity = x.Oflags.Contains("viqc") ? null : x.Quantity,
-                QuantityFilled = x.QuantityFilled,
-                QuoteQuantity = x.Oflags.Contains("viqc") ? x.Quantity : null,
+                OrderQuantity = new SharedOrderQuantity(x.Oflags.Contains("viqc") ? null : x.Quantity, x.Oflags.Contains("viqc") ? x.Quantity : null),
+                QuantityFilled = new SharedOrderQuantity(x.QuantityFilled, x.QuoteQuantityFilled),
                 AveragePrice = x.AveragePrice == 0 ? null: x.AveragePrice,
                 UpdateTime = x.CloseTime
             }).ToArray(), nextToken);
@@ -540,10 +536,8 @@ namespace Kraken.Net.Clients.SpotApi
                 ClientOrderId = orderData.ClientOrderId,
                 Fee = orderData.Fee,
                 OrderPrice = orderData.OrderDetails.Price == 0 ? null : orderData.OrderDetails.Price,
-                Quantity = orderData.Oflags.Contains("viqc") ? null : orderData.Quantity,
-                QuantityFilled = orderData.QuantityFilled,
-                QuoteQuantity = orderData.Oflags.Contains("viqc") ? orderData.Quantity : null,
-                QuoteQuantityFilled = orderData.QuoteQuantityFilled,
+                OrderQuantity = new SharedOrderQuantity(orderData.Oflags.Contains("viqc") ? null : orderData.Quantity, orderData.Oflags.Contains("viqc") ? orderData.Quantity : null),
+                QuantityFilled = new SharedOrderQuantity(orderData.QuantityFilled, orderData.QuoteQuantityFilled),
                 AveragePrice = orderData.AveragePrice == 0 ? null : orderData.AveragePrice,
                 UpdateTime = orderData.CloseTime
             });

@@ -440,7 +440,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 request.Symbol.GetSymbol(FormatSymbol),
                 request.Side == SharedOrderSide.Buy ? Enums.OrderSide.Buy : Enums.OrderSide.Sell,
                 GetOrderType(request.OrderType, request.TimeInForce),
-                quantity: request.Quantity ?? 0,
+                quantity: request.Quantity?.QuantityInContracts ?? 0,
                 price: request.Price,
                 reduceOnly: request.ReduceOnly,
                 clientOrderId: request.ClientOrderId,
@@ -474,8 +474,8 @@ namespace Kraken.Net.Clients.FuturesApi
             {
                 ClientOrderId = order.Data.Order.ClientOrderId,
                 OrderPrice = order.Data.Order.Price == 0 ? null : order.Data.Order.Price,
-                Quantity = order.Data.Order.Quantity == 0 ? null : order.Data.Order.Quantity,
-                QuantityFilled = order.Data.Order.QuantityFilled,
+                OrderQuantity = new SharedOrderQuantity(contractQuantity: order.Data.Order.Quantity == 0 ? null : order.Data.Order.Quantity),
+                QuantityFilled = new SharedOrderQuantity(contractQuantity: order.Data.Order.QuantityFilled),
                 UpdateTime = order.Data.Order.LastUpdateTime,
                 ReduceOnly = order.Data.Order.ReduceOnly
             });
@@ -508,8 +508,8 @@ namespace Kraken.Net.Clients.FuturesApi
             {
                 ClientOrderId = x.ClientOrderId,
                 OrderPrice = x.Price == 0 ? null : x.Price,
-                Quantity = x.Quantity,
-                QuantityFilled = x.QuantityFilled,
+                OrderQuantity = new SharedOrderQuantity(contractQuantity: x.Quantity),
+                QuantityFilled = new SharedOrderQuantity(contractQuantity: x.QuantityFilled),
                 UpdateTime = x.LastUpdateTime,
                 ReduceOnly = x.ReduceOnly
             }).ToArray());
@@ -517,6 +517,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
         PaginatedEndpointOptions<GetClosedOrdersRequest> IFuturesOrderRestClient.GetClosedFuturesOrdersOptions { get; } = new PaginatedEndpointOptions<GetClosedOrdersRequest>(SharedPaginationSupport.NotSupported, false, 1000, true)
         {
+            Supported = false,
             RequestNotes = "There is no way to retrieve closed orders without specifying order ids, so this method can never return success"
         };
         Task<ExchangeWebResult<SharedFuturesOrder[]>> IFuturesOrderRestClient.GetClosedFuturesOrdersAsync(GetClosedOrdersRequest request, INextPageToken? pageToken, CancellationToken ct)
@@ -526,6 +527,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
         EndpointOptions<GetOrderTradesRequest> IFuturesOrderRestClient.GetFuturesOrderTradesOptions { get; } = new EndpointOptions<GetOrderTradesRequest>(true)
         {
+            Supported = false,
             RequestNotes = "There is no way to retrieve trades for a specific order, so this method can never return success"
         };
         Task<ExchangeWebResult<SharedUserTrade[]>> IFuturesOrderRestClient.GetFuturesOrderTradesAsync(GetOrderTradesRequest request, CancellationToken ct)
@@ -692,8 +694,8 @@ namespace Kraken.Net.Clients.FuturesApi
             {
                 ClientOrderId = order.Data.Order.ClientOrderId,
                 OrderPrice = order.Data.Order.Price == 0 ? null : order.Data.Order.Price,
-                Quantity = order.Data.Order.Quantity == 0 ? null : order.Data.Order.Quantity,
-                QuantityFilled = order.Data.Order.QuantityFilled,
+                OrderQuantity = new SharedOrderQuantity(contractQuantity: order.Data.Order.Quantity == 0 ? null : order.Data.Order.Quantity),
+                QuantityFilled = new SharedOrderQuantity(contractQuantity: order.Data.Order.QuantityFilled),
                 UpdateTime = order.Data.Order.LastUpdateTime,
                 ReduceOnly = order.Data.Order.ReduceOnly
             });

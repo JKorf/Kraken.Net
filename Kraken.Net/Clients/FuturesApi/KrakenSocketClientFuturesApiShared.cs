@@ -111,8 +111,8 @@ namespace Kraken.Net.Clients.FuturesApi
                             update.Data.Order?.Timestamp)
                         {
                             ClientOrderId = update.Data.Order?.ClientOrderId,
-                            Quantity = update.Data.Order?.Quantity,
-                            QuantityFilled = update.Data.Order?.QuantityFilled,
+                            OrderQuantity = new SharedOrderQuantity(contractQuantity: update.Data.Order?.Quantity == 0 ? null : update.Data.Order?.Quantity),
+                            QuantityFilled = new SharedOrderQuantity(contractQuantity: update.Data.Order?.QuantityFilled),
                             UpdateTime = update.Data.Order?.LastUpdateTime,
                             OrderPrice = update.Data.Order?.Price,
                             ReduceOnly = update.Data.Order?.ReduceOnly,
