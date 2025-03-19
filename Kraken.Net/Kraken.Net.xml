@@ -767,6 +767,11 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.OrderTypeMinimal">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.PositionSide">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
