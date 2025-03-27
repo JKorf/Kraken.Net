@@ -2,6 +2,7 @@ using Kraken.Net.Interfaces.Clients.SpotApi;
 using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models;
+using System;
 
 namespace Kraken.Net.Clients.SpotApi
 {
@@ -806,5 +807,6 @@ namespace Kraken.Net.Clients.SpotApi
             return result.AsExchangeResult(Exchange, TradingMode.Spot, new SharedFee(result.Data.Fees.First().Value.Fee, result.Data.Fees.First().Value.Fee));
         }
         #endregion
+
     }
 }
