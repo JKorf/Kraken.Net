@@ -18,7 +18,8 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         ILeverageRestClient,
         IFuturesOrderRestClient,
         IFeeRestClient,
-        IFuturesOrderClientIdClient
+        IFuturesOrderClientIdClient,
+        IFuturesTpSlRestClient
     {
     }
 }
