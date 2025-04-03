@@ -174,7 +174,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="aclass">Filter addresses for specific asset class</param>
         /// <param name="method">Filter addresses for specific method</param>
         /// <param name="key">Find address for by withdrawal key name, as set up on your account</param>
-        /// <param name="verified">ilter by verification status of the withdrawal address. Withdrawal addresses successfully completing email confirmation will have a verification status of true</param>
+        /// <param name="verified">Filter by verification status of the withdrawal address. Withdrawal addresses successfully completing email confirmation will have a verification status of true</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of withdraw addresses</returns>
         Task<WebCallResult<KrakenWithdrawAddress[]>> GetWithdrawAddressesAsync(string? asset = null, string? aclass = null, string? method = null, string? key = null, bool? verified = null, CancellationToken ct = default);

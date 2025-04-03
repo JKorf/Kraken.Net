@@ -53,7 +53,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="interval">Kline interval</param>
         /// <param name="handler">Data handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
-        /// <returns>A stream subscription. This streamv subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, KlineInterval interval, Action<DataEvent<KrakenKlineUpdate[]>> handler, CancellationToken ct = default);
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="interval">Kline interval</param>
         /// <param name="handler">Data handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
-        /// <returns>A stream subscription. This streamv subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+        /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(IEnumerable<string> symbols, KlineInterval interval, Action<DataEvent<KrakenKlineUpdate[]>> handler, CancellationToken ct = default);
 
         /// <summary>

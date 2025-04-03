@@ -150,6 +150,31 @@ namespace Kraken.Net.Clients.SpotApi
 
         #endregion
 
+        #region Book Ticker client
+
+        EndpointOptions<GetBookTickerRequest> IBookTickerRestClient.GetBookTickerOptions { get; } = new EndpointOptions<GetBookTickerRequest>(false);
+        async Task<ExchangeWebResult<SharedBookTicker>> IBookTickerRestClient.GetBookTickerAsync(GetBookTickerRequest request, CancellationToken ct)
+        {
+            var validationError = ((IBookTickerRestClient)this).GetBookTickerOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
+            if (validationError != null)
+                return new ExchangeWebResult<SharedBookTicker>(Exchange, validationError);
+
+            var symbol = request.Symbol.GetSymbol(FormatSymbol);
+            var resultTicker = await ExchangeData.GetTickerAsync(symbol, ct: ct).ConfigureAwait(false);
+            if (!resultTicker)
+                return resultTicker.AsExchangeResult<SharedBookTicker>(Exchange, null, default);
+
+            return resultTicker.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedBookTicker(
+                ExchangeSymbolCache.ParseSymbol(_topicId, symbol),
+                symbol,
+                resultTicker.Data.First().Value.BestAsks.Price,
+                resultTicker.Data.First().Value.BestAsks.Quantity,
+                resultTicker.Data.First().Value.BestBids.Price,
+                resultTicker.Data.First().Value.BestBids.Quantity));
+        }
+
+        #endregion
+
         #region Recent Trade client
 
         GetRecentTradesOptions IRecentTradeRestClient.GetRecentTradesOptions { get; } = new GetRecentTradesOptions(1000, false);
@@ -194,7 +219,6 @@ namespace Kraken.Net.Clients.SpotApi
         #endregion
 
         #region Spot Order client
-
 
         SharedFeeDeductionType ISpotOrderRestClient.SpotFeeDeductionType => SharedFeeDeductionType.DeductFromOutput;
         SharedFeeAssetType ISpotOrderRestClient.SpotFeeAssetType => SharedFeeAssetType.Variable;

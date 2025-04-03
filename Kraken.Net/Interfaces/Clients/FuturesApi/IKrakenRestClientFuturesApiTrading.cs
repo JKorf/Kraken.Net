@@ -11,7 +11,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <summary>
         /// This endpoint provides a Dead Man's Switch mechanism to protect the user from network malfunctions. The user can send a request with a timeout in seconds which will trigger a countdown timer that will cancel all user orders when timeout expires. The user has to keep sending request to push back the timeout expiration or they can deactivate the mechanism by specifying a timeout of zero (0).
         /// The recommended mechanism usage is making a call every 15 to 20 seconds and provide a timeout of 60 seconds.This allows the user to keep the orders in place on a brief network failure, while keeping them safe in case of a network breakdown.
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-cancel-all-orders" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/cancel-all-orders-after" /></para>
         /// </summary>
         /// <param name="cancelAfter">Cancel after this time. TimeSpan.Zero to cancel a previous cancel after.</param>
         /// <param name="ct">Cancellation token</param>
@@ -20,7 +20,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Cancel all orders
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-cancel-all-orders" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/cancel-all-orders" /></para>
         /// </summary>
         /// <param name="symbol">Only cancel on this symbol, for example `PF_ETHUSD`</param>
         /// <param name="ct">Cancellation token</param>
@@ -29,7 +29,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Cancel an order
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-cancel-order" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/cancel-order" /></para>
         /// </summary>
         /// <param name="orderId">Filter by order id</param>
         /// <param name="clientOrderId">Filter by client order id</param>
@@ -39,7 +39,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Edit an existing order
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-edit-order" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/edit-order-spring" /></para>
         /// </summary>
         /// <param name="orderId">Order id of order to edit</param>
         /// <param name="clientOrderId">Client order id of order to edit</param>
@@ -54,7 +54,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get execution events
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-history-account-history-get-execution-events" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/history/get-execution-events" /></para>
         /// </summary>
         /// <param name="startTime">Filter by start time</param>
         /// <param name="endTime">Filter by end time</param>
@@ -67,7 +67,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get the leverage settings
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-multi-collateral-get-the-leverage-setting-for-a-market" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-leverage-setting" /></para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -75,7 +75,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get open orders
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-get-open-orders" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-open-orders" /></para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -83,7 +83,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get open positions
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-account-information-get-open-positions" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-open-positions" /></para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -91,7 +91,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get order by id
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-get-the-current-status-for-specific-orders" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-order-status" /></para>
         /// </summary>
         /// <param name="orderId">Order id, either this or clientOrderId should be provided</param>
         /// <param name="clientOrderId">Client order id, either this or orderId should be provided</param>
@@ -101,7 +101,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get orders by ids
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-get-the-current-status-for-specific-orders" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-order-status" /></para>
         /// </summary>
         /// <param name="orderIds">Order ids list</param>
         /// <param name="clientOrderIds">Client order ids list</param>
@@ -111,7 +111,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get current self trade strategy
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-trading-settings-get-current-self-trade-strategy" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-self-trade-strategy" /></para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -119,7 +119,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get list of user trades
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-historical-data-get-your-fills" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-fills" /></para>
         /// </summary>
         /// <param name="startTime">Filter by start time</param>
         /// <param name="ct">Cancellation token</param>
@@ -128,7 +128,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Place a new order
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-send-order" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/send-order" /></para>
         /// </summary>
         /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
         /// <param name="side">Order side</param>
@@ -147,7 +147,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Set max leverage for a symbol
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-multi-collateral-set-the-leverage-setting-for-a-market" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/set-leverage-setting" /></para>
         /// </summary>
         /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
         /// <param name="maxLeverage">Max leverage</param>
@@ -157,7 +157,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Set self trading strategy
-        /// <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-trading-settings-update-self-trade-strategy" /></para>
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/set-self-trade-strategy" /></para>
         /// </summary>
         /// <param name="strategy">The strategy</param>
         /// <param name="ct">Cancellation token</param>

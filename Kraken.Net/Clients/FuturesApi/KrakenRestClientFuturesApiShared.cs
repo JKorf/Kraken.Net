@@ -298,6 +298,31 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #endregion
 
+        #region Book Ticker client
+
+        EndpointOptions<GetBookTickerRequest> IBookTickerRestClient.GetBookTickerOptions { get; } = new EndpointOptions<GetBookTickerRequest>(false);
+        async Task<ExchangeWebResult<SharedBookTicker>> IBookTickerRestClient.GetBookTickerAsync(GetBookTickerRequest request, CancellationToken ct)
+        {
+            var validationError = ((IBookTickerRestClient)this).GetBookTickerOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
+            if (validationError != null)
+                return new ExchangeWebResult<SharedBookTicker>(Exchange, validationError);
+
+            var symbol = request.Symbol.GetSymbol(FormatSymbol);
+            var resultTicker = await ExchangeData.GetTickerAsync(symbol, ct: ct).ConfigureAwait(false);
+            if (!resultTicker)
+                return resultTicker.AsExchangeResult<SharedBookTicker>(Exchange, null, default);
+
+            return resultTicker.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedBookTicker(
+                ExchangeSymbolCache.ParseSymbol(_topicId, symbol),
+                symbol,
+                resultTicker.Data.BestAskPrice ?? 0,
+                resultTicker.Data.BestAskQuantity ?? 0,
+                resultTicker.Data.BestBidPrice ?? 0,
+                resultTicker.Data.BestBidQuantity ?? 0));
+        }
+
+        #endregion
+
         #region Mark Price Klines client
 
         GetKlinesOptions IMarkPriceKlineRestClient.GetMarkPriceKlinesOptions { get; } = new GetKlinesOptions(SharedPaginationSupport.Ascending, true, 5000, false);

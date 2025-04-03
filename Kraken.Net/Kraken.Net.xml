@@ -5355,7 +5355,7 @@
             <summary>
             This endpoint provides a Dead Man's Switch mechanism to protect the user from network malfunctions. The user can send a request with a timeout in seconds which will trigger a countdown timer that will cancel all user orders when timeout expires. The user has to keep sending request to push back the timeout expiration or they can deactivate the mechanism by specifying a timeout of zero (0).
             The recommended mechanism usage is making a call every 15 to 20 seconds and provide a timeout of 60 seconds.This allows the user to keep the orders in place on a brief network failure, while keeping them safe in case of a network breakdown.
-            <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-cancel-all-orders" /></para>
+            <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/cancel-all-orders-after" /></para>
             </summary>
             <param name="cancelAfter">Cancel after this time. TimeSpan.Zero to cancel a previous cancel after.</param>
             <param name="ct">Cancellation token</param>
@@ -5364,7 +5364,7 @@
         <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading.CancelAllOrdersAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             Cancel all orders
-            <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-cancel-all-orders" /></para>
+            <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/cancel-all-orders" /></para>
             </summary>
             <param name="symbol">Only cancel on this symbol, for example `PF_ETHUSD`</param>
             <param name="ct">Cancellation token</param>
@@ -5373,7 +5373,7 @@
         <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading.CancelOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Cancel an order
-            <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-cancel-order" /></para>
+            <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/cancel-order" /></para>
             </summary>
             <param name="orderId">Filter by order id</param>
             <param name="clientOrderId">Filter by client order id</param>
@@ -5383,7 +5383,7 @@
         <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading.EditOrderAsync(System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.TrailingStopDeviationUnit},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
             <summary>
             Edit an existing order
-            <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-edit-order" /></para>
+            <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/edit-order-spring" /></para>
             </summary>
             <param name="orderId">Order id of order to edit</param>
             <param name="clientOrderId">Client order id of order to edit</param>
@@ -5398,7 +5398,7 @@
         <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading.GetExecutionEventsAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get execution events
-            <para><a href="https://docs.futures.kraken.com/#http-api-history-account-history-get-execution-events" /></para>
+            <para><a href="https://docs.kraken.com/api/docs/futures-api/history/get-execution-events" /></para>
             </summary>
             <param name="startTime">Filter by start time</param>
             <param name="endTime">Filter by end time</param>
@@ -5411,7 +5411,7 @@
         <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading.GetLeverageAsync(System.Threading.CancellationToken)">
             <summary>
             Get the leverage settings
-            <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-multi-collateral-get-the-leverage-setting-for-a-market" /></para>
+            <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-leverage-setting" /></para>
             </summary>
             <param name="ct">Cancellation token</param>
             <returns></returns>
@@ -5419,7 +5419,7 @@
         <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading.GetOpenOrdersAsync(System.Threading.CancellationToken)">
             <summary>
             Get open orders
-            <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-get-open-orders" /></para>
+            <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-open-orders" /></para>
             </summary>
             <param name="ct">Cancellation token</param>
             <returns></returns>
@@ -5427,7 +5427,7 @@
         <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading.GetOpenPositionsAsync(System.Threading.CancellationToken)">
             <summary>
             Get open positions
-            <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-account-information-get-open-positions" /></para>
+            <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-open-positions" /></para>
             </summary>
             <param name="ct">Cancellation token</param>
             <returns></returns>
@@ -5435,7 +5435,7 @@
         <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading.GetOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get order by id
-            <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-get-the-current-status-for-specific-orders" /></para>
+            <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-order-status" /></para>
             </summary>
             <param name="orderId">Order id, either this or clientOrderId should be provided</param>
             <param name="clientOrderId">Client order id, either this or orderId should be provided</param>
@@ -5445,7 +5445,7 @@
         <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading.GetOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
             Get orders by ids
-            <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-get-the-current-status-for-specific-orders" /></para>
+            <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-order-status" /></para>
             </summary>
             <param name="orderIds">Order ids list</param>
             <param name="clientOrderIds">Client order ids list</param>
@@ -5455,7 +5455,7 @@
         <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading.GetSelfTradeStrategyAsync(System.Threading.CancellationToken)">
             <summary>
             Get current self trade strategy
-            <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-trading-settings-get-current-self-trade-strategy" /></para>
+            <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-self-trade-strategy" /></para>
             </summary>
             <param name="ct">Cancellation token</param>
             <returns></returns>
@@ -5463,7 +5463,7 @@
         <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading.GetUserTradesAsync(System.Nullable{System.DateTime},System.Threading.CancellationToken)">
             <summary>
             Get list of user trades
-            <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-historical-data-get-your-fills" /></para>
+            <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-fills" /></para>
             </summary>
             <param name="startTime">Filter by start time</param>
             <param name="ct">Cancellation token</param>
@@ -5472,7 +5472,7 @@
         <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading.PlaceOrderAsync(System.String,Kraken.Net.Enums.OrderSide,Kraken.Net.Enums.FuturesOrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{Kraken.Net.Enums.TrailingStopDeviationUnit},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.TriggerSignal},System.String,System.Threading.CancellationToken)">
             <summary>
             Place a new order
-            <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-order-management-send-order" /></para>
+            <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/send-order" /></para>
             </summary>
             <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
             <param name="side">Order side</param>
@@ -5491,7 +5491,7 @@
         <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading.SetLeverageAsync(System.String,System.Decimal,System.Threading.CancellationToken)">
             <summary>
             Set max leverage for a symbol
-            <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-multi-collateral-set-the-leverage-setting-for-a-market" /></para>
+            <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/set-leverage-setting" /></para>
             </summary>
             <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
             <param name="maxLeverage">Max leverage</param>
@@ -5501,7 +5501,7 @@
         <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading.SetSelfTradeStrategyAsync(Kraken.Net.Enums.SelfTradeStrategy,System.Threading.CancellationToken)">
             <summary>
             Set self trading strategy
-            <para><a href="https://docs.futures.kraken.com/#http-api-trading-v3-api-trading-settings-update-self-trade-strategy" /></para>
+            <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/set-self-trade-strategy" /></para>
             </summary>
             <param name="strategy">The strategy</param>
             <param name="ct">Cancellation token</param>
@@ -5514,7 +5514,7 @@
         </member>
         <member name="P:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SharedClient">
             <summary>
-            Get the shared socket subscription client. This interface is shared with other exhanges to allow for a common implementation for different exchanges.
+            Get the shared socket subscription client. This interface is shared with other exchanges to allow for a common implementation for different exchanges.
             </summary>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi.SubscribeToAccountLogUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesAccountLogsSnapshotUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesAccountLogsUpdate}},System.Threading.CancellationToken)">
@@ -5916,7 +5916,7 @@
             <param name="aclass">Filter addresses for specific asset class</param>
             <param name="method">Filter addresses for specific method</param>
             <param name="key">Find address for by withdrawal key name, as set up on your account</param>
-            <param name="verified">ilter by verification status of the withdrawal address. Withdrawal addresses successfully completing email confirmation will have a verification status of true</param>
+            <param name="verified">Filter by verification status of the withdrawal address. Withdrawal addresses successfully completing email confirmation will have a verification status of true</param>
             <param name="ct">Cancellation token</param>
             <returns>List of withdraw addresses</returns>
         </member>
@@ -6098,7 +6098,7 @@
             Get a list of symbols and info about them
             <para><a href="https://docs.kraken.com/api/docs/rest-api/get-tradable-asset-pairs" /></para>
             </summary>
-            <param name="countryCode">Filter whats available for a specific country/region</param>
+            <param name="countryCode">Filter what's available for a specific country/region</param>
             <param name="symbols">Filter list for specific symbols, for example `ETHUSDT`</param>
             <param name="newAssetNameResponse">When set to true the asset names will be in the new format, for example `BTC` instead of `XBT`. Default is false.</param>
             <param name="ct">Cancellation token</param>
@@ -6306,7 +6306,7 @@
             <param name="validateOnly">Only validate inputs, don't actually place the order</param>
             <param name="orderFlags">Flags for the order</param>
             <param name="reduceOnly">Reduce only order</param>
-            <param name="icebergQuanty">Iceberg visible quantity</param>
+            <param name="icebergQuantity">Iceberg visible quantity</param>
             <param name="trigger">Price signal</param>
             <param name="selfTradePreventionType">Self trade prevention type</param>
             <param name="twoFactorPassword">Password or authentication app code if enabled</param>
@@ -6329,7 +6329,7 @@
             <param name="symbol">Symbol, for example `ETHUSDT`</param>
             <param name="orderId">Order id or client order id of the order to edit</param>
             <param name="quantity">New quantity</param>
-            <param name="icebergQuanty">Iceberg quantity</param>
+            <param name="icebergQuantity">Iceberg quantity</param>
             <param name="price">Price</param>
             <param name="secondaryPrice">Secondary price</param>
             <param name="flags">Flags</param>
@@ -6423,7 +6423,7 @@
             <param name="interval">Kline interval</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
-            <returns>A stream subscription. This streamv subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToKlineUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate[]}},System.Threading.CancellationToken)">
             <summary>
@@ -6434,7 +6434,7 @@
             <param name="interval">Kline interval</param>
             <param name="handler">Data handler</param>
             <param name="ct">Cancellation token for closing this subscription</param>
-            <returns>A stream subscription. This streamv subscription can be used to be notified when the socket is disconnected/reconnected</returns>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenTradeUpdate[]}},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <summary>

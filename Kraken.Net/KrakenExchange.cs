@@ -37,8 +37,7 @@ namespace Kraken.Net
         /// Urls to the API documentation
         /// </summary>
         public static string[] ApiDocsUrl { get; } = new[] {
-            "https://docs.kraken.com/rest/",
-            "https://docs.futures.kraken.com/"
+            "https://docs.kraken.com/api/"
             };
 
         /// <summary>

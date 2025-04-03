@@ -139,7 +139,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="validateOnly">Only validate inputs, don't actually place the order</param>
         /// <param name="orderFlags">Flags for the order</param>
         /// <param name="reduceOnly">Reduce only order</param>
-        /// <param name="icebergQuanty">Iceberg visible quantity</param>
+        /// <param name="icebergQuantity">Iceberg visible quantity</param>
         /// <param name="trigger">Price signal</param>
         /// <param name="selfTradePreventionType">Self trade prevention type</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
@@ -170,7 +170,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             string? twoFactorPassword = null,
             TimeInForce? timeInForce = null,
             bool? reduceOnly = null,
-            decimal? icebergQuanty = null,
+            decimal? icebergQuantity = null,
             Trigger? trigger = null,
             SelfTradePreventionType? selfTradePreventionType = null,
             OrderType? closeOrderType = null,
@@ -189,7 +189,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="symbol">Symbol, for example `ETHUSDT`</param>
         /// <param name="orderId">Order id or client order id of the order to edit</param>
         /// <param name="quantity">New quantity</param>
-        /// <param name="icebergQuanty">Iceberg quantity</param>
+        /// <param name="icebergQuantity">Iceberg quantity</param>
         /// <param name="price">Price</param>
         /// <param name="secondaryPrice">Secondary price</param>
         /// <param name="flags">Flags</param>
@@ -208,7 +208,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             string symbol,
             string orderId,
             decimal? quantity = null,
-            decimal? icebergQuanty = null,
+            decimal? icebergQuantity = null,
             decimal? price = null,
             decimal? secondaryPrice = null,
             IEnumerable<OrderFlags>? flags = null,
