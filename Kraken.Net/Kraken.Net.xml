@@ -12905,10 +12905,5 @@
             <param name="optionsDelegate">Set options for the Kraken services</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddKraken(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Kraken.Net.Objects.Options.KrakenRestOptions},System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},System.Nullable{Microsoft.Extensions.DependencyInjection.ServiceLifetime})">
-            <summary>
-            DEPRECATED; use <see cref="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddKraken(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Kraken.Net.Objects.Options.KrakenOptions})" /> instead
-            </summary>
-        </member>
     </members>
 </doc>

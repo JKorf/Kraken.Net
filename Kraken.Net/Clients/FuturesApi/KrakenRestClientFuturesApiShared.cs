@@ -20,7 +20,6 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Balance Client
         EndpointOptions<GetBalancesRequest> IBalanceRestClient.GetBalancesOptions { get; } = new EndpointOptions<GetBalancesRequest>(true)
         {
-            RequestNotes = "Returns the flex/MultiAssetCollateral balances, for individual margin accounts pass "
         };
 
         async Task<ExchangeWebResult<SharedBalance[]>> IBalanceRestClient.GetBalancesAsync(GetBalancesRequest request, CancellationToken ct)
@@ -32,23 +31,15 @@ namespace Kraken.Net.Clients.FuturesApi
             var result = await Account.GetBalancesAsync(ct: ct).ConfigureAwait(false);
             if (!result)
                 return result.AsExchangeResult<SharedBalance[]>(Exchange, null, default);
-
-            var setting = ExchangeParameters.GetValue<bool?>(request.ExchangeParameters, ExchangeName, "MultiAssetCollateral");
-            if (setting == false)
+                        
+            var balances = result.Data.MultiCollateralMarginAccount.Currencies.Select(x => new SharedBalance(x.Key, x.Value.Available, x.Value.Quantity)).ToList();
+            foreach (var balance in result.Data.MarginAccounts)
             {
-                var balances = new List<SharedBalance>();
-                foreach (var balance in result.Data.MarginAccounts)
-                {
-                    foreach (var currency in balance.Balances)
-                        balances.Add(new SharedBalance(currency.Key, currency.Value, currency.Value) { IsolatedMarginSymbol = balance.Symbol });
-                }
+                foreach (var currency in balance.Balances)
+                    balances.Add(new SharedBalance(currency.Key, currency.Value, currency.Value) { IsolatedMarginSymbol = balance.Symbol });
+            }
 
-                return result.AsExchangeResult<SharedBalance[]>(Exchange, SupportedTradingModes, balances.ToArray());
-            }
-            else
-            {
-                return result.AsExchangeResult<SharedBalance[]>(Exchange, SupportedTradingModes, result.Data.MultiCollateralMarginAccount.Currencies.Select(x => new SharedBalance(x.Key, x.Value.Available, x.Value.Quantity)).ToArray());
-            }
+            return result.AsExchangeResult<SharedBalance[]>(Exchange, SupportedTradingModes, balances.ToArray());            
         }
 
         #endregion
