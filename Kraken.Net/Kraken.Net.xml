@@ -5133,27 +5133,30 @@
         </member>
         <member name="T:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApi">
             <summary>
-            Futuers API endpoints
+            Futures API endpoints
             </summary>
         </member>
         <member name="P:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApi.Account">
             <summary>
             Endpoints related to account settings, info or actions
             </summary>
+            <see cref="T:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiAccount"/>
         </member>
         <member name="P:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApi.ExchangeData">
             <summary>
             Endpoints related to retrieving market and system data
             </summary>
+            <see cref="T:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiExchangeData"/>
         </member>
         <member name="P:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApi.Trading">
             <summary>
             Endpoints related to orders and trades
             </summary>
+            <see cref="T:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading"/>
         </member>
         <member name="P:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApi.SharedClient">
             <summary>
-            Get the shared rest requests client. This interface is shared with other exhanges to allow for a common implementation for different exchanges.
+            Get the shared rest requests client. This interface is shared with other exchanges to allow for a common implementation for different exchanges.
             </summary>
         </member>
         <member name="T:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiAccount">
@@ -5680,17 +5683,19 @@
             <summary>
             Spot API endpoints
             </summary>
+            <see cref="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi"/>
         </member>
         <member name="P:Kraken.Net.Interfaces.Clients.IKrakenRestClient.FuturesApi">
             <summary>
             Futures API endpoints
             </summary>
+            <see cref="T:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApi"/>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.IKrakenRestClient.SetOptions(CryptoExchange.Net.Objects.Options.UpdateOptions)">
             <summary>
             Update specific options
             </summary>
-            <param name="options">Options to update. Only specific options are changable after the client has been created</param>
+            <param name="options">Options to update. Only specific options are changeable after the client has been created</param>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.IKrakenRestClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
             <summary>
@@ -5707,17 +5712,19 @@
             <summary>
             Spot Api
             </summary>
+            <see cref="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi"/>
         </member>
         <member name="P:Kraken.Net.Interfaces.Clients.IKrakenSocketClient.FuturesApi">
             <summary>
             Futures Api
             </summary>
+            <see cref="T:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenSocketClientFuturesApi"/>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.IKrakenSocketClient.SetOptions(CryptoExchange.Net.Objects.Options.UpdateOptions)">
             <summary>
             Update specific options
             </summary>
-            <param name="options">Options to update. Only specific options are changable after the client has been created</param>
+            <param name="options">Options to update. Only specific options are changeable after the client has been created</param>
         </member>
         <member name="M:Kraken.Net.Interfaces.Clients.IKrakenSocketClient.SetApiCredentials(CryptoExchange.Net.Authentication.ApiCredentials)">
             <summary>
@@ -5734,21 +5741,25 @@
             <summary>
             Endpoints related to account settings, info or actions
             </summary>
+            <see cref="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiAccount"/>
         </member>
         <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi.ExchangeData">
             <summary>
             Endpoints related to retrieving market and system data
             </summary>
+            <see cref="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData"/>
         </member>
         <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi.Trading">
             <summary>
             Endpoints related to orders and trades
             </summary>
+            <see cref="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading"/>
         </member>
         <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi.Earn">
             <summary>
             Endpoints related to Kraken Earn
             </summary>
+            <see cref="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiEarn"/>
         </member>
         <member name="P:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApi.SharedClient">
             <summary>

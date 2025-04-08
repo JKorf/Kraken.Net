@@ -9,21 +9,25 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <summary>
         /// Endpoints related to account settings, info or actions
         /// </summary>
+        /// <see cref="IKrakenRestClientSpotApiAccount"/>
         IKrakenRestClientSpotApiAccount Account { get; }
 
         /// <summary>
         /// Endpoints related to retrieving market and system data
         /// </summary>
+        /// <see cref="IKrakenRestClientSpotApiExchangeData"/>
         IKrakenRestClientSpotApiExchangeData ExchangeData { get; }
 
         /// <summary>
         /// Endpoints related to orders and trades
         /// </summary>
+        /// <see cref="IKrakenRestClientSpotApiTrading"/>
         IKrakenRestClientSpotApiTrading Trading { get; }
 
         /// <summary>
         /// Endpoints related to Kraken Earn
         /// </summary>
+        /// <see cref="IKrakenRestClientSpotApiEarn"/>
         IKrakenRestClientSpotApiEarn Earn { get; }
 
         /// <summary>

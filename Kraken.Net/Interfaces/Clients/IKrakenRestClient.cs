@@ -12,17 +12,19 @@ namespace Kraken.Net.Interfaces.Clients
         /// <summary>
         /// Spot API endpoints
         /// </summary>
+        /// <see cref="IKrakenRestClientSpotApi"/>
         IKrakenRestClientSpotApi SpotApi { get; }
 
         /// <summary>
         /// Futures API endpoints
         /// </summary>
+        /// <see cref="IKrakenRestClientFuturesApi"/>
         IKrakenRestClientFuturesApi FuturesApi { get; }
 
         /// <summary>
         /// Update specific options
         /// </summary>
-        /// <param name="options">Options to update. Only specific options are changable after the client has been created</param>
+        /// <param name="options">Options to update. Only specific options are changeable after the client has been created</param>
         void SetOptions(UpdateOptions options);
 
         /// <summary>
