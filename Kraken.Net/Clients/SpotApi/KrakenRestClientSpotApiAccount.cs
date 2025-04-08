@@ -226,8 +226,8 @@ namespace Kraken.Net.Clients.SpotApi
             var parameters = new ParameterCollection();
             parameters.AddOptionalParameter("asset", asset);
             parameters.AddOptionalParameter("method", depositMethod);
-            parameters.AddOptionalParameter("start", startTime);
-            parameters.AddOptionalParameter("end", endTime);
+            parameters.AddOptionalParameter("start", DateTimeConverter.ConvertToSeconds(startTime));
+            parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToSeconds(endTime));
             parameters.AddOptionalParameter("limit", limit);
             parameters.AddOptionalParameter("cursor", cursor ?? "true");
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
@@ -350,8 +350,8 @@ namespace Kraken.Net.Clients.SpotApi
             var parameters = new ParameterCollection();
             parameters.AddOptionalParameter("asset", asset);
             parameters.AddOptionalParameter("method", withdrawalMethod);
-            parameters.AddOptionalParameter("start", startTime);
-            parameters.AddOptionalParameter("end", endTime);
+            parameters.AddOptionalParameter("start", DateTimeConverter.ConvertToSeconds(startTime));
+            parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToSeconds(endTime));
             parameters.AddOptionalParameter("limit", limit);
             parameters.AddOptionalParameter("cursor", cursor ?? "true");
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
