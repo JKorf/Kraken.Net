@@ -134,8 +134,8 @@ namespace Kraken.Net
                                         .AddGuard(new RateLimitGuard(RateLimitGuard.PerHost, new LimitItemTypeFilter(RateLimitItemType.Connection), 150, TimeSpan.FromMinutes(10), RateLimitWindowType.Sliding)); // 150 connections per sliding 10 minutes
 
             FuturesApi = new RateLimitGate("Futures Rest")
-                                        .AddGuard(new RateLimitGuard(RateLimitGuard.PerHost, new PathStartFilter("derivatives/api"), 500, TimeSpan.FromSeconds(10), RateLimitWindowType.Fixed))
-                                        .AddGuard(new RateLimitGuard(RateLimitGuard.PerHost, new PathStartFilter("api/history"), 100, TimeSpan.FromMinutes(10), RateLimitWindowType.Fixed));
+                                        .AddGuard(new RateLimitGuard(RateLimitGuard.PerApiKey, new PathStartFilter("derivatives/api"), 500, TimeSpan.FromSeconds(10), RateLimitWindowType.Fixed))
+                                        .AddGuard(new RateLimitGuard(RateLimitGuard.PerApiKey, new PathStartFilter("api/history"), 100, TimeSpan.FromMinutes(10), RateLimitWindowType.Fixed));
 
             FuturesSocket = new RateLimitGate("Futures Socket")
                                         .AddGuard(new RateLimitGuard(RateLimitGuard.PerHost, new LimitItemTypeFilter(RateLimitItemType.Connection), 100, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding));
