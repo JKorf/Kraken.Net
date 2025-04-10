@@ -1202,6 +1202,16 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenSocketResponseV2KrakenOrderResultArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenSocketResponseV2KrakenOrderResult">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenSocketResponseV2Object">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.

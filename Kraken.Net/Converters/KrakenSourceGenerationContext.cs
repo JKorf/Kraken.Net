@@ -13,6 +13,8 @@ namespace Kraken.Net.Converters
 {
     [JsonSerializable(typeof(KrakenSocketRequestV2<KrakenSocketSubRequest>))]
     [JsonSerializable(typeof(KrakenSocketResponseV2<KrakenSocketSubResponse>))]
+    [JsonSerializable(typeof(KrakenSocketResponseV2<KrakenOrderResult[]>))]
+    [JsonSerializable(typeof(KrakenSocketResponseV2<KrakenOrderResult>))]
     [JsonSerializable(typeof(KrakenSocketUpdateV2<KrakenTickerUpdate[]>))]
     [JsonSerializable(typeof(KrakenSocketUpdateV2<KrakenBalanceSnapshot[]>))]
     [JsonSerializable(typeof(KrakenSocketUpdateV2<KrakenBalanceUpdate[]>))]

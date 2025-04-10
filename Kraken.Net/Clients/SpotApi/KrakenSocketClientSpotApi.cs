@@ -384,7 +384,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region Place Multiple Orders
 
         /// <inheritdoc />
-        public async Task<CallResult<KrakenOrderResult[]>> PlaceMultipleOrdersAsync(
+        public async Task<CallResult<CallResult<KrakenOrderResult>[]>> PlaceMultipleOrdersAsync(
             string symbol,
             IEnumerable<KrakenSocketOrderRequest> orders,
             DateTime? deadline = null,
@@ -393,7 +393,7 @@ namespace Kraken.Net.Clients.SpotApi
         {
             var token = await GetTokenAsync().ConfigureAwait(false);
             if (!token)
-                return new CallResult<KrakenOrderResult[]>(token.Error!);
+                return new CallResult<CallResult<KrakenOrderResult>[]>(token.Error!);
 
             var request = new KrakenSocketPlaceMultipleOrderRequestV2
             {
@@ -412,14 +412,26 @@ namespace Kraken.Net.Clients.SpotApi
             };
 
             var query = new KrakenSpotQueryV2<KrakenOrderResult[], KrakenSocketPlaceMultipleOrderRequestV2>(requestMessage, false);
-            var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
-            if (!result)
-                return result.As<KrakenOrderResult[]>(default);
+            var resultData = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
+            if (!resultData)
+                return resultData.As<CallResult<KrakenOrderResult>[]>(default);
 
-            if (!result.Data.Success)
-                return new CallResult<KrakenOrderResult[]>(result.Data.Result, result.OriginalData, new ServerError("Order placement failed"));
+            if (!resultData.Data.Success && resultData.Data.Result.Any() != true)
+                return resultData.AsError<CallResult<KrakenOrderResult>[]>(new ServerError(resultData.Data.Error!));
 
-            return result.As<KrakenOrderResult[]>(result.Data?.Result);
+            var result = new List<CallResult<KrakenOrderResult>>();
+            foreach (var item in resultData.Data.Result)
+            {
+                if (!string.IsNullOrEmpty(item.Error) || !string.IsNullOrEmpty(item.Status))
+                    result.Add(new CallResult<KrakenOrderResult>(new ServerError(item.Error ?? item.Status!)));
+                else
+                    result.Add(new CallResult<KrakenOrderResult>(item));
+            }
+
+            if (result.All(x => !x.Success))
+                return resultData.AsErrorWithData(new ServerError("All orders failed"), result.ToArray());
+
+            return resultData.As(result.ToArray());
         }
 
         #endregion
