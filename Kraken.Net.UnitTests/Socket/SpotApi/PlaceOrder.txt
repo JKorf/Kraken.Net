@@ -1,0 +1,13 @@
+> { "method": "add_order", "params": {}, "req_id": "|1|" }
+=
+{
+    "method": "add_order",
+    "req_id": |1|,
+    "result": {
+        "order_id": "AA5JGQ-SBMRC-SCJ7J7",
+        "order_userref": 100054
+    },
+    "success": true,
+    "time_in": "2023-09-21T14:15:07.197274Z",
+    "time_out": "2023-09-21T14:15:07.205301Z"
+}

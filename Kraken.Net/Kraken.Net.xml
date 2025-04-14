@@ -1202,12 +1202,32 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenSocketResponseV2KrakenCancelAfterResult">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenSocketResponseV2KrakenOrderResultArray">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
         <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenSocketResponseV2KrakenOrderResult">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenSocketResponseV2KrakenSocketAmendOrderResult">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenSocketResponseV2KrakenSocketReplaceOrderResult">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenSocketResponseV2KrakenStreamCancelAllResult">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>

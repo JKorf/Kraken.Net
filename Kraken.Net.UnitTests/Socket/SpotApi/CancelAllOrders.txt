@@ -1,0 +1,12 @@
+> { "method": "cancel_all", "params": {}, "req_id": "|1|" }
+=
+{
+    "method": "cancel_all",
+    "req_id": |1|,
+    "result": {
+        "count": 1
+    },
+    "success": true,
+    "time_in": "2023-09-26T13:09:48.463201Z",
+    "time_out": "2023-09-26T13:09:48.471419Z"
+}

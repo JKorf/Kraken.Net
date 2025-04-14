@@ -670,6 +670,9 @@ namespace Kraken.Net.Clients.SpotApi
             if (_tokenCache.TryGetValue(apiCredentials.Key, out var token) && token.Expire > DateTime.UtcNow)
                 return new CallResult<string>(token.Token);
 
+            if (ClientOptions.Environment.Name == "UnitTest")
+                return new CallResult<string>("123");
+
             _logger.LogDebug("Requesting websocket token");
             var restClient = new KrakenRestClient(x =>
             {

@@ -1,0 +1,13 @@
+> { "method": "cancel_all_orders_after", "params": {}, "req_id": "|1|" }
+=
+{
+    "method": "cancel_all_orders_after",
+    "req_id": |1|,
+    "result": {
+        "currentTime": "2023-09-21T15:49:29Z",
+        "triggerTime": "2023-09-21T15:51:09Z"
+    },
+    "success": true,
+    "time_in": "2023-09-21T15:49:28.627900Z",
+    "time_out": "2023-09-21T15:49:28.649057Z"
+}

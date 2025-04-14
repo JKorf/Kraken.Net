@@ -1,0 +1,19 @@
+> { "method": "batch_add", "params": {}, "req_id": "|1|" }
+=
+{
+    "method": "batch_add",
+    "req_id": |1|,
+    "result": [
+        {
+            "order_id": "ORDERX-IDXXX-XXXXX1",
+            "order_userref": 1
+        },
+        {
+            "order_id": "ORDERX-IDXXX-XXXXX2",
+            "order_userref": 2
+        }
+    ],
+    "success": true,
+    "time_in": "2022-06-13T08:09:10.123456Z",
+    "time_out": "2022-06-13T08:09:10.7890123"
+}

@@ -25,6 +25,10 @@ namespace Kraken.Net.Converters
     [JsonSerializable(typeof(KrakenSocketUpdateV2<KrakenIndividualBookUpdate[]>))]
     [JsonSerializable(typeof(KrakenSocketUpdateV2<KrakenInstrumentUpdate>))]
     [JsonSerializable(typeof(OrderTypeMinimal))]
+    [JsonSerializable(typeof(KrakenSocketResponseV2<KrakenSocketAmendOrderResult>))]
+    [JsonSerializable(typeof(KrakenSocketResponseV2<KrakenSocketReplaceOrderResult>))]
+    [JsonSerializable(typeof(KrakenSocketResponseV2<KrakenStreamCancelAllResult>))]
+    [JsonSerializable(typeof(KrakenSocketResponseV2<KrakenCancelAfterResult>))]
 
     // End manual defined attributes
 
