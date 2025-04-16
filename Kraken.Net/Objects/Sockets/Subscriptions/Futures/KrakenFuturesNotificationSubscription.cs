@@ -49,7 +49,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         {
             var data = (KrakenFuturesNotificationUpdate)message.Data;
             _handler.Invoke(message.As(data, data.Feed, null, SocketUpdateType.Update));
-            return new CallResult(null);
+            return CallResult.SuccessResult;
         }
     }
 }

@@ -69,15 +69,15 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             if (message.Data is KrakenFuturesBookSnapshotUpdate snapshot)
             {
                 _snapshotHandler.Invoke(message.As(snapshot, snapshot.Feed, snapshot.Symbol, SocketUpdateType.Snapshot).WithDataTimestamp(snapshot.Timestamp));
-                return new CallResult(null);
+                return CallResult.SuccessResult;
             }
             else if (message.Data is KrakenFuturesBookUpdate update)
             {
                 _updateHandler.Invoke(message.As(update, update.Feed, update.Symbol, SocketUpdateType.Update).WithDataTimestamp(update.Timestamp));
-                return new CallResult(null);
+                return CallResult.SuccessResult;
             }
 
-            return new CallResult(null);
+            return CallResult.SuccessResult;
         }
     }
 }

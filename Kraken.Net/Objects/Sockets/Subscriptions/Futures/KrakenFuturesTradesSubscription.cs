@@ -67,15 +67,15 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             if (message.Data is KrakenFuturesTradesSnapshotUpdate snapshot)
             {
                 _handler.Invoke(message.As(snapshot.Trades, snapshot.Feed, snapshot.Symbol, SocketUpdateType.Snapshot));
-                return new CallResult(null);
+                return CallResult.SuccessResult;
             }
             else if (message.Data is KrakenFuturesTradeUpdate update)
             {
                 _handler.Invoke(message.As<KrakenFuturesTradeUpdate[]>(new[] { update }, update.Feed, update.Symbol, SocketUpdateType.Update));
-                return new CallResult(null);
+                return CallResult.SuccessResult;
             }
 
-            return new CallResult(null);
+            return CallResult.SuccessResult;
         }
     }
 }

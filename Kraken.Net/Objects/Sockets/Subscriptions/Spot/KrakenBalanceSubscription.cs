@@ -76,7 +76,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 _snapshotHandler?.Invoke(message.As(snapshot.Data, "balances", null, SocketUpdateType.Snapshot).WithDataTimestamp(snapshot.Timestamp));
             else if (message.Data is KrakenSocketUpdateV2<KrakenBalanceUpdate[]> update)
                 _updateHandler?.Invoke(message.As(update.Data, "balances", null, SocketUpdateType.Update).WithDataTimestamp(update.Timestamp));
-            return new CallResult(null);
+            return CallResult.SuccessResult;
         }
     }
 }

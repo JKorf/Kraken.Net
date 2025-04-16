@@ -647,18 +647,18 @@ namespace Kraken.Net.Clients.SpotApi
             if (subscription is not KrakenSubscription krakenSubscription)
             {
                 // Heartbeat subscription
-                return new CallResult(null);
+                return CallResult.SuccessResult;
             }
 
             if (!krakenSubscription.TokenRequired)
-                return new CallResult(null);
+                return CallResult.SuccessResult;
 
             var token = await GetTokenAsync().ConfigureAwait(false);
             if (!token)
                 return token.AsDataless();
 
             krakenSubscription.Token = token.Data;
-            return new CallResult(null);
+            return CallResult.SuccessResult;
         }
 
         private async Task<CallResult<string>> GetTokenAsync()

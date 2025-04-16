@@ -70,7 +70,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         {
             var data = (KrakenSocketUpdateV2<KrakenOrderUpdate[]>)message.Data;
             _updateHandler.Invoke(message.As(data.Data, "executions", null, data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update).WithDataTimestamp(data.Timestamp));
-            return new CallResult(null);
+            return CallResult.SuccessResult;
         }
     }
 }
