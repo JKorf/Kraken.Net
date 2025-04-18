@@ -85,6 +85,11 @@ namespace Kraken.Net
         public event Action<RateLimitEvent> RateLimitTriggered;
 
         /// <summary>
+        /// Event when the rate limit is updated. Note that it's only updated when a request is send, so there are no specific updates when the current usage is decaying.
+        /// </summary>
+        public event Action<RateLimitUpdateEvent> RateLimitUpdated;
+
+        /// <summary>
         /// The Tier to use when calculating rate limits
         /// </summary>
         public RateLimitTier Tier { get; private set; }
@@ -141,9 +146,13 @@ namespace Kraken.Net
                                         .AddGuard(new RateLimitGuard(RateLimitGuard.PerHost, new LimitItemTypeFilter(RateLimitItemType.Connection), 100, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding));
 
             SpotRest.RateLimitTriggered += (x) => RateLimitTriggered?.Invoke(x);
+            SpotRest.RateLimitUpdated += (x) => RateLimitUpdated?.Invoke(x);
             SpotSocket.RateLimitTriggered += (x) => RateLimitTriggered?.Invoke(x);
+            SpotSocket.RateLimitUpdated += (x) => RateLimitUpdated?.Invoke(x);
             FuturesApi.RateLimitTriggered += (x) => RateLimitTriggered?.Invoke(x);
+            FuturesApi.RateLimitUpdated += (x) => RateLimitUpdated?.Invoke(x);
             FuturesSocket.RateLimitTriggered += (x) => RateLimitTriggered?.Invoke(x);
+            FuturesSocket.RateLimitUpdated += (x) => RateLimitUpdated?.Invoke(x);
         }
     }
 }
