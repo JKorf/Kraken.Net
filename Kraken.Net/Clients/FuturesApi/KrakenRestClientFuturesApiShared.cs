@@ -770,7 +770,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 return result.AsExchangeError<SharedFee>(Exchange, new UnknownError("Failed to retrieve"));
 
             // Return
-            return result.AsExchangeResult(Exchange, TradingMode.Spot, new SharedFee(makerFee.Value, takerFee!.Value));
+            return result.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedFee(makerFee.Value, takerFee!.Value));
         }
         #endregion
 
