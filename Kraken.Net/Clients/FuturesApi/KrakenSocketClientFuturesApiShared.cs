@@ -24,7 +24,10 @@ namespace Kraken.Net.Clients.FuturesApi
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
 
             var symbol = request.Symbol.GetSymbol(FormatSymbol);
-            var result = await SubscribeToTickerUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, new SharedSpotTicker(ExchangeSymbolCache.ParseSymbol(_topicId, symbol), symbol, update.Data.LastPrice, null, null, update.Data.Volume, update.Data.ChangePercentage24h))), ct).ConfigureAwait(false);
+            var result = await SubscribeToTickerUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, new SharedSpotTicker(ExchangeSymbolCache.ParseSymbol(_topicId, symbol), symbol, update.Data.LastPrice, null, null, update.Data.Volume, update.Data.ChangePercentage24h)
+            {
+                QuoteVolume = update.Data.VolumeQuote
+            })), ct).ConfigureAwait(false);
 
             return new ExchangeResult<UpdateSubscription>(Exchange, result);
         }
