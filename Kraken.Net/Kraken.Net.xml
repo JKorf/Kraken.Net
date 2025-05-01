@@ -6873,6 +6873,12 @@
             Get the Kraken environment by name
             </summary>
         </member>
+        <member name="P:Kraken.Net.KrakenEnvironment.All">
+            <summary>
+            Available environment names
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:Kraken.Net.KrakenEnvironment.Live">
             <summary>
             Live environment
