@@ -663,11 +663,10 @@ namespace Kraken.Net.Clients.SpotApi
 
         private async Task<CallResult<string>> GetTokenAsync()
         {
-            var apiCredentials = ApiOptions.ApiCredentials ?? ClientOptions.ApiCredentials;
-            if (apiCredentials == null)
+            if (ApiCredentials == null)
                 return new CallResult<string>(new NoApiCredentialsError());
 
-            if (_tokenCache.TryGetValue(apiCredentials.Key, out var token) && token.Expire > DateTime.UtcNow)
+            if (_tokenCache.TryGetValue(ApiCredentials.Key, out var token) && token.Expire > DateTime.UtcNow)
                 return new CallResult<string>(token.Token);
 
             if (ClientOptions.Environment.Name == "UnitTest")
@@ -676,13 +675,13 @@ namespace Kraken.Net.Clients.SpotApi
             _logger.LogDebug("Requesting websocket token");
             var restClient = new KrakenRestClient(x =>
             {
-                x.ApiCredentials = apiCredentials;
+                x.ApiCredentials = ApiCredentials;
                 x.Environment = ClientOptions.Environment;
             });
 
             var result = await restClient.SpotApi.Account.GetWebsocketTokenAsync().ConfigureAwait(false);
             if (result)
-                _tokenCache[apiCredentials.Key] = new CachedToken { Token = result.Data.Token, Expire = DateTime.UtcNow.AddSeconds(result.Data.Expires - 5) };
+                _tokenCache[ApiCredentials.Key] = new CachedToken { Token = result.Data.Token, Expire = DateTime.UtcNow.AddSeconds(result.Data.Expires - 5) };
             else
                 _logger.LogWarning("Failed to retrieve websocket token: {Error}", result.Error);
 
