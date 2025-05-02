@@ -103,7 +103,10 @@ namespace Kraken.Net.Clients.SpotApi
                 };
             }).ToArray());
 
-            ExchangeSymbolCache.UpdateSymbolInfo(_topicId, response.Data);
+            // Also register [BaseAsset]/[QuoteAsset] as names for websocket
+            var symbolRegistrations = response.Data.Concat(response.Data.Select(x => new SharedSpotSymbol(x.BaseAsset, x.QuoteAsset, x.BaseAsset + "/" + x.QuoteAsset, x.Trading, x.TradingMode)));
+
+            ExchangeSymbolCache.UpdateSymbolInfo(_topicId, symbolRegistrations.ToArray());
             return response;
         }
 

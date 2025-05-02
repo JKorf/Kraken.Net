@@ -123,6 +123,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Spot Order client
 
+        private readonly Dictionary<string, string> _idSymbolMap = new Dictionary<string, string>();
         EndpointOptions<SubscribeSpotOrderRequest> ISpotOrderSocketClient.SubscribeSpotOrderOptions { get; } = new EndpointOptions<SubscribeSpotOrderRequest>(false);
         async Task<ExchangeResult<UpdateSubscription>> ISpotOrderSocketClient.SubscribeToSpotOrderUpdatesAsync(SubscribeSpotOrderRequest request, Action<ExchangeEvent<SharedSpotOrder[]>> handler, CancellationToken ct)
         {
@@ -131,26 +132,49 @@ namespace Kraken.Net.Clients.SpotApi
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
 
             var result = await SubscribeToOrderUpdatesAsync(
-                update => handler(update.AsExchangeEvent<SharedSpotOrder[]>(Exchange, update.Data.Select(
-                    x => new SharedSpotOrder(
-                        ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol),
-                        x.Symbol ?? string.Empty,
-                        x.OrderId,
-                        x.OrderType == Enums.OrderType.Limit ? SharedOrderType.Limit : x.OrderType == Enums.OrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
-                        x.OrderSide == Enums.OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
-                        ParseStatus(x.OrderStatus),
-                        x.Timestamp)
+                update =>
+                {
+                    // Not all updates contain the symbol, but symbol is required for us to give proper updates
+                    // The first update of an order always contains the symbol, so cache that so we can retrieve the symbol for later updates with the same order id
+                    // Only subsequent updates for orders placed before subscribing will be lost that way
+
+                    var updateData = update.Data.Where(x => !string.IsNullOrEmpty(x.Symbol));
+                    foreach(var item in updateData)
                     {
-                        AveragePrice = x.AveragePrice,
-                        ClientOrderId = x.ClientOrderId,
-                        OrderId = x.OrderId,
-                        OrderPrice = x.LimitPrice,
-                        OrderQuantity = new SharedOrderQuantity(x.OrderQuantity, x.QuoteOrderQuantity),
-                        QuantityFilled = new SharedOrderQuantity(x.QuantityFilled, x.ValueFilled),
-                        TimeInForce = x.TimeInForce == TimeInForce.IOC ? SharedTimeInForce.ImmediateOrCancel : x.TimeInForce == TimeInForce.GTC ? SharedTimeInForce.GoodTillCanceled : null,
-                        LastTrade = x.LastTradeId == null ? null : new SharedUserTrade(ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol), x.Symbol ?? string.Empty, x.OrderId, x.LastTradeId.ToString()!, x.OrderSide == OrderSide.Sell ? SharedOrderSide.Sell : SharedOrderSide.Buy, x.LastTradeQuantity ?? 0, x.LastTradePrice ?? 0, x.Timestamp)
+                        if (!_idSymbolMap.ContainsKey(item.OrderId))
+                            _idSymbolMap[item.OrderId] = item.Symbol!;
                     }
-                    ).ToArray())),
+
+                    foreach (var item in update.Data.Where(x => x.Symbol == null))
+                    {
+                        if (_idSymbolMap.TryGetValue(item.OrderId, out var symbol))
+                            item.Symbol = symbol;
+                    }
+
+                    if (!updateData.Any())
+                        return;
+
+                    handler(update.AsExchangeEvent<SharedSpotOrder[]>(Exchange, updateData.Select(
+                        x => new SharedSpotOrder(
+                            ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol),
+                            x.Symbol ?? string.Empty,
+                            x.OrderId,
+                            x.OrderType == Enums.OrderType.Limit ? SharedOrderType.Limit : x.OrderType == Enums.OrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
+                            x.OrderSide == Enums.OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
+                            ParseStatus(x.OrderStatus),
+                            x.Timestamp)
+                        {
+                            AveragePrice = x.AveragePrice,
+                            ClientOrderId = x.ClientOrderId,
+                            OrderId = x.OrderId,
+                            OrderPrice = x.LimitPrice,
+                            OrderQuantity = new SharedOrderQuantity(x.OrderQuantity, x.QuoteOrderQuantity),
+                            QuantityFilled = new SharedOrderQuantity(x.QuantityFilled, x.ValueFilled),
+                            TimeInForce = x.TimeInForce == TimeInForce.IOC ? SharedTimeInForce.ImmediateOrCancel : x.TimeInForce == TimeInForce.GTC ? SharedTimeInForce.GoodTillCanceled : null,
+                            LastTrade = x.LastTradeId == null ? null : new SharedUserTrade(ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol), x.Symbol ?? string.Empty, x.OrderId, x.LastTradeId.ToString()!, x.OrderSide == OrderSide.Sell ? SharedOrderSide.Sell : SharedOrderSide.Buy, x.LastTradeQuantity ?? 0, x.LastTradePrice ?? 0, x.Timestamp)
+                        }
+                        ).ToArray()));
+                },
                 false,
                 false,
                 ct: ct).ConfigureAwait(false);
