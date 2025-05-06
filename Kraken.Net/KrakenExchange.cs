@@ -1,4 +1,5 @@
-﻿using CryptoExchange.Net.RateLimiting;
+﻿using CryptoExchange.Net.Converters;
+using CryptoExchange.Net.RateLimiting;
 using CryptoExchange.Net.RateLimiting.Filters;
 using CryptoExchange.Net.RateLimiting.Guards;
 using CryptoExchange.Net.RateLimiting.Interfaces;
@@ -45,7 +46,7 @@ namespace Kraken.Net
         /// </summary>
         public static ExchangeType Type { get; } = ExchangeType.CEX;
 
-        internal static JsonSerializerContext SerializerContext = new KrakenSourceGenerationContext();
+        internal static JsonSerializerContext SerializerContext = JsonSerializerContextCache.GetOrCreate<KrakenSourceGenerationContext>();
 
         /// <summary>
         /// Format a base and quote asset to a Kraken recognized symbol 

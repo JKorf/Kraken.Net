@@ -108,22 +108,22 @@ namespace Kraken.Net.Clients.FuturesApi
             => await base.SendAsync<T>(BaseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
         
         /// <inheritdoc />
-        protected override Error ParseErrorResponse(int httpStatusCode, KeyValuePair<string, string[]>[] responseHeaders, IMessageAccessor accessor)
+        protected override Error ParseErrorResponse(int httpStatusCode, KeyValuePair<string, string[]>[] responseHeaders, IMessageAccessor accessor, Exception? exception)
         {
             if (!accessor.IsJson)
-                return new ServerError(accessor.GetOriginalString());
+                return new ServerError(null, "Unknown request error", exception: exception);
 
             var result = accessor.Deserialize<KrakenFuturesResult>();
             if (!result)
-                return new ServerError(accessor.GetOriginalString());
+                return new ServerError(null, "Unknown request error", exception: exception);
 
             if (result.Data.Errors?.Any() == true)
             {
                 var krakenError = result.Data.Errors.First();
-                return new ServerError(krakenError.Code, krakenError.Message);
+                return new ServerError(krakenError.Code, krakenError.Message, exception);
             }
 
-            return new ServerError(result.Data!.Error ?? accessor.GetOriginalString());
+            return new ServerError(null, result.Data!.Error ?? "Unknown request error", exception);
         }
 
         /// <inheritdoc />
