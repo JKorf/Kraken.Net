@@ -113,7 +113,7 @@ namespace Kraken.Net.Clients.SpotApi
             var result = await SubscribeToBalanceUpdatesAsync(
                 null,
                 update => handler(update.AsExchangeEvent<SharedBalance[]>(Exchange, update.Data.Select(x =>
-                new SharedBalance(x.Asset, x.Balance, x.Balance)).ToArray())),
+                new SharedBalance(KrakenExchange.AssetAliases.ExchangeToCommonName(x.Asset), x.Balance, x.Balance)).ToArray())),
                 false,
                 ct: ct).ConfigureAwait(false);
 
@@ -167,7 +167,7 @@ namespace Kraken.Net.Clients.SpotApi
                             AveragePrice = x.AveragePrice,
                             ClientOrderId = x.ClientOrderId,
                             OrderId = x.OrderId,
-                            OrderPrice = x.LimitPrice,
+                            OrderPrice = x.LimitPrice == 0 ? null : x.LimitPrice,
                             OrderQuantity = new SharedOrderQuantity(x.OrderQuantity, x.QuoteOrderQuantity),
                             QuantityFilled = new SharedOrderQuantity(x.QuantityFilled, x.ValueFilled),
                             TimeInForce = x.TimeInForce == TimeInForce.IOC ? SharedTimeInForce.ImmediateOrCancel : x.TimeInForce == TimeInForce.GTC ? SharedTimeInForce.GoodTillCanceled : null,

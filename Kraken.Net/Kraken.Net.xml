@@ -6931,6 +6931,11 @@
             Type of exchange
             </summary>
         </member>
+        <member name="P:Kraken.Net.KrakenExchange.AssetAliases">
+            <summary>
+            Aliases for BitMEX assets
+            </summary>
+        </member>
         <member name="M:Kraken.Net.KrakenExchange.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
             <summary>
             Format a base and quote asset to a Kraken recognized symbol 
@@ -9012,7 +9017,7 @@
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenCursorPage`1">
             <summary>
-            Data page with a cusor for pagination
+            Data page with a cursor for pagination
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenCursorPage`1.NextCursor">

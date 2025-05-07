@@ -103,8 +103,11 @@ namespace Kraken.Net.Clients.SpotApi
                 };
             }).ToArray());
 
-            // Also register [BaseAsset]/[QuoteAsset] as names for websocket
-            var symbolRegistrations = response.Data.Concat(response.Data.Select(x => new SharedSpotSymbol(x.BaseAsset, x.QuoteAsset, x.BaseAsset + "/" + x.QuoteAsset, x.Trading, x.TradingMode)));
+            // Also register [BaseAsset]/[QuoteAsset] as names for websocket and [BaseAsset][QuoteAsset]
+            var symbolRegistrations = response.Data
+                .Concat(response.Data.Select(x => new SharedSpotSymbol(x.BaseAsset, x.QuoteAsset, x.BaseAsset + "/" + x.QuoteAsset, x.Trading, x.TradingMode))).ToList();
+            foreach (var symbol in response.Data.Where(x => x.Name != x.BaseAsset + x.QuoteAsset))
+                symbolRegistrations.Add(new SharedSpotSymbol(symbol.BaseAsset, symbol.QuoteAsset, symbol.BaseAsset + symbol.QuoteAsset, symbol.Trading));
 
             ExchangeSymbolCache.UpdateSymbolInfo(_topicId, symbolRegistrations.ToArray());
             return response;
@@ -113,7 +116,7 @@ namespace Kraken.Net.Clients.SpotApi
         private (string BaseAsset, string QuoteAsset) GetAssets(string name)
         {
             var split = name.Split('/');
-            return (split[0], split[1]);
+            return (KrakenExchange.AssetAliases.ExchangeToCommonName(split[0]), KrakenExchange.AssetAliases.ExchangeToCommonName(split[1]));
         }
 
         #endregion
@@ -222,7 +225,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!result)
                 return result.AsExchangeResult<SharedBalance[]>(Exchange, null, default);
 
-            return result.AsExchangeResult<SharedBalance[]>(Exchange, TradingMode.Spot, result.Data.Select(x => new SharedBalance(x.Key, x.Value.Available, x.Value.Total)).ToArray());
+            return result.AsExchangeResult<SharedBalance[]>(Exchange, TradingMode.Spot, result.Data.Select(x => new SharedBalance(KrakenExchange.AssetAliases.ExchangeToCommonName(x.Key), x.Value.Available, x.Value.Total)).ToArray());
         }
 
         #endregion
@@ -600,14 +603,14 @@ namespace Kraken.Net.Clients.SpotApi
             if (validationError != null)
                 return new ExchangeWebResult<SharedAsset>(Exchange, validationError);
 
-            var assets = await Account.GetWithdrawMethodsAsync(request.Asset, ct: ct).ConfigureAwait(false);
+            var assets = await Account.GetWithdrawMethodsAsync(KrakenExchange.AssetAliases.ExchangeToCommonName(request.Asset), ct: ct).ConfigureAwait(false);
             if (!assets)
                 return assets.AsExchangeResult<SharedAsset>(Exchange, null, default);
 
             if (!assets.Data.Any())
                 return assets.AsExchangeError<SharedAsset>(Exchange, new ServerError("Asset not found"));
 
-            return assets.AsExchangeResult(Exchange, TradingMode.Spot, new SharedAsset(request.Asset)
+            return assets.AsExchangeResult(Exchange, TradingMode.Spot, new SharedAsset(KrakenExchange.AssetAliases.ExchangeToCommonName(request.Asset))
             {
                 Networks = assets.Data.Select(x => new SharedAssetNetwork(x.Network)
                 {
@@ -635,7 +638,7 @@ namespace Kraken.Net.Clients.SpotApi
                 if (!assets)
                     return assets.AsExchangeResult<SharedAsset[]>(Exchange, null, default);
 
-                return assets.AsExchangeResult<SharedAsset[]>(Exchange, TradingMode.Spot, assets.Data.GroupBy(x => x.Asset).Select(x => new SharedAsset(x.Key)
+                return assets.AsExchangeResult<SharedAsset[]>(Exchange, TradingMode.Spot, assets.Data.GroupBy(x => KrakenExchange.AssetAliases.ExchangeToCommonName(x.Asset)).Select(x => new SharedAsset(x.Key)
                 {
                     Networks = x.Select(x => new SharedAssetNetwork(x.Network)
                     {
@@ -650,7 +653,7 @@ namespace Kraken.Net.Clients.SpotApi
                 if (!assets)
                     return assets.AsExchangeResult<SharedAsset[]>(Exchange, null, default);
 
-                return assets.AsExchangeResult<SharedAsset[]>(Exchange, TradingMode.Spot, assets.Data.Select(x => new SharedAsset(x.Key)
+                return assets.AsExchangeResult<SharedAsset[]>(Exchange, TradingMode.Spot, assets.Data.Select(x => new SharedAsset(KrakenExchange.AssetAliases.ExchangeToCommonName(x.Key))
                 {
                     FullName = x.Value.AlternateName
                 }).ToArray());
@@ -674,7 +677,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (validationError != null)
                 return new ExchangeWebResult<SharedDepositAddress[]>(Exchange, validationError);
 
-            var depositAddresses = await Account.GetDepositAddressesAsync(request.Asset, request.Network!).ConfigureAwait(false);
+            var depositAddresses = await Account.GetDepositAddressesAsync(KrakenExchange.AssetAliases.CommonToExchangeName(request.Asset), request.Network!).ConfigureAwait(false);
             if (!depositAddresses)
                 return depositAddresses.AsExchangeResult<SharedDepositAddress[]>(Exchange, null, default);
 
@@ -699,7 +702,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             // Get data
             var deposits = await Account.GetDepositHistoryAsync(
-                asset: request.Asset,
+                asset: request.Asset != null ? KrakenExchange.AssetAliases.CommonToExchangeName(request.Asset) : null,
                 startTime: request.StartTime,
                 endTime: request.EndTime,
                 limit: request.Limit,
@@ -713,7 +716,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!string.IsNullOrEmpty(deposits.Data.NextCursor))
                 nextToken = new CursorToken(deposits.Data.NextCursor!);
 
-            return deposits.AsExchangeResult<SharedDeposit[]>(Exchange, TradingMode.Spot, deposits.Data.Items.Select(x => new SharedDeposit(x.Asset, x.Quantity, true, x.Timestamp)
+            return deposits.AsExchangeResult<SharedDeposit[]>(Exchange, TradingMode.Spot, deposits.Data.Items.Select(x => new SharedDeposit(KrakenExchange.AssetAliases.ExchangeToCommonName(x.Asset), x.Quantity, true, x.Timestamp)
             {
                 Id = x.ReferenceId,
                 TransactionId = x.TransactionId,
@@ -762,7 +765,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             // Get data
             var withdrawals = await Account.GetWithdrawalHistoryAsync(
-                asset: request.Asset,
+                asset: request.Asset != null ? KrakenExchange.AssetAliases.CommonToExchangeName(request.Asset) : null,
                 startTime: request.StartTime,
                 endTime: request.EndTime,
                 limit: request.Limit,
@@ -776,7 +779,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!string.IsNullOrEmpty(withdrawals.Data.NextCursor))
                 nextToken = new CursorToken(withdrawals.Data.NextCursor!);
 
-            return withdrawals.AsExchangeResult<SharedWithdrawal[]>(Exchange, TradingMode.Spot, withdrawals.Data.Items.Select(x => new SharedWithdrawal(x.Asset, x.Key ?? string.Empty, x.Quantity, x.Status == "Success", x.Timestamp)
+            return withdrawals.AsExchangeResult<SharedWithdrawal[]>(Exchange, TradingMode.Spot, withdrawals.Data.Items.Select(x => new SharedWithdrawal(KrakenExchange.AssetAliases.ExchangeToCommonName(x.Asset), x.Key ?? string.Empty, x.Quantity, x.Status == "Success", x.Timestamp)
             {
                 Id = x.ReferenceId,
                 TransactionId = x.TransactionId,
@@ -807,7 +810,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             // Get data
             var withdrawal = await Account.WithdrawAsync(
-                request.Asset,
+                KrakenExchange.AssetAliases.CommonToExchangeName(request.Asset),
                 keyName!,
                 request.Quantity,
                 request.Address,

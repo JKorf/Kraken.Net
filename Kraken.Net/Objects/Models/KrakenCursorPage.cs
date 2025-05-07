@@ -2,7 +2,7 @@ using CryptoExchange.Net.Converters.SystemTextJson;
 namespace Kraken.Net.Objects.Models
 {
     /// <summary>
-    /// Data page with a cusor for pagination
+    /// Data page with a cursor for pagination
     /// </summary>
     [SerializationModel]
     public record KrakenCursorPage<T>
@@ -18,9 +18,9 @@ namespace Kraken.Net.Objects.Models
         /// </summary>
         [JsonPropertyName("items")]
         public T[] Items { get; set; } = Array.Empty<T>();
-        [JsonPropertyName("withdrawals")]
+        [JsonInclude, JsonPropertyName("withdrawals")]
         internal T[] Withdrawals { set => Items = value; }
-        [JsonPropertyName("deposits")]
+        [JsonInclude, JsonPropertyName("deposits")]
         internal T[] Deposits { set => Items = value; }
     }
 }

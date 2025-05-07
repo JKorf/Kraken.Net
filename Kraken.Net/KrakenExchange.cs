@@ -46,6 +46,18 @@ namespace Kraken.Net
         /// </summary>
         public static ExchangeType Type { get; } = ExchangeType.CEX;
 
+        /// <summary>
+        /// Aliases for BitMEX assets
+        /// </summary>
+        public static AssetAliasConfiguration AssetAliases { get; } = new AssetAliasConfiguration
+        {
+            Aliases =
+            [
+                new AssetAlias("XBT", "BTC"),
+                new AssetAlias("XDG", "DOGE")
+            ]
+        };
+
         internal static JsonSerializerContext SerializerContext = JsonSerializerContextCache.GetOrCreate<KrakenSourceGenerationContext>();
 
         /// <summary>
@@ -58,6 +70,9 @@ namespace Kraken.Net
         /// <returns></returns>
         public static string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
         {
+            baseAsset = AssetAliases.CommonToExchangeName(baseAsset);
+            quoteAsset = AssetAliases.CommonToExchangeName(quoteAsset);
+
             if (tradingMode == TradingMode.Spot)
                 return $"{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
 

@@ -81,12 +81,7 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
         {
-            if (baseAsset == "XBT")
-                baseAsset = "BTC";
-
-            if (quoteAsset == "XBT")
-                quoteAsset = "BTC";
-
+            // Note; assets not mapped to exchange name, websocket API expects BTC (common name) instead of XBT
             return $"{baseAsset.ToUpperInvariant()}/{quoteAsset.ToUpperInvariant()}";
         }
 
