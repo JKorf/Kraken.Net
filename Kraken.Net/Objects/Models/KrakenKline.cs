@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Kline data
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter<KrakenKline, KrakenSourceGenerationContext>))]
+    [JsonConverter(typeof(ArrayConverter<KrakenKline>))]
     [SerializationModel]
     public record KrakenKline
     {
@@ -60,7 +60,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Kline data from stream
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter<KrakenStreamKline, KrakenSourceGenerationContext>))]
+    [JsonConverter(typeof(ArrayConverter<KrakenStreamKline>))]
     [SerializationModel]
     public record KrakenStreamKline
     {

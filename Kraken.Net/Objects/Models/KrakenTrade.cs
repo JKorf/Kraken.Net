@@ -8,7 +8,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Trade info
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter<KrakenTrade, KrakenSourceGenerationContext>))]
+    [JsonConverter(typeof(ArrayConverter<KrakenTrade>))]
     [SerializationModel]
     public record KrakenTrade
     {

@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Fee level details
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter<KrakenFeeEntry, KrakenSourceGenerationContext>))]
+    [JsonConverter(typeof(ArrayConverter<KrakenFeeEntry>))]
     [SerializationModel]
     public record KrakenFeeEntry
     {

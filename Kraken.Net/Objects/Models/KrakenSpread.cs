@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Spread info
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter<KrakenSpread, KrakenSourceGenerationContext>))]
+    [JsonConverter(typeof(ArrayConverter<KrakenSpread>))]
     [SerializationModel]
     public record KrakenSpread
     {
@@ -31,7 +31,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Stream spread data
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter<KrakenStreamSpread, KrakenSourceGenerationContext>))]
+    [JsonConverter(typeof(ArrayConverter<KrakenStreamSpread>))]
     [SerializationModel]
     public record KrakenStreamSpread
     {

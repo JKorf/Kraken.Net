@@ -87,7 +87,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Tick detail info
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter<KrakenTickInfo, KrakenSourceGenerationContext>))]
+    [JsonConverter(typeof(ArrayConverter<KrakenTickInfo>))]
     [SerializationModel]
     public record KrakenTickInfo
     {
@@ -106,7 +106,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Last trade details
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter<KrakenLastTrade, KrakenSourceGenerationContext>))]
+    [JsonConverter(typeof(ArrayConverter<KrakenLastTrade>))]
     [SerializationModel]
     public record KrakenLastTrade
     {
@@ -125,7 +125,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Best entry info
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter<KrakenBestEntry, KrakenSourceGenerationContext>))]
+    [JsonConverter(typeof(ArrayConverter<KrakenBestEntry>))]
     [SerializationModel]
     public record KrakenBestEntry
     {

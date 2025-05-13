@@ -25,7 +25,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Order book entry
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter<KrakenOrderBookEntry, KrakenSourceGenerationContext>))]
+    [JsonConverter(typeof(ArrayConverter<KrakenOrderBookEntry>))]
     [SerializationModel]
     public record KrakenOrderBookEntry : ISymbolOrderBookEntry
     {
@@ -90,7 +90,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Stream order book entry
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter<KrakenStreamOrderBookEntry, KrakenSourceGenerationContext>))]
+    [JsonConverter(typeof(ArrayConverter<KrakenStreamOrderBookEntry>))]
     [SerializationModel]
     public record KrakenStreamOrderBookEntry : ISymbolOrderSequencedBookEntry
     {
