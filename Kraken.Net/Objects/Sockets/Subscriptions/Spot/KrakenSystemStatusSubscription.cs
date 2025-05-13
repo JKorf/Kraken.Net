@@ -22,11 +22,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 
         public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
         {
-            var data = (KrakenSocketUpdateV2<IEnumerable<KrakenStreamSystemStatus>>)message.Data!;
+            var data = (KrakenSocketUpdateV2<KrakenStreamSystemStatus[]>)message.Data!;
             _handler.Invoke(message.As(data.Data.First(), data.Channel, null, SocketUpdateType.Update).WithDataTimestamp(data.Timestamp));
-            return new CallResult(null);
+            return CallResult.SuccessResult;
         }
 
-        public override Type? GetMessageType(IMessageAccessor message) => typeof(KrakenSocketUpdateV2<IEnumerable<KrakenStreamSystemStatus>>);
+        public override Type? GetMessageType(IMessageAccessor message) => typeof(KrakenSocketUpdateV2<KrakenStreamSystemStatus[]>);
     }
 }

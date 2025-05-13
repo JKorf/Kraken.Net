@@ -1,10 +1,12 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
     /// <summary>
     /// User execution events
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesUserExecutionEvents
     {
         /// <summary>
@@ -32,12 +34,13 @@ namespace Kraken.Net.Objects.Models.Futures
         /// Elements
         /// </summary>
         [JsonPropertyName("elements")]
-        public IEnumerable<KrakenFuturesExecutionElement> Elements { get; set; } = Array.Empty<KrakenFuturesExecutionElement>();
+        public KrakenFuturesExecutionElement[] Elements { get; set; } = Array.Empty<KrakenFuturesExecutionElement>();
     }
 
     /// <summary>
     /// Execution event info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesExecutionElement
     {
         /// <summary>
@@ -61,6 +64,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Event info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesExecutionEventWrapper
     {
         /// <summary>
@@ -73,6 +77,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Execution info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesExecutionEvent
     {
         /// <summary>
@@ -91,6 +96,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Execution info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesExecution
     {
         /// <summary>
@@ -159,6 +165,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Additional order data
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesOrderData
     {
         /// <summary>
@@ -177,6 +184,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Excecution order info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesExecutionOrder
     {
         /// <summary>
@@ -228,7 +236,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Order side
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("direction")]
         public OrderSide Side { get; set; }
         /// <summary>
@@ -240,7 +248,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Order type
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("orderType")]
         public FuturesOrderType Type { get; set; }
     }

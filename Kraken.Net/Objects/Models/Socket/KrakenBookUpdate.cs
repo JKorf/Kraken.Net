@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Models.Socket
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Socket
 {
     /// <summary>
     /// Order book update
     /// </summary>
+    [SerializationModel]
     public record KrakenBookUpdate
     {
         /// <summary>
@@ -14,12 +16,12 @@
         /// Asks in the book
         /// </summary>
         [JsonPropertyName("asks")]
-        public IEnumerable<KrakenBookUpdateEntry> Asks { get; set; } = Array.Empty<KrakenBookUpdateEntry>();
+        public KrakenBookUpdateEntry[] Asks { get; set; } = Array.Empty<KrakenBookUpdateEntry>();
         /// <summary>
         /// Bids in the book
         /// </summary>
         [JsonPropertyName("bids")]
-        public IEnumerable<KrakenBookUpdateEntry> Bids { get; set; } = Array.Empty<KrakenBookUpdateEntry>();
+        public KrakenBookUpdateEntry[] Bids { get; set; } = Array.Empty<KrakenBookUpdateEntry>();
         /// <summary>
         /// Checksum
         /// </summary>
@@ -35,6 +37,7 @@
     /// <summary>
     /// Order book entry
     /// </summary>
+    [SerializationModel]
     public record KrakenBookUpdateEntry : ISymbolOrderBookEntry
     {
         /// <summary>

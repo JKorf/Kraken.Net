@@ -1,9 +1,11 @@
-﻿
+using CryptoExchange.Net.Converters.SystemTextJson;
+
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
     /// <summary>
     /// Balance update
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesBalancesUpdate : KrakenFuturesSocketMessage
     {
         /// <summary>
@@ -42,6 +44,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Flex futures
     /// </summary>
+    [SerializationModel]
     public record KrakenFlexFutures
     {
         /// <summary>
@@ -124,6 +127,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Cross margin balance
     /// </summary>
+    [SerializationModel]
     public record KrakenFlexCrossBalance
     {
         /// <summary>
@@ -196,6 +200,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Isolated margin balance
     /// </summary>
+    [SerializationModel]
     public record KrakenFlexIsolatedBalance
     {
         /// <summary>
@@ -238,6 +243,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Currency info
     /// </summary>
+    [SerializationModel]
     public record KrakenFlexFuturesCurrency
     {
         /// <summary>
@@ -275,6 +281,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     /// <summary>
     /// Future balance
     /// </summary>
+    [SerializationModel]
     public record KrakenFutureBalance
     {
         /// <summary>

@@ -18,10 +18,9 @@ namespace Kraken.Net.Objects.Sockets.Queries
         {
             if (message.Data.Success)
                 return message.ToCallResult();
-            else if (message.Data is KrakenSocketResponseV2<IEnumerable<KrakenOrderResult>> response // We'll want to return the actual response data, so return as no error and handle it in the method itself
+            else if (message.Data is KrakenSocketResponseV2<KrakenOrderResult[]> response // We'll want to return the actual response data, so return as no error and handle it in the method itself
                 || message.Data.Error == "Already subscribed") // Duplicate subscription shouldn't be treated as an error
-            {
-                
+            {                
                 return message.ToCallResult();
             }
             else

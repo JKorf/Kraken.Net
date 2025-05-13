@@ -39,7 +39,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Get a list of symbols and info about them
         /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-tradable-asset-pairs" /></para>
         /// </summary>
-        /// <param name="countryCode">Filter whats available for a specific country/region</param>
+        /// <param name="countryCode">Filter what's available for a specific country/region</param>
         /// <param name="symbols">Filter list for specific symbols, for example `ETHUSDT`</param>
         /// <param name="newAssetNameResponse">When set to true the asset names will be in the new format, for example `BTC` instead of `XBT`. Default is false.</param>
         /// <param name="ct">Cancellation token</param>

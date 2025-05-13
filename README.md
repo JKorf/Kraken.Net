@@ -12,6 +12,7 @@ Kraken.Net is a strongly typed client library for accessing the [Kraken REST and
 * Extensive logging
 * Support for different environments
 * Easy integration with other exchange client based on the CryptoExchange.Net base library
+* Native AOT support
 
 ## Supported Frameworks
 The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for optimal compatibility
@@ -165,6 +166,39 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 6.0.0-beta3 - 01 May 2025
+    * Updated CryptoExchange.Net version to 9.0.0-beta5
+    * Added property to retrieve all available API environments
+
+* Version 6.0.0-beta2 - 23 Apr 2025
+    * Updated CryptoExchange.Net to version 9.0.0-beta2
+    * Added Shared spot ticker QuoteVolume mapping
+    * Fixed incorrect DataTradeMode on responses
+
+* Version 6.0.0-beta1 - 22 Apr 2025
+    * Updated CryptoExchange.Net to version 9.0.0-beta1, see https://github.com/JKorf/CryptoExchange.Net/releases/
+    * Added support for Native AOT compilation
+    * Added RateLimitUpdated event
+    * Added SharedSymbol response property to all Shared interfaces response models returning a symbol name
+    * Added GenerateClientOrderId method to Futures and Spot Shared clients
+    * Added IBookTickerRestClient implementation to SpotApi and FuturesApi Shared clients
+    * Added IFuturesOrderClientIdClient implementation to FuturesApi Shared client
+    * Added IFuturesTpSlRestClient implementation to FuturesApi Shared client
+    * Added ISpotOrderClientIdClient implementation to SpotApi Shared client
+    * Added OptionalExchangeParameters and Supported properties to EndpointOptions
+    * Added clientOrderId parameter to restClient.SpotApi.Trading.CancelOrderAsync endpoint
+    * Refactored Shared clients quantity parameters and responses to use SharedQuantity
+    * Updated all IEnumerable response and model types to array response types
+    * Updated FuturesApi Shared GetBalancesAsync response to include MultiCollateralMarginAccount balances
+    * Updated restClient.SpotApi.Trading.PlaceMultipleOrdersAsync to return a list of CallResult models and an error if all orders fail to place
+    * Removed Newtonsoft.Json dependency
+    * Removed legacy ISpotClient implementation
+    * Removed legacy AddKraken(restOptions, socketOptions) DI overload
+    * Fixed some typos
+    * Fixed API doc references for restClient.FuturesApi.Trading endpoints
+    * Fixed clientOrderId being send as userRef in restClient.SpotApi.Trading.GetOpenOrdersAsync endpoint, added separate userReference parameter
+    * Fixed futures ratelimiting applied per host instead of per API key
+
 * Version 5.7.1 - 12 Feb 2025
     * Added mapping of XBT to BTC for websocket SharedSymbol formatting
 

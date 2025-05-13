@@ -47,7 +47,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             var data = (KrakenFuturesBalancesUpdate)message.Data;
             _handler.Invoke(message.As(data, data.Feed, null, string.Equals(data.Feed, "balances_snapshot", StringComparison.Ordinal) ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                 .WithDataTimestamp(data.Timestamp));
-            return new CallResult(null);
+            return CallResult.SuccessResult;
         }
 
         public override Type? GetMessageType(IMessageAccessor message) => typeof(KrakenFuturesBalancesUpdate);

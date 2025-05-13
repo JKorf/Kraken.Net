@@ -1,0 +1,13 @@
+> { "method": "cancel_order", "params": {}, "req_id": "|1|" }
+< { "method": "cancel_order", "req_id": |1|, "result": { "order_id": "OLUMT4-UTEGU-ZYM7E9" }, "success": true, "time_in": "2023-09-21T14:36:57.428972Z", "time_out": "2023-09-21T14:36:57.437952Z" }
+=
+{
+    "method": "cancel_order",
+    "req_id": 123456789,
+    "result": {
+        "order_id": "OM5CRX-N2HAL-GFGWE9"
+    },
+    "success": true,
+    "time_in": "2023-09-21T14:36:57.428972Z",
+    "time_out": "2023-09-21T14:36:57.438027Z"
+}

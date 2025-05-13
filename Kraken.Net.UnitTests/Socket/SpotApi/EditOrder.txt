@@ -1,0 +1,13 @@
+> { "method": "amend_order", "params": {}, "req_id": "|1|" }
+=
+{
+    "method": "amend_order",
+    "req_id": |1|,
+    "result": {
+        "amend_id": "TTW6PD-RC36L-ZZSWNU",
+        "cl_ord_id": "2c6be801-1f53-4f79-a0bb-4ea1c95dfae9"
+    },
+    "success": true,
+    "time_in": "2024-07-26T13:39:04.922699Z",
+    "time_out": "2024-07-26T13:39:04.924912Z"
+}

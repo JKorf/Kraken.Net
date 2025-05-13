@@ -1,11 +1,14 @@
-﻿namespace Kraken.Net.Objects.Models.Futures
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Futures
 {
-    internal record KrakenFuturesTickersResult : KrakenFuturesResult<IEnumerable<KrakenFuturesTicker>>
+    [SerializationModel]
+    internal record KrakenFuturesTickersResult : KrakenFuturesResult<KrakenFuturesTicker[]>
     {
         [JsonPropertyName("tickers")]
-        public override IEnumerable<KrakenFuturesTicker> Data { get; set; } = Array.Empty<KrakenFuturesTicker>();
+        public override KrakenFuturesTicker[] Data { get; set; } = Array.Empty<KrakenFuturesTicker>();
     }
 
+    [SerializationModel]
     internal record KrakenFuturesTickerResult : KrakenFuturesResult<KrakenFuturesTicker>
     {
         [JsonPropertyName("ticker")]
@@ -15,6 +18,7 @@
     /// <summary>
     /// Ticker info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesTicker
     {
         /// <summary>

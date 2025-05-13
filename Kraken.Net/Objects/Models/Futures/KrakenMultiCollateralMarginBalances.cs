@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Models.Futures
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Futures
 {
     /// <summary>
     /// Multi-collateral margin account balances
     /// </summary>
+    [SerializationModel]
     public record KrakenMultiCollateralMarginBalances : KrakenBalances
     {
         /// <summary>
@@ -75,6 +77,7 @@
     /// <summary>
     /// Flex currency info
     /// </summary>
+    [SerializationModel]
     public record KrakenFlexCurrencySummary
     {
         /// <summary>

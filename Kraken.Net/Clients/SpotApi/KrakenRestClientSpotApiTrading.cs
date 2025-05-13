@@ -1,7 +1,6 @@
 using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models;
 using Kraken.Net.Interfaces.Clients.SpotApi;
-using CryptoExchange.Net.CommonObjects;
 
 namespace Kraken.Net.Clients.SpotApi
 {
@@ -19,11 +18,11 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Open Orders
 
         /// <inheritdoc />
-        public async Task<WebCallResult<OpenOrdersPage>> GetOpenOrdersAsync(uint? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<OpenOrdersPage>> GetOpenOrdersAsync(uint? userReference = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection();
             parameters.AddOptionalParameter("trades", true);
-            parameters.AddOptionalParameter("userref", clientOrderId);
+            parameters.AddOptionalParameter("userref", userReference);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/OpenOrders", KrakenExchange.RateLimiter.SpotRest, 1, true);
@@ -174,7 +173,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 { "pair", symbol },
                 { "trading_agreement", "agree" },
-                { "orders", orders }
+                { "orders", orders.ToArray() }
             };
             parameters.AddOptional("deadline", deadline);
 
@@ -250,8 +249,6 @@ namespace Kraken.Net.Clients.SpotApi
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/AddOrder", KrakenExchange.RateLimiter.SpotRest, 0, true);
             var result = await _baseClient.SendAsync<KrakenPlacedOrder>(request, parameters, ct).ConfigureAwait(false);
-            if (result)
-                _baseClient.InvokeOrderPlaced(new OrderId { SourceObject = result.Data, Id = result.Data.OrderIds.FirstOrDefault() });
             return result;
         }
 
@@ -307,19 +304,18 @@ namespace Kraken.Net.Clients.SpotApi
         #region Cancel Order
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenCancelResult>> CancelOrderAsync(string orderId, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenCancelResult>> CancelOrderAsync(string? orderId = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
-            orderId.ValidateNotNull(nameof(orderId));
-            var parameters = new ParameterCollection()
-            {
-                {"txid", orderId}
-            };
+            if (orderId == null && clientOrderId == null)
+                throw new ArgumentException("Either orderId or clientOrderId should be provided");
+
+            var parameters = new ParameterCollection();
+            parameters.AddOptional("txid", orderId);
+            parameters.AddOptional("cl_ord_id", clientOrderId);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/CancelOrder", KrakenExchange.RateLimiter.SpotRest, 1, true);
             var result = await _baseClient.SendAsync<KrakenCancelResult>(request, parameters, ct).ConfigureAwait(false);
-            if (result)
-                _baseClient.InvokeOrderCanceled(new OrderId { SourceObject = result.Data, Id = orderId });
             return result;
         }
 
@@ -335,8 +331,6 @@ namespace Kraken.Net.Clients.SpotApi
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/CancelAll", KrakenExchange.RateLimiter.SpotRest, 1, true);
             var result = await _baseClient.SendAsync<KrakenCancelResult>(request, parameters, ct).ConfigureAwait(false);
-            if (result)
-                _baseClient.InvokeOrderCanceled(new OrderId { SourceObject = result.Data });
             return result;
         }
 

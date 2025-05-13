@@ -11,14 +11,14 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
     {
         private static readonly MessagePath _typePath = MessagePath.Get().Property("type");
 
-        private readonly Action<DataEvent<IEnumerable<KrakenOrderUpdate>>> _updateHandler;
+        private readonly Action<DataEvent<KrakenOrderUpdate[]>> _updateHandler;
 
         private bool? _snapshotOrder;
         private bool? _snapshotTrades;
 
         public override HashSet<string> ListenerIdentifiers { get; set; }
 
-        public KrakenOrderSubscription(ILogger logger, bool? snapshotOrder, bool? snapshotTrades, string token, Action<DataEvent<IEnumerable<KrakenOrderUpdate>>> updateHandler) : base(logger, true)
+        public KrakenOrderSubscription(ILogger logger, bool? snapshotOrder, bool? snapshotTrades, string token, Action<DataEvent<KrakenOrderUpdate[]>> updateHandler) : base(logger, true)
         {
             _snapshotOrder = snapshotOrder;
             _snapshotTrades = snapshotTrades;
@@ -31,7 +31,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 
         public override Type? GetMessageType(IMessageAccessor message)
         {
-            return typeof(KrakenSocketUpdateV2<IEnumerable<KrakenOrderUpdate>>);
+            return typeof(KrakenSocketUpdateV2<KrakenOrderUpdate[]>);
         }
 
         public override Query? GetSubQuery(SocketConnection connection)
@@ -68,9 +68,9 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 
         public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
         {
-            var data = (KrakenSocketUpdateV2<IEnumerable<KrakenOrderUpdate>>)message.Data;
+            var data = (KrakenSocketUpdateV2<KrakenOrderUpdate[]>)message.Data;
             _updateHandler.Invoke(message.As(data.Data, "executions", null, data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update).WithDataTimestamp(data.Timestamp));
-            return new CallResult(null);
+            return CallResult.SuccessResult;
         }
     }
 }

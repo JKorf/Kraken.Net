@@ -1,14 +1,17 @@
-﻿namespace Kraken.Net.Objects.Models.Futures
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Futures
 {
-    internal record KrakenFuturesSymbolStatusResult : KrakenFuturesResult<IEnumerable<KrakenFuturesSymbolStatus>>
+    [SerializationModel]
+    internal record KrakenFuturesSymbolStatusResult : KrakenFuturesResult<KrakenFuturesSymbolStatus[]>
     {
         [JsonPropertyName("instrumentStatus")]
-        public override IEnumerable<KrakenFuturesSymbolStatus> Data { get; set; } = new List<KrakenFuturesSymbolStatus>();
+        public override KrakenFuturesSymbolStatus[] Data { get; set; } = [];
     }
 
     /// <summary>
     /// Symbol status
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesSymbolStatus
     {
         /// <summary>

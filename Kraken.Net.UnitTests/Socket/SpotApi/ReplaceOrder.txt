@@ -1,0 +1,13 @@
+> { "method": "edit_order", "params": {}, "req_id": "|1|" }
+=
+{
+    "method": "edit_order",
+    "req_id": |1|,
+    "result": {
+        "order_id": "ORDERX-IDXXX-XXXXX2",
+        "original_order_id": "ORDERX-IDXXX-XXXXX1"
+    },
+    "success": true,
+    "time_in": "2024-07-26T13:39:04.922699Z",
+    "time_out": "2024-07-26T13:39:04.924912Z"
+}

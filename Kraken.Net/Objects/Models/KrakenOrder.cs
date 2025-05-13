@@ -1,4 +1,5 @@
-﻿using Kraken.Net.Clients.SpotApi;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Clients.SpotApi;
 using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models
@@ -6,6 +7,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Order info
     /// </summary>
+    [SerializationModel]
     public record KrakenOrder
     {
         /// <summary>
@@ -32,7 +34,7 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Status of the order
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("status")]
         public OrderStatus Status { get; set; }
         /// <summary>
@@ -122,12 +124,13 @@ namespace Kraken.Net.Objects.Models
         /// Trade ids
         /// </summary>
         [JsonPropertyName("trades")]
-        public IEnumerable<string> TradeIds { get; set; } = Array.Empty<string>();
+        public string[] TradeIds { get; set; } = Array.Empty<string>();
     }
 
     /// <summary>
     /// Order details
     /// </summary>
+    [SerializationModel]
     public record KrakenOrderInfo
     {
         /// <summary>
@@ -138,12 +141,12 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Side of the order
         /// </summary>
-        [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("type")]
         public OrderSide Side { get; set; }
         /// <summary>
         /// Type of the order
         /// </summary>
-        [JsonPropertyName("ordertype"), JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("ordertype")]
         public OrderType Type { get; set; }
         /// <summary>
         /// Price of the order
@@ -175,6 +178,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Stream order update
     /// </summary>
+    [SerializationModel]
     public record KrakenStreamOrder: KrakenOrder
     {
         /// <summary>

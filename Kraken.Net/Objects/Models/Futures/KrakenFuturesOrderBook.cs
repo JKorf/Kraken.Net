@@ -1,7 +1,10 @@
-﻿using CryptoExchange.Net.Converters;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Converters;
+using Kraken.Net.Converters;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
+    [SerializationModel]
     internal record KrakenFuturesOrderBookResult : KrakenFuturesResult<KrakenFuturesOrderBook>
     {
         [JsonPropertyName("orderBook")]
@@ -11,24 +14,26 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Order book
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesOrderBook
     {
         /// <summary>
         /// List of asks
         /// </summary>
         [JsonPropertyName("asks")]
-        public IEnumerable<KrakenFuturesOrderBookEntry> Asks { get; set; } = Array.Empty<KrakenFuturesOrderBookEntry>();
+        public KrakenFuturesOrderBookEntry[] Asks { get; set; } = Array.Empty<KrakenFuturesOrderBookEntry>();
         /// <summary>
         /// List of bids
         /// </summary>
         [JsonPropertyName("bids")]
-        public IEnumerable<KrakenFuturesOrderBookEntry> Bids { get; set; } = Array.Empty<KrakenFuturesOrderBookEntry>();
+        public KrakenFuturesOrderBookEntry[] Bids { get; set; } = Array.Empty<KrakenFuturesOrderBookEntry>();
     }
 
     /// <summary>
     /// Order book entry
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter))]
+    [JsonConverter(typeof(ArrayConverter<KrakenFuturesOrderBookEntry>))]
+    [SerializationModel]
     public record KrakenFuturesOrderBookEntry : ISymbolOrderBookEntry
     {
         /// <summary>
@@ -37,7 +42,7 @@ namespace Kraken.Net.Objects.Models.Futures
         [ArrayProperty(0)]
         public decimal Price { get; set; }
         /// <summary>
-        /// Quantiy
+        /// Quantity
         /// </summary>
         [ArrayProperty(1)]
         public decimal Quantity { get; set; }

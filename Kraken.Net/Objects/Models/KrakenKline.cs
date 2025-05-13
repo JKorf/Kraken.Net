@@ -1,11 +1,14 @@
-﻿using CryptoExchange.Net.Converters;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Converters;
+using Kraken.Net.Converters;
 
 namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Kline data
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter))]
+    [JsonConverter(typeof(ArrayConverter<KrakenKline>))]
+    [SerializationModel]
     public record KrakenKline
     {
         /// <summary>
@@ -57,7 +60,8 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Kline data from stream
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter))]
+    [JsonConverter(typeof(ArrayConverter<KrakenStreamKline>))]
+    [SerializationModel]
     public record KrakenStreamKline
     {
         /// <summary>

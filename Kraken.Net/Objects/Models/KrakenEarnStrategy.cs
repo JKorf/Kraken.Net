@@ -1,10 +1,12 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Earn strategy info
     /// </summary>
+    [SerializationModel]
     public record KrakenEarnStrategy
     {
         /// <summary>
@@ -51,7 +53,7 @@ namespace Kraken.Net.Objects.Models
         /// Reason for restrictions
         /// </summary>
         [JsonPropertyName("allocation_restriction_info")]
-        public IEnumerable<string> AllocationRestrictionInfo { get; set; } = Array.Empty<string>();
+        public string[] AllocationRestrictionInfo { get; set; } = Array.Empty<string>();
         /// <summary>
         /// Yield source
         /// </summary>
@@ -77,6 +79,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Lock type info
     /// </summary>
+    [SerializationModel]
     public record LockTypeInfo
     {
         /// <summary>
@@ -129,6 +132,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Yield source type
     /// </summary>
+    [SerializationModel]
     public record YieldSourceType
     {
         /// <summary>
@@ -141,6 +145,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Auto compound type
     /// </summary>
+    [SerializationModel]
     public record AutoCompoundType
     {
         /// <summary>
@@ -158,6 +163,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Apr estimate
     /// </summary>
+    [SerializationModel]
     public record AprEstimate
     {
         /// <summary>

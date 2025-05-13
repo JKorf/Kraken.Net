@@ -1,10 +1,13 @@
-﻿using CryptoExchange.Net.Converters;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Converters;
+using Kraken.Net.Converters;
 
 namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Tick info
     /// </summary>
+    [SerializationModel]
     public record KrakenTick
     {
         /// <summary>
@@ -52,6 +55,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Tick info
     /// </summary>
+    [SerializationModel]
     public record KrakenRestTick: KrakenTick
     {
         /// <summary>
@@ -69,6 +73,7 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Tick info
     /// </summary>
+    [SerializationModel]
     public record KrakenStreamTick : KrakenTick
     {
         /// <summary>
@@ -82,7 +87,8 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Tick detail info
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter))]
+    [JsonConverter(typeof(ArrayConverter<KrakenTickInfo>))]
+    [SerializationModel]
     public record KrakenTickInfo
     {
         /// <summary>
@@ -100,7 +106,8 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Last trade details
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter))]
+    [JsonConverter(typeof(ArrayConverter<KrakenLastTrade>))]
+    [SerializationModel]
     public record KrakenLastTrade
     {
         /// <summary>
@@ -118,7 +125,8 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Best entry info
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter))]
+    [JsonConverter(typeof(ArrayConverter<KrakenBestEntry>))]
+    [SerializationModel]
     public record KrakenBestEntry
     {
         /// <summary>

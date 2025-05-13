@@ -1,12 +1,16 @@
-﻿using CryptoExchange.Net.SharedApis;
+using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
+using Kraken.Net.Objects.Models;
+using Kraken.Net.Objects.Models.Futures;
 using System.Linq;
 
 namespace Kraken.Net.Clients.FuturesApi
 {
     internal partial class KrakenRestClientFuturesApi : IKrakenRestClientFuturesApiShared
     {
+        private const string _topicId = "KrakenFutures";
+
         public string Exchange => KrakenExchange.ExchangeName;
         public TradingMode[] SupportedTradingModes { get; } = new[] { TradingMode.PerpetualLinear, TradingMode.DeliveryLinear, TradingMode.PerpetualInverse, TradingMode.DeliveryInverse };
 
@@ -16,33 +20,26 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Balance Client
         EndpointOptions<GetBalancesRequest> IBalanceRestClient.GetBalancesOptions { get; } = new EndpointOptions<GetBalancesRequest>(true)
         {
-            RequestNotes = "Returns the flex/MultiAssetCollateral balances, for individual margin accounts pass "
         };
 
-        async Task<ExchangeWebResult<IEnumerable<SharedBalance>>> IBalanceRestClient.GetBalancesAsync(GetBalancesRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedBalance[]>> IBalanceRestClient.GetBalancesAsync(GetBalancesRequest request, CancellationToken ct)
         {
             var validationError = ((IBalanceRestClient)this).GetBalancesOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
-                return new ExchangeWebResult<IEnumerable<SharedBalance>>(Exchange, validationError);
+                return new ExchangeWebResult<SharedBalance[]>(Exchange, validationError);
 
             var result = await Account.GetBalancesAsync(ct: ct).ConfigureAwait(false);
             if (!result)
-                return result.AsExchangeResult<IEnumerable<SharedBalance>>(Exchange, null, default);
-
-            var setting = ExchangeParameters.GetValue<bool?>(request.ExchangeParameters, ExchangeName, "MultiAssetCollateral");
-            if (setting == false)
+                return result.AsExchangeResult<SharedBalance[]>(Exchange, null, default);
+                        
+            var balances = result.Data.MultiCollateralMarginAccount.Currencies.Select(x => new SharedBalance(x.Key, x.Value.Available, x.Value.Quantity)).ToList();
+            foreach (var balance in result.Data.MarginAccounts)
             {
-                var balances = new List<SharedBalance>();
-                foreach(var balance in result.Data.MarginAccounts)
-                {
-                    foreach(var currency in balance.Balances)
-                        balances.Add(new SharedBalance(currency.Key, currency.Value, currency.Value) { IsolatedMarginSymbol = balance.Symbol });
-                }
-
-                return result.AsExchangeResult<IEnumerable<SharedBalance>>(Exchange, SupportedTradingModes, balances);
+                foreach (var currency in balance.Balances)
+                    balances.Add(new SharedBalance(currency.Key, currency.Value, currency.Value) { IsolatedMarginSymbol = balance.Symbol });
             }
-            else
-                return result.AsExchangeResult<IEnumerable<SharedBalance>>(Exchange, SupportedTradingModes, result.Data.MultiCollateralMarginAccount.Currencies.Select(x => new SharedBalance(x.Key, x.Value.Available, x.Value.Quantity)).ToArray());
+
+            return result.AsExchangeResult<SharedBalance[]>(Exchange, SupportedTradingModes, balances.ToArray());            
         }
 
         #endregion
@@ -59,15 +56,15 @@ namespace Kraken.Net.Clients.FuturesApi
             SharedKlineInterval.TwelveHours,
             SharedKlineInterval.OneDay,
             SharedKlineInterval.OneWeek);
-        async Task<ExchangeWebResult<IEnumerable<SharedKline>>> IKlineRestClient.GetKlinesAsync(GetKlinesRequest request, INextPageToken? pageToken, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedKline[]>> IKlineRestClient.GetKlinesAsync(GetKlinesRequest request, INextPageToken? pageToken, CancellationToken ct)
         {
             var interval = (Enums.FuturesKlineInterval)request.Interval;
             if (!Enum.IsDefined(typeof(Enums.FuturesKlineInterval), interval))
-                return new ExchangeWebResult<IEnumerable<SharedKline>>(Exchange, new ArgumentError("Interval not supported"));
+                return new ExchangeWebResult<SharedKline[]>(Exchange, new ArgumentError("Interval not supported"));
 
             var validationError = ((IKlineRestClient)this).GetKlinesOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
             if (validationError != null)
-                return new ExchangeWebResult<IEnumerable<SharedKline>>(Exchange, validationError);
+                return new ExchangeWebResult<SharedKline[]>(Exchange, validationError);
 
             // Determine pagination
             // Data is normally returned oldest first, so to do newest first pagination we have to do some calc
@@ -92,7 +89,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 ct: ct
                 ).ConfigureAwait(false);
             if (!result)
-                return result.AsExchangeResult<IEnumerable<SharedKline>>(Exchange, null, default);
+                return result.AsExchangeResult<SharedKline[]>(Exchange, null, default);
 
             // Get next token
             DateTimeToken? nextToken = null;
@@ -103,7 +100,7 @@ namespace Kraken.Net.Clients.FuturesApi
                     nextToken = new DateTimeToken(maxOpenTime.AddSeconds(1));
             }
 
-            return result.AsExchangeResult<IEnumerable<SharedKline>>(Exchange, request.Symbol.TradingMode, result.Data.Klines.Select(x => new SharedKline(x.Timestamp, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume)).ToArray(), nextToken);
+            return result.AsExchangeResult<SharedKline[]>(Exchange, request.Symbol.TradingMode, result.Data.Klines.Select(x => new SharedKline(x.Timestamp, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume)).ToArray(), nextToken);
         }
 
         #endregion
@@ -138,23 +135,23 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Recent Trade client
 
         GetRecentTradesOptions IRecentTradeRestClient.GetRecentTradesOptions { get; } = new GetRecentTradesOptions(100, false);
-        async Task<ExchangeWebResult<IEnumerable<SharedTrade>>> IRecentTradeRestClient.GetRecentTradesAsync(GetRecentTradesRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedTrade[]>> IRecentTradeRestClient.GetRecentTradesAsync(GetRecentTradesRequest request, CancellationToken ct)
         {
             var validationError = ((IRecentTradeRestClient)this).GetRecentTradesOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
             if (validationError != null)
-                return new ExchangeWebResult<IEnumerable<SharedTrade>>(Exchange, validationError);
+                return new ExchangeWebResult<SharedTrade[]>(Exchange, validationError);
 
             var result = await ExchangeData.GetTradesAsync(
                 request.Symbol.GetSymbol(FormatSymbol),
                 ct: ct).ConfigureAwait(false);
             if (!result)
-                return result.AsExchangeResult<IEnumerable<SharedTrade>>(Exchange, null, default);
+                return result.AsExchangeResult<SharedTrade[]>(Exchange, null, default);
 
             var data = result.Data;
             if (request.Limit != null)
                 data = data.Take(request.Limit.Value).ToArray();
 
-            return result.AsExchangeResult<IEnumerable<SharedTrade>>(Exchange, request.Symbol.TradingMode, data.Select(x => new SharedTrade(x.Quantity!.Value, x.Price, x.Timestamp!.Value)
+            return result.AsExchangeResult<SharedTrade[]>(Exchange, request.Symbol.TradingMode, data.Select(x => new SharedTrade(x.Quantity!.Value, x.Price, x.Timestamp!.Value)
             {
                 Side = x.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell
             }).ToArray());
@@ -165,42 +162,42 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Funding Rate client
         GetFundingRateHistoryOptions IFundingRateRestClient.GetFundingRateHistoryOptions { get; } = new GetFundingRateHistoryOptions(SharedPaginationSupport.NotSupported, false, 1000, false);
 
-        async Task<ExchangeWebResult<IEnumerable<SharedFundingRate>>> IFundingRateRestClient.GetFundingRateHistoryAsync(GetFundingRateHistoryRequest request, INextPageToken? pageToken, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedFundingRate[]>> IFundingRateRestClient.GetFundingRateHistoryAsync(GetFundingRateHistoryRequest request, INextPageToken? pageToken, CancellationToken ct)
         {
             var validationError = ((IFundingRateRestClient)this).GetFundingRateHistoryOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
             if (validationError != null)
-                return new ExchangeWebResult<IEnumerable<SharedFundingRate>>(Exchange, validationError);
+                return new ExchangeWebResult<SharedFundingRate[]>(Exchange, validationError);
 
             // Get data
             var result = await ExchangeData.GetHistoricalFundingRatesAsync(
                 request.Symbol.GetSymbol(FormatSymbol),
                 ct: ct).ConfigureAwait(false);
             if (!result)
-                return result.AsExchangeResult<IEnumerable<SharedFundingRate>>(Exchange, null, default);
+                return result.AsExchangeResult<SharedFundingRate[]>(Exchange, null, default);
 
-            var data = result.Data;
+            IEnumerable<KrakenFundingRate> data = result.Data;
             if (request.StartTime != null)
                 data = data.Where(x => x.Timestamp >= request.StartTime.Value);
             if (request.EndTime != null)
                 data = data.Where(x => x.Timestamp <= request.EndTime.Value);
 
             // Return
-            return result.AsExchangeResult<IEnumerable<SharedFundingRate>>(Exchange, request.Symbol.TradingMode, data.Select(x => new SharedFundingRate(x.FundingRate, x.Timestamp)).ToArray());
+            return result.AsExchangeResult<SharedFundingRate[]>(Exchange, request.Symbol.TradingMode, data.Select(x => new SharedFundingRate(x.FundingRate, x.Timestamp)).ToArray());
         }
         #endregion
 
         #region Futures Symbol client
 
         EndpointOptions<GetSymbolsRequest> IFuturesSymbolRestClient.GetFuturesSymbolsOptions { get; } = new EndpointOptions<GetSymbolsRequest>(false);
-        async Task<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>> IFuturesSymbolRestClient.GetFuturesSymbolsAsync(GetSymbolsRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedFuturesSymbol[]>> IFuturesSymbolRestClient.GetFuturesSymbolsAsync(GetSymbolsRequest request, CancellationToken ct)
         {
             var validationError = ((IFuturesSymbolRestClient)this).GetFuturesSymbolsOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
-                return new ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>(Exchange, validationError);
+                return new ExchangeWebResult<SharedFuturesSymbol[]>(Exchange, validationError);
 
             var result = await ExchangeData.GetSymbolsAsync(ct).ConfigureAwait(false);
             if (!result)
-                return result.AsExchangeResult<IEnumerable<SharedFuturesSymbol>>(Exchange, null, default);
+                return result.AsExchangeResult<SharedFuturesSymbol[]>(Exchange, null, default);
 
             var data = result.Data.Where(x => x.Type != Enums.SymbolType.SpotIndex && !x.Symbol.StartsWith("rr"));
             var resultData = data.Select(s =>
@@ -209,10 +206,10 @@ namespace Kraken.Net.Clients.FuturesApi
                 var assets = split[1];
 
                 return new SharedFuturesSymbol(
-                    s.Type == Enums.SymbolType.FlexibleFutures && split.Count() == 2 ? SharedSymbolType.PerpetualLinear :
-                    s.Type == Enums.SymbolType.FlexibleFutures && split.Count() > 2 ? SharedSymbolType.DeliveryLinear :
-                    s.Type == Enums.SymbolType.InverseFutures && split.Count() == 2 ? SharedSymbolType.PerpetualInverse :
-                    SharedSymbolType.DeliveryInverse,
+                    s.Type == Enums.SymbolType.FlexibleFutures && split.Count() == 2 ? TradingMode.PerpetualLinear :
+                    s.Type == Enums.SymbolType.FlexibleFutures && split.Count() > 2 ? TradingMode.DeliveryLinear :
+                    s.Type == Enums.SymbolType.InverseFutures && split.Count() == 2 ? TradingMode.PerpetualInverse :
+                    TradingMode.DeliveryInverse,
                     assets.Substring(0, assets.Length - 3),
                     assets.Substring(assets.Length - 3),
                     s.Symbol,
@@ -226,12 +223,12 @@ namespace Kraken.Net.Clients.FuturesApi
             });
 
             if (request.TradingMode != null)
-                resultData = resultData.Where(x => request.TradingMode == TradingMode.PerpetualLinear ? x.SymbolType == SharedSymbolType.PerpetualLinear :
-                request.TradingMode == TradingMode.DeliveryLinear ? x.SymbolType == SharedSymbolType.DeliveryLinear :
-                request.TradingMode == TradingMode.PerpetualInverse ? x.SymbolType == SharedSymbolType.PerpetualInverse :
-                x.SymbolType == SharedSymbolType.DeliveryInverse);
+                resultData = resultData.Where(x => request.TradingMode == x.TradingMode);
 
-            return result.AsExchangeResult<IEnumerable<SharedFuturesSymbol>>(Exchange, request.TradingMode == null ? SupportedTradingModes : new[] { request.TradingMode.Value }, resultData.ToArray());
+            var response = result.AsExchangeResult<SharedFuturesSymbol[]>(Exchange, request.TradingMode == null ? SupportedTradingModes : new[] { request.TradingMode.Value }, resultData.ToArray());
+            
+            ExchangeSymbolCache.UpdateSymbolInfo(_topicId, response.Data);
+            return response;
         }
 
         #endregion
@@ -251,7 +248,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
             var time = DateTime.UtcNow;
 
-            return resultTicker.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedFuturesTicker(resultTicker.Data.Symbol, resultTicker.Data.LastPrice, null, null, resultTicker.Data.Volume24h, (resultTicker.Data.OpenPrice24h > 0 && resultTicker.Data.LastPrice > 0) ? Math.Round(resultTicker.Data.LastPrice.Value / resultTicker.Data.OpenPrice24h.Value * 100 - 100, 2) : null)
+            return resultTicker.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedFuturesTicker(ExchangeSymbolCache.ParseSymbol(_topicId, resultTicker.Data.Symbol), resultTicker.Data.Symbol, resultTicker.Data.LastPrice, null, null, resultTicker.Data.Volume24h, (resultTicker.Data.OpenPrice24h > 0 && resultTicker.Data.LastPrice > 0) ? Math.Round(resultTicker.Data.LastPrice.Value / resultTicker.Data.OpenPrice24h.Value * 100 - 100, 2) : null)
             {
                 MarkPrice = resultTicker.Data.MarkPrice,
                 IndexPrice = resultTicker.Data.IndexPrice,
@@ -261,15 +258,15 @@ namespace Kraken.Net.Clients.FuturesApi
         }
 
         EndpointOptions<GetTickersRequest> IFuturesTickerRestClient.GetFuturesTickersOptions { get; } = new EndpointOptions<GetTickersRequest>(false);
-        async Task<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>> IFuturesTickerRestClient.GetFuturesTickersAsync(GetTickersRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedFuturesTicker[]>> IFuturesTickerRestClient.GetFuturesTickersAsync(GetTickersRequest request, CancellationToken ct)
         {
             var validationError = ((IFuturesTickerRestClient)this).GetFuturesTickersOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
-                return new ExchangeWebResult<IEnumerable<SharedFuturesTicker>>(Exchange, validationError);
+                return new ExchangeWebResult<SharedFuturesTicker[]>(Exchange, validationError);
 
             var resultTicker = await ExchangeData.GetTickersAsync(ct).ConfigureAwait(false);
             if (!resultTicker)
-                return resultTicker.AsExchangeResult<IEnumerable<SharedFuturesTicker>>(Exchange, null, default);
+                return resultTicker.AsExchangeResult<SharedFuturesTicker[]>(Exchange, null, default);
 
             var data = resultTicker.Data.Where(x => !x.Symbol.StartsWith("rr_") && !x.Symbol.StartsWith("in_"));
             if (request.TradingMode != null)
@@ -281,7 +278,7 @@ namespace Kraken.Net.Clients.FuturesApi
             }
 
             var time = DateTime.UtcNow;
-            return resultTicker.AsExchangeResult<IEnumerable<SharedFuturesTicker>>(Exchange, request.TradingMode == null ? SupportedTradingModes : new[] { request.TradingMode.Value }, data.Select(x => new SharedFuturesTicker(x.Symbol, x.LastPrice, null, null, x.Volume24h, (x.OpenPrice24h > 0 && x.LastPrice > 0) ? Math.Round(x.LastPrice.Value / x.OpenPrice24h.Value * 100 - 100, 2) : null)
+            return resultTicker.AsExchangeResult<SharedFuturesTicker[]>(Exchange, request.TradingMode == null ? SupportedTradingModes : new[] { request.TradingMode.Value }, data.Select(x => new SharedFuturesTicker(ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol), x.Symbol, x.LastPrice, null, null, x.Volume24h, (x.OpenPrice24h > 0 && x.LastPrice > 0) ? Math.Round(x.LastPrice.Value / x.OpenPrice24h.Value * 100 - 100, 2) : null)
             {
                 MarkPrice = x.MarkPrice,
                 IndexPrice = x.IndexPrice,
@@ -292,19 +289,44 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #endregion
 
+        #region Book Ticker client
+
+        EndpointOptions<GetBookTickerRequest> IBookTickerRestClient.GetBookTickerOptions { get; } = new EndpointOptions<GetBookTickerRequest>(false);
+        async Task<ExchangeWebResult<SharedBookTicker>> IBookTickerRestClient.GetBookTickerAsync(GetBookTickerRequest request, CancellationToken ct)
+        {
+            var validationError = ((IBookTickerRestClient)this).GetBookTickerOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
+            if (validationError != null)
+                return new ExchangeWebResult<SharedBookTicker>(Exchange, validationError);
+
+            var symbol = request.Symbol.GetSymbol(FormatSymbol);
+            var resultTicker = await ExchangeData.GetTickerAsync(symbol, ct: ct).ConfigureAwait(false);
+            if (!resultTicker)
+                return resultTicker.AsExchangeResult<SharedBookTicker>(Exchange, null, default);
+
+            return resultTicker.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedBookTicker(
+                ExchangeSymbolCache.ParseSymbol(_topicId, symbol),
+                symbol,
+                resultTicker.Data.BestAskPrice ?? 0,
+                resultTicker.Data.BestAskQuantity ?? 0,
+                resultTicker.Data.BestBidPrice ?? 0,
+                resultTicker.Data.BestBidQuantity ?? 0));
+        }
+
+        #endregion
+
         #region Mark Price Klines client
 
         GetKlinesOptions IMarkPriceKlineRestClient.GetMarkPriceKlinesOptions { get; } = new GetKlinesOptions(SharedPaginationSupport.Ascending, true, 5000, false);
 
-        async Task<ExchangeWebResult<IEnumerable<SharedFuturesKline>>> IMarkPriceKlineRestClient.GetMarkPriceKlinesAsync(GetKlinesRequest request, INextPageToken? pageToken, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedFuturesKline[]>> IMarkPriceKlineRestClient.GetMarkPriceKlinesAsync(GetKlinesRequest request, INextPageToken? pageToken, CancellationToken ct)
         {
             var interval = (Enums.FuturesKlineInterval)request.Interval;
             if (!Enum.IsDefined(typeof(Enums.FuturesKlineInterval), interval))
-                return new ExchangeWebResult<IEnumerable<SharedFuturesKline>>(Exchange, new ArgumentError("Interval not supported"));
+                return new ExchangeWebResult<SharedFuturesKline[]>(Exchange, new ArgumentError("Interval not supported"));
 
             var validationError = ((IMarkPriceKlineRestClient)this).GetMarkPriceKlinesOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
             if (validationError != null)
-                return new ExchangeWebResult<IEnumerable<SharedFuturesKline>>(Exchange, validationError);
+                return new ExchangeWebResult<SharedFuturesKline[]>(Exchange, validationError);
 
             // Determine pagination
             // Data is normally returned oldest first, so to do newest first pagination we have to do some calc
@@ -330,7 +352,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 ct: ct
                 ).ConfigureAwait(false);
             if (!result)
-                return result.AsExchangeResult<IEnumerable<SharedFuturesKline>>(Exchange, null, default);
+                return result.AsExchangeResult<SharedFuturesKline[]>(Exchange, null, default);
 
             // Get next token
             DateTimeToken? nextToken = null;
@@ -341,7 +363,7 @@ namespace Kraken.Net.Clients.FuturesApi
                     nextToken = new DateTimeToken(maxOpenTime.AddSeconds(1));
             }
 
-            return result.AsExchangeResult<IEnumerable<SharedFuturesKline>>(Exchange, request.Symbol.TradingMode, result.Data.Klines.Select(x => new SharedFuturesKline(x.Timestamp, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice)).ToArray(), nextToken);
+            return result.AsExchangeResult<SharedFuturesKline[]>(Exchange, request.Symbol.TradingMode, result.Data.Klines.Select(x => new SharedFuturesKline(x.Timestamp, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice)).ToArray(), nextToken);
         }
 
         #endregion
@@ -408,15 +430,17 @@ namespace Kraken.Net.Clients.FuturesApi
         SharedFeeDeductionType IFuturesOrderRestClient.FuturesFeeDeductionType => SharedFeeDeductionType.AddToCost;
         SharedFeeAssetType IFuturesOrderRestClient.FuturesFeeAssetType => SharedFeeAssetType.QuoteAsset;
 
-        IEnumerable<SharedOrderType> IFuturesOrderRestClient.FuturesSupportedOrderTypes { get; } = new[] { SharedOrderType.Limit, SharedOrderType.Market };
-        IEnumerable<SharedTimeInForce> IFuturesOrderRestClient.FuturesSupportedTimeInForce { get; } = new[] { SharedTimeInForce.GoodTillCanceled, SharedTimeInForce.ImmediateOrCancel };
+        SharedOrderType[] IFuturesOrderRestClient.FuturesSupportedOrderTypes { get; } = new[] { SharedOrderType.Limit, SharedOrderType.Market };
+        SharedTimeInForce[] IFuturesOrderRestClient.FuturesSupportedTimeInForce { get; } = new[] { SharedTimeInForce.GoodTillCanceled, SharedTimeInForce.ImmediateOrCancel };
         SharedQuantitySupport IFuturesOrderRestClient.FuturesSupportedOrderQuantity { get; } = new SharedQuantitySupport(
                 SharedQuantityType.Contracts,
                 SharedQuantityType.Contracts,
                 SharedQuantityType.Contracts,
                 SharedQuantityType.Contracts);
 
-        PlaceFuturesOrderOptions IFuturesOrderRestClient.PlaceFuturesOrderOptions { get; } = new PlaceFuturesOrderOptions();
+        string IFuturesOrderRestClient.GenerateClientOrderId() => ExchangeHelpers.RandomString(32);
+
+        PlaceFuturesOrderOptions IFuturesOrderRestClient.PlaceFuturesOrderOptions { get; } = new PlaceFuturesOrderOptions(false);
         async Task<ExchangeWebResult<SharedId>> IFuturesOrderRestClient.PlaceFuturesOrderAsync(PlaceFuturesOrderRequest request, CancellationToken ct)
         {
             var validationError = ((IFuturesOrderRestClient)this).PlaceFuturesOrderOptions.ValidateRequest(
@@ -434,7 +458,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 request.Symbol.GetSymbol(FormatSymbol),
                 request.Side == SharedOrderSide.Buy ? Enums.OrderSide.Buy : Enums.OrderSide.Sell,
                 GetOrderType(request.OrderType, request.TimeInForce),
-                quantity: request.Quantity ?? 0,
+                quantity: request.Quantity?.QuantityInContracts ?? 0,
                 price: request.Price,
                 reduceOnly: request.ReduceOnly,
                 clientOrderId: request.ClientOrderId,
@@ -458,6 +482,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 return order.AsExchangeResult<SharedFuturesOrder>(Exchange, null, default);
 
             return order.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedFuturesOrder(
+                ExchangeSymbolCache.ParseSymbol(_topicId, order.Data.Order.Symbol),
                 order.Data.Order.Symbol,
                 order.Data.Order.OrderId,
                 SharedOrderType.Other,
@@ -467,30 +492,31 @@ namespace Kraken.Net.Clients.FuturesApi
             {
                 ClientOrderId = order.Data.Order.ClientOrderId,
                 OrderPrice = order.Data.Order.Price == 0 ? null : order.Data.Order.Price,
-                Quantity = order.Data.Order.Quantity == 0 ? null : order.Data.Order.Quantity,
-                QuantityFilled = order.Data.Order.QuantityFilled,
+                OrderQuantity = new SharedOrderQuantity(contractQuantity: order.Data.Order.Quantity == 0 ? null : order.Data.Order.Quantity),
+                QuantityFilled = new SharedOrderQuantity(contractQuantity: order.Data.Order.QuantityFilled),
                 UpdateTime = order.Data.Order.LastUpdateTime,
                 ReduceOnly = order.Data.Order.ReduceOnly
             });
         }
 
         EndpointOptions<GetOpenOrdersRequest> IFuturesOrderRestClient.GetOpenFuturesOrdersOptions { get; } = new EndpointOptions<GetOpenOrdersRequest>(true);
-        async Task<ExchangeWebResult<IEnumerable<SharedFuturesOrder>>> IFuturesOrderRestClient.GetOpenFuturesOrdersAsync(GetOpenOrdersRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedFuturesOrder[]>> IFuturesOrderRestClient.GetOpenFuturesOrdersAsync(GetOpenOrdersRequest request, CancellationToken ct)
         {
             var validationError = ((IFuturesOrderRestClient)this).GetOpenFuturesOrdersOptions.ValidateRequest(Exchange, request, request.Symbol?.TradingMode ?? request.TradingMode, SupportedTradingModes);
             if (validationError != null)
-                return new ExchangeWebResult<IEnumerable<SharedFuturesOrder>>(Exchange, validationError);
+                return new ExchangeWebResult<SharedFuturesOrder[]>(Exchange, validationError);
 
             var symbol = request.Symbol?.GetSymbol(FormatSymbol);
             var orders = await Trading.GetOpenOrdersAsync(ct: ct).ConfigureAwait(false);
             if (!orders)
-                return orders.AsExchangeResult<IEnumerable<SharedFuturesOrder>>(Exchange, null, default);
+                return orders.AsExchangeResult<SharedFuturesOrder[]>(Exchange, null, default);
 
-            var data = orders.Data;
+            IEnumerable<KrakenFuturesOpenOrder> data = orders.Data;
             if (symbol != null)
                 data = data.Where(x => x.Symbol == symbol);
 
-            return orders.AsExchangeResult<IEnumerable<SharedFuturesOrder>>(Exchange, request.Symbol == null ? SupportedTradingModes : new[] { request.Symbol.TradingMode }, data.Select(x => new SharedFuturesOrder(
+            return orders.AsExchangeResult<SharedFuturesOrder[]>(Exchange, request.Symbol == null ? SupportedTradingModes : new[] { request.Symbol.TradingMode }, data.Select(x => new SharedFuturesOrder(
+                ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol), 
                 x.Symbol,
                 x.OrderId.ToString(),
                 x.Type == FuturesOrderType.Limit ? SharedOrderType.Limit : SharedOrderType.Other,
@@ -500,8 +526,8 @@ namespace Kraken.Net.Clients.FuturesApi
             {
                 ClientOrderId = x.ClientOrderId,
                 OrderPrice = x.Price == 0 ? null : x.Price,
-                Quantity = x.Quantity,
-                QuantityFilled = x.QuantityFilled,
+                OrderQuantity = new SharedOrderQuantity(contractQuantity: x.Quantity),
+                QuantityFilled = new SharedOrderQuantity(contractQuantity: x.QuantityFilled),
                 UpdateTime = x.LastUpdateTime,
                 ReduceOnly = x.ReduceOnly
             }).ToArray());
@@ -509,28 +535,30 @@ namespace Kraken.Net.Clients.FuturesApi
 
         PaginatedEndpointOptions<GetClosedOrdersRequest> IFuturesOrderRestClient.GetClosedFuturesOrdersOptions { get; } = new PaginatedEndpointOptions<GetClosedOrdersRequest>(SharedPaginationSupport.NotSupported, false, 1000, true)
         {
+            Supported = false,
             RequestNotes = "There is no way to retrieve closed orders without specifying order ids, so this method can never return success"
         };
-        Task<ExchangeWebResult<IEnumerable<SharedFuturesOrder>>> IFuturesOrderRestClient.GetClosedFuturesOrdersAsync(GetClosedOrdersRequest request, INextPageToken? pageToken, CancellationToken ct)
+        Task<ExchangeWebResult<SharedFuturesOrder[]>> IFuturesOrderRestClient.GetClosedFuturesOrdersAsync(GetClosedOrdersRequest request, INextPageToken? pageToken, CancellationToken ct)
         {
-            return Task.FromResult(new ExchangeWebResult<IEnumerable<SharedFuturesOrder>>(Exchange, new InvalidOperationError($"Method not available for {Exchange}")));
+            return Task.FromResult(new ExchangeWebResult<SharedFuturesOrder[]>(Exchange, new InvalidOperationError($"Method not available for {Exchange}")));
         }
 
         EndpointOptions<GetOrderTradesRequest> IFuturesOrderRestClient.GetFuturesOrderTradesOptions { get; } = new EndpointOptions<GetOrderTradesRequest>(true)
         {
+            Supported = false,
             RequestNotes = "There is no way to retrieve trades for a specific order, so this method can never return success"
         };
-        Task<ExchangeWebResult<IEnumerable<SharedUserTrade>>> IFuturesOrderRestClient.GetFuturesOrderTradesAsync(GetOrderTradesRequest request, CancellationToken ct)
+        Task<ExchangeWebResult<SharedUserTrade[]>> IFuturesOrderRestClient.GetFuturesOrderTradesAsync(GetOrderTradesRequest request, CancellationToken ct)
         {
-            return Task.FromResult(new ExchangeWebResult<IEnumerable<SharedUserTrade>>(Exchange, new InvalidOperationError($"Method not available for {Exchange}")));
+            return Task.FromResult(new ExchangeWebResult<SharedUserTrade[]>(Exchange, new InvalidOperationError($"Method not available for {Exchange}")));
         }
 
         PaginatedEndpointOptions<GetUserTradesRequest> IFuturesOrderRestClient.GetFuturesUserTradesOptions { get; } = new PaginatedEndpointOptions<GetUserTradesRequest>(SharedPaginationSupport.Ascending, true, 100, true);
-        async Task<ExchangeWebResult<IEnumerable<SharedUserTrade>>> IFuturesOrderRestClient.GetFuturesUserTradesAsync(GetUserTradesRequest request, INextPageToken? pageToken, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedUserTrade[]>> IFuturesOrderRestClient.GetFuturesUserTradesAsync(GetUserTradesRequest request, INextPageToken? pageToken, CancellationToken ct)
         {
             var validationError = ((IFuturesOrderRestClient)this).GetFuturesUserTradesOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
             if (validationError != null)
-                return new ExchangeWebResult<IEnumerable<SharedUserTrade>>(Exchange, validationError);
+                return new ExchangeWebResult<SharedUserTrade[]>(Exchange, validationError);
 
             // Determine page token
             DateTime? fromTime = null;
@@ -543,14 +571,15 @@ namespace Kraken.Net.Clients.FuturesApi
                 ct: ct
                 ).ConfigureAwait(false);
             if (!orders)
-                return orders.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, null, default);
+                return orders.AsExchangeResult<SharedUserTrade[]>(Exchange, null, default);
 
             // Get next token
             DateTimeToken? nextToken = null;
             if (orders.Data.Any())
                 nextToken = new DateTimeToken(orders.Data.Max(o => o.FillTime).AddMilliseconds(1));
 
-            return orders.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, request.Symbol.TradingMode, orders.Data.Select(x => new SharedUserTrade(
+            return orders.AsExchangeResult<SharedUserTrade[]>(Exchange, request.Symbol.TradingMode, orders.Data.Select(x => new SharedUserTrade(
+                ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol), 
                 x.Symbol,
                 x.OrderId.ToString(),
                 x.Id.ToString(),
@@ -580,28 +609,30 @@ namespace Kraken.Net.Clients.FuturesApi
         }
 
         EndpointOptions<GetPositionsRequest> IFuturesOrderRestClient.GetPositionsOptions { get; } = new EndpointOptions<GetPositionsRequest>(true);
-        async Task<ExchangeWebResult<IEnumerable<SharedPosition>>> IFuturesOrderRestClient.GetPositionsAsync(GetPositionsRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedPosition[]>> IFuturesOrderRestClient.GetPositionsAsync(GetPositionsRequest request, CancellationToken ct)
         {
             var validationError = ((IFuturesOrderRestClient)this).GetPositionsOptions.ValidateRequest(Exchange, request, request.Symbol?.TradingMode ?? request.TradingMode, SupportedTradingModes);
             if (validationError != null)
-                return new ExchangeWebResult<IEnumerable<SharedPosition>>(Exchange, validationError);
+                return new ExchangeWebResult<SharedPosition[]>(Exchange, validationError);
 
             var result = await Trading.GetOpenPositionsAsync(ct: ct).ConfigureAwait(false);
             if (!result)
-                return result.AsExchangeResult<IEnumerable<SharedPosition>>(Exchange, null, default);
+                return result.AsExchangeResult<SharedPosition[]>(Exchange, null, default);
 
-            var data = result.Data;
+            IEnumerable<KrakenFuturesPosition> data = result.Data;
             if (request.Symbol != null)
                 data = data.Where(x => x.Symbol == request.Symbol.GetSymbol(FormatSymbol));
 
             if (request.TradingMode.HasValue)
+            {
                 data = data.Where(x => request.TradingMode == TradingMode.PerpetualLinear ? x.Symbol.StartsWith("PF_") :
-                request.TradingMode == TradingMode.DeliveryLinear ? x.Symbol.StartsWith("FF_") :
-                request.TradingMode == TradingMode.PerpetualInverse ? x.Symbol.StartsWith("PI_") :
-                x.Symbol.StartsWith("FI_"));
+                    request.TradingMode == TradingMode.DeliveryLinear ? x.Symbol.StartsWith("FF_") :
+                    request.TradingMode == TradingMode.PerpetualInverse ? x.Symbol.StartsWith("PI_") :
+                    x.Symbol.StartsWith("FI_"));
+            }
 
             var resultTypes = request.Symbol == null && request.TradingMode == null ? SupportedTradingModes : request.Symbol != null ? new[] { request.Symbol.TradingMode } : new[] { request.TradingMode!.Value };
-            return result.AsExchangeResult<IEnumerable<SharedPosition>>(Exchange, resultTypes, data.Select(x => new SharedPosition(x.Symbol, Math.Abs(x.Quantity), x.FillTime)
+            return result.AsExchangeResult<SharedPosition[]>(Exchange, resultTypes, data.Select(x => new SharedPosition(ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol), x.Symbol, Math.Abs(x.Quantity), x.FillTime)
             {
                 Leverage = x.MaxFixedLeverage,
                 AverageOpenPrice = x.Price,
@@ -659,6 +690,52 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #endregion
 
+        #region Futures Client Id Order Client
+
+        EndpointOptions<GetOrderRequest> IFuturesOrderClientIdRestClient.GetFuturesOrderByClientOrderIdOptions { get; } = new EndpointOptions<GetOrderRequest>(true);
+        async Task<ExchangeWebResult<SharedFuturesOrder>> IFuturesOrderClientIdRestClient.GetFuturesOrderByClientOrderIdAsync(GetOrderRequest request, CancellationToken ct)
+        {
+            var validationError = ((IFuturesOrderRestClient)this).GetFuturesOrderOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
+            if (validationError != null)
+                return new ExchangeWebResult<SharedFuturesOrder>(Exchange, validationError);
+
+            var order = await Trading.GetOrderAsync(clientOrderId: request.OrderId, ct: ct).ConfigureAwait(false);
+            if (!order)
+                return order.AsExchangeResult<SharedFuturesOrder>(Exchange, null, default);
+
+            return order.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedFuturesOrder(
+                ExchangeSymbolCache.ParseSymbol(_topicId, order.Data.Order.Symbol),
+                order.Data.Order.Symbol,
+                order.Data.Order.OrderId,
+                SharedOrderType.Other,
+                order.Data.Order.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
+                ParseOrderStatus(order.Data.Status),
+                order.Data.Order.Timestamp)
+            {
+                ClientOrderId = order.Data.Order.ClientOrderId,
+                OrderPrice = order.Data.Order.Price == 0 ? null : order.Data.Order.Price,
+                OrderQuantity = new SharedOrderQuantity(contractQuantity: order.Data.Order.Quantity == 0 ? null : order.Data.Order.Quantity),
+                QuantityFilled = new SharedOrderQuantity(contractQuantity: order.Data.Order.QuantityFilled),
+                UpdateTime = order.Data.Order.LastUpdateTime,
+                ReduceOnly = order.Data.Order.ReduceOnly
+            });
+        }
+
+        EndpointOptions<CancelOrderRequest> IFuturesOrderClientIdRestClient.CancelFuturesOrderByClientOrderIdOptions { get; } = new EndpointOptions<CancelOrderRequest>(true);
+        async Task<ExchangeWebResult<SharedId>> IFuturesOrderClientIdRestClient.CancelFuturesOrderByClientOrderIdAsync(CancelOrderRequest request, CancellationToken ct)
+        {
+            var validationError = ((IFuturesOrderRestClient)this).CancelFuturesOrderOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
+            if (validationError != null)
+                return new ExchangeWebResult<SharedId>(Exchange, validationError);
+
+            var order = await Trading.CancelOrderAsync(clientOrderId: request.OrderId, ct: ct).ConfigureAwait(false);
+            if (!order)
+                return order.AsExchangeResult<SharedId>(Exchange, null, default);
+
+            return order.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedId(order.Data.OrderId));
+        }
+        #endregion
+
         #region Fee Client
         EndpointOptions<GetFeeRequest> IFeeRestClient.GetFeeOptions { get; } = new EndpointOptions<GetFeeRequest>(true);
 
@@ -693,8 +770,65 @@ namespace Kraken.Net.Clients.FuturesApi
                 return result.AsExchangeError<SharedFee>(Exchange, new UnknownError("Failed to retrieve"));
 
             // Return
-            return result.AsExchangeResult(Exchange, TradingMode.Spot, new SharedFee(makerFee.Value, takerFee!.Value));
+            return result.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedFee(makerFee.Value, takerFee!.Value));
         }
+        #endregion
+
+        #region Tp/SL Client
+        EndpointOptions<SetTpSlRequest> IFuturesTpSlRestClient.SetFuturesTpSlOptions { get; } = new EndpointOptions<SetTpSlRequest>(true)
+        {
+            RequiredOptionalParameters = new List<ParameterDescription>
+            {
+                new ParameterDescription(nameof(SetTpSlRequest.Quantity), typeof(decimal), "The quantity to close", 0.123m)
+            }
+        };
+
+        async Task<ExchangeWebResult<SharedId>> IFuturesTpSlRestClient.SetFuturesTpSlAsync(SetTpSlRequest request, CancellationToken ct)
+        {
+            var validationError = ((IFuturesTpSlRestClient)this).SetFuturesTpSlOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
+            if (validationError != null)
+                return new ExchangeWebResult<SharedId>(Exchange, validationError);
+
+            var result = await Trading.PlaceOrderAsync(
+                request.Symbol.GetSymbol(FormatSymbol),
+                request.PositionSide == SharedPositionSide.Long ? OrderSide.Buy : OrderSide.Sell,
+                request.TpSlSide == SharedTpSlSide.TakeProfit ? FuturesOrderType.TakeProfit : FuturesOrderType.Stop,
+                request.Quantity!.Value,
+                stopPrice: request.TriggerPrice,
+                reduceOnly: true,
+                ct: ct).ConfigureAwait(false);
+
+            if (!result)
+                return result.AsExchangeResult<SharedId>(Exchange, null, default);
+
+            // Return
+            return result.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedId(result.Data.OrderId));
+        }
+
+        EndpointOptions<CancelTpSlRequest> IFuturesTpSlRestClient.CancelFuturesTpSlOptions { get; } = new EndpointOptions<CancelTpSlRequest>(true)
+        {
+            RequiredOptionalParameters = new List<ParameterDescription>
+            {
+                new ParameterDescription(nameof(CancelTpSlRequest.OrderId), typeof(string), "Id of the tp/sl order", "123123")
+            }
+        };
+
+        async Task<ExchangeWebResult<bool>> IFuturesTpSlRestClient.CancelFuturesTpSlAsync(CancelTpSlRequest request, CancellationToken ct)
+        {
+            var validationError = ((IFuturesTpSlRestClient)this).CancelFuturesTpSlOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
+            if (validationError != null)
+                return new ExchangeWebResult<bool>(Exchange, validationError);
+
+            var result = await Trading.CancelOrderAsync(
+                request.OrderId,
+                ct: ct).ConfigureAwait(false);
+            if (!result)
+                return result.AsExchangeResult<bool>(Exchange, null, default);
+
+            // Return
+            return result.AsExchangeResult(Exchange, request.Symbol.TradingMode, true);
+        }
+
         #endregion
     }
 }

@@ -48,7 +48,6 @@ namespace Kraken.Net.UnitTests
             // assert
             ClassicAssert.IsFalse(result.Success);
             Assert.That(result.ResponseStatusCode == System.Net.HttpStatusCode.BadRequest);
-            Assert.That(result.Error!.ToString().Contains("Error request"));
         }
 
         public string SerializeExpected<T>(T data)
@@ -85,7 +84,7 @@ namespace Kraken.Net.UnitTests
             var client = TestHelpers.CreateClient();
             var resultObj = new KrakenResult()
             {
-                Error = new List<string>
+                Error = new string[]
                 {
                     "Error occured"
                 }

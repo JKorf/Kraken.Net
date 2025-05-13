@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Models.Socket.Futures
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Socket.Futures
 {
     /// <summary>
     /// Open positions update
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesOpenPositionUpdate : KrakenFuturesSocketMessage
     {
         /// <summary>
@@ -15,12 +17,13 @@
         /// Open positions
         /// </summary>
         [JsonPropertyName("positions")]
-        public IEnumerable<KrakenFuturesOpenPosition> Positions { get; set; } = Array.Empty<KrakenFuturesOpenPosition>();
+        public KrakenFuturesOpenPosition[] Positions { get; set; } = Array.Empty<KrakenFuturesOpenPosition>();
     }
 
     /// <summary>
     /// Open position info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesOpenPosition
     {
         /// <summary>

@@ -1,5 +1,7 @@
-﻿namespace Kraken.Net.Objects.Models.Futures
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Futures
 {
+    [SerializationModel]
     internal record KrakenFuturesCancelledOrdersResult : KrakenFuturesResult<KrakenFuturesCancelledOrders>
     {
         [JsonPropertyName("cancelStatus")]
@@ -9,6 +11,7 @@
     /// <summary>
     /// Cancelled order info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesCancelledOrders
     {
         /// <summary>
@@ -20,12 +23,12 @@
         /// Cancelled order ids
         /// </summary>
         [JsonPropertyName("cancelledOrders")]
-        public IEnumerable<KrakenFuturesOrderId> CancelledOrders { get; set; } = Array.Empty<KrakenFuturesOrderId>();
+        public KrakenFuturesOrderId[] CancelledOrders { get; set; } = Array.Empty<KrakenFuturesOrderId>();
         /// <summary>
         /// Order events
         /// </summary>
         [JsonPropertyName("orderEvents")]
-        public IEnumerable<KrakenFuturesOrderEvent> OrderEvents { get; set; } = Array.Empty<KrakenFuturesOrderEvent>();
+        public KrakenFuturesOrderEvent[] OrderEvents { get; set; } = Array.Empty<KrakenFuturesOrderEvent>();
         /// <summary>
         /// Received timestamp
         /// </summary>

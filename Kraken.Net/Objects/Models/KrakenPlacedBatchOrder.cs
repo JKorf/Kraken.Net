@@ -1,20 +1,23 @@
-﻿namespace Kraken.Net.Objects.Models
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Batch order result
     /// </summary>
+    [SerializationModel]
     public record KrakenBatchOrderResult
     {
         /// <summary>
         /// Orders
         /// </summary>
         [JsonPropertyName("orders")]
-        public IEnumerable<KrakenPlacedBatchOrder> Orders { get; set; } = Array.Empty<KrakenPlacedBatchOrder>();
+        public KrakenPlacedBatchOrder[] Orders { get; set; } = Array.Empty<KrakenPlacedBatchOrder>();
     }
 
     /// <summary>
     /// Placed batch order
     /// </summary>
+    [SerializationModel]
     public record KrakenPlacedBatchOrder
     {
         /// <summary>

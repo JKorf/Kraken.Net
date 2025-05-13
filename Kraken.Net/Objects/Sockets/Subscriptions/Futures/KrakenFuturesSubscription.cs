@@ -34,7 +34,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 },
                 Authenticated)
             {
-                RequiredResponses = _symbols.Count()
+                RequiredResponses = _symbols?.Count() ?? 1
             };
         }
 
@@ -49,7 +49,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 },
                 Authenticated)
             {
-                RequiredResponses = _symbols.Count()
+                RequiredResponses = _symbols?.Count() ?? 1
             };
         }
 
@@ -57,7 +57,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         {
             var data = (T)message.Data!;
             _handler.Invoke(message.As(data, data.Feed, data!.Symbol, SocketUpdateType.Update));
-            return new CallResult(null);
+            return CallResult.SuccessResult;
         }
     }
 }

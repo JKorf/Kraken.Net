@@ -1,8 +1,10 @@
-﻿using CryptoExchange.Net.RateLimiting;
+﻿using CryptoExchange.Net.Converters;
+using CryptoExchange.Net.RateLimiting;
 using CryptoExchange.Net.RateLimiting.Filters;
 using CryptoExchange.Net.RateLimiting.Guards;
 using CryptoExchange.Net.RateLimiting.Interfaces;
 using CryptoExchange.Net.SharedApis;
+using Kraken.Net.Converters;
 using Kraken.Net.Enums;
 
 namespace Kraken.Net
@@ -36,14 +38,27 @@ namespace Kraken.Net
         /// Urls to the API documentation
         /// </summary>
         public static string[] ApiDocsUrl { get; } = new[] {
-            "https://docs.kraken.com/rest/",
-            "https://docs.futures.kraken.com/"
+            "https://docs.kraken.com/api/"
             };
 
         /// <summary>
         /// Type of exchange
         /// </summary>
         public static ExchangeType Type { get; } = ExchangeType.CEX;
+
+        /// <summary>
+        /// Aliases for BitMEX assets
+        /// </summary>
+        public static AssetAliasConfiguration AssetAliases { get; } = new AssetAliasConfiguration
+        {
+            Aliases =
+            [
+                new AssetAlias("XBT", "BTC"),
+                new AssetAlias("XDG", "DOGE")
+            ]
+        };
+
+        internal static JsonSerializerContext SerializerContext = JsonSerializerContextCache.GetOrCreate<KrakenSourceGenerationContext>();
 
         /// <summary>
         /// Format a base and quote asset to a Kraken recognized symbol 
@@ -55,6 +70,9 @@ namespace Kraken.Net
         /// <returns></returns>
         public static string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
         {
+            baseAsset = AssetAliases.CommonToExchangeName(baseAsset);
+            quoteAsset = AssetAliases.CommonToExchangeName(quoteAsset);
+
             if (tradingMode == TradingMode.Spot)
                 return $"{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
 
@@ -81,6 +99,11 @@ namespace Kraken.Net
         /// Event for when a rate limit is triggered
         /// </summary>
         public event Action<RateLimitEvent> RateLimitTriggered;
+
+        /// <summary>
+        /// Event when the rate limit is updated. Note that it's only updated when a request is send, so there are no specific updates when the current usage is decaying.
+        /// </summary>
+        public event Action<RateLimitUpdateEvent> RateLimitUpdated;
 
         /// <summary>
         /// The Tier to use when calculating rate limits
@@ -132,16 +155,20 @@ namespace Kraken.Net
                                         .AddGuard(new RateLimitGuard(RateLimitGuard.PerHost, new LimitItemTypeFilter(RateLimitItemType.Connection), 150, TimeSpan.FromMinutes(10), RateLimitWindowType.Sliding)); // 150 connections per sliding 10 minutes
 
             FuturesApi = new RateLimitGate("Futures Rest")
-                                        .AddGuard(new RateLimitGuard(RateLimitGuard.PerHost, new PathStartFilter("derivatives/api"), 500, TimeSpan.FromSeconds(10), RateLimitWindowType.Fixed))
-                                        .AddGuard(new RateLimitGuard(RateLimitGuard.PerHost, new PathStartFilter("api/history"), 100, TimeSpan.FromMinutes(10), RateLimitWindowType.Fixed));
+                                        .AddGuard(new RateLimitGuard(RateLimitGuard.PerApiKey, new PathStartFilter("derivatives/api"), 500, TimeSpan.FromSeconds(10), RateLimitWindowType.Fixed))
+                                        .AddGuard(new RateLimitGuard(RateLimitGuard.PerApiKey, new PathStartFilter("api/history"), 100, TimeSpan.FromMinutes(10), RateLimitWindowType.Fixed));
 
             FuturesSocket = new RateLimitGate("Futures Socket")
                                         .AddGuard(new RateLimitGuard(RateLimitGuard.PerHost, new LimitItemTypeFilter(RateLimitItemType.Connection), 100, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding));
 
             SpotRest.RateLimitTriggered += (x) => RateLimitTriggered?.Invoke(x);
+            SpotRest.RateLimitUpdated += (x) => RateLimitUpdated?.Invoke(x);
             SpotSocket.RateLimitTriggered += (x) => RateLimitTriggered?.Invoke(x);
+            SpotSocket.RateLimitUpdated += (x) => RateLimitUpdated?.Invoke(x);
             FuturesApi.RateLimitTriggered += (x) => RateLimitTriggered?.Invoke(x);
+            FuturesApi.RateLimitUpdated += (x) => RateLimitUpdated?.Invoke(x);
             FuturesSocket.RateLimitTriggered += (x) => RateLimitTriggered?.Invoke(x);
+            FuturesSocket.RateLimitUpdated += (x) => RateLimitUpdated?.Invoke(x);
         }
     }
 }

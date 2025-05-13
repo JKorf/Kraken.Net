@@ -69,15 +69,15 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             if (message.Data is KrakenFuturesOpenOrdersSnapshotUpdate snapshot)
             {
                 _snapshotHandler.Invoke(message.As(snapshot, snapshot.Feed, snapshot.Symbol, SocketUpdateType.Snapshot).WithDataTimestamp(snapshot.Orders.Any() ? snapshot.Orders.Max(x => x.LastUpdateTime) : null));
-                return new CallResult(null);
+                return CallResult.SuccessResult;
             }
             else if (message.Data is KrakenFuturesOpenOrdersUpdate update)
             {
                 _updateHandler.Invoke(message.As(update, update.Feed, update.Symbol, SocketUpdateType.Update).WithDataTimestamp(update.Order?.LastUpdateTime));
-                return new CallResult(null);
+                return CallResult.SuccessResult;
             }
 
-            return new CallResult(null);
+            return CallResult.SuccessResult;
         }
     }
 }

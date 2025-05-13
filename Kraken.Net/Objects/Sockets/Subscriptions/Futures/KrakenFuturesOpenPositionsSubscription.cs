@@ -46,7 +46,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         {
             var data = (KrakenFuturesOpenPositionUpdate)message.Data;
             _handler.Invoke(message.As(data, data.Feed, null, ConnectionInvocations == 1 ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
-            return new CallResult(null);
+            return CallResult.SuccessResult;
         }
     }
 }

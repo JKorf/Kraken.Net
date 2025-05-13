@@ -1,10 +1,13 @@
-﻿using CryptoExchange.Net.Attributes;
+using System.Text.Json.Serialization;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Attributes;
 
 namespace Kraken.Net.Enums
 {
     /// <summary>
     /// Type of order
     /// </summary>
+    [JsonConverter(typeof(EnumConverter<TriggerOrderType>))]
     public enum TriggerOrderType
     {
         /// <summary>

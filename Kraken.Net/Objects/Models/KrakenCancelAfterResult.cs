@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Models
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Cancel after result
     /// </summary>
+    [SerializationModel]
     public record KrakenCancelAfterResult
     {
         /// <summary>

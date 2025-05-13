@@ -1,9 +1,11 @@
-﻿namespace Kraken.Net.Objects.Models.Futures
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Futures
 {
+    [SerializationModel]
     internal record KrakenFuturesResult
     {
         [JsonPropertyName("errors")]
-        public IEnumerable<KrakenFuturesError>? Errors { get; set; }
+        public KrakenFuturesError[]? Errors { get; set; }
         [JsonPropertyName("error")]
         public string? Error { get; set; }
         public bool Success => string.Equals(Result, "success", StringComparison.Ordinal);
@@ -14,12 +16,14 @@
         public DateTime ServerTime { get; set; }
     }
 
+    [SerializationModel]
     internal abstract record KrakenFuturesResult<T> : KrakenFuturesResult
     {
         [JsonPropertyName("data")]
         public abstract T Data { get; set; }
     }
 
+    [SerializationModel]
     internal record KrakenFuturesError
     {
         [JsonPropertyName("code")]

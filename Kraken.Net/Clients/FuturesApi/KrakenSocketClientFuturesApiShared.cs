@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
+using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
@@ -7,6 +7,8 @@ namespace Kraken.Net.Clients.FuturesApi
 {
     internal partial class KrakenSocketClientFuturesApi : IKrakenSocketClientFuturesApiShared
     {
+        private const string _topicId = "KrakenFutures";
+
         public string Exchange => KrakenExchange.ExchangeName;
         public TradingMode[] SupportedTradingModes { get; } = new[] { TradingMode.PerpetualLinear, TradingMode.DeliveryLinear, TradingMode.PerpetualInverse, TradingMode.DeliveryInverse };
 
@@ -22,7 +24,10 @@ namespace Kraken.Net.Clients.FuturesApi
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
 
             var symbol = request.Symbol.GetSymbol(FormatSymbol);
-            var result = await SubscribeToTickerUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, new SharedSpotTicker(symbol, update.Data.LastPrice, null, null, update.Data.Volume, update.Data.ChangePercentage24h))), ct).ConfigureAwait(false);
+            var result = await SubscribeToTickerUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, new SharedSpotTicker(ExchangeSymbolCache.ParseSymbol(_topicId, symbol), symbol, update.Data.LastPrice, null, null, update.Data.Volume, update.Data.ChangePercentage24h)
+            {
+                QuoteVolume = update.Data.VolumeQuote
+            })), ct).ConfigureAwait(false);
 
             return new ExchangeResult<UpdateSubscription>(Exchange, result);
         }
@@ -31,7 +36,7 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Trade client
 
         EndpointOptions<SubscribeTradeRequest> ITradeSocketClient.SubscribeTradeOptions { get; } = new EndpointOptions<SubscribeTradeRequest>(false);
-        async Task<ExchangeResult<UpdateSubscription>> ITradeSocketClient.SubscribeToTradeUpdatesAsync(SubscribeTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, CancellationToken ct)
+        async Task<ExchangeResult<UpdateSubscription>> ITradeSocketClient.SubscribeToTradeUpdatesAsync(SubscribeTradeRequest request, Action<ExchangeEvent<SharedTrade[]>> handler, CancellationToken ct)
         {
             var validationError = ((ITradeSocketClient)this).SubscribeTradeOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
             if (validationError != null)
@@ -41,7 +46,7 @@ namespace Kraken.Net.Clients.FuturesApi
             var result = await SubscribeToTradeUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, update.Data.Select(x => new SharedTrade(x.Quantity, x.Price, x.Timestamp)
             {
                 Side = x.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell
-            }))), ct).ConfigureAwait(false);
+            }).ToArray())), ct).ConfigureAwait(false);
 
             return new ExchangeResult<UpdateSubscription>(Exchange, result);
         }
@@ -57,7 +62,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
 
             var symbol = request.Symbol.GetSymbol(FormatSymbol);
-            var result = await SubscribeToTickerUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, new SharedBookTicker(update.Data.BestAskPrice, update.Data.BestAskQuantity, update.Data.BestBidPrice, update.Data.BestBidQuantity))), ct).ConfigureAwait(false);
+            var result = await SubscribeToTickerUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, new SharedBookTicker(ExchangeSymbolCache.ParseSymbol(_topicId, update.Data.Symbol!), update.Data.Symbol!, update.Data.BestAskPrice, update.Data.BestAskQuantity, update.Data.BestBidPrice, update.Data.BestBidQuantity))), ct).ConfigureAwait(false);
 
             return new ExchangeResult<UpdateSubscription>(Exchange, result);
         }
@@ -65,7 +70,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #region Balance client
         EndpointOptions<SubscribeBalancesRequest> IBalanceSocketClient.SubscribeBalanceOptions { get; } = new EndpointOptions<SubscribeBalancesRequest>(false);
-        async Task<ExchangeResult<UpdateSubscription>> IBalanceSocketClient.SubscribeToBalanceUpdatesAsync(SubscribeBalancesRequest request, Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, CancellationToken ct)
+        async Task<ExchangeResult<UpdateSubscription>> IBalanceSocketClient.SubscribeToBalanceUpdatesAsync(SubscribeBalancesRequest request, Action<ExchangeEvent<SharedBalance[]>> handler, CancellationToken ct)
         {
             var validationError = ((IBalanceSocketClient)this).SubscribeBalanceOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
@@ -76,7 +81,7 @@ namespace Kraken.Net.Clients.FuturesApi
                     if (update.UpdateType == SocketUpdateType.Snapshot || update.Data.FlexFutures == null)
                         return;
 
-                    handler(update.AsExchangeEvent<IEnumerable<SharedBalance>>(Exchange, update.Data.FlexFutures.Currencies.Select(x =>
+                    handler(update.AsExchangeEvent<SharedBalance[]>(Exchange, update.Data.FlexFutures.Currencies!.Select(x =>
                     new SharedBalance(x.Key, x.Value.Available, x.Value.Quantity)).ToArray()));
                 },
                 ct: ct).ConfigureAwait(false);
@@ -87,7 +92,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #region Futures Order client
         EndpointOptions<SubscribeFuturesOrderRequest> IFuturesOrderSocketClient.SubscribeFuturesOrderOptions { get; } = new EndpointOptions<SubscribeFuturesOrderRequest>(true);
-        async Task<ExchangeResult<UpdateSubscription>> IFuturesOrderSocketClient.SubscribeToFuturesOrderUpdatesAsync(SubscribeFuturesOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedFuturesOrder>>> handler, CancellationToken ct)
+        async Task<ExchangeResult<UpdateSubscription>> IFuturesOrderSocketClient.SubscribeToFuturesOrderUpdatesAsync(SubscribeFuturesOrderRequest request, Action<ExchangeEvent<SharedFuturesOrder[]>> handler, CancellationToken ct)
         {
             var validationError = ((IFuturesOrderSocketClient)this).SubscribeFuturesOrderOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
@@ -98,8 +103,9 @@ namespace Kraken.Net.Clients.FuturesApi
                 update => { },
                 update =>
                 {
-                    handler(update.AsExchangeEvent<IEnumerable<SharedFuturesOrder>>(Exchange, new[] {
+                    handler(update.AsExchangeEvent<SharedFuturesOrder[]>(Exchange, new[] {
                         new SharedFuturesOrder(
+                            ExchangeSymbolCache.ParseSymbol(_topicId, update.Data.Order?.Symbol),
                             update.Data.Order?.Symbol ?? string.Empty,
                             update.Data.OrderId.ToString(),
                             update.Data.Order == null ? default : update.Data.Order.Type == FuturesOrderType.Limit ? SharedOrderType.Limit : update.Data.Order.Type == FuturesOrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
@@ -108,8 +114,8 @@ namespace Kraken.Net.Clients.FuturesApi
                             update.Data.Order?.Timestamp)
                         {
                             ClientOrderId = update.Data.Order?.ClientOrderId,
-                            Quantity = update.Data.Order?.Quantity,
-                            QuantityFilled = update.Data.Order?.QuantityFilled,
+                            OrderQuantity = new SharedOrderQuantity(contractQuantity: update.Data.Order?.Quantity == 0 ? null : update.Data.Order?.Quantity),
+                            QuantityFilled = new SharedOrderQuantity(contractQuantity: update.Data.Order?.QuantityFilled),
                             UpdateTime = update.Data.Order?.LastUpdateTime,
                             OrderPrice = update.Data.Order?.Price,
                             ReduceOnly = update.Data.Order?.ReduceOnly,
@@ -125,7 +131,7 @@ namespace Kraken.Net.Clients.FuturesApi
         #region User Trade client
 
         EndpointOptions<SubscribeUserTradeRequest> IUserTradeSocketClient.SubscribeUserTradeOptions { get; } = new EndpointOptions<SubscribeUserTradeRequest>(true);
-        async Task<ExchangeResult<UpdateSubscription>> IUserTradeSocketClient.SubscribeToUserTradeUpdatesAsync(SubscribeUserTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, CancellationToken ct)
+        async Task<ExchangeResult<UpdateSubscription>> IUserTradeSocketClient.SubscribeToUserTradeUpdatesAsync(SubscribeUserTradeRequest request, Action<ExchangeEvent<SharedUserTrade[]>> handler, CancellationToken ct)
         {
             var validationError = ((IUserTradeSocketClient)this).SubscribeUserTradeOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
@@ -137,8 +143,9 @@ namespace Kraken.Net.Clients.FuturesApi
                     if (update.UpdateType == SocketUpdateType.Snapshot)
                         return;
 
-                    handler(update.AsExchangeEvent<IEnumerable<SharedUserTrade>>(Exchange, update.Data.Trades.Select(x =>
+                    handler(update.AsExchangeEvent<SharedUserTrade[]>(Exchange, update.Data.Trades.Select(x =>
                         new SharedUserTrade(
+                            ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol),
                             x.Symbol,
                             x.OrderId.ToString(),
                             x.TradeId.ToString(),
@@ -161,7 +168,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #region Position client
         EndpointOptions<SubscribePositionRequest> IPositionSocketClient.SubscribePositionOptions { get; } = new EndpointOptions<SubscribePositionRequest>(true);
-        async Task<ExchangeResult<UpdateSubscription>> IPositionSocketClient.SubscribeToPositionUpdatesAsync(SubscribePositionRequest request, Action<ExchangeEvent<IEnumerable<SharedPosition>>> handler, CancellationToken ct)
+        async Task<ExchangeResult<UpdateSubscription>> IPositionSocketClient.SubscribeToPositionUpdatesAsync(SubscribePositionRequest request, Action<ExchangeEvent<SharedPosition[]>> handler, CancellationToken ct)
         {
             var validationError = ((IPositionSocketClient)this).SubscribePositionOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
@@ -172,8 +179,8 @@ namespace Kraken.Net.Clients.FuturesApi
                     if (update.UpdateType == SocketUpdateType.Snapshot)
                         return;
 
-                    handler(update.AsExchangeEvent<IEnumerable<SharedPosition>>(Exchange, update.Data.Positions.Select(
-                        x => new SharedPosition(x.Symbol, Math.Abs(x.Balance), update.DataTime ?? update.ReceiveTime)
+                    handler(update.AsExchangeEvent<SharedPosition[]>(Exchange, update.Data.Positions.Select(
+                        x => new SharedPosition(ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol), x.Symbol, Math.Abs(x.Balance), update.DataTime ?? update.ReceiveTime)
                     {
                         AverageOpenPrice = x.EntryPrice,
                             PositionSide = x.Balance > 0 ? SharedPositionSide.Long : SharedPositionSide.Short,

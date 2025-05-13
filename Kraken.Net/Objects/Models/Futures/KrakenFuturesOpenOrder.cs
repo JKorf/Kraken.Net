@@ -1,17 +1,20 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 using Kraken.Net.Interfaces;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal record KrakenFuturesOpenOrderResult : KrakenFuturesResult<IEnumerable<KrakenFuturesOpenOrder>>
+    [SerializationModel]
+    internal record KrakenFuturesOpenOrderResult : KrakenFuturesResult<KrakenFuturesOpenOrder[]>
     {
         [JsonPropertyName("openOrders")]
-        public override IEnumerable<KrakenFuturesOpenOrder> Data { get; set; } = Array.Empty<KrakenFuturesOpenOrder>();
+        public override KrakenFuturesOpenOrder[] Data { get; set; } = Array.Empty<KrakenFuturesOpenOrder>();
     }
 
     /// <summary>
     /// Order info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesOpenOrder : IKrakenFuturesOrder
     {
         /// <summary>
@@ -61,7 +64,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Order side
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("side")]
         public OrderSide Side { get; set; }
         /// <summary>
@@ -79,18 +82,18 @@ namespace Kraken.Net.Objects.Models.Futures
         /// Order type
         /// </summary>
         [JsonPropertyName("orderType")]
-        [JsonConverter(typeof(EnumConverter))]
+
         public FuturesOrderType Type { get; set; }
         /// <summary>
         /// Order status
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("status")]
         public OpenOrderStatus Status { get; set; }
         /// <summary>
         /// Trigger signal
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("triggerSignal")]
         public TriggerSignal? TriggerSignal { get; set; }
         /// <summary>

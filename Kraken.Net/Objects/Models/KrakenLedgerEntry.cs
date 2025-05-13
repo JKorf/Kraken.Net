@@ -1,10 +1,12 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Ledger entry info
     /// </summary>
+    [SerializationModel]
     public record KrakenLedgerEntry
     {
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 using Kraken.Net.Interfaces;
 
 namespace Kraken.Net.Objects.Models.Futures
@@ -6,6 +7,7 @@ namespace Kraken.Net.Objects.Models.Futures
     /// <summary>
     /// Order info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesCachedOrder : IKrakenFuturesOrder
     {
         /// <summary>
@@ -55,7 +57,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Order side
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("side")]
         public OrderSide Side { get; set; }
         /// <summary>
@@ -73,7 +75,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Trigger order type
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("type")]
         public TriggerOrderType Type { get; set; }
         /// <summary>

@@ -1,14 +1,17 @@
-﻿namespace Kraken.Net.Objects.Models.Futures
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Futures
 {
-    internal record KrakenFuturesPnlCurrencyResult : KrakenFuturesResult<IEnumerable<KrakenFuturesPnlCurrency>>
+    [SerializationModel]
+    internal record KrakenFuturesPnlCurrencyResult : KrakenFuturesResult<KrakenFuturesPnlCurrency[]>
     {
         [JsonPropertyName("preferences")]
-        public override IEnumerable<KrakenFuturesPnlCurrency> Data { get; set; } = Array.Empty<KrakenFuturesPnlCurrency>();
+        public override KrakenFuturesPnlCurrency[] Data { get; set; } = Array.Empty<KrakenFuturesPnlCurrency>();
     }
 
     /// <summary>
     /// Profit and loss currency preference
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesPnlCurrency
     {
         /// <summary>

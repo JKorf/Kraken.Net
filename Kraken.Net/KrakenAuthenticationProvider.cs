@@ -7,7 +7,7 @@ namespace Kraken.Net
 {
     internal class KrakenAuthenticationProvider: AuthenticationProvider
     {
-        private static readonly IMessageSerializer _serializer = new SystemTextJsonMessageSerializer();
+        private static readonly IMessageSerializer _serializer = new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange.SerializerContext));
         private readonly INonceProvider _nonceProvider;
         private readonly byte[] _hmacSecret;
 
@@ -71,19 +71,6 @@ namespace Kraken.Net
                 sign = Convert.ToBase64String(hmac.ComputeHash(allBytes));
 
             headers.Add("API-Sign", sign);
-        }
-    }
-
-    internal class KrakenParameterComparer : IComparer<string>
-    {
-        public int Compare(string x, string y)
-        {
-            if (string.Equals(x, "nonce", StringComparison.Ordinal))
-                return -1;
-            if (string.Equals(y, "nonce", StringComparison.Ordinal))
-                return 1;
-
-            return x.CompareTo(y);
         }
     }
 }

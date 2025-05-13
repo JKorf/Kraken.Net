@@ -18,7 +18,9 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         //ITradeHistoryRestClient
         IWithdrawalRestClient,
         IWithdrawRestClient,
-        IFeeRestClient
+        IFeeRestClient,
+        ISpotOrderClientIdRestClient,
+        IBookTickerRestClient
     {
     }
 }

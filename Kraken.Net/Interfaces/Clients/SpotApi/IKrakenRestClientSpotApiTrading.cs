@@ -4,7 +4,7 @@ using Kraken.Net.Objects.Models;
 namespace Kraken.Net.Interfaces.Clients.SpotApi
 {
     /// <summary>
-    /// Kraken trading endpoints, placing and mananging orders.
+    /// Kraken trading endpoints, placing and managing orders.
     /// </summary>
     public interface IKrakenRestClientSpotApiTrading
     {
@@ -12,11 +12,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Get a list of open orders
         /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-open-orders" /></para>
         /// </summary>
+        /// <param name="userReference">Filter by user reference</param>
         /// <param name="clientOrderId">Filter by client order id</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of open orders</returns>
-        Task<WebCallResult<OpenOrdersPage>> GetOpenOrdersAsync(uint? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<OpenOrdersPage>> GetOpenOrdersAsync(uint? userReference = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get a list of closed orders
@@ -138,7 +139,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="validateOnly">Only validate inputs, don't actually place the order</param>
         /// <param name="orderFlags">Flags for the order</param>
         /// <param name="reduceOnly">Reduce only order</param>
-        /// <param name="icebergQuanty">Iceberg visible quantity</param>
+        /// <param name="icebergQuantity">Iceberg visible quantity</param>
         /// <param name="trigger">Price signal</param>
         /// <param name="selfTradePreventionType">Self trade prevention type</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
@@ -169,7 +170,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             string? twoFactorPassword = null,
             TimeInForce? timeInForce = null,
             bool? reduceOnly = null,
-            decimal? icebergQuanty = null,
+            decimal? icebergQuantity = null,
             Trigger? trigger = null,
             SelfTradePreventionType? selfTradePreventionType = null,
             OrderType? closeOrderType = null,
@@ -188,7 +189,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="symbol">Symbol, for example `ETHUSDT`</param>
         /// <param name="orderId">Order id or client order id of the order to edit</param>
         /// <param name="quantity">New quantity</param>
-        /// <param name="icebergQuanty">Iceberg quantity</param>
+        /// <param name="icebergQuantity">Iceberg quantity</param>
         /// <param name="price">Price</param>
         /// <param name="secondaryPrice">Secondary price</param>
         /// <param name="flags">Flags</param>
@@ -207,7 +208,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             string symbol,
             string orderId,
             decimal? quantity = null,
-            decimal? icebergQuanty = null,
+            decimal? icebergQuantity = null,
             decimal? price = null,
             decimal? secondaryPrice = null,
             IEnumerable<OrderFlags>? flags = null,
@@ -226,11 +227,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Cancel an order
         /// <para><a href="https://docs.kraken.com/api/docs/rest-api/cancel-order" /></para>
         /// </summary>
-        /// <param name="orderId">The id of the order to cancel</param>
+        /// <param name="orderId">The id of the order to cancel. Either this or clientOrderId should be provided</param>
+        /// <param name="clientOrderId">The client order id of the order to cancel. Either this or orderId should be provided</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Cancel result</returns>
-        Task<WebCallResult<KrakenCancelResult>> CancelOrderAsync(string orderId, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenCancelResult>> CancelOrderAsync(string? orderId = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel all orders

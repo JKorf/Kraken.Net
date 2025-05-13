@@ -1,10 +1,13 @@
-﻿using CryptoExchange.Net.Attributes;
+using System.Text.Json.Serialization;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Attributes;
 
 namespace Kraken.Net.Enums
 {
     /// <summary>
     /// Fee preference
     /// </summary>
+    [JsonConverter(typeof(EnumConverter<FeePreference>))]
     public enum FeePreference
     {
         /// <summary>

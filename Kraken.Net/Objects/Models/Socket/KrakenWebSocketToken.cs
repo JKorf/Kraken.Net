@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Models.Socket
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Socket
 {
     /// <summary>
     /// Socket token
     /// </summary>
+    [SerializationModel]
     public record KrakenWebSocketToken
     {
         /// <summary>

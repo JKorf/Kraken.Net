@@ -1,4 +1,4 @@
-﻿using Kraken.Net.Objects.Models.Futures;
+using Kraken.Net.Objects.Models.Futures;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Enums;
 
@@ -29,10 +29,10 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Get Pnl Currency
 
         /// <inheritdoc />
-        public async Task<WebCallResult<IEnumerable<KrakenFuturesPnlCurrency>>> GetPnlCurrencyAsync(CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenFuturesPnlCurrency[]>> GetPnlCurrencyAsync(CancellationToken ct = default)
         {
             var request = _definitions.GetOrCreate(HttpMethod.Get, "derivatives/api/v3/pnlpreferences", KrakenExchange.RateLimiter.FuturesApi, 2, true);
-            return await _baseClient.SendAsync<KrakenFuturesPnlCurrencyResult, IEnumerable<KrakenFuturesPnlCurrency>>(request, null, ct).ConfigureAwait(false);
+            return await _baseClient.SendAsync<KrakenFuturesPnlCurrencyResult, KrakenFuturesPnlCurrency[]>(request, null, ct).ConfigureAwait(false);
         }
 
         #endregion

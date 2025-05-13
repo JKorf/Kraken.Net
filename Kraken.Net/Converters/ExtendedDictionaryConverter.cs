@@ -1,16 +1,17 @@
 ﻿using Kraken.Net.Objects.Models;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Kraken.Net.Converters
 {
-    internal class ExtendedDictionaryConverter<T, U>: JsonConverter<T> where T : KrakenDictionaryResult<U>
+    internal class ExtendedDictionaryConverter<T, U>: JsonConverter<T> where T : KrakenDictionaryResult<U>, new()
     {
         public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var doc = JsonDocument.ParseValue(ref reader);
             var inner = doc.RootElement.EnumerateObject().First().Value;
 
-            var data = inner.Deserialize<U>();
-            var result = (T)Activator.CreateInstance(typeToConvert);
+            var data = inner.Deserialize<U>((JsonTypeInfo<U>)options.GetTypeInfo(typeof(U)));
+            var result = new T();
             result.Data = data!;
             if (doc.RootElement.TryGetProperty("last", out var lastElement))
             {
@@ -35,7 +36,7 @@ namespace Kraken.Net.Converters
         {
             writer.WriteStartObject();
             writer.WritePropertyName("data");
-            writer.WriteRawValue(JsonSerializer.Serialize(value.Data));
+            writer.WriteRawValue(JsonSerializer.Serialize(value.Data, (JsonTypeInfo<T>)options.GetTypeInfo(typeof(T))));
             writer.WriteNumber("last", (long)DateTimeConverter.ConvertToSeconds(value.LastUpdateTime));
             writer.WriteEndObject();
         }
@@ -63,24 +64,24 @@ namespace Kraken.Net.Converters
     /// <summary>
     /// Kline result
     /// </summary>
-    [JsonConverter(typeof(ExtendedDictionaryConverter<KrakenKlinesResult, IEnumerable<KrakenKline>>))]
-    public class KrakenKlinesResult : KrakenDictionaryResult<IEnumerable<KrakenKline>>
+    [JsonConverter(typeof(ExtendedDictionaryConverter<KrakenKlinesResult, KrakenKline[]>))]
+    public class KrakenKlinesResult : KrakenDictionaryResult<KrakenKline[]>
     {
     }
 
     /// <summary>
     /// Trade result
     /// </summary>
-    [JsonConverter(typeof(ExtendedDictionaryConverter<KrakenTradesResult, IEnumerable<KrakenTrade>>))]
-    public class KrakenTradesResult : KrakenDictionaryResult<IEnumerable<KrakenTrade>>
+    [JsonConverter(typeof(ExtendedDictionaryConverter<KrakenTradesResult, KrakenTrade[]>))]
+    public class KrakenTradesResult : KrakenDictionaryResult<KrakenTrade[]>
     {
     }
 
     /// <summary>
     /// Spread result
     /// </summary>
-    [JsonConverter(typeof(ExtendedDictionaryConverter<KrakenSpreadsResult, IEnumerable<KrakenSpread>>))]
-    public class KrakenSpreadsResult : KrakenDictionaryResult<IEnumerable<KrakenSpread>>
+    [JsonConverter(typeof(ExtendedDictionaryConverter<KrakenSpreadsResult, KrakenSpread[]>))]
+    public class KrakenSpreadsResult : KrakenDictionaryResult<KrakenSpread[]>
     {
     }
 }

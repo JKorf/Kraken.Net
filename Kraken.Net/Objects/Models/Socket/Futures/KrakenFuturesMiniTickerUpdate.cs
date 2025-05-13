@@ -1,10 +1,12 @@
-﻿using Kraken.Net.Objects.Sockets;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Objects.Sockets;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
     /// <summary>
     /// Ticker info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesMiniTickerUpdate : KrakenFuturesEvent
     {
         /// <summary>

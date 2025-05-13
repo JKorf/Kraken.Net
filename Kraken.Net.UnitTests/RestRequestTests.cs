@@ -23,7 +23,7 @@ namespace Kraken.Net.UnitTests
                 opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
                 opts.RateLimiterEnabled = false;
             });
-            var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Spot/Account", "https://api.kraken.com", IsAuthenticatedSpot, "result", stjCompare: true);
+            var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Spot/Account", "https://api.kraken.com", IsAuthenticatedSpot, "result");
             await tester.ValidateAsync(client => client.SpotApi.Account.GetBalancesAsync(), "GetBalances");
             await tester.ValidateAsync(client => client.SpotApi.Account.GetAvailableBalancesAsync(), "GetAvailableBalances");
             await tester.ValidateAsync(client => client.SpotApi.Account.GetTradeBalanceAsync(), "GetTradeBalance");
@@ -50,7 +50,7 @@ namespace Kraken.Net.UnitTests
             {
                 opts.AutoTimestamp = false;
             });
-            var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Spot/ExchangeData", "https://api.kraken.com", IsAuthenticatedSpot, "result", stjCompare: true);
+            var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Spot/ExchangeData", "https://api.kraken.com", IsAuthenticatedSpot, "result");
             await tester.ValidateAsync(client => client.SpotApi.ExchangeData.GetSystemStatusAsync(), "GetSystemStatus");
             await tester.ValidateAsync(client => client.SpotApi.ExchangeData.GetAssetsAsync(), "GetAssets");
             await tester.ValidateAsync(client => client.SpotApi.ExchangeData.GetSymbolsAsync(), "GetSymbols");
@@ -70,7 +70,7 @@ namespace Kraken.Net.UnitTests
                 opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
                 opts.RateLimiterEnabled = false;
             });
-            var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Spot/Trading", "https://api.kraken.com", IsAuthenticatedSpot, "result", stjCompare: true);
+            var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Spot/Trading", "https://api.kraken.com", IsAuthenticatedSpot, "result");
             await tester.ValidateAsync(client => client.SpotApi.Trading.GetOpenOrdersAsync(), "GetOpenOrders", skipResponseValidation: true);
             await tester.ValidateAsync(client => client.SpotApi.Trading.GetClosedOrdersAsync(), "GetClosedOrders", skipResponseValidation: true);
             await tester.ValidateAsync(client => client.SpotApi.Trading.GetOrdersAsync(), "GetOrders", skipResponseValidation: true);
@@ -93,7 +93,7 @@ namespace Kraken.Net.UnitTests
                 opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
                 opts.RateLimiterEnabled = false;
             });
-            var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Spot/Earn", "https://api.kraken.com", IsAuthenticatedSpot, "result", stjCompare: true);
+            var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Spot/Earn", "https://api.kraken.com", IsAuthenticatedSpot, "result");
             await tester.ValidateAsync(client => client.SpotApi.Earn.GetStrategiesAsync(), "GetStrategies");
             await tester.ValidateAsync(client => client.SpotApi.Earn.GetAllocationsAsync(), "GetAllocations");
             await tester.ValidateAsync(client => client.SpotApi.Earn.GetAllocationStatusAsync("123"), "GetAllocationStatus");
@@ -111,7 +111,7 @@ namespace Kraken.Net.UnitTests
                 opts.RateLimiterEnabled = false;
                 opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
             });
-            var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Futures/Account", "https://futures.kraken.com", IsAuthenticatedFutures, stjCompare: true);
+            var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Futures/Account", "https://futures.kraken.com", IsAuthenticatedFutures);
             await tester.ValidateAsync(client => client.FuturesApi.Account.GetBalancesAsync(), "GetBalances", "result", skipResponseValidation: true);
             await tester.ValidateAsync(client => client.FuturesApi.Account.GetPnlCurrencyAsync(), "GetPnlCurrency", "result");
             await tester.ValidateAsync(client => client.FuturesApi.Account.SetPnlCurrencyAsync("ETHUSDT", "ETH"), "SetPnlCurrency");
@@ -131,7 +131,7 @@ namespace Kraken.Net.UnitTests
                 opts.RateLimiterEnabled = false;
                 opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
             });
-            var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Futures/Trading", "https://futures.kraken.com", IsAuthenticatedFutures, stjCompare: true);
+            var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Futures/Trading", "https://futures.kraken.com", IsAuthenticatedFutures);
             await tester.ValidateAsync(client => client.FuturesApi.Trading.GetUserTradesAsync(), "GetUserTrades", "result");
             await tester.ValidateAsync(client => client.FuturesApi.Trading.GetSelfTradeStrategyAsync(), "GetSelfTradeStrategy", skipResponseValidation: true);
             await tester.ValidateAsync(client => client.FuturesApi.Trading.SetSelfTradeStrategyAsync(Enums.SelfTradeStrategy.CancelMakerSelf), "SetSelfTradeStrategy", skipResponseValidation: true);
@@ -157,7 +157,7 @@ namespace Kraken.Net.UnitTests
                 opts.AutoTimestamp = false;
                 opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
             });
-            var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Futures/ExchangeData", "https://futures.kraken.com", IsAuthenticatedFutures, stjCompare: true);
+            var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Futures/ExchangeData", "https://futures.kraken.com", IsAuthenticatedFutures);
             await tester.ValidateAsync(client => client.FuturesApi.ExchangeData.GetPlatformNotificationsAsync(), "GetPlatformNotifications", "result");
             await tester.ValidateAsync(client => client.FuturesApi.ExchangeData.GetHistoricalFundingRatesAsync("ETHUSDT"), "GetHistoricalFundingRates", "result");
             await tester.ValidateAsync(client => client.FuturesApi.ExchangeData.GetFeeSchedulesAsync(), "GetFeeSchedules", "result");

@@ -1,5 +1,7 @@
-﻿namespace Kraken.Net.Objects.Models
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models
 {
+    [SerializationModel]
     internal record KrakenServerTime
     {
         [JsonConverter(typeof(DateTimeConverter))]

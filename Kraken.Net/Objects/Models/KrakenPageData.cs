@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Models
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Base page data
     /// </summary>
+    [SerializationModel]
     public record KrakenPageData
     {
         /// <summary>
@@ -15,6 +17,7 @@
     /// <summary>
     /// Open orders page
     /// </summary>
+    [SerializationModel]
     public record OpenOrdersPage : KrakenPageData
     {
         /// <summary>
@@ -27,6 +30,7 @@
     /// <summary>
     /// Closed orders page
     /// </summary>
+    [SerializationModel]
     public record KrakenClosedOrdersPage: KrakenPageData
     {
         /// <summary>
@@ -39,6 +43,7 @@
     /// <summary>
     /// User trades page
     /// </summary>
+    [SerializationModel]
     public record KrakenUserTradesPage : KrakenPageData
     {
         /// <summary>
@@ -51,6 +56,7 @@
     /// <summary>
     /// Ledger page
     /// </summary>
+    [SerializationModel]
     public record KrakenLedgerPage : KrakenPageData
     {
         /// <summary>

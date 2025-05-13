@@ -1,5 +1,7 @@
-﻿namespace Kraken.Net.Objects.Models.Futures
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Futures
 {
+    [SerializationModel]
     internal record KrakenFuturesMarginRequirementsInternal : KrakenFuturesResult
     {
         [JsonPropertyName("initialMargin")]
@@ -11,6 +13,7 @@
     /// <summary>
     /// Minimal margin requirements
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesMarginRequirements
     {
         /// <summary>

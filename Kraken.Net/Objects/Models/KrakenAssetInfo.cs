@@ -1,10 +1,12 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Info on an asset
     /// </summary>
+    [SerializationModel]
     public record KrakenAssetInfo
     {
         /// <summary>
@@ -35,7 +37,7 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Status
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("status")]
         public AssetStatus Status { get; set; }
     }

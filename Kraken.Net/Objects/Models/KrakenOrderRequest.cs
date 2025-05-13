@@ -1,10 +1,12 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Order to place
     /// </summary>
+    [SerializationModel]
     public record KrakenOrderRequest
     {
         /// <summary>
@@ -50,7 +52,7 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Trigger
         /// </summary>
-        [JsonPropertyName("trigger"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("trigger"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Trigger? Trigger { get; set; }
         /// <summary>
         /// Leverage
@@ -65,17 +67,17 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Self trade prevention type
         /// </summary>
-        [JsonPropertyName("stptype"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("stptype"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public SelfTradePreventionType? SelfTradePreventionType { get; set; }
         /// <summary>
         /// Order flags
         /// </summary>
         [JsonPropertyName("oflags"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public IEnumerable<OrderFlags>? Flags { get; set; }
+        public OrderFlags[]? Flags { get; set; }
         /// <summary>
         /// Time in force
         /// </summary>
-        [JsonPropertyName("timeinforce"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(EnumConverter))]
+        [JsonPropertyName("timeinforce"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public TimeInForce? TimeInForce { get; set; }
         /// <summary>
         /// Start time

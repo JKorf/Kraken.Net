@@ -1,10 +1,12 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
     /// <summary>
     /// User trades update
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesUserTradesUpdate : KrakenFuturesSocketMessage
     {
         /// <summary>
@@ -16,13 +18,14 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// Trades
         /// </summary>
         [JsonPropertyName("fills")]
-        public IEnumerable<KrakenFuturesUserTrade> Trades { get; set; } = Array.Empty<KrakenFuturesUserTrade>();
+        public KrakenFuturesStreamUserTrade[] Trades { get; set; } = Array.Empty<KrakenFuturesStreamUserTrade>();
     }
 
     /// <summary>
     /// User trade update info
     /// </summary>
-    public record KrakenFuturesUserTrade
+    [SerializationModel]
+    public record KrakenFuturesStreamUserTrade
     {
         /// <summary>
         /// Symbol
@@ -68,7 +71,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// <summary>
         /// Trade type
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("fill_type")]
         public TradeType TradeType { get; set; }
         /// <summary>

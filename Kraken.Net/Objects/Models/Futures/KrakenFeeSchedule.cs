@@ -1,20 +1,24 @@
-﻿namespace Kraken.Net.Objects.Models.Futures
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Futures
 {
+    [SerializationModel]
     internal record KrakenFeeScheduleVolumeResult : KrakenFuturesResult<Dictionary<string, decimal>>
     {
         [JsonPropertyName("volumesByFeeSchedule")]
         public override Dictionary<string, decimal> Data { get; set; } = new Dictionary<string, decimal>();
     }
 
-    internal record KrakenFeeSchedulesResult : KrakenFuturesResult<IEnumerable<KrakenFeeSchedule>>
+    [SerializationModel]
+    internal record KrakenFeeSchedulesResult : KrakenFuturesResult<KrakenFeeSchedule[]>
     {
         [JsonPropertyName("feeSchedules")]
-        public override IEnumerable<KrakenFeeSchedule> Data { get; set; } = new List<KrakenFeeSchedule>();
+        public override KrakenFeeSchedule[] Data { get; set; } = [];
     }
 
     /// <summary>
     /// Fee info
     /// </summary>
+    [SerializationModel]
     public record KrakenFeeSchedule
     {
         /// <summary>
@@ -31,12 +35,13 @@
         /// Fee tiers
         /// </summary>
         [JsonPropertyName("tiers")]
-        public IEnumerable<KrakenFee> Tiers { get; set; } = new List<KrakenFee>();
+        public KrakenFee[] Tiers { get; set; } = [];
     }
 
     /// <summary>
     /// Fee info when trading volume is above specific volume
     /// </summary>
+    [SerializationModel]
     public record KrakenFee
     {
         /// <summary>

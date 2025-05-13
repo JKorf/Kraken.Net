@@ -1,16 +1,19 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
-    internal record KrakenFuturesUserTradeResult : KrakenFuturesResult<IEnumerable<KrakenFuturesUserTrade>>
+    [SerializationModel]
+    internal record KrakenFuturesUserTradeResult : KrakenFuturesResult<KrakenFuturesUserTrade[]>
     {
         [JsonPropertyName("fills")]
-        public override IEnumerable<KrakenFuturesUserTrade> Data { get; set; } = new List<KrakenFuturesUserTrade>();
+        public override KrakenFuturesUserTrade[] Data { get; set; } = [];
     }
 
     /// <summary>
     /// User trade info
     /// </summary>
+    [SerializationModel]
     public record KrakenFuturesUserTrade
     {
         /// <summary>
@@ -28,7 +31,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// Type of trade
         /// </summary>
         [JsonPropertyName("fillType")]
-        [JsonConverter(typeof(EnumConverter))]
+
         public TradeType Type { get; set; }
         /// <summary>
         /// Trade id
@@ -48,7 +51,7 @@ namespace Kraken.Net.Objects.Models.Futures
         /// <summary>
         /// Side
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("side")]
         public OrderSide Side { get; set; }
         /// <summary>

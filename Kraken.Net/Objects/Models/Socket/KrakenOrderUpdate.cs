@@ -1,10 +1,12 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket
 {
     /// <summary>
     /// Kraken order update
     /// </summary>
+    [SerializationModel]
     public record KrakenOrderUpdate
     {
         /// <summary>
@@ -121,7 +123,7 @@ namespace Kraken.Net.Objects.Models.Socket
         /// Fees paid
         /// </summary>
         [JsonPropertyName("fees")]
-        public IEnumerable<KrakenOrderUpdateFee>? Fees { get; set; }
+        public KrakenOrderUpdateFee[]? Fees { get; set; }
         /// <summary>
         /// Whether the order has been amended
         /// </summary>
@@ -203,6 +205,7 @@ namespace Kraken.Net.Objects.Models.Socket
     /// <summary>
     /// Fee info
     /// </summary>
+    [SerializationModel]
     public record KrakenOrderUpdateFee
     {
         /// <summary>

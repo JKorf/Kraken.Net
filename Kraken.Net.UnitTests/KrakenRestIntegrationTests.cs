@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Kraken.Net.Objects.Options;
+using Kraken.Net.SymbolOrderBooks;
 
 namespace Kraken.Net.UnitTests
 {
@@ -77,7 +78,7 @@ namespace Kraken.Net.UnitTests
         [Test]
         public async Task TestSpotTrading()
         {
-            await RunAndCheckResult(client => client.SpotApi.Trading.GetOpenOrdersAsync(default, default, default), true);
+            await RunAndCheckResult(client => client.SpotApi.Trading.GetOpenOrdersAsync(default, default, default, default), true);
             await RunAndCheckResult(client => client.SpotApi.Trading.GetClosedOrdersAsync(default, default, default, default, default, default, default, default, default), true);
             await RunAndCheckResult(client => client.SpotApi.Trading.GetUserTradesAsync(default, default, default, default, default, default), true);
         }
@@ -120,6 +121,13 @@ namespace Kraken.Net.UnitTests
             //await RunAndCheckResult(client => client.FuturesApi.Trading.GetOpenOrdersAsync(default), true);
             //await RunAndCheckResult(client => client.FuturesApi.Trading.GetExecutionEventsAsync(default, default, default, default, default, default), true);
             await Task.CompletedTask;
+        }
+
+        [Test]
+        public async Task TestOrderBooks()
+        {
+            await TestOrderBook(new KrakenSpotSymbolOrderBook("ETH/USDT"));
+            await TestOrderBook(new KrakenFuturesSymbolOrderBook("PF_ETHUSD"));
         }
     }
 }

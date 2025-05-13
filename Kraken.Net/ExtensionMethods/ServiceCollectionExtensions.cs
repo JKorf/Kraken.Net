@@ -28,7 +28,7 @@ namespace Microsoft.Extensions.DependencyInjection
             IConfiguration configuration)
         {
             var options = new KrakenOptions();
-            // Reset environment so we know if theyre overriden
+            // Reset environment so we know if they're overridden
             options.Rest.Environment = null!;
             options.Socket.Environment = null!;
             configuration.Bind(options);
@@ -61,7 +61,7 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<KrakenOptions>? optionsDelegate = null)
         {
             var options = new KrakenOptions();
-            // Reset environment so we know if theyre overriden
+            // Reset environment so we know if they're overridden
             options.Rest.Environment = null!;
             options.Socket.Environment = null!;
             optionsDelegate?.Invoke(options);
@@ -77,21 +77,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton(x => Options.Options.Create(options.Socket));
 
             return AddKrakenCore(services, options.SocketClientLifeTime);
-        }
-
-        /// <summary>
-        /// DEPRECATED; use <see cref="AddKraken(IServiceCollection, Action{KrakenOptions}?)" /> instead
-        /// </summary>
-        public static IServiceCollection AddKraken(
-            this IServiceCollection services,
-            Action<KrakenRestOptions> restDelegate,
-            Action<KrakenSocketOptions>? socketDelegate = null,
-            ServiceLifetime? socketClientLifeTime = null)
-        {
-            services.Configure<KrakenRestOptions>((x) => { restDelegate?.Invoke(x); });
-            services.Configure<KrakenSocketOptions>((x) => { socketDelegate?.Invoke(x); });
-
-            return AddKrakenCore(services, socketClientLifeTime);
         }
 
         private static IServiceCollection AddKrakenCore(
@@ -130,7 +115,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<ICryptoSocketClient, CryptoSocketClient>();
             services.AddTransient<IKrakenOrderBookFactory, KrakenOrderBookFactory>();
             services.AddTransient<IKrakenTrackerFactory, KrakenTrackerFactory>();
-            services.AddTransient(x => x.GetRequiredService<IKrakenRestClient>().SpotApi.CommonSpotClient);
 
             services.RegisterSharedRestInterfaces(x => x.GetRequiredService<IKrakenRestClient>().SpotApi.SharedClient);
             services.RegisterSharedSocketInterfaces(x => x.GetRequiredService<IKrakenSocketClient>().SpotApi.SharedClient);

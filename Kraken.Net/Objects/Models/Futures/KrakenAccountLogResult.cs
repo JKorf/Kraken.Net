@@ -1,8 +1,10 @@
-﻿namespace Kraken.Net.Objects.Models.Futures
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace Kraken.Net.Objects.Models.Futures
 {
     /// <summary>
     /// Account log
     /// </summary>
+    [SerializationModel]
     public record KrakenAccountLogResult
     {
         /// <summary>
@@ -15,12 +17,13 @@
         /// Log entries
         /// </summary>
         [JsonPropertyName("logs")]
-        public IEnumerable<KrakenAccountLog> Logs { get; set; } = Array.Empty<KrakenAccountLog>();
+        public KrakenAccountLog[] Logs { get; set; } = Array.Empty<KrakenAccountLog>();
     }
 
     /// <summary>
     /// Log entry
     /// </summary>
+    [SerializationModel]
     public record KrakenAccountLog
     {
         /// <summary>

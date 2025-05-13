@@ -1,10 +1,12 @@
-﻿using Kraken.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket
 {
     /// <summary>
     /// System status
     /// </summary>
+    [SerializationModel]
     public record KrakenStreamSystemStatus
     {
         /// <summary>
@@ -15,7 +17,7 @@ namespace Kraken.Net.Objects.Models.Socket
         /// <summary>
         /// Status
         /// </summary>
-        [JsonConverter(typeof(EnumConverter))]
+
         [JsonPropertyName("system")]
         public SystemStatus Status { get; set; }
         /// <summary>

@@ -47,9 +47,9 @@ namespace Kraken.Net.Clients.FuturesApi
         }
         #endregion
 
-        protected override IStreamMessageAccessor CreateAccessor() => new SystemTextJsonStreamMessageAccessor();
+        protected override IStreamMessageAccessor CreateAccessor() => new SystemTextJsonStreamMessageAccessor(SerializerOptions.WithConverters(KrakenExchange.SerializerContext));
 
-        protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer();
+        protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange.SerializerContext));
 
         public IKrakenRestClientFuturesApiShared SharedClient => this;
 
@@ -57,7 +57,7 @@ namespace Kraken.Net.Clients.FuturesApi
         public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
                 => KrakenExchange.FormatSymbol(baseAsset, quoteAsset, tradingMode, deliverTime);
 
-        internal async Task<WebCallResult<U>> SendToAddressAsync<T, U>(string baseAddress, RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T : KrakenFuturesResult<U>
+        internal async Task<WebCallResult<U>> SendToAddressAsync<T,U>(string baseAddress, RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T : KrakenFuturesResult<U>
         {
             var result = await base.SendAsync<T>(baseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
             if (!result)
@@ -101,29 +101,29 @@ namespace Kraken.Net.Clients.FuturesApi
             return result.As(result.Data.Data);
         }
 
-        internal Task<WebCallResult<U>> SendAsync<T, U>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T : KrakenFuturesResult<U>
-            => SendToAddressAsync<T, U>(BaseAddress, definition, parameters, cancellationToken, weight);
+        internal Task<WebCallResult<U>> SendAsync<T,U>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T : KrakenFuturesResult<U>
+            => SendToAddressAsync<T,U>(BaseAddress, definition, parameters, cancellationToken, weight);
 
         internal async Task<WebCallResult<T>> SendRawAsync<T>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T: class
             => await base.SendAsync<T>(BaseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
         
         /// <inheritdoc />
-        protected override Error ParseErrorResponse(int httpStatusCode, IEnumerable<KeyValuePair<string, IEnumerable<string>>> responseHeaders, IMessageAccessor accessor)
+        protected override Error ParseErrorResponse(int httpStatusCode, KeyValuePair<string, string[]>[] responseHeaders, IMessageAccessor accessor, Exception? exception)
         {
             if (!accessor.IsJson)
-                return new ServerError(accessor.GetOriginalString());
+                return new ServerError(null, "Unknown request error", exception: exception);
 
             var result = accessor.Deserialize<KrakenFuturesResult>();
             if (!result)
-                return new ServerError(accessor.GetOriginalString());
+                return new ServerError(null, "Unknown request error", exception: exception);
 
             if (result.Data.Errors?.Any() == true)
             {
                 var krakenError = result.Data.Errors.First();
-                return new ServerError(krakenError.Code, krakenError.Message);
+                return new ServerError(krakenError.Code, krakenError.Message, exception);
             }
 
-            return new ServerError(result.Data!.Error ?? accessor.GetOriginalString());
+            return new ServerError(null, result.Data!.Error ?? "Unknown request error", exception);
         }
 
         /// <inheritdoc />

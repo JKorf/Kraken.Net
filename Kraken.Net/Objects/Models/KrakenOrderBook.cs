@@ -1,28 +1,32 @@
-﻿using CryptoExchange.Net.Converters;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Converters;
+using Kraken.Net.Converters;
 
 namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Order book
     /// </summary>
+    [SerializationModel]
     public record KrakenOrderBook
     {
         /// <summary>
         /// Asks in the book
         /// </summary>
         [JsonPropertyName("asks")]
-        public IEnumerable<KrakenOrderBookEntry> Asks { get; set; } = Array.Empty<KrakenOrderBookEntry>();
+        public KrakenOrderBookEntry[] Asks { get; set; } = Array.Empty<KrakenOrderBookEntry>();
         /// <summary>
         /// Bids in the book
         /// </summary>
         [JsonPropertyName("bids")]
-        public IEnumerable<KrakenOrderBookEntry> Bids { get; set; } = Array.Empty<KrakenOrderBookEntry>();
+        public KrakenOrderBookEntry[] Bids { get; set; } = Array.Empty<KrakenOrderBookEntry>();
     }
 
     /// <summary>
     /// Order book entry
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter))]
+    [JsonConverter(typeof(ArrayConverter<KrakenOrderBookEntry>))]
+    [SerializationModel]
     public record KrakenOrderBookEntry : ISymbolOrderBookEntry
     {
         /// <summary>
@@ -56,18 +60,19 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Stream order book
     /// </summary>
+    [SerializationModel]
     public record KrakenStreamOrderBook
     {
         /// <summary>
         /// Asks
         /// </summary>
         [JsonPropertyName("as")]
-        public IEnumerable<KrakenStreamOrderBookEntry> Asks { get; set; } = Array.Empty<KrakenStreamOrderBookEntry>();
+        public KrakenStreamOrderBookEntry[] Asks { get; set; } = Array.Empty<KrakenStreamOrderBookEntry>();
         /// <summary>
         /// Bids
         /// </summary>
         [JsonPropertyName("bs")]
-        public IEnumerable<KrakenStreamOrderBookEntry> Bids { get; set; } = Array.Empty<KrakenStreamOrderBookEntry>();
+        public KrakenStreamOrderBookEntry[] Bids { get; set; } = Array.Empty<KrakenStreamOrderBookEntry>();
 
         /// <summary>
         /// Checksum
@@ -85,7 +90,8 @@ namespace Kraken.Net.Objects.Models
     /// <summary>
     /// Stream order book entry
     /// </summary>
-    [JsonConverter(typeof(ArrayConverter))]
+    [JsonConverter(typeof(ArrayConverter<KrakenStreamOrderBookEntry>))]
+    [SerializationModel]
     public record KrakenStreamOrderBookEntry : ISymbolOrderSequencedBookEntry
     {
         /// <summary>
