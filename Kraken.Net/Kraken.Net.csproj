@@ -21,6 +21,8 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
+    <NoWarn>$(NoWarn);SYSLIB1100;SYSLIB1101</NoWarn> 
     <PackageReleaseNotes>https://github.com/JKorf/Kraken.Net?tab=readme-ov-file#release-notes</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup Label="AOT" Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">
@@ -50,7 +52,7 @@
     <PackageReference Include="Crc32.NET" Version="1.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CryptoExchange.Net" Version="9.0.0" />
+    <PackageReference Include="CryptoExchange.Net" Version="9.1.0" />
     <PackageReference Include="ConfigureAwaitChecker.Analyzer" Version="5.0.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
