@@ -54,17 +54,17 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Next fee
         /// </summary>
-        [JsonPropertyName("nextFee")]
+        [JsonPropertyName("nextfee")]
         public decimal? NextFee { get; set; }
         /// <summary>
         /// Next volume
         /// </summary>
-        [JsonPropertyName("nextVolume")]
+        [JsonPropertyName("nextvolume")]
         public decimal? NextVolume { get; set; }
         /// <summary>
         /// Tier volume
         /// </summary>
-        [JsonPropertyName("tierVolume")]
+        [JsonPropertyName("tiervolume")]
         public decimal TierVolume { get; set; }
     }
 }
