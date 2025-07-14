@@ -82,6 +82,7 @@ namespace Kraken.Net.UnitTests
             await tester.ValidateAsync(client => client.SpotApi.Trading.CancelOrderAsync("ETHUSDT", "123"), "CancelOrder");
             await tester.ValidateAsync(client => client.SpotApi.Trading.CancelAllOrdersAsync("ETHUSDT"), "CancelAllOrders");
             await tester.ValidateAsync(client => client.SpotApi.Trading.CancelAllOrdersAfterAsync(TimeSpan.FromSeconds(5)), "CancelAllOrdersAfter");
+            await tester.ValidateAsync(client => client.SpotApi.Trading.CancelMultipleOrdersAsync(["123", "456"]), "CancelMultipleOrders");
         }
 
         [Test]

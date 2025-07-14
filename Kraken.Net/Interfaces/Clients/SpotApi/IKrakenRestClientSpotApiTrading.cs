@@ -247,10 +247,20 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Cancel all orders after the timeout expires. Can be called at an interval to keep extending the timeout and word as a dead-man switch. Timeout can be disabled by setting timeout to 0.
         /// <para><a href="https://docs.kraken.com/api/docs/rest-api/cancel-all-orders-after" /></para>
         /// </summary>
-        /// <param name="cancelAfter"></param>
-        /// <param name="twoFactorPassword"></param>
-        /// <param name="ct"></param>
+        /// <param name="cancelAfter">Cancel after time</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenCancelAfterResult>> CancelAllOrdersAfterAsync(TimeSpan cancelAfter, string? twoFactorPassword = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Cancel multiple orders by id or clientOrderId
+        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/cancel-order-batch/" /></para>
+        /// </summary>
+        /// <param name="orderIds">Cancel by order ids</param>
+        /// <param name="clientOrderIds">Cancel by client order ids</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns></returns>
+        Task<WebCallResult<KrakenBatchCancelResult>> CancelMultipleOrdersAsync(IEnumerable<string>? orderIds = null, IEnumerable<string>? clientOrderIds = null, CancellationToken ct = default);
     }
 }

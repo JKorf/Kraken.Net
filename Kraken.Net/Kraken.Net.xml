@@ -512,6 +512,9 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.CancelAllOrdersAfterAsync(System.TimeSpan,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiTrading.CancelMultipleOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="T:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi">
             <inheritdoc />
         </member>
@@ -941,6 +944,11 @@
             </summary>
         </member>
         <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenResultKrakenAllocationsCursorPage">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenResultKrakenBatchCancelResult">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -2446,6 +2454,11 @@
             </summary>
         </member>
         <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenBalanceAvailableArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenBatchCancelResult">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -6463,9 +6476,19 @@
             Cancel all orders after the timeout expires. Can be called at an interval to keep extending the timeout and word as a dead-man switch. Timeout can be disabled by setting timeout to 0.
             <para><a href="https://docs.kraken.com/api/docs/rest-api/cancel-all-orders-after" /></para>
             </summary>
-            <param name="cancelAfter"></param>
-            <param name="twoFactorPassword"></param>
-            <param name="ct"></param>
+            <param name="cancelAfter">Cancel after time</param>
+            <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiTrading.CancelMultipleOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Cancel multiple orders by id or clientOrderId
+            <para><a href="https://docs.kraken.com/api/docs/rest-api/cancel-order-batch/" /></para>
+            </summary>
+            <param name="orderIds">Cancel by order ids</param>
+            <param name="clientOrderIds">Cancel by client order ids</param>
+            <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
         <member name="T:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi">
@@ -9035,6 +9058,16 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenBalanceAvailable.Available">
             <summary>
             The quantity available
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.KrakenBatchCancelResult">
+            <summary>
+            Cancel result
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenBatchCancelResult.Count">
+            <summary>
+            Canceled count
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.KrakenCancelAfterResult">

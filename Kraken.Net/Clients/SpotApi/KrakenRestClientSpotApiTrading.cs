@@ -350,5 +350,19 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         #endregion
+
+        #region Cancel Multiple Orders
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<KrakenBatchCancelResult>> CancelMultipleOrdersAsync(IEnumerable<string>? orderIds = null, IEnumerable<string>? clientOrderIds = null, CancellationToken ct = default)
+        {
+            var parameters = new ParameterCollection();
+            parameters.AddOptional("orders", orderIds?.ToArray());
+            parameters.AddOptional("cl_ord_ids", clientOrderIds?.ToArray());
+            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/CancelOrderBatch", KrakenExchange.RateLimiter.SpotRest, 0, true, requestBodyFormat: RequestBodyFormat.Json);
+            return await _baseClient.SendAsync<KrakenBatchCancelResult>(request, parameters, ct).ConfigureAwait(false);
+        }
+
+        #endregion
     }
 }

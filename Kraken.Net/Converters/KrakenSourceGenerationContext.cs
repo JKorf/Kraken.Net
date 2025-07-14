@@ -32,6 +32,7 @@ namespace Kraken.Net.Converters
 
     // End manual defined attributes
 
+    [JsonSerializable(typeof(KrakenResult<KrakenBatchCancelResult>))]
     [JsonSerializable(typeof(KrakenFeeScheduleVolumeResult))]
     [JsonSerializable(typeof(KrakenFuturesResult<Dictionary<string, decimal>>))]
     [JsonSerializable(typeof(KrakenFuturesResult<Dictionary<string, KrakenBalanceAvailable>>))]

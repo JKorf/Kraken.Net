@@ -1,0 +1,9 @@
+POST
+/0/private/CancelOrderBatch
+true
+{
+  "error": [],
+  "result": {
+    "count": 1
+  }
+}
