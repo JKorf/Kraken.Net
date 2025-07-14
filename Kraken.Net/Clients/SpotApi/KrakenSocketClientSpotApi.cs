@@ -14,6 +14,7 @@ using Kraken.Net.Objects.Options;
 using Kraken.Net.Objects.Sockets.Queries;
 using Kraken.Net.Objects.Sockets.Subscriptions.Spot;
 using System.Collections.Concurrent;
+using System.Net.WebSockets;
 
 namespace Kraken.Net.Clients.SpotApi
 {
@@ -74,7 +75,7 @@ namespace Kraken.Net.Clients.SpotApi
         }
         #endregion
 
-        protected override IByteMessageAccessor CreateAccessor() => new SystemTextJsonByteMessageAccessor(SerializerOptions.WithConverters(KrakenExchange.SerializerContext));
+        protected override IByteMessageAccessor CreateAccessor(WebSocketMessageType type) => new SystemTextJsonByteMessageAccessor(SerializerOptions.WithConverters(KrakenExchange.SerializerContext));
 
         protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange.SerializerContext));
 

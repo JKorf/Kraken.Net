@@ -10,6 +10,7 @@ using Kraken.Net.Objects.Options;
 using Kraken.Net.Objects.Sockets.Queries;
 using Kraken.Net.Objects.Sockets.Subscriptions.Futures;
 using Kraken.Net.Objects.Sockets.Subscriptions.Spot;
+using System.Net.WebSockets;
 
 namespace Kraken.Net.Clients.FuturesApi
 {
@@ -38,7 +39,7 @@ namespace Kraken.Net.Clients.FuturesApi
         }
         #endregion
 
-        protected override IByteMessageAccessor CreateAccessor() => new SystemTextJsonByteMessageAccessor(SerializerOptions.WithConverters(KrakenExchange.SerializerContext));
+        protected override IByteMessageAccessor CreateAccessor(WebSocketMessageType type) => new SystemTextJsonByteMessageAccessor(SerializerOptions.WithConverters(KrakenExchange.SerializerContext));
 
         protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange.SerializerContext));
 
