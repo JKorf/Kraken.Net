@@ -673,6 +673,9 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 x.ApiCredentials = ApiCredentials;
                 x.Environment = ClientOptions.Environment;
+                x.NonceProvider = ClientOptions.NonceProvider;
+                x.Proxy = ClientOptions.Proxy;
+                x.RequestTimeout = ClientOptions.RequestTimeout;
             });
 
             var result = await restClient.SpotApi.Account.GetWebsocketTokenAsync().ConfigureAwait(false);
