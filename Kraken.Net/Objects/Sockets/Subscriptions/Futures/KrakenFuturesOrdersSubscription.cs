@@ -11,9 +11,6 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         protected readonly Action<DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate>> _snapshotHandler;
         protected readonly Action<DataEvent<KrakenFuturesOpenOrdersUpdate>> _updateHandler;
         private bool _verbose;
-        private readonly MessagePath _feedPath = MessagePath.Get().Property("feed");
-
-        public override HashSet<string> ListenerIdentifiers { get; set; }
 
         public KrakenFuturesOrdersSubscription(ILogger logger, bool verbose, Action<DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesOpenOrdersUpdate>> updateHandler) : base(logger, true)
         {
@@ -22,9 +19,19 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _verbose = verbose;
 
             if (verbose)
-                ListenerIdentifiers = new HashSet<string> { "open_orders_verbose_snapshot", "open_orders_verbose" };
+            {
+                MessageMatcher = MessageMatcher.Create([
+                    new MessageHandlerLink<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_verbose_snapshot", DoHandleMessage),
+                    new MessageHandlerLink<KrakenFuturesOpenOrdersUpdate>("open_orders_verbose", DoHandleMessage)
+                    ]);
+            }
             else
-                ListenerIdentifiers = new HashSet<string> { "open_orders_snapshot", "open_orders" };
+            {
+                MessageMatcher = MessageMatcher.Create([
+                    new MessageHandlerLink<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_snapshot", DoHandleMessage),
+                    new MessageHandlerLink<KrakenFuturesOpenOrdersUpdate>("open_orders", DoHandleMessage)
+                    ]);
+            }
         }
 
         public override Query? GetSubQuery(SocketConnection connection)
@@ -52,31 +59,15 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 Authenticated);
         }
 
-        public override Type? GetMessageType(IMessageAccessor message)
+        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate> message)
         {
-            var feed = message.GetValue<string>(_feedPath);
-            if (string.Equals(feed, "open_orders_verbose_snapshot", StringComparison.Ordinal)
-                || string.Equals(feed, "open_orders_snapshot", StringComparison.Ordinal))
-            {
-                return typeof(KrakenFuturesOpenOrdersSnapshotUpdate);
-            }
-
-            return typeof(KrakenFuturesOpenOrdersUpdate);
+            _snapshotHandler.Invoke(message.As(message.Data, message.Data.Feed, message.Data.Symbol, SocketUpdateType.Snapshot).WithDataTimestamp(message.Data.Orders.Any() ? message.Data.Orders.Max(x => x.LastUpdateTime) : null));
+            return CallResult.SuccessResult;
         }
 
-        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesOpenOrdersUpdate> message)
         {
-            if (message.Data is KrakenFuturesOpenOrdersSnapshotUpdate snapshot)
-            {
-                _snapshotHandler.Invoke(message.As(snapshot, snapshot.Feed, snapshot.Symbol, SocketUpdateType.Snapshot).WithDataTimestamp(snapshot.Orders.Any() ? snapshot.Orders.Max(x => x.LastUpdateTime) : null));
-                return CallResult.SuccessResult;
-            }
-            else if (message.Data is KrakenFuturesOpenOrdersUpdate update)
-            {
-                _updateHandler.Invoke(message.As(update, update.Feed, update.Symbol, SocketUpdateType.Update).WithDataTimestamp(update.Order?.LastUpdateTime));
-                return CallResult.SuccessResult;
-            }
-
+            _updateHandler.Invoke(message.As(message.Data, message.Data.Feed, message.Data.Symbol, SocketUpdateType.Update).WithDataTimestamp(message.Data.Order?.LastUpdateTime));
             return CallResult.SuccessResult;
         }
     }

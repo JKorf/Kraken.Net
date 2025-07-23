@@ -3,14 +3,11 @@ using CryptoExchange.Net.Sockets;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
-    internal class HeartbeatSubscription : SystemSubscription<KrakenEvent>
+    internal class HeartbeatSubscription : SystemSubscription
     {
-        public override HashSet<string> ListenerIdentifiers { get; set; } = new HashSet<string> { "heartbeat" };
-
         public HeartbeatSubscription(ILogger logger) : base(logger, false)
         {
+            MessageMatcher = MessageMatcher.Create<KrakenEvent>("heartbeat");
         }
-
-        public override CallResult HandleMessage(SocketConnection connection, DataEvent<KrakenEvent> message) => CallResult.SuccessResult;
     }
 }

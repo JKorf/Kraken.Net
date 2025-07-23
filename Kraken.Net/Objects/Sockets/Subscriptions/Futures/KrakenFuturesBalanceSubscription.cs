@@ -8,13 +8,12 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
     internal class KrakenFuturesBalanceSubscription : Subscription<KrakenFuturesResponse, KrakenFuturesResponse>
     {
         protected readonly Action<DataEvent<KrakenFuturesBalancesUpdate>> _handler;
-        public override HashSet<string> ListenerIdentifiers { get; set; }
-
 
         public KrakenFuturesBalanceSubscription(ILogger logger, Action<DataEvent<KrakenFuturesBalancesUpdate>> handler) : base(logger, true)
         {
             _handler = handler;
-            ListenerIdentifiers = new HashSet<string> { "balances_snapshot", "balances" };
+
+            MessageMatcher = MessageMatcher.Create<KrakenFuturesBalancesUpdate>(["balances_snapshot", "balances"], DoHandleMessage);
         }
 
         public override Query? GetSubQuery(SocketConnection connection)
@@ -42,14 +41,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 Authenticated);
         }
 
-        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesBalancesUpdate> message)
         {
-            var data = (KrakenFuturesBalancesUpdate)message.Data;
-            _handler.Invoke(message.As(data, data.Feed, null, string.Equals(data.Feed, "balances_snapshot", StringComparison.Ordinal) ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                .WithDataTimestamp(data.Timestamp));
+            _handler.Invoke(message.As(message.Data, message.Data.Feed, null, string.Equals(message.Data.Feed, "balances_snapshot", StringComparison.Ordinal) ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
+                .WithDataTimestamp(message.Data.Timestamp));
             return CallResult.SuccessResult;
         }
-
-        public override Type? GetMessageType(IMessageAccessor message) => typeof(KrakenFuturesBalancesUpdate);
     }
 }

@@ -8,13 +8,9 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
     internal class KrakenFuturesOrderbookSubscription : Subscription<KrakenFuturesResponse, object>
     {
-        private readonly MessagePath _feedPath = MessagePath.Get().Property("feed");
-
         private List<string> _symbols;
         protected readonly Action<DataEvent<KrakenFuturesBookSnapshotUpdate>> _snapshotHandler;
         protected readonly Action<DataEvent<KrakenFuturesBookUpdate>> _updateHandler;
-
-        public override HashSet<string> ListenerIdentifiers { get; set; }
 
         public KrakenFuturesOrderbookSubscription(ILogger logger, List<string> symbols, Action<DataEvent<KrakenFuturesBookSnapshotUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesBookUpdate>> updateHandler) : base(logger, false)
         {
@@ -22,9 +18,14 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _snapshotHandler = snapshotHandler;
             _updateHandler = updateHandler;
 
-            ListenerIdentifiers = new HashSet<string>(symbols.Select(s => "book-" + s.ToLowerInvariant()).ToList());
-            foreach (var symbol in _symbols)
-                ListenerIdentifiers.Add("book_snapshot-" + symbol.ToLowerInvariant());
+            var checkers = new List<MessageHandlerLink>();
+            foreach(var symbol in symbols)
+            {
+                checkers.Add(new MessageHandlerLink<KrakenFuturesBookUpdate>("book-" + symbol.ToLowerInvariant(), DoHandleMessage));
+                checkers.Add(new MessageHandlerLink<KrakenFuturesBookSnapshotUpdate>("book_snapshot-" + symbol.ToLowerInvariant(), DoHandleMessage));
+            }    
+
+            MessageMatcher = MessageMatcher.Create(checkers.ToArray());
         }
 
         public override Query? GetSubQuery(SocketConnection connection)
@@ -57,26 +58,15 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             };
         }
 
-        public override Type? GetMessageType(IMessageAccessor message)
+        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesBookSnapshotUpdate> message)
         {
-            if (string.Equals(message.GetValue<string>(_feedPath), "book_snapshot", StringComparison.Ordinal))
-                return typeof(KrakenFuturesBookSnapshotUpdate);
-            return typeof(KrakenFuturesBookUpdate);
+            _snapshotHandler.Invoke(message.As(message.Data, message.Data.Feed, message.Data.Symbol, SocketUpdateType.Snapshot).WithDataTimestamp(message.Data.Timestamp));
+            return CallResult.SuccessResult;
         }
 
-        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesBookUpdate> message)
         {
-            if (message.Data is KrakenFuturesBookSnapshotUpdate snapshot)
-            {
-                _snapshotHandler.Invoke(message.As(snapshot, snapshot.Feed, snapshot.Symbol, SocketUpdateType.Snapshot).WithDataTimestamp(snapshot.Timestamp));
-                return CallResult.SuccessResult;
-            }
-            else if (message.Data is KrakenFuturesBookUpdate update)
-            {
-                _updateHandler.Invoke(message.As(update, update.Feed, update.Symbol, SocketUpdateType.Update).WithDataTimestamp(update.Timestamp));
-                return CallResult.SuccessResult;
-            }
-
+            _updateHandler.Invoke(message.As(message.Data, message.Data.Feed, message.Data.Symbol, SocketUpdateType.Update).WithDataTimestamp(message.Data.Timestamp));
             return CallResult.SuccessResult;
         }
     }

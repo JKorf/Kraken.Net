@@ -4,14 +4,11 @@ using Kraken.Net.Objects.Internal;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
-    internal class KrakenFuturesInfoSubscription : SystemSubscription<KrakenInfoEvent>
+    internal class KrakenFuturesInfoSubscription : SystemSubscription
     {
-        public override HashSet<string> ListenerIdentifiers { get; set; } = new HashSet<string> { "info" };
-
         public KrakenFuturesInfoSubscription(ILogger logger) : base(logger, false)
         {
+            MessageMatcher = MessageMatcher.Create<KrakenInfoEvent>("info");
         }
-
-        public override CallResult HandleMessage(SocketConnection connection, DataEvent<KrakenInfoEvent> message) => CallResult.SuccessResult;
     }
 }

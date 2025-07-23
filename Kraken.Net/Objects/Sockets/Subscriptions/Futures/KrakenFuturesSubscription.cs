@@ -10,18 +10,17 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         private List<string>? _symbols;
         protected readonly Action<DataEvent<T>> _handler;
 
-        public override HashSet<string> ListenerIdentifiers { get; set; }
-
         public KrakenFuturesSubscription(ILogger logger, string feed, List<string>? symbols, Action<DataEvent<T>> handler) : base(logger, false)
         {
             _feed = feed;
             _symbols = symbols;
             _handler = handler;
 
-            ListenerIdentifiers = symbols?.Any() == true ? new HashSet<string>(symbols.Select(s => _feed + "-" + s.ToLowerInvariant())) : new HashSet<string> { _feed };
+            if (symbols?.Count > 0)
+                MessageMatcher = MessageMatcher.Create(symbols.Select(x => new MessageHandlerLink<T>(_feed + "-" + x.ToLowerInvariant(), DoHandleMessage)).ToArray());
+            else
+                MessageMatcher = MessageMatcher.Create<T>(_feed, DoHandleMessage);
         }
-
-        public override Type? GetMessageType(IMessageAccessor message) => typeof(T);
 
         public override Query? GetSubQuery(SocketConnection connection)
         {
@@ -53,10 +52,9 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             };
         }
 
-        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<T> message)
         {
-            var data = (T)message.Data!;
-            _handler.Invoke(message.As(data, data.Feed, data!.Symbol, SocketUpdateType.Update));
+            _handler.Invoke(message.As(message.Data, message.Data.Feed, message.Data!.Symbol, SocketUpdateType.Update));
             return CallResult.SuccessResult;
         }
     }

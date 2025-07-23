@@ -5,14 +5,12 @@ namespace Kraken.Net.Objects.Sockets.Queries
 {
     internal class KrakenFuturesAuthQuery : Query<KrakenChallengeResponse>
     {
-        public override HashSet<string> ListenerIdentifiers { get; set; }
-
         public KrakenFuturesAuthQuery(string apiKey) : base(new KrakenChallengeRequest { ApiKey = apiKey, Event = "challenge" }, false)
         {
-            ListenerIdentifiers = new HashSet<string>() { "challenge", "alert" };
+            MessageMatcher = MessageMatcher.Create<KrakenChallengeResponse>(["challenge", "alert"], HandleMessage);
         }
 
-        public override CallResult<KrakenChallengeResponse> HandleMessage(SocketConnection connection, DataEvent<KrakenChallengeResponse> message)
+        public CallResult<KrakenChallengeResponse> HandleMessage(SocketConnection connection, DataEvent<KrakenChallengeResponse> message)
         {
             if (message.Data.Event == "alert")
                 return new CallResult<KrakenChallengeResponse>(default, message.OriginalData, new ServerError(message.Data.Message));

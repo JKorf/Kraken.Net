@@ -10,16 +10,16 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
     {
         protected readonly Action<DataEvent<KrakenFuturesAccountLogsSnapshotUpdate>> _snapshotHandler;
         protected readonly Action<DataEvent<KrakenFuturesAccountLogsUpdate>> _updateHandler;
-        private readonly MessagePath _feedPath = MessagePath.Get().Property("feed");
-
-        public override HashSet<string> ListenerIdentifiers { get; set; }
 
         public KrakenFuturesAccountLogSubscription(ILogger logger, Action<DataEvent<KrakenFuturesAccountLogsSnapshotUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesAccountLogsUpdate>> updateHandler) : base(logger, true)
         {
             _snapshotHandler = snapshotHandler;
             _updateHandler = updateHandler;
 
-            ListenerIdentifiers = new HashSet<string> { "account_log_snapshot", "account_log" };
+            MessageMatcher = MessageMatcher.Create([
+                new MessageHandlerLink<KrakenFuturesAccountLogsSnapshotUpdate>("account_log_snapshot", DoHandleMessage),
+                new MessageHandlerLink<KrakenFuturesAccountLogsUpdate>("account_log", DoHandleMessage)
+                ]);
         }
 
         public override Query? GetSubQuery(SocketConnection connection)
@@ -47,29 +47,16 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 Authenticated);
         }
 
-        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesAccountLogsUpdate> message)
         {
-            if (message.Data is KrakenFuturesAccountLogsSnapshotUpdate snapshot)
-            {
-                _snapshotHandler.Invoke(message.As(snapshot, snapshot.Feed, null, SocketUpdateType.Snapshot).WithDataTimestamp(snapshot.Logs.Any() ? snapshot.Logs.Max(x => x.Timestamp) : null));
-                return CallResult.SuccessResult;
-            }
-            else if (message.Data is KrakenFuturesAccountLogsUpdate update)
-            {
-                _updateHandler.Invoke(message.As(update, update.Feed, null, SocketUpdateType.Update).WithDataTimestamp(update.NewEntry.Timestamp));
-                return CallResult.SuccessResult;
-            }
-
+            _updateHandler.Invoke(message.As(message.Data, message.Data.Feed, null, SocketUpdateType.Update).WithDataTimestamp(message.Data.NewEntry.Timestamp));
             return CallResult.SuccessResult;
         }
 
-        public override Type? GetMessageType(IMessageAccessor message)
+        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesAccountLogsSnapshotUpdate> message)
         {
-            var feed = message.GetValue<string>(_feedPath);
-            if (string.Equals(feed, "account_log_snapshot", StringComparison.Ordinal))
-                return typeof(KrakenFuturesAccountLogsSnapshotUpdate);
-
-            return typeof(KrakenFuturesAccountLogsUpdate);
+            _snapshotHandler.Invoke(message.As(message.Data, message.Data.Feed, null, SocketUpdateType.Snapshot).WithDataTimestamp(message.Data.Logs.Any() ? message.Data.Logs.Max(x => x.Timestamp) : null));
+            return CallResult.SuccessResult;
         }
     }
 }

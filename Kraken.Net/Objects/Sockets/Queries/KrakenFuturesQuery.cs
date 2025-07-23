@@ -5,8 +5,6 @@ namespace Kraken.Net.Objects.Sockets.Queries
 {
     internal class KrakenFuturesQuery<T> : Query<T> where T: KrakenFuturesResponse
     {
-        public override HashSet<string> ListenerIdentifiers { get; set; }
-
         public KrakenFuturesQuery(KrakenFuturesRequest request, bool authenticated) : base(request, authenticated)
         {
             string evnt = request.Event;
@@ -18,18 +16,18 @@ namespace Kraken.Net.Objects.Sockets.Queries
 
             if (request.Symbols?.Any() == true)
             {
-                ListenerIdentifiers = new HashSet<string>(request.Symbols.Select(s => evnt + "-" + request.Feed.ToLowerInvariant() + "-" + s.ToLowerInvariant()))
-                {
-                    "alert"
-                };
+                var checkers = request.Symbols.Select(x => new MessageHandlerLink<T>(evnt + "-" + request.Feed.ToLowerInvariant() + "-" + x.ToLowerInvariant(), HandleMessage)).ToList();
+                checkers.Add(new MessageHandlerLink<T>("alert", HandleMessage));
+                MessageMatcher = MessageMatcher.Create(checkers.ToArray());
+
             }
             else
             {
-                ListenerIdentifiers = new HashSet<string> { evnt + "-" + request.Feed.ToLowerInvariant(), "alert" };
+                MessageMatcher = MessageMatcher.Create<T>([evnt + "-" + request.Feed.ToLowerInvariant(), "alert"], HandleMessage);
             }
         }
 
-        public override CallResult<T> HandleMessage(SocketConnection connection, DataEvent<T> message)
+        public CallResult<T> HandleMessage(SocketConnection connection, DataEvent<T> message)
         {
             if (string.Equals(message.Data.Event, "alert", StringComparison.Ordinal))
             {
@@ -40,7 +38,9 @@ namespace Kraken.Net.Objects.Sockets.Queries
                 return new CallResult<T>(new ServerError(message.Data.Message!));
             }
             else
+            {
                 return new CallResult<T>(message.Data!);
+            }
         }
     }
 }

@@ -24,6 +24,7 @@ namespace Kraken.Net.Clients.SpotApi
         private static readonly MessagePath _idPath = MessagePath.Get().Property("req_id");
         private static readonly MessagePath _methodPath = MessagePath.Get().Property("method");
         private static readonly MessagePath _channelPath = MessagePath.Get().Property("channel");
+        private static readonly MessagePath _typePath = MessagePath.Get().Property("type");
         private static readonly MessagePath _symbolPath = MessagePath.Get().Property("data").Index(0).Property("symbol");
 
         private static readonly ConcurrentDictionary<string, CachedToken> _tokenCache = new();
@@ -97,6 +98,15 @@ namespace Kraken.Net.Clients.SpotApi
                 return id;
 
             var channel = message.GetValue<string>(_channelPath);
+            if (channel!.Equals("balances", StringComparison.Ordinal))
+            {
+                var type = message.GetValue<string?>(_typePath);
+                if (type?.Equals("snapshot", StringComparison.Ordinal) == true)
+                    return channel + type;
+
+                return channel;
+            }
+
             var method = message.GetValue<string?>(_methodPath);
 
             if (!_channelsWithoutSymbol.Contains(channel!))

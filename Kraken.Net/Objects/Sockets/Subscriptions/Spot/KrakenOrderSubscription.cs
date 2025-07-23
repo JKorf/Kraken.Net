@@ -9,14 +9,10 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
     internal class KrakenOrderSubscription : KrakenSubscription
     {
-        private static readonly MessagePath _typePath = MessagePath.Get().Property("type");
-
         private readonly Action<DataEvent<KrakenOrderUpdate[]>> _updateHandler;
 
         private bool? _snapshotOrder;
         private bool? _snapshotTrades;
-
-        public override HashSet<string> ListenerIdentifiers { get; set; }
 
         public KrakenOrderSubscription(ILogger logger, bool? snapshotOrder, bool? snapshotTrades, string token, Action<DataEvent<KrakenOrderUpdate[]>> updateHandler) : base(logger, true)
         {
@@ -26,12 +22,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 
             _updateHandler = updateHandler;
 
-            ListenerIdentifiers = new HashSet<string> { "executions" };
-        }
-
-        public override Type? GetMessageType(IMessageAccessor message)
-        {
-            return typeof(KrakenSocketUpdateV2<KrakenOrderUpdate[]>);
+            MessageMatcher = MessageMatcher.Create<KrakenSocketUpdateV2<KrakenOrderUpdate[]>>("executions", DoHandleMessage);
         }
 
         public override Query? GetSubQuery(SocketConnection connection)
@@ -66,10 +57,9 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 }, false);
         }
 
-        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenSocketUpdateV2<KrakenOrderUpdate[]>> message)
         {
-            var data = (KrakenSocketUpdateV2<KrakenOrderUpdate[]>)message.Data;
-            _updateHandler.Invoke(message.As(data.Data, "executions", null, data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update).WithDataTimestamp(data.Timestamp));
+            _updateHandler.Invoke(message.As(message.Data.Data, "executions", null, message.Data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update).WithDataTimestamp(message.Data.Timestamp));
             return CallResult.SuccessResult;
         }
     }

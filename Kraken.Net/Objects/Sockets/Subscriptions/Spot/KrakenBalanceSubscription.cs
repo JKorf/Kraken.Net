@@ -10,14 +10,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
     internal class KrakenBalanceSubscription : KrakenSubscription
     {
-        private static readonly MessagePath _typePath = MessagePath.Get().Property("type");
 
         private readonly Action<DataEvent<KrakenBalanceSnapshot[]>>? _snapshotHandler;
         private readonly Action<DataEvent<KrakenBalanceUpdate[]>> _updateHandler;
 
         private bool? _snapshot;
-
-        public override HashSet<string> ListenerIdentifiers { get; set; }
 
         public KrakenBalanceSubscription(ILogger logger, bool? snapshot, string token, Action<DataEvent<KrakenBalanceSnapshot[]>>? snapshotHandler, Action<DataEvent<KrakenBalanceUpdate[]>> updateHandler) : base(logger, true)
         {
@@ -27,15 +24,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _snapshotHandler = snapshotHandler;
             _updateHandler = updateHandler;
 
-            ListenerIdentifiers = new HashSet<string> { "balances" };
-        }
+            MessageMatcher = MessageMatcher.Create([
+                new MessageHandlerLink<KrakenSocketUpdateV2<KrakenBalanceSnapshot[]>>("balancessnapshot", DoHandleMessage),
+                new MessageHandlerLink<KrakenSocketUpdateV2<KrakenBalanceUpdate[]>>("balances", DoHandleMessage)
 
-        public override Type? GetMessageType(IMessageAccessor message)
-        {
-            if (message.GetValue<string>(_typePath) == "snapshot")
-                return typeof(KrakenSocketUpdateV2<KrakenBalanceSnapshot[]>);
-
-            return typeof(KrakenSocketUpdateV2<KrakenBalanceUpdate[]>);
+                ]);
         }
 
         public override Query? GetSubQuery(SocketConnection connection)
@@ -70,12 +63,15 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 }, false);
         }
 
-        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenSocketUpdateV2<KrakenBalanceSnapshot[]>> message)
         {
-            if (message.Data is KrakenSocketUpdateV2<KrakenBalanceSnapshot[]> snapshot)
-                _snapshotHandler?.Invoke(message.As(snapshot.Data, "balances", null, SocketUpdateType.Snapshot).WithDataTimestamp(snapshot.Timestamp));
-            else if (message.Data is KrakenSocketUpdateV2<KrakenBalanceUpdate[]> update)
-                _updateHandler?.Invoke(message.As(update.Data, "balances", null, SocketUpdateType.Update).WithDataTimestamp(update.Timestamp));
+                _snapshotHandler?.Invoke(message.As(message.Data.Data, "balances", null, SocketUpdateType.Snapshot).WithDataTimestamp(message.Data.Timestamp));
+            return CallResult.SuccessResult;
+        }
+
+        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenSocketUpdateV2<KrakenBalanceUpdate[]>> message)
+        {
+            _updateHandler?.Invoke(message.As(message.Data.Data, "balances", null, SocketUpdateType.Update).WithDataTimestamp(message.Data.Timestamp));
             return CallResult.SuccessResult;
         }
     }

@@ -2,6 +2,7 @@
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Sockets.Queries;
+using System.Linq;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
@@ -14,8 +15,6 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         private IEnumerable<string>? _symbols;
         private readonly Action<DataEvent<T>> _handler;
 
-        public override HashSet<string> ListenerIdentifiers { get; set; }
-
         public KrakenSubscriptionV2(ILogger logger, string topic, IEnumerable<string>? symbols, int? interval, bool? snapshot, int? depth, string? token, Action<DataEvent<T>> handler) : base(logger, token != null)
         {
             _topic = topic;
@@ -26,10 +25,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _interval = interval;
             Token = token;
 
-            ListenerIdentifiers = symbols?.Any() == true ? new HashSet<string>(symbols.Select(s => topic + "-" + s)) : new HashSet<string> { topic };
+            if (symbols?.Any() == true)
+                MessageMatcher = MessageMatcher.Create(symbols.Select(x => new MessageHandlerLink<KrakenSocketUpdateV2<T>>(topic + "-" + x, DoHandleMessage)).ToArray());
+            else
+                MessageMatcher = MessageMatcher.Create<KrakenSocketUpdateV2<T>>(topic, DoHandleMessage);
         }
-
-        public override Type? GetMessageType(IMessageAccessor message) => typeof(KrakenSocketUpdateV2<T>);
 
         public override Query? GetSubQuery(SocketConnection connection)
         {
@@ -75,10 +75,9 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             };
         }
 
-        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenSocketUpdateV2<T>> message)
         {
-            var data = (KrakenSocketUpdateV2<T>)message.Data!;
-            _handler.Invoke(message.As(data.Data, data.Channel, null, data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update).WithDataTimestamp(data.Timestamp));
+            _handler.Invoke(message.As(message.Data.Data, message.Data.Channel, null, message.Data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update).WithDataTimestamp(message.Data.Timestamp));
             return CallResult.SuccessResult;
         }
 

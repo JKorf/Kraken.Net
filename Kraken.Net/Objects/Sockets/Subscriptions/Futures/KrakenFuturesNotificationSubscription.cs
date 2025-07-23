@@ -9,13 +9,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
     {
         protected readonly Action<DataEvent<KrakenFuturesNotificationUpdate>> _handler;
 
-        public override HashSet<string> ListenerIdentifiers { get; set; }
-
         public KrakenFuturesNotificationSubscription(ILogger logger, Action<DataEvent<KrakenFuturesNotificationUpdate>> handler) : base(logger, true)
         {
             _handler = handler;
 
-            ListenerIdentifiers = new HashSet<string> { "notifications_auth" };
+            MessageMatcher = MessageMatcher.Create<KrakenFuturesNotificationUpdate>("notifications_auth", DoHandleMessage);
         }
 
         public override Query? GetSubQuery(SocketConnection connection)
@@ -43,12 +41,9 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 Authenticated);
         }
 
-        public override Type? GetMessageType(IMessageAccessor message) => typeof(KrakenFuturesNotificationUpdate);
-
-        public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesNotificationUpdate> message)
         {
-            var data = (KrakenFuturesNotificationUpdate)message.Data;
-            _handler.Invoke(message.As(data, data.Feed, null, SocketUpdateType.Update));
+            _handler.Invoke(message.As(message.Data, message.Data.Feed, null, SocketUpdateType.Update));
             return CallResult.SuccessResult;
         }
     }
