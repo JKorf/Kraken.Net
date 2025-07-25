@@ -168,6 +168,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 6.3.1 - 25 Jul 2025
+    * Added twoFactorPassword parameter to CancelMultipleOrdersAsync
+    * Fixed restClient.SpotApi.Trading.CancelMultipleOrdersAsync message signing
+
 * Version 6.3.0 - 23 Jul 2025
     * Updated CryptoExchange.Net to version 9.3.0, see https://github.com/JKorf/CryptoExchange.Net/releases/
     * Updated websocket message matching
