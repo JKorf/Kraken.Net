@@ -52,9 +52,10 @@ namespace Kraken.Net
             var nonce = _nonceProvider.GetNonce();
             parameters.Add("nonce", nonce);
             string np;
-            if (uri.PathAndQuery == "/0/private/AddOrderBatch")
+            if (uri.PathAndQuery == "/0/private/AddOrderBatch"
+                || uri.PathAndQuery == "/0/private/CancelOrderBatch")
             {
-                // Only endpoint using json body data atm
+                // Only endpoints using json body data atm
                 np = nonce + GetSerializedBody(_serializer, parameters);
                 
             }
