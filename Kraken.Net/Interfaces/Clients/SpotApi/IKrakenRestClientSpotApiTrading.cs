@@ -259,8 +259,9 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </summary>
         /// <param name="orderIds">Cancel by order ids</param>
         /// <param name="clientOrderIds">Cancel by client order ids</param>
+        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenBatchCancelResult>> CancelMultipleOrdersAsync(IEnumerable<string>? orderIds = null, IEnumerable<string>? clientOrderIds = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenBatchCancelResult>> CancelMultipleOrdersAsync(IEnumerable<string>? orderIds = null, IEnumerable<string>? clientOrderIds = null, string? twoFactorPassword = null, CancellationToken ct = default);
     }
 }
