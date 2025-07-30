@@ -169,6 +169,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 6.3.2 - 30 Jul 2025
+    * Fixed error when deserializing trailing stop orders
+
 * Version 6.3.1 - 25 Jul 2025
     * Added twoFactorPassword parameter to CancelMultipleOrdersAsync
     * Fixed restClient.SpotApi.Trading.CancelMultipleOrdersAsync message signing
