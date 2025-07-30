@@ -5087,6 +5087,21 @@
             Quote currency
             </summary>
         </member>
+        <member name="T:Kraken.Net.Enums.TrailingStopSign">
+            <summary>
+            Whether it is above or below
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TrailingStopSign.Plus">
+            <summary>
+            Above
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TrailingStopSign.Minus">
+            <summary>
+            Below
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Enums.Trigger">
             <summary>
             Trigger price type
@@ -9734,6 +9749,16 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenOrderInfo.Type">
             <summary>
             Type of the order
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrderInfo.TrailingStopDeviationUnit">
+            <summary>
+            Trailing stop order deviation unit
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenOrderInfo.TrailingStopSign">
+            <summary>
+            Trailing stop order sign
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenOrderInfo.Price">

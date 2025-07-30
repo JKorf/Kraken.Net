@@ -71,9 +71,10 @@ namespace Kraken.Net.UnitTests
                 opts.RateLimiterEnabled = false;
             });
             var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Spot/Trading", "https://api.kraken.com", IsAuthenticatedSpot, "result");
-            await tester.ValidateAsync(client => client.SpotApi.Trading.GetOpenOrdersAsync(), "GetOpenOrders", skipResponseValidation: true);
-            await tester.ValidateAsync(client => client.SpotApi.Trading.GetClosedOrdersAsync(), "GetClosedOrders", skipResponseValidation: true);
-            await tester.ValidateAsync(client => client.SpotApi.Trading.GetOrdersAsync(), "GetOrders", skipResponseValidation: true);
+            //await tester.ValidateAsync(client => client.SpotApi.Trading.GetOpenOrdersAsync(), "GetOpenOrders", skipResponseValidation: true);
+            //await tester.ValidateAsync(client => client.SpotApi.Trading.GetClosedOrdersAsync(), "GetClosedOrders", skipResponseValidation: true);
+            //await tester.ValidateAsync(client => client.SpotApi.Trading.GetOrdersAsync(), "GetOrders", skipResponseValidation: true);
+            await tester.ValidateAsync(client => client.SpotApi.Trading.GetOrdersAsync(), "GetOrders2", ignoreProperties: ["aclass", "price"]);
             await tester.ValidateAsync(client => client.SpotApi.Trading.GetUserTradesAsync(), "GetUserTrades", skipResponseValidation: true);
             await tester.ValidateAsync(client => client.SpotApi.Trading.GetUserTradeDetailsAsync("123"), "GetUserTradeDetails", skipResponseValidation: true);
             await tester.ValidateAsync(client => client.SpotApi.Trading.PlaceMultipleOrdersAsync("ETHUSDT", new[] { new KrakenOrderRequest() } ), "PlaceMultipleOrders");

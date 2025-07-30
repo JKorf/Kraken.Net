@@ -1,5 +1,6 @@
 using CryptoExchange.Net.Converters.SystemTextJson;
 using Kraken.Net.Clients.SpotApi;
+using Kraken.Net.Converters;
 using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models
@@ -62,6 +63,7 @@ namespace Kraken.Net.Objects.Models
         /// Order details
         /// </summary>
         [JsonPropertyName("descr")]
+        [JsonConverter(typeof(KrakenOrderDescriptionConverter))]
         public KrakenOrderInfo OrderDetails { get; set; } = default!;
         /// <summary>
         /// Quantity of the order
@@ -89,12 +91,16 @@ namespace Kraken.Net.Objects.Models
         [JsonPropertyName("price")]
         public decimal AveragePrice { get; set; }
         [JsonPropertyName("avg_price")]
-        private decimal AveragePrice2 { get => AveragePrice; set => AveragePrice = value; }
+        [JsonInclude]
+        internal decimal AveragePrice2 { get => AveragePrice; set => AveragePrice = value; }
         /// <summary>
         /// Stop price
         /// </summary>
         [JsonPropertyName("stopPrice")]
         public decimal StopPrice { get; set; }
+        [JsonPropertyName("stopprice")]
+        [JsonInclude]
+        internal decimal StopPrice2 { get => StopPrice; set => StopPrice = value; }
         /// <summary>
         /// Limit price
         /// </summary>
@@ -149,9 +155,19 @@ namespace Kraken.Net.Objects.Models
         [JsonPropertyName("ordertype")]
         public OrderType Type { get; set; }
         /// <summary>
+        /// Trailing stop order deviation unit
+        /// </summary>
+        [JsonIgnore]
+        public TrailingStopDeviationUnit? TrailingStopDeviationUnit { get; set; }
+        /// <summary>
+        /// Trailing stop order sign
+        /// </summary>
+        [JsonIgnore]
+        public TrailingStopSign? TrailingStopSign { get; set; }
+        /// <summary>
         /// Price of the order
         /// </summary>
-        [JsonPropertyName("price")]
+        [JsonIgnore]
         public decimal Price { get; set; }
         /// <summary>
         /// Secondary price of the order (<see cref="KrakenRestClientSpotApiTrading.PlaceOrderAsync"/> for details)

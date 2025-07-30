@@ -302,7 +302,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 ClientOrderId = orderData.Value.ClientOrderId,
                 Fee = orderData.Value.Fee,
-                OrderPrice = orderData.Value.OrderDetails.Price == 0 ? null : orderData.Value.OrderDetails.Price,
+                OrderPrice = (orderData.Value.OrderDetails.Price == 0 || orderData.Value.OrderDetails.Type == OrderType.TrailingStop) ? null : orderData.Value.OrderDetails.Price,
                 OrderQuantity = new SharedOrderQuantity(orderData.Value.Oflags.Contains("viqc") ? null : orderData.Value.Quantity, orderData.Value.Oflags.Contains("viqc") ? orderData.Value.Quantity : null),
                 QuantityFilled = new SharedOrderQuantity(orderData.Value.QuantityFilled, orderData.Value.QuoteQuantityFilled),
                 AveragePrice = orderData.Value.AveragePrice == 0 ? null : orderData.Value.AveragePrice,
@@ -337,7 +337,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 ClientOrderId = x.ClientOrderId,
                 Fee = x.Fee,
-                OrderPrice = x.OrderDetails.Price == 0 ? null : x.OrderDetails.Price,
+                OrderPrice = (x.OrderDetails.Price == 0 || x.OrderDetails.Type == OrderType.TrailingStop) ? null : x.OrderDetails.Price,
                 OrderQuantity = new SharedOrderQuantity(x.Oflags.Contains("viqc") ? null : x.Quantity, x.Oflags.Contains("viqc") ? x.Quantity : null),
                 QuantityFilled = new SharedOrderQuantity(x.QuantityFilled, x.QuoteQuantityFilled),
                 AveragePrice = x.AveragePrice == 0 ? null: x.AveragePrice,
@@ -385,7 +385,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 ClientOrderId = x.ClientOrderId,
                 Fee = x.Fee,
-                OrderPrice = x.OrderDetails.Price == 0 ? null : x.OrderDetails.Price,
+                OrderPrice = (x.OrderDetails.Price == 0 || x.OrderDetails.Type == OrderType.TrailingStop) ? null : x.OrderDetails.Price,
                 OrderQuantity = new SharedOrderQuantity(x.Oflags.Contains("viqc") ? null : x.Quantity, x.Oflags.Contains("viqc") ? x.Quantity : null),
                 QuantityFilled = new SharedOrderQuantity(x.QuantityFilled, x.QuoteQuantityFilled),
                 AveragePrice = x.AveragePrice == 0 ? null: x.AveragePrice,
@@ -572,7 +572,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 ClientOrderId = orderData.ClientOrderId,
                 Fee = orderData.Fee,
-                OrderPrice = orderData.OrderDetails.Price == 0 ? null : orderData.OrderDetails.Price,
+                OrderPrice = (orderData.OrderDetails.Price == 0 || orderData.OrderDetails.Type == OrderType.TrailingStop) ? null : orderData.OrderDetails.Price,
                 OrderQuantity = new SharedOrderQuantity(orderData.Oflags.Contains("viqc") ? null : orderData.Quantity, orderData.Oflags.Contains("viqc") ? orderData.Quantity : null),
                 QuantityFilled = new SharedOrderQuantity(orderData.QuantityFilled, orderData.QuoteQuantityFilled),
                 AveragePrice = orderData.AveragePrice == 0 ? null : orderData.AveragePrice,
