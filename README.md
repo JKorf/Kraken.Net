@@ -169,6 +169,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 6.3.3 - 30 Jul 2025
+    * Fixed CryptoExchange.Net reference
+
 * Version 6.3.2 - 30 Jul 2025
     * Fixed error when deserializing trailing stop orders
 
