@@ -169,6 +169,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 6.4.0 - 04 Aug 2025
+    * Updated CryptoExchange.Net to version 9.4.0, see https://github.com/JKorf/CryptoExchange.Net/releases/
+    * Added support for multi-symbol Shared socket subscriptions
+
 * Version 6.3.3 - 30 Jul 2025
     * Fixed CryptoExchange.Net reference
 
