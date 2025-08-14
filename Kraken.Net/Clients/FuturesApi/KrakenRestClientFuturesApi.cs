@@ -1,10 +1,12 @@
 ﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Models.Futures;
 using Kraken.Net.Objects.Options;
+using System;
 
 namespace Kraken.Net.Clients.FuturesApi
 {
@@ -17,6 +19,8 @@ namespace Kraken.Net.Clients.FuturesApi
         public new KrakenRestOptions ClientOptions => (KrakenRestOptions)base.ClientOptions;
 
         internal static TimeSyncState _timeSyncState = new TimeSyncState("Futures Api");
+
+        protected override ErrorCollection ErrorMapping => KrakenErrorMapping.FuturesMapping;
         #endregion
 
         #region Api clients
@@ -63,17 +67,6 @@ namespace Kraken.Net.Clients.FuturesApi
             if (!result)
                 return result.AsError<U>(result.Error!);
 
-            if (result.Data.Errors?.Any() == true)
-            {
-                if (result.Data.Errors.Count() > 1)
-                    return result.AsError<U>(new ServerError(string.Join(", ", result.Data.Errors.Select(e => e.Code + ":" + e.Message))));
-                else
-                    return result.AsError<U>(new ServerError(result.Data.Errors.First().Code, result.Data.Errors.First().Message));
-            }
-
-            if (!string.IsNullOrEmpty(result.Data.Error))
-                return result.AsError<U>(new ServerError(result.Data.Error!));
-
             return result.As(result.Data.Data);
         }
 
@@ -82,9 +75,6 @@ namespace Kraken.Net.Clients.FuturesApi
             var result = await base.SendAsync<KrakenFuturesResult>(BaseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
             if (!result)
                 return result.AsDatalessError(result.Error!);
-
-            if (result.Data.Error?.Any() == true)
-                return result.AsDatalessError(new ServerError(string.Join(", ", result.Data.Error)));
 
             return result.AsDataless();
         }
@@ -95,9 +85,6 @@ namespace Kraken.Net.Clients.FuturesApi
             if (!result)
                 return result.AsError<T>(result.Error!);
 
-            if (result.Data.Error?.Any() == true)
-                return result.AsError<T>(new ServerError(string.Join(", ", result.Data.Error)));
-
             return result.As(result.Data.Data);
         }
 
@@ -106,24 +93,48 @@ namespace Kraken.Net.Clients.FuturesApi
 
         internal async Task<WebCallResult<T>> SendRawAsync<T>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T: class
             => await base.SendAsync<T>(BaseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
-        
-        /// <inheritdoc />
-        protected override Error ParseErrorResponse(int httpStatusCode, KeyValuePair<string, string[]>[] responseHeaders, IMessageAccessor accessor, Exception? exception)
+
+        protected override Error? TryParseError(KeyValuePair<string, string[]>[] responseHeaders, IMessageAccessor accessor)
         {
             if (!accessor.IsValid)
-                return new ServerError(null, "Unknown request error", exception: exception);
+                return new ServerError(ErrorInfo.Unknown);
 
             var result = accessor.Deserialize<KrakenFuturesResult>();
             if (!result)
-                return new ServerError(null, "Unknown request error", exception: exception);
+                return new ServerError(ErrorInfo.Unknown);
 
             if (result.Data.Errors?.Any() == true)
             {
                 var krakenError = result.Data.Errors.First();
-                return new ServerError(krakenError.Code, krakenError.Message, exception);
+                return new ServerError(krakenError.Code, GetErrorInfo(krakenError.Code, krakenError.Message));
             }
 
-            return new ServerError(null, result.Data!.Error ?? "Unknown request error", exception);
+            if (result.Data.Error?.Length > 0)
+                return new ServerError(result.Data.Error, GetErrorInfo(result.Data.Error));
+
+            return null;
+        }
+
+        /// <inheritdoc />
+        protected override Error ParseErrorResponse(int httpStatusCode, KeyValuePair<string, string[]>[] responseHeaders, IMessageAccessor accessor, Exception? exception)
+        {
+            if (!accessor.IsValid)
+                return new ServerError(ErrorInfo.Unknown, exception: exception);
+
+            var result = accessor.Deserialize<KrakenFuturesResult>();
+            if (!result)
+                return new ServerError(ErrorInfo.Unknown, exception: exception);
+
+            if (result.Data.Errors?.Any() == true)
+            {
+                var krakenError = result.Data.Errors.First();
+                return new ServerError(krakenError.Code, GetErrorInfo(krakenError.Code, krakenError.Message), exception);
+            }
+
+            if (result.Data.Error?.Length > 0)
+                return new ServerError(result.Data.Error, GetErrorInfo(result.Data.Error), exception: exception);
+
+            return new ServerError(ErrorInfo.Unknown, exception: exception);
         }
 
         /// <inheritdoc />

@@ -48,7 +48,7 @@ namespace Kraken.Net.Enums
         /// <summary>
         /// The order was not placed because limitPrice and/or stopPrice are invalid
         /// </summary>
-        [Map("InvalidPrice")]
+        [Map("invalidPrice")]
         InvalidPrice,
         /// <summary>
         /// The order was not placed because size is invalid
@@ -156,7 +156,7 @@ namespace Kraken.Net.Enums
         [Map("cannotEditTriggerPriceOfTrailingStop")]
         CannotEditTriggerPriceOfTrailingStop,
         /// <summary>
-        /// Cannot edit limit price of trailling stop
+        /// Cannot edit limit price of trailing stop
         /// </summary>
         [Map("cannotEditLimitPriceOfTrailingStop")]
         CannotEditLimitPriceOfTrailingStop

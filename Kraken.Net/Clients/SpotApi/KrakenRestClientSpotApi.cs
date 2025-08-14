@@ -1,4 +1,6 @@
 ﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Converters.MessageParsing;
+using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.RateLimiting.Interfaces;
 using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Enums;
@@ -18,6 +20,8 @@ namespace Kraken.Net.Clients.SpotApi
         public new KrakenRestOptions ClientOptions => (KrakenRestOptions)base.ClientOptions;
 
         internal static TimeSyncState _timeSyncState = new TimeSyncState("Spot Api");
+
+        protected override ErrorCollection ErrorMapping { get; } = KrakenErrorMapping.SpotMapping;
         #endregion
 
         #region Api clients
@@ -84,14 +88,32 @@ namespace Kraken.Net.Clients.SpotApi
             return false;
         }
 
+        protected override Error? TryParseError(KeyValuePair<string, string[]>[] responseHeaders, IMessageAccessor accessor)
+        {
+            if (!accessor.IsValid)
+                return new ServerError(ErrorInfo.Unknown);
+
+            var errors = accessor.GetValue<string[]?>(MessagePath.Get().Property("error"));
+            if (errors == null || errors.Length == 0)
+                return null;
+
+            var error = errors.First();
+            var split = error.Split(':');
+            if (split.Length > 1)
+            {
+                var category = split[0];
+                var message = split[1];
+                return new ServerError(category, GetErrorInfo(category, message));
+            }
+
+            return new ServerError(error, GetErrorInfo(error));
+        }
+
         internal async Task<WebCallResult> SendAsync(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null)
         {
             var result = await base.SendAsync<KrakenResult>(BaseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
             if (!result)
                 return result.AsDatalessError(result.Error!);
-
-            if (result.Data.Error.Any())
-                return result.AsDatalessError(new ServerError(string.Join(", ", result.Data.Error)));
 
             return result.AsDataless();
         }
@@ -105,9 +127,6 @@ namespace Kraken.Net.Clients.SpotApi
             if (!result)
                 return result.AsError<T>(result.Error!);
 
-            if (result.Data.Error.Any())
-                return result.AsError<T>(new ServerError(string.Join(", ", result.Data.Error)));
-
             return result.As(result.Data.Result);
         }
 
@@ -118,21 +137,6 @@ namespace Kraken.Net.Clients.SpotApi
         /// <param name="quoteAsset"></param>
         /// <returns></returns>
         public string GetSymbolName(string baseAsset, string quoteAsset) => (baseAsset + quoteAsset).ToUpperInvariant();
-
-        private static KlineInterval GetKlineIntervalFromTimespan(TimeSpan timeSpan)
-        {
-            if (timeSpan == TimeSpan.FromMinutes(1)) return KlineInterval.OneMinute;
-            if (timeSpan == TimeSpan.FromMinutes(5)) return KlineInterval.FiveMinutes;
-            if (timeSpan == TimeSpan.FromMinutes(15)) return KlineInterval.FifteenMinutes;
-            if (timeSpan == TimeSpan.FromMinutes(30)) return KlineInterval.ThirtyMinutes;
-            if (timeSpan == TimeSpan.FromHours(1)) return KlineInterval.OneHour;
-            if (timeSpan == TimeSpan.FromHours(4)) return KlineInterval.FourHour;
-            if (timeSpan == TimeSpan.FromDays(1)) return KlineInterval.OneDay;
-            if (timeSpan == TimeSpan.FromDays(7)) return KlineInterval.OneWeek;
-            if (timeSpan == TimeSpan.FromDays(15)) return KlineInterval.FifteenDays;
-
-            throw new ArgumentException("Unsupported timespan for Kraken Klines, check supported intervals using Kraken.Net.Objects.KlineInterval");
-        }
 
         /// <inheritdoc />
         protected override Task<WebCallResult<DateTime>> GetServerTimestampAsync()

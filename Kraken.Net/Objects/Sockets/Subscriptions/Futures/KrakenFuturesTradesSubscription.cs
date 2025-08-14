@@ -1,4 +1,5 @@
-﻿using CryptoExchange.Net.Converters.MessageParsing;
+﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Objects.Models.Socket.Futures;
@@ -8,11 +9,13 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
     internal class KrakenFuturesTradesSubscription : Subscription<KrakenFuturesResponse, KrakenFuturesResponse>
     {
+        private readonly SocketApiClient _client;
         private List<string> _symbols;
         protected readonly Action<DataEvent<KrakenFuturesTradeUpdate[]>> _handler;
 
-        public KrakenFuturesTradesSubscription(ILogger logger, List<string> symbols, Action<DataEvent<KrakenFuturesTradeUpdate[]>> handler) : base(logger, false)
+        public KrakenFuturesTradesSubscription(ILogger logger, SocketApiClient client, List<string> symbols, Action<DataEvent<KrakenFuturesTradeUpdate[]>> handler) : base(logger, false)
         {
+            _client = client;
             _symbols = symbols;
             _handler = handler;
 
@@ -29,6 +32,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         public override Query? GetSubQuery(SocketConnection connection)
         {
             return new KrakenFuturesQuery<KrakenFuturesResponse>(
+                _client,
                 new KrakenFuturesRequest()
                 {
                     Event = "subscribe",
@@ -44,6 +48,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         public override Query? GetUnsubQuery()
         {
             return new KrakenFuturesQuery<KrakenFuturesResponse>(
+                _client,
                 new KrakenFuturesRequest()
                 {
                     Event = "unsubscribe",

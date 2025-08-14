@@ -1,12 +1,16 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
+﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
 
 namespace Kraken.Net.Objects.Sockets.Queries
 {
     internal class KrakenFuturesQuery<T> : Query<T> where T: KrakenFuturesResponse
     {
-        public KrakenFuturesQuery(KrakenFuturesRequest request, bool authenticated) : base(request, authenticated)
+        private readonly SocketApiClient _client;
+
+        public KrakenFuturesQuery(SocketApiClient client, KrakenFuturesRequest request, bool authenticated) : base(request, authenticated)
         {
+            _client = client;
             string evnt = request.Event;
             if (string.Equals(request.Event, "subscribe", StringComparison.Ordinal)
                 || string.Equals(request.Event, "unsubscribe", StringComparison.Ordinal))
@@ -35,7 +39,7 @@ namespace Kraken.Net.Objects.Sockets.Queries
                     // Duplicate subscriptions are not an error
                     return message.ToCallResult();
 
-                return new CallResult<T>(new ServerError(message.Data.Message!));
+                return new CallResult<T>(new ServerError(message.Data.Message!, _client.GetErrorInfo(message.Data.Message!, message.Data.Message!)));
             }
             else
             {

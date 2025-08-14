@@ -1,4 +1,5 @@
-﻿using CryptoExchange.Net.Converters.MessageParsing;
+﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Objects.Models.Socket.Futures;
@@ -9,11 +10,13 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
     internal class KrakenFuturesOrderbookSubscription : Subscription<KrakenFuturesResponse, object>
     {
         private List<string> _symbols;
+        private readonly SocketApiClient _client;
         protected readonly Action<DataEvent<KrakenFuturesBookSnapshotUpdate>> _snapshotHandler;
         protected readonly Action<DataEvent<KrakenFuturesBookUpdate>> _updateHandler;
 
-        public KrakenFuturesOrderbookSubscription(ILogger logger, List<string> symbols, Action<DataEvent<KrakenFuturesBookSnapshotUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesBookUpdate>> updateHandler) : base(logger, false)
+        public KrakenFuturesOrderbookSubscription(ILogger logger, SocketApiClient client, List<string> symbols, Action<DataEvent<KrakenFuturesBookSnapshotUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesBookUpdate>> updateHandler) : base(logger, false)
         {
+            _client = client;
             _symbols = symbols;
             _snapshotHandler = snapshotHandler;
             _updateHandler = updateHandler;
@@ -31,6 +34,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         public override Query? GetSubQuery(SocketConnection connection)
         {
             return new KrakenFuturesQuery<KrakenFuturesResponse>(
+                _client,
                 new KrakenFuturesRequest()
                 {
                     Event = "subscribe",
@@ -46,6 +50,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         public override Query? GetUnsubQuery()
         {
             return new KrakenFuturesQuery<KrakenFuturesResponse>(
+                _client,
                 new KrakenFuturesRequest()
                 {
                     Event = "unsubscribe",

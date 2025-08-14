@@ -1,6 +1,7 @@
 using Kraken.Net.Objects.Models.Futures;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Enums;
+using CryptoExchange.Net.Objects.Errors;
 
 namespace Kraken.Net.Clients.FuturesApi
 {
@@ -124,7 +125,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 return result.As<KrakenFuturesMarginRequirements>(null);
 
             if (result.Data.Error != null)
-                return result.AsError<KrakenFuturesMarginRequirements>(new ServerError(result.Data.Error));
+                return result.AsError<KrakenFuturesMarginRequirements>(new ServerError(ErrorInfo.Unknown with { Message = result.Data.Error }));
 
             return result.As(new KrakenFuturesMarginRequirements
             {
@@ -151,7 +152,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 return result.As<KrakenFuturesMaxOrderSize>(null);
 
             if (result.Data.Error != null)
-                return result.AsError<KrakenFuturesMaxOrderSize>(new ServerError(result.Data.Error));
+                return result.AsError<KrakenFuturesMaxOrderSize>(new ServerError(ErrorInfo.Unknown with { Message = result.Data.Error }));
 
             return result.As(new KrakenFuturesMaxOrderSize
             {

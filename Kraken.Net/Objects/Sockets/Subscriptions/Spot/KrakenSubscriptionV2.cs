@@ -1,4 +1,5 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
+﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Sockets.Queries;
@@ -8,6 +9,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
     internal class KrakenSubscriptionV2<T> : KrakenSubscription
     {
+        private readonly SocketApiClient _client;
         private string _topic;
         private int? _interval;
         private bool? _snapshot;
@@ -15,8 +17,9 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         private IEnumerable<string>? _symbols;
         private readonly Action<DataEvent<T>> _handler;
 
-        public KrakenSubscriptionV2(ILogger logger, string topic, IEnumerable<string>? symbols, int? interval, bool? snapshot, int? depth, string? token, Action<DataEvent<T>> handler) : base(logger, token != null)
+        public KrakenSubscriptionV2(ILogger logger, SocketApiClient client, string topic, IEnumerable<string>? symbols, int? interval, bool? snapshot, int? depth, string? token, Action<DataEvent<T>> handler) : base(logger, token != null)
         {
+            _client = client;
             _topic = topic;
             _symbols = symbols;
             _handler = handler;
@@ -34,6 +37,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         public override Query? GetSubQuery(SocketConnection connection)
         {
             return new KrakenSpotQueryV2<KrakenSocketSubResponse, KrakenSocketSubRequest>(
+                _client,
                 new KrakenSocketRequestV2<KrakenSocketSubRequest>()
                 {
                     Method = "subscribe",
@@ -56,6 +60,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         public override Query? GetUnsubQuery()
         {
             return new KrakenSpotQueryV2<KrakenSocketSubResponse, KrakenSocketSubRequest>(
+                _client,
                 new KrakenSocketRequestV2<KrakenSocketSubRequest>()
                 {
                     Method = "unsubscribe",

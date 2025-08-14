@@ -1,6 +1,7 @@
 using Kraken.Net.Objects.Models.Futures;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
+using CryptoExchange.Net.Objects.Errors;
 
 namespace Kraken.Net.Clients.FuturesApi
 {
@@ -127,7 +128,24 @@ namespace Kraken.Net.Clients.FuturesApi
             parameters.AddOptionalParameter("triggerSignal", EnumConverter.GetString(triggerSignal));
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, "derivatives/api/v3/sendorder", KrakenExchange.RateLimiter.FuturesApi, 10, true);
-            return await _baseClient.SendAsync<KrakenFuturesOrderPlaceResult, KrakenFuturesOrderResult>(request, parameters, ct).ConfigureAwait(false);
+            var result = await _baseClient.SendAsync<KrakenFuturesOrderPlaceResult, KrakenFuturesOrderResult>(request, parameters, ct).ConfigureAwait(false);
+            if (!result)
+                return result;
+
+            var validStates = new [] {
+                KrakenFuturesOrderActionStatus.Placed,
+                KrakenFuturesOrderActionStatus.PartiallyFilled,
+                KrakenFuturesOrderActionStatus.Filled,
+                KrakenFuturesOrderActionStatus.Cancelled,
+                KrakenFuturesOrderActionStatus.Edited};
+
+            if (!validStates.Contains(result.Data.Status))
+            {
+                var errCode = EnumConverter.GetString(result.Data.Status);
+                return result.AsErrorWithData(new ServerError(errCode, _baseClient.GetErrorInfo(errCode)), result.Data);
+            }
+
+            return result;
         }
 
         #endregion
@@ -157,7 +175,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 return result.As<KrakenFuturesOrderStatus>(default);
 
             if (result.Data == null)
-                return result.AsError<KrakenFuturesOrderStatus>(new ServerError("Order not found"));
+                return result.AsError<KrakenFuturesOrderStatus>(new ServerError(new ErrorInfo(ErrorType.UnknownOrder, "Order not found")));
 
             return result.As<KrakenFuturesOrderStatus>(result.Data.Single());
         }
