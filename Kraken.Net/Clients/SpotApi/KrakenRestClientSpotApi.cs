@@ -21,7 +21,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         internal static TimeSyncState _timeSyncState = new TimeSyncState("Spot Api");
 
-        protected override ErrorCollection ErrorMapping { get; } = KrakenErrorMapping.SpotMapping;
+        protected override ErrorCollection ErrorMapping => KrakenErrors.SpotMapping;
         #endregion
 
         #region Api clients
@@ -71,7 +71,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (await base.ShouldRetryRequestAsync(gate, callResult, tries).ConfigureAwait(false))
                 return true;
 
-            if (callResult.Error!.ErrorType != ErrorType.TimestampInvalid)
+            if (callResult.Error!.ErrorType != ErrorType.InvalidTimestamp)
                 return false;
 
             if (tries <= 3)

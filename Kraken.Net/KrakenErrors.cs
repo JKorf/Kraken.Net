@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kraken.Net
 {
-    internal static class KrakenErrorMapping
+    internal static class KrakenErrors
     {
         public static ErrorCollection SpotMapping = new ErrorCollection([],
             [
@@ -19,7 +19,7 @@ namespace Kraken.Net
                         return new ErrorInfo(ErrorType.InvalidParameter, false, "Invalid parameters", code);
 
                     if (msg!.Equals("Temporary lockout"))
-                        return new ErrorInfo(ErrorType.RequestRateLimited, false, "Too many failed requests", code);
+                        return new ErrorInfo(ErrorType.RateLimitRequest, false, "Too many failed requests", code);
 
                     if (msg!.Equals("Permission denied"))
                         return new ErrorInfo(ErrorType.Unauthorized, false, "Insufficient permissions", code);
@@ -49,7 +49,7 @@ namespace Kraken.Net
                         return new ErrorInfo(ErrorType.Unauthorized, false, "Account unconfirmed", code);
 
                     if (msg!.Equals("Rate limit exceeded") || msg.Equals("Too many requests"))
-                        return new ErrorInfo(ErrorType.RequestRateLimited, false, "Too many requests", code);
+                        return new ErrorInfo(ErrorType.RateLimitRequest, false, "Too many requests", code);
 
                     return new ErrorInfo(ErrorType.Unknown, false, msg!, code);
                 }),
@@ -61,10 +61,10 @@ namespace Kraken.Net
                         return new ErrorInfo(ErrorType.Unauthorized, false, "Invalid API key", code);
 
                     if (msg!.Equals("Invalid signature"))
-                        return new ErrorInfo(ErrorType.SignatureInvalid, false, "Invalid signature", code);
+                        return new ErrorInfo(ErrorType.Unauthorized, false, "Invalid signature", code);
 
                     if (msg!.Equals("Invalid nonce"))
-                        return new ErrorInfo(ErrorType.TimestampInvalid, false, "Invalid nonce", code);
+                        return new ErrorInfo(ErrorType.InvalidTimestamp, false, "Invalid nonce", code);
 
                     return new ErrorInfo(ErrorType.Unknown, false, msg!, code);
                 }),
@@ -85,28 +85,28 @@ namespace Kraken.Net
                         return new ErrorInfo(ErrorType.Unauthorized, false, "User/tier is ineligible for margin trading", code);
 
                     if (msg!.Equals("Margin level too low"))
-                        return new ErrorInfo(ErrorType.BalanceInsufficient, false, "Insufficient margin available", code);
+                        return new ErrorInfo(ErrorType.InsufficientBalance, false, "Insufficient margin available", code);
 
                     if (msg!.Equals("Insufficient funds"))
-                        return new ErrorInfo(ErrorType.BalanceInsufficient, false, "Insufficient balance", code);
+                        return new ErrorInfo(ErrorType.InsufficientBalance, false, "Insufficient balance", code);
 
                     if (msg!.Equals("Order minimum not met"))
-                        return new ErrorInfo(ErrorType.QuantityInvalid, false, "Order quantity too low", code);
+                        return new ErrorInfo(ErrorType.InvalidQuantity, false, "Order quantity too low", code);
 
                     if (msg!.Equals("Cost minimum not met"))
-                        return new ErrorInfo(ErrorType.QuantityInvalid, false, "Order value too low", code);
+                        return new ErrorInfo(ErrorType.InvalidQuantity, false, "Order value too low", code);
 
                     if (msg!.Equals("Tick size check failed"))
-                        return new ErrorInfo(ErrorType.PriceInvalid, false, "Order price not a multiple of price tick increment", code);
+                        return new ErrorInfo(ErrorType.InvalidPrice, false, "Order price not a multiple of price tick increment", code);
 
                     if (msg!.Equals("Invalid price"))
-                        return new ErrorInfo(ErrorType.PriceInvalid, false, "Order price invalid", code);
+                        return new ErrorInfo(ErrorType.InvalidPrice, false, "Order price invalid", code);
 
                     if (msg!.Equals("Orders limit exceeded"))
-                        return new ErrorInfo(ErrorType.OrderRateLimited, false, "Too many open orders", code);
+                        return new ErrorInfo(ErrorType.RateLimitOrder, false, "Too many open orders", code);
 
                     if (msg!.Equals("Rate limit exceeded") || msg.Equals("Domain rate limit exceeded"))
-                        return new ErrorInfo(ErrorType.RequestRateLimited, false, "Too many requests", code);
+                        return new ErrorInfo(ErrorType.RateLimitRequest, false, "Too many requests", code);
 
                     if (msg!.Equals("Reduce only:No position exists"))
                         return new ErrorInfo(ErrorType.NoPosition, false, "No position for reduce only order", code);
@@ -115,7 +115,7 @@ namespace Kraken.Net
                         return new ErrorInfo(ErrorType.NoPosition, false, "Position has been closed, remaining quantity is canceled", code);
 
                     if (msg!.Equals("Scheduled orders limit exceeded"))
-                        return new ErrorInfo(ErrorType.OrderRateLimited, false, "Too many scheduled orders", code);
+                        return new ErrorInfo(ErrorType.RateLimitOrder, false, "Too many scheduled orders", code);
 
                     return new ErrorInfo(ErrorType.Unknown, false, msg!, code);
                 }),
@@ -130,13 +130,13 @@ namespace Kraken.Net
                         return new ErrorInfo(ErrorType.SystemError, true, "System busy", code);
 
                     if (msg!.Equals("Market in cancel_only mode"))
-                        return new ErrorInfo(ErrorType.OrderConfigurationRejected, false, "Symbol in cancel only mode", code);
+                        return new ErrorInfo(ErrorType.RejectedOrderConfiguration, false, "Symbol in cancel only mode", code);
 
                     if (msg!.Equals("Market in post_only  mode"))
-                        return new ErrorInfo(ErrorType.OrderConfigurationRejected, false, "Symbol in post only mode", code);
+                        return new ErrorInfo(ErrorType.RejectedOrderConfiguration, false, "Symbol in post only mode", code);
 
                     if (msg!.Equals("Deadline elapsed  mode"))
-                        return new ErrorInfo(ErrorType.OrderConfigurationRejected, false, "Order deadline passed", code);
+                        return new ErrorInfo(ErrorType.RejectedOrderConfiguration, false, "Order deadline passed", code);
 
                     return new ErrorInfo(ErrorType.Unknown, false, msg!, code);
                 }),
@@ -146,9 +146,9 @@ namespace Kraken.Net
             new ErrorInfo(ErrorType.Unauthorized, false, "Account inactive", "accountInactive"),
             new ErrorInfo(ErrorType.Unauthorized, false, "Authentication error", "authenticationError"),
 
-            new ErrorInfo(ErrorType.TimestampInvalid, false, "Invalid timestamp/nonce", "nonceDuplicate", "nonceBelowThreshold"),
+            new ErrorInfo(ErrorType.InvalidTimestamp, false, "Invalid timestamp/nonce", "nonceDuplicate", "nonceBelowThreshold"),
 
-            new ErrorInfo(ErrorType.RequestRateLimited, false, "Too many requests", "apiLimitExceeded"),
+            new ErrorInfo(ErrorType.RateLimitRequest, false, "Too many requests", "apiLimitExceeded"),
 
             new ErrorInfo(ErrorType.UnknownSymbol, false, "Unknown symbol", "contractNotFound"),
 
@@ -158,25 +158,25 @@ namespace Kraken.Net
 
             new ErrorInfo(ErrorType.MissingParameter, false, "Missing parameter", "requiredArgumentMissing"),
 
-            new ErrorInfo(ErrorType.QuantityInvalid, false, "Invalid quantity", "invalidAmount", "invalidSize"),
+            new ErrorInfo(ErrorType.InvalidQuantity, false, "Invalid quantity", "invalidAmount", "invalidSize"),
 
-            new ErrorInfo(ErrorType.PriceInvalid, false, "Invalid price", "invalidPrice"),
+            new ErrorInfo(ErrorType.InvalidPrice, false, "Invalid price", "invalidPrice"),
 
             new ErrorInfo(ErrorType.DuplicateClientOrderId, false, "Duplicate clientOrderId", "clientOrderIdAlreadyExist"),
 
-            new ErrorInfo(ErrorType.BalanceInsufficient, false, "Insufficient balance", "insufficientFunds", "insufficientAvailableFunds"),
+            new ErrorInfo(ErrorType.InsufficientBalance, false, "Insufficient balance", "insufficientFunds", "insufficientAvailableFunds"),
 
-            new ErrorInfo(ErrorType.SymbolNotTrading, false, "Symbol currently unavailable", "marketUnavailable"),
-            new ErrorInfo(ErrorType.SymbolNotTrading, false, "Symbol currently suspended", "marketSuspended"),
-            new ErrorInfo(ErrorType.SymbolNotTrading, false, "Symbol inactive", "marketInactive"),
+            new ErrorInfo(ErrorType.UnavailableSymbol, false, "Symbol currently unavailable", "marketUnavailable"),
+            new ErrorInfo(ErrorType.UnavailableSymbol, false, "Symbol currently suspended", "marketSuspended"),
+            new ErrorInfo(ErrorType.UnavailableSymbol, false, "Symbol inactive", "marketInactive"),
 
-            new ErrorInfo(ErrorType.OrderConfigurationRejected, false, "PostOnly order would immediately execute", "postWouldExecute"),
-            new ErrorInfo(ErrorType.OrderConfigurationRejected, false, "ImmediateOrCancel order would not immediately execute", "iocWouldNotExecute"),
-            new ErrorInfo(ErrorType.OrderConfigurationRejected, false, "Self fill prevented", "selfFill"),
-            new ErrorInfo(ErrorType.OrderConfigurationRejected, false, "Market is in post only mode", "marketIsPostOnly"),
-            new ErrorInfo(ErrorType.OrderConfigurationRejected, false, "Reduce only order would not reduce position", "wouldNotReducePosition"),
+            new ErrorInfo(ErrorType.RejectedOrderConfiguration, false, "PostOnly order would immediately execute", "postWouldExecute"),
+            new ErrorInfo(ErrorType.RejectedOrderConfiguration, false, "ImmediateOrCancel order would not immediately execute", "iocWouldNotExecute"),
+            new ErrorInfo(ErrorType.RejectedOrderConfiguration, false, "Self fill prevented", "selfFill"),
+            new ErrorInfo(ErrorType.RejectedOrderConfiguration, false, "Market is in post only mode", "marketIsPostOnly"),
+            new ErrorInfo(ErrorType.RejectedOrderConfiguration, false, "Reduce only order would not reduce position", "wouldNotReducePosition"),
 
-            new ErrorInfo(ErrorType.OrderRateLimited, false, "Too many open orders", "tooManyOrders"),
+            new ErrorInfo(ErrorType.RateLimitOrder, false, "Too many open orders", "tooManyOrders"),
 
             ]);
 

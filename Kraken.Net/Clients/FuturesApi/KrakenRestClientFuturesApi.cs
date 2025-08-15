@@ -20,7 +20,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
         internal static TimeSyncState _timeSyncState = new TimeSyncState("Futures Api");
 
-        protected override ErrorCollection ErrorMapping => KrakenErrorMapping.FuturesMapping;
+        protected override ErrorCollection ErrorMapping => KrakenErrors.FuturesMapping;
         #endregion
 
         #region Api clients
