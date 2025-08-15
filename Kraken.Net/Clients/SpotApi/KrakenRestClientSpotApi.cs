@@ -71,19 +71,15 @@ namespace Kraken.Net.Clients.SpotApi
             if (await base.ShouldRetryRequestAsync(gate, callResult, tries).ConfigureAwait(false))
                 return true;
 
-            if (!callResult.Success)
+            if (callResult.Error!.ErrorType != ErrorType.TimestampInvalid)
                 return false;
 
-            var krakenResult = (KrakenResult)(object)callResult.Data!;
-            if (string.Equals(krakenResult.Error.FirstOrDefault(), "EAPI:Invalid nonce", StringComparison.Ordinal))
+            if (tries <= 3)
             {
-                if (tries <= 3)
-                {
-                    _logger.Log(LogLevel.Warning, "Received nonce error; retrying request");
-                    await Task.Delay(25).ConfigureAwait(false);
-                    return true;
-                }
-            }
+                _logger.Log(LogLevel.Warning, "Received nonce error; retrying request");
+                await Task.Delay(25).ConfigureAwait(false);
+                return true;
+            }            
 
             return false;
         }
@@ -102,7 +98,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (split.Length > 1)
             {
                 var category = split[0];
-                var message = split[1];
+                var message = errors.Length > 1 ? string.Join(", ", errors.Select(x => x.Split(':')[1])) : split[1];
                 return new ServerError(category, GetErrorInfo(category, message));
             }
 
