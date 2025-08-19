@@ -27,7 +27,7 @@ namespace Kraken.Net.Objects.Models
         /// <summary>
         /// Order side
         /// </summary>
-        [JsonPropertyName("type"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonPropertyName("type")]
         public OrderSide Side { get; set; }
         /// <summary>
         /// Quantity

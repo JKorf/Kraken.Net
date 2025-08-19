@@ -9,7 +9,7 @@ namespace Kraken.Net
 {
     internal static class KrakenErrors
     {
-        public static ErrorCollection SpotMapping = new ErrorCollection([],
+        public static ErrorMapping SpotMapping = new ErrorMapping([],
             [
                 new ErrorEvaluator("EGeneral", (code, msg) => {
                     if(string.IsNullOrEmpty(msg))
@@ -117,6 +117,12 @@ namespace Kraken.Net
                     if (msg!.Equals("Scheduled orders limit exceeded"))
                         return new ErrorInfo(ErrorType.RateLimitOrder, false, "Too many scheduled orders", code);
 
+                    if (msg!.Equals("Margin position size exceeded")
+                     || msg!.Equals("Positions limit exceeded"))
+                    {
+                        return new ErrorInfo(ErrorType.MaxPosition, false, "Max position size exceeded", code);
+                    }
+
                     return new ErrorInfo(ErrorType.Unknown, false, msg!, code);
                 }),
             new ErrorEvaluator("EService", (code, msg) => {
@@ -142,7 +148,7 @@ namespace Kraken.Net
                 }),
             ]);
 
-        public static ErrorCollection FuturesMapping = new ErrorCollection([
+        public static ErrorMapping FuturesMapping = new ErrorMapping([
             new ErrorInfo(ErrorType.Unauthorized, false, "Account inactive", "accountInactive"),
             new ErrorInfo(ErrorType.Unauthorized, false, "Authentication error", "authenticationError"),
 
@@ -161,6 +167,7 @@ namespace Kraken.Net
             new ErrorInfo(ErrorType.InvalidQuantity, false, "Invalid quantity", "invalidAmount", "invalidSize"),
 
             new ErrorInfo(ErrorType.InvalidPrice, false, "Invalid price", "invalidPrice"),
+            new ErrorInfo(ErrorType.InvalidPrice, false, "Invalid price", "invalidArgument: limitPrice"),
 
             new ErrorInfo(ErrorType.DuplicateClientOrderId, false, "Duplicate clientOrderId", "clientOrderIdAlreadyExist"),
 

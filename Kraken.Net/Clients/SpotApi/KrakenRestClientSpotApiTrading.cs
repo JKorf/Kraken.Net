@@ -1,6 +1,7 @@
 using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models;
 using Kraken.Net.Interfaces.Clients.SpotApi;
+using CryptoExchange.Net.Objects.Errors;
 
 namespace Kraken.Net.Clients.SpotApi
 {
@@ -167,7 +168,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region Place Multiple Orders
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenBatchOrderResult>> PlaceMultipleOrdersAsync(string symbol, IEnumerable<KrakenOrderRequest> orders, DateTime? deadline = null, bool? validateOnly = null, CancellationToken ct = default)
+        public async Task<WebCallResult<CallResult<KrakenPlacedBatchOrder>[]>> PlaceMultipleOrdersAsync(string symbol, IEnumerable<KrakenOrderRequest> orders, DateTime? deadline = null, bool? validateOnly = null, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection
             {
@@ -180,7 +181,28 @@ namespace Kraken.Net.Clients.SpotApi
             if (validateOnly == true)
                 parameters.AddOptionalParameter("validate", true);
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/AddOrderBatch", KrakenExchange.RateLimiter.SpotRest, 0, true, requestBodyFormat: RequestBodyFormat.Json);
-            return await _baseClient.SendAsync<KrakenBatchOrderResult>(request, parameters, ct).ConfigureAwait(false);
+            var response = await _baseClient.SendAsync<KrakenBatchOrderResult>(request, parameters, ct).ConfigureAwait(false);
+            if (!response.Success)
+                return response.As<CallResult<KrakenPlacedBatchOrder>[]>(default);
+
+            var result = new List<CallResult<KrakenPlacedBatchOrder>>();
+            foreach (var item in response.Data.Orders)
+            {
+                if (string.IsNullOrEmpty(item.Error))
+                {
+                    result.Add(new CallResult<KrakenPlacedBatchOrder>(item));
+                }
+                else
+                {
+                    var error = item.Error!.Split(':');
+                    result.Add(new CallResult<KrakenPlacedBatchOrder>(item, null, new ServerError(error[0], _baseClient.GetErrorInfo(error[0]!, string.Join(", ", error.Skip(1))))));
+                }
+            }
+
+            if (result.All(x => !x.Success))
+                return response.AsErrorWithData(new ServerError(new ErrorInfo(ErrorType.AllOrdersFailed, false, "All orders failed")), result.ToArray());
+
+            return response.As(result.ToArray());
         }
 
         #endregion

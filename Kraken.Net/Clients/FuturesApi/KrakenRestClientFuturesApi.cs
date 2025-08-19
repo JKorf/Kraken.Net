@@ -20,7 +20,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
         internal static TimeSyncState _timeSyncState = new TimeSyncState("Futures Api");
 
-        protected override ErrorCollection ErrorMapping => KrakenErrors.FuturesMapping;
+        protected override ErrorMapping ErrorMapping => KrakenErrors.FuturesMapping;
         #endregion
 
         #region Api clients
@@ -51,9 +51,9 @@ namespace Kraken.Net.Clients.FuturesApi
         }
         #endregion
 
-        protected override IStreamMessageAccessor CreateAccessor() => new SystemTextJsonStreamMessageAccessor(SerializerOptions.WithConverters(KrakenExchange.SerializerContext));
+        protected override IStreamMessageAccessor CreateAccessor() => new SystemTextJsonStreamMessageAccessor(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
 
-        protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange.SerializerContext));
+        protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
 
         public IKrakenRestClientFuturesApiShared SharedClient => this;
 

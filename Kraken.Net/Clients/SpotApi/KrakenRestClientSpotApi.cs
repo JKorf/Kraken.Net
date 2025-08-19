@@ -21,7 +21,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         internal static TimeSyncState _timeSyncState = new TimeSyncState("Spot Api");
 
-        protected override ErrorCollection ErrorMapping => KrakenErrors.SpotMapping;
+        protected override ErrorMapping ErrorMapping => KrakenErrors.SpotMapping;
         #endregion
 
         #region Api clients
@@ -61,9 +61,9 @@ namespace Kraken.Net.Clients.SpotApi
         protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
             => new KrakenAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new KrakenNonceProvider());
 
-        protected override IStreamMessageAccessor CreateAccessor() => new SystemTextJsonStreamMessageAccessor(SerializerOptions.WithConverters(KrakenExchange.SerializerContext));
+        protected override IStreamMessageAccessor CreateAccessor() => new SystemTextJsonStreamMessageAccessor(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
 
-        protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange.SerializerContext));
+        protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
 
         /// <inheritdoc />
         protected override async Task<bool> ShouldRetryRequestAsync<T>(IRateLimitGate? gate, WebCallResult<T> callResult, int tries)
@@ -71,7 +71,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (await base.ShouldRetryRequestAsync(gate, callResult, tries).ConfigureAwait(false))
                 return true;
 
-            if (callResult.Error!.ErrorType != ErrorType.InvalidTimestamp)
+            if (callResult.Error?.ErrorType != ErrorType.InvalidTimestamp)
                 return false;
 
             if (tries <= 3)
@@ -98,7 +98,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (split.Length > 1)
             {
                 var category = split[0];
-                var message = errors.Length > 1 ? string.Join(", ", errors.Select(x => x.Split(':')[1])) : split[1];
+                var message = errors.Length > 1 ? string.Join(", ", errors.Select(x => string.Join(": ", x.Split(':').Skip(1)))) : string.Join(": ", split.Skip(1));
                 return new ServerError(category, GetErrorInfo(category, message));
             }
 

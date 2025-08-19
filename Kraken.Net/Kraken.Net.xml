@@ -10061,6 +10061,11 @@
             Order id
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenPlacedBatchOrder.Error">
+            <summary>
+            Error message
+            </summary>
+        </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenPlacedBatchOrder.Description">
             <summary>
             Description

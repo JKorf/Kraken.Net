@@ -77,9 +77,9 @@ namespace Kraken.Net.Clients.SpotApi
         }
         #endregion
 
-        protected override IByteMessageAccessor CreateAccessor(WebSocketMessageType type) => new SystemTextJsonByteMessageAccessor(SerializerOptions.WithConverters(KrakenExchange.SerializerContext));
+        protected override IByteMessageAccessor CreateAccessor(WebSocketMessageType type) => new SystemTextJsonByteMessageAccessor(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
 
-        protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange.SerializerContext));
+        protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
 
         /// <inheritdoc />
         public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
@@ -432,7 +432,7 @@ namespace Kraken.Net.Clients.SpotApi
                 if (!string.IsNullOrEmpty(item.Error) || !string.IsNullOrEmpty(item.Status))
                 {
                     var error = item.Error ?? item.Status!;
-                    result.Add(new CallResult<KrakenOrderResult>(new ServerError(error, GetErrorInfo(error, error))));
+                    result.Add(new CallResult<KrakenOrderResult>(item, null, new ServerError(error, GetErrorInfo(error, error))));
                 }
                 else {
                     result.Add(new CallResult<KrakenOrderResult>(item));
