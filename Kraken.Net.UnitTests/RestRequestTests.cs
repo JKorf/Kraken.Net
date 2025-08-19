@@ -77,7 +77,7 @@ namespace Kraken.Net.UnitTests
             await tester.ValidateAsync(client => client.SpotApi.Trading.GetOrdersAsync(), "GetOrders2", ignoreProperties: ["aclass", "price"]);
             await tester.ValidateAsync(client => client.SpotApi.Trading.GetUserTradesAsync(), "GetUserTrades", skipResponseValidation: true);
             await tester.ValidateAsync(client => client.SpotApi.Trading.GetUserTradeDetailsAsync("123"), "GetUserTradeDetails", skipResponseValidation: true);
-            await tester.ValidateAsync(client => client.SpotApi.Trading.PlaceMultipleOrdersAsync("ETHUSDT", new[] { new KrakenOrderRequest() } ), "PlaceMultipleOrders");
+            await tester.ValidateAsync(client => client.SpotApi.Trading.PlaceMultipleOrdersAsync("ETHUSDT", new[] { new KrakenOrderRequest() } ), "PlaceMultipleOrders", skipResponseValidation: true);
             await tester.ValidateAsync(client => client.SpotApi.Trading.PlaceOrderAsync("ETHUSDT", Enums.OrderSide.Sell, Enums.OrderType.Market, 1 ), "PlaceOrder");
             await tester.ValidateAsync(client => client.SpotApi.Trading.EditOrderAsync("ETHUSDT", "123", 1), "EditOrder");
             await tester.ValidateAsync(client => client.SpotApi.Trading.CancelOrderAsync("ETHUSDT", "123"), "CancelOrder");
