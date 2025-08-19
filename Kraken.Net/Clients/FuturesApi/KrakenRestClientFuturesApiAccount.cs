@@ -1,6 +1,7 @@
 using Kraken.Net.Objects.Models.Futures;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Enums;
+using CryptoExchange.Net.Objects.Errors;
 
 namespace Kraken.Net.Clients.FuturesApi
 {
@@ -90,7 +91,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
             var weight = limit == null ? 3 : limit <= 25 ? 1 : limit <= 50 ? 2 : limit <= 1000 ? 3 : limit <= 5000 ? 6 : 10;
             var request = _definitions.GetOrCreate(HttpMethod.Get, "api/history/v3/account-log", KrakenExchange.RateLimiter.FuturesApi, weight, true);
-            return await _baseClient.SendRawAsync<KrakenAccountLogResult>(request, null, ct).ConfigureAwait(false);
+            return await _baseClient.SendRawAsync<KrakenAccountLogResult>(request, parameters, ct).ConfigureAwait(false);
         }
 
         #endregion
@@ -124,7 +125,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 return result.As<KrakenFuturesMarginRequirements>(null);
 
             if (result.Data.Error != null)
-                return result.AsError<KrakenFuturesMarginRequirements>(new ServerError(result.Data.Error));
+                return result.AsError<KrakenFuturesMarginRequirements>(new ServerError(ErrorInfo.Unknown with { Message = result.Data.Error }));
 
             return result.As(new KrakenFuturesMarginRequirements
             {
@@ -151,7 +152,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 return result.As<KrakenFuturesMaxOrderSize>(null);
 
             if (result.Data.Error != null)
-                return result.AsError<KrakenFuturesMaxOrderSize>(new ServerError(result.Data.Error));
+                return result.AsError<KrakenFuturesMaxOrderSize>(new ServerError(ErrorInfo.Unknown with { Message = result.Data.Error }));
 
             return result.As(new KrakenFuturesMaxOrderSize
             {

@@ -1,3 +1,4 @@
+using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
@@ -60,7 +61,7 @@ namespace Kraken.Net.Clients.FuturesApi
         {
             var interval = (Enums.FuturesKlineInterval)request.Interval;
             if (!Enum.IsDefined(typeof(Enums.FuturesKlineInterval), interval))
-                return new ExchangeWebResult<SharedKline[]>(Exchange, new ArgumentError("Interval not supported"));
+                return new ExchangeWebResult<SharedKline[]>(Exchange, ArgumentError.Invalid(nameof(GetKlinesRequest.Interval), "Interval not supported"));
 
             var validationError = ((IKlineRestClient)this).GetKlinesOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
@@ -322,7 +323,7 @@ namespace Kraken.Net.Clients.FuturesApi
         {
             var interval = (Enums.FuturesKlineInterval)request.Interval;
             if (!Enum.IsDefined(typeof(Enums.FuturesKlineInterval), interval))
-                return new ExchangeWebResult<SharedFuturesKline[]>(Exchange, new ArgumentError("Interval not supported"));
+                return new ExchangeWebResult<SharedFuturesKline[]>(Exchange, ArgumentError.Invalid(nameof(GetKlinesRequest.Interval), "Interval not supported"));
 
             var validationError = ((IMarkPriceKlineRestClient)this).GetMarkPriceKlinesOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
@@ -402,7 +403,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
             var symbolLeverage = result.Data.SingleOrDefault(x => x.Symbol == request.Symbol!.GetSymbol(FormatSymbol));
             if (symbolLeverage == null)
-                return result.AsExchangeError<SharedLeverage>(Exchange, new ServerError("Not found"));
+                return result.AsExchangeError<SharedLeverage>(Exchange, new ServerError(new ErrorInfo(ErrorType.UnknownSymbol, "Symbol leverage not found")));
 
             return result.AsExchangeResult(Exchange, request.TradingMode, new SharedLeverage(symbolLeverage.MaxLeverage)
             {
@@ -767,7 +768,7 @@ namespace Kraken.Net.Clients.FuturesApi
             }
 
             if (makerFee == null)
-                return result.AsExchangeError<SharedFee>(Exchange, new UnknownError("Failed to retrieve"));
+                return result.AsExchangeError<SharedFee>(Exchange, new ServerError(ErrorInfo.Unknown with { Message = "Failed to retrieve" }));
 
             // Return
             return result.AsExchangeResult(Exchange, request.TradingMode, new SharedFee(makerFee.Value, takerFee!.Value));

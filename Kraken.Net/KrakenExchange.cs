@@ -58,7 +58,7 @@ namespace Kraken.Net
             ]
         };
 
-        internal static JsonSerializerContext SerializerContext = JsonSerializerContextCache.GetOrCreate<KrakenSourceGenerationContext>();
+        internal static JsonSerializerContext _serializerContext = JsonSerializerContextCache.GetOrCreate<KrakenSourceGenerationContext>();
 
         /// <summary>
         /// Format a base and quote asset to a Kraken recognized symbol 

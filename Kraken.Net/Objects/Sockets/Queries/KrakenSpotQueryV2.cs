@@ -1,4 +1,5 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
+﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models.Socket;
@@ -7,8 +8,11 @@ namespace Kraken.Net.Objects.Sockets.Queries
 {
     internal class KrakenSpotQueryV2<TResponse, TRequest> : Query<KrakenSocketResponseV2<TResponse>>
     {
-        public KrakenSpotQueryV2(KrakenSocketRequestV2<TRequest> request, bool authenticated) : base(request, authenticated)
+        private readonly SocketApiClient _client;
+
+        public KrakenSpotQueryV2(SocketApiClient client, KrakenSocketRequestV2<TRequest> request, bool authenticated) : base(request, authenticated)
         {
+            _client = client;
             MessageMatcher = MessageMatcher.Create<KrakenSocketResponseV2<TResponse>>(request.RequestId.ToString(), HandleMessage);
         }
 
@@ -25,7 +29,7 @@ namespace Kraken.Net.Objects.Sockets.Queries
             }
             else
             {
-                return new CallResult<KrakenSocketResponseV2<TResponse>>(new ServerError(message.Data.Error!));
+                return new CallResult<KrakenSocketResponseV2<TResponse>>(new ServerError(message.Data.Error!, _client.GetErrorInfo(message.Data.Error!, message.Data.Error!)));
             }
         }
     }

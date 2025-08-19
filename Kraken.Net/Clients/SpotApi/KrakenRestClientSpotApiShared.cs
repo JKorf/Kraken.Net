@@ -3,6 +3,7 @@ using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models;
 using System;
+using CryptoExchange.Net.Objects.Errors;
 
 namespace Kraken.Net.Clients.SpotApi
 {
@@ -32,7 +33,7 @@ namespace Kraken.Net.Clients.SpotApi
         {
             var interval = (Enums.KlineInterval)request.Interval;
             if (!Enum.IsDefined(typeof(Enums.KlineInterval), interval))
-                return new ExchangeWebResult<SharedKline[]>(Exchange, new ArgumentError("Interval not supported"));
+                return new ExchangeWebResult<SharedKline[]>(Exchange, ArgumentError.Invalid(nameof(GetKlinesRequest.Interval), "Interval not supported"));
 
             var validationError = ((IKlineRestClient)this).GetKlinesOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
@@ -47,7 +48,7 @@ namespace Kraken.Net.Clients.SpotApi
             {
                 // Not available via the API
                 var cutoff = DateTime.UtcNow.AddSeconds(-(int)request.Interval * apiLimit);
-                return new ExchangeWebResult<SharedKline[]>(Exchange, new ArgumentError($"Time filter outside of supported range. Can only request the most recent {apiLimit} klines i.e. data later than {cutoff} at this interval"));
+                return new ExchangeWebResult<SharedKline[]>(Exchange, ArgumentError.Invalid(nameof(GetKlinesRequest.Limit), $"Time filter outside of supported range. Can only request the most recent {apiLimit} klines i.e. data later than {cutoff} at this interval"));
             }
 
             // Pagination not supported, no time filter available (always most recent)
@@ -289,7 +290,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             var orderData = order.Data.SingleOrDefault();
             if (orderData.Value == null)
-                return new ExchangeWebResult<SharedSpotOrder>(Exchange, new ServerError("Order not found"));
+                return new ExchangeWebResult<SharedSpotOrder>(Exchange, new ServerError(new ErrorInfo(ErrorType.UnknownOrder, "Order not found")));
 
             return order.AsExchangeResult(Exchange, TradingMode.Spot, new SharedSpotOrder(
                 ExchangeSymbolCache.ParseSymbol(_topicId, orderData.Value.OrderDetails.Symbol),
@@ -406,7 +407,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             var orderData = order.Data.SingleOrDefault();
             if (orderData.Value == null)
-                return new ExchangeWebResult<SharedUserTrade[]>(Exchange, new ServerError("Order not found"));
+                return new ExchangeWebResult<SharedUserTrade[]>(Exchange, new ServerError(new ErrorInfo(ErrorType.UnknownOrder, "Order not found")));
 
             var trades = orderData.Value.TradeIds.ToList();
             if (!trades.Any())
@@ -559,7 +560,7 @@ namespace Kraken.Net.Clients.SpotApi
             }
 
             if (orderData == null)
-                return new ExchangeWebResult<SharedSpotOrder>(Exchange, new ServerError("Order not found"));
+                return new ExchangeWebResult<SharedSpotOrder>(Exchange, new ServerError(new ErrorInfo(ErrorType.UnknownOrder, "Order not found")));
 
             return order.AsExchangeResult(Exchange, TradingMode.Spot, new SharedSpotOrder(
                 ExchangeSymbolCache.ParseSymbol(_topicId, orderData.OrderDetails.Symbol),
@@ -608,7 +609,7 @@ namespace Kraken.Net.Clients.SpotApi
                 return assets.AsExchangeResult<SharedAsset>(Exchange, null, default);
 
             if (!assets.Data.Any())
-                return assets.AsExchangeError<SharedAsset>(Exchange, new ServerError("Asset not found"));
+                return assets.AsExchangeError<SharedAsset>(Exchange, new ServerError(new ErrorInfo(ErrorType.UnknownAsset, "Asset not found")));
 
             return assets.AsExchangeResult(Exchange, TradingMode.Spot, new SharedAsset(KrakenExchange.AssetAliases.ExchangeToCommonName(request.Asset))
             {

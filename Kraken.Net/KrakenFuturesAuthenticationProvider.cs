@@ -21,44 +21,22 @@ namespace Kraken.Net
             _hmacSecret = Convert.FromBase64String(credentials.Secret);
         }
 
-        public override void AuthenticateRequest(
-            RestApiClient apiClient,
-            Uri uri,
-            HttpMethod method,
-            ref IDictionary<string, object>? uriParameters,
-            ref IDictionary<string, object>? bodyParameters,
-            ref Dictionary<string, string>? headers,
-            bool auth,
-            ArrayParametersSerialization arraySerialization,
-            HttpMethodParameterPosition parameterPosition,
-            RequestBodyFormat requestBodyFormat)
+        public override void ProcessRequest(RestApiClient apiClient, RestRequestConfiguration request)
         {
-            if (!auth)
+            if (!request.Authenticated)
                 return;
 
-            headers ??= new Dictionary<string, string>();
-            headers.Add("APIKey", _credentials.Key);
+            request.Headers.Add("APIKey", _credentials.Key);
 
-            IDictionary<string, object> parameters;
-            if (parameterPosition == HttpMethodParameterPosition.InUri)
-            {
-                uriParameters ??= new ParameterCollection();
-                parameters = uriParameters;
-            }
-            else
-            {
-                bodyParameters ??= new ParameterCollection();
-                parameters = bodyParameters;
-            }
+            var queryString = request.GetQueryString();
+            var body = request.ParameterPosition == HttpMethodParameterPosition.InBody ? request.BodyParameters.ToFormData() : string.Empty;
+            var signData = $"{queryString}{body}{request.Path.Replace("/derivatives", "")}";
 
-            var message = parameters.CreateParamString(false, arraySerialization) + uri.AbsolutePath.Replace("/derivatives", "");
-            using var hash256 = SHA256.Create();
-            var hash = hash256.ComputeHash(Encoding.UTF8.GetBytes(message));
-
+            var hash = SignSHA256Bytes(signData);
             using HMACSHA512 hMACSHA = new HMACSHA512(_hmacSecret);
             byte[] buff = hMACSHA.ComputeHash(hash);
-            var sign = BytesToBase64String(buff);
-            headers.Add("Authent", sign);
+            var signature = BytesToBase64String(buff);
+            request.Headers.Add("Authent", signature);
         }
 
         public string AuthenticateWebsocketChallenge(string challenge)

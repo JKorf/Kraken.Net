@@ -25,7 +25,7 @@ namespace Kraken.Net.UnitTests
         public async Task TestErrorResult_Should_ResultInFailedCall()
         {
             // arrange
-            var client = TestHelpers.CreateAuthResponseClient($"{{\"error\": [\"first error\", \"another error\"], \"result\": null}}");
+            var client = TestHelpers.CreateAuthResponseClient($"{{\"error\": [\"EGeneral:first error\", \"EGeneral:another error\"], \"result\": null}}");
 
             // act
             var result = await client.SpotApi.ExchangeData.GetSymbolsAsync();
@@ -86,7 +86,7 @@ namespace Kraken.Net.UnitTests
             {
                 Error = new string[]
                 {
-                    "Error occured"
+                    "Error occurred"
                 }
             };
 
@@ -98,7 +98,7 @@ namespace Kraken.Net.UnitTests
             // assert
             ClassicAssert.IsFalse(result.Success);
             ClassicAssert.IsNotNull(result.Error);
-            Assert.That(result.Error.Message == "Error occured");
+            Assert.That(result.Error.ErrorCode == "Error occurred");
         }
 
         [TestCase()]
@@ -124,7 +124,7 @@ namespace Kraken.Net.UnitTests
             var client = TestHelpers.CreateClient();
             var resultObj = new KrakenFuturesResult()
             {
-                Error = "Error occured"
+                Error = "Error occurred"
             };
 
             TestHelpers.SetResponse((KrakenRestClient)client, JsonSerializer.Serialize(resultObj), System.Net.HttpStatusCode.BadRequest);
@@ -135,7 +135,7 @@ namespace Kraken.Net.UnitTests
             // assert
             ClassicAssert.IsFalse(result.Success);
             ClassicAssert.IsNotNull(result.Error);
-            Assert.That(result.Error.Message == "Error occured");
+            Assert.That(result.Error.ErrorCode == "Error occurred");
         }
 
         [Test]

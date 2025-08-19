@@ -160,7 +160,7 @@ namespace Kraken.Net.UnitTests.TestImplementations
         public static IKrakenRestClient CreateResponseClient<T>(T response, Action<KrakenRestOptions> options = null)
         {
             var client = (KrakenRestClient)CreateClient(options);
-            SetResponse(client, JsonSerializer.Serialize(response, SerializerOptions.WithConverters(KrakenExchange.SerializerContext)));
+            SetResponse(client, JsonSerializer.Serialize(response, SerializerOptions.WithConverters(KrakenExchange._serializerContext)));
             return client;
         }
 

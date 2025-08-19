@@ -1,4 +1,5 @@
-﻿using CryptoExchange.Net.Converters.MessageParsing;
+﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
 using Kraken.Net.Objects.Internal;
@@ -10,14 +11,15 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
     internal class KrakenBalanceSubscription : KrakenSubscription
     {
-
+        private readonly SocketApiClient _client;
         private readonly Action<DataEvent<KrakenBalanceSnapshot[]>>? _snapshotHandler;
         private readonly Action<DataEvent<KrakenBalanceUpdate[]>> _updateHandler;
 
         private bool? _snapshot;
 
-        public KrakenBalanceSubscription(ILogger logger, bool? snapshot, string token, Action<DataEvent<KrakenBalanceSnapshot[]>>? snapshotHandler, Action<DataEvent<KrakenBalanceUpdate[]>> updateHandler) : base(logger, true)
+        public KrakenBalanceSubscription(ILogger logger, SocketApiClient client, bool? snapshot, string token, Action<DataEvent<KrakenBalanceSnapshot[]>>? snapshotHandler, Action<DataEvent<KrakenBalanceUpdate[]>> updateHandler) : base(logger, true)
         {
+            _client = client;
             _snapshot = snapshot;
             Token = token;
 
@@ -34,6 +36,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         public override Query? GetSubQuery(SocketConnection connection)
         {
             return new KrakenSpotQueryV2<KrakenSocketSubResponse, KrakenSocketSubRequest>(
+                _client,
                 new KrakenSocketRequestV2<KrakenSocketSubRequest>()
                 {
                     Method = "subscribe",
@@ -50,6 +53,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         public override Query? GetUnsubQuery()
         {
             return new KrakenSpotQueryV2<KrakenSocketSubResponse, KrakenSocketSubRequest>(
+                _client,
                 new KrakenSocketRequestV2<KrakenSocketSubRequest>()
                 {
                     Method = "unsubscribe",

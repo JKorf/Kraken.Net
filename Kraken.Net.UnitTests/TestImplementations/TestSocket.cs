@@ -106,7 +106,7 @@ namespace Kraken.Net.UnitTests.TestImplementations
 
         public void InvokeMessage<T>(T data)
         {
-            OnStreamMessage?.Invoke(WebSocketMessageType.Text, new ReadOnlyMemory<byte>(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data, SerializerOptions.WithConverters(KrakenExchange.SerializerContext))))).Wait();
+            OnStreamMessage?.Invoke(WebSocketMessageType.Text, new ReadOnlyMemory<byte>(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data, SerializerOptions.WithConverters(KrakenExchange._serializerContext))))).Wait();
         }
 
         public void InvokeError(Exception error)

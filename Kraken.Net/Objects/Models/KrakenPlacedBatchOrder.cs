@@ -26,6 +26,11 @@ namespace Kraken.Net.Objects.Models
         [JsonPropertyName("txid")]
         public string OrderId { get; set; } = null!;
         /// <summary>
+        /// Error message
+        /// </summary>
+        [JsonPropertyName("error")]
+        public string? Error { get; set; }
+        /// <summary>
         /// Description
         /// </summary>
         [JsonPropertyName("descr")]

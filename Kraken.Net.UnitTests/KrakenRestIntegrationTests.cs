@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Kraken.Net.Objects.Options;
 using Kraken.Net.SymbolOrderBooks;
+using CryptoExchange.Net.Objects.Errors;
 
 namespace Kraken.Net.UnitTests
 {
     [NonParallelizable]
     internal class KrakenRestIntegrationTests : RestIntegrationTest<KrakenRestClient>
     {
-        public override bool Run { get; set; }
+        public override bool Run { get; set; } = false;
 
         public KrakenRestIntegrationTests()
         {
@@ -42,7 +43,7 @@ namespace Kraken.Net.UnitTests
             var result = await CreateClient().SpotApi.ExchangeData.GetTickerAsync("TSTTST", default);
 
             Assert.That(result.Success, Is.False);
-            Assert.That(result.Error.Message, Contains.Substring("EQuery:Unknown asset pair"));
+            Assert.That(result.Error.ErrorType, Is.EqualTo(ErrorType.UnknownSymbol));
         }
 
         [Test]

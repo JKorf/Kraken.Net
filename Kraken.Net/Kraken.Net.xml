@@ -4339,7 +4339,7 @@
         </member>
         <member name="F:Kraken.Net.Enums.KrakenFuturesOrderActionStatus.CannotEditLimitPriceOfTrailingStop">
             <summary>
-            Cannot edit limit price of trailling stop
+            Cannot edit limit price of trailing stop
             </summary>
         </member>
         <member name="T:Kraken.Net.Enums.KrakenFuturesOrderActiveStatus">
@@ -10059,6 +10059,11 @@
         <member name="P:Kraken.Net.Objects.Models.KrakenPlacedBatchOrder.OrderId">
             <summary>
             Order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.KrakenPlacedBatchOrder.Error">
+            <summary>
+            Error message
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.Models.KrakenPlacedBatchOrder.Description">

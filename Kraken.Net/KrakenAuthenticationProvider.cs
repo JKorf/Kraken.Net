@@ -1,13 +1,13 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using CryptoExchange.Net.Clients;
+﻿using CryptoExchange.Net.Clients;
 using Kraken.Net.Objects;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Kraken.Net
 {
-    internal class KrakenAuthenticationProvider: AuthenticationProvider
+    internal class KrakenAuthenticationProvider : AuthenticationProvider
     {
-        private static readonly IMessageSerializer _serializer = new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange.SerializerContext));
+        private static readonly IMessageSerializer _serializer = new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
         private readonly INonceProvider _nonceProvider;
         private readonly byte[] _hmacSecret;
 
@@ -20,58 +20,30 @@ namespace Kraken.Net
             _hmacSecret = Convert.FromBase64String(credentials.Secret);
         }
 
-        public override void AuthenticateRequest(
-            RestApiClient apiClient,
-            Uri uri,
-            HttpMethod method,
-            ref IDictionary<string, object>? uriParameters,
-            ref IDictionary<string, object>? bodyParameters,
-            ref Dictionary<string, string>? headers,
-            bool auth,
-            ArrayParametersSerialization arraySerialization,
-            HttpMethodParameterPosition parameterPosition,
-            RequestBodyFormat requestBodyFormat)
+        public override void ProcessRequest(RestApiClient apiClient, RestRequestConfiguration request)
         {
-            if (!auth)
+            if (!request.Authenticated)
                 return;
 
-            IDictionary<string, object> parameters;
-            if (parameterPosition == HttpMethodParameterPosition.InUri)
-            {
-                uriParameters ??= new ParameterCollection();
-                parameters = uriParameters;
-            }
-            else
-            {
-                bodyParameters ??= new ParameterCollection();
-                parameters = bodyParameters;
-            }
-
-            headers ??= new Dictionary<string, string>();
-            headers.Add("API-Key", _credentials.Key);
+            request.Headers.Add("API-Key", _credentials.Key);
             var nonce = _nonceProvider.GetNonce();
+            var parameters = request.GetPositionParameters();
             parameters.Add("nonce", nonce);
-            string np;
-            if (uri.PathAndQuery == "/0/private/AddOrderBatch"
-                || uri.PathAndQuery == "/0/private/CancelOrderBatch")
-            {
-                // Only endpoints using json body data atm
-                np = nonce + GetSerializedBody(_serializer, parameters);
-                
-            }
-            else
-            {
-                np = nonce + uri.SetParameters(parameters, arraySerialization).Query.Replace("?", "");
-            }
 
-            var pathBytes = Encoding.UTF8.GetBytes(uri.AbsolutePath);
-            var allBytes = pathBytes.Concat(SignSHA256Bytes(np)).ToArray();
+            var body = request.ParameterPosition == HttpMethodParameterPosition.InUri ? string.Empty : request.BodyFormat == RequestBodyFormat.Json ? GetSerializedBody(_serializer, parameters) : request.BodyParameters.ToFormData();
+            var queryString = request.GetQueryString();
+            var parameterString = nonce + body + queryString;
+           
+            var pathBytes = Encoding.UTF8.GetBytes(request.Path);
+            var allBytes = pathBytes.Concat(SignSHA256Bytes(parameterString)).ToArray();
 
-            string sign;
+            string signature;
             using (var hmac = new HMACSHA512(_hmacSecret))
-                sign = Convert.ToBase64String(hmac.ComputeHash(allBytes));
+                signature = Convert.ToBase64String(hmac.ComputeHash(allBytes));
+            request.Headers.Add("API-Sign", signature);
 
-            headers.Add("API-Sign", sign);
+            request.SetBodyContent(body);
+            request.SetQueryString(queryString);
         }
     }
 }
