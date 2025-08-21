@@ -3588,6 +3588,11 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenFuturesAuthRequest">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenFuturesEvent">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.

@@ -351,6 +351,7 @@ namespace Kraken.Net.Converters
     [JsonSerializable(typeof(KrakenResult))]
     [JsonSerializable(typeof(KrakenFuturesResponse))]
     [JsonSerializable(typeof(KrakenFuturesRequest))]
+    [JsonSerializable(typeof(KrakenFuturesAuthRequest))]
     [JsonSerializable(typeof(KrakenSocketRequestV2))]
     [JsonSerializable(typeof(KrakenSocketSubRequest))]
     [JsonSerializable(typeof(int?))]
