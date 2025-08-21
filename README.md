@@ -169,6 +169,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 6.5.2 - 21 Aug 2025
+    * Added websocket error mapping for unknown symbol
+    * Added eventTrigger and snapshot parameters to socketClient.SpotApi.SubscribeToTickerUpdatesAsync subscription
+
 * Version 6.5.1 - 21 Aug 2025
     * Fixed websocket authentication for Futures API
 
