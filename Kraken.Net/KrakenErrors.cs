@@ -153,6 +153,9 @@ namespace Kraken.Net
                     if (msg!.StartsWith("Currency pair not supported"))
                         return new ErrorInfo(ErrorType.UnknownSymbol, false, "Unknown symbol", code);
 
+                    if (msg!.StartsWith("Currency pair not in "))
+                        return new ErrorInfo(ErrorType.UnknownSymbol, false, "Symbol format invalid", code);
+
                     return new ErrorInfo(ErrorType.Unknown, false, msg!, code);
                 }),
             ]);

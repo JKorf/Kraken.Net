@@ -38,7 +38,7 @@ namespace Kraken.Net.UnitTests
         public async Task TestSubscriptions()
         {
             await RunAndCheckUpdate<KrakenTickerUpdate>((client, updateHandler) => client.SpotApi.SubscribeToBalanceUpdatesAsync(default , default, default, default), false, true);
-            await RunAndCheckUpdate<KrakenTickerUpdate>((client, updateHandler) => client.SpotApi.SubscribeToTickerUpdatesAsync("ETH/USD", updateHandler, default), true, false);
+            await RunAndCheckUpdate<KrakenTickerUpdate>((client, updateHandler) => client.SpotApi.SubscribeToTickerUpdatesAsync("ETH/USD", updateHandler, default, default, default), true, false);
 
             await RunAndCheckUpdate<KrakenFuturesTickerUpdate>((client, updateHandler) => client.FuturesApi.SubscribeToTickerUpdatesAsync("PF_ETHUSD", updateHandler, default), true, false);
         } 

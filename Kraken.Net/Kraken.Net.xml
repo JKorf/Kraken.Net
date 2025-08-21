@@ -536,10 +536,10 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToSystemStatusUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenStreamSystemStatus}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate}},System.Nullable{Kraken.Net.Enums.TriggerEvent},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate}},System.Nullable{Kraken.Net.Enums.TriggerEvent},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SubscribeToKlineUpdatesAsync(System.String,Kraken.Net.Enums.KlineInterval,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenKlineUpdate[]}},System.Threading.CancellationToken)">
@@ -5122,6 +5122,21 @@
             Index price
             </summary>
         </member>
+        <member name="T:Kraken.Net.Enums.TriggerEvent">
+            <summary>
+            Ticker update trigger event
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TriggerEvent.Trade">
+            <summary>
+            Send update when a trade is done
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.TriggerEvent.BestOfferChange">
+            <summary>
+            Send update when the best bid or ask price/quantity changes
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Enums.TriggerOrderType">
             <summary>
             Type of order
@@ -6531,23 +6546,27 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate}},System.Nullable{Kraken.Net.Enums.TriggerEvent},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <summary>
             Subscribe to ticker updates
             <para><a href="https://docs.kraken.com/api/docs/websocket-v2/ticker" /></para>
             </summary>
             <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="handler">Data handler</param>
+            <param name="eventTrigger">The update event trigger</param>
+            <param name="snapshot">Whether to receive an initial snapshot after subscribing</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate}},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenSocketClientSpotApi.SubscribeToTickerUpdatesAsync(System.Collections.Generic.IEnumerable{System.String},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.KrakenTickerUpdate}},System.Nullable{Kraken.Net.Enums.TriggerEvent},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <summary>
             Subscribe to ticker updates
             <para><a href="https://docs.kraken.com/api/docs/websocket-v2/ticker" /></para>
             </summary>
             <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="P:Kraken.Net.Objects.Models.KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
             <param name="handler">Data handler</param>
+            <param name="eventTrigger">The update event trigger</param>
+            <param name="snapshot">Whether to receive an initial snapshot after subscribing</param>
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
         </member>

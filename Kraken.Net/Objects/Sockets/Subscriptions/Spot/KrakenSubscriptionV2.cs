@@ -1,6 +1,7 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
+using Kraken.Net.Enums;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Sockets.Queries;
 using System.Linq;
@@ -11,13 +12,24 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
     {
         private readonly SocketApiClient _client;
         private string _topic;
+        private string? _eventTrigger;
         private int? _interval;
         private bool? _snapshot;
         private int? _depth;
         private IEnumerable<string>? _symbols;
         private readonly Action<DataEvent<T>> _handler;
 
-        public KrakenSubscriptionV2(ILogger logger, SocketApiClient client, string topic, IEnumerable<string>? symbols, int? interval, bool? snapshot, int? depth, string? token, Action<DataEvent<T>> handler) : base(logger, token != null)
+        public KrakenSubscriptionV2(
+            ILogger logger,
+            SocketApiClient client,
+            string topic,
+            IEnumerable<string>? symbols, 
+            int? interval,
+            bool? snapshot,
+            int? depth,
+            TriggerEvent? eventTrigger,
+            string? token,
+            Action<DataEvent<T>> handler) : base(logger, token != null)
         {
             _client = client;
             _topic = topic;
@@ -26,6 +38,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _snapshot = snapshot;
             _depth = depth;
             _interval = interval;
+            _eventTrigger = eventTrigger == TriggerEvent.BestOfferChange ? "bbo" : eventTrigger == TriggerEvent.Trade ? "trades" : null;
             Token = token;
 
             if (symbols?.Any() == true)
@@ -49,6 +62,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                         Interval = _interval,
                         Depth = _depth,
                         Snapshot = _snapshot,
+                        EventTrigger = _eventTrigger,
                         Token = Token
                     }
                 }, Authenticated)
@@ -72,6 +86,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                         Interval = _interval,
                         Depth = _depth,
                         Snapshot = _snapshot,
+                        EventTrigger = _eventTrigger,
                         Token = Token
                     }
                 }, Authenticated)

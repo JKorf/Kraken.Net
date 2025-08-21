@@ -21,6 +21,8 @@
 
         [JsonPropertyName("snap_trades"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool? SnapshotTrades { get; set; }
+        [JsonPropertyName("event_trigger"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? EventTrigger { get; set; }
 
         [JsonPropertyName("token"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Token { get; set; }

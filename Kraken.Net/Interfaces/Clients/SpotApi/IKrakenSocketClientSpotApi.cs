@@ -31,9 +31,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </summary>
         /// <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable{string}?, string?, bool?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
         /// <param name="handler">Data handler</param>
+        /// <param name="eventTrigger">The update event trigger</param>
+        /// <param name="snapshot">Whether to receive an initial snapshot after subscribing</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenTickerUpdate>> handler, CancellationToken ct = default);
+        Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenTickerUpdate>> handler, TriggerEvent? eventTrigger = null, bool? snapshot = null, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to ticker updates
@@ -41,9 +43,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </summary>
         /// <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable{string}?, string?, bool?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
         /// <param name="handler">Data handler</param>
+        /// <param name="eventTrigger">The update event trigger</param>
+        /// <param name="snapshot">Whether to receive an initial snapshot after subscribing</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenTickerUpdate>> handler, CancellationToken ct = default);
+        Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenTickerUpdate>> handler, TriggerEvent? eventTrigger = null, bool? snapshot = null, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to kline updates
