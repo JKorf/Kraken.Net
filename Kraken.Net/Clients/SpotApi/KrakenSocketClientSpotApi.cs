@@ -39,6 +39,8 @@ namespace Kraken.Net.Clients.SpotApi
             "balances"
         ];
 
+        protected override ErrorMapping ErrorMapping => KrakenErrors.SpotMapping;
+
         #region fields
         private readonly string _privateBaseAddress;
 

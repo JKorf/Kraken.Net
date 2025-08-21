@@ -146,6 +146,15 @@ namespace Kraken.Net
 
                     return new ErrorInfo(ErrorType.Unknown, false, msg!, code);
                 }),
+            new ErrorEvaluator("Subscription", (code, msg) => {
+                    if(string.IsNullOrEmpty(msg))
+                        return new ErrorInfo(ErrorType.Unknown, false, "Unknown error", code);
+
+                    if (msg!.StartsWith("Currency pair not supported"))
+                        return new ErrorInfo(ErrorType.UnknownSymbol, false, "Unknown symbol", code);
+
+                    return new ErrorInfo(ErrorType.Unknown, false, msg!, code);
+                }),
             ]);
 
         public static ErrorMapping FuturesMapping = new ErrorMapping([

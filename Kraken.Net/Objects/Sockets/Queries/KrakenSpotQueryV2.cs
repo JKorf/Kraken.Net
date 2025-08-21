@@ -29,7 +29,7 @@ namespace Kraken.Net.Objects.Sockets.Queries
             }
             else
             {
-                return new CallResult<KrakenSocketResponseV2<TResponse>>(new ServerError(message.Data.Error!, _client.GetErrorInfo(message.Data.Error!, message.Data.Error!)));
+                return new CallResult<KrakenSocketResponseV2<TResponse>>(new ServerError(message.Data.Error!, _client.GetErrorInfo("Subscription", message.Data.Error!)));
             }
         }
     }
