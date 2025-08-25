@@ -33,7 +33,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 ]);
         }
 
-        public override Query? GetSubQuery(SocketConnection connection)
+        protected override Query? GetSubQuery(SocketConnection connection)
         {
             return new KrakenSpotQueryV2<KrakenSocketSubResponse, KrakenSocketSubRequest>(
                 _client,
@@ -50,7 +50,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 }, false);
         }
 
-        public override Query? GetUnsubQuery()
+        protected override Query? GetUnsubQuery(SocketConnection connection)
         {
             return new KrakenSpotQueryV2<KrakenSocketSubResponse, KrakenSocketSubRequest>(
                 _client,

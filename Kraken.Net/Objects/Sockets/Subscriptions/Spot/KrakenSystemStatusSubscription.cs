@@ -16,9 +16,9 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             MessageMatcher = MessageMatcher.Create<KrakenSocketUpdateV2<KrakenStreamSystemStatus[]>>("status", DoHandleMessage);
         }
 
-        public override Query? GetSubQuery(SocketConnection connection) => null;
+        protected override Query? GetSubQuery(SocketConnection connection) => null;
 
-        public override Query? GetUnsubQuery() => null;
+        protected override Query? GetUnsubQuery(SocketConnection connection) => null;
 
         public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenSocketUpdateV2<KrakenStreamSystemStatus[]>> message)
         {
