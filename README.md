@@ -169,6 +169,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 6.6.0 - 25 Aug 2025
+    * Updated CryptoExchange.Net version to 9.6.0, see https://github.com/JKorf/CryptoExchange.Net/releases/
+    * Added ClearUserClients method to user client provider
+
 * Version 6.5.2 - 21 Aug 2025
     * Added websocket error mapping for unknown symbol
     * Added eventTrigger and snapshot parameters to socketClient.SpotApi.SubscribeToTickerUpdatesAsync subscription
