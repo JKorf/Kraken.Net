@@ -117,6 +117,9 @@ namespace Kraken.Net
                     if (msg!.Equals("Scheduled orders limit exceeded"))
                         return new ErrorInfo(ErrorType.RateLimitOrder, false, "Too many scheduled orders", code);
 
+                    if (msg!.Equals("Unknown order"))
+                        return new ErrorInfo(ErrorType.UnknownOrder, false, "Unknown order", code);
+
                     if (msg!.Equals("Margin position size exceeded")
                      || msg!.Equals("Positions limit exceeded"))
                     {
