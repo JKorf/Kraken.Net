@@ -94,6 +94,21 @@ namespace Kraken.Net.Objects.Models.Futures
         [JsonPropertyName("symbol")]
         public string Symbol { get; set; } = string.Empty;
         /// <summary>
+        /// Trading pair
+        /// </summary>
+        [JsonPropertyName("pair")]
+        public string Pair { get; set; } = string.Empty;
+        /// <summary>
+        /// Base asset
+        /// </summary>
+        [JsonPropertyName("base")]
+        public string BaseAsset { get; set; } = string.Empty;
+        /// <summary>
+        /// Quote asset
+        /// </summary>
+        [JsonPropertyName("quote")]
+        public string QuoteAsset { get; set; } = string.Empty;
+        /// <summary>
         /// Tag for the contract (currently does not return a value).
         /// </summary>
         [JsonPropertyName("tags")]
@@ -143,7 +158,7 @@ namespace Kraken.Net.Objects.Models.Futures
         [JsonPropertyName("maintenanceMargin")]
         public decimal MaintenanceMargin { get; set; }
         /// <summary>
-        ///  The lower limit of the number of non-contract units (i.e. quote currency units for linear futures) to which this margin level applies
+        /// The lower limit of the number of non-contract units (i.e. quote currency units for linear futures) to which this margin level applies
         /// </summary>
         [JsonPropertyName("numNonContractUnits")]
         public decimal NumNonContractUnits { get; set; }

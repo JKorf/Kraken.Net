@@ -2,10 +2,12 @@ GET
 /derivatives/api/v3/instruments
 false
 {
-  "result": "success",
   "instruments": [
     {
       "symbol": "PI_XBTUSD",
+      "pair": "XBT:USD",
+      "base": "XBT",
+      "quote": "USD",
       "type": "futures_inverse",
       "underlying": "rr_xbtusd",
       "tickSize": 0.5,
@@ -34,26 +36,6 @@ false
           "contracts": 3000000,
           "initialMargin": 0.1,
           "maintenanceMargin": 0.05
-        },
-        {
-          "contracts": 6000000,
-          "initialMargin": 0.15,
-          "maintenanceMargin": 0.075
-        },
-        {
-          "contracts": 12000000,
-          "initialMargin": 0.25,
-          "maintenanceMargin": 0.125
-        },
-        {
-          "contracts": 20000000,
-          "initialMargin": 0.3,
-          "maintenanceMargin": 0.15
-        },
-        {
-          "contracts": 50000000,
-          "initialMargin": 0.4,
-          "maintenanceMargin": 0.2
         }
       ],
       "fundingRateCoefficient": 8,
@@ -70,10 +52,15 @@ false
         }
       ],
       "category": "",
-      "tags": []
+      "tags": [],
+      "tradfi": false,
+      "mtf": true
     },
     {
       "symbol": "FI_XBTUSD_220930",
+      "pair": "XBT:USD",
+      "base": "XBT",
+      "quote": "USD",
       "type": "futures_inverse",
       "underlying": "rr_xbtusd",
       "lastTradingTime": "2022-09-30T15:00:00.000Z",
@@ -103,26 +90,6 @@ false
           "contracts": 3000000,
           "initialMargin": 0.1,
           "maintenanceMargin": 0.05
-        },
-        {
-          "contracts": 6000000,
-          "initialMargin": 0.15,
-          "maintenanceMargin": 0.075
-        },
-        {
-          "contracts": 9000000,
-          "initialMargin": 0.25,
-          "maintenanceMargin": 0.125
-        },
-        {
-          "contracts": 15000000,
-          "initialMargin": 0.3,
-          "maintenanceMargin": 0.15
-        },
-        {
-          "contracts": 30000000,
-          "initialMargin": 0.4,
-          "maintenanceMargin": 0.2
         }
       ],
       "isin": "GB00JVMLP260",
@@ -137,10 +104,15 @@ false
         }
       ],
       "category": "",
-      "tags": []
+      "tags": [],
+      "tradfi": false,
+      "mtf": false
     },
     {
       "symbol": "PF_XBTUSD",
+      "pair": "XBT:USD",
+      "base": "XBT",
+      "quote": "USD",
       "type": "flexible_futures",
       "tickSize": 1,
       "contractSize": 1,
@@ -218,8 +190,11 @@ false
         }
       ],
       "category": "Layer 1",
-      "tags": []
+      "tags": [],
+      "tradfi": false,
+      "mtf": false
     }
   ],
+  "result": "success",
   "serverTime": "2022-06-28T09:29:04.243Z"
 }

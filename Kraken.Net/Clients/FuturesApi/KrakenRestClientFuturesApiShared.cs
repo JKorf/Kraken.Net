@@ -211,8 +211,8 @@ namespace Kraken.Net.Clients.FuturesApi
                     s.Type == Enums.SymbolType.FlexibleFutures && split.Count() > 2 ? TradingMode.DeliveryLinear :
                     s.Type == Enums.SymbolType.InverseFutures && split.Count() == 2 ? TradingMode.PerpetualInverse :
                     TradingMode.DeliveryInverse,
-                    assets.Substring(0, assets.Length - 3),
-                    assets.Substring(assets.Length - 3),
+                    s.BaseAsset,
+                    s.QuoteAsset,
                     s.Symbol,
                     s.Tradeable)
                 {

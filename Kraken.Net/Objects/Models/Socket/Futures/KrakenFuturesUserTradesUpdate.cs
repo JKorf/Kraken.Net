@@ -64,6 +64,11 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         [JsonPropertyName("order_id")]
         public string OrderId { get; set; } = string.Empty;
         /// <summary>
+        /// Client order id
+        /// </summary>
+        [JsonPropertyName("cli_ord_id")]
+        public string? ClientOrderId { get; set; }
+        /// <summary>
         /// Trade id
         /// </summary>
         [JsonPropertyName("fill_id")]
