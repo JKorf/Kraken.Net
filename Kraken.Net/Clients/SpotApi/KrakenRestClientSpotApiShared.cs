@@ -841,7 +841,7 @@ namespace Kraken.Net.Clients.SpotApi
                 return result.AsExchangeResult<SharedFee>(Exchange, null, default);
 
             // Return
-            return result.AsExchangeResult(Exchange, TradingMode.Spot, new SharedFee(result.Data.Fees.First().Value.Fee, result.Data.Fees.First().Value.Fee));
+            return result.AsExchangeResult(Exchange, TradingMode.Spot, new SharedFee(result.Data.MakerFees.First().Value.Fee, result.Data.Fees.First().Value.Fee));
         }
         #endregion
 
