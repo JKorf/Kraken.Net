@@ -170,6 +170,13 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 6.8.0 - 30 Sep 2025
+    * Updated CryptoExchange.Net version to 9.8.0, see https://github.com/JKorf/CryptoExchange.Net/releases/
+    * Added ITrackerFactory to TrackerFactory implementation
+    * Added ContractAddress mapping in Shared IAssetClient implementation
+    * Fixed maker fees response from Shared GetFeesAsync
+    * Added assetClass parameter to restClient.SpotApi.ExchangeData.GetTickersAsync endpoint
+
 * Version 6.7.0 - 01 Sep 2025
     * Updated CryptoExchange.Net version to 9.7.0, see https://github.com/JKorf/CryptoExchange.Net/releases/
     * HTTP REST requests will now use HTTP version 2.0 by default
