@@ -60,9 +60,10 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-ticker-information" /></para>
         /// </summary>
         /// <param name="symbols">Symbols to get tickers for, for example `ETHUSDT`</param>
+        /// <param name="assetClass">Filter by asset class</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with ticker info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(IEnumerable<string>? symbols = null, CancellationToken ct = default);
+        Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(IEnumerable<string>? symbols = null, AssetClass? assetClass = null, CancellationToken ct = default);
 
         /// <summary>
         /// Gets kline data for a symbol

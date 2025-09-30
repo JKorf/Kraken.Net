@@ -78,19 +78,20 @@ namespace Kraken.Net.Clients.SpotApi
 
         /// <inheritdoc />
         public Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickerAsync(string symbol, CancellationToken ct = default)
-            => GetTickersAsync(new[] { symbol }, ct);
+            => GetTickersAsync(new[] { symbol }, null, ct);
 
         #endregion
 
         #region Get Tickers
 
         /// <inheritdoc />
-        public async Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(IEnumerable<string>? symbols = null, CancellationToken ct = default)
+        public async Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(IEnumerable<string>? symbols = null, AssetClass? assetClass = null, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection();
             if (symbols?.Any() == true)
                 parameters.AddParameter("pair", string.Join(",", symbols));
 
+            parameters.AddOptionalEnum("asset_class", assetClass);
             var request = _definitions.GetOrCreate(HttpMethod.Get, "0/public/Ticker", KrakenExchange.RateLimiter.SpotRest, 1, false);
             var result = await _baseClient.SendAsync<Dictionary<string, KrakenRestTick>>(request, parameters, ct).ConfigureAwait(false);
             if (!result)
