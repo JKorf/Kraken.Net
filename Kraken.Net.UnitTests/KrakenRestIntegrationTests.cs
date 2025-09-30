@@ -69,7 +69,7 @@ namespace Kraken.Net.UnitTests
             await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetAssetsAsync(default, default, default), false);
             await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetSymbolsAsync(default, default, default, default), false);
             await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetTickerAsync("ETHUSDT", default), false);
-            await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetTickersAsync(default, default), false);
+            await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetTickersAsync(default, default, default), false);
             await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetKlinesAsync("ETHUSDT", Enums.KlineInterval.OneDay, default, default), false);
             await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetOrderBookAsync("ETHUSDT", default, default), false);
             await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetTradeHistoryAsync("ETHUSDT", default, default, default), false);

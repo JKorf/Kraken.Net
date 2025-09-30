@@ -458,7 +458,7 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetTickerAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetTickersAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetTickersAsync(System.Collections.Generic.IEnumerable{System.String},System.Nullable{Kraken.Net.Enums.AssetClass},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiExchangeData.GetKlinesAsync(System.String,Kraken.Net.Enums.KlineInterval,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
@@ -3785,6 +3785,21 @@
         <member name="M:Kraken.Net.Converters.KrakenSourceGenerationContext.GetTypeInfo(System.Type)">
             <inheritdoc/>
         </member>
+        <member name="T:Kraken.Net.Enums.AssetClass">
+            <summary>
+            Asset class
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.AssetClass.TokenizedAsset">
+            <summary>
+            Tokenized asset
+            </summary>
+        </member>
+        <member name="F:Kraken.Net.Enums.AssetClass.Forex">
+            <summary>
+            Forex
+            </summary>
+        </member>
         <member name="T:Kraken.Net.Enums.AssetStatus">
             <summary>
             Asset status
@@ -6262,12 +6277,13 @@
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with ticker info</returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetTickersAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.SpotApi.IKrakenRestClientSpotApiExchangeData.GetTickersAsync(System.Collections.Generic.IEnumerable{System.String},System.Nullable{Kraken.Net.Enums.AssetClass},System.Threading.CancellationToken)">
             <summary>
             Get tickers for symbols
             <para><a href="https://docs.kraken.com/api/docs/rest-api/get-ticker-information" /></para>
             </summary>
             <param name="symbols">Symbols to get tickers for, for example `ETHUSDT`</param>
+            <param name="assetClass">Filter by asset class</param>
             <param name="ct">Cancellation token</param>
             <returns>Dictionary with ticker info</returns>
         </member>
@@ -6937,25 +6953,6 @@
             Tracker factory
             </summary>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenTrackerFactory.CreateKlineTracker(CryptoExchange.Net.SharedApis.SharedSymbol,CryptoExchange.Net.SharedApis.SharedKlineInterval,System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
-            <summary>
-            Create a new kline tracker
-            </summary>
-            <param name="symbol">The symbol</param>
-            <param name="interval">Kline interval</param>
-            <param name="limit">The max amount of klines to retain</param>
-            <param name="period">The max period the data should be retained</param>
-            <returns></returns>
-        </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenTrackerFactory.CreateTradeTracker(CryptoExchange.Net.SharedApis.SharedSymbol,System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
-            <summary>
-            Create a new trade tracker for a symbol
-            </summary>
-            <param name="symbol">The symbol</param>
-            <param name="limit">The max amount of klines to retain</param>
-            <param name="period">The max period the data should be retained</param>
-            <returns></returns>
-        </member>
         <member name="T:Kraken.Net.KrakenEnvironment">
             <summary>
             Kraken environments
@@ -7113,6 +7110,12 @@
             ctor
             </summary>
             <param name="serviceProvider">Service provider for resolving logging and clients</param>
+        </member>
+        <member name="M:Kraken.Net.KrakenTrackerFactory.CanCreateKlineTracker(CryptoExchange.Net.SharedApis.SharedSymbol,CryptoExchange.Net.SharedApis.SharedKlineInterval)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenTrackerFactory.CanCreateTradeTracker(CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <inheritdoc />
         </member>
         <member name="M:Kraken.Net.KrakenTrackerFactory.CreateKlineTracker(CryptoExchange.Net.SharedApis.SharedSymbol,CryptoExchange.Net.SharedApis.SharedKlineInterval,System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
             <inheritdoc />
@@ -8153,6 +8156,21 @@
             Symbols
             </summary>
         </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.Pair">
+            <summary>
+            Trading pair
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.BaseAsset">
+            <summary>
+            Base asset
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.QuoteAsset">
+            <summary>
+            Quote asset
+            </summary>
+        </member>
         <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbol.Tags">
             <summary>
             Tag for the contract (currently does not return a value).
@@ -8200,7 +8218,7 @@
         </member>
         <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFutureMarginLevel.NumNonContractUnits">
             <summary>
-             The lower limit of the number of non-contract units (i.e. quote currency units for linear futures) to which this margin level applies
+            The lower limit of the number of non-contract units (i.e. quote currency units for linear futures) to which this margin level applies
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesSymbolStatus">
@@ -11922,6 +11940,11 @@
         <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesStreamUserTrade.OrderId">
             <summary>
             Order id
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesStreamUserTrade.ClientOrderId">
+            <summary>
+            Client order id
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesStreamUserTrade.TradeId">

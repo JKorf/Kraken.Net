@@ -30,6 +30,19 @@ namespace Kraken.Net
         }
 
         /// <inheritdoc />
+        public bool CanCreateKlineTracker(SharedSymbol symbol, SharedKlineInterval interval)
+        {
+            if (symbol.TradingMode != TradingMode.Spot)
+                return false;
+
+            var client = (_serviceProvider?.GetRequiredService<IKrakenSocketClient>() ?? new KrakenSocketClient());
+            return client.SpotApi.SharedClient.SubscribeKlineOptions.IsSupported(interval);
+        }
+
+        /// <inheritdoc />
+        public bool CanCreateTradeTracker(SharedSymbol symbol) => true;
+
+        /// <inheritdoc />
         public IKlineTracker CreateKlineTracker(SharedSymbol symbol, SharedKlineInterval interval, int? limit = null, TimeSpan? period = null)
         {
             var restClient = (_serviceProvider?.GetRequiredService<IKrakenRestClient>() ?? new KrakenRestClient()).SpotApi.SharedClient;

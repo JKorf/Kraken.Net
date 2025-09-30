@@ -98,6 +98,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<ICryptoSocketClient, CryptoSocketClient>();
             services.AddTransient<IKrakenOrderBookFactory, KrakenOrderBookFactory>();
             services.AddTransient<IKrakenTrackerFactory, KrakenTrackerFactory>();
+            services.AddTransient<ITrackerFactory, KrakenTrackerFactory>();
             services.AddSingleton<IKrakenUserClientProvider, KrakenUserClientProvider>(x =>
             new KrakenUserClientProvider(
                 x.GetRequiredService<HttpClient>(),
