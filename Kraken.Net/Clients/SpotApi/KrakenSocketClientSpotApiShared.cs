@@ -183,7 +183,20 @@ namespace Kraken.Net.Clients.SpotApi
                             OrderQuantity = new SharedOrderQuantity(x.OrderQuantity, x.QuoteOrderQuantity),
                             QuantityFilled = new SharedOrderQuantity(x.QuantityFilled, x.ValueFilled),
                             TimeInForce = x.TimeInForce == TimeInForce.IOC ? SharedTimeInForce.ImmediateOrCancel : x.TimeInForce == TimeInForce.GTC ? SharedTimeInForce.GoodTillCanceled : null,
-                            LastTrade = x.LastTradeId == null ? null : new SharedUserTrade(ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol), x.Symbol ?? string.Empty, x.OrderId, x.LastTradeId.ToString()!, x.OrderSide == OrderSide.Sell ? SharedOrderSide.Sell : SharedOrderSide.Buy, x.LastTradeQuantity ?? 0, x.LastTradePrice ?? 0, x.Timestamp)
+                            LastTrade = x.LastTradeId == null ? null : 
+                                new SharedUserTrade(
+                                    ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol),
+                                    x.Symbol ?? string.Empty,
+                                    x.OrderId,
+                                    x.LastTradeId.ToString()!,
+                                    x.OrderSide == OrderSide.Sell ? SharedOrderSide.Sell : SharedOrderSide.Buy,
+                                    x.LastTradeQuantity ?? 0,
+                                    x.LastTradePrice ?? 0,
+                                    x.Timestamp)
+                                {
+                                    ClientOrderId = x.ClientOrderId,
+                                    Role = x.LastTradeRole == TradeType.Maker ? SharedRole.Maker : SharedRole.Taker
+                                }
                         }
                         ).ToArray()));
                 },

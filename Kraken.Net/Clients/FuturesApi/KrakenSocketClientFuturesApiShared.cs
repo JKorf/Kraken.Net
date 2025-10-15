@@ -163,6 +163,7 @@ namespace Kraken.Net.Clients.FuturesApi
                             x.Price,
                             x.Timestamp)
                         {
+                            ClientOrderId = x.ClientOrderId,
                             Fee = Math.Abs(x.FeePaid),
                             FeeAsset = x.FeeCurrency,
                             Role = x.TradeType == Enums.TradeType.Taker ? SharedRole.Taker : SharedRole.Maker
