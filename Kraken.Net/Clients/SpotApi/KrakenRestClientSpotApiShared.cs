@@ -244,7 +244,7 @@ namespace Kraken.Net.Clients.SpotApi
                 SharedQuantityType.BaseAndQuoteAsset,
                 SharedQuantityType.BaseAsset);
 
-        string ISpotOrderRestClient.GenerateClientOrderId() => ExchangeHelpers.RandomString(32);
+        string ISpotOrderRestClient.GenerateClientOrderId() => ExchangeHelpers.RandomString(18);
 
         PlaceSpotOrderOptions ISpotOrderRestClient.PlaceSpotOrderOptions { get; } = new PlaceSpotOrderOptions();
         async Task<ExchangeWebResult<SharedId>> ISpotOrderRestClient.PlaceSpotOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
