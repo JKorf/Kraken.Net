@@ -47,14 +47,16 @@ namespace Kraken.Net
         public static ExchangeType Type { get; } = ExchangeType.CEX;
 
         /// <summary>
-        /// Aliases for BitMEX assets
+        /// Aliases for Kraken assets
         /// </summary>
         public static AssetAliasConfiguration AssetAliases { get; } = new AssetAliasConfiguration
         {
             Aliases =
             [
                 new AssetAlias("XBT", "BTC"),
-                new AssetAlias("XDG", "DOGE")
+                new AssetAlias("XDG", "DOGE"),
+
+                new AssetAlias("USD", SharedSymbol.UsdOrStable.ToUpperInvariant(), AliasType.OnlyToExchange)
             ]
         };
 
@@ -70,13 +72,13 @@ namespace Kraken.Net
         /// <returns></returns>
         public static string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
         {
-            baseAsset = AssetAliases.CommonToExchangeName(baseAsset);
-            quoteAsset = AssetAliases.CommonToExchangeName(quoteAsset);
+            baseAsset = AssetAliases.CommonToExchangeName(baseAsset.ToUpperInvariant());
+            quoteAsset = AssetAliases.CommonToExchangeName(quoteAsset.ToUpperInvariant());
 
             if (tradingMode == TradingMode.Spot)
-                return $"{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}";
+                return $"{baseAsset}{quoteAsset}";
 
-            return $"{(tradingMode == TradingMode.PerpetualLinear ? "PF" : tradingMode == TradingMode.PerpetualInverse ? "PI" : tradingMode == TradingMode.DeliveryLinear ? "FF" : "FI")}_{baseAsset.ToUpperInvariant()}{quoteAsset.ToUpperInvariant()}" + (!deliverTime.HasValue ? string.Empty : ("_" + deliverTime.Value.ToString("yyMMdd")));
+            return $"{(tradingMode == TradingMode.PerpetualLinear ? "PF" : tradingMode == TradingMode.PerpetualInverse ? "PI" : tradingMode == TradingMode.DeliveryLinear ? "FF" : "FI")}_{baseAsset}{quoteAsset}" + (!deliverTime.HasValue ? string.Empty : ("_" + deliverTime.Value.ToString("yyMMdd")));
         }
 
         /// <summary>

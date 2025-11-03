@@ -7055,7 +7055,7 @@
         </member>
         <member name="P:Kraken.Net.KrakenExchange.AssetAliases">
             <summary>
-            Aliases for BitMEX assets
+            Aliases for Kraken assets
             </summary>
         </member>
         <member name="M:Kraken.Net.KrakenExchange.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
