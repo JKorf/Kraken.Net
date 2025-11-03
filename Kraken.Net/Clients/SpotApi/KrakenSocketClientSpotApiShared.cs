@@ -109,7 +109,7 @@ namespace Kraken.Net.Clients.SpotApi
 
                 foreach(var item in update.Data)
                     handler(update.AsExchangeEvent(Exchange, new SharedKline(item.OpenTime,  item.ClosePrice, item.HighPrice, item.LowPrice, item.OpenPrice, item.Volume)));
-            }, ct).ConfigureAwait(false);
+            }, false, ct).ConfigureAwait(false);
 
             return new ExchangeResult<UpdateSubscription>(Exchange, result);
         }
