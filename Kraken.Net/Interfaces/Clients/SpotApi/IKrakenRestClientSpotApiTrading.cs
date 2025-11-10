@@ -102,9 +102,16 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="orders">The orders to place</param>
         /// <param name="deadline">Deadline after which the orders will be rejected</param>
         /// <param name="validateOnly">Only validate inputs, don't actually place the order</param>
+        /// <param name="aClass">Asset class, required to be `TokenizedAsset` when targeting xstocks</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<CallResult<KrakenPlacedBatchOrder>[]>> PlaceMultipleOrdersAsync(string symbol, IEnumerable<KrakenOrderRequest> orders, DateTime? deadline = null, bool? validateOnly = null, CancellationToken ct = default);
+        Task<WebCallResult<CallResult<KrakenPlacedBatchOrder>[]>> PlaceMultipleOrdersAsync(
+            string symbol, 
+            IEnumerable<KrakenOrderRequest> orders,
+            DateTime? deadline = null,
+            bool? validateOnly = null,
+            AClass? aClass = null,
+            CancellationToken ct = default);
 
         /// <summary>
         /// Place a new order
@@ -151,6 +158,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="priceSuffixOperator">Suffix operator for the price field. Only option is `%` to specify a relative percentage offset for trailing orders</param>
         /// <param name="secondaryPricePrefixOperator">Prefix operator for the secondary price field, `+` or `-` for a relative offset to the last traded price, `#` will either add or subtract the amount to the last traded price, depending on the direction and order type used.</param>
         /// <param name="secondaryPriceSuffixOperator">Suffix operator for the price field. Only option is `%` to specify a relative percentage offset for trailing orders</param>
+        /// <param name="aClass">Asset class, required to be `TokenizedAsset` when targeting xstocks</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Placed order info</returns>
         Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(
@@ -180,6 +188,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             string? priceSuffixOperator = null,
             string? secondaryPricePrefixOperator = null,
             string? secondaryPriceSuffixOperator = null,
+            AClass? aClass = null,
             CancellationToken ct = default);
 
         /// <summary>
@@ -201,6 +210,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="priceSuffixOperator">Suffix operator for the price field. Only option is `%` to specify a relative percentage offset for trailing orders</param>
         /// <param name="secondaryPricePrefixOperator">Prefix operator for the secondary price field, `+` or `-` for a relative offset to the last traded price, `#` will either add or subtract the amount to the last traded price, depending on the direction and order type used.</param>
         /// <param name="secondaryPriceSuffixOperator">Suffix operator for the price field. Only option is `%` to specify a relative percentage offset for trailing orders</param>
+        /// <param name="assetClass">Asset class, required to be `TokenizedAsset` when targeting xstocks</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -221,6 +231,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             string? priceSuffixOperator = null,
             string? secondaryPricePrefixOperator = null,
             string? secondaryPriceSuffixOperator = null,
+            AClass? assetClass = null,
             CancellationToken ct = default);
 
         /// <summary>

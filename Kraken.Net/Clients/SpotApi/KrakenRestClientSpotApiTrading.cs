@@ -168,7 +168,13 @@ namespace Kraken.Net.Clients.SpotApi
         #region Place Multiple Orders
 
         /// <inheritdoc />
-        public async Task<WebCallResult<CallResult<KrakenPlacedBatchOrder>[]>> PlaceMultipleOrdersAsync(string symbol, IEnumerable<KrakenOrderRequest> orders, DateTime? deadline = null, bool? validateOnly = null, CancellationToken ct = default)
+        public async Task<WebCallResult<CallResult<KrakenPlacedBatchOrder>[]>> PlaceMultipleOrdersAsync(
+            string symbol,
+            IEnumerable<KrakenOrderRequest> orders,
+            DateTime? deadline = null, 
+            bool? validateOnly = null,
+            AClass? assetClass = null,
+            CancellationToken ct = default)
         {
             var parameters = new ParameterCollection
             {
@@ -177,6 +183,7 @@ namespace Kraken.Net.Clients.SpotApi
                 { "orders", orders.ToArray() }
             };
             parameters.AddOptional("deadline", deadline);
+            parameters.AddOptionalEnum("asset_class", assetClass);
 
             if (validateOnly == true)
                 parameters.AddOptionalParameter("validate", true);
@@ -227,7 +234,7 @@ namespace Kraken.Net.Clients.SpotApi
             string? twoFactorPassword = null,
             TimeInForce? timeInForce = null,
             bool? reduceOnly = null,
-            decimal? icebergQuanty = null,
+            decimal? icebergQuantity = null,
             Trigger? trigger = null,
             SelfTradePreventionType? selfTradePreventionType = null,
             OrderType? closeOrderType = null,
@@ -237,6 +244,7 @@ namespace Kraken.Net.Clients.SpotApi
             string? priceSuffixOperator = null,
             string? secondaryPricePrefixOperator = null,
             string? secondaryPriceSuffixOperator = null,
+            AClass? assetClass = null,
             CancellationToken ct = default)
         {
             var parameters = new ParameterCollection()
@@ -261,13 +269,14 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.AddOptionalParameter("timeinforce", timeInForce?.ToString());
             parameters.AddOptionalParameter("reduce_only", reduceOnly);
             parameters.AddOptionalParameter("trigger", EnumConverter.GetString(trigger));
-            parameters.AddOptionalParameter("displayvol", icebergQuanty?.ToString(CultureInfo.InvariantCulture));
+            parameters.AddOptionalParameter("displayvol", icebergQuantity?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("stptype", EnumConverter.GetString(selfTradePreventionType));
             parameters.AddOptionalEnum("close[ordertype]", closeOrderType);
             parameters.AddOptionalParameter("close[price]", closePrice?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("close[price2]", secondaryClosePrice?.ToString(CultureInfo.InvariantCulture));
             if (validateOnly == true)
                 parameters.AddOptionalParameter("validate", true);
+            parameters.AddOptionalEnum("asset_class", assetClass);
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/AddOrder", KrakenExchange.RateLimiter.SpotRest, 0, true);
             var result = await _baseClient.SendAsync<KrakenPlacedOrder>(request, parameters, ct).ConfigureAwait(false);
@@ -283,7 +292,7 @@ namespace Kraken.Net.Clients.SpotApi
             string symbol,
             string orderId,
             decimal? quantity = null,
-            decimal? icebergQuanty = null,
+            decimal? icebergQuantity = null,
             decimal? price = null,
             decimal? secondaryPrice = null,
             IEnumerable<OrderFlags>? flags = null,
@@ -291,11 +300,12 @@ namespace Kraken.Net.Clients.SpotApi
             bool? cancelResponse = null,
             bool? validateOnly = null,
             uint? newClientOrderId = null,
+            string? twoFactorPassword = null,
             string? pricePrefixOperator = null,
             string? priceSuffixOperator = null,
             string? secondaryPricePrefixOperator = null,
             string? secondaryPriceSuffixOperator = null,
-            string? twoFactorPassword = null,
+            AClass? assetClass = null,
             CancellationToken ct = default)
         {
             var parameters = new ParameterCollection()
@@ -312,10 +322,11 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.AddOptionalParameter("cancel_response", cancelResponse);
             parameters.AddOptionalParameter("deadline", deadline);
             parameters.AddOptionalParameter("userref", newClientOrderId);
-            parameters.AddOptionalParameter("displayvol", icebergQuanty?.ToString(CultureInfo.InvariantCulture));
+            parameters.AddOptionalParameter("displayvol", icebergQuantity?.ToString(CultureInfo.InvariantCulture));
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
             if (validateOnly == true)
                 parameters.AddOptionalParameter("validate", true);
+            parameters.AddOptionalEnum("asset_class", assetClass);
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/EditOrder", KrakenExchange.RateLimiter.SpotRest, 1, true);
             return await _baseClient.SendAsync<KrakenEditOrder>(request, parameters, ct).ConfigureAwait(false);

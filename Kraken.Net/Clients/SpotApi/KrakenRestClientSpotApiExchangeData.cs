@@ -44,10 +44,11 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Assets
 
         /// <inheritdoc />
-        public async Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(IEnumerable<string>? assets = null, bool? newAssetNameResponse = null, CancellationToken ct = default)
+        public async Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(IEnumerable<string>? assets = null, AClass? assetClass = null, bool? newAssetNameResponse = null, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection();
             parameters.AddOptional("assetVersion", newAssetNameResponse);
+            parameters.AddOptionalEnum("aclass", assetClass);
             if (assets?.Any() == true)
                 parameters.AddOptionalParameter("asset", string.Join(",", assets));
 
@@ -60,10 +61,11 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Symbols
 
         /// <inheritdoc />
-        public async Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, string? countryCode = null, bool? newAssetNameResponse = null, CancellationToken ct = default)
+        public async Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, string? countryCode = null, AClass? assetClass = null, bool? newAssetNameResponse = null, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection();
             parameters.AddOptionalParameter("country_code", countryCode);
+            parameters.AddOptionalEnum("aclass_base", assetClass);
             parameters.AddOptional("assetVersion", newAssetNameResponse);
             if (symbols?.Any() == true)
                 parameters.AddOptionalParameter("pair", string.Join(",", symbols));
@@ -108,13 +110,14 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Klines
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenKlinesResult>> GetKlinesAsync(string symbol, KlineInterval interval, DateTime? since = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenKlinesResult>> GetKlinesAsync(string symbol, KlineInterval interval, DateTime? since = null, AClass? assetClass = null, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection()
             {
                 {"pair", symbol},
             };
             parameters.AddEnum("interval", interval);
+            parameters.AddOptionalEnum("asset_class", assetClass);
             parameters.AddOptionalParameter("since", DateTimeConverter.ConvertToSeconds(since));
 
             var request = _definitions.GetOrCreate(HttpMethod.Get, "0/public/OHLC", KrakenExchange.RateLimiter.SpotRest, 1, false);
@@ -126,12 +129,13 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Order Book
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenOrderBook>> GetOrderBookAsync(string symbol, int? limit = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenOrderBook>> GetOrderBookAsync(string symbol, int? limit = null, AClass? assetClass = null, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection()
             {
                 {"pair", symbol},
             };
+            parameters.AddOptionalEnum("asset_class", assetClass);
             parameters.AddOptionalParameter("count", limit);
 
             var request = _definitions.GetOrCreate(HttpMethod.Get, "0/public/Depth", KrakenExchange.RateLimiter.SpotRest, 1, false);
@@ -146,12 +150,13 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Trade History
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenTradesResult>> GetTradeHistoryAsync(string symbol, DateTime? since = null, int? limit = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenTradesResult>> GetTradeHistoryAsync(string symbol, DateTime? since = null, int? limit = null, AClass? assetClass = null, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection()
             {
                 {"pair", symbol},
             };
+            parameters.AddOptionalEnum("asset_class", assetClass);
             parameters.AddOptionalParameter("since", DateTimeConverter.ConvertToNanoseconds(since));
             parameters.AddOptionalParameter("count", limit);
 
@@ -164,12 +169,13 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Recent Spread
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenSpreadsResult>> GetRecentSpreadAsync(string symbol, DateTime? since = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenSpreadsResult>> GetRecentSpreadAsync(string symbol, DateTime? since = null, AClass? assetClass = null, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection()
             {
                 {"pair", symbol},
             };
+            parameters.AddOptionalEnum("asset_class", assetClass);
             parameters.AddOptionalParameter("since", DateTimeConverter.ConvertToSeconds(since));
 
             var request = _definitions.GetOrCreate(HttpMethod.Get, "0/public/Spread", KrakenExchange.RateLimiter.SpotRest, 1, false);

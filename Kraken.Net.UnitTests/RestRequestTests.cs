@@ -36,8 +36,8 @@ namespace Kraken.Net.UnitTests
             await tester.ValidateAsync(client => client.SpotApi.Account.GetDepositStatusAsync(), "GetDepositStatus");
             await tester.ValidateAsync(client => client.SpotApi.Account.GetWithdrawInfoAsync("ETH", "123", 1), "GetWithdrawInfo");
             await tester.ValidateAsync(client => client.SpotApi.Account.WithdrawAsync("ETH", "123", 1), "Withdraw");
-            await tester.ValidateAsync(client => client.SpotApi.Account.GetWithdrawAddressesAsync("ETH", "123"), "GetWithdrawAddresses");
-            await tester.ValidateAsync(client => client.SpotApi.Account.GetWithdrawMethodsAsync("ETH", "123"), "GetWithdrawMethods");
+            await tester.ValidateAsync(client => client.SpotApi.Account.GetWithdrawAddressesAsync("ETH", Enums.AClass.TokenizedAsset, "123"), "GetWithdrawAddresses");
+            await tester.ValidateAsync(client => client.SpotApi.Account.GetWithdrawMethodsAsync("ETH", Enums.AClass.TokenizedAsset, "123"), "GetWithdrawMethods");
             await tester.ValidateAsync(client => client.SpotApi.Account.GetWithdrawalStatusAsync("ETH", "123"), "GetWithdrawalStatus");
             await tester.ValidateAsync(client => client.SpotApi.Account.CancelWithdrawalAsync("ETH", "123"), "CancelWithdrawal");
             await tester.ValidateAsync(client => client.SpotApi.Account.TransferAsync("ETH", 1, "123", "123"), "Transfer");

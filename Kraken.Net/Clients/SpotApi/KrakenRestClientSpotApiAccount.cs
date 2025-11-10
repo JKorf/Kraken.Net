@@ -93,7 +93,15 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Ledger Info
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenLedgerPage>> GetLedgerInfoAsync(IEnumerable<string>? assets = null, IEnumerable<LedgerEntryType>? entryTypes = null, DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenLedgerPage>> GetLedgerInfoAsync(
+            IEnumerable<string>? assets = null, 
+            IEnumerable<LedgerEntryType>? entryTypes = null, 
+            AClass? assetClass = null,
+            DateTime? startTime = null,
+            DateTime? endTime = null, 
+            int? resultOffset = null, 
+            string? twoFactorPassword = null,
+            CancellationToken ct = default)
         {
             var parameters = new ParameterCollection();
             parameters.AddOptionalParameter("asset", assets != null ? string.Join(",", assets) : null);
@@ -101,6 +109,7 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.AddOptionalParameter("start", DateTimeConverter.ConvertToSeconds(startTime));
             parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToSeconds(endTime));
             parameters.AddOptionalParameter("ofs", resultOffset);
+            parameters.AddOptionalEnum("aClass", assetClass);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/Ledgers", KrakenExchange.RateLimiter.SpotRest, 1, true);
             var result = await _baseClient.SendAsync<KrakenLedgerPage>(request, parameters, ct).ConfigureAwait(false);
@@ -154,13 +163,14 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Deposit Methods
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenDepositMethod[]>> GetDepositMethodsAsync(string asset, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenDepositMethod[]>> GetDepositMethodsAsync(string asset, AClass? assetClass = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             asset.ValidateNotNull(nameof(asset));
             var parameters = new ParameterCollection()
             {
                 {"asset", asset}
             };
+            parameters.AddOptionalEnum("aclass", assetClass);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/DepositMethods", KrakenExchange.RateLimiter.SpotRest, 1, true);
             return await _baseClient.SendAsync<KrakenDepositMethod[]>(request, parameters, ct).ConfigureAwait(false);
@@ -171,7 +181,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Deposit Addresses
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenDepositAddress[]>> GetDepositAddressesAsync(string asset, string depositMethod, bool generateNew = false, decimal? quantity = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenDepositAddress[]>> GetDepositAddressesAsync(string asset, string depositMethod, bool generateNew = false, decimal? quantity = null, AClass? assetClass = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             asset.ValidateNotNull(nameof(asset));
             depositMethod.ValidateNotNull(nameof(depositMethod));
@@ -181,6 +191,7 @@ namespace Kraken.Net.Clients.SpotApi
                 {"method", depositMethod }
             };
 
+            parameters.AddOptionalEnum("aclass", assetClass);
             if (generateNew)
                 // If False is send it will still generate new, so only add it when it's true
                 parameters.Add("new", true);
@@ -197,11 +208,12 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Deposit Status
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenMovementStatus[]>> GetDepositStatusAsync(string? asset = null, string? depositMethod = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenMovementStatus[]>> GetDepositStatusAsync(string? asset = null, string? depositMethod = null, AClass? assetClass = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection();
             parameters.AddOptionalParameter("asset", asset);
             parameters.AddOptionalParameter("method", depositMethod);
+            parameters.AddOptionalEnum("aclass", assetClass);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/DepositStatus", KrakenExchange.RateLimiter.SpotRest, 1, true);
@@ -216,6 +228,7 @@ namespace Kraken.Net.Clients.SpotApi
         public async Task<WebCallResult<KrakenCursorPage<KrakenMovementStatus>>> GetDepositHistoryAsync(
             string? asset = null,
             string? depositMethod = null,
+            AClass? assetClass = null,
             DateTime? startTime = null,
             DateTime? endTime = null,
             int? limit = null,
@@ -229,6 +242,7 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.AddOptionalParameter("start", DateTimeConverter.ConvertToSeconds(startTime));
             parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToSeconds(endTime));
             parameters.AddOptionalParameter("limit", limit);
+            parameters.AddOptionalEnum("aclass", assetClass);
             parameters.AddOptionalParameter("cursor", cursor ?? "true");
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
@@ -264,7 +278,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region Withdraw
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenWithdraw>> WithdrawAsync(string asset, string key, decimal quantity, string? address = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenWithdraw>> WithdrawAsync(string asset, string key, decimal quantity, string? address = null, AClass? assetClass = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             asset.ValidateNotNull(nameof(asset));
             key.ValidateNotNull(nameof(key));
@@ -276,6 +290,7 @@ namespace Kraken.Net.Clients.SpotApi
                 {"amount", quantity.ToString(CultureInfo.InvariantCulture)}
             };
             parameters.AddOptionalParameter("address", address);
+            parameters.AddOptionalEnum("aclass", assetClass);
             parameters.AddOptionalParameter("otp", twoFactorPassword);
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/Withdraw", KrakenExchange.RateLimiter.SpotRest, 1, true);
@@ -287,11 +302,11 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Withdraw Addresses
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenWithdrawAddress[]>> GetWithdrawAddressesAsync(string? asset = null, string? aclass = null, string? method = null, string? key = null, bool? verified = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenWithdrawAddress[]>> GetWithdrawAddressesAsync(string? asset = null, AClass? assetClass = null, string? method = null, string? key = null, bool? verified = null, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection();
             parameters.AddOptionalParameter("asset", asset);
-            parameters.AddOptionalParameter("aclass", aclass);
+            parameters.AddOptionalEnum("aclass", assetClass);
             parameters.AddOptionalParameter("method", method);
             parameters.AddOptionalParameter("key", key);
             parameters.AddOptionalParameter("verified", verified);
@@ -305,11 +320,11 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Withdraw Methods
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenWithdrawMethod[]>> GetWithdrawMethodsAsync(string? asset = null, string? aclass = null, string? network = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenWithdrawMethod[]>> GetWithdrawMethodsAsync(string? asset = null, AClass? assetClass = null, string? network = null, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection();
             parameters.AddOptionalParameter("asset", asset);
-            parameters.AddOptionalParameter("aclass", aclass);
+            parameters.AddOptionalEnum("aclass", assetClass);
             parameters.AddOptionalParameter("network", network);
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/WithdrawMethods", KrakenExchange.RateLimiter.SpotRest, 1, true);
@@ -321,11 +336,12 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Withdrawal Status
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenMovementStatus[]>> GetWithdrawalStatusAsync(string? asset = null, string? withdrawalMethod = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenMovementStatus[]>> GetWithdrawalStatusAsync(string? asset = null, string? withdrawalMethod = null, AClass? assetClass = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection();
             parameters.AddOptionalParameter("asset", asset);
             parameters.AddOptionalParameter("method", withdrawalMethod);
+            parameters.AddOptionalEnum("aclass", assetClass);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/WithdrawStatus", KrakenExchange.RateLimiter.SpotRest, 1, true);

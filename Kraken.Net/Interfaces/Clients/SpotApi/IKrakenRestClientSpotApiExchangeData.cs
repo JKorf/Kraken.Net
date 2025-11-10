@@ -30,10 +30,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-asset-info" /></para>
         /// </summary>
         /// <param name="assets">Filter list for specific assets, for example `ETH`</param>
+        /// <param name="aClass">Filter by asset class</param>
         /// <param name="newAssetNameResponse">When set to true the asset names will be in the new format, for example `BTC` instead of `XBT`. Default is false.</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary of asset info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(IEnumerable<string>? assets = null, bool? newAssetNameResponse = null, CancellationToken ct = default);
+        Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(IEnumerable<string>? assets = null, AClass? aClass = null, bool? newAssetNameResponse = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get a list of symbols and info about them
@@ -41,10 +42,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </summary>
         /// <param name="countryCode">Filter what's available for a specific country/region</param>
         /// <param name="symbols">Filter list for specific symbols, for example `ETHUSDT`</param>
+        /// <param name="aClass">Filter by asset class</param>
         /// <param name="newAssetNameResponse">When set to true the asset names will be in the new format, for example `BTC` instead of `XBT`. Default is false.</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary of symbol info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, string? countryCode = null, bool? newAssetNameResponse = null, CancellationToken ct = default);
+        Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, string? countryCode = null, AClass? aClass = null, bool? newAssetNameResponse = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get tickers for symbol
@@ -72,9 +74,10 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="symbol">The symbol to get data for, for example `ETHUSDT`</param>
         /// <param name="interval">The interval of the klines</param>
         /// <param name="since">Return klines since a specific time</param>
+        /// <param name="aClass">Asset class, required to be `TokenizedAsset` when requesting for xstocks</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Kline data</returns>
-        Task<WebCallResult<KrakenKlinesResult>> GetKlinesAsync(string symbol, KlineInterval interval, DateTime? since = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenKlinesResult>> GetKlinesAsync(string symbol, KlineInterval interval, DateTime? since = null, AClass? aClass = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get the order book for a symbol
@@ -82,9 +85,10 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </summary>
         /// <param name="symbol">Symbol to get the book for, for example `ETHUSDT`</param>
         /// <param name="limit">Limit to book to the best x bids/asks</param>
+        /// <param name="aClass">Asset class, required to be `TokenizedAsset` when requesting for xstocks</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Order book for the symbol</returns>
-        Task<WebCallResult<KrakenOrderBook>> GetOrderBookAsync(string symbol, int? limit = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenOrderBook>> GetOrderBookAsync(string symbol, int? limit = null, AClass? aClass = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get a list of recent trades for a symbol
@@ -93,9 +97,10 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="symbol">Symbol to get trades for, for example `ETHUSDT`</param>
         /// <param name="since">Return trades since a specific time</param>
         /// <param name="limit">Max amount of results</param>
+        /// <param name="aClass">Asset class, required to be `TokenizedAsset` when requesting for xstocks</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Recent trades</returns>
-        Task<WebCallResult<KrakenTradesResult>> GetTradeHistoryAsync(string symbol, DateTime? since = null, int? limit = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenTradesResult>> GetTradeHistoryAsync(string symbol, DateTime? since = null, int? limit = null, AClass? aClass = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get spread data for a symbol
@@ -103,9 +108,10 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </summary>
         /// <param name="symbol">Symbol to get spread data for, for example `ETHUSDT`</param>
         /// <param name="since">Return spread data since a specific time</param>
+        /// <param name="aClass">Asset class, required to be `TokenizedAsset` when requesting for xstocks</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Spread data</returns>
-        Task<WebCallResult<KrakenSpreadsResult>> GetRecentSpreadAsync(string symbol, DateTime? since = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenSpreadsResult>> GetRecentSpreadAsync(string symbol, DateTime? since = null, AClass? aClass = null, CancellationToken ct = default);
 
     }
 }

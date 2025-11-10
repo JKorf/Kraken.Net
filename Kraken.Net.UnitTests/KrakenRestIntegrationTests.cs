@@ -53,10 +53,10 @@ namespace Kraken.Net.UnitTests
             await RunAndCheckResult(client => client.SpotApi.Account.GetAvailableBalancesAsync(default, default), true);
             await RunAndCheckResult(client => client.SpotApi.Account.GetTradeBalanceAsync(default, default, default), true);
             await RunAndCheckResult(client => client.SpotApi.Account.GetOpenPositionsAsync(default, default, default), true);
-            await RunAndCheckResult(client => client.SpotApi.Account.GetLedgerInfoAsync(default, default, default, default, default, default, default), true);
+            await RunAndCheckResult(client => client.SpotApi.Account.GetLedgerInfoAsync(default, default, default, default, default, default, default, default), true);
             await RunAndCheckResult(client => client.SpotApi.Account.GetTradeVolumeAsync(default, default, default), true);
-            await RunAndCheckResult(client => client.SpotApi.Account.GetDepositMethodsAsync("ETH", default, default), true);
-            await RunAndCheckResult(client => client.SpotApi.Account.GetDepositStatusAsync(default, default, default, default), true);
+            await RunAndCheckResult(client => client.SpotApi.Account.GetDepositMethodsAsync("ETH", default, default, default), true);
+            await RunAndCheckResult(client => client.SpotApi.Account.GetDepositStatusAsync(default, default, default, default, default), true);
             await RunAndCheckResult(client => client.SpotApi.Account.GetWithdrawAddressesAsync(default, default, default, default, default, default), true);
             await RunAndCheckResult(client => client.SpotApi.Account.GetWithdrawMethodsAsync(default, default, default, default), true);
         }
@@ -66,14 +66,14 @@ namespace Kraken.Net.UnitTests
         {
             await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetServerTimeAsync(default), false);
             await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetSystemStatusAsync(default), false);
-            await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetAssetsAsync(default, default, default), false);
-            await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetSymbolsAsync(default, default, default, default), false);
+            await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetAssetsAsync(default, default, default, default), false);
+            await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetSymbolsAsync(default, default, default, default, default), false);
             await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetTickerAsync("ETHUSDT", default), false);
             await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetTickersAsync(default, default, default), false);
-            await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetKlinesAsync("ETHUSDT", Enums.KlineInterval.OneDay, default, default), false);
-            await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetOrderBookAsync("ETHUSDT", default, default), false);
-            await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetTradeHistoryAsync("ETHUSDT", default, default, default), false);
-            await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetRecentSpreadAsync("ETHUSDT", default, default), false);
+            await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetKlinesAsync("ETHUSDT", Enums.KlineInterval.OneDay, default, default, default), false);
+            await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetOrderBookAsync("ETHUSDT", default, default, default), false);
+            await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetTradeHistoryAsync("ETHUSDT", default, default, default, default), false);
+            await RunAndCheckResult(client => client.SpotApi.ExchangeData.GetRecentSpreadAsync("ETHUSDT", default, default, default), false);
         }
 
         [Test]

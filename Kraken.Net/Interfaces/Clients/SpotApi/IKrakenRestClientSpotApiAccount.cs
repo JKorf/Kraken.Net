@@ -55,13 +55,22 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </summary>
         /// <param name="assets">Filter list by asset names, for example `USDT`</param>
         /// <param name="entryTypes">Filter list by entry types</param>
+        /// <param name="assetClass">Filter by asset class</param>
         /// <param name="startTime">Return data after this time</param>
         /// <param name="endTime">Return data before this time</param>
         /// <param name="resultOffset">Offset the results by</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Ledger entries page</returns>
-        Task<WebCallResult<KrakenLedgerPage>> GetLedgerInfoAsync(IEnumerable<string>? assets = null, IEnumerable<LedgerEntryType>? entryTypes = null, DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenLedgerPage>> GetLedgerInfoAsync(
+            IEnumerable<string>? assets = null,
+            IEnumerable<LedgerEntryType>? entryTypes = null,
+            AClass? assetClass = null,
+            DateTime? startTime = null,
+            DateTime? endTime = null, 
+            int? resultOffset = null,
+            string? twoFactorPassword = null,
+            CancellationToken ct = default);
 
         /// <summary>
         /// Get info on specific ledger entries
@@ -88,10 +97,15 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-deposit-methods" /></para>
         /// </summary>
         /// <param name="asset">Asset to get methods for, for example `ETH`</param>
+        /// <param name="assetClass">Filter by asset class</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Array with methods for deposit</returns>
-        Task<WebCallResult<KrakenDepositMethod[]>> GetDepositMethodsAsync(string asset, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenDepositMethod[]>> GetDepositMethodsAsync(
+            string asset,
+            AClass? assetClass = null,
+            string? twoFactorPassword = null,
+            CancellationToken ct = default);
 
         /// <summary>
         /// Get deposit addresses for an asset
@@ -101,10 +115,18 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="depositMethod">The method of deposit</param>
         /// <param name="generateNew">Whether to generate a new address</param>
         /// <param name="quantity">Amount you wish to deposit (only required for depositMethod=Bitcoin Lightning)</param>
+        /// <param name="assetClass">Filter by asset class</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenDepositAddress[]>> GetDepositAddressesAsync(string asset, string depositMethod, bool generateNew = false, decimal? quantity = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenDepositAddress[]>> GetDepositAddressesAsync(
+            string asset,
+            string depositMethod,
+            bool generateNew = false,
+            decimal? quantity = null,
+            AClass? assetClass = null,
+            string? twoFactorPassword = null,
+            CancellationToken ct = default);
 
         /// <summary>
         /// Get status of deposits
@@ -112,10 +134,16 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </summary>
         /// <param name="asset">Asset to get deposit info for, for example `ETH`</param>
         /// <param name="depositMethod">The deposit method</param>
+        /// <param name="assetClass">Filter by asset class</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Deposit status list</returns>
-        Task<WebCallResult<KrakenMovementStatus[]>> GetDepositStatusAsync(string? asset = null, string? depositMethod = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenMovementStatus[]>> GetDepositStatusAsync(
+            string? asset = null,
+            string? depositMethod = null,
+            AClass? assetClass = null,
+            string? twoFactorPassword = null,
+            CancellationToken ct = default);
 
         /// <summary>
         /// Get deposit history
@@ -123,6 +151,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </summary>
         /// <param name="asset">Asset filter, for example `ETH`</param>
         /// <param name="depositMethod">Deposit method</param>
+        /// <param name="assetClass">Filter by asset class</param>
         /// <param name="startTime">Filter by start time</param>
         /// <param name="endTime">Filter by end time</param>
         /// <param name="limit">Max number of results</param>
@@ -133,6 +162,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         Task<WebCallResult<KrakenCursorPage<KrakenMovementStatus>>> GetDepositHistoryAsync(
             string? asset = null,
             string? depositMethod = null,
+            AClass? assetClass = null,
             DateTime? startTime = null,
             DateTime? endTime = null,
             int? limit = null,
@@ -161,34 +191,35 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="key">The withdrawal key name, as set up on your account</param>
         /// <param name="quantity">The quantity to withdraw, including fees</param>
         /// <param name="address">Crypto address that can be used to confirm address matches key(will return Invalid withdrawal address error if different)</param>
+        /// <param name="assetClass">Asset class</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Withdraw reference id</returns>
-        Task<WebCallResult<KrakenWithdraw>> WithdrawAsync(string asset, string key, decimal quantity, string? address = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenWithdraw>> WithdrawAsync(string asset, string key, decimal quantity, string? address = null, AClass? assetClass = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get withdraw addresses
         /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-withdrawal-addresses" /></para>
         /// </summary>
         /// <param name="asset">The asset to get the deposit address for, for example `ETH`</param>
-        /// <param name="aclass">Filter addresses for specific asset class</param>
+        /// <param name="assetClass">Filter addresses for specific asset class</param>
         /// <param name="method">Filter addresses for specific method</param>
         /// <param name="key">Find address for by withdrawal key name, as set up on your account</param>
         /// <param name="verified">Filter by verification status of the withdrawal address. Withdrawal addresses successfully completing email confirmation will have a verification status of true</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of withdraw addresses</returns>
-        Task<WebCallResult<KrakenWithdrawAddress[]>> GetWithdrawAddressesAsync(string? asset = null, string? aclass = null, string? method = null, string? key = null, bool? verified = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenWithdrawAddress[]>> GetWithdrawAddressesAsync(string? asset = null, AClass? assetClass = null, string? method = null, string? key = null, bool? verified = null, CancellationToken ct = default);
 
         /// <summary>
         /// Retrieve a list of withdrawal methods available for the user.
         /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-withdrawal-methods" /></para>
         /// </summary>
         /// <param name="asset">The asset to get the deposit address for, for example `ETH`</param>
-        /// <param name="aclass">Filter addresses for specific asset class</param>
+        /// <param name="assetClass">Filter addresses for specific asset class</param>
         /// <param name="network">Filter methods for specific network</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of withdraw addresses</returns>
-        Task<WebCallResult<KrakenWithdrawMethod[]>> GetWithdrawMethodsAsync(string? asset = null, string? aclass = null, string? network = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenWithdrawMethod[]>> GetWithdrawMethodsAsync(string? asset = null, AClass? assetClass = null, string? network = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get the token to connect to the private websocket streams. Note that this endpoint is used internally and there is normally no need to call this.
@@ -203,11 +234,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-status-recent-withdrawals" /></para>
         /// </summary>
         /// <param name="asset">Filter by asset, for example `ETH`</param>
+        /// <param name="assetClass">Filter addresses for specific asset class</param>
         /// <param name="withdrawalMethod">Filter by method</param>
         /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenMovementStatus[]>> GetWithdrawalStatusAsync(string? asset = null, string? withdrawalMethod = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<WebCallResult<KrakenMovementStatus[]>> GetWithdrawalStatusAsync(string? asset = null, string? withdrawalMethod = null, AClass? assetClass = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get withdrawal history
