@@ -13,6 +13,9 @@ namespace Kraken.Net.SymbolOrderBooks
         private readonly IServiceProvider _serviceProvider;
 
         /// <inheritdoc />
+        public string ExchangeName => KrakenExchange.ExchangeName;
+
+        /// <inheritdoc />
         public IOrderBookFactory<KrakenOrderBookOptions> Spot { get; }
 
         /// <inheritdoc />

@@ -6,7 +6,7 @@ namespace Kraken.Net.Interfaces
     /// <summary>
     /// Kraken order book factory
     /// </summary>
-    public interface IKrakenOrderBookFactory
+    public interface IKrakenOrderBookFactory : IExchangeService
     {
         /// <summary>
         /// Spot order book factory methods

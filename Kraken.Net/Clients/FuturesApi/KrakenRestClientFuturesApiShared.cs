@@ -79,9 +79,10 @@ namespace Kraken.Net.Clients.FuturesApi
                     endTime = startTime.Value.AddSeconds((limit * (int)interval) - 1);
             }
 
+            var symbol = request.Symbol!.GetSymbol(FormatSymbol);
             var result = await ExchangeData.GetKlinesAsync(
                 Enums.TickType.Trade,
-                request.Symbol!.GetSymbol(FormatSymbol),
+                symbol,
                 interval,
                 startTime,
                 endTime,
@@ -99,7 +100,8 @@ namespace Kraken.Net.Clients.FuturesApi
                     nextToken = new DateTimeToken(maxOpenTime.AddSeconds(1));
             }
 
-            return result.AsExchangeResult<SharedKline[]>(Exchange, request.Symbol.TradingMode, result.Data.Klines.Select(x => new SharedKline(x.Timestamp, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume)).ToArray(), nextToken);
+            return result.AsExchangeResult<SharedKline[]>(Exchange, request.Symbol.TradingMode, result.Data.Klines.Select(x => 
+                new SharedKline(request.Symbol, symbol, x.Timestamp, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume)).ToArray(), nextToken);
         }
 
         #endregion
@@ -140,8 +142,9 @@ namespace Kraken.Net.Clients.FuturesApi
             if (validationError != null)
                 return new ExchangeWebResult<SharedTrade[]>(Exchange, validationError);
 
+            var symbol = request.Symbol!.GetSymbol(FormatSymbol);
             var result = await ExchangeData.GetTradesAsync(
-                request.Symbol!.GetSymbol(FormatSymbol),
+                symbol,
                 ct: ct).ConfigureAwait(false);
             if (!result)
                 return result.AsExchangeResult<SharedTrade[]>(Exchange, null, default);
@@ -150,7 +153,8 @@ namespace Kraken.Net.Clients.FuturesApi
             if (request.Limit != null)
                 data = data.Take(request.Limit.Value).ToArray();
 
-            return result.AsExchangeResult<SharedTrade[]>(Exchange, request.Symbol.TradingMode, data.Select(x => new SharedTrade(x.Quantity!.Value, x.Price, x.Timestamp!.Value)
+            return result.AsExchangeResult<SharedTrade[]>(Exchange, request.Symbol.TradingMode, data.Select(x => 
+            new SharedTrade(request.Symbol, symbol, x.Quantity!.Value, x.Price, x.Timestamp!.Value)
             {
                 Side = x.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell
             }).ToArray());
@@ -234,7 +238,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #region Ticker client
 
-        EndpointOptions<GetTickerRequest> IFuturesTickerRestClient.GetFuturesTickerOptions { get; } = new EndpointOptions<GetTickerRequest>(false);
+        GetTickerOptions IFuturesTickerRestClient.GetFuturesTickerOptions { get; } = new GetTickerOptions();
         async Task<ExchangeWebResult<SharedFuturesTicker>> IFuturesTickerRestClient.GetFuturesTickerAsync(GetTickerRequest request, CancellationToken ct)
         {
             var validationError = ((IFuturesTickerRestClient)this).GetFuturesTickerOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
@@ -256,7 +260,7 @@ namespace Kraken.Net.Clients.FuturesApi
             });
         }
 
-        EndpointOptions<GetTickersRequest> IFuturesTickerRestClient.GetFuturesTickersOptions { get; } = new EndpointOptions<GetTickersRequest>(false);
+        GetTickersOptions IFuturesTickerRestClient.GetFuturesTickersOptions { get; } = new GetTickersOptions();
         async Task<ExchangeWebResult<SharedFuturesTicker[]>> IFuturesTickerRestClient.GetFuturesTickersAsync(GetTickersRequest request, CancellationToken ct)
         {
             var validationError = ((IFuturesTickerRestClient)this).GetFuturesTickersOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
@@ -342,9 +346,10 @@ namespace Kraken.Net.Clients.FuturesApi
                     endTime = startTime.Value.AddSeconds((limit * (int)interval) - 1);
             }
 
+            var symbol = request.Symbol!.GetSymbol(FormatSymbol);
             var result = await ExchangeData.GetKlinesAsync(
                 Enums.TickType.Mark,
-                request.Symbol!.GetSymbol(FormatSymbol),
+                symbol,
                 interval,
                 startTime,
                 endTime,
@@ -362,7 +367,8 @@ namespace Kraken.Net.Clients.FuturesApi
                     nextToken = new DateTimeToken(maxOpenTime.AddSeconds(1));
             }
 
-            return result.AsExchangeResult<SharedFuturesKline[]>(Exchange, request.Symbol.TradingMode, result.Data.Klines.Select(x => new SharedFuturesKline(x.Timestamp, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice)).ToArray(), nextToken);
+            return result.AsExchangeResult<SharedFuturesKline[]>(Exchange, request.Symbol.TradingMode, result.Data.Klines.Select(x => 
+                new SharedFuturesKline(request.Symbol, symbol, x.Timestamp, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice)).ToArray(), nextToken);
         }
 
         #endregion

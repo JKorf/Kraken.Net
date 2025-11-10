@@ -286,6 +286,9 @@
         <member name="T:Kraken.Net.Clients.KrakenUserClientProvider">
             <inheritdoc />
         </member>
+        <member name="P:Kraken.Net.Clients.KrakenUserClientProvider.ExchangeName">
+            <inheritdoc />
+        </member>
         <member name="M:Kraken.Net.Clients.KrakenUserClientProvider.#ctor(System.Action{Kraken.Net.Objects.Options.KrakenOptions})">
             <summary>
             ctor
@@ -13037,6 +13040,9 @@
             </summary>
         </member>
         <member name="T:Kraken.Net.SymbolOrderBooks.KrakenOrderBookFactory">
+            <inheritdoc />
+        </member>
+        <member name="P:Kraken.Net.SymbolOrderBooks.KrakenOrderBookFactory.ExchangeName">
             <inheritdoc />
         </member>
         <member name="P:Kraken.Net.SymbolOrderBooks.KrakenOrderBookFactory.Spot">

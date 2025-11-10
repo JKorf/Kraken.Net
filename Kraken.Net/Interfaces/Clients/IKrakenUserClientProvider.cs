@@ -5,7 +5,7 @@ namespace Kraken.Net.Interfaces.Clients
     /// <summary>
     /// Provider for clients with credentials for specific users
     /// </summary>
-    public interface IKrakenUserClientProvider
+    public interface IKrakenUserClientProvider : IExchangeService
     {
         /// <summary>
         /// Initialize a client for the specified user identifier. This can be used so to initialize a client for a user so ApiCredentials do not need to be passed later.
