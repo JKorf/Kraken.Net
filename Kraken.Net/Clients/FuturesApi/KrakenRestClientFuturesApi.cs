@@ -1,12 +1,15 @@
 ﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Converters.MessageParsing.DynamicConverters;
 using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.SharedApis;
+using Kraken.Net.Clients.MessageHandlers;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Models.Futures;
 using Kraken.Net.Objects.Options;
 using System;
+using System.Net.Http.Headers;
 
 namespace Kraken.Net.Clients.FuturesApi
 {
@@ -21,6 +24,7 @@ namespace Kraken.Net.Clients.FuturesApi
         internal static TimeSyncState _timeSyncState = new TimeSyncState("Futures Api");
 
         protected override ErrorMapping ErrorMapping => KrakenErrors.FuturesMapping;
+        protected override IRestMessageHandler MessageHandler { get; } = new KrakenRestFuturesMessageHandler(KrakenErrors.FuturesMapping);
         #endregion
 
         #region Api clients
@@ -94,7 +98,7 @@ namespace Kraken.Net.Clients.FuturesApi
         internal async Task<WebCallResult<T>> SendRawAsync<T>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T: class
             => await base.SendAsync<T>(BaseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
 
-        protected override Error? TryParseError(RequestDefinition request, KeyValuePair<string, string[]>[] responseHeaders, IMessageAccessor accessor)
+        protected override Error? TryParseError(RequestDefinition request, HttpResponseHeaders responseHeaders, IMessageAccessor accessor)
         {
             if (!accessor.IsValid)
                 return new ServerError(ErrorInfo.Unknown);
@@ -116,7 +120,7 @@ namespace Kraken.Net.Clients.FuturesApi
         }
 
         /// <inheritdoc />
-        protected override Error ParseErrorResponse(int httpStatusCode, KeyValuePair<string, string[]>[] responseHeaders, IMessageAccessor accessor, Exception? exception)
+        protected override Error ParseErrorResponse(int httpStatusCode, HttpResponseHeaders responseHeaders, IMessageAccessor accessor, Exception? exception)
         {
             if (!accessor.IsValid)
                 return new ServerError(ErrorInfo.Unknown, exception: exception);

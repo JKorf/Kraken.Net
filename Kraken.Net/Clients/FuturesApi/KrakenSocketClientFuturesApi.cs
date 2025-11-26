@@ -1,8 +1,10 @@
 using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Converters.MessageParsing;
+using CryptoExchange.Net.Converters.MessageParsing.DynamicConverters;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Sockets;
+using Kraken.Net.Clients.MessageHandlers;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Models.Socket.Futures;
@@ -42,6 +44,8 @@ namespace Kraken.Net.Clients.FuturesApi
         protected override IByteMessageAccessor CreateAccessor(WebSocketMessageType type) => new SystemTextJsonByteMessageAccessor(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
 
         protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
+
+        public override ISocketMessageHandler CreateMessageConverter(WebSocketMessageType messageType) => new KrakenSocketFuturesMessageHandler();
 
         /// <inheritdoc />
         public IKrakenSocketClientFuturesApiShared SharedClient => this;
@@ -86,7 +90,17 @@ namespace Kraken.Net.Clients.FuturesApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToHeartbeatUpdatesAsync(Action<DataEvent<KrakenFuturesHeartbeatUpdate>> handler, CancellationToken ct = default)
         {
-            var subscription = new KrakenFuturesSubscription<KrakenFuturesHeartbeatUpdate>(_logger, this, "heartbeat", null, x => handler(x.WithDataTimestamp(x.Data.Timestamp)));
+            var internalHandler = new Action<DateTime, string?, KrakenFuturesHeartbeatUpdate>((receiveTime, originalData, data) =>
+            {
+                handler.Invoke(
+                    new DataEvent<KrakenFuturesHeartbeatUpdate>(data, receiveTime, originalData)
+                        .WithStreamId(data.Feed)
+                        .WithUpdateType(SocketUpdateType.Update)
+                        .WithDataTimestamp(data.Timestamp)
+                    );
+            });
+
+            var subscription = new KrakenFuturesSubscription<KrakenFuturesHeartbeatUpdate>(_logger, this, "heartbeat", null, internalHandler);
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -101,7 +115,18 @@ namespace Kraken.Net.Clients.FuturesApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesTickerUpdate>> handler, CancellationToken ct = default)
         {
-            var subscription = new KrakenFuturesSubscription<KrakenFuturesTickerUpdate>(_logger, this, "ticker", symbols.ToList(), x => handler(x.WithDataTimestamp(x.Data.Timestamp)));
+            var internalHandler = new Action<DateTime, string?, KrakenFuturesTickerUpdate>((receiveTime, originalData, data) =>
+            {
+                handler.Invoke(
+                    new DataEvent<KrakenFuturesTickerUpdate>(data, receiveTime, originalData)
+                        .WithStreamId(data.Feed)
+                        .WithUpdateType(SocketUpdateType.Update)
+                        .WithSymbol(data.Symbol)
+                        .WithDataTimestamp(data.Timestamp)
+                    );
+            });
+
+            var subscription = new KrakenFuturesSubscription<KrakenFuturesTickerUpdate>(_logger, this, "ticker", symbols.ToList(), internalHandler);
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -134,7 +159,17 @@ namespace Kraken.Net.Clients.FuturesApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToMiniTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesMiniTickerUpdate>> handler, CancellationToken ct = default)
         {
-            var subscription = new KrakenFuturesSubscription<KrakenFuturesMiniTickerUpdate>(_logger, this, "ticker_lite", symbols.ToList(), x => handler(x));
+            var internalHandler = new Action<DateTime, string?, KrakenFuturesMiniTickerUpdate>((receiveTime, originalData, data) =>
+            {
+                handler.Invoke(
+                    new DataEvent<KrakenFuturesMiniTickerUpdate>(data, receiveTime, originalData)
+                        .WithStreamId(data.Feed)
+                        .WithSymbol(data.Symbol)
+                        .WithUpdateType(SocketUpdateType.Update)
+                    );
+            });
+
+            var subscription = new KrakenFuturesSubscription<KrakenFuturesMiniTickerUpdate>(_logger, this, "ticker_lite", symbols.ToList(), internalHandler);
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 

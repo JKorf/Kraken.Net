@@ -1,9 +1,11 @@
 using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Converters.MessageParsing;
+using CryptoExchange.Net.Converters.MessageParsing.DynamicConverters;
 using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Sockets;
+using Kraken.Net.Clients.MessageHandlers;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
@@ -83,6 +85,8 @@ namespace Kraken.Net.Clients.SpotApi
 
         protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
 
+        public override ISocketMessageHandler CreateMessageConverter(WebSocketMessageType messageType) => new KrakenSocketSpotMessageHandler();
+
         /// <inheritdoc />
         public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
         {
@@ -146,18 +150,36 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenTickerUpdate>> handler, TriggerEvent? eventTrigger = null, bool? snapshot = null, CancellationToken ct = default)
         {
-            var subscription = new KrakenSubscriptionV2<KrakenTickerUpdate[]>(_logger, this, "ticker", [symbol], null, snapshot, null, eventTrigger, null,
-                x => handler(x.As(x.Data.First())
-                .WithSymbol(x.Data.First().Symbol)));
+            var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenTickerUpdate[]>>((receiveTime, originalData, data) =>
+            {
+                handler.Invoke(
+                    new DataEvent<KrakenTickerUpdate>(data.Data.First(), receiveTime, originalData)
+                        .WithStreamId(data.Channel)
+                        .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
+                        .WithSymbol(data.Data.First().Symbol)
+                        .WithDataTimestamp(data.Timestamp)
+                    );
+            });
+
+            var subscription = new KrakenSubscriptionV2<KrakenTickerUpdate[]>(_logger, this, "ticker", [symbol], null, snapshot, null, eventTrigger, null, internalHandler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenTickerUpdate>> handler, TriggerEvent? eventTrigger = null, bool? snapshot = null, CancellationToken ct = default)
         {
-            var subscription = new KrakenSubscriptionV2<KrakenTickerUpdate[]>(_logger, this, "ticker", symbols, null, snapshot, null, eventTrigger, null,
-                x => handler(x.As(x.Data.First()).WithSymbol(x.Data.First().Symbol))
-                );
+            var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenTickerUpdate[]>>((receiveTime, originalData, data) =>
+            {
+                handler.Invoke(
+                    new DataEvent<KrakenTickerUpdate>(data.Data.First(), receiveTime, originalData)
+                        .WithStreamId(data.Channel)
+                        .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
+                        .WithSymbol(data.Data.First().Symbol)
+                        .WithDataTimestamp(data.Timestamp)
+                    );
+            });
+
+            var subscription = new KrakenSubscriptionV2<KrakenTickerUpdate[]>(_logger, this, "ticker", symbols, null, snapshot, null, eventTrigger, null, internalHandler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -172,9 +194,18 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(IEnumerable<string> symbols, KlineInterval interval, Action<DataEvent<KrakenKlineUpdate[]>> handler, bool? snapshot = null, CancellationToken ct = default)
         {
-            var subscription = new KrakenSubscriptionV2<KrakenKlineUpdate[]>(_logger, this, "ohlc", symbols.ToArray(), int.Parse(EnumConverter.GetString(interval)), snapshot, null, null, null,
-                x => handler(x.WithSymbol(x.Data.First().Symbol))
-                );
+            var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenKlineUpdate[]>>((receiveTime, originalData, data) =>
+            {
+                handler.Invoke(
+                    new DataEvent<KrakenKlineUpdate[]>(data.Data, receiveTime, originalData)
+                        .WithStreamId(data.Channel)
+                        .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
+                        .WithSymbol(data.Data.First().Symbol)
+                        .WithDataTimestamp(data.Timestamp)
+                    );
+            });
+
+            var subscription = new KrakenSubscriptionV2<KrakenKlineUpdate[]>(_logger, this, "ohlc", symbols.ToArray(), int.Parse(EnumConverter.GetString(interval)), snapshot, null, null, null, internalHandler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -189,9 +220,18 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenTradeUpdate[]>> handler, bool? snapshot = null, CancellationToken ct = default)
         {
-            var subscription = new KrakenSubscriptionV2<KrakenTradeUpdate[]>(_logger, this, "trade", symbols.ToArray(), null, snapshot, null, null, null,
-                x => handler(x.WithSymbol(x.Data.First().Symbol))
-                );
+            var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenTradeUpdate[]>>((receiveTime, originalData, data) =>
+            {
+                handler.Invoke(
+                    new DataEvent<KrakenTradeUpdate[]>(data.Data, receiveTime, originalData)
+                        .WithStreamId(data.Channel)
+                        .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
+                        .WithSymbol(data.Data.First().Symbol)
+                        .WithDataTimestamp(data.Timestamp)
+                    );
+            });
+
+            var subscription = new KrakenSubscriptionV2<KrakenTradeUpdate[]>(_logger, this, "trade", symbols.ToArray(), null, snapshot, null, null, null, internalHandler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -208,9 +248,17 @@ namespace Kraken.Net.Clients.SpotApi
         {
             depth.ValidateIntValues(nameof(depth), 10, 25, 100, 500, 1000);
 
-            var subscription = new KrakenSubscriptionV2<KrakenBookUpdate[]>(_logger, this, "book", symbols.ToArray(), null, snapshot, depth, null, null,
-                x => handler(x.As(x.Data.First()).WithSymbol(x.Data.First().Symbol).WithDataTimestamp(x.Data.First().Timestamp))
-                );
+            var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenBookUpdate[]>>((receiveTime, originalData, data) =>
+            {
+                handler.Invoke(
+                    new DataEvent<KrakenBookUpdate>(data.Data.First(), receiveTime, originalData)
+                        .WithStreamId(data.Channel)
+                        .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
+                        .WithSymbol(data.Data.First().Symbol)
+                        .WithDataTimestamp(data.Data.First().Timestamp)
+                    );
+            });
+            var subscription = new KrakenSubscriptionV2<KrakenBookUpdate[]>(_logger, this, "book", symbols.ToArray(), null, snapshot, depth, null, null, internalHandler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -231,9 +279,17 @@ namespace Kraken.Net.Clients.SpotApi
             if (!token)
                 return new CallResult<UpdateSubscription>(token.Error!);
 
-            var subscription = new KrakenSubscriptionV2<KrakenIndividualBookUpdate[]>(_logger, this, "level3", symbols.ToArray(), null, snapshot, depth, null, token.Data,
-                x => handler(x.As(x.Data.First()).WithSymbol(x.Data.First().Symbol))
-                );
+            var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenIndividualBookUpdate[]>>((receiveTime, originalData, data) =>
+            {
+                handler.Invoke(
+                    new DataEvent<KrakenIndividualBookUpdate>(data.Data.First(), receiveTime, originalData)
+                        .WithStreamId(data.Channel)
+                        .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
+                        .WithSymbol(data.Data.First().Symbol)
+                        .WithDataTimestamp(data.Timestamp)
+                    );
+            });
+            var subscription = new KrakenSubscriptionV2<KrakenIndividualBookUpdate[]>(_logger, this, "level3", symbols.ToArray(), null, snapshot, depth, null, token.Data, internalHandler);
             return await SubscribeAsync(_privateBaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -244,7 +300,17 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToInstrumentUpdatesAsync(Action<DataEvent<KrakenInstrumentUpdate>> handler, bool? snapshot = null, CancellationToken ct = default)
         {
-            var subscription = new KrakenSubscriptionV2<KrakenInstrumentUpdate>(_logger, this, "instrument", null, null, snapshot, null, null, null, handler);
+            var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenInstrumentUpdate>>((receiveTime, originalData, data) =>
+            {
+                handler.Invoke(
+                    new DataEvent<KrakenInstrumentUpdate>(data.Data, receiveTime, originalData)
+                        .WithStreamId(data.Channel)
+                        .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
+                        .WithDataTimestamp(data.Timestamp)
+                    );
+            });
+
+            var subscription = new KrakenSubscriptionV2<KrakenInstrumentUpdate>(_logger, this, "instrument", null, null, snapshot, null, null, null, internalHandler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 

@@ -62,9 +62,14 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 }, false);
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenSocketUpdateV2<KrakenOrderUpdate[]>> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketUpdateV2<KrakenOrderUpdate[]> message)
         {
-            _updateHandler.Invoke(message.As(message.Data.Data, "executions", null, message.Data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update).WithDataTimestamp(message.Data.Timestamp));
+            _updateHandler?.Invoke(
+                new DataEvent<KrakenOrderUpdate[]>(message.Data, receiveTime, originalData)
+                    .WithStreamId("executions")
+                    .WithUpdateType(message.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
+                    .WithDataTimestamp(message.Timestamp)
+                );
             return CallResult.SuccessResult;
         }
     }

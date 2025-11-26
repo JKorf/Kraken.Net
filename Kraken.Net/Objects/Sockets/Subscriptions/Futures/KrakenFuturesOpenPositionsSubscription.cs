@@ -46,9 +46,13 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 Authenticated);
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesOpenPositionUpdate> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesOpenPositionUpdate message)
         {
-            _handler.Invoke(message.As(message.Data, message.Data.Feed, null, ConnectionInvocations == 1 ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
+            _handler.Invoke(
+                new DataEvent<KrakenFuturesOpenPositionUpdate>(message, receiveTime, originalData)
+                    .WithStreamId(message.Feed)
+                    .WithUpdateType(ConnectionInvocations == 1 ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
+                );
             return CallResult.SuccessResult;
         }
     }

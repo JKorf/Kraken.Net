@@ -64,15 +64,28 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 Authenticated);
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesOpenOrdersSnapshotUpdate message)
         {
-            _snapshotHandler.Invoke(message.As(message.Data, message.Data.Feed, message.Data.Symbol, SocketUpdateType.Snapshot).WithDataTimestamp(message.Data.Orders.Any() ? message.Data.Orders.Max(x => x.LastUpdateTime) : null));
+            _snapshotHandler.Invoke(
+                new DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate>(message, receiveTime, originalData)
+                    .WithStreamId(message.Feed)
+                    .WithUpdateType(SocketUpdateType.Snapshot)
+                    .WithSymbol(message.Symbol)
+                    .WithDataTimestamp(message.Orders.Any() ? message.Orders.Max(x => x.LastUpdateTime) : null)
+                );
+            
             return CallResult.SuccessResult;
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesOpenOrdersUpdate> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesOpenOrdersUpdate message)
         {
-            _updateHandler.Invoke(message.As(message.Data, message.Data.Feed, message.Data.Symbol, SocketUpdateType.Update).WithDataTimestamp(message.Data.Order?.LastUpdateTime));
+            _updateHandler.Invoke(
+                new DataEvent<KrakenFuturesOpenOrdersUpdate>(message, receiveTime, originalData)
+                    .WithStreamId(message.Feed)
+                    .WithUpdateType(SocketUpdateType.Update)
+                    .WithSymbol(message.Symbol)
+                    .WithDataTimestamp(message.Order?.LastUpdateTime)
+                );
             return CallResult.SuccessResult;
         }
     }

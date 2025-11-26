@@ -46,10 +46,15 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 Authenticated);
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesBalancesUpdate> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesBalancesUpdate message)
         {
-            _handler.Invoke(message.As(message.Data, message.Data.Feed, null, string.Equals(message.Data.Feed, "balances_snapshot", StringComparison.Ordinal) ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                .WithDataTimestamp(message.Data.Timestamp));
+            _handler.Invoke(
+                new DataEvent<KrakenFuturesBalancesUpdate>(message, receiveTime, originalData)
+                    .WithStreamId(message.Feed)
+                    .WithDataTimestamp(message.Timestamp)
+                    .WithUpdateType(string.Equals(message.Feed, "balances_snapshot", StringComparison.Ordinal) ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
+                );
+
             return CallResult.SuccessResult;
         }
     }

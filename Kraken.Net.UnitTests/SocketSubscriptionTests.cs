@@ -1,7 +1,11 @@
 ﻿using CryptoExchange.Net.Authentication;
+using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Testing;
 using Kraken.Net.Clients;
 using Kraken.Net.Objects.Models.Socket;
+using Kraken.Net.Objects.Options;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,13 +15,18 @@ namespace Kraken.Net.UnitTests
     [TestFixture]
     public class SocketSubscriptionTests
     {
-        [Test]
-        public async Task ValidateSpotSubscriptions()
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task ValidateSpotSubscriptions(bool useUpdatedDeserialization)
         {
-            var client = new KrakenSocketClient(opts =>
+            var loggerFactory = new LoggerFactory();
+            loggerFactory.AddProvider(new TraceLoggerProvider());
+            var client = new KrakenSocketClient(Options.Create(new KrakenSocketOptions 
             {
-                opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
-            });
+                OutputOriginalData = true,
+                UseUpdatedDeserialization = useUpdatedDeserialization,
+                ApiCredentials = new ApiCredentials("MTIz", "MTIz")
+            }), loggerFactory);
             var tester = new SocketSubscriptionValidator<KrakenSocketClient>(client, "Subscriptions/Spot", "wss://ws-auth.kraken.com", "data");
             await tester.ValidateAsync<KrakenTickerUpdate>((client, handler) => client.SpotApi.SubscribeToTickerUpdatesAsync("ETH/USDT", handler), "Ticker");
             await tester.ValidateAsync<KrakenKlineUpdate[]>((client, handler) => client.SpotApi.SubscribeToKlineUpdatesAsync("ETH/USDT", Enums.KlineInterval.FiveMinutes, handler), "Kline", ignoreProperties: new List<string> { "timestamp" });

@@ -52,15 +52,26 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 Authenticated);
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesAccountLogsUpdate> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesAccountLogsUpdate message)
         {
-            _updateHandler.Invoke(message.As(message.Data, message.Data.Feed, null, SocketUpdateType.Update).WithDataTimestamp(message.Data.NewEntry.Timestamp));
+            _updateHandler.Invoke(
+                new DataEvent<KrakenFuturesAccountLogsUpdate>(message, receiveTime, originalData)
+                    .WithStreamId(message.Feed)
+                    .WithDataTimestamp(message.NewEntry.Timestamp)
+                );
+
             return CallResult.SuccessResult;
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesAccountLogsSnapshotUpdate> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesAccountLogsSnapshotUpdate message)
         {
-            _snapshotHandler.Invoke(message.As(message.Data, message.Data.Feed, null, SocketUpdateType.Snapshot).WithDataTimestamp(message.Data.Logs.Any() ? message.Data.Logs.Max(x => x.Timestamp) : null));
+            _snapshotHandler.Invoke(
+                new DataEvent<KrakenFuturesAccountLogsSnapshotUpdate>(message, receiveTime, originalData)
+                    .WithStreamId(message.Feed)
+                    .WithUpdateType(SocketUpdateType.Snapshot)
+                    .WithDataTimestamp(message.Logs.Any() ? message.Logs.Max(x => x.Timestamp) : null)
+                );
+            
             return CallResult.SuccessResult;
         }
     }

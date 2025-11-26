@@ -67,15 +67,25 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 }, false);
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenSocketUpdateV2<KrakenBalanceSnapshot[]>> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketUpdateV2<KrakenBalanceSnapshot[]> message)
         {
-                _snapshotHandler?.Invoke(message.As(message.Data.Data, "balances", null, SocketUpdateType.Snapshot).WithDataTimestamp(message.Data.Timestamp));
+            _snapshotHandler?.Invoke(
+                new DataEvent<KrakenBalanceSnapshot[]>(message.Data, receiveTime, originalData)
+                    .WithStreamId("balances")
+                    .WithUpdateType(SocketUpdateType.Snapshot)
+                    .WithDataTimestamp(message.Timestamp)
+                );
             return CallResult.SuccessResult;
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenSocketUpdateV2<KrakenBalanceUpdate[]>> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketUpdateV2<KrakenBalanceUpdate[]> message)
         {
-            _updateHandler?.Invoke(message.As(message.Data.Data, "balances", null, SocketUpdateType.Update).WithDataTimestamp(message.Data.Timestamp));
+            _updateHandler?.Invoke(
+                new DataEvent<KrakenBalanceUpdate[]>(message.Data, receiveTime, originalData)
+                    .WithStreamId("balances")
+                    .WithUpdateType(SocketUpdateType.Update)
+                    .WithDataTimestamp(message.Timestamp)
+                );
             return CallResult.SuccessResult;
         }
     }

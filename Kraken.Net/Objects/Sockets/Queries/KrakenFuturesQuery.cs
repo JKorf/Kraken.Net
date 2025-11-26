@@ -31,19 +31,19 @@ namespace Kraken.Net.Objects.Sockets.Queries
             }
         }
 
-        public CallResult<T> HandleMessage(SocketConnection connection, DataEvent<T> message)
+        public CallResult<T> HandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, T message)
         {
-            if (string.Equals(message.Data.Event, "alert", StringComparison.Ordinal))
+            if (string.Equals(message.Event, "alert", StringComparison.Ordinal))
             {
-                if (message.Data.Message == "Already subscribed to feed, re-requesting")
+                if (message.Message == "Already subscribed to feed, re-requesting")
                     // Duplicate subscriptions are not an error
-                    return message.ToCallResult();
+                    return new CallResult<T>(message, originalData, null);
 
-                return new CallResult<T>(new ServerError(message.Data.Message!, _client.GetErrorInfo(message.Data.Message!, message.Data.Message!)));
+                return new CallResult<T>(new ServerError(message.Message!, _client.GetErrorInfo(message.Message!, message.Message!)), originalData);
             }
             else
             {
-                return new CallResult<T>(message.Data!);
+                return new CallResult<T>(message, originalData, null);
             }
         }
     }

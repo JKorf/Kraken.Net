@@ -10,9 +10,9 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         private readonly SocketApiClient _client;
         private string _feed;
         private List<string>? _symbols;
-        protected readonly Action<DataEvent<T>> _handler;
+        protected readonly Action<DateTime, string?, T> _handler;
 
-        public KrakenFuturesSubscription(ILogger logger, SocketApiClient client, string feed, List<string>? symbols, Action<DataEvent<T>> handler) : base(logger, false)
+        public KrakenFuturesSubscription(ILogger logger, SocketApiClient client, string feed, List<string>? symbols, Action<DateTime, string?, T> handler) : base(logger, false)
         {
             _client = client;
             _feed = feed;
@@ -57,9 +57,10 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             };
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<T> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, T message)
         {
-            _handler.Invoke(message.As(message.Data, message.Data.Feed, message.Data!.Symbol, SocketUpdateType.Update));
+            _handler.Invoke(receiveTime, originalData, message);
+            //_handler.Invoke(message.As(message.Data, message.Data.Feed, message.Data!.Symbol, SocketUpdateType.Update));
             return CallResult.SuccessResult;
         }
     }

@@ -15,13 +15,13 @@ namespace Kraken.Net.UnitTests
     [NonParallelizable]
     internal class KrakenSocketIntegrationTests : SocketIntegrationTest<KrakenSocketClient>
     {
-        public override bool Run { get; set; } = false;
+        public override bool Run { get; set; } = true;
 
         public KrakenSocketIntegrationTests()
         {
         }
 
-        public override KrakenSocketClient GetClient(ILoggerFactory loggerFactory)
+        public override KrakenSocketClient GetClient(ILoggerFactory loggerFactory, bool useUpdatedDeserialization)
         {
             var key = Environment.GetEnvironmentVariable("APIKEY");
             var sec = Environment.GetEnvironmentVariable("APISECRET");
@@ -30,17 +30,19 @@ namespace Kraken.Net.UnitTests
             return new KrakenSocketClient(Options.Create(new KrakenSocketOptions
             {
                 OutputOriginalData = true,
+                UseUpdatedDeserialization = useUpdatedDeserialization,
                 ApiCredentials = Authenticated ? new CryptoExchange.Net.Authentication.ApiCredentials(key, sec) : null
             }), loggerFactory);
         }
 
-        [Test]
-        public async Task TestSubscriptions()
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task TestSubscriptions(bool useUpdatedDeserialization)
         {
-            await RunAndCheckUpdate<KrakenTickerUpdate>((client, updateHandler) => client.SpotApi.SubscribeToBalanceUpdatesAsync(default , default, default, default), false, true);
-            await RunAndCheckUpdate<KrakenTickerUpdate>((client, updateHandler) => client.SpotApi.SubscribeToTickerUpdatesAsync("ETH/USD", updateHandler, default, default, default), true, false);
+            await RunAndCheckUpdate<KrakenTickerUpdate>(useUpdatedDeserialization, (client, updateHandler) => client.SpotApi.SubscribeToBalanceUpdatesAsync(default , default, default, default), false, true);
+            await RunAndCheckUpdate<KrakenTickerUpdate>(useUpdatedDeserialization, (client, updateHandler) => client.SpotApi.SubscribeToTickerUpdatesAsync("ETH/USD", updateHandler, default, default, default), true, false);
 
-            await RunAndCheckUpdate<KrakenFuturesTickerUpdate>((client, updateHandler) => client.FuturesApi.SubscribeToTickerUpdatesAsync("PF_ETHUSD", updateHandler, default), true, false);
+            await RunAndCheckUpdate<KrakenFuturesTickerUpdate>(useUpdatedDeserialization, (client, updateHandler) => client.FuturesApi.SubscribeToTickerUpdatesAsync("PF_ETHUSD", updateHandler, default), true, false);
         } 
     }
 }

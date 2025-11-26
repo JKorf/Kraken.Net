@@ -24,7 +24,7 @@ namespace Kraken.Net.Converters
                 else
                 {
                     var strVal = lastElement.GetString();
-                    last = DateTimeConverter.ParseFromString(strVal!);
+                    last = DateTimeConverter.ParseFromString(strVal!, null);
                 }
                 result.LastUpdateTime = last;
             }

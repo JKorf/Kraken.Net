@@ -46,9 +46,14 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 Authenticated);
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesNotificationUpdate> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesNotificationUpdate message)
         {
-            _handler.Invoke(message.As(message.Data, message.Data.Feed, null, SocketUpdateType.Update));
+            _handler.Invoke(
+                new DataEvent<KrakenFuturesNotificationUpdate>(message, receiveTime, originalData)
+                    .WithStreamId(message.Feed)
+                    .WithUpdateType(SocketUpdateType.Update)
+                );
+
             return CallResult.SuccessResult;
         }
     }

@@ -20,9 +20,14 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 
         protected override Query? GetUnsubQuery(SocketConnection connection) => null;
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenSocketUpdateV2<KrakenStreamSystemStatus[]>> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketUpdateV2<KrakenStreamSystemStatus[]> message)
         {
-            _handler.Invoke(message.As(message.Data.Data.First(), message.Data.Channel, null, SocketUpdateType.Update).WithDataTimestamp(message.Data.Timestamp));
+            _handler?.Invoke(
+                new DataEvent<KrakenStreamSystemStatus>(message.Data.First(), receiveTime, originalData)
+                    .WithStreamId(message.Channel)
+                    .WithUpdateType(SocketUpdateType.Update)
+                    .WithDataTimestamp(message.Timestamp)
+                );
             return CallResult.SuccessResult;
         }
     }

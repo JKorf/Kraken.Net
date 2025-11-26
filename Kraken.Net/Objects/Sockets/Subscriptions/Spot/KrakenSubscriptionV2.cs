@@ -17,7 +17,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         private bool? _snapshot;
         private int? _depth;
         private IEnumerable<string>? _symbols;
-        private readonly Action<DataEvent<T>> _handler;
+        private readonly Action<DateTime, string?, KrakenSocketUpdateV2<T>> _handler;
 
         public KrakenSubscriptionV2(
             ILogger logger,
@@ -29,7 +29,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             int? depth,
             TriggerEvent? eventTrigger,
             string? token,
-            Action<DataEvent<T>> handler) : base(logger, token != null)
+            Action<DateTime, string?, KrakenSocketUpdateV2<T>> handler) : base(logger, token != null)
         {
             _client = client;
             _topic = topic;
@@ -95,9 +95,10 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             };
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenSocketUpdateV2<T>> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketUpdateV2<T> message)
         {
-            _handler.Invoke(message.As(message.Data.Data, message.Data.Channel, null, message.Data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update).WithDataTimestamp(message.Data.Timestamp));
+            _handler?.Invoke(receiveTime, originalData, message);
+            //_handler.Invoke(message.As(message.Data.Data, message.Data.Channel, null,).WithDataTimestamp(message.Data.Timestamp));
             return CallResult.SuccessResult;
         }
 

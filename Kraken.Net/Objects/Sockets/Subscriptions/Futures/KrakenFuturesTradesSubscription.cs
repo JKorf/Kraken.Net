@@ -61,15 +61,27 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             };
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesTradesSnapshotUpdate> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesTradesSnapshotUpdate message)
         {
-            _handler.Invoke(message.As(message.Data.Trades, message.Data.Feed, message.Data.Symbol, SocketUpdateType.Snapshot));
+            _handler.Invoke(
+                new DataEvent<KrakenFuturesTradeUpdate[]>(message.Trades, receiveTime, originalData)
+                    .WithStreamId(message.Feed)
+                    .WithUpdateType(SocketUpdateType.Snapshot)
+                    .WithSymbol(message.Symbol)
+                );
+
             return CallResult.SuccessResult;
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesTradeUpdate> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesTradeUpdate message)
         {
-            _handler.Invoke(message.As<KrakenFuturesTradeUpdate[]>(new[] { message.Data }, message.Data.Feed, message.Data.Symbol, SocketUpdateType.Update));
+            _handler.Invoke(
+                new DataEvent<KrakenFuturesTradeUpdate[]>([message], receiveTime, originalData)
+                    .WithStreamId(message.Feed)
+                    .WithUpdateType(SocketUpdateType.Update)
+                    .WithSymbol(message.Symbol)
+                );
+
             return CallResult.SuccessResult;
         }
     }

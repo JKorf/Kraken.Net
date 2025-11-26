@@ -1,13 +1,16 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Converters.MessageParsing;
+using CryptoExchange.Net.Converters.MessageParsing.DynamicConverters;
 using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.RateLimiting.Interfaces;
 using CryptoExchange.Net.SharedApis;
+using Kraken.Net.Clients.MessageHandlers;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Options;
+using System.Net.Http.Headers;
 
 namespace Kraken.Net.Clients.SpotApi
 {
@@ -22,6 +25,7 @@ namespace Kraken.Net.Clients.SpotApi
         internal static TimeSyncState _timeSyncState = new TimeSyncState("Spot Api");
 
         protected override ErrorMapping ErrorMapping => KrakenErrors.SpotMapping;
+        protected override IRestMessageHandler MessageHandler { get; } = new KrakenRestSpotMessageHandler(KrakenErrors.SpotMapping);
         #endregion
 
         #region Api clients
@@ -84,7 +88,7 @@ namespace Kraken.Net.Clients.SpotApi
             return false;
         }
 
-        protected override Error? TryParseError(RequestDefinition request, KeyValuePair<string, string[]>[] responseHeaders, IMessageAccessor accessor)
+        protected override Error? TryParseError(RequestDefinition request, HttpResponseHeaders responseHeaders, IMessageAccessor accessor)
         {
             if (!accessor.IsValid)
                 return new ServerError(ErrorInfo.Unknown);
