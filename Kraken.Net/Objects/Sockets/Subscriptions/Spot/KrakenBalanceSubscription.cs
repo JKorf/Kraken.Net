@@ -29,7 +29,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             MessageMatcher = MessageMatcher.Create([
                 new MessageHandlerLink<KrakenSocketUpdateV2<KrakenBalanceSnapshot[]>>("balancessnapshot", DoHandleMessage),
                 new MessageHandlerLink<KrakenSocketUpdateV2<KrakenBalanceUpdate[]>>("balances", DoHandleMessage)
+                ]);
 
+            MessageRouter = MessageRouter.Create([
+                new MessageRoute<KrakenSocketUpdateV2<KrakenBalanceSnapshot[]>>("balancessnapshot",(string?)null, DoHandleMessage),
+                new MessageRoute<KrakenSocketUpdateV2<KrakenBalanceUpdate[]>>("balances",(string?)null, DoHandleMessage)
                 ]);
         }
 

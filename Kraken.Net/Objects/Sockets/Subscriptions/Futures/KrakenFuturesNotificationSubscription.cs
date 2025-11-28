@@ -17,6 +17,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _handler = handler;
 
             MessageMatcher = MessageMatcher.Create<KrakenFuturesNotificationUpdate>("notifications_auth", DoHandleMessage);
+            MessageRouter = MessageRouter.Create<KrakenFuturesNotificationUpdate>("notifications_auth", DoHandleMessage);
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)

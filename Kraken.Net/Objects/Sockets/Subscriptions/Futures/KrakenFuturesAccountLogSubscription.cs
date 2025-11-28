@@ -23,6 +23,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 new MessageHandlerLink<KrakenFuturesAccountLogsSnapshotUpdate>("account_log_snapshot", DoHandleMessage),
                 new MessageHandlerLink<KrakenFuturesAccountLogsUpdate>("account_log", DoHandleMessage)
                 ]);
+
+            MessageRouter = MessageRouter.Create([
+                new MessageRoute<KrakenFuturesAccountLogsSnapshotUpdate>("account_log_snapshot", (string?)null, DoHandleMessage),
+                new MessageRoute<KrakenFuturesAccountLogsUpdate>("account_log", (string?)null, DoHandleMessage)
+                ]);
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)

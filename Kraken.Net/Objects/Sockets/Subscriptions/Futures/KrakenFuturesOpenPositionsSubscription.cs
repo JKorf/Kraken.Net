@@ -17,6 +17,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _handler = handler;
 
             MessageMatcher = MessageMatcher.Create<KrakenFuturesOpenPositionUpdate>("open_positions", DoHandleMessage);
+            MessageRouter = MessageRouter.Create<KrakenFuturesOpenPositionUpdate>("open_positions", DoHandleMessage);
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)

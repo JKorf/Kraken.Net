@@ -22,13 +22,18 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _updateHandler = updateHandler;
 
             var checkers = new List<MessageHandlerLink>();
-            foreach(var symbol in symbols)
+            var routes = new List<MessageRoute>();
+            foreach (var symbol in symbols)
             {
                 checkers.Add(new MessageHandlerLink<KrakenFuturesBookUpdate>("book-" + symbol.ToLowerInvariant(), DoHandleMessage));
                 checkers.Add(new MessageHandlerLink<KrakenFuturesBookSnapshotUpdate>("book_snapshot-" + symbol.ToLowerInvariant(), DoHandleMessage));
+
+                routes.Add(new MessageRoute<KrakenFuturesBookUpdate>("book-" + symbol.ToLowerInvariant(), (string?)null, DoHandleMessage));
+                routes.Add(new MessageRoute<KrakenFuturesBookSnapshotUpdate>("book_snapshot-" + symbol.ToLowerInvariant(), (string?)null, DoHandleMessage));
             }    
 
             MessageMatcher = MessageMatcher.Create(checkers.ToArray());
+            MessageRouter = MessageRouter.Create(routes.ToArray());
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)

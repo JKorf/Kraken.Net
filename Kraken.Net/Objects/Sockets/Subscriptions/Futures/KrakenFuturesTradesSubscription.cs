@@ -19,14 +19,19 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _symbols = symbols;
             _handler = handler;
 
+            var routes = new List<MessageRoute>();
             var checkers = new List<MessageHandlerLink>();
-            foreach(var symbol in symbols)
+            foreach (var symbol in symbols)
             {
                 checkers.Add(new MessageHandlerLink<KrakenFuturesTradesSnapshotUpdate>("trade_snapshot-" + symbol.ToLowerInvariant(), DoHandleMessage));
                 checkers.Add(new MessageHandlerLink<KrakenFuturesTradeUpdate>("trade-" + symbol.ToLowerInvariant(), DoHandleMessage));
+
+                routes.Add(new MessageRoute<KrakenFuturesTradesSnapshotUpdate>("trade_snapshot-" + symbol.ToLowerInvariant(), (string?)null, DoHandleMessage));
+                routes.Add(new MessageRoute<KrakenFuturesTradeUpdate>("trade-" + symbol.ToLowerInvariant(), (string?)null, DoHandleMessage));
             }
 
             MessageMatcher = MessageMatcher.Create(checkers.ToArray());
+            MessageRouter = MessageRouter.Create(routes.ToArray());
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)

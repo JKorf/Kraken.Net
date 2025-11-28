@@ -14,6 +14,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _handler = handler;
 
             MessageMatcher = MessageMatcher.Create<KrakenSocketUpdateV2<KrakenStreamSystemStatus[]>>("status", DoHandleMessage);
+            MessageRouter = MessageRouter.Create<KrakenSocketUpdateV2<KrakenStreamSystemStatus[]>>("status", DoHandleMessage);
         }
 
         protected override Query? GetSubQuery(SocketConnection connection) => null;

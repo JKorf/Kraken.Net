@@ -27,12 +27,20 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     new MessageHandlerLink<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_verbose_snapshot", DoHandleMessage),
                     new MessageHandlerLink<KrakenFuturesOpenOrdersUpdate>("open_orders_verbose", DoHandleMessage)
                     ]);
+                MessageRouter = MessageRouter.Create([
+                    new MessageRoute<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_verbose_snapshot", (string?)null, DoHandleMessage),
+                    new MessageRoute<KrakenFuturesOpenOrdersUpdate>("open_orders_verbose",  (string?)null, DoHandleMessage)
+                    ]);
             }
             else
             {
                 MessageMatcher = MessageMatcher.Create([
                     new MessageHandlerLink<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_snapshot", DoHandleMessage),
                     new MessageHandlerLink<KrakenFuturesOpenOrdersUpdate>("open_orders", DoHandleMessage)
+                    ]);
+                MessageRouter = MessageRouter.Create([
+                    new MessageRoute<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_snapshot", (string?)null,DoHandleMessage),
+                    new MessageRoute<KrakenFuturesOpenOrdersUpdate>("open_orders",(string?)null, DoHandleMessage)
                     ]);
             }
         }
