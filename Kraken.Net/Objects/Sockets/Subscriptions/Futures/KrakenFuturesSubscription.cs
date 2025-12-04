@@ -5,7 +5,7 @@ using Kraken.Net.Objects.Sockets.Queries;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
-    internal class KrakenFuturesSubscription<T> : Subscription<KrakenFuturesResponse, KrakenFuturesResponse> where T : KrakenFuturesEvent
+    internal class KrakenFuturesSubscription<T> : Subscription where T : KrakenFuturesEvent
     {
         private readonly SocketApiClient _client;
         private string _feed;
@@ -22,12 +22,12 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             if (symbols?.Count > 0)
             {
                 MessageMatcher = MessageMatcher.Create(symbols.Select(x => new MessageHandlerLink<T>(_feed + "-" + x.ToLowerInvariant(), DoHandleMessage)).ToArray());
-                MessageRouter = MessageRouter.Create(symbols.Select(x => new MessageRoute<T>(_feed + "-" + x.ToLowerInvariant(), (string?)null, DoHandleMessage)).ToArray());
+                MessageRouter = MessageRouter.Create(symbols.Select(x => MessageRoute<T>.CreateWithoutTopicFilter(_feed + "-" + x.ToLowerInvariant(), DoHandleMessage)).ToArray());
             }
             else
             {
                 MessageMatcher = MessageMatcher.Create<T>(_feed, DoHandleMessage);
-                MessageRouter = MessageRouter.Create<T>(_feed, DoHandleMessage);
+                MessageRouter = MessageRouter.CreateWithoutTopicFilter<T>(_feed, DoHandleMessage);
             }
         }
 

@@ -5,7 +5,7 @@ using Kraken.Net.Objects.Models.Socket;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
-    internal class KrakenSystemStatusSubscription : Subscription<Query, Query>
+    internal class KrakenSystemStatusSubscription : Subscription
     {
         private readonly Action<DataEvent<KrakenStreamSystemStatus>> _handler;
 
@@ -14,7 +14,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _handler = handler;
 
             MessageMatcher = MessageMatcher.Create<KrakenSocketUpdateV2<KrakenStreamSystemStatus[]>>("status", DoHandleMessage);
-            MessageRouter = MessageRouter.Create<KrakenSocketUpdateV2<KrakenStreamSystemStatus[]>>("status", DoHandleMessage);
+            MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenSocketUpdateV2<KrakenStreamSystemStatus[]>>("status", DoHandleMessage);
         }
 
         protected override Query? GetSubQuery(SocketConnection connection) => null;

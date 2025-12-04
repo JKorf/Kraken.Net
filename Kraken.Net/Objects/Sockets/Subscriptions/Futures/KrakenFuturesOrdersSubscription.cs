@@ -7,7 +7,7 @@ using Kraken.Net.Objects.Sockets.Queries;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
-    internal class KrakenFuturesOrdersSubscription : Subscription<KrakenFuturesResponse, object>
+    internal class KrakenFuturesOrdersSubscription : Subscription
     {
         private readonly SocketApiClient _client;
         protected readonly Action<DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate>> _snapshotHandler;
@@ -28,8 +28,8 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     new MessageHandlerLink<KrakenFuturesOpenOrdersUpdate>("open_orders_verbose", DoHandleMessage)
                     ]);
                 MessageRouter = MessageRouter.Create([
-                    new MessageRoute<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_verbose_snapshot", (string?)null, DoHandleMessage),
-                    new MessageRoute<KrakenFuturesOpenOrdersUpdate>("open_orders_verbose",  (string?)null, DoHandleMessage)
+                    MessageRoute<KrakenFuturesOpenOrdersSnapshotUpdate>.CreateWithoutTopicFilter("open_orders_verbose_snapshot", DoHandleMessage),
+                    MessageRoute<KrakenFuturesOpenOrdersUpdate>.CreateWithoutTopicFilter("open_orders_verbose", DoHandleMessage)
                     ]);
             }
             else
@@ -39,8 +39,8 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     new MessageHandlerLink<KrakenFuturesOpenOrdersUpdate>("open_orders", DoHandleMessage)
                     ]);
                 MessageRouter = MessageRouter.Create([
-                    new MessageRoute<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_snapshot", (string?)null,DoHandleMessage),
-                    new MessageRoute<KrakenFuturesOpenOrdersUpdate>("open_orders",(string?)null, DoHandleMessage)
+                    MessageRoute<KrakenFuturesOpenOrdersSnapshotUpdate>.CreateWithoutTopicFilter("open_orders_snapshot",DoHandleMessage),
+                    MessageRoute<KrakenFuturesOpenOrdersUpdate>.CreateWithoutTopicFilter("open_orders", DoHandleMessage)
                     ]);
             }
         }

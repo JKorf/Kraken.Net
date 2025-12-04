@@ -44,12 +44,12 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             if (symbols?.Any() == true)
             {
                 MessageMatcher = MessageMatcher.Create(symbols.Select(x => new MessageHandlerLink<KrakenSocketUpdateV2<T>>(topic + "-" + x, DoHandleMessage)).ToArray());
-                MessageRouter = MessageRouter.Create(symbols.Select(x => new MessageRoute<KrakenSocketUpdateV2<T>>(topic + "-" + x, (string?)null, DoHandleMessage)).ToArray());
+                MessageRouter = MessageRouter.Create(symbols.Select(x => MessageRoute<KrakenSocketUpdateV2<T>>.CreateWithoutTopicFilter(topic + "-" + x, DoHandleMessage)).ToArray());
             }
             else
             {
                 MessageMatcher = MessageMatcher.Create<KrakenSocketUpdateV2<T>>(topic, DoHandleMessage);
-                MessageRouter = MessageRouter.Create<KrakenSocketUpdateV2<T>>(topic, DoHandleMessage);
+                MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenSocketUpdateV2<T>>(topic, DoHandleMessage);
             }
         }
 

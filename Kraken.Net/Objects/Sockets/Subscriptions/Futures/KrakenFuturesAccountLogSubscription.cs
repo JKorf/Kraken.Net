@@ -7,7 +7,7 @@ using Kraken.Net.Objects.Sockets.Queries;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
-    internal class KrakenFuturesAccountLogSubscription : Subscription<KrakenFuturesResponse, KrakenFuturesResponse>
+    internal class KrakenFuturesAccountLogSubscription : Subscription
     {
         private readonly SocketApiClient _client;
         protected readonly Action<DataEvent<KrakenFuturesAccountLogsSnapshotUpdate>> _snapshotHandler;
@@ -25,8 +25,8 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 ]);
 
             MessageRouter = MessageRouter.Create([
-                new MessageRoute<KrakenFuturesAccountLogsSnapshotUpdate>("account_log_snapshot", (string?)null, DoHandleMessage),
-                new MessageRoute<KrakenFuturesAccountLogsUpdate>("account_log", (string?)null, DoHandleMessage)
+                MessageRoute<KrakenFuturesAccountLogsSnapshotUpdate>.CreateWithoutTopicFilter("account_log_snapshot", DoHandleMessage),
+                MessageRoute<KrakenFuturesAccountLogsUpdate>.CreateWithoutTopicFilter("account_log", DoHandleMessage)
                 ]);
         }
 

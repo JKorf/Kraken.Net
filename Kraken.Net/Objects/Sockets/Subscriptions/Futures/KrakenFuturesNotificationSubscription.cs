@@ -6,7 +6,7 @@ using Kraken.Net.Objects.Sockets.Queries;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
-    internal class KrakenFuturesNotificationSubscription : Subscription<KrakenFuturesResponse, KrakenFuturesNotificationUpdate>
+    internal class KrakenFuturesNotificationSubscription : Subscription
     {
         private readonly SocketApiClient _client;
         protected readonly Action<DataEvent<KrakenFuturesNotificationUpdate>> _handler;
@@ -17,7 +17,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _handler = handler;
 
             MessageMatcher = MessageMatcher.Create<KrakenFuturesNotificationUpdate>("notifications_auth", DoHandleMessage);
-            MessageRouter = MessageRouter.Create<KrakenFuturesNotificationUpdate>("notifications_auth", DoHandleMessage);
+            MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenFuturesNotificationUpdate>("notifications_auth", DoHandleMessage);
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)

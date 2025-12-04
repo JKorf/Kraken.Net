@@ -24,15 +24,15 @@ namespace Kraken.Net.Objects.Sockets.Queries
                 checkers.Add(new MessageHandlerLink<T>("alert", HandleMessage));
                 MessageMatcher = MessageMatcher.Create(checkers.ToArray());
 
-                var routes = request.Symbols.Select(x => new MessageRoute<T>(evnt + "-" + request.Feed.ToLowerInvariant() + "-" + x.ToLowerInvariant(), (string?)null, HandleMessage)).ToList();
-                routes.Add(new MessageRoute<T>("alert", (string?)null, HandleMessage));
+                var routes = request.Symbols.Select(x => MessageRoute<T>.CreateWithoutTopicFilter(evnt + "-" + request.Feed.ToLowerInvariant() + "-" + x.ToLowerInvariant(), HandleMessage)).ToList();
+                routes.Add(MessageRoute<T>.CreateWithoutTopicFilter("alert", HandleMessage));
                 MessageRouter = MessageRouter.Create(routes.ToArray());
 
             }
             else
             {
                 MessageMatcher = MessageMatcher.Create<T>([evnt + "-" + request.Feed.ToLowerInvariant(), "alert"], HandleMessage);
-                MessageRouter = MessageRouter.Create<T>([evnt + "-" + request.Feed.ToLowerInvariant(), "alert"], HandleMessage);
+                MessageRouter = MessageRouter.CreateWithoutTopicFilter<T>([evnt + "-" + request.Feed.ToLowerInvariant(), "alert"], HandleMessage);
             }
         }
 

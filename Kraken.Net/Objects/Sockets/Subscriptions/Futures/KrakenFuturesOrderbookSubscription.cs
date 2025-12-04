@@ -7,7 +7,7 @@ using Kraken.Net.Objects.Sockets.Queries;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
-    internal class KrakenFuturesOrderbookSubscription : Subscription<KrakenFuturesResponse, object>
+    internal class KrakenFuturesOrderbookSubscription : Subscription
     {
         private List<string> _symbols;
         private readonly SocketApiClient _client;
@@ -28,8 +28,8 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 checkers.Add(new MessageHandlerLink<KrakenFuturesBookUpdate>("book-" + symbol.ToLowerInvariant(), DoHandleMessage));
                 checkers.Add(new MessageHandlerLink<KrakenFuturesBookSnapshotUpdate>("book_snapshot-" + symbol.ToLowerInvariant(), DoHandleMessage));
 
-                routes.Add(new MessageRoute<KrakenFuturesBookUpdate>("book-" + symbol.ToLowerInvariant(), (string?)null, DoHandleMessage));
-                routes.Add(new MessageRoute<KrakenFuturesBookSnapshotUpdate>("book_snapshot-" + symbol.ToLowerInvariant(), (string?)null, DoHandleMessage));
+                routes.Add(MessageRoute<KrakenFuturesBookUpdate>.CreateWithoutTopicFilter("book-" + symbol.ToLowerInvariant(), DoHandleMessage));
+                routes.Add(MessageRoute<KrakenFuturesBookSnapshotUpdate>.CreateWithoutTopicFilter("book_snapshot-" + symbol.ToLowerInvariant(), DoHandleMessage));
             }    
 
             MessageMatcher = MessageMatcher.Create(checkers.ToArray());

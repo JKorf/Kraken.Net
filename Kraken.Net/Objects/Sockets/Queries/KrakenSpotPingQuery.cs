@@ -11,7 +11,7 @@ namespace Kraken.Net.Objects.Sockets.Queries
         {
             RequestTimeout = TimeSpan.FromSeconds(5);
             MessageMatcher = MessageMatcher.Create<object>(((KrakenSocketRequestV2)Request).RequestId.ToString());
-            MessageRouter = MessageRouter.Create<object>(((KrakenSocketRequestV2)Request).RequestId.ToString());
+            MessageRouter = MessageRouter.CreateWithoutHandler<object>(((KrakenSocketRequestV2)Request).RequestId.ToString());
         }
     }
 }

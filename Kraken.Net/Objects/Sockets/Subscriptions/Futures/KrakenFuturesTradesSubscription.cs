@@ -7,7 +7,7 @@ using Kraken.Net.Objects.Sockets.Queries;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
-    internal class KrakenFuturesTradesSubscription : Subscription<KrakenFuturesResponse, KrakenFuturesResponse>
+    internal class KrakenFuturesTradesSubscription : Subscription
     {
         private readonly SocketApiClient _client;
         private List<string> _symbols;
@@ -26,8 +26,8 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 checkers.Add(new MessageHandlerLink<KrakenFuturesTradesSnapshotUpdate>("trade_snapshot-" + symbol.ToLowerInvariant(), DoHandleMessage));
                 checkers.Add(new MessageHandlerLink<KrakenFuturesTradeUpdate>("trade-" + symbol.ToLowerInvariant(), DoHandleMessage));
 
-                routes.Add(new MessageRoute<KrakenFuturesTradesSnapshotUpdate>("trade_snapshot-" + symbol.ToLowerInvariant(), (string?)null, DoHandleMessage));
-                routes.Add(new MessageRoute<KrakenFuturesTradeUpdate>("trade-" + symbol.ToLowerInvariant(), (string?)null, DoHandleMessage));
+                routes.Add(MessageRoute<KrakenFuturesTradesSnapshotUpdate>.CreateWithoutTopicFilter("trade_snapshot-" + symbol.ToLowerInvariant(), DoHandleMessage));
+                routes.Add(MessageRoute<KrakenFuturesTradeUpdate>.CreateWithoutTopicFilter("trade-" + symbol.ToLowerInvariant(), DoHandleMessage));
             }
 
             MessageMatcher = MessageMatcher.Create(checkers.ToArray());

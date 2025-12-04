@@ -26,7 +26,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _updateHandler = updateHandler;
 
             MessageMatcher = MessageMatcher.Create<KrakenSocketUpdateV2<KrakenOrderUpdate[]>>("executions", DoHandleMessage);
-            MessageRouter = MessageRouter.Create<KrakenSocketUpdateV2<KrakenOrderUpdate[]>>("executions", DoHandleMessage);
+            MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenSocketUpdateV2<KrakenOrderUpdate[]>>("executions", DoHandleMessage);
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)

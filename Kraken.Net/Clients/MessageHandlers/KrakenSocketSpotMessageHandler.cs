@@ -20,6 +20,11 @@ namespace Kraken.Net.Clients.MessageHandlers
 
         public override JsonSerializerOptions Options { get; } = SerializerOptions.WithConverters(KrakenExchange._serializerContext);
 
+        public KrakenSocketSpotMessageHandler()
+        {
+
+        }
+
         protected override MessageEvaluator[] TypeEvaluators { get; } = [
 
              new MessageEvaluator {

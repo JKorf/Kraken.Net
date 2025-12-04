@@ -32,8 +32,8 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 ]);
 
             MessageRouter = MessageRouter.Create([
-                new MessageRoute<KrakenSocketUpdateV2<KrakenBalanceSnapshot[]>>("balancessnapshot",(string?)null, DoHandleMessage),
-                new MessageRoute<KrakenSocketUpdateV2<KrakenBalanceUpdate[]>>("balances",(string?)null, DoHandleMessage)
+                MessageRoute<KrakenSocketUpdateV2<KrakenBalanceSnapshot[]>>.CreateWithoutTopicFilter("balancessnapshot",DoHandleMessage),
+                MessageRoute<KrakenSocketUpdateV2<KrakenBalanceUpdate[]>>.CreateWithoutTopicFilter("balances", DoHandleMessage)
                 ]);
         }
 

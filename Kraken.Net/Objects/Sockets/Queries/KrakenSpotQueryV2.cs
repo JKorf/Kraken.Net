@@ -14,7 +14,7 @@ namespace Kraken.Net.Objects.Sockets.Queries
         {
             _client = client;
             MessageMatcher = MessageMatcher.Create<KrakenSocketResponseV2<TResponse>>(request.RequestId.ToString(), HandleMessage);
-            MessageRouter = MessageRouter.Create<KrakenSocketResponseV2<TResponse>>(request.RequestId.ToString(), HandleMessage);
+            MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenSocketResponseV2<TResponse>>(request.RequestId.ToString(), HandleMessage);
         }
 
         public CallResult<KrakenSocketResponseV2<TResponse>> HandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketResponseV2<TResponse> message)
