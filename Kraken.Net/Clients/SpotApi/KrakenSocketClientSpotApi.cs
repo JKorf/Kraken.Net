@@ -205,7 +205,7 @@ namespace Kraken.Net.Clients.SpotApi
                     );
             });
 
-            var subscription = new KrakenSubscriptionV2<KrakenKlineUpdate[]>(_logger, this, "ohlc", symbols.ToArray(), int.Parse(EnumConverter.GetString(interval)), snapshot, null, null, null, internalHandler);
+            var subscription = new KrakenSubscriptionV2<KrakenKlineUpdate[]>(_logger, this, "ohlc", symbols.ToArray(), interval, snapshot, null, null, null, internalHandler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 

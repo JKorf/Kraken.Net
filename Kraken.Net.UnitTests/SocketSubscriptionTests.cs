@@ -15,6 +15,26 @@ namespace Kraken.Net.UnitTests
     [TestFixture]
     public class SocketSubscriptionTests
     {
+        //[TestCase(false)]
+        [TestCase(true)]
+        public async Task ValidateConcurrentSpotSubscriptions(bool newDeserialization)
+        {
+            var logger = new LoggerFactory();
+            logger.AddProvider(new TraceLoggerProvider());
+
+            var client = new KrakenSocketClient(Options.Create(new KrakenSocketOptions
+            {
+                OutputOriginalData = true,
+                UseUpdatedDeserialization = newDeserialization
+            }), logger);
+
+            var tester = new SocketSubscriptionValidator<KrakenSocketClient>(client, "Subscriptions/Spot", "wss://ws-auth.kraken.com", "data");
+            await tester.ValidateConcurrentAsync<KrakenKlineUpdate[]>(
+                (client, handler) => client.SpotApi.SubscribeToKlineUpdatesAsync("ETH/USDT", Enums.KlineInterval.OneDay, handler),
+                (client, handler) => client.SpotApi.SubscribeToKlineUpdatesAsync("ETH/USDT", Enums.KlineInterval.OneHour, handler),
+                "Concurrent");
+        }
+
         [TestCase(false)]
         [TestCase(true)]
         public async Task ValidateSpotSubscriptions(bool useUpdatedDeserialization)

@@ -13,7 +13,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         private readonly SocketApiClient _client;
         private string _topic;
         private string? _eventTrigger;
-        private int? _interval;
+        private KlineInterval? _interval;
         private bool? _snapshot;
         private int? _depth;
         private IEnumerable<string>? _symbols;
@@ -23,8 +23,8 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             ILogger logger,
             SocketApiClient client,
             string topic,
-            IEnumerable<string>? symbols, 
-            int? interval,
+            IEnumerable<string>? symbols,
+            KlineInterval? interval,
             bool? snapshot,
             int? depth,
             TriggerEvent? eventTrigger,
@@ -41,15 +41,15 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _eventTrigger = eventTrigger == TriggerEvent.BestOfferChange ? "bbo" : eventTrigger == TriggerEvent.Trade ? "trades" : null;
             Token = token;
 
+            MessageRouter = MessageRouter.CreateWithOptionalTopicFilters<KrakenSocketUpdateV2<T>>(topic, symbols?.Select(x => x + interval).ToArray(), DoHandleMessage);
+
             if (symbols?.Any() == true)
             {
                 MessageMatcher = MessageMatcher.Create(symbols.Select(x => new MessageHandlerLink<KrakenSocketUpdateV2<T>>(topic + "-" + x, DoHandleMessage)).ToArray());
-                MessageRouter = MessageRouter.Create(symbols.Select(x => MessageRoute<KrakenSocketUpdateV2<T>>.CreateWithoutTopicFilter(topic + "-" + x, DoHandleMessage)).ToArray());
             }
             else
             {
                 MessageMatcher = MessageMatcher.Create<KrakenSocketUpdateV2<T>>(topic, DoHandleMessage);
-                MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenSocketUpdateV2<T>>(topic, DoHandleMessage);
             }
         }
 
@@ -65,7 +65,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                     {
                         Channel = _topic,
                         Symbol = _symbols?.ToArray(),
-                        Interval = _interval,
+                        Interval = _interval == null ? null : int.Parse(EnumConverter.GetString(_interval)),
                         Depth = _depth,
                         Snapshot = _snapshot,
                         EventTrigger = _eventTrigger,
@@ -89,7 +89,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                     {
                         Channel = _topic,
                         Symbol = _symbols?.ToArray(),
-                        Interval = _interval,
+                        Interval = _interval == null ? null : int.Parse(EnumConverter.GetString(_interval)),
                         Depth = _depth,
                         Snapshot = _snapshot,
                         EventTrigger = _eventTrigger,

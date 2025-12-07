@@ -1,6 +1,8 @@
 ﻿using CryptoExchange.Net.Converters.MessageParsing.DynamicConverters;
 using CryptoExchange.Net.Converters.SystemTextJson;
 using Kraken.Net;
+using Kraken.Net.Objects.Internal;
+using Kraken.Net.Objects.Models.Socket;
 using System;
 using System.Linq;
 using System.Text.Json;
@@ -9,85 +11,65 @@ namespace Kraken.Net.Clients.MessageHandlers
 {
     internal class KrakenSocketSpotMessageHandler : JsonSocketMessageHandler
     {
-        private static readonly HashSet<string> _channelsWithoutSymbol =
-        [
-            "heartbeat",
-            "status",
-            "instrument",
-            "executions",
-            "balances"
-        ];
+        //private static readonly HashSet<string> _channelsWithoutSymbol =
+        //[
+        //    "heartbeat",
+        //    "status",
+        //    "instrument",
+        //    "executions",
+        //    "balances"
+        //];
 
         public override JsonSerializerOptions Options { get; } = SerializerOptions.WithConverters(KrakenExchange._serializerContext);
 
         public KrakenSocketSpotMessageHandler()
         {
-
+            AddTopicMapping<KrakenSocketUpdateV2<KrakenTickerUpdate[]>>(x => x.Data.First().Symbol);
+            AddTopicMapping<KrakenSocketUpdateV2<KrakenKlineUpdate[]>>(x => x.Data.First().Symbol + x.Data.First().KlineInterval);
+            AddTopicMapping<KrakenSocketUpdateV2<KrakenTradeUpdate[]>>(x => x.Data.First().Symbol);
+            AddTopicMapping<KrakenSocketUpdateV2<KrakenBookUpdate[]>>(x => x.Data.First().Symbol);
+            AddTopicMapping<KrakenSocketUpdateV2<KrakenIndividualBookUpdate[]>>(x => x.Data.First().Symbol);
         }
 
-        protected override MessageEvaluator[] TypeEvaluators { get; } = [
+        protected override MessageTypeDefinition[] TypeEvaluators { get; } = [
 
-             new MessageEvaluator {
-                Priority = 1,
+             new MessageTypeDefinition {
                 ForceIfFound = true,
                 Fields = [
                     new PropertyFieldReference("req_id"),
                 ],
-                IdentifyMessageCallback = x => x.FieldValue("req_id")!
+                TypeIdentifierCallback = x => x.FieldValue("req_id")!
             },
 
-             new MessageEvaluator {
-                Priority = 2,
+             new MessageTypeDefinition {
                 Fields = [
-                    new PropertyFieldReference("channel") { Constraint = x => !_channelsWithoutSymbol.Contains(x!) },
-                    new PropertyFieldReference("method"),
-                    new PropertyFieldReference("symbol") { Depth = 3 },
-                ],
-                IdentifyMessageCallback = x => $"{x.FieldValue("channel")}{x.FieldValue("method")}-{x.FieldValue("symbol")}"
-            },
-
-             new MessageEvaluator {
-                Priority = 2,
-                Fields = [
-                    new PropertyFieldReference("channel") { Constraint = x => !_channelsWithoutSymbol.Contains(x!) },
-                    new PropertyFieldReference("symbol") { Depth = 3 },
-                ],
-                IdentifyMessageCallback = x => $"{x.FieldValue("channel")}-{x.FieldValue("symbol")}"
-            },
-
-             new MessageEvaluator {
-                Priority = 4,
-                Fields = [
-                    new PropertyFieldReference("channel") { Constraint = x => x!.Equals("balances", StringComparison.Ordinal) },
-                    new PropertyFieldReference("type") { Constraint = x => x!.Equals("snapshot", StringComparison.Ordinal) },
+                    new PropertyFieldReference("channel").WithEqualContstraint("balances"),
+                    new PropertyFieldReference("type").WithEqualContstraint("snapshot"),
                 ],
                 StaticIdentifier = "balancessnapshot"
             },
 
-             new MessageEvaluator {
-                Priority = 5,
+             new MessageTypeDefinition {
                 Fields = [
-                    new PropertyFieldReference("channel") { Constraint = x => x!.Equals("balances", StringComparison.Ordinal) },
-                    new PropertyFieldReference("type") { Constraint = x => !x!.Equals("snapshot", StringComparison.Ordinal) },
+                    new PropertyFieldReference("channel").WithEqualContstraint("balances"),
+                    new PropertyFieldReference("type").WithNotEqualContstraint("snapshot"),
                 ],
                 StaticIdentifier = "balances"
             },
 
-             new MessageEvaluator {
-                Priority = 6,
+             new MessageTypeDefinition {
                 Fields = [
                     new PropertyFieldReference("channel"),
                     new PropertyFieldReference("method"),
                 ],
-                IdentifyMessageCallback = x => $"{x.FieldValue("channel")}{x.FieldValue("method")}"
+                TypeIdentifierCallback = x => $"{x.FieldValue("channel")}{x.FieldValue("method")}"
             },
 
-             new MessageEvaluator {
-                Priority = 7,
+             new MessageTypeDefinition {
                 Fields = [
-                    new PropertyFieldReference("channel") { Constraint = x => _channelsWithoutSymbol.Contains(x!) },
+                    new PropertyFieldReference("channel"),
                 ],
-                IdentifyMessageCallback = x => $"{x.FieldValue("channel")}"
+                TypeIdentifierCallback = x => $"{x.FieldValue("channel")}"
             },
         ];
     }

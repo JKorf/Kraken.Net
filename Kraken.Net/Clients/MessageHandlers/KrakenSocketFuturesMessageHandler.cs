@@ -11,17 +11,16 @@ namespace Kraken.Net.Clients.MessageHandlers
     {
         public override JsonSerializerOptions Options { get; } = SerializerOptions.WithConverters(KrakenExchange._serializerContext);
 
-        protected override MessageEvaluator[] TypeEvaluators { get; } = [
+        protected override MessageTypeDefinition[] TypeEvaluators { get; } = [
 
 
-             new MessageEvaluator {
-                Priority = 1,
+             new MessageTypeDefinition {
                 Fields = [
                     new PropertyFieldReference("event"),
                     new PropertyFieldReference("feed"),
                     new PropertyFieldReference("product_ids") { ArrayValues = true } ,
                 ],
-                IdentifyMessageCallback = x => {
+                TypeIdentifierCallback = x => {
                     var result = $"{x.FieldValue("event")}-{x.FieldValue("feed")}";
                     var productIds = x.FieldValue("product_ids")?.Split(',');
                     if (productIds?.Length > 0)
@@ -30,38 +29,34 @@ namespace Kraken.Net.Clients.MessageHandlers
                 }
             },
 
-             new MessageEvaluator {
-                Priority = 2,
+             new MessageTypeDefinition {
                 Fields = [
                     new PropertyFieldReference("event"),
                     new PropertyFieldReference("feed"),
                 ],
-                IdentifyMessageCallback = x => $"{x.FieldValue("event")}-{x.FieldValue("feed")}"
+                TypeIdentifierCallback = x => $"{x.FieldValue("event")}-{x.FieldValue("feed")}"
             },
 
-             new MessageEvaluator {
-                Priority = 3,
+             new MessageTypeDefinition {
                 Fields = [
                     new PropertyFieldReference("feed"),
                     new PropertyFieldReference("product_id"),
                 ],
-                IdentifyMessageCallback = x => $"{x.FieldValue("feed")}-{x.FieldValue("product_id")!.ToLowerInvariant()}"
+                TypeIdentifierCallback = x => $"{x.FieldValue("feed")}-{x.FieldValue("product_id")!.ToLowerInvariant()}"
             },
 
-             new MessageEvaluator {
-                Priority = 4,
+             new MessageTypeDefinition {
                 Fields = [
                     new PropertyFieldReference("feed"),
                 ],
-                IdentifyMessageCallback = x => x.FieldValue("feed")!
+                TypeIdentifierCallback = x => x.FieldValue("feed")!
             },
 
-             new MessageEvaluator {
-                Priority = 5,
+             new MessageTypeDefinition {
                 Fields = [
                     new PropertyFieldReference("event"),
                 ],
-                IdentifyMessageCallback = x => x.FieldValue("event")!
+                TypeIdentifierCallback = x => x.FieldValue("event")!
             },
 
 
