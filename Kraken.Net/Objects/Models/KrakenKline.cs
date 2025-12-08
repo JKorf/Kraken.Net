@@ -1,6 +1,4 @@
-using CryptoExchange.Net.Converters.SystemTextJson;
 using CryptoExchange.Net.Converters;
-using Kraken.Net.Converters;
 
 namespace Kraken.Net.Objects.Models
 {

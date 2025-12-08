@@ -1,6 +1,4 @@
-﻿using CryptoExchange.Net.Authentication;
-
-namespace Kraken.Net.Interfaces.Clients
+﻿namespace Kraken.Net.Interfaces.Clients
 {
     /// <summary>
     /// Provider for clients with credentials for specific users

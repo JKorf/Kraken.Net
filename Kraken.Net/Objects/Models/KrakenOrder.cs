@@ -1,4 +1,3 @@
-using CryptoExchange.Net.Converters.SystemTextJson;
 using Kraken.Net.Clients.SpotApi;
 using Kraken.Net.Converters;
 using Kraken.Net.Enums;

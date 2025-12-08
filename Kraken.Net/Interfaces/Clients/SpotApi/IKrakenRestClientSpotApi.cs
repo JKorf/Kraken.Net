@@ -1,4 +1,6 @@
 ﻿
+using CryptoExchange.Net.Interfaces.Clients;
+
 namespace Kraken.Net.Interfaces.Clients.SpotApi
 {
     /// <summary>

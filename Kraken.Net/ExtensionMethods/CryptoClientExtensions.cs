@@ -1,4 +1,5 @@
-﻿using Kraken.Net.Clients;
+﻿using CryptoExchange.Net.Interfaces.Clients;
+using Kraken.Net.Clients;
 using Kraken.Net.Interfaces.Clients;
 
 namespace CryptoExchange.Net.Interfaces

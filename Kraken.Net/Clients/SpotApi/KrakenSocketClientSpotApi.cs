@@ -4,7 +4,7 @@ using CryptoExchange.Net.Converters.MessageParsing.DynamicConverters;
 using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
-using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.Default;
 using Kraken.Net.Clients.MessageHandlers;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.SpotApi;

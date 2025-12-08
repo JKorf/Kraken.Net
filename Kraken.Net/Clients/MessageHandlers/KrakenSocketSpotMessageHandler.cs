@@ -1,25 +1,12 @@
 ﻿using CryptoExchange.Net.Converters.MessageParsing.DynamicConverters;
-using CryptoExchange.Net.Converters.SystemTextJson;
-using Kraken.Net;
+using CryptoExchange.Net.Converters.SystemTextJson.MessageHandlers;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models.Socket;
-using System;
-using System.Linq;
-using System.Text.Json;
 
 namespace Kraken.Net.Clients.MessageHandlers
 {
     internal class KrakenSocketSpotMessageHandler : JsonSocketMessageHandler
     {
-        //private static readonly HashSet<string> _channelsWithoutSymbol =
-        //[
-        //    "heartbeat",
-        //    "status",
-        //    "instrument",
-        //    "executions",
-        //    "balances"
-        //];
-
         public override JsonSerializerOptions Options { get; } = SerializerOptions.WithConverters(KrakenExchange._serializerContext);
 
         public KrakenSocketSpotMessageHandler()

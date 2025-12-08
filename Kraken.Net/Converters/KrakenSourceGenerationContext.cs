@@ -5,9 +5,6 @@ using Kraken.Net.Objects.Models.Futures;
 using Kraken.Net.Objects.Models.Socket;
 using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Sockets;
-using System;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Kraken.Net.Converters
 {

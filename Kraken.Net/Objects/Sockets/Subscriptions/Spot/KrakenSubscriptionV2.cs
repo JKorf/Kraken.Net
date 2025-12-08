@@ -1,10 +1,9 @@
 ﻿using CryptoExchange.Net.Clients;
-using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.Default;
 using Kraken.Net.Enums;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Sockets.Queries;
-using System.Linq;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {

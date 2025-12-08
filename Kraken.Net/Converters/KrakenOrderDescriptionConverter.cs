@@ -1,5 +1,4 @@
 ﻿using Kraken.Net.Objects.Models;
-using Kraken.Net.Objects.Models.Futures;
 using System.Text.Json.Serialization.Metadata;
 
 namespace Kraken.Net.Converters

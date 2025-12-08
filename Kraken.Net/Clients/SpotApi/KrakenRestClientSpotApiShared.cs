@@ -2,7 +2,6 @@ using Kraken.Net.Interfaces.Clients.SpotApi;
 using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models;
-using System;
 using CryptoExchange.Net.Objects.Errors;
 
 namespace Kraken.Net.Clients.SpotApi
@@ -208,7 +207,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!result)
                 return result.AsExchangeResult<SharedTrade[]>(Exchange, null, default);
 
-            return result.AsExchangeResult<SharedTrade[]>(Exchange, request.Symbol.TradingMode, result.Data.Data.Reverse().Select(x => 
+            return result.AsExchangeResult<SharedTrade[]>(Exchange, request.Symbol.TradingMode, result.Data.Data.AsEnumerable().Reverse().Select(x => 
             new SharedTrade(request.Symbol, symbol, x.Quantity, x.Price, x.Timestamp)
             {
                 Side = x.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell

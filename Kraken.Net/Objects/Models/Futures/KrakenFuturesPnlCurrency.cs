@@ -1,4 +1,3 @@
-using CryptoExchange.Net.Converters.SystemTextJson;
 namespace Kraken.Net.Objects.Models.Futures
 {
     [SerializationModel]

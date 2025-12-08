@@ -4,11 +4,9 @@ using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Clients.MessageHandlers;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
-using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Models.Futures;
 using Kraken.Net.Objects.Options;
-using System;
 using System.Net.Http.Headers;
 
 namespace Kraken.Net.Clients.FuturesApi
