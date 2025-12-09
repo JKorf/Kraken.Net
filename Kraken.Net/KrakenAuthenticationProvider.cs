@@ -11,6 +11,8 @@ namespace Kraken.Net
         private readonly INonceProvider _nonceProvider;
         private readonly byte[] _hmacSecret;
 
+        public override ApiCredentialsType[] SupportedCredentialTypes => [ApiCredentialsType.Hmac];
+
         public KrakenAuthenticationProvider(ApiCredentials credentials, INonceProvider? nonceProvider) : base(credentials)
         {
             if (credentials.CredentialType != ApiCredentialsType.Hmac)
