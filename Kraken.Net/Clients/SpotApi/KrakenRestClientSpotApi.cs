@@ -87,27 +87,6 @@ namespace Kraken.Net.Clients.SpotApi
             return false;
         }
 
-        protected override Error? TryParseError(RequestDefinition request, HttpResponseHeaders responseHeaders, IMessageAccessor accessor)
-        {
-            if (!accessor.IsValid)
-                return new ServerError(ErrorInfo.Unknown);
-
-            var errors = accessor.GetValue<string[]?>(MessagePath.Get().Property("error"));
-            if (errors == null || errors.Length == 0)
-                return null;
-
-            var error = errors.First();
-            var split = error.Split(':');
-            if (split.Length > 1)
-            {
-                var category = split[0];
-                var message = errors.Length > 1 ? string.Join(", ", errors.Select(x => string.Join(": ", x.Split(':').Skip(1)))) : string.Join(": ", split.Skip(1));
-                return new ServerError(category, GetErrorInfo(category, message));
-            }
-
-            return new ServerError(error, GetErrorInfo(error));
-        }
-
         internal async Task<WebCallResult> SendAsync(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null)
         {
             var result = await base.SendAsync<KrakenResult>(BaseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);

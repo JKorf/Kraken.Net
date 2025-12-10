@@ -14,14 +14,12 @@ namespace Kraken.Net.UnitTests
     [TestFixture]
     public class RestRequestTests
     {
-        [TestCase(false)]
-        [TestCase(true)]
-        public async Task ValidateSpotAccountCalls(bool useUpdatedDeserialization)
+        [Test]
+        public async Task ValidateSpotAccountCalls()
         {
             var client = new KrakenRestClient(opts =>
             {
                 opts.AutoTimestamp = false;
-                opts.UseUpdatedDeserialization = useUpdatedDeserialization;
                 opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
                 opts.RateLimiterEnabled = false;
             });
@@ -45,14 +43,12 @@ namespace Kraken.Net.UnitTests
             await tester.ValidateAsync(client => client.SpotApi.Account.TransferAsync("ETH", 1, "123", "123"), "Transfer");
         }
 
-        [TestCase(false)]
-        [TestCase(true)]
-        public async Task ValidateSpotExchangeDataCalls(bool useUpdatedDeserialization)
+        [Test]
+        public async Task ValidateSpotExchangeDataCalls()
         {
             var client = new KrakenRestClient(opts =>
             {
                 opts.AutoTimestamp = false;
-                opts.UseUpdatedDeserialization = useUpdatedDeserialization;
             });
             var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Spot/ExchangeData", "https://api.kraken.com", IsAuthenticatedSpot, "result");
             await tester.ValidateAsync(client => client.SpotApi.ExchangeData.GetSystemStatusAsync(), "GetSystemStatus");
@@ -65,15 +61,13 @@ namespace Kraken.Net.UnitTests
             await tester.ValidateAsync(client => client.SpotApi.ExchangeData.GetRecentSpreadAsync("ETHUSDT"), "GetRecentSpread", skipResponseValidation: true);
         }
 
-        [TestCase(false)]
-        [TestCase(true)]
-        public async Task ValidateSpotTradingCalls(bool useUpdatedDeserialization)
+        [Test]
+        public async Task ValidateSpotTradingCalls()
         {
             var client = new KrakenRestClient(opts =>
             {
                 opts.AutoTimestamp = false;
                 opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
-                opts.UseUpdatedDeserialization = useUpdatedDeserialization;
                 opts.RateLimiterEnabled = false;
             });
             var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Spot/Trading", "https://api.kraken.com", IsAuthenticatedSpot, "result");
@@ -92,15 +86,13 @@ namespace Kraken.Net.UnitTests
             await tester.ValidateAsync(client => client.SpotApi.Trading.CancelMultipleOrdersAsync(["123", "456"]), "CancelMultipleOrders");
         }
 
-        [TestCase(false)]
-        [TestCase(true)]
-        public async Task ValidateSpotEarnCalls(bool useUpdatedDeserialization)
+        [Test]
+        public async Task ValidateSpotEarnCalls()
         {
             var client = new KrakenRestClient(opts =>
             {
                 opts.AutoTimestamp = false;
                 opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
-                opts.UseUpdatedDeserialization = useUpdatedDeserialization;
                 opts.RateLimiterEnabled = false;
             });
             var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Spot/Earn", "https://api.kraken.com", IsAuthenticatedSpot, "result");
@@ -112,15 +104,13 @@ namespace Kraken.Net.UnitTests
             await tester.ValidateAsync(client => client.SpotApi.Earn.DeallocateEarnFundsAsync("123", 1), "DeallocateEarnFunds");
         }
 
-        [TestCase(false)]
-        [TestCase(true)]
-        public async Task ValidateFuturesAccountCalls(bool useUpdatedDeserialization)
+        [Test]
+        public async Task ValidateFuturesAccountCalls()
         {
             var client = new KrakenRestClient(opts =>
             {
                 opts.AutoTimestamp = false;
                 opts.RateLimiterEnabled = false;
-                opts.UseUpdatedDeserialization = useUpdatedDeserialization;
                 opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
             });
             var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Futures/Account", "https://futures.kraken.com", IsAuthenticatedFutures);
@@ -134,15 +124,13 @@ namespace Kraken.Net.UnitTests
             await tester.ValidateAsync(client => client.FuturesApi.Account.GetMaxOrderQuantityAsync("ETHUSDT", Enums.FuturesOrderType.TakeProfit), "GetMaxOrderQuantity", skipResponseValidation: true);
         }
 
-        [TestCase(false)]
-        [TestCase(true)]
-        public async Task ValidateFuturesTradingCalls(bool useUpdatedDeserialization)
+        [Test]
+        public async Task ValidateFuturesTradingCalls()
         {
             var client = new KrakenRestClient(opts =>
             {
                 opts.AutoTimestamp = false;
                 opts.RateLimiterEnabled = false;
-                opts.UseUpdatedDeserialization = useUpdatedDeserialization;
                 opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
             });
             var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Futures/Trading", "https://futures.kraken.com", IsAuthenticatedFutures);
@@ -162,15 +150,13 @@ namespace Kraken.Net.UnitTests
             await tester.ValidateAsync(client => client.FuturesApi.Trading.GetExecutionEventsAsync(), "GetExecutionEvents"); 
         }
 
-        [TestCase(false)]
-        [TestCase(true)]
-        public async Task ValidateFuturesExchangeDataCalls(bool useUpdatedDeserialization)
+        [Test]
+        public async Task ValidateFuturesExchangeDataCalls()
         {
             var client = new KrakenRestClient(opts =>
             {
                 opts.RateLimiterEnabled = false;
                 opts.AutoTimestamp = false;
-                opts.UseUpdatedDeserialization = useUpdatedDeserialization;
                 opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
             });
             var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Futures/ExchangeData", "https://futures.kraken.com", IsAuthenticatedFutures);

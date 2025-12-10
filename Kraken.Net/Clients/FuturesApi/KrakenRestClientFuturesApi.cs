@@ -96,49 +96,6 @@ namespace Kraken.Net.Clients.FuturesApi
         internal async Task<WebCallResult<T>> SendRawAsync<T>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T: class
             => await base.SendAsync<T>(BaseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
 
-        protected override Error? TryParseError(RequestDefinition request, HttpResponseHeaders responseHeaders, IMessageAccessor accessor)
-        {
-            if (!accessor.IsValid)
-                return new ServerError(ErrorInfo.Unknown);
-
-            var result = accessor.Deserialize<KrakenFuturesResult>();
-            if (!result)
-                return new ServerError(ErrorInfo.Unknown);
-
-            if (result.Data.Errors?.Any() == true)
-            {
-                var krakenError = result.Data.Errors.First();
-                return new ServerError(krakenError.Code, GetErrorInfo(krakenError.Code, krakenError.Message));
-            }
-
-            if (result.Data.Error?.Length > 0)
-                return new ServerError(result.Data.Error, GetErrorInfo(result.Data.Error));
-
-            return null;
-        }
-
-        /// <inheritdoc />
-        protected override Error ParseErrorResponse(int httpStatusCode, HttpResponseHeaders responseHeaders, IMessageAccessor accessor, Exception? exception)
-        {
-            if (!accessor.IsValid)
-                return new ServerError(ErrorInfo.Unknown, exception: exception);
-
-            var result = accessor.Deserialize<KrakenFuturesResult>();
-            if (!result)
-                return new ServerError(ErrorInfo.Unknown, exception: exception);
-
-            if (result.Data.Errors?.Any() == true)
-            {
-                var krakenError = result.Data.Errors.First();
-                return new ServerError(krakenError.Code, GetErrorInfo(krakenError.Code, krakenError.Message), exception);
-            }
-
-            if (result.Data.Error?.Length > 0)
-                return new ServerError(result.Data.Error, GetErrorInfo(result.Data.Error), exception: exception);
-
-            return new ServerError(ErrorInfo.Unknown, exception: exception);
-        }
-
         /// <inheritdoc />
         protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
             => new KrakenFuturesAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new KrakenNonceProvider());
