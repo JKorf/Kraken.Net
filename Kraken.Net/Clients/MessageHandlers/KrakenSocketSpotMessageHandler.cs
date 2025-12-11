@@ -30,16 +30,16 @@ namespace Kraken.Net.Clients.MessageHandlers
 
              new MessageTypeDefinition {
                 Fields = [
-                    new PropertyFieldReference("channel").WithEqualContstraint("balances"),
-                    new PropertyFieldReference("type").WithEqualContstraint("snapshot"),
+                    new PropertyFieldReference("channel").WithEqualConstraint("balances"),
+                    new PropertyFieldReference("type").WithEqualConstraint("snapshot"),
                 ],
                 StaticIdentifier = "balancessnapshot"
             },
 
              new MessageTypeDefinition {
                 Fields = [
-                    new PropertyFieldReference("channel").WithEqualContstraint("balances"),
-                    new PropertyFieldReference("type").WithNotEqualContstraint("snapshot"),
+                    new PropertyFieldReference("channel").WithEqualConstraint("balances"),
+                    new PropertyFieldReference("type").WithNotEqualConstraint("snapshot"),
                 ],
                 StaticIdentifier = "balances"
             },

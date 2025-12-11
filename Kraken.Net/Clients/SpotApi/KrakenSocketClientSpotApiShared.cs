@@ -26,6 +26,8 @@ namespace Kraken.Net.Clients.SpotApi
             if (validationError != null)
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
 
+            ClearSymbolNameIfIncorrect(request);
+
             var symbols = request.Symbols?.Length > 0 ? request.Symbols.Select(x => x.GetSymbol(FormatSymbol)).ToArray() : [request.Symbol!.GetSymbol(FormatSymbol)];
             var result = await SubscribeToTickerUpdatesAsync(symbols, update => handler(update.AsExchangeEvent(Exchange, new SharedSpotTicker(ExchangeSymbolCache.ParseSymbol(_topicId, update.Data.Symbol), update.Data.Symbol, update.Data.LastPrice, update.Data.HighPrice, update.Data.LowPrice, update.Data.Volume, update.Data.PriceChangePercentage)
             {
@@ -47,6 +49,8 @@ namespace Kraken.Net.Clients.SpotApi
             var validationError = ((ITradeSocketClient)this).SubscribeTradeOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
+
+            ClearSymbolNameIfIncorrect(request);
 
             var symbols = request.Symbols?.Length > 0 ? request.Symbols.Select(x => x.GetSymbol(FormatSymbol)).ToArray() : [request.Symbol!.GetSymbol(FormatSymbol)];
             var result = await SubscribeToTradeUpdatesAsync(symbols, update => handler(update.AsExchangeEvent(Exchange, update.Data.Select(x =>
@@ -70,6 +74,8 @@ namespace Kraken.Net.Clients.SpotApi
             var validationError = ((IBookTickerSocketClient)this).SubscribeBookTickerOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
+
+            ClearSymbolNameIfIncorrect(request);
 
             var symbols = request.Symbols?.Length > 0 ? request.Symbols.Select(x => x.GetSymbol(FormatSymbol)).ToArray() : [request.Symbol!.GetSymbol(FormatSymbol)];
             var result = await SubscribeToTickerUpdatesAsync(symbols, update => handler(update.AsExchangeEvent(Exchange, new SharedBookTicker(ExchangeSymbolCache.ParseSymbol(_topicId, update.Data.Symbol), update.Data.Symbol, update.Data.BestAskPrice, update.Data.BestAskQuantity, update.Data.BestBidPrice, update.Data.BestBidQuantity))), TriggerEvent.BestOfferChange, ct: ct).ConfigureAwait(false);
@@ -101,6 +107,8 @@ namespace Kraken.Net.Clients.SpotApi
             var validationError = ((IKlineSocketClient)this).SubscribeKlineOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
+
+            ClearSymbolNameIfIncorrect(request);
 
             var symbols = request.Symbols?.Length > 0 ? request.Symbols.Select(x => x.GetSymbol(FormatSymbol)).ToArray() : [request.Symbol!.GetSymbol(FormatSymbol)];
             var result = await SubscribeToKlineUpdatesAsync(symbols, interval, update =>
@@ -215,5 +223,20 @@ namespace Kraken.Net.Clients.SpotApi
             return SharedOrderStatus.Filled;
         }
         #endregion
+
+        private void ClearSymbolNameIfIncorrect(SharedSymbolRequest request)
+        {
+            if (request.Symbol?.SymbolName != null && !request.Symbol.SymbolName.Contains('/') && request.Symbol.BaseAsset != null)
+                request.Symbol.SymbolName = null;
+
+            if (request.Symbols?.Length > 0)
+            {
+                foreach (var symbol in request.Symbols)
+                {
+                    if (symbol?.SymbolName != null && !symbol.SymbolName.Contains('/') && symbol.BaseAsset != null)
+                        symbol.SymbolName = null;
+                }
+            }
+        }
     }
 }
