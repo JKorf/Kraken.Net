@@ -179,7 +179,7 @@ namespace Kraken.Net.Clients.SpotApi
                     );
             });
 
-            var subscription = new KrakenSubscriptionV2<KrakenTickerUpdate[]>(_logger, this, "ticker", symbols, null, snapshot, null, eventTrigger, null, internalHandler);
+            var subscription = new KrakenSubscriptionV2<KrakenTickerUpdate[]>(_logger, this, "ticker", symbols.ToArray(), null, snapshot, null, eventTrigger, null, internalHandler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 

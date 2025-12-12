@@ -19,6 +19,8 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _symbols = symbols;
             _handler = handler;
 
+            IndividualSubscriptionCount = symbols.Count;
+
             var routes = new List<MessageRoute>();
             var checkers = new List<MessageHandlerLink>();
             foreach (var symbol in symbols)

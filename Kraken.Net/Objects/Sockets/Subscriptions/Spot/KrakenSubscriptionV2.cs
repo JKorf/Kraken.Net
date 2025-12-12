@@ -15,14 +15,14 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         private KlineInterval? _interval;
         private bool? _snapshot;
         private int? _depth;
-        private IEnumerable<string>? _symbols;
+        private string[]? _symbols;
         private readonly Action<DateTime, string?, KrakenSocketUpdateV2<T>> _handler;
 
         public KrakenSubscriptionV2(
             ILogger logger,
             SocketApiClient client,
             string topic,
-            IEnumerable<string>? symbols,
+            string[]? symbols,
             KlineInterval? interval,
             bool? snapshot,
             int? depth,
@@ -39,6 +39,8 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _interval = interval;
             _eventTrigger = eventTrigger == TriggerEvent.BestOfferChange ? "bbo" : eventTrigger == TriggerEvent.Trade ? "trades" : null;
             Token = token;
+
+            IndividualSubscriptionCount = symbols?.Length ?? 1;
 
             MessageRouter = MessageRouter.CreateWithOptionalTopicFilters<KrakenSocketUpdateV2<T>>(topic, symbols?.Select(x => x + interval).ToArray(), DoHandleMessage);
 

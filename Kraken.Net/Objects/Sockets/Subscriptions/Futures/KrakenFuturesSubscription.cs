@@ -19,6 +19,8 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _symbols = symbols;
             _handler = handler;
 
+            IndividualSubscriptionCount = symbols?.Count ?? 1;
+
             if (symbols?.Count > 0)
             {
                 MessageMatcher = MessageMatcher.Create(symbols.Select(x => new MessageHandlerLink<T>(_feed + "-" + x.ToLowerInvariant(), DoHandleMessage)).ToArray());
