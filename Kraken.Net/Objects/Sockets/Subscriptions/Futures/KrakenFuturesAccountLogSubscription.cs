@@ -60,7 +60,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesAccountLogsUpdate message)
         {
             _updateHandler.Invoke(
-                new DataEvent<KrakenFuturesAccountLogsUpdate>(message, receiveTime, originalData)
+                new DataEvent<KrakenFuturesAccountLogsUpdate>(KrakenExchange.ExchangeName, message, receiveTime, originalData)
                     .WithStreamId(message.Feed)
                     .WithDataTimestamp(message.NewEntry.Timestamp)
                 );
@@ -71,7 +71,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesAccountLogsSnapshotUpdate message)
         {
             _snapshotHandler.Invoke(
-                new DataEvent<KrakenFuturesAccountLogsSnapshotUpdate>(message, receiveTime, originalData)
+                new DataEvent<KrakenFuturesAccountLogsSnapshotUpdate>(KrakenExchange.ExchangeName, message, receiveTime, originalData)
                     .WithStreamId(message.Feed)
                     .WithUpdateType(SocketUpdateType.Snapshot)
                     .WithDataTimestamp(message.Logs.Any() ? message.Logs.Max(x => x.Timestamp) : null)

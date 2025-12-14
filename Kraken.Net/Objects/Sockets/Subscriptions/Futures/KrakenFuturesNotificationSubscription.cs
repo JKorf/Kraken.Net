@@ -51,7 +51,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesNotificationUpdate message)
         {
             _handler.Invoke(
-                new DataEvent<KrakenFuturesNotificationUpdate>(message, receiveTime, originalData)
+                new DataEvent<KrakenFuturesNotificationUpdate>(KrakenExchange.ExchangeName, message, receiveTime, originalData)
                     .WithStreamId(message.Feed)
                     .WithUpdateType(SocketUpdateType.Update)
                 );

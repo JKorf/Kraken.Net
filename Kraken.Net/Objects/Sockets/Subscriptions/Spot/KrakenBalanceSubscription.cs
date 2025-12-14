@@ -74,7 +74,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketUpdateV2<KrakenBalanceSnapshot[]> message)
         {
             _snapshotHandler?.Invoke(
-                new DataEvent<KrakenBalanceSnapshot[]>(message.Data, receiveTime, originalData)
+                new DataEvent<KrakenBalanceSnapshot[]>(KrakenExchange.ExchangeName, message.Data, receiveTime, originalData)
                     .WithStreamId("balances")
                     .WithUpdateType(SocketUpdateType.Snapshot)
                     .WithDataTimestamp(message.Timestamp)
@@ -85,7 +85,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketUpdateV2<KrakenBalanceUpdate[]> message)
         {
             _updateHandler?.Invoke(
-                new DataEvent<KrakenBalanceUpdate[]>(message.Data, receiveTime, originalData)
+                new DataEvent<KrakenBalanceUpdate[]>(KrakenExchange.ExchangeName, message.Data, receiveTime, originalData)
                     .WithStreamId("balances")
                     .WithUpdateType(SocketUpdateType.Update)
                     .WithDataTimestamp(message.Timestamp)

@@ -75,7 +75,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesOpenOrdersSnapshotUpdate message)
         {
             _snapshotHandler.Invoke(
-                new DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate>(message, receiveTime, originalData)
+                new DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate>(KrakenExchange.ExchangeName, message, receiveTime, originalData)
                     .WithStreamId(message.Feed)
                     .WithUpdateType(SocketUpdateType.Snapshot)
                     .WithSymbol(message.Symbol)
@@ -88,7 +88,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesOpenOrdersUpdate message)
         {
             _updateHandler.Invoke(
-                new DataEvent<KrakenFuturesOpenOrdersUpdate>(message, receiveTime, originalData)
+                new DataEvent<KrakenFuturesOpenOrdersUpdate>(KrakenExchange.ExchangeName, message, receiveTime, originalData)
                     .WithStreamId(message.Feed)
                     .WithUpdateType(SocketUpdateType.Update)
                     .WithSymbol(message.Symbol)

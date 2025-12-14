@@ -25,7 +25,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketUpdateV2<KrakenStreamSystemStatus[]> message)
         {
             _handler?.Invoke(
-                new DataEvent<KrakenStreamSystemStatus>(message.Data.First(), receiveTime, originalData)
+                new DataEvent<KrakenStreamSystemStatus>(KrakenExchange.ExchangeName, message.Data.First(), receiveTime, originalData)
                     .WithStreamId(message.Channel)
                     .WithUpdateType(SocketUpdateType.Update)
                     .WithDataTimestamp(message.Timestamp)

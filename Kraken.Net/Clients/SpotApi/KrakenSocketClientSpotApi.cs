@@ -153,7 +153,7 @@ namespace Kraken.Net.Clients.SpotApi
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenTickerUpdate[]>>((receiveTime, originalData, data) =>
             {
                 handler.Invoke(
-                    new DataEvent<KrakenTickerUpdate>(data.Data.First(), receiveTime, originalData)
+                    new DataEvent<KrakenTickerUpdate>(KrakenExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
                         .WithStreamId(data.Channel)
                         .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                         .WithSymbol(data.Data.First().Symbol)
@@ -171,7 +171,7 @@ namespace Kraken.Net.Clients.SpotApi
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenTickerUpdate[]>>((receiveTime, originalData, data) =>
             {
                 handler.Invoke(
-                    new DataEvent<KrakenTickerUpdate>(data.Data.First(), receiveTime, originalData)
+                    new DataEvent<KrakenTickerUpdate>(KrakenExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
                         .WithStreamId(data.Channel)
                         .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                         .WithSymbol(data.Data.First().Symbol)
@@ -197,7 +197,7 @@ namespace Kraken.Net.Clients.SpotApi
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenKlineUpdate[]>>((receiveTime, originalData, data) =>
             {
                 handler.Invoke(
-                    new DataEvent<KrakenKlineUpdate[]>(data.Data, receiveTime, originalData)
+                    new DataEvent<KrakenKlineUpdate[]>(KrakenExchange.ExchangeName, data.Data, receiveTime, originalData)
                         .WithStreamId(data.Channel)
                         .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                         .WithSymbol(data.Data.First().Symbol)
@@ -223,7 +223,7 @@ namespace Kraken.Net.Clients.SpotApi
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenTradeUpdate[]>>((receiveTime, originalData, data) =>
             {
                 handler.Invoke(
-                    new DataEvent<KrakenTradeUpdate[]>(data.Data, receiveTime, originalData)
+                    new DataEvent<KrakenTradeUpdate[]>(KrakenExchange.ExchangeName, data.Data, receiveTime, originalData)
                         .WithStreamId(data.Channel)
                         .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                         .WithSymbol(data.Data.First().Symbol)
@@ -251,7 +251,7 @@ namespace Kraken.Net.Clients.SpotApi
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenBookUpdate[]>>((receiveTime, originalData, data) =>
             {
                 handler.Invoke(
-                    new DataEvent<KrakenBookUpdate>(data.Data.First(), receiveTime, originalData)
+                    new DataEvent<KrakenBookUpdate>(KrakenExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
                         .WithStreamId(data.Channel)
                         .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                         .WithSymbol(data.Data.First().Symbol)
@@ -282,7 +282,7 @@ namespace Kraken.Net.Clients.SpotApi
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenIndividualBookUpdate[]>>((receiveTime, originalData, data) =>
             {
                 handler.Invoke(
-                    new DataEvent<KrakenIndividualBookUpdate>(data.Data.First(), receiveTime, originalData)
+                    new DataEvent<KrakenIndividualBookUpdate>(KrakenExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
                         .WithStreamId(data.Channel)
                         .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                         .WithSymbol(data.Data.First().Symbol)
@@ -303,7 +303,7 @@ namespace Kraken.Net.Clients.SpotApi
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenInstrumentUpdate>>((receiveTime, originalData, data) =>
             {
                 handler.Invoke(
-                    new DataEvent<KrakenInstrumentUpdate>(data.Data, receiveTime, originalData)
+                    new DataEvent<KrakenInstrumentUpdate>(KrakenExchange.ExchangeName, data.Data, receiveTime, originalData)
                         .WithStreamId(data.Channel)
                         .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                         .WithDataTimestamp(data.Timestamp)

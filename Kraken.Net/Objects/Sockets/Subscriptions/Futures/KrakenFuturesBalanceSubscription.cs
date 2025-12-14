@@ -51,7 +51,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesBalancesUpdate message)
         {
             _handler.Invoke(
-                new DataEvent<KrakenFuturesBalancesUpdate>(message, receiveTime, originalData)
+                new DataEvent<KrakenFuturesBalancesUpdate>(KrakenExchange.ExchangeName, message, receiveTime, originalData)
                     .WithStreamId(message.Feed)
                     .WithDataTimestamp(message.Timestamp)
                     .WithUpdateType(string.Equals(message.Feed, "balances_snapshot", StringComparison.Ordinal) ? SocketUpdateType.Snapshot : SocketUpdateType.Update)

@@ -66,7 +66,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketUpdateV2<KrakenOrderUpdate[]> message)
         {
             _updateHandler?.Invoke(
-                new DataEvent<KrakenOrderUpdate[]>(message.Data, receiveTime, originalData)
+                new DataEvent<KrakenOrderUpdate[]>(KrakenExchange.ExchangeName, message.Data, receiveTime, originalData)
                     .WithStreamId("executions")
                     .WithUpdateType(message.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                     .WithDataTimestamp(message.Timestamp)

@@ -94,7 +94,7 @@ namespace Kraken.Net.Clients.FuturesApi
             var internalHandler = new Action<DateTime, string?, KrakenFuturesHeartbeatUpdate>((receiveTime, originalData, data) =>
             {
                 handler.Invoke(
-                    new DataEvent<KrakenFuturesHeartbeatUpdate>(data, receiveTime, originalData)
+                    new DataEvent<KrakenFuturesHeartbeatUpdate>(KrakenExchange.ExchangeName, data, receiveTime, originalData)
                         .WithStreamId(data.Feed)
                         .WithUpdateType(SocketUpdateType.Update)
                         .WithDataTimestamp(data.Timestamp)
@@ -119,7 +119,7 @@ namespace Kraken.Net.Clients.FuturesApi
             var internalHandler = new Action<DateTime, string?, KrakenFuturesTickerUpdate>((receiveTime, originalData, data) =>
             {
                 handler.Invoke(
-                    new DataEvent<KrakenFuturesTickerUpdate>(data, receiveTime, originalData)
+                    new DataEvent<KrakenFuturesTickerUpdate>(KrakenExchange.ExchangeName, data, receiveTime, originalData)
                         .WithStreamId(data.Feed)
                         .WithUpdateType(SocketUpdateType.Update)
                         .WithSymbol(data.Symbol)
@@ -163,7 +163,7 @@ namespace Kraken.Net.Clients.FuturesApi
             var internalHandler = new Action<DateTime, string?, KrakenFuturesMiniTickerUpdate>((receiveTime, originalData, data) =>
             {
                 handler.Invoke(
-                    new DataEvent<KrakenFuturesMiniTickerUpdate>(data, receiveTime, originalData)
+                    new DataEvent<KrakenFuturesMiniTickerUpdate>(KrakenExchange.ExchangeName, data, receiveTime, originalData)
                         .WithStreamId(data.Feed)
                         .WithSymbol(data.Symbol)
                         .WithUpdateType(SocketUpdateType.Update)
