@@ -18,7 +18,8 @@ namespace Kraken.Net.Clients.SpotApi
         #region Ticker client
         SubscribeTickerOptions ITickerSocketClient.SubscribeTickerOptions { get; } = new SubscribeTickerOptions()
         {
-            SupportsMultipleSymbols = true
+            SupportsMultipleSymbols = true,
+            MaxSymbolCount = 500
         };
         async Task<ExchangeResult<UpdateSubscription>> ITickerSocketClient.SubscribeToTickerUpdatesAsync(SubscribeTickerRequest request, Action<DataEvent<SharedSpotTicker>> handler, CancellationToken ct)
         {
@@ -42,7 +43,8 @@ namespace Kraken.Net.Clients.SpotApi
 
         EndpointOptions<SubscribeTradeRequest> ITradeSocketClient.SubscribeTradeOptions { get; } = new EndpointOptions<SubscribeTradeRequest>(false)
         {
-            SupportsMultipleSymbols = true
+            SupportsMultipleSymbols = true,
+            MaxSymbolCount = 500
         };
         async Task<ExchangeResult<UpdateSubscription>> ITradeSocketClient.SubscribeToTradeUpdatesAsync(SubscribeTradeRequest request, Action<DataEvent<SharedTrade[]>> handler, CancellationToken ct)
         {
@@ -67,7 +69,8 @@ namespace Kraken.Net.Clients.SpotApi
 
         EndpointOptions<SubscribeBookTickerRequest> IBookTickerSocketClient.SubscribeBookTickerOptions { get; } = new EndpointOptions<SubscribeBookTickerRequest>(false)
         {
-            SupportsMultipleSymbols = true
+            SupportsMultipleSymbols = true,
+            MaxSymbolCount = 500
         };
         async Task<ExchangeResult<UpdateSubscription>> IBookTickerSocketClient.SubscribeToBookTickerUpdatesAsync(SubscribeBookTickerRequest request, Action<DataEvent<SharedBookTicker>> handler, CancellationToken ct)
         {
@@ -96,7 +99,8 @@ namespace Kraken.Net.Clients.SpotApi
             SharedKlineInterval.OneDay,
             SharedKlineInterval.OneWeek)
         {
-            SupportsMultipleSymbols = true
+            SupportsMultipleSymbols = true,
+            MaxSymbolCount = 500
         };
         async Task<ExchangeResult<UpdateSubscription>> IKlineSocketClient.SubscribeToKlineUpdatesAsync(SubscribeKlineRequest request, Action<DataEvent<SharedKline>> handler, CancellationToken ct)
         {
