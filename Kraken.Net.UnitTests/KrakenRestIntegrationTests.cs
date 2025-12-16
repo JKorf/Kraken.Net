@@ -15,7 +15,7 @@ namespace Kraken.Net.UnitTests
     [NonParallelizable]
     internal class KrakenRestIntegrationTests : RestIntegrationTest<KrakenRestClient>
     {
-        public override bool Run { get; set; } = true;
+        public override bool Run { get; set; } = false;
 
         public KrakenRestIntegrationTests()
         {
