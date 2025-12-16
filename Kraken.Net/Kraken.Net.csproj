@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0;net10.0;netstandard2.0;netstandard2.1</TargetFrameworks>
     <Nullable>enable</Nullable>
@@ -7,9 +7,9 @@
   <PropertyGroup>
     <PackageId>KrakenExchange.Net</PackageId>
     <Authors>JKorf</Authors>
-    <PackageVersion>6.11.0</PackageVersion>
-    <AssemblyVersion>6.11.0</AssemblyVersion>
-    <FileVersion>6.11.0</FileVersion>
+    <PackageVersion>7.0.0</PackageVersion>
+    <AssemblyVersion>7.0.0</AssemblyVersion>
+    <FileVersion>7.0.0</FileVersion>
     <Description>KrakenExchange.Net is a high performance client library for accessing the Kraken REST and Websocket API. All data is mapped to readable models and enum values. Additional features include automatic websocket (re)connection management, client side rate limiting, an implementation for maintaining a client side order book, easy integration with other exchange client libraries and more.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>Kraken;KrakenExchange.Net;Kraken.com;Kraken.Net;Kraken Client;Kraken API;CryptoCurrency;CryptoCurrency Exchange;CryptoExchange.Net</PackageTags>
