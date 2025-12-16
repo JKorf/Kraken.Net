@@ -105,7 +105,6 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketUpdateV2<T> message)
         {
             _handler?.Invoke(receiveTime, originalData, message);
-            //_handler.Invoke(message.As(message.Data.Data, message.Data.Channel, null,).WithDataTimestamp(message.Data.Timestamp));
             return CallResult.SuccessResult;
         }
 
