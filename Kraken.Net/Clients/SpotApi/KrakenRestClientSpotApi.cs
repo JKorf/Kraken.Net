@@ -1,13 +1,15 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Converters.MessageParsing;
+using CryptoExchange.Net.Converters.MessageParsing.DynamicConverters;
 using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.RateLimiting.Interfaces;
 using CryptoExchange.Net.SharedApis;
-using Kraken.Net.Enums;
+using Kraken.Net.Clients.MessageHandlers;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Options;
+using System.Net.Http.Headers;
 
 namespace Kraken.Net.Clients.SpotApi
 {
@@ -22,6 +24,7 @@ namespace Kraken.Net.Clients.SpotApi
         internal static TimeSyncState _timeSyncState = new TimeSyncState("Spot Api");
 
         protected override ErrorMapping ErrorMapping => KrakenErrors.SpotMapping;
+        protected override IRestMessageHandler MessageHandler { get; } = new KrakenRestSpotMessageHandler(KrakenErrors.SpotMapping);
         #endregion
 
         #region Api clients
@@ -66,7 +69,7 @@ namespace Kraken.Net.Clients.SpotApi
         protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
 
         /// <inheritdoc />
-        protected override async Task<bool> ShouldRetryRequestAsync<T>(IRateLimitGate? gate, WebCallResult<T> callResult, int tries)
+        protected override async ValueTask<bool> ShouldRetryRequestAsync<T>(IRateLimitGate? gate, WebCallResult<T> callResult, int tries)
         {
             if (await base.ShouldRetryRequestAsync(gate, callResult, tries).ConfigureAwait(false))
                 return true;
@@ -82,27 +85,6 @@ namespace Kraken.Net.Clients.SpotApi
             }            
 
             return false;
-        }
-
-        protected override Error? TryParseError(RequestDefinition request, KeyValuePair<string, string[]>[] responseHeaders, IMessageAccessor accessor)
-        {
-            if (!accessor.IsValid)
-                return new ServerError(ErrorInfo.Unknown);
-
-            var errors = accessor.GetValue<string[]?>(MessagePath.Get().Property("error"));
-            if (errors == null || errors.Length == 0)
-                return null;
-
-            var error = errors.First();
-            var split = error.Split(':');
-            if (split.Length > 1)
-            {
-                var category = split[0];
-                var message = errors.Length > 1 ? string.Join(", ", errors.Select(x => string.Join(": ", x.Split(':').Skip(1)))) : string.Join(": ", split.Skip(1));
-                return new ServerError(category, GetErrorInfo(category, message));
-            }
-
-            return new ServerError(error, GetErrorInfo(error));
         }
 
         internal async Task<WebCallResult> SendAsync(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null)

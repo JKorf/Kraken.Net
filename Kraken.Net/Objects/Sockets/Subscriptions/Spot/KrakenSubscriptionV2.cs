@@ -1,10 +1,9 @@
 ﻿using CryptoExchange.Net.Clients;
-using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.Default;
 using Kraken.Net.Enums;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Sockets.Queries;
-using System.Linq;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
@@ -13,23 +12,23 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         private readonly SocketApiClient _client;
         private string _topic;
         private string? _eventTrigger;
-        private int? _interval;
+        private KlineInterval? _interval;
         private bool? _snapshot;
         private int? _depth;
-        private IEnumerable<string>? _symbols;
-        private readonly Action<DataEvent<T>> _handler;
+        private string[]? _symbols;
+        private readonly Action<DateTime, string?, KrakenSocketUpdateV2<T>> _handler;
 
         public KrakenSubscriptionV2(
             ILogger logger,
             SocketApiClient client,
             string topic,
-            IEnumerable<string>? symbols, 
-            int? interval,
+            string[]? symbols,
+            KlineInterval? interval,
             bool? snapshot,
             int? depth,
             TriggerEvent? eventTrigger,
             string? token,
-            Action<DataEvent<T>> handler) : base(logger, token != null)
+            Action<DateTime, string?, KrakenSocketUpdateV2<T>> handler) : base(logger, token != null)
         {
             _client = client;
             _topic = topic;
@@ -41,10 +40,18 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _eventTrigger = eventTrigger == TriggerEvent.BestOfferChange ? "bbo" : eventTrigger == TriggerEvent.Trade ? "trades" : null;
             Token = token;
 
+            IndividualSubscriptionCount = symbols?.Length ?? 1;
+
+            MessageRouter = MessageRouter.CreateWithOptionalTopicFilters<KrakenSocketUpdateV2<T>>(topic, symbols?.Select(x => x + interval).ToArray(), DoHandleMessage);
+
             if (symbols?.Any() == true)
+            {
                 MessageMatcher = MessageMatcher.Create(symbols.Select(x => new MessageHandlerLink<KrakenSocketUpdateV2<T>>(topic + "-" + x, DoHandleMessage)).ToArray());
+            }
             else
+            {
                 MessageMatcher = MessageMatcher.Create<KrakenSocketUpdateV2<T>>(topic, DoHandleMessage);
+            }
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)
@@ -59,7 +66,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                     {
                         Channel = _topic,
                         Symbol = _symbols?.ToArray(),
-                        Interval = _interval,
+                        Interval = _interval == null ? null : int.Parse(EnumConverter.GetString(_interval)),
                         Depth = _depth,
                         Snapshot = _snapshot,
                         EventTrigger = _eventTrigger,
@@ -83,7 +90,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                     {
                         Channel = _topic,
                         Symbol = _symbols?.ToArray(),
-                        Interval = _interval,
+                        Interval = _interval == null ? null : int.Parse(EnumConverter.GetString(_interval)),
                         Depth = _depth,
                         Snapshot = _snapshot,
                         EventTrigger = _eventTrigger,
@@ -95,9 +102,9 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             };
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenSocketUpdateV2<T>> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketUpdateV2<T> message)
         {
-            _handler.Invoke(message.As(message.Data.Data, message.Data.Channel, null, message.Data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update).WithDataTimestamp(message.Data.Timestamp));
+            _handler?.Invoke(receiveTime, originalData, message);
             return CallResult.SuccessResult;
         }
 

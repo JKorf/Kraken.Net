@@ -1,0 +1,7 @@
+>1 { "method": "subscribe", "params": { "channel": "ohlc", "symbol": ["ETH/USDT"], "interval": 60 }, "req_id": "|*|" }
+>2 { "method": "subscribe", "params": { "channel": "ohlc", "symbol": ["ETH/USDT"], "interval": 1440 }, "req_id": "|*|" }
+<1 { "method": "subscribe", "result": { "channel": "ohlc", "snapshot": true, "symbol": "ETH/USDT", "interval": 60  }, "success": true,"time_in": "2023-09-25T09:04:31.742599Z", "time_out": "2023-09-25T09:04:31.742648Z", "req_id": |req_id| }
+<2 { "method": "subscribe", "result": { "channel": "ohlc", "snapshot": true, "symbol": "ETH/USDT", "interval": 1440  }, "success": true,"time_in": "2023-09-25T09:04:31.742599Z", "time_out": "2023-09-25T09:04:31.742648Z", "req_id": |req_id| }
+=1 { "channel": "ohlc", "type": "update", "timestamp": "2023-10-04T16:26:30.524394914Z", "data": [{ "symbol": "ETH/USDT", "interval": 60, "timestamp": "2023-10-04T16:30:00.000000Z" } ]}
+=2 { "channel": "ohlc", "type": "update", "timestamp": "2023-10-04T16:26:30.524394914Z", "data": [{ "symbol": "ETH/USDT", "interval": 1440, "timestamp": "2023-10-04T16:30:00.000000Z" } ]}
+

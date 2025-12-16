@@ -1,13 +1,13 @@
 ﻿using CryptoExchange.Net.Clients;
-using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.Default;
 using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Sockets.Queries;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
-    internal class KrakenFuturesOrdersSubscription : Subscription<KrakenFuturesResponse, object>
+    internal class KrakenFuturesOrdersSubscription : Subscription
     {
         private readonly SocketApiClient _client;
         protected readonly Action<DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate>> _snapshotHandler;
@@ -27,12 +27,20 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     new MessageHandlerLink<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_verbose_snapshot", DoHandleMessage),
                     new MessageHandlerLink<KrakenFuturesOpenOrdersUpdate>("open_orders_verbose", DoHandleMessage)
                     ]);
+                MessageRouter = MessageRouter.Create([
+                    MessageRoute<KrakenFuturesOpenOrdersSnapshotUpdate>.CreateWithoutTopicFilter("open_orders_verbose_snapshot", DoHandleMessage),
+                    MessageRoute<KrakenFuturesOpenOrdersUpdate>.CreateWithoutTopicFilter("open_orders_verbose", DoHandleMessage)
+                    ]);
             }
             else
             {
                 MessageMatcher = MessageMatcher.Create([
                     new MessageHandlerLink<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_snapshot", DoHandleMessage),
                     new MessageHandlerLink<KrakenFuturesOpenOrdersUpdate>("open_orders", DoHandleMessage)
+                    ]);
+                MessageRouter = MessageRouter.Create([
+                    MessageRoute<KrakenFuturesOpenOrdersSnapshotUpdate>.CreateWithoutTopicFilter("open_orders_snapshot",DoHandleMessage),
+                    MessageRoute<KrakenFuturesOpenOrdersUpdate>.CreateWithoutTopicFilter("open_orders", DoHandleMessage)
                     ]);
             }
         }
@@ -64,15 +72,28 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 Authenticated);
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesOpenOrdersSnapshotUpdate message)
         {
-            _snapshotHandler.Invoke(message.As(message.Data, message.Data.Feed, message.Data.Symbol, SocketUpdateType.Snapshot).WithDataTimestamp(message.Data.Orders.Any() ? message.Data.Orders.Max(x => x.LastUpdateTime) : null));
+            _snapshotHandler.Invoke(
+                new DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate>(KrakenExchange.ExchangeName, message, receiveTime, originalData)
+                    .WithStreamId(message.Feed)
+                    .WithUpdateType(SocketUpdateType.Snapshot)
+                    .WithSymbol(message.Symbol)
+                    .WithDataTimestamp(message.Orders.Any() ? message.Orders.Max(x => x.LastUpdateTime) : null)
+                );
+            
             return CallResult.SuccessResult;
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesOpenOrdersUpdate> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesOpenOrdersUpdate message)
         {
-            _updateHandler.Invoke(message.As(message.Data, message.Data.Feed, message.Data.Symbol, SocketUpdateType.Update).WithDataTimestamp(message.Data.Order?.LastUpdateTime));
+            _updateHandler.Invoke(
+                new DataEvent<KrakenFuturesOpenOrdersUpdate>(KrakenExchange.ExchangeName, message, receiveTime, originalData)
+                    .WithStreamId(message.Feed)
+                    .WithUpdateType(SocketUpdateType.Update)
+                    .WithSymbol(message.Symbol)
+                    .WithDataTimestamp(message.Order?.LastUpdateTime)
+                );
             return CallResult.SuccessResult;
         }
     }

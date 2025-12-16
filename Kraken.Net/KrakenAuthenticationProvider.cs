@@ -11,6 +11,8 @@ namespace Kraken.Net
         private readonly INonceProvider _nonceProvider;
         private readonly byte[] _hmacSecret;
 
+        public override ApiCredentialsType[] SupportedCredentialTypes => [ApiCredentialsType.Hmac];
+
         public KrakenAuthenticationProvider(ApiCredentials credentials, INonceProvider? nonceProvider) : base(credentials)
         {
             if (credentials.CredentialType != ApiCredentialsType.Hmac)
@@ -25,12 +27,13 @@ namespace Kraken.Net
             if (!request.Authenticated)
                 return;
 
+            request.Headers ??= new Dictionary<string, string>();
             request.Headers.Add("API-Key", _credentials.Key);
             var nonce = _nonceProvider.GetNonce();
             var parameters = request.GetPositionParameters();
             parameters.Add("nonce", nonce);
 
-            var body = request.ParameterPosition == HttpMethodParameterPosition.InUri ? string.Empty : request.BodyFormat == RequestBodyFormat.Json ? GetSerializedBody(_serializer, parameters) : request.BodyParameters.ToFormData();
+            var body = request.ParameterPosition == HttpMethodParameterPosition.InUri ? string.Empty : request.BodyFormat == RequestBodyFormat.Json ? GetSerializedBody(_serializer, parameters) : (request.BodyParameters?.ToFormData() ?? string.Empty);
             var queryString = request.GetQueryString();
             var parameterString = nonce + body + queryString;
            

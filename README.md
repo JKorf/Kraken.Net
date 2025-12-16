@@ -6,6 +6,7 @@ Kraken.Net is a strongly typed client library for accessing the [Kraken REST and
 ## Features
 * Response data is mapped to descriptive models
 * Input parameters and response values are mapped to discriptive enum values where possible
+* High performance
 * Automatic websocket (re)connection management 
 * Client side rate limiting 
 * Client side order book implementation
@@ -16,7 +17,7 @@ Kraken.Net is a strongly typed client library for accessing the [Kraken REST and
 * Native AOT support
 
 ## Supported Frameworks
-The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for optimal compatibility
+The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for optimal compatibility, as well as the latest dotnet versions to use the latest framework features.
 
 |.NET implementation|Version Support|
 |--|--|

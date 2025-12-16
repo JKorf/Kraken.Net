@@ -1,4 +1,3 @@
-using CryptoExchange.Net.Converters.SystemTextJson;
 using Kraken.Net.Objects.Models.Futures;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures

@@ -1,13 +1,13 @@
 ﻿using CryptoExchange.Net.Clients;
-using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.Default;
 using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Sockets.Queries;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
-    internal class KrakenFuturesOrderbookSubscription : Subscription<KrakenFuturesResponse, object>
+    internal class KrakenFuturesOrderbookSubscription : Subscription
     {
         private List<string> _symbols;
         private readonly SocketApiClient _client;
@@ -21,14 +21,21 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _snapshotHandler = snapshotHandler;
             _updateHandler = updateHandler;
 
+            IndividualSubscriptionCount = symbols.Count;
+
             var checkers = new List<MessageHandlerLink>();
-            foreach(var symbol in symbols)
+            var routes = new List<MessageRoute>();
+            foreach (var symbol in symbols)
             {
                 checkers.Add(new MessageHandlerLink<KrakenFuturesBookUpdate>("book-" + symbol.ToLowerInvariant(), DoHandleMessage));
                 checkers.Add(new MessageHandlerLink<KrakenFuturesBookSnapshotUpdate>("book_snapshot-" + symbol.ToLowerInvariant(), DoHandleMessage));
+
+                routes.Add(MessageRoute<KrakenFuturesBookUpdate>.CreateWithoutTopicFilter("book-" + symbol.ToLowerInvariant(), DoHandleMessage));
+                routes.Add(MessageRoute<KrakenFuturesBookSnapshotUpdate>.CreateWithoutTopicFilter("book_snapshot-" + symbol.ToLowerInvariant(), DoHandleMessage));
             }    
 
             MessageMatcher = MessageMatcher.Create(checkers.ToArray());
+            MessageRouter = MessageRouter.Create(routes.ToArray());
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)
@@ -63,15 +70,27 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             };
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesBookSnapshotUpdate> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesBookSnapshotUpdate message)
         {
-            _snapshotHandler.Invoke(message.As(message.Data, message.Data.Feed, message.Data.Symbol, SocketUpdateType.Snapshot).WithDataTimestamp(message.Data.Timestamp));
+            _snapshotHandler.Invoke(
+                new DataEvent<KrakenFuturesBookSnapshotUpdate>(KrakenExchange.ExchangeName, message, receiveTime, originalData)
+                    .WithStreamId(message.Feed)
+                    .WithUpdateType(SocketUpdateType.Snapshot)
+                    .WithSymbol(message.Symbol)
+                    .WithDataTimestamp(message.Timestamp)
+                );
             return CallResult.SuccessResult;
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesBookUpdate> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesBookUpdate message)
         {
-            _updateHandler.Invoke(message.As(message.Data, message.Data.Feed, message.Data.Symbol, SocketUpdateType.Update).WithDataTimestamp(message.Data.Timestamp));
+            _updateHandler.Invoke(
+                new DataEvent<KrakenFuturesBookUpdate>(KrakenExchange.ExchangeName, message, receiveTime, originalData)
+                    .WithStreamId(message.Feed)
+                    .WithUpdateType(SocketUpdateType.Update)
+                    .WithSymbol(message.Symbol)
+                    .WithDataTimestamp(message.Timestamp)
+                );
             return CallResult.SuccessResult;
         }
     }

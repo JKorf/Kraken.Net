@@ -1,11 +1,8 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
-using CryptoExchange.Net.Sockets;
-using Kraken.Net.Objects.Internal;
-using Kraken.Net.Objects.Sockets.Queries;
+﻿using CryptoExchange.Net.Sockets.Default;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
-    internal abstract class KrakenSubscription : Subscription<KrakenSocketResponseV2<KrakenSocketSubResponse>, KrakenSocketResponseV2<KrakenSocketSubResponse>>
+    internal abstract class KrakenSubscription : Subscription
     {
         public string? Token { get; set; }
         public bool TokenRequired { get; set; }

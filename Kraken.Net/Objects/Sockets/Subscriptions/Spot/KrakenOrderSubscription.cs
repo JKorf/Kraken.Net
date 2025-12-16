@@ -1,7 +1,7 @@
 ﻿using CryptoExchange.Net.Clients;
-using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.Default;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models.Socket;
 using Kraken.Net.Objects.Sockets.Queries;
@@ -26,6 +26,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _updateHandler = updateHandler;
 
             MessageMatcher = MessageMatcher.Create<KrakenSocketUpdateV2<KrakenOrderUpdate[]>>("executions", DoHandleMessage);
+            MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenSocketUpdateV2<KrakenOrderUpdate[]>>("executions", DoHandleMessage);
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)
@@ -62,9 +63,14 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 }, false);
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenSocketUpdateV2<KrakenOrderUpdate[]>> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketUpdateV2<KrakenOrderUpdate[]> message)
         {
-            _updateHandler.Invoke(message.As(message.Data.Data, "executions", null, message.Data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update).WithDataTimestamp(message.Data.Timestamp));
+            _updateHandler?.Invoke(
+                new DataEvent<KrakenOrderUpdate[]>(KrakenExchange.ExchangeName, message.Data, receiveTime, originalData)
+                    .WithStreamId("executions")
+                    .WithUpdateType(message.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
+                    .WithDataTimestamp(message.Timestamp)
+                );
             return CallResult.SuccessResult;
         }
     }

@@ -11,6 +11,7 @@ namespace Kraken.Net
         private readonly byte[] _hmacSecret;
 
         public string GetApiKey() => _credentials.Key;
+        public override ApiCredentialsType[] SupportedCredentialTypes => [ApiCredentialsType.Hmac];
 
         public KrakenFuturesAuthenticationProvider(ApiCredentials credentials, INonceProvider? nonceProvider) : base(credentials)
         {
@@ -26,10 +27,11 @@ namespace Kraken.Net
             if (!request.Authenticated)
                 return;
 
+            request.Headers ??= new Dictionary<string, string>();
             request.Headers.Add("APIKey", _credentials.Key);
 
             var queryString = request.GetQueryString();
-            var body = request.ParameterPosition == HttpMethodParameterPosition.InBody ? request.BodyParameters.ToFormData() : string.Empty;
+            var body = (request.ParameterPosition == HttpMethodParameterPosition.InBody && request.BodyParameters?.Count > 0) ? request.BodyParameters.ToFormData() : string.Empty;
             var signData = $"{queryString}{body}{request.Path.Replace("/derivatives", "")}";
 
             var hash = SignSHA256Bytes(signData);

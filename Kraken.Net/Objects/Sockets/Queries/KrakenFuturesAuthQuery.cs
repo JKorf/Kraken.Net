@@ -1,6 +1,6 @@
 ﻿using CryptoExchange.Net.Objects.Errors;
-using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.Default;
 
 namespace Kraken.Net.Objects.Sockets.Queries
 {
@@ -9,18 +9,19 @@ namespace Kraken.Net.Objects.Sockets.Queries
         public KrakenFuturesAuthQuery(string apiKey) : base(new KrakenChallengeRequest { ApiKey = apiKey, Event = "challenge" }, false)
         {
             MessageMatcher = MessageMatcher.Create<KrakenChallengeResponse>(["challenge", "alert"], HandleMessage);
+            MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenChallengeResponse>(["challenge", "alert"], HandleMessage);
         }
 
-        public CallResult<KrakenChallengeResponse> HandleMessage(SocketConnection connection, DataEvent<KrakenChallengeResponse> message)
+        public CallResult<KrakenChallengeResponse> HandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenChallengeResponse message)
         {
-            if (message.Data.Event == "alert")
-                return new CallResult<KrakenChallengeResponse>(default, message.OriginalData, new ServerError(ErrorInfo.Unknown with { Message = message.Data.Message }));
+            if (message.Event == "alert")
+                return new CallResult<KrakenChallengeResponse>(default, originalData, new ServerError(ErrorInfo.Unknown with { Message = message.Message }));
 
             var authProvider = (KrakenFuturesAuthenticationProvider)connection.ApiClient.AuthenticationProvider!;
-            var sign = authProvider.AuthenticateWebsocketChallenge(message.Data.Message);
-            connection.Properties["OriginalChallenge"] = message.Data.Message;
+            var sign = authProvider.AuthenticateWebsocketChallenge(message.Message);
+            connection.Properties["OriginalChallenge"] = message.Message;
             connection.Properties["SignedChallenge"] = sign;
-            return new CallResult<KrakenChallengeResponse>(message.Data, message.OriginalData, null);
+            return new CallResult<KrakenChallengeResponse>(message, originalData, null);
         }
     }
 }

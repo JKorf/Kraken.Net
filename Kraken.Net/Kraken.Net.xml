@@ -25,9 +25,6 @@
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.ParseErrorResponse(System.Int32,System.Collections.Generic.KeyValuePair{System.String,System.String[]}[],CryptoExchange.Net.Interfaces.IMessageAccessor,System.Exception)">
-            <inheritdoc />
-        </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
         </member>
@@ -166,7 +163,7 @@
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.GetAuthenticationRequestAsync(CryptoExchange.Net.Sockets.SocketConnection)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.GetAuthenticationRequestAsync(CryptoExchange.Net.Sockets.Default.SocketConnection)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SubscribeToHeartbeatUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesHeartbeatUpdate}},System.Threading.CancellationToken)">
@@ -605,7 +602,7 @@
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CancelAllOrdersAfterAsync(System.TimeSpan,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.RevitalizeRequestAsync(CryptoExchange.Net.Sockets.Subscription)">
+        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.RevitalizeRequestAsync(CryptoExchange.Net.Sockets.Default.Subscription)">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Converters.KrakenDictionaryResult`1">
@@ -13137,14 +13134,14 @@
             Extensions for the ICryptoRestClient and ICryptoSocketClient interfaces
             </summary>
         </member>
-        <member name="M:CryptoExchange.Net.Interfaces.CryptoClientExtensions.Kraken(CryptoExchange.Net.Interfaces.ICryptoRestClient)">
+        <member name="M:CryptoExchange.Net.Interfaces.CryptoClientExtensions.Kraken(CryptoExchange.Net.Interfaces.Clients.ICryptoRestClient)">
             <summary>
             Get the Kraken REST Api client
             </summary>
             <param name="baseClient"></param>
             <returns></returns>
         </member>
-        <member name="M:CryptoExchange.Net.Interfaces.CryptoClientExtensions.Kraken(CryptoExchange.Net.Interfaces.ICryptoSocketClient)">
+        <member name="M:CryptoExchange.Net.Interfaces.CryptoClientExtensions.Kraken(CryptoExchange.Net.Interfaces.Clients.ICryptoSocketClient)">
             <summary>
             Get the Kraken Websocket Api client
             </summary>
@@ -13174,6 +13171,9 @@
         </member>
         <member name="M:Microsoft.Extensions.Configuration.Binder.SourceGeneration.BindingExtensions.Bind_KrakenOptions(Microsoft.Extensions.Configuration.IConfiguration,System.Object)">
             <summary>Attempts to bind the given object instance to configuration values by matching property names against configuration keys recursively.</summary>
+        </member>
+        <member name="M:Microsoft.Extensions.Configuration.Binder.SourceGeneration.BindingExtensions.TryGetConfigurationValue(Microsoft.Extensions.Configuration.IConfiguration,System.String,System.String@)">
+            <summary>Tries to get the configuration value for the specified key.</summary>
         </member>
         <member name="M:Microsoft.Extensions.Configuration.Binder.SourceGeneration.BindingExtensions.ValidateConfigurationKeys(System.Type,System.Lazy{System.Collections.Generic.HashSet{System.String}},Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.BinderOptions)">
             <summary>If required by the binder options, validates that there are no unknown keys in the input configuration object.</summary>

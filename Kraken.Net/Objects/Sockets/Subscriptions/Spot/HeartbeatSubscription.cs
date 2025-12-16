@@ -1,5 +1,5 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
-using CryptoExchange.Net.Sockets;
+﻿using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.Default;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
@@ -8,6 +8,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         public HeartbeatSubscription(ILogger logger) : base(logger, false)
         {
             MessageMatcher = MessageMatcher.Create<KrakenEvent>("heartbeat");
+            MessageRouter = MessageRouter.CreateWithoutHandler<KrakenEvent>("heartbeat");
         }
     }
 }

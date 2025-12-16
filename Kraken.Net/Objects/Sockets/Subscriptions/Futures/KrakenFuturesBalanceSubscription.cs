@@ -1,12 +1,13 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.Default;
 using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Sockets.Queries;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
-    internal class KrakenFuturesBalanceSubscription : Subscription<KrakenFuturesResponse, KrakenFuturesResponse>
+    internal class KrakenFuturesBalanceSubscription : Subscription
     {
         private readonly SocketApiClient _client;
         protected readonly Action<DataEvent<KrakenFuturesBalancesUpdate>> _handler;
@@ -17,6 +18,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _handler = handler;
 
             MessageMatcher = MessageMatcher.Create<KrakenFuturesBalancesUpdate>(["balances_snapshot", "balances"], DoHandleMessage);
+            MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenFuturesBalancesUpdate>(["balances_snapshot", "balances"], DoHandleMessage);
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)
@@ -46,10 +48,15 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 Authenticated);
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesBalancesUpdate> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesBalancesUpdate message)
         {
-            _handler.Invoke(message.As(message.Data, message.Data.Feed, null, string.Equals(message.Data.Feed, "balances_snapshot", StringComparison.Ordinal) ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                .WithDataTimestamp(message.Data.Timestamp));
+            _handler.Invoke(
+                new DataEvent<KrakenFuturesBalancesUpdate>(KrakenExchange.ExchangeName, message, receiveTime, originalData)
+                    .WithStreamId(message.Feed)
+                    .WithDataTimestamp(message.Timestamp)
+                    .WithUpdateType(string.Equals(message.Feed, "balances_snapshot", StringComparison.Ordinal) ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
+                );
+
             return CallResult.SuccessResult;
         }
     }

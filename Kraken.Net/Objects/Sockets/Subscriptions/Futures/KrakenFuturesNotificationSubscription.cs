@@ -1,12 +1,13 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.Default;
 using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Sockets.Queries;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
-    internal class KrakenFuturesNotificationSubscription : Subscription<KrakenFuturesResponse, KrakenFuturesNotificationUpdate>
+    internal class KrakenFuturesNotificationSubscription : Subscription
     {
         private readonly SocketApiClient _client;
         protected readonly Action<DataEvent<KrakenFuturesNotificationUpdate>> _handler;
@@ -17,6 +18,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _handler = handler;
 
             MessageMatcher = MessageMatcher.Create<KrakenFuturesNotificationUpdate>("notifications_auth", DoHandleMessage);
+            MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenFuturesNotificationUpdate>("notifications_auth", DoHandleMessage);
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)
@@ -46,9 +48,14 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                 Authenticated);
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesNotificationUpdate> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesNotificationUpdate message)
         {
-            _handler.Invoke(message.As(message.Data, message.Data.Feed, null, SocketUpdateType.Update));
+            _handler.Invoke(
+                new DataEvent<KrakenFuturesNotificationUpdate>(KrakenExchange.ExchangeName, message, receiveTime, originalData)
+                    .WithStreamId(message.Feed)
+                    .WithUpdateType(SocketUpdateType.Update)
+                );
+
             return CallResult.SuccessResult;
         }
     }

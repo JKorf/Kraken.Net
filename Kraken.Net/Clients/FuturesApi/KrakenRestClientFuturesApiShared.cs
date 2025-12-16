@@ -2,9 +2,7 @@ using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
-using Kraken.Net.Objects.Models;
 using Kraken.Net.Objects.Models.Futures;
-using System.Linq;
 
 namespace Kraken.Net.Clients.FuturesApi
 {

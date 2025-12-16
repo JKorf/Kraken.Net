@@ -1,7 +1,7 @@
 ﻿using CryptoExchange.Net.Clients;
-using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.Default;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models.Socket;
 using Kraken.Net.Objects.Models.Socket.Futures;
@@ -29,7 +29,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             MessageMatcher = MessageMatcher.Create([
                 new MessageHandlerLink<KrakenSocketUpdateV2<KrakenBalanceSnapshot[]>>("balancessnapshot", DoHandleMessage),
                 new MessageHandlerLink<KrakenSocketUpdateV2<KrakenBalanceUpdate[]>>("balances", DoHandleMessage)
+                ]);
 
+            MessageRouter = MessageRouter.Create([
+                MessageRoute<KrakenSocketUpdateV2<KrakenBalanceSnapshot[]>>.CreateWithoutTopicFilter("balancessnapshot",DoHandleMessage),
+                MessageRoute<KrakenSocketUpdateV2<KrakenBalanceUpdate[]>>.CreateWithoutTopicFilter("balances", DoHandleMessage)
                 ]);
         }
 
@@ -67,15 +71,25 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                 }, false);
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenSocketUpdateV2<KrakenBalanceSnapshot[]>> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketUpdateV2<KrakenBalanceSnapshot[]> message)
         {
-                _snapshotHandler?.Invoke(message.As(message.Data.Data, "balances", null, SocketUpdateType.Snapshot).WithDataTimestamp(message.Data.Timestamp));
+            _snapshotHandler?.Invoke(
+                new DataEvent<KrakenBalanceSnapshot[]>(KrakenExchange.ExchangeName, message.Data, receiveTime, originalData)
+                    .WithStreamId("balances")
+                    .WithUpdateType(SocketUpdateType.Snapshot)
+                    .WithDataTimestamp(message.Timestamp)
+                );
             return CallResult.SuccessResult;
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenSocketUpdateV2<KrakenBalanceUpdate[]>> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketUpdateV2<KrakenBalanceUpdate[]> message)
         {
-            _updateHandler?.Invoke(message.As(message.Data.Data, "balances", null, SocketUpdateType.Update).WithDataTimestamp(message.Data.Timestamp));
+            _updateHandler?.Invoke(
+                new DataEvent<KrakenBalanceUpdate[]>(KrakenExchange.ExchangeName, message.Data, receiveTime, originalData)
+                    .WithStreamId("balances")
+                    .WithUpdateType(SocketUpdateType.Update)
+                    .WithDataTimestamp(message.Timestamp)
+                );
             return CallResult.SuccessResult;
         }
     }

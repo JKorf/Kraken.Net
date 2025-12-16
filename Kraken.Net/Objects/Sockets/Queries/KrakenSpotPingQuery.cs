@@ -1,7 +1,5 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
-using CryptoExchange.Net.Sockets;
+﻿using CryptoExchange.Net.Sockets;
 using Kraken.Net.Objects.Internal;
-using Kraken.Net.Objects.Models.Socket;
 
 namespace Kraken.Net.Objects.Sockets.Queries
 {
@@ -11,6 +9,7 @@ namespace Kraken.Net.Objects.Sockets.Queries
         {
             RequestTimeout = TimeSpan.FromSeconds(5);
             MessageMatcher = MessageMatcher.Create<object>(((KrakenSocketRequestV2)Request).RequestId.ToString());
+            MessageRouter = MessageRouter.CreateWithoutHandler<object>(((KrakenSocketRequestV2)Request).RequestId.ToString());
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Interfaces.Clients;
 using Kraken.Net;
 using Kraken.Net.Clients;
 using Kraken.Net.Interfaces;
@@ -7,7 +8,6 @@ using Kraken.Net.Objects.Options;
 using Kraken.Net.SymbolOrderBooks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using System.Net;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

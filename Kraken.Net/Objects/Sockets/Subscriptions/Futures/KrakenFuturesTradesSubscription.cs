@@ -1,13 +1,13 @@
 ﻿using CryptoExchange.Net.Clients;
-using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.Default;
 using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Sockets.Queries;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
-    internal class KrakenFuturesTradesSubscription : Subscription<KrakenFuturesResponse, KrakenFuturesResponse>
+    internal class KrakenFuturesTradesSubscription : Subscription
     {
         private readonly SocketApiClient _client;
         private List<string> _symbols;
@@ -19,14 +19,21 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _symbols = symbols;
             _handler = handler;
 
+            IndividualSubscriptionCount = symbols.Count;
+
+            var routes = new List<MessageRoute>();
             var checkers = new List<MessageHandlerLink>();
-            foreach(var symbol in symbols)
+            foreach (var symbol in symbols)
             {
                 checkers.Add(new MessageHandlerLink<KrakenFuturesTradesSnapshotUpdate>("trade_snapshot-" + symbol.ToLowerInvariant(), DoHandleMessage));
                 checkers.Add(new MessageHandlerLink<KrakenFuturesTradeUpdate>("trade-" + symbol.ToLowerInvariant(), DoHandleMessage));
+
+                routes.Add(MessageRoute<KrakenFuturesTradesSnapshotUpdate>.CreateWithoutTopicFilter("trade_snapshot-" + symbol.ToLowerInvariant(), DoHandleMessage));
+                routes.Add(MessageRoute<KrakenFuturesTradeUpdate>.CreateWithoutTopicFilter("trade-" + symbol.ToLowerInvariant(), DoHandleMessage));
             }
 
             MessageMatcher = MessageMatcher.Create(checkers.ToArray());
+            MessageRouter = MessageRouter.Create(routes.ToArray());
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)
@@ -61,15 +68,27 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             };
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesTradesSnapshotUpdate> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesTradesSnapshotUpdate message)
         {
-            _handler.Invoke(message.As(message.Data.Trades, message.Data.Feed, message.Data.Symbol, SocketUpdateType.Snapshot));
+            _handler.Invoke(
+                new DataEvent<KrakenFuturesTradeUpdate[]>(KrakenExchange.ExchangeName, message.Trades, receiveTime, originalData)
+                    .WithStreamId(message.Feed)
+                    .WithUpdateType(SocketUpdateType.Snapshot)
+                    .WithSymbol(message.Symbol)
+                );
+
             return CallResult.SuccessResult;
         }
 
-        public CallResult DoHandleMessage(SocketConnection connection, DataEvent<KrakenFuturesTradeUpdate> message)
+        public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesTradeUpdate message)
         {
-            _handler.Invoke(message.As<KrakenFuturesTradeUpdate[]>(new[] { message.Data }, message.Data.Feed, message.Data.Symbol, SocketUpdateType.Update));
+            _handler.Invoke(
+                new DataEvent<KrakenFuturesTradeUpdate[]>(KrakenExchange.ExchangeName, [message], receiveTime, originalData)
+                    .WithStreamId(message.Feed)
+                    .WithUpdateType(SocketUpdateType.Update)
+                    .WithSymbol(message.Symbol)
+                );
+
             return CallResult.SuccessResult;
         }
     }

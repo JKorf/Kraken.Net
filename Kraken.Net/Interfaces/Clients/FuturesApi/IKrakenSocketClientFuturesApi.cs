@@ -1,3 +1,4 @@
+using CryptoExchange.Net.Interfaces.Clients;
 using CryptoExchange.Net.Objects.Sockets;
 using Kraken.Net.Objects.Models.Socket.Futures;
 
