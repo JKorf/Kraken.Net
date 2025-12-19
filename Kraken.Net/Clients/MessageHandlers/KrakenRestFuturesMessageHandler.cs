@@ -23,7 +23,7 @@ namespace Kraken.Net.Clients.MessageHandlers
             if (result is not KrakenFuturesResult krakenResult)
                 return null;
 
-            if (krakenResult.Error?.Length > 0)
+            if (krakenResult.Errors?.Length > 0)
             {
                 var krakenError = krakenResult.Errors!.First();
                 return new ServerError(krakenError.Code, _errorMapping.GetErrorInfo(krakenError.Code.ToString(), krakenError.Message));
