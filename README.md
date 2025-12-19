@@ -173,6 +173,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 7.0.2 - 19 Dec 2025
+    * Fixed futures error response parsing
+    * Updated CryptoExchange.Net version to 10.0.2, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+
 * Version 7.0.1 - 17 Dec 2025
     * Fix SharedSymbol.UsdOrStable mapping when using order book factory for spot asset
 
