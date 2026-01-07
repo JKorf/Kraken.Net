@@ -31,12 +31,6 @@
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.GetServerTimestampAsync">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.GetTimeSyncInfo">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApi.GetTimeOffset">
-            <inheritdoc />
-        </member>
         <member name="T:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiAccount">
             <inheritdoc />
         </member>
@@ -161,9 +155,6 @@
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.GetAuthenticationRequestAsync(CryptoExchange.Net.Sockets.Default.SocketConnection)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.SubscribeToHeartbeatUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{Kraken.Net.Objects.Models.Socket.Futures.KrakenFuturesHeartbeatUpdate}},System.Threading.CancellationToken)">
@@ -348,12 +339,6 @@
             <returns></returns>
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.GetServerTimestampAsync">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.GetTimeSyncInfo">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApi.GetTimeOffset">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Clients.SpotApi.KrakenRestClientSpotApiAccount">

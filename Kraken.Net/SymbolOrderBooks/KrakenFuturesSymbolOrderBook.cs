@@ -80,9 +80,9 @@ namespace Kraken.Net.SymbolOrderBooks
         private void ProcessUpdate(DataEvent<KrakenFuturesBookUpdate> data)
         {
             if (data.Data.Side == Enums.OrderSide.Sell)
-                UpdateOrderBook(data.Data.Sequence, Array.Empty<ISymbolOrderBookEntry>(), new[] { data.Data });
+                UpdateOrderBook(data.Data.Sequence, Array.Empty<ISymbolOrderBookEntry>(), new[] { data.Data }, data.DataTime, data.DataTimeLocal);
             else
-                UpdateOrderBook(data.Data.Sequence, new[] { data.Data }, Array.Empty<ISymbolOrderBookEntry>());
+                UpdateOrderBook(data.Data.Sequence, new[] { data.Data }, Array.Empty<ISymbolOrderBookEntry>(), data.DataTime, data.DataTimeLocal);
         }
 
         /// <inheritdoc />

@@ -75,6 +75,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     .WithStreamId(message.Feed)
                     .WithUpdateType(SocketUpdateType.Snapshot)
                     .WithSymbol(message.Symbol)
+                    .WithDataTimestamp(message.Trades.Length == 0 ? null : message.Trades.Max(x => x.Timestamp), _client.GetTimeOffset())
                 );
 
             return CallResult.SuccessResult;
@@ -82,11 +83,14 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesTradeUpdate message)
         {
+            _client.UpdateTimeOffset(message.Timestamp);
+
             _handler.Invoke(
                 new DataEvent<KrakenFuturesTradeUpdate[]>(KrakenExchange.ExchangeName, [message], receiveTime, originalData)
                     .WithStreamId(message.Feed)
                     .WithUpdateType(SocketUpdateType.Update)
                     .WithSymbol(message.Symbol)
+                    .WithDataTimestamp(message.Timestamp, _client.GetTimeOffset())
                 );
 
             return CallResult.SuccessResult;

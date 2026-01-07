@@ -74,12 +74,16 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesOpenOrdersSnapshotUpdate message)
         {
+            DateTime? timestamp = message.Orders.Any() ? message.Orders.Max(x => x.LastUpdateTime) : null;
+            if (timestamp != null)
+                _client.UpdateTimeOffset(timestamp.Value);
+
             _snapshotHandler.Invoke(
                 new DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate>(KrakenExchange.ExchangeName, message, receiveTime, originalData)
                     .WithStreamId(message.Feed)
                     .WithUpdateType(SocketUpdateType.Snapshot)
                     .WithSymbol(message.Symbol)
-                    .WithDataTimestamp(message.Orders.Any() ? message.Orders.Max(x => x.LastUpdateTime) : null)
+                    .WithDataTimestamp(timestamp, _client.GetTimeOffset())
                 );
             
             return CallResult.SuccessResult;
@@ -87,12 +91,15 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesOpenOrdersUpdate message)
         {
+            if (message.Order?.LastUpdateTime != null)
+                _client.UpdateTimeOffset(message.Order.LastUpdateTime);
+
             _updateHandler.Invoke(
                 new DataEvent<KrakenFuturesOpenOrdersUpdate>(KrakenExchange.ExchangeName, message, receiveTime, originalData)
                     .WithStreamId(message.Feed)
                     .WithUpdateType(SocketUpdateType.Update)
                     .WithSymbol(message.Symbol)
-                    .WithDataTimestamp(message.Order?.LastUpdateTime)
+                    .WithDataTimestamp(message.Order?.LastUpdateTime, _client.GetTimeOffset())
                 );
             return CallResult.SuccessResult;
         }

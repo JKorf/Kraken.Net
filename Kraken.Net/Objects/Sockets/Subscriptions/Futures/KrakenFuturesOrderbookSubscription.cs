@@ -72,24 +72,28 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesBookSnapshotUpdate message)
         {
+            _client.UpdateTimeOffset(message.Timestamp);
+
             _snapshotHandler.Invoke(
                 new DataEvent<KrakenFuturesBookSnapshotUpdate>(KrakenExchange.ExchangeName, message, receiveTime, originalData)
                     .WithStreamId(message.Feed)
                     .WithUpdateType(SocketUpdateType.Snapshot)
                     .WithSymbol(message.Symbol)
-                    .WithDataTimestamp(message.Timestamp)
+                    .WithDataTimestamp(message.Timestamp, _client.GetTimeOffset())
                 );
             return CallResult.SuccessResult;
         }
 
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesBookUpdate message)
         {
+            _client.UpdateTimeOffset(message.Timestamp);
+
             _updateHandler.Invoke(
                 new DataEvent<KrakenFuturesBookUpdate>(KrakenExchange.ExchangeName, message, receiveTime, originalData)
                     .WithStreamId(message.Feed)
                     .WithUpdateType(SocketUpdateType.Update)
                     .WithSymbol(message.Symbol)
-                    .WithDataTimestamp(message.Timestamp)
+                    .WithDataTimestamp(message.Timestamp, _client.GetTimeOffset())
                 );
             return CallResult.SuccessResult;
         }

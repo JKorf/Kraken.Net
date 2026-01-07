@@ -83,9 +83,6 @@ namespace Kraken.Net.Clients.FuturesApi
         protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
             => new KrakenFuturesAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new KrakenNonceProvider());
 
-        /// <inheritdoc />
-        protected override Task<Query?> GetAuthenticationRequestAsync(SocketConnection connection) => Task.FromResult<Query?>(new KrakenFuturesAuthQuery(((KrakenFuturesAuthenticationProvider)AuthenticationProvider!).GetApiKey()));
-
         #region Heartbeat
 
         /// <inheritdoc />
@@ -93,11 +90,13 @@ namespace Kraken.Net.Clients.FuturesApi
         {
             var internalHandler = new Action<DateTime, string?, KrakenFuturesHeartbeatUpdate>((receiveTime, originalData, data) =>
             {
+                UpdateTimeOffset(data.Timestamp);
+
                 handler.Invoke(
                     new DataEvent<KrakenFuturesHeartbeatUpdate>(KrakenExchange.ExchangeName, data, receiveTime, originalData)
                         .WithStreamId(data.Feed)
                         .WithUpdateType(SocketUpdateType.Update)
-                        .WithDataTimestamp(data.Timestamp)
+                        .WithDataTimestamp(data.Timestamp, GetTimeOffset())
                     );
             });
 
@@ -118,12 +117,14 @@ namespace Kraken.Net.Clients.FuturesApi
         {
             var internalHandler = new Action<DateTime, string?, KrakenFuturesTickerUpdate>((receiveTime, originalData, data) =>
             {
+                UpdateTimeOffset(data.Timestamp);
+
                 handler.Invoke(
                     new DataEvent<KrakenFuturesTickerUpdate>(KrakenExchange.ExchangeName, data, receiveTime, originalData)
                         .WithStreamId(data.Feed)
                         .WithUpdateType(SocketUpdateType.Update)
                         .WithSymbol(data.Symbol)
-                        .WithDataTimestamp(data.Timestamp)
+                        .WithDataTimestamp(data.Timestamp, GetTimeOffset())
                     );
             });
 
@@ -145,7 +146,7 @@ namespace Kraken.Net.Clients.FuturesApi
             Action<DataEvent<KrakenFuturesTradeUpdate[]>> handler,
             CancellationToken ct = default)
         {
-            var subscription = new KrakenFuturesTradesSubscription(_logger, this, symbols.ToList(), x => handler(x.WithDataTimestamp(x.Data.Max(x => x.Timestamp))));
+            var subscription = new KrakenFuturesTradesSubscription(_logger, this, symbols.ToList(), handler);
             return await SubscribeAsync(BaseAddress.AppendPath("ws/v1"), subscription, ct).ConfigureAwait(false);
         }
 

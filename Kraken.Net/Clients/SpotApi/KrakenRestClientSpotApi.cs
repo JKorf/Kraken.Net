@@ -20,9 +20,6 @@ namespace Kraken.Net.Clients.SpotApi
 
         /// <inheritdoc />
         public new KrakenRestOptions ClientOptions => (KrakenRestOptions)base.ClientOptions;
-
-        internal static TimeSyncState _timeSyncState = new TimeSyncState("Spot Api");
-
         protected override ErrorMapping ErrorMapping => KrakenErrors.SpotMapping;
         protected override IRestMessageHandler MessageHandler { get; } = new KrakenRestSpotMessageHandler(KrakenErrors.SpotMapping);
         #endregion
@@ -119,14 +116,6 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         protected override Task<WebCallResult<DateTime>> GetServerTimestampAsync()
             => ExchangeData.GetServerTimeAsync();
-
-        /// <inheritdoc />
-        public override TimeSyncInfo? GetTimeSyncInfo()
-            => new TimeSyncInfo(_logger, ClientOptions.AutoTimestamp, ClientOptions.TimestampRecalculationInterval, _timeSyncState);
-
-        /// <inheritdoc />
-        public override TimeSpan? GetTimeOffset()
-            => _timeSyncState.TimeOffset;
 
         public IKrakenRestClientSpotApiShared SharedClient => this;
     }

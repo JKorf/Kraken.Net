@@ -19,7 +19,15 @@ namespace Kraken.Net
                 throw new Exception("Only Hmac authentication is supported");
 
             _nonceProvider = nonceProvider ?? new KrakenNonceProvider();
-            _hmacSecret = Convert.FromBase64String(credentials.Secret);
+
+            try
+            {
+                _hmacSecret = Convert.FromBase64String(credentials.Secret);
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Provided secret invalid, not in base64 format", ex);
+            }
         }
 
         public override void ProcessRequest(RestApiClient apiClient, RestRequestConfiguration request)

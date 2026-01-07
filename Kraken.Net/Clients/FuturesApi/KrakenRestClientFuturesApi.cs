@@ -18,9 +18,6 @@ namespace Kraken.Net.Clients.FuturesApi
 
         /// <inheritdoc />
         public new KrakenRestOptions ClientOptions => (KrakenRestOptions)base.ClientOptions;
-
-        internal static TimeSyncState _timeSyncState = new TimeSyncState("Futures Api");
-
         protected override ErrorMapping ErrorMapping => KrakenErrors.FuturesMapping;
         protected override IRestMessageHandler MessageHandler { get; } = new KrakenRestFuturesMessageHandler(KrakenErrors.FuturesMapping);
         #endregion
@@ -106,13 +103,5 @@ namespace Kraken.Net.Clients.FuturesApi
             var result = await ExchangeData.GetPlatformNotificationsAsync().ConfigureAwait(false);
             return result.As(result.Data?.ServerTime ?? default);
         }
-
-        /// <inheritdoc />
-        public override TimeSyncInfo? GetTimeSyncInfo()
-            => new TimeSyncInfo(_logger, ClientOptions.AutoTimestamp, ClientOptions.TimestampRecalculationInterval, _timeSyncState);
-
-        /// <inheritdoc />
-        public override TimeSpan? GetTimeOffset()
-            => _timeSyncState.TimeOffset;
     }
 }

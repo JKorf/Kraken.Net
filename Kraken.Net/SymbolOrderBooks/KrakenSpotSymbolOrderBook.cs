@@ -78,11 +78,11 @@ namespace Kraken.Net.SymbolOrderBooks
         {
             if (data.UpdateType == SocketUpdateType.Snapshot)
             {
-                SetInitialOrderBook(DateTime.UtcNow.Ticks, data.Data.Bids, data.Data.Asks);
+                SetInitialOrderBook(DateTime.UtcNow.Ticks, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
             }
             else
             {
-                UpdateOrderBook(DateTime.UtcNow.Ticks, data.Data.Bids, data.Data.Asks);
+                UpdateOrderBook(DateTime.UtcNow.Ticks, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
                 if (data.Data.Checksum <= int.MaxValue)
                     AddChecksum((int)data.Data.Checksum!);
             }

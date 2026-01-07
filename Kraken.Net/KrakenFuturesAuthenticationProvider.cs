@@ -1,5 +1,10 @@
 ﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.Default;
+using Kraken.Net.Clients.FuturesApi;
+using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Objects;
+using Kraken.Net.Objects.Sockets.Queries;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -7,7 +12,6 @@ namespace Kraken.Net
 {
     internal class KrakenFuturesAuthenticationProvider : AuthenticationProvider
     {
-        private readonly INonceProvider _nonceProvider;
         private readonly byte[] _hmacSecret;
 
         public string GetApiKey() => _credentials.Key;
@@ -15,11 +19,14 @@ namespace Kraken.Net
 
         public KrakenFuturesAuthenticationProvider(ApiCredentials credentials, INonceProvider? nonceProvider) : base(credentials)
         {
-            if (credentials.CredentialType != ApiCredentialsType.Hmac)
-                throw new Exception("Only Hmac authentication is supported");
-
-            _nonceProvider = nonceProvider ?? new KrakenNonceProvider();
-            _hmacSecret = Convert.FromBase64String(credentials.Secret);
+            try
+            {
+                _hmacSecret = Convert.FromBase64String(credentials.Secret);
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Provided secret invalid, not in base64 format", ex);
+            }
         }
 
         public override void ProcessRequest(RestApiClient apiClient, RestRequestConfiguration request)
@@ -39,6 +46,14 @@ namespace Kraken.Net
             byte[] buff = hMACSHA.ComputeHash(hash);
             var signature = BytesToBase64String(buff);
             request.Headers.Add("Authent", signature);
+        }
+
+        public override Query? GetAuthenticationQuery(SocketApiClient apiClient, SocketConnection connection, Dictionary<string, object?>? context = null)
+        {
+            if (apiClient is not KrakenSocketClientFuturesApi)
+                return null;
+
+            return new KrakenFuturesAuthQuery(ApiKey);
         }
 
         public string AuthenticateWebsocketChallenge(string challenge)

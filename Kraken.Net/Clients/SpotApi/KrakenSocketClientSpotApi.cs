@@ -139,7 +139,7 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToSystemStatusUpdatesAsync(Action<DataEvent<KrakenStreamSystemStatus>> handler, CancellationToken ct = default)
         {
-            var subscription = new KrakenSystemStatusSubscription(_logger, handler);
+            var subscription = new KrakenSystemStatusSubscription(_logger, this, handler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -152,12 +152,15 @@ namespace Kraken.Net.Clients.SpotApi
         {
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenTickerUpdate[]>>((receiveTime, originalData, data) =>
             {
+                if (data.Timestamp != null)
+                    UpdateTimeOffset(data.Timestamp.Value);
+
                 handler.Invoke(
                     new DataEvent<KrakenTickerUpdate>(KrakenExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
                         .WithStreamId(data.Channel)
                         .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                         .WithSymbol(data.Data.First().Symbol)
-                        .WithDataTimestamp(data.Timestamp)
+                        .WithDataTimestamp(data.Timestamp, GetTimeOffset())
                     );
             });
 
@@ -170,12 +173,15 @@ namespace Kraken.Net.Clients.SpotApi
         {
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenTickerUpdate[]>>((receiveTime, originalData, data) =>
             {
+                if (data.Timestamp != null)
+                    UpdateTimeOffset(data.Timestamp.Value);
+
                 handler.Invoke(
                     new DataEvent<KrakenTickerUpdate>(KrakenExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
                         .WithStreamId(data.Channel)
                         .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                         .WithSymbol(data.Data.First().Symbol)
-                        .WithDataTimestamp(data.Timestamp)
+                        .WithDataTimestamp(data.Timestamp, GetTimeOffset())
                     );
             });
 
@@ -196,12 +202,15 @@ namespace Kraken.Net.Clients.SpotApi
         {
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenKlineUpdate[]>>((receiveTime, originalData, data) =>
             {
+                if (data.Timestamp != null)
+                    UpdateTimeOffset(data.Timestamp.Value);
+
                 handler.Invoke(
                     new DataEvent<KrakenKlineUpdate[]>(KrakenExchange.ExchangeName, data.Data, receiveTime, originalData)
                         .WithStreamId(data.Channel)
                         .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                         .WithSymbol(data.Data.First().Symbol)
-                        .WithDataTimestamp(data.Timestamp)
+                        .WithDataTimestamp(data.Timestamp, GetTimeOffset())
                     );
             });
 
@@ -222,12 +231,15 @@ namespace Kraken.Net.Clients.SpotApi
         {
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenTradeUpdate[]>>((receiveTime, originalData, data) =>
             {
+                if (data.Timestamp != null)
+                    UpdateTimeOffset(data.Timestamp.Value);
+
                 handler.Invoke(
                     new DataEvent<KrakenTradeUpdate[]>(KrakenExchange.ExchangeName, data.Data, receiveTime, originalData)
                         .WithStreamId(data.Channel)
                         .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                         .WithSymbol(data.Data.First().Symbol)
-                        .WithDataTimestamp(data.Timestamp)
+                        .WithDataTimestamp(data.Timestamp, GetTimeOffset())
                     );
             });
 
@@ -250,12 +262,15 @@ namespace Kraken.Net.Clients.SpotApi
 
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenBookUpdate[]>>((receiveTime, originalData, data) =>
             {
+                var item = data.Data.First();
+                UpdateTimeOffset(item.Timestamp);
+
                 handler.Invoke(
-                    new DataEvent<KrakenBookUpdate>(KrakenExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
+                    new DataEvent<KrakenBookUpdate>(KrakenExchange.ExchangeName, item, receiveTime, originalData)
                         .WithStreamId(data.Channel)
                         .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                        .WithSymbol(data.Data.First().Symbol)
-                        .WithDataTimestamp(data.Data.First().Timestamp)
+                        .WithSymbol(item.Symbol)
+                        .WithDataTimestamp(item.Timestamp, GetTimeOffset())
                     );
             });
             var subscription = new KrakenSubscriptionV2<KrakenBookUpdate[]>(_logger, this, "book", symbols.ToArray(), null, snapshot, depth, null, null, internalHandler);
@@ -281,12 +296,16 @@ namespace Kraken.Net.Clients.SpotApi
 
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenIndividualBookUpdate[]>>((receiveTime, originalData, data) =>
             {
+                var item = data.Data.First();
+                if (data.Timestamp != null)
+                    UpdateTimeOffset(data.Timestamp.Value);
+
                 handler.Invoke(
-                    new DataEvent<KrakenIndividualBookUpdate>(KrakenExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
+                    new DataEvent<KrakenIndividualBookUpdate>(KrakenExchange.ExchangeName, item, receiveTime, originalData)
                         .WithStreamId(data.Channel)
                         .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                        .WithSymbol(data.Data.First().Symbol)
-                        .WithDataTimestamp(data.Timestamp)
+                        .WithSymbol(item.Symbol)
+                        .WithDataTimestamp(data.Timestamp, GetTimeOffset())
                     );
             });
             var subscription = new KrakenSubscriptionV2<KrakenIndividualBookUpdate[]>(_logger, this, "level3", symbols.ToArray(), null, snapshot, depth, null, token.Data, internalHandler);
@@ -302,11 +321,15 @@ namespace Kraken.Net.Clients.SpotApi
         {
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenInstrumentUpdate>>((receiveTime, originalData, data) =>
             {
+                var type = data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update;
+                if (data.Timestamp != null && type != SocketUpdateType.Snapshot)
+                    UpdateTimeOffset(data.Timestamp.Value);
+
                 handler.Invoke(
                     new DataEvent<KrakenInstrumentUpdate>(KrakenExchange.ExchangeName, data.Data, receiveTime, originalData)
                         .WithStreamId(data.Channel)
-                        .WithUpdateType(data.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                        .WithDataTimestamp(data.Timestamp)
+                        .WithUpdateType(type)
+                        .WithDataTimestamp(data.Timestamp, GetTimeOffset())
                     );
             });
 
