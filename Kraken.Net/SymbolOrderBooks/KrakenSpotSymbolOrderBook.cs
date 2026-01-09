@@ -78,7 +78,7 @@ namespace Kraken.Net.SymbolOrderBooks
         {
             if (data.UpdateType == SocketUpdateType.Snapshot)
             {
-                SetInitialOrderBook(DateTime.UtcNow.Ticks, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
+                SetSnapshot(DateTime.UtcNow.Ticks, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
             }
             else
             {
