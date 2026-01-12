@@ -80,6 +80,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     .WithUpdateType(SocketUpdateType.Snapshot)
                     .WithSymbol(message.Symbol)
                     .WithDataTimestamp(message.Timestamp, _client.GetTimeOffset())
+                    .WithSequenceNumber(message.Sequence)
                 );
             return CallResult.SuccessResult;
         }
@@ -94,6 +95,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     .WithUpdateType(SocketUpdateType.Update)
                     .WithSymbol(message.Symbol)
                     .WithDataTimestamp(message.Timestamp, _client.GetTimeOffset())
+                    .WithSequenceNumber(message.Sequence)
                 );
             return CallResult.SuccessResult;
         }
