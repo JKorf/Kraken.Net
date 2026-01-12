@@ -43,7 +43,7 @@ namespace Kraken.Net.SymbolOrderBooks
                 optionsDelegate(options);
             Initialize(options);
 
-            _sequencesAreConsecutive = false;
+            _sequencesAreConsecutive = true;
             _strictLevels = true;
             _initialDataTimeout = options?.InitialDataTimeout ?? TimeSpan.FromSeconds(30);
 
@@ -74,7 +74,7 @@ namespace Kraken.Net.SymbolOrderBooks
 
         private void ProcessSnapshot(DataEvent<KrakenFuturesBookSnapshotUpdate> data)
         {
-            SetInitialOrderBook(data.Data.Sequence, data.Data.Bids, data.Data.Asks);
+            SetSnapshot(data.Data.Sequence, data.Data.Bids, data.Data.Asks);
         }
 
         private void ProcessUpdate(DataEvent<KrakenFuturesBookUpdate> data)
