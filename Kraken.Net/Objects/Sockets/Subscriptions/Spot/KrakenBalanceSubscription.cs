@@ -26,11 +26,6 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _snapshotHandler = snapshotHandler;
             _updateHandler = updateHandler;
 
-            MessageMatcher = MessageMatcher.Create([
-                new MessageHandlerLink<KrakenSocketUpdateV2<KrakenBalanceSnapshot[]>>("balancessnapshot", DoHandleMessage),
-                new MessageHandlerLink<KrakenSocketUpdateV2<KrakenBalanceUpdate[]>>("balances", DoHandleMessage)
-                ]);
-
             MessageRouter = MessageRouter.Create([
                 MessageRoute<KrakenSocketUpdateV2<KrakenBalanceSnapshot[]>>.CreateWithoutTopicFilter("balancessnapshot",DoHandleMessage),
                 MessageRoute<KrakenSocketUpdateV2<KrakenBalanceUpdate[]>>.CreateWithoutTopicFilter("balances", DoHandleMessage)

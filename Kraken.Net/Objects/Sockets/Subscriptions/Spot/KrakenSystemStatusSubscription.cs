@@ -17,7 +17,6 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _client = client;
             _handler = handler;
 
-            MessageMatcher = MessageMatcher.Create<KrakenSocketUpdateV2<KrakenStreamSystemStatus[]>>("status", DoHandleMessage);
             MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenSocketUpdateV2<KrakenStreamSystemStatus[]>>("status", DoHandleMessage);
         }
 

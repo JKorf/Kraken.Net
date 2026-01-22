@@ -50,8 +50,6 @@ namespace Kraken.Net.Clients.FuturesApi
         }
         #endregion
 
-        protected override IStreamMessageAccessor CreateAccessor() => new SystemTextJsonStreamMessageAccessor(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
-
         protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
 
         public IKrakenRestClientFuturesApiShared SharedClient => this;

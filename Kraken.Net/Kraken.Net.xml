@@ -151,9 +151,6 @@
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.GetListenerIdentifier(CryptoExchange.Net.Interfaces.IMessageAccessor)">
-            <inheritdoc />
-        </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenSocketClientFuturesApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
         </member>
@@ -513,9 +510,6 @@
             <inheritdoc />
         </member>
         <member name="P:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.SharedClient">
-            <inheritdoc />
-        </member>
-        <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.GetListenerIdentifier(CryptoExchange.Net.Interfaces.IMessageAccessor)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.SpotApi.KrakenSocketClientSpotApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
@@ -7037,6 +7031,11 @@
         <member name="T:Kraken.Net.KrakenExchange">
             <summary>
             Kraken exchange information and configuration
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.KrakenExchange.Metadata">
+            <summary>
+            Platform metadata
             </summary>
         </member>
         <member name="P:Kraken.Net.KrakenExchange.ExchangeName">

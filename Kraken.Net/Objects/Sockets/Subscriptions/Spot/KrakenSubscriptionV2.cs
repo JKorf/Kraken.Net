@@ -43,15 +43,6 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             IndividualSubscriptionCount = symbols?.Length ?? 1;
 
             MessageRouter = MessageRouter.CreateWithOptionalTopicFilters<KrakenSocketUpdateV2<T>>(topic, symbols?.Select(x => x + interval).ToArray(), DoHandleMessage);
-
-            if (symbols?.Any() == true)
-            {
-                MessageMatcher = MessageMatcher.Create(symbols.Select(x => new MessageHandlerLink<KrakenSocketUpdateV2<T>>(topic + "-" + x, DoHandleMessage)).ToArray());
-            }
-            else
-            {
-                MessageMatcher = MessageMatcher.Create<KrakenSocketUpdateV2<T>>(topic, DoHandleMessage);
-            }
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)

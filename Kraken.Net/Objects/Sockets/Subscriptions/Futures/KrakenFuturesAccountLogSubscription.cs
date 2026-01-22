@@ -19,11 +19,6 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _snapshotHandler = snapshotHandler;
             _updateHandler = updateHandler;
 
-            MessageMatcher = MessageMatcher.Create([
-                new MessageHandlerLink<KrakenFuturesAccountLogsSnapshotUpdate>("account_log_snapshot", DoHandleMessage),
-                new MessageHandlerLink<KrakenFuturesAccountLogsUpdate>("account_log", DoHandleMessage)
-                ]);
-
             MessageRouter = MessageRouter.Create([
                 MessageRoute<KrakenFuturesAccountLogsSnapshotUpdate>.CreateWithoutTopicFilter("account_log_snapshot", DoHandleMessage),
                 MessageRoute<KrakenFuturesAccountLogsUpdate>.CreateWithoutTopicFilter("account_log", DoHandleMessage)

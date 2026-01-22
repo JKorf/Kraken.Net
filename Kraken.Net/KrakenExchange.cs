@@ -15,6 +15,19 @@ namespace Kraken.Net
     public static class KrakenExchange
     {
         /// <summary>
+        /// Platform metadata
+        /// </summary>
+        public static PlatformInfo Metadata { get; } = new PlatformInfo(
+                "Kraken",
+                "Kraken",
+                "https://raw.githubusercontent.com/JKorf/Kraken.Net/master/Kraken.Net/Icon/icon.png",
+                "https://www.kraken.com",
+                ["https://docs.kraken.com/api/"],
+                PlatformType.CryptoCurrencyExchange,
+                CentralizationType.Centralized
+                );
+
+        /// <summary>
         /// Exchange name
         /// </summary>
         public static string ExchangeName => "Kraken";

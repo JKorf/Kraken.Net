@@ -23,12 +23,10 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 
             if (symbols?.Count > 0)
             {
-                MessageMatcher = MessageMatcher.Create(symbols.Select(x => new MessageHandlerLink<T>(_feed + "-" + x.ToLowerInvariant(), DoHandleMessage)).ToArray());
                 MessageRouter = MessageRouter.Create(symbols.Select(x => MessageRoute<T>.CreateWithoutTopicFilter(_feed + "-" + x.ToLowerInvariant(), DoHandleMessage)).ToArray());
             }
             else
             {
-                MessageMatcher = MessageMatcher.Create<T>(_feed, DoHandleMessage);
                 MessageRouter = MessageRouter.CreateWithoutTopicFilter<T>(_feed, DoHandleMessage);
             }
         }

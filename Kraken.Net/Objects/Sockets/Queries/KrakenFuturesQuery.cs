@@ -20,10 +20,6 @@ namespace Kraken.Net.Objects.Sockets.Queries
 
             if (request.Symbols?.Any() == true)
             {
-                var checkers = request.Symbols.Select(x => new MessageHandlerLink<T>(evnt + "-" + request.Feed.ToLowerInvariant() + "-" + x.ToLowerInvariant(), HandleMessage)).ToList();
-                checkers.Add(new MessageHandlerLink<T>("alert", HandleMessage));
-                MessageMatcher = MessageMatcher.Create(checkers.ToArray());
-
                 var routes = request.Symbols.Select(x => MessageRoute<T>.CreateWithoutTopicFilter(evnt + "-" + request.Feed.ToLowerInvariant() + "-" + x.ToLowerInvariant(), HandleMessage)).ToList();
                 routes.Add(MessageRoute<T>.CreateWithoutTopicFilter("alert", HandleMessage));
                 MessageRouter = MessageRouter.Create(routes.ToArray());
@@ -31,7 +27,6 @@ namespace Kraken.Net.Objects.Sockets.Queries
             }
             else
             {
-                MessageMatcher = MessageMatcher.Create<T>([evnt + "-" + request.Feed.ToLowerInvariant(), "alert"], HandleMessage);
                 MessageRouter = MessageRouter.CreateWithoutTopicFilter<T>([evnt + "-" + request.Feed.ToLowerInvariant(), "alert"], HandleMessage);
             }
         }

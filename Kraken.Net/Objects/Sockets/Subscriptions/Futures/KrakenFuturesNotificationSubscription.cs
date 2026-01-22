@@ -17,7 +17,6 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _client = client;
             _handler = handler;
 
-            MessageMatcher = MessageMatcher.Create<KrakenFuturesNotificationUpdate>("notifications_auth", DoHandleMessage);
             MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenFuturesNotificationUpdate>("notifications_auth", DoHandleMessage);
         }
 

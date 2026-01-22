@@ -8,7 +8,6 @@ namespace Kraken.Net.Objects.Sockets.Queries
     {
         public KrakenFuturesAuthQuery(string apiKey) : base(new KrakenChallengeRequest { ApiKey = apiKey, Event = "challenge" }, false)
         {
-            MessageMatcher = MessageMatcher.Create<KrakenChallengeResponse>(["challenge", "alert"], HandleMessage);
             MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenChallengeResponse>(["challenge", "alert"], HandleMessage);
         }
 

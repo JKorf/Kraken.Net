@@ -17,7 +17,6 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _client = client;
             _handler = handler;
 
-            MessageMatcher = MessageMatcher.Create<KrakenFuturesBalancesUpdate>(["balances_snapshot", "balances"], DoHandleMessage);
             MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenFuturesBalancesUpdate>(["balances_snapshot", "balances"], DoHandleMessage);
         }
 

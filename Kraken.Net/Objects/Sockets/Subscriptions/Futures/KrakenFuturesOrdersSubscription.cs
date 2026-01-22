@@ -23,10 +23,6 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 
             if (verbose)
             {
-                MessageMatcher = MessageMatcher.Create([
-                    new MessageHandlerLink<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_verbose_snapshot", DoHandleMessage),
-                    new MessageHandlerLink<KrakenFuturesOpenOrdersUpdate>("open_orders_verbose", DoHandleMessage)
-                    ]);
                 MessageRouter = MessageRouter.Create([
                     MessageRoute<KrakenFuturesOpenOrdersSnapshotUpdate>.CreateWithoutTopicFilter("open_orders_verbose_snapshot", DoHandleMessage),
                     MessageRoute<KrakenFuturesOpenOrdersUpdate>.CreateWithoutTopicFilter("open_orders_verbose", DoHandleMessage)
@@ -34,10 +30,6 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             }
             else
             {
-                MessageMatcher = MessageMatcher.Create([
-                    new MessageHandlerLink<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_snapshot", DoHandleMessage),
-                    new MessageHandlerLink<KrakenFuturesOpenOrdersUpdate>("open_orders", DoHandleMessage)
-                    ]);
                 MessageRouter = MessageRouter.Create([
                     MessageRoute<KrakenFuturesOpenOrdersSnapshotUpdate>.CreateWithoutTopicFilter("open_orders_snapshot",DoHandleMessage),
                     MessageRoute<KrakenFuturesOpenOrdersUpdate>.CreateWithoutTopicFilter("open_orders", DoHandleMessage)

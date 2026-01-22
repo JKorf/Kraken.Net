@@ -20,11 +20,6 @@ namespace Kraken.Net.Clients.FuturesApi
     /// <inheritdoc />
     internal partial class KrakenSocketClientFuturesApi : SocketApiClient, IKrakenSocketClientFuturesApi
     {
-        private static readonly MessagePath _eventPath = MessagePath.Get().Property("event");
-        private static readonly MessagePath _feedPath = MessagePath.Get().Property("feed");
-        private static readonly MessagePath _productIdsPath = MessagePath.Get().Property("product_ids");
-        private static readonly MessagePath _productIdPath = MessagePath.Get().Property("product_id");
-
         #region fields                
         /// <inheritdoc />
         public new KrakenSocketOptions ClientOptions => (KrakenSocketOptions)base.ClientOptions;
@@ -42,8 +37,6 @@ namespace Kraken.Net.Clients.FuturesApi
         }
         #endregion
 
-        protected override IByteMessageAccessor CreateAccessor(WebSocketMessageType type) => new SystemTextJsonByteMessageAccessor(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
-
         protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
 
         public override ISocketMessageHandler CreateMessageConverter(WebSocketMessageType messageType) => new KrakenSocketFuturesMessageHandler();
@@ -54,30 +47,6 @@ namespace Kraken.Net.Clients.FuturesApi
         /// <inheritdoc />
         public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
                 => KrakenExchange.FormatSymbol(baseAsset, quoteAsset, tradingMode, deliverTime);
-
-        /// <inheritdoc />
-        public override string GetListenerIdentifier(IMessageAccessor message)
-        {
-            var evnt = message.GetValue<string>(_eventPath);
-            var feed = message.GetValue<string>(_feedPath);
-            if (feed == null)
-                return evnt!;
-
-            if (evnt != null)
-            {
-                var result = evnt + "-" + feed;
-                var productIds = message.GetValues<string>(_productIdsPath);
-                if (productIds != null)
-                    result += "-" + string.Join("-", productIds.Select(i => i!.ToLowerInvariant()));
-                return result;
-            }
-
-            var productId = message.GetValue<string>(_productIdPath);
-            if (productId == null)
-                return feed;
-
-            return feed + "-" + productId.ToLowerInvariant();
-        }
 
         /// <inheritdoc />
         protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)

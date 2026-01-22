@@ -23,18 +23,13 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 
             IndividualSubscriptionCount = symbols.Count;
 
-            var checkers = new List<MessageHandlerLink>();
             var routes = new List<MessageRoute>();
             foreach (var symbol in symbols)
             {
-                checkers.Add(new MessageHandlerLink<KrakenFuturesBookUpdate>("book-" + symbol.ToLowerInvariant(), DoHandleMessage));
-                checkers.Add(new MessageHandlerLink<KrakenFuturesBookSnapshotUpdate>("book_snapshot-" + symbol.ToLowerInvariant(), DoHandleMessage));
-
                 routes.Add(MessageRoute<KrakenFuturesBookUpdate>.CreateWithoutTopicFilter("book-" + symbol.ToLowerInvariant(), DoHandleMessage));
                 routes.Add(MessageRoute<KrakenFuturesBookSnapshotUpdate>.CreateWithoutTopicFilter("book_snapshot-" + symbol.ToLowerInvariant(), DoHandleMessage));
             }    
 
-            MessageMatcher = MessageMatcher.Create(checkers.ToArray());
             MessageRouter = MessageRouter.Create(routes.ToArray());
         }
 

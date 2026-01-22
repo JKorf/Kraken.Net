@@ -24,12 +24,6 @@ namespace Kraken.Net.Clients.SpotApi
     /// <inheritdoc />
     internal partial class KrakenSocketClientSpotApi : SocketApiClient, IKrakenSocketClientSpotApi
     {
-        private static readonly MessagePath _idPath = MessagePath.Get().Property("req_id");
-        private static readonly MessagePath _methodPath = MessagePath.Get().Property("method");
-        private static readonly MessagePath _channelPath = MessagePath.Get().Property("channel");
-        private static readonly MessagePath _typePath = MessagePath.Get().Property("type");
-        private static readonly MessagePath _symbolPath = MessagePath.Get().Property("data").Index(0).Property("symbol");
-
         private static readonly ConcurrentDictionary<string, CachedToken> _tokenCache = new();
 
         private static readonly HashSet<string> _channelsWithoutSymbol =
@@ -81,8 +75,6 @@ namespace Kraken.Net.Clients.SpotApi
         }
         #endregion
 
-        protected override IByteMessageAccessor CreateAccessor(WebSocketMessageType type) => new SystemTextJsonByteMessageAccessor(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
-
         protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
 
         public override ISocketMessageHandler CreateMessageConverter(WebSocketMessageType messageType) => new KrakenSocketSpotMessageHandler();
@@ -99,34 +91,6 @@ namespace Kraken.Net.Clients.SpotApi
 
         /// <inheritdoc />
         public IKrakenSocketClientSpotApiShared SharedClient => this;
-
-        /// <inheritdoc />
-        public override string? GetListenerIdentifier(IMessageAccessor message)
-        {
-            var id = message.GetValue<string>(_idPath);
-            if (id != null)
-                return id;
-
-            var channel = message.GetValue<string>(_channelPath);
-            if (channel!.Equals("balances", StringComparison.Ordinal))
-            {
-                var type = message.GetValue<string?>(_typePath);
-                if (type?.Equals("snapshot", StringComparison.Ordinal) == true)
-                    return channel + type;
-
-                return channel;
-            }
-
-            var method = message.GetValue<string?>(_methodPath);
-
-            if (!_channelsWithoutSymbol.Contains(channel!))
-            {
-                var symbol = message.GetValue<string>(_symbolPath);
-                return channel + method + "-" + symbol;
-            }
-
-            return channel + method;
-        }
 
         /// <inheritdoc />
         protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)

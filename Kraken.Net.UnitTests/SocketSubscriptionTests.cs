@@ -15,17 +15,15 @@ namespace Kraken.Net.UnitTests
     [TestFixture]
     public class SocketSubscriptionTests
     {
-        //[TestCase(false)]
-        [TestCase(true)]
-        public async Task ValidateConcurrentSpotSubscriptions(bool newDeserialization)
+        [Test]
+        public async Task ValidateConcurrentSpotSubscriptions()
         {
             var logger = new LoggerFactory();
             logger.AddProvider(new TraceLoggerProvider());
 
             var client = new KrakenSocketClient(Options.Create(new KrakenSocketOptions
             {
-                OutputOriginalData = true,
-                UseUpdatedDeserialization = newDeserialization
+                OutputOriginalData = true
             }), logger);
 
             var tester = new SocketSubscriptionValidator<KrakenSocketClient>(client, "Subscriptions/Spot", "wss://ws-auth.kraken.com", "data");
@@ -35,16 +33,14 @@ namespace Kraken.Net.UnitTests
                 "Concurrent");
         }
 
-        [TestCase(false)]
-        [TestCase(true)]
-        public async Task ValidateSpotSubscriptions(bool useUpdatedDeserialization)
+        [Test]
+        public async Task ValidateSpotSubscriptions()
         {
             var loggerFactory = new LoggerFactory();
             loggerFactory.AddProvider(new TraceLoggerProvider());
             var client = new KrakenSocketClient(Options.Create(new KrakenSocketOptions 
             {
                 OutputOriginalData = true,
-                UseUpdatedDeserialization = useUpdatedDeserialization,
                 ApiCredentials = new ApiCredentials("MTIz", "MTIz")
             }), loggerFactory);
             var tester = new SocketSubscriptionValidator<KrakenSocketClient>(client, "Subscriptions/Spot", "wss://ws-auth.kraken.com", "data");

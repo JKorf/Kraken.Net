@@ -22,17 +22,12 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             IndividualSubscriptionCount = symbols.Count;
 
             var routes = new List<MessageRoute>();
-            var checkers = new List<MessageHandlerLink>();
             foreach (var symbol in symbols)
             {
-                checkers.Add(new MessageHandlerLink<KrakenFuturesTradesSnapshotUpdate>("trade_snapshot-" + symbol.ToLowerInvariant(), DoHandleMessage));
-                checkers.Add(new MessageHandlerLink<KrakenFuturesTradeUpdate>("trade-" + symbol.ToLowerInvariant(), DoHandleMessage));
-
                 routes.Add(MessageRoute<KrakenFuturesTradesSnapshotUpdate>.CreateWithoutTopicFilter("trade_snapshot-" + symbol.ToLowerInvariant(), DoHandleMessage));
                 routes.Add(MessageRoute<KrakenFuturesTradeUpdate>.CreateWithoutTopicFilter("trade-" + symbol.ToLowerInvariant(), DoHandleMessage));
             }
 
-            MessageMatcher = MessageMatcher.Create(checkers.ToArray());
             MessageRouter = MessageRouter.Create(routes.ToArray());
         }
 

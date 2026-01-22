@@ -17,7 +17,6 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _client = client;
             _handler = handler;
 
-            MessageMatcher = MessageMatcher.Create<KrakenFuturesOpenPositionUpdate>("open_positions", DoHandleMessage);
             MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenFuturesOpenPositionUpdate>("open_positions", DoHandleMessage);
         }
 

@@ -13,7 +13,6 @@ namespace Kraken.Net.Objects.Sockets.Queries
         public KrakenSpotQueryV2(SocketApiClient client, KrakenSocketRequestV2<TRequest> request, bool authenticated) : base(request, authenticated)
         {
             _client = client;
-            MessageMatcher = MessageMatcher.Create<KrakenSocketResponseV2<TResponse>>(request.RequestId.ToString(), HandleMessage);
             MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenSocketResponseV2<TResponse>>(request.RequestId.ToString(), HandleMessage);
         }
 
