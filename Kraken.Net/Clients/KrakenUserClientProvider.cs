@@ -60,7 +60,7 @@ namespace Kraken.Net.Clients
         /// <inheritdoc />
         public IKrakenRestClient GetRestClient(string userIdentifier, ApiCredentials? credentials = null, KrakenEnvironment? environment = null)
         {
-            if (!_restClients.TryGetValue(userIdentifier, out var client))
+            if (!_restClients.TryGetValue(userIdentifier, out var client) || client.Disposed)
                 client = CreateRestClient(userIdentifier, credentials, environment);
 
             return client;
@@ -69,7 +69,7 @@ namespace Kraken.Net.Clients
         /// <inheritdoc />
         public IKrakenSocketClient GetSocketClient(string userIdentifier, ApiCredentials? credentials = null, KrakenEnvironment? environment = null)
         {
-            if (!_socketClients.TryGetValue(userIdentifier, out var client))
+            if (!_socketClients.TryGetValue(userIdentifier, out var client) || client.Disposed)
                 client = CreateSocketClient(userIdentifier, credentials, environment);
 
             return client;
