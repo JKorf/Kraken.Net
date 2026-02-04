@@ -6965,6 +6965,36 @@
             Tracker factory
             </summary>
         </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,CryptoExchange.Net.Authentication.ApiCredentials,Kraken.Net.KrakenEnvironment)">
+            <summary>
+            Create a new Spot user data tracker
+            </summary>
+            <param name="userIdentifier">User identifier</param>
+            <param name="config">Configuration</param>
+            <param name="credentials">Credentials</param>
+            <param name="environment">Environment</param>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenTrackerFactory.CreateUserSpotDataTracker(CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig)">
+            <summary>
+            Create a new spot user data tracker
+            </summary>
+            <param name="config">Configuration</param>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,CryptoExchange.Net.Authentication.ApiCredentials,Kraken.Net.KrakenEnvironment)">
+            <summary>
+            Create a new futures user data tracker
+            </summary>
+            <param name="userIdentifier">User identifier</param>
+            <param name="config">Configuration</param>
+            <param name="credentials">Credentials</param>
+            <param name="environment">Environment</param>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.IKrakenTrackerFactory.CreateUserFuturesDataTracker(CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig)">
+            <summary>
+            Create a new futures user data tracker
+            </summary>
+            <param name="config">Configuration</param>
+        </member>
         <member name="T:Kraken.Net.KrakenEnvironment">
             <summary>
             Kraken environments
@@ -7139,6 +7169,37 @@
         </member>
         <member name="M:Kraken.Net.KrakenTrackerFactory.CreateTradeTracker(CryptoExchange.Net.SharedApis.SharedSymbol,System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
             <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenTrackerFactory.CreateUserSpotDataTracker(CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,CryptoExchange.Net.Authentication.ApiCredentials,Kraken.Net.KrakenEnvironment)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenTrackerFactory.CreateUserFuturesDataTracker(CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.KrakenTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,CryptoExchange.Net.Authentication.ApiCredentials,Kraken.Net.KrakenEnvironment)">
+            <inheritdoc />
+        </member>
+        <member name="T:Kraken.Net.KrakenUserSpotDataTracker">
+            <inheritdoc/>
+        </member>
+        <member name="M:Kraken.Net.KrakenUserSpotDataTracker.#ctor(Microsoft.Extensions.Logging.ILogger{Kraken.Net.KrakenUserSpotDataTracker},Kraken.Net.Interfaces.Clients.IKrakenRestClient,Kraken.Net.Interfaces.Clients.IKrakenSocketClient,System.String,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig)">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.KrakenUserFuturesDataTracker">
+            <inheritdoc/>
+        </member>
+        <member name="P:Kraken.Net.KrakenUserFuturesDataTracker.WebsocketPositionUpdatesAreFullSnapshots">
+            <inheritdoc/>
+        </member>
+        <member name="M:Kraken.Net.KrakenUserFuturesDataTracker.#ctor(Microsoft.Extensions.Logging.ILogger{Kraken.Net.KrakenUserFuturesDataTracker},Kraken.Net.Interfaces.Clients.IKrakenRestClient,Kraken.Net.Interfaces.Clients.IKrakenSocketClient,System.String,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig)">
+            <summary>
+            ctor
+            </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Internal.KrakenSocketCancelAfterRequest">
             <summary>
