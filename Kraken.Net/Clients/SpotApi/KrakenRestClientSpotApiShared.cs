@@ -758,7 +758,15 @@ namespace Kraken.Net.Clients.SpotApi
             if (!string.IsNullOrEmpty(deposits.Data.NextCursor))
                 nextToken = new CursorToken(deposits.Data.NextCursor!);
 
-            return deposits.AsExchangeResult<SharedDeposit[]>(Exchange, TradingMode.Spot, deposits.Data.Items.Select(x => new SharedDeposit(KrakenExchange.AssetAliases.ExchangeToCommonName(x.Asset), x.Quantity, true, x.Timestamp)
+            return deposits.AsExchangeResult<SharedDeposit[]>(Exchange, TradingMode.Spot, deposits.Data.Items.Select(x => 
+            new SharedDeposit(
+                KrakenExchange.AssetAliases.ExchangeToCommonName(x.Asset),
+                x.Quantity,
+                true, 
+                x.Timestamp,
+                x.Status == "SUCCESS" ? SharedTransferStatus.Completed
+                : x.Status == "FAILURE" ? SharedTransferStatus.Failed
+                : SharedTransferStatus.InProgress)
             {
                 Id = x.ReferenceId,
                 TransactionId = x.TransactionId,
