@@ -6965,7 +6965,7 @@
             Tracker factory
             </summary>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,CryptoExchange.Net.Authentication.ApiCredentials,Kraken.Net.KrakenEnvironment)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoExchange.Net.Authentication.ApiCredentials,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,Kraken.Net.KrakenEnvironment)">
             <summary>
             Create a new Spot user data tracker
             </summary>
@@ -6980,7 +6980,7 @@
             </summary>
             <param name="config">Configuration</param>
         </member>
-        <member name="M:Kraken.Net.Interfaces.IKrakenTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,CryptoExchange.Net.Authentication.ApiCredentials,Kraken.Net.KrakenEnvironment)">
+        <member name="M:Kraken.Net.Interfaces.IKrakenTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.Authentication.ApiCredentials,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,Kraken.Net.KrakenEnvironment)">
             <summary>
             Create a new futures user data tracker
             </summary>
@@ -7173,13 +7173,13 @@
         <member name="M:Kraken.Net.KrakenTrackerFactory.CreateUserSpotDataTracker(CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.KrakenTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,CryptoExchange.Net.Authentication.ApiCredentials,Kraken.Net.KrakenEnvironment)">
+        <member name="M:Kraken.Net.KrakenTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoExchange.Net.Authentication.ApiCredentials,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,Kraken.Net.KrakenEnvironment)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.KrakenTrackerFactory.CreateUserFuturesDataTracker(CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.KrakenTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,CryptoExchange.Net.Authentication.ApiCredentials,Kraken.Net.KrakenEnvironment)">
+        <member name="M:Kraken.Net.KrakenTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.Authentication.ApiCredentials,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,Kraken.Net.KrakenEnvironment)">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.KrakenUserSpotDataTracker">

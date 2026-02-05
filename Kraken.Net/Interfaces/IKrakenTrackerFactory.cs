@@ -15,12 +15,12 @@ namespace Kraken.Net.Interfaces
         /// <param name="config">Configuration</param>
         /// <param name="credentials">Credentials</param>
         /// <param name="environment">Environment</param>
-        IUserSpotDataTracker CreateUserSpotDataTracker(string userIdentifier, SpotUserDataTrackerConfig config, ApiCredentials credentials, KrakenEnvironment? environment = null);
+        IUserSpotDataTracker CreateUserSpotDataTracker(string userIdentifier, ApiCredentials credentials, SpotUserDataTrackerConfig? config = null, KrakenEnvironment? environment = null);
         /// <summary>
         /// Create a new spot user data tracker
         /// </summary>
         /// <param name="config">Configuration</param>
-        IUserSpotDataTracker CreateUserSpotDataTracker(SpotUserDataTrackerConfig config);
+        IUserSpotDataTracker CreateUserSpotDataTracker(SpotUserDataTrackerConfig? config = null);
 
         /// <summary>
         /// Create a new futures user data tracker
@@ -29,11 +29,11 @@ namespace Kraken.Net.Interfaces
         /// <param name="config">Configuration</param>
         /// <param name="credentials">Credentials</param>
         /// <param name="environment">Environment</param>
-        IUserFuturesDataTracker CreateUserFuturesDataTracker(string userIdentifier, FuturesUserDataTrackerConfig config, ApiCredentials credentials, KrakenEnvironment? environment = null);
+        IUserFuturesDataTracker CreateUserFuturesDataTracker(string userIdentifier, ApiCredentials credentials, FuturesUserDataTrackerConfig? config = null, KrakenEnvironment? environment = null);
         /// <summary>
         /// Create a new futures user data tracker
         /// </summary>
         /// <param name="config">Configuration</param>
-        IUserFuturesDataTracker CreateUserFuturesDataTracker(FuturesUserDataTrackerConfig config);
+        IUserFuturesDataTracker CreateUserFuturesDataTracker(FuturesUserDataTrackerConfig? config = null);
     }
 }

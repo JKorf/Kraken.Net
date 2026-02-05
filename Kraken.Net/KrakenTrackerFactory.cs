@@ -92,7 +92,7 @@ namespace Kraken.Net
         }
 
         /// <inheritdoc />
-        public IUserSpotDataTracker CreateUserSpotDataTracker(SpotUserDataTrackerConfig config)
+        public IUserSpotDataTracker CreateUserSpotDataTracker(SpotUserDataTrackerConfig? config = null)
         {
             var restClient = _serviceProvider?.GetRequiredService<IKrakenRestClient>() ?? new KrakenRestClient();
             var socketClient = _serviceProvider?.GetRequiredService<IKrakenSocketClient>() ?? new KrakenSocketClient();
@@ -106,7 +106,7 @@ namespace Kraken.Net
         }
 
         /// <inheritdoc />
-        public IUserSpotDataTracker CreateUserSpotDataTracker(string userIdentifier, SpotUserDataTrackerConfig config, ApiCredentials credentials, KrakenEnvironment? environment = null)
+        public IUserSpotDataTracker CreateUserSpotDataTracker(string userIdentifier, ApiCredentials credentials, SpotUserDataTrackerConfig? config = null, KrakenEnvironment? environment = null)
         {
             var clientProvider = _serviceProvider?.GetRequiredService<IKrakenUserClientProvider>() ?? new KrakenUserClientProvider();
             var restClient = clientProvider.GetRestClient(userIdentifier, credentials, environment);
@@ -121,7 +121,7 @@ namespace Kraken.Net
         }
 
         /// <inheritdoc />
-        public IUserFuturesDataTracker CreateUserFuturesDataTracker(FuturesUserDataTrackerConfig config)
+        public IUserFuturesDataTracker CreateUserFuturesDataTracker(FuturesUserDataTrackerConfig? config = null)
         {
             var restClient = _serviceProvider?.GetRequiredService<IKrakenRestClient>() ?? new KrakenRestClient();
             var socketClient = _serviceProvider?.GetRequiredService<IKrakenSocketClient>() ?? new KrakenSocketClient();
@@ -135,7 +135,7 @@ namespace Kraken.Net
         }
 
         /// <inheritdoc />
-        public IUserFuturesDataTracker CreateUserFuturesDataTracker(string userIdentifier, FuturesUserDataTrackerConfig config, ApiCredentials credentials, KrakenEnvironment? environment = null)
+        public IUserFuturesDataTracker CreateUserFuturesDataTracker(string userIdentifier, ApiCredentials credentials, FuturesUserDataTrackerConfig? config = null, KrakenEnvironment? environment = null)
         {
             var clientProvider = _serviceProvider?.GetRequiredService<IKrakenUserClientProvider>() ?? new KrakenUserClientProvider();
             var restClient = clientProvider.GetRestClient(userIdentifier, credentials, environment);
