@@ -194,7 +194,8 @@ namespace Kraken.Net.Clients.FuturesApi
                         x => new SharedPosition(ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol), x.Symbol, Math.Abs(x.Balance), update.DataTime ?? update.ReceiveTime)
                     {
                         AverageOpenPrice = x.EntryPrice,
-                            PositionSide = x.Balance > 0 ? SharedPositionSide.Long : SharedPositionSide.Short,
+                        PositionMode = SharedPositionMode.OneWay,
+                        PositionSide = x.Balance > 0 ? SharedPositionSide.Long : SharedPositionSide.Short,
                         UnrealizedPnl = x.ProfitAndLoss,
                         Leverage = x.EffectiveLeverage,
                         LiquidationPrice = x.LiquidationThreshold
