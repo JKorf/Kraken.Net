@@ -174,6 +174,14 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 7.4.0 - 06 Feb 2026
+    * Updated CryptoExchange.Net to version 10.4.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+    * Added KrakenUserSpotDataTracker and KrakenUserFuturesDataTracker
+    * Added additional methods for requesting supported symbols to Shared ISpotSymbolRestClient/IFuturesSymbolRestClient interfaces
+    * Added PositionMode mapping on SharedPosition models
+    * Added Status mapping for SharedDeposit models
+    * Fixed disposed clients getting returned from UserClientProvider
+
 * Version 7.3.0 - 22 Jan 2026
     * Updated CryptoExchange.Net to version 10.3.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
     * Removed legacy websocket message handling and the corresponding UseUpdatedDeserialization client option
