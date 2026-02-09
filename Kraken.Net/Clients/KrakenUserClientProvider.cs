@@ -8,8 +8,8 @@ namespace Kraken.Net.Clients
     /// <inheritdoc />
     public class KrakenUserClientProvider : IKrakenUserClientProvider
     {
-        private static ConcurrentDictionary<string, IKrakenRestClient> _restClients = new ConcurrentDictionary<string, IKrakenRestClient>();
-        private static ConcurrentDictionary<string, IKrakenSocketClient> _socketClients = new ConcurrentDictionary<string, IKrakenSocketClient>();
+        private ConcurrentDictionary<string, IKrakenRestClient> _restClients = new ConcurrentDictionary<string, IKrakenRestClient>();
+        private ConcurrentDictionary<string, IKrakenSocketClient> _socketClients = new ConcurrentDictionary<string, IKrakenSocketClient>();
 
         private readonly IOptions<KrakenRestOptions> _restOptions;
         private readonly IOptions<KrakenSocketOptions> _socketOptions;
