@@ -19,6 +19,9 @@ namespace Kraken.Net
                     if (msg!.Equals("Permission denied"))
                         return new ErrorInfo(ErrorType.Unauthorized, false, "Insufficient permissions", code);
 
+                    if (msg!.Equals("Too many requests"))
+                        return new ErrorInfo(ErrorType.RateLimitRequest, false, "Too many requests", code);
+
                     if (msg!.StartsWith("Internal error"))
                         return new ErrorInfo(ErrorType.SystemError, false, "Internal system error", code);
 

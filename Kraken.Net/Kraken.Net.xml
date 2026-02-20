@@ -88,7 +88,7 @@
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData.GetTickersAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData.GetKlinesAsync(Kraken.Net.Enums.TickType,System.String,Kraken.Net.Enums.FuturesKlineInterval,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiExchangeData.GetKlinesAsync(Kraken.Net.Enums.TickType,System.String,Kraken.Net.Enums.FuturesKlineInterval,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading">
@@ -122,6 +122,9 @@
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.GetOrdersAsync(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.GetOrderHistoryAsync(System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.String,System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Kraken.Net.Clients.FuturesApi.KrakenRestClientFuturesApiTrading.EditOrderAsync(System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{Kraken.Net.Enums.TrailingStopDeviationUnit},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
@@ -2356,6 +2359,21 @@
             </summary>
         </member>
         <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenMultiCollateralMarginBalancesArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenOrderHistory">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenOrderHistoryArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Kraken.Net.Converters.KrakenSourceGenerationContext.KrakenOrderHistoryResult">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -5384,7 +5402,7 @@
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
-        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiExchangeData.GetKlinesAsync(Kraken.Net.Enums.TickType,System.String,Kraken.Net.Enums.FuturesKlineInterval,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiExchangeData.GetKlinesAsync(Kraken.Net.Enums.TickType,System.String,Kraken.Net.Enums.FuturesKlineInterval,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <summary>
             Get klines/candle data
             <para><a href="https://docs.kraken.com/api/docs/futures-api/charts/candles" /></para>
@@ -5394,6 +5412,7 @@
             <param name="interval">Interval of the klines</param>
             <param name="startTime">Start time</param>
             <param name="endTime">End time</param>
+            <param name="limit">Max number of results</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
@@ -5620,6 +5639,21 @@
             <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/set-self-trade-strategy" /></para>
             </summary>
             <param name="strategy">The strategy</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kraken.Net.Interfaces.Clients.FuturesApi.IKrakenRestClientFuturesApiTrading.GetOrderHistoryAsync(System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.String,System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <summary>
+            Get order history
+            <para><a href="https://docs.kraken.com/api/docs/futures-api/history/get-order-events" /></para>
+            </summary>
+            <param name="open">Return open order events</param>
+            <param name="close">Return close order events</param>
+            <param name="startTime">Filter by start time</param>
+            <param name="endTime">Filter by end time</param>
+            <param name="ascending">Ascending order</param>
+            <param name="continuationToken">Continuation token from previous request</param>
+            <param name="limit">Max number of results</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
@@ -8686,7 +8720,7 @@
         </member>
         <member name="T:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionOrder">
             <summary>
-            Excecution order info
+            Execution order info
             </summary>
         </member>
         <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFuturesExecutionOrder.ClientOrderId">
@@ -8982,6 +9016,11 @@
         <member name="P:Kraken.Net.Objects.Models.Futures.KrakenFlexCurrencySummary.Value">
             <summary>
             USD value of asset.
+            </summary>
+        </member>
+        <member name="T:Kraken.Net.Objects.Models.Futures.KrakenOrderHistory">
+            <summary>
+            Order history
             </summary>
         </member>
         <member name="T:Kraken.Net.Objects.Models.Futures.KrakenTriggerOptions">

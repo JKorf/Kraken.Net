@@ -163,5 +163,28 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<SelfTradeStrategy>> SetSelfTradeStrategyAsync(SelfTradeStrategy strategy, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get order history
+        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/history/get-order-events" /></para>
+        /// </summary>
+        /// <param name="open">Return open order events</param>
+        /// <param name="close">Return close order events</param>
+        /// <param name="startTime">Filter by start time</param>
+        /// <param name="endTime">Filter by end time</param>
+        /// <param name="ascending">Ascending order</param>
+        /// <param name="continuationToken">Continuation token from previous request</param>
+        /// <param name="limit">Max number of results</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns></returns>
+        Task<WebCallResult<KrakenOrderHistory[]>> GetOrderHistoryAsync(
+            bool? open = null,
+            bool? close = null,
+            DateTime? startTime = null,
+            DateTime? endTime = null,
+            bool? ascending = null,
+            string? continuationToken = null,
+            int? limit = null,
+            CancellationToken ct = default);
     }
 }

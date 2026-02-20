@@ -181,7 +181,7 @@ namespace Kraken.Net.Objects.Models.Futures
     }
 
     /// <summary>
-    /// Excecution order info
+    /// Execution order info
     /// </summary>
     [SerializationModel]
     public record KrakenFuturesExecutionOrder
