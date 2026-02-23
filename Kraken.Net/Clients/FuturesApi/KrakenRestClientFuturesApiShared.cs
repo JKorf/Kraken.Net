@@ -156,7 +156,7 @@ namespace Kraken.Net.Clients.FuturesApi
         #endregion
 
         #region Funding Rate client
-        GetFundingRateHistoryOptions IFundingRateRestClient.GetFundingRateHistoryOptions { get; } = new GetFundingRateHistoryOptions(false, false, false, 1000, false);
+        GetFundingRateHistoryOptions IFundingRateRestClient.GetFundingRateHistoryOptions { get; } = new GetFundingRateHistoryOptions(true, true, false, 1000, false);
 
         async Task<ExchangeWebResult<SharedFundingRate[]>> IFundingRateRestClient.GetFundingRateHistoryAsync(GetFundingRateHistoryRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
@@ -178,7 +178,13 @@ namespace Kraken.Net.Clients.FuturesApi
                 data = data.Where(x => x.Timestamp <= request.EndTime.Value);
 
             // Return
-            return result.AsExchangeResult<SharedFundingRate[]>(Exchange, request.Symbol.TradingMode, data.Select(x => new SharedFundingRate(x.FundingRate, x.Timestamp)).ToArray());
+            return result.AsExchangeResult(
+                Exchange,
+                request.Symbol.TradingMode,
+                ExchangeHelpers.ApplyFilter(result.Data, x => x.Timestamp, request.StartTime, request.EndTime, request.Direction ?? DataDirection.Ascending)
+                .Select(x =>
+                    new SharedFundingRate(x.FundingRate, x.Timestamp))
+                .ToArray());
         }
         #endregion
 
