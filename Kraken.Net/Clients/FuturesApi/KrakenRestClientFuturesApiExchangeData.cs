@@ -138,9 +138,17 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Get Klines
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenFuturesKlines>> GetKlinesAsync(TickType tickType, string symbol, FuturesKlineInterval interval, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default)
+        public async Task<WebCallResult<KrakenFuturesKlines>> GetKlinesAsync(
+            TickType tickType,
+            string symbol, 
+            FuturesKlineInterval interval,
+            DateTime? startTime = null,
+            DateTime? endTime = null,
+            int? limit = null,
+            CancellationToken ct = default)
         {
             var parameters = new ParameterCollection();
+            parameters.AddOptional("count", limit);
             parameters.AddOptionalParameter("from", DateTimeConverter.ConvertToSeconds(startTime));
             parameters.AddOptionalParameter("to", DateTimeConverter.ConvertToSeconds(endTime));
 

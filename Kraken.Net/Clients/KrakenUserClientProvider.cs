@@ -38,6 +38,7 @@ namespace Kraken.Net.Clients
             IOptions<KrakenSocketOptions> socketOptions)
         {
             _httpClient = httpClient ?? new HttpClient();
+            _httpClient.Timeout = restOptions.Value.RequestTimeout;
             _loggerFactory = loggerFactory;
             _restOptions = restOptions;
             _socketOptions = socketOptions;

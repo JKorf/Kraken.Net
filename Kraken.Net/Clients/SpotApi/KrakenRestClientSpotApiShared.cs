@@ -1,8 +1,9 @@
-using Kraken.Net.Interfaces.Clients.SpotApi;
+using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Enums;
+using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects.Models;
-using CryptoExchange.Net.Objects.Errors;
+using System.Linq;
 
 namespace Kraken.Net.Clients.SpotApi
 {
@@ -18,7 +19,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Kline client
 
-        GetKlinesOptions IKlineRestClient.GetKlinesOptions { get; } = new GetKlinesOptions(SharedPaginationSupport.NotSupported, true, 720, false,
+        GetKlinesOptions IKlineRestClient.GetKlinesOptions { get; } = new GetKlinesOptions(true, false, true, 720, false,
             SharedKlineInterval.OneMinute,
             SharedKlineInterval.FiveMinutes,
             SharedKlineInterval.FifteenMinutes,
@@ -26,9 +27,12 @@ namespace Kraken.Net.Clients.SpotApi
             SharedKlineInterval.OneHour,
             SharedKlineInterval.FourHours,
             SharedKlineInterval.OneDay,
-            SharedKlineInterval.OneWeek);
+            SharedKlineInterval.OneWeek)
+        {
+            MaxTotalDataPoints = 720
+        };
 
-        async Task<ExchangeWebResult<SharedKline[]>> IKlineRestClient.GetKlinesAsync(GetKlinesRequest request, INextPageToken? pageToken, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedKline[]>> IKlineRestClient.GetKlinesAsync(GetKlinesRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
             var interval = (Enums.KlineInterval)request.Interval;
             if (!Enum.IsDefined(typeof(Enums.KlineInterval), interval))
@@ -50,30 +54,36 @@ namespace Kraken.Net.Clients.SpotApi
                 return new ExchangeWebResult<SharedKline[]>(Exchange, ArgumentError.Invalid(nameof(GetKlinesRequest.Limit), $"Time filter outside of supported range. Can only request the most recent {apiLimit} klines i.e. data later than {cutoff} at this interval"));
             }
 
-            // Pagination not supported, no time filter available (always most recent)
+            var direction = DataDirection.Ascending;
+            var pageParams = Pagination.GetPaginationParameters(direction, request.Limit ?? apiLimit, request.StartTime, request.EndTime ?? DateTime.UtcNow, pageRequest, false);
 
             // Get data
             var symbol = request.Symbol!.GetSymbol(FormatSymbol);
             var result = await ExchangeData.GetKlinesAsync(
                 symbol,
                 interval,
-                DateTime.UtcNow.AddSeconds(-(int)request.Interval * limit),
+                since: pageParams.StartTime,
                 ct: ct
                 ).ConfigureAwait(false);
             if (!result)
                 return result.AsExchangeResult<SharedKline[]>(Exchange, null, default);
 
-            // Filter the data based on requested timestamps
-            IEnumerable<KrakenKline> data = result.Data.Data;
-            if (request.StartTime.HasValue == true)
-                data = data.Where(d => d.OpenTime >= request.StartTime.Value);
-            if (request.EndTime.HasValue == true)
-                data = data.Where(d => d.OpenTime < request.EndTime.Value);
-            if (request.Limit.HasValue == true)
-                data = data.Take(request.Limit.Value);
+            var data = result.Data.Data.Take(pageParams.Limit);
+            var nextPageRequest = Pagination.GetNextPageRequest(
+                     () => Pagination.NextPageFromTime(pageParams, data.Max(x => x.OpenTime).Add(TimeSpan.FromSeconds((int)interval))),
+                     data.Count(),
+                     data.Select(x => x.OpenTime),
+                     request.StartTime,
+                     request.EndTime ?? DateTime.UtcNow,
+                     pageParams);
 
-            return result.AsExchangeResult<SharedKline[]>(Exchange, request.Symbol.TradingMode, data.Reverse().Select(x => 
-                new SharedKline(request.Symbol, symbol, x.OpenTime, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume)).ToArray());
+            return result.AsExchangeResult(
+                    Exchange,
+                    request.Symbol.TradingMode,
+                    ExchangeHelpers.ApplyFilter(data, x => x.OpenTime, request.StartTime, request.EndTime, direction)
+                    .Select(x => 
+                        new SharedKline(request.Symbol, symbol, x.OpenTime, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume))
+                    .ToArray(), nextPageRequest);
         }
 
         #endregion
@@ -387,52 +397,60 @@ namespace Kraken.Net.Clients.SpotApi
             }).ToArray());
         }
 
-        PaginatedEndpointOptions<GetClosedOrdersRequest> ISpotOrderRestClient.GetClosedSpotOrdersOptions { get; } = new PaginatedEndpointOptions<GetClosedOrdersRequest>(SharedPaginationSupport.Descending, true, 1000, true)
+        GetClosedOrdersOptions ISpotOrderRestClient.GetClosedSpotOrdersOptions { get; } = new GetClosedOrdersOptions(false, true, true, 50)
         {
             RequestNotes = "Request always returns up to 50 results"
         };
-        async Task<ExchangeWebResult<SharedSpotOrder[]>> ISpotOrderRestClient.GetClosedSpotOrdersAsync(GetClosedOrdersRequest request, INextPageToken? pageToken, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedSpotOrder[]>> ISpotOrderRestClient.GetClosedSpotOrdersAsync(GetClosedOrdersRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
             var validationError = ((ISpotOrderRestClient)this).GetClosedSpotOrdersOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeWebResult<SharedSpotOrder[]>(Exchange, validationError);
 
-            // Determine page token
-            int? offset = null;
-            if (pageToken is OffsetToken token)
-                offset = token.Offset;
+            int limit = request.Limit ?? 50;
+            var direction = DataDirection.Descending;
+            var pageParams = Pagination.GetPaginationParameters(direction, limit, request.StartTime, request.EndTime ?? DateTime.UtcNow, pageRequest);
 
-            var order = await Trading.GetClosedOrdersAsync(
-                startTime: request.StartTime,
-                endTime: request.EndTime,
-                resultOffset: offset,
+            var result = await Trading.GetClosedOrdersAsync(
+                startTime: pageParams.StartTime,
+                endTime: pageParams.EndTime,
+                resultOffset: pageParams.Offset,
                 ct: ct).ConfigureAwait(false);
-            if (!order)
-                return order.AsExchangeResult<SharedSpotOrder[]>(Exchange, null, default);
+            if (!result)
+                return result.AsExchangeResult<SharedSpotOrder[]>(Exchange, null, default);
 
-            // Get next token
-            OffsetToken? nextToken = null;
-            if (order.Data.Count > (order.Data.Closed.Count + (offset ?? 0)))
-                nextToken = new OffsetToken((offset ?? 0) + order.Data.Closed.Count);
-
-            var orders = order.Data.Closed.Values.Where(x => x.OrderDetails.Symbol == request.Symbol!.GetSymbol(FormatSymbol));
-            return order.AsExchangeResult<SharedSpotOrder[]>(Exchange, TradingMode.Spot, orders.Select(x => new SharedSpotOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicId, x.OrderDetails.Symbol),
-                x.OrderDetails.Symbol,
-                x.Id.ToString(),
-                ParseOrderType(x.OrderDetails.Type, x.Oflags),
-                x.OrderDetails.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
-                ParseOrderStatus(x.Status),
-                x.CreateTime)
-            {
-                ClientOrderId = x.ClientOrderId,
-                Fee = x.Fee,
-                OrderPrice = (x.OrderDetails.Price == 0 || x.OrderDetails.Type == OrderType.TrailingStop) ? null : x.OrderDetails.Price,
-                OrderQuantity = new SharedOrderQuantity(x.Oflags.Contains("viqc") ? null : x.Quantity, x.Oflags.Contains("viqc") ? x.Quantity : null),
-                QuantityFilled = new SharedOrderQuantity(x.QuantityFilled, x.QuoteQuantityFilled),
-                AveragePrice = x.AveragePrice == 0 ? null: x.AveragePrice,
-                UpdateTime = x.CloseTime
-            }).ToArray(), nextToken);
+            var nextPageRequest = Pagination.GetNextPageRequest(
+                     () => Pagination.NextPageFromOffset(pageParams, result.Data.Closed.Count),
+                     result.Data.Closed.Count,
+                     result.Data.Closed.Select(x => x.Value.CreateTime),
+                     request.StartTime,
+                     request.EndTime ?? DateTime.UtcNow,
+                     pageParams);
+            
+            var orders = result.Data.Closed.Values.Where(x => x.OrderDetails.Symbol == request.Symbol!.GetSymbol(FormatSymbol));
+            return result.AsExchangeResult(
+                    Exchange,
+                    request.Symbol!.TradingMode,
+                    ExchangeHelpers.ApplyFilter(orders, x => x.CreateTime, request.StartTime, request.EndTime, direction)
+                    .Select(x => 
+                        new SharedSpotOrder(
+                            ExchangeSymbolCache.ParseSymbol(_topicId, x.OrderDetails.Symbol),
+                            x.OrderDetails.Symbol,
+                            x.Id.ToString(),
+                            ParseOrderType(x.OrderDetails.Type, x.Oflags),
+                            x.OrderDetails.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
+                            ParseOrderStatus(x.Status),
+                            x.CreateTime)
+                        {
+                            ClientOrderId = x.ClientOrderId,
+                            Fee = x.Fee,
+                            OrderPrice = (x.OrderDetails.Price == 0 || x.OrderDetails.Type == OrderType.TrailingStop) ? null : x.OrderDetails.Price,
+                            OrderQuantity = new SharedOrderQuantity(x.Oflags.Contains("viqc") ? null : x.Quantity, x.Oflags.Contains("viqc") ? x.Quantity : null),
+                            QuantityFilled = new SharedOrderQuantity(x.QuantityFilled, x.QuoteQuantityFilled),
+                            AveragePrice = x.AveragePrice == 0 ? null: x.AveragePrice,
+                            UpdateTime = x.CloseTime
+                        })
+                    .ToArray(), nextPageRequest);
         }
 
         EndpointOptions<GetOrderTradesRequest> ISpotOrderRestClient.GetSpotOrderTradesOptions { get; } = new EndpointOptions<GetOrderTradesRequest>(true);
@@ -473,48 +491,57 @@ namespace Kraken.Net.Clients.SpotApi
             }).ToArray());
         }
 
-        PaginatedEndpointOptions<GetUserTradesRequest> ISpotOrderRestClient.GetSpotUserTradesOptions { get; } = new PaginatedEndpointOptions<GetUserTradesRequest>(SharedPaginationSupport.Descending, true, 1000, true)
+        GetUserTradesOptions ISpotOrderRestClient.GetSpotUserTradesOptions { get; } = new GetUserTradesOptions(false, true, true, 50)
         {
             RequestNotes = "Request always returns up to 50 results"
         };
-        async Task<ExchangeWebResult<SharedUserTrade[]>> ISpotOrderRestClient.GetSpotUserTradesAsync(GetUserTradesRequest request, INextPageToken? pageToken, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedUserTrade[]>> ISpotOrderRestClient.GetSpotUserTradesAsync(GetUserTradesRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
             var validationError = ((ISpotOrderRestClient)this).GetSpotUserTradesOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeWebResult<SharedUserTrade[]>(Exchange, validationError);
 
-            // Determine page token
-            int? offset = null;
-            if (pageToken is OffsetToken token)
-                offset = token.Offset;
+            int limit = request.Limit ?? 50;
+            var direction = DataDirection.Descending;
+            var pageParams = Pagination.GetPaginationParameters(direction, limit, request.StartTime, request.EndTime ?? DateTime.UtcNow, pageRequest);
 
             // Get data
-            var order = await Trading.GetUserTradesAsync(
-                startTime: request.StartTime,
-                endTime: request.EndTime,
-                resultOffset: offset, ct: ct).ConfigureAwait(false);
-            if (!order)
-                return order.AsExchangeResult<SharedUserTrade[]>(Exchange, null, default);
+            var result = await Trading.GetUserTradesAsync(
+                startTime: pageParams.StartTime,
+                endTime: pageParams.EndTime,
+                resultOffset: pageParams.Offset,
+                ct: ct).ConfigureAwait(false);
+            if (!result)
+                return result.AsExchangeResult<SharedUserTrade[]>(Exchange, null, default);
 
-            // Get next token
-            OffsetToken? nextToken = null;
-            if (order.Data.Count > order.Data.Trades.Count)
-                nextToken = new OffsetToken((offset ?? 0) + order.Data.Trades.Count);
+            var nextPageRequest = Pagination.GetNextPageRequest(
+                     () => Pagination.NextPageFromOffset(pageParams, result.Data.Trades.Count),
+                     result.Data.Trades.Count,
+                     result.Data.Trades.Select(x => x.Value.Timestamp),
+                     request.StartTime,
+                     request.EndTime ?? DateTime.UtcNow,
+                     pageParams);
 
             var symbol = request.Symbol!.GetSymbol(FormatSymbol);
-            return order.AsExchangeResult<SharedUserTrade[]>(Exchange, TradingMode.Spot, order.Data.Trades.Where(t => t.Value.Symbol == symbol).Select(x => new SharedUserTrade(
-                ExchangeSymbolCache.ParseSymbol(_topicId, x.Value.Symbol), 
-                x.Value.Symbol,
-                x.Value.OrderId.ToString(),
-                x.Value.Id.ToString(),
-                x.Value.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
-                x.Value.Quantity,
-                x.Value.Price,
-                x.Value.Timestamp)
-            {
-                Fee = x.Value.Fee,
-                Role = x.Value.Maker ? SharedRole.Maker : SharedRole.Taker
-            }).ToArray(), nextToken);
+            return result.AsExchangeResult(
+                    Exchange,
+                    request.Symbol.TradingMode,
+                    ExchangeHelpers.ApplyFilter(result.Data.Trades, x => x.Value.Timestamp, request.StartTime, request.EndTime, direction)
+                    .Where(t => t.Value.Symbol == symbol)
+                    .Select(x =>
+                        new SharedUserTrade(
+                            ExchangeSymbolCache.ParseSymbol(_topicId, x.Value.Symbol), 
+                            x.Value.Symbol,
+                            x.Value.OrderId.ToString(),
+                            x.Value.Id.ToString(),
+                            x.Value.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
+                            x.Value.Quantity,
+                            x.Value.Price,
+                            x.Value.Timestamp)
+                        {
+                            Fee = x.Value.Fee,
+                            Role = x.Value.Maker ? SharedRole.Maker : SharedRole.Taker
+                        }).ToArray(), nextPageRequest);
         }
 
         EndpointOptions<CancelOrderRequest> ISpotOrderRestClient.CancelSpotOrderOptions { get; } = new EndpointOptions<CancelOrderRequest>(true);
@@ -730,48 +757,55 @@ namespace Kraken.Net.Clients.SpotApi
             ).ToArray());
         }
 
-        GetDepositsOptions IDepositRestClient.GetDepositsOptions { get; } = new GetDepositsOptions(SharedPaginationSupport.Descending, true, 100);
-        async Task<ExchangeWebResult<SharedDeposit[]>> IDepositRestClient.GetDepositsAsync(GetDepositsRequest request, INextPageToken? pageToken, CancellationToken ct)
+        GetDepositsOptions IDepositRestClient.GetDepositsOptions { get; } = new GetDepositsOptions(false, true, true, 100);
+        async Task<ExchangeWebResult<SharedDeposit[]>> IDepositRestClient.GetDepositsAsync(GetDepositsRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
             var validationError = ((IDepositRestClient)this).GetDepositsOptions.ValidateRequest(Exchange, request, TradingMode.Spot, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeWebResult<SharedDeposit[]>(Exchange, validationError);
 
-            // Determine page token
-            string? cursor = null;
-            if (pageToken is CursorToken cursorToken)
-                cursor = cursorToken.Cursor;
+            int limit = request.Limit ?? 100;
+            var direction = DataDirection.Descending;
+            var pageParams = Pagination.GetPaginationParameters(direction, limit, request.StartTime, request.EndTime ?? DateTime.UtcNow, pageRequest);
 
             // Get data
-            var deposits = await Account.GetDepositHistoryAsync(
+            var result = await Account.GetDepositHistoryAsync(
                 asset: request.Asset != null ? KrakenExchange.AssetAliases.CommonToExchangeName(request.Asset) : null,
-                startTime: request.StartTime,
-                endTime: request.EndTime,
-                limit: request.Limit,
-                cursor: cursor,
+                startTime: pageParams.StartTime,
+                endTime: pageParams.EndTime,
+                limit: pageParams.Limit,
+                cursor: pageParams.Cursor,
                 ct: ct).ConfigureAwait(false);
-            if (!deposits)
-                return deposits.AsExchangeResult<SharedDeposit[]>(Exchange, null, default);
+            if (!result)
+                return result.AsExchangeResult<SharedDeposit[]>(Exchange, null, default);
 
-            // Determine next token
-            CursorToken? nextToken = null;
-            if (!string.IsNullOrEmpty(deposits.Data.NextCursor))
-                nextToken = new CursorToken(deposits.Data.NextCursor!);
+            var nextPageRequest = Pagination.GetNextPageRequest(
+                     () => result.Data.NextCursor == null ? null : Pagination.NextPageFromCursor(result.Data.NextCursor),
+                     result.Data.Items.Length,
+                     result.Data.Items.Select(x => x.Timestamp),
+                     request.StartTime,
+                     request.EndTime ?? DateTime.UtcNow,
+                     pageParams);
 
-            return deposits.AsExchangeResult<SharedDeposit[]>(Exchange, TradingMode.Spot, deposits.Data.Items.Select(x => 
-            new SharedDeposit(
-                KrakenExchange.AssetAliases.ExchangeToCommonName(x.Asset),
-                x.Quantity,
-                true, 
-                x.Timestamp,
-                x.Status == "SUCCESS" ? SharedTransferStatus.Completed
-                : x.Status == "FAILURE" ? SharedTransferStatus.Failed
-                : SharedTransferStatus.InProgress)
-            {
-                Id = x.ReferenceId,
-                TransactionId = x.TransactionId,
-                Network = x.Method
-            }).ToArray(), nextToken);
+            return result.AsExchangeResult(
+                    Exchange,
+                    TradingMode.Spot,
+                    ExchangeHelpers.ApplyFilter(result.Data.Items, x => x.Timestamp, request.StartTime, request.EndTime, direction)
+                    .Select(x => 
+                        new SharedDeposit(
+                            KrakenExchange.AssetAliases.ExchangeToCommonName(x.Asset),
+                            x.Quantity,
+                            true, 
+                            x.Timestamp,
+                            x.Status == "SUCCESS" ? SharedTransferStatus.Completed
+                            : x.Status == "FAILURE" ? SharedTransferStatus.Failed
+                            : SharedTransferStatus.InProgress)
+                        {
+                            Id = x.ReferenceId,
+                            TransactionId = x.TransactionId,
+                            Network = x.Method
+                        })
+                    .ToArray(), nextPageRequest);
         }
 
         #endregion
@@ -798,44 +832,52 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Withdrawal client
 
-        GetWithdrawalsOptions IWithdrawalRestClient.GetWithdrawalsOptions { get; } = new GetWithdrawalsOptions(SharedPaginationSupport.Descending, true, 500)
+        GetWithdrawalsOptions IWithdrawalRestClient.GetWithdrawalsOptions { get; } = new GetWithdrawalsOptions(false, true, true, 500)
         {
             RequestNotes = "The Address field contains the label of the saved withdrawal address, not the actual address"
         };
-        async Task<ExchangeWebResult<SharedWithdrawal[]>> IWithdrawalRestClient.GetWithdrawalsAsync(GetWithdrawalsRequest request, INextPageToken? pageToken, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedWithdrawal[]>> IWithdrawalRestClient.GetWithdrawalsAsync(GetWithdrawalsRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
             var validationError = ((IWithdrawalRestClient)this).GetWithdrawalsOptions.ValidateRequest(Exchange, request, TradingMode.Spot, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeWebResult<SharedWithdrawal[]>(Exchange, validationError);
 
-            // Determine page token
-            string? cursor = null;
-            if (pageToken is CursorToken cursorToken)
-                cursor = cursorToken.Cursor;
+            int limit = request.Limit ?? 100;
+            var direction = DataDirection.Descending;
+            var pageParams = Pagination.GetPaginationParameters(direction, limit, request.StartTime, request.EndTime ?? DateTime.UtcNow, pageRequest);
 
             // Get data
-            var withdrawals = await Account.GetWithdrawalHistoryAsync(
+            var result = await Account.GetWithdrawalHistoryAsync(
                 asset: request.Asset != null ? KrakenExchange.AssetAliases.CommonToExchangeName(request.Asset) : null,
-                startTime: request.StartTime,
-                endTime: request.EndTime,
-                limit: request.Limit,
-                cursor: cursor,
+                startTime: pageParams.StartTime,
+                endTime: pageParams.EndTime,
+                limit: pageParams.Limit,
+                cursor: pageParams.Cursor,
                 ct: ct).ConfigureAwait(false);
-            if (!withdrawals)
-                return withdrawals.AsExchangeResult<SharedWithdrawal[]>(Exchange, null, default);
+            if (!result)
+                return result.AsExchangeResult<SharedWithdrawal[]>(Exchange, null, default);
 
-            // Determine next token
-            CursorToken? nextToken = null;
-            if (!string.IsNullOrEmpty(withdrawals.Data.NextCursor))
-                nextToken = new CursorToken(withdrawals.Data.NextCursor!);
+            var nextPageRequest = Pagination.GetNextPageRequest(
+                     () => result.Data.NextCursor == null ? null : Pagination.NextPageFromCursor(result.Data.NextCursor),
+                     result.Data.Items.Length,
+                     result.Data.Items.Select(x => x.Timestamp),
+                     request.StartTime,
+                     request.EndTime ?? DateTime.UtcNow,
+                     pageParams);
 
-            return withdrawals.AsExchangeResult<SharedWithdrawal[]>(Exchange, TradingMode.Spot, withdrawals.Data.Items.Select(x => new SharedWithdrawal(KrakenExchange.AssetAliases.ExchangeToCommonName(x.Asset), x.Key ?? string.Empty, x.Quantity, x.Status == "Success", x.Timestamp)
-            {
-                Id = x.ReferenceId,
-                TransactionId = x.TransactionId,
-                Network = x.Method,
-                Fee = x.Fee
-            }).ToArray(), nextToken);
+            return result.AsExchangeResult(
+                    Exchange,
+                    TradingMode.Spot,
+                    ExchangeHelpers.ApplyFilter(result.Data.Items, x => x.Timestamp, request.StartTime, request.EndTime, direction)
+                    .Select(x =>
+                        new SharedWithdrawal(KrakenExchange.AssetAliases.ExchangeToCommonName(x.Asset), x.Key ?? string.Empty, x.Quantity, x.Status == "Success", x.Timestamp)
+                        {
+                            Id = x.ReferenceId,
+                            TransactionId = x.TransactionId,
+                            Network = x.Method,
+                            Fee = x.Fee
+                        })
+                    .ToArray(), nextPageRequest);
         }
 
         #endregion

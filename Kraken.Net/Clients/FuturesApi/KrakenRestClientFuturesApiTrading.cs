@@ -196,6 +196,32 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #endregion
 
+        #region Get Order History
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<KrakenOrderHistory[]>> GetOrderHistoryAsync(
+            bool? open = null,
+            bool? close = null,
+            DateTime? startTime = null,
+            DateTime? endTime = null,
+            bool? ascending = null,
+            string? continuationToken = null,
+            int? limit = null,
+            CancellationToken ct = default)
+        {
+            var parameters = new ParameterCollection();
+            parameters.AddOptionalBoolString("opened", open);
+            parameters.AddOptionalBoolString("closed", close);
+            parameters.AddOptionalMillisecondsString("since", startTime);
+            parameters.AddOptionalMillisecondsString("before", endTime);
+            parameters.AddOptional("sort", ascending == null ? null : ascending == true ? "asc": "desc");
+            parameters.AddOptional("continuation_token", continuationToken);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, "api/history/v3/orders", KrakenExchange.RateLimiter.FuturesApi, 1, true);
+            return await _baseClient.SendAsync<KrakenOrderHistoryResult, KrakenOrderHistory[]>(request, parameters, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
         #region Edit Order
 
         /// <inheritdoc />
