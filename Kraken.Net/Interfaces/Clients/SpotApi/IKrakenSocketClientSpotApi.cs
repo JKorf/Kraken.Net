@@ -19,7 +19,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Subscribe to system status updates
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/status" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/status" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/status
+        /// </para>
         /// </summary>
         /// <param name="handler">Data handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
@@ -28,7 +33,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Subscribe to ticker updates
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/ticker" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/ticker" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/ticker
+        /// </para>
         /// </summary>
         /// <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable{string}?, string?, AClass?, bool?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
         /// <param name="handler">Data handler</param>
@@ -40,7 +50,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Subscribe to ticker updates
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/ticker" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/ticker" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/ticker
+        /// </para>
         /// </summary>
         /// <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable{string}?, string?, AClass?, bool?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
         /// <param name="handler">Data handler</param>
@@ -52,7 +67,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Subscribe to kline updates
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/ohlc" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/ohlc" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/ohlc
+        /// </para>
         /// </summary>
         /// <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable{string}?, string?, AClass?, bool?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
         /// <param name="interval">Kline interval</param>
@@ -64,7 +84,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Subscribe to kline updates
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/ohlc" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/ohlc" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/ohlc
+        /// </para>
         /// </summary>
         /// <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable{string}?, string?, AClass?, bool?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
         /// <param name="interval">Kline interval</param>
@@ -76,7 +101,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Subscribe to trade updates
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/trade" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/trade" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/trade
+        /// </para>
         /// </summary>
         /// <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable{string}?, string?, AClass?, bool?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
         /// <param name="handler">Data handler</param>
@@ -87,7 +117,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Subscribe to trade updates
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/trade" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/trade" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/trade
+        /// </para>
         /// </summary>
         /// <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable{string}?, string?, AClass?, bool?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
         /// <param name="handler">Data handler</param>
@@ -98,7 +133,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Subscribe to order book updates. Order book entries are aggregated per price level
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/book" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/book" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/book
+        /// </para>
         /// </summary>
         /// <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable{string}?, string?, AClass?, bool?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
         /// <param name="depth">Depth of the initial order book snapshot. 10, 25, 100, 500 or 1000</param>
@@ -110,7 +150,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Subscribe to order book updates. Order book entries are aggregated per price level
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/book" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/book" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/book
+        /// </para>
         /// </summary>
         /// <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable{string}?, string?, AClass?, bool?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
         /// <param name="depth">Depth of the initial order book snapshot. 10, 25, 100, 500 or 1000</param>
@@ -123,7 +168,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Subscribe to the full order book with individual orders. Requires authentication.
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/level3" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/level3" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/level3
+        /// </para>
         /// </summary>
         /// <param name="symbols">Symbols to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable{string}?, string?, AClass?, bool?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
         /// <param name="depth">Depth of the initial order book snapshot. 10, 100 or 1000</param>
@@ -135,7 +185,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Subscribe to the full order book with individual orders. Requires authentication.
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/level3" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/level3" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/level3
+        /// </para>
         /// </summary>
         /// <param name="symbol">Symbol to subscribe to, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable{string}?, string?, AClass?, bool?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="KrakenSymbol.WebsocketName">WebsocketName</see> property</param>
         /// <param name="depth">Depth of the initial order book snapshot. 10, 100 or 1000</param>
@@ -147,7 +202,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Subscribe to instrument (asset and symbol) updates
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/instrument" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/instrument" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/instrument
+        /// </para>
         /// </summary>
         /// <param name="handler">Data handler</param>
         /// <param name="snapshot">Whether or not a snapshot of the current instruments state should be send after subscribing</param>
@@ -157,7 +217,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Subscribe to user balances updates
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/balances" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/balances" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/balances
+        /// </para>
         /// </summary>
         /// <param name="snapshotHandler">Handler for the initial snapshot data send after subscribing</param>
         /// <param name="updateHandler">Handler for update data when changes occur</param>
@@ -168,7 +233,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Subscribe to user order updates
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/executions" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/executions" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/executions
+        /// </para>
         /// </summary>
         /// <param name="updateHandler">Data handler. Depending on the event not all fields on the update event are filled</param>
         /// <param name="snapshotOrder">Whether or not a snapshot of the current open orders should be send after subscribing</param>
@@ -183,7 +253,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Place a new order
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/add_order" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/add_order" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/add_order
+        /// </para>
         /// </summary>
         /// <param name="symbol">The symbol the order is on, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable{string}?, string?, AClass?, bool?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="KrakenSymbol.WebsocketName"/></param>
         /// <param name="side">The side of the order</param>
@@ -253,7 +328,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Edit an existing order
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/amend_order" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/amend_order" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/amend_order
+        /// </para>
         /// </summary>
         /// <param name="orderId">Order id, either this or clientOrderId should be provided</param>
         /// <param name="clientOrderId">Client order id, either this or orderId should be provided</param>
@@ -282,7 +362,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Replace an existing order
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/edit_order" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/edit_order" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/edit_order
+        /// </para>
         /// </summary>
         /// <param name="symbol">The symbol the order is on, for example `ETH/USDT`. Websocket name of a symbol can be obtained via <see cref="IKrakenRestClientSpotApiExchangeData.GetSymbolsAsync(IEnumerable{string}?, string?, AClass?, bool?, CancellationToken)">restClient.SpotApi.ExchangeData.GetSymbolsAsync</see> using the <see cref="KrakenSymbol.WebsocketName"/></param>
         /// <param name="orderId">Order id, either this or clientOrderId should be provided</param>
@@ -324,7 +409,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Place multiple orders in a single request
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/batch_add" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/batch_add" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/batch_add
+        /// </para>
         /// </summary>
         /// <param name="symbol">Symbol to place the orders on</param>
         /// <param name="orders">Order info</param>
@@ -341,7 +431,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Cancel an order
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/cancel_order" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/cancel_order" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/cancel_order
+        /// </para>
         /// </summary>
         /// <param name="orderId">Id of the order to cancel</param>
         /// <param name="ct">Cancellation token</param>
@@ -350,7 +445,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Cancel multiple orders
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/cancel_order" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/cancel_order" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/cancel_order
+        /// </para>
         /// </summary>
         /// <param name="orderIds">Id of the orders to cancel</param>
         /// <param name="ct">Cancellation token</param>
@@ -359,7 +459,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Cancel all open orders
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/cancel_all" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/cancel_all" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/cancel_all
+        /// </para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -367,7 +472,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Cancel all open orders after the timeout
-        /// <para><a href="https://docs.kraken.com/api/docs/websocket-v2/cancel_after" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/websocket-v2/cancel_after" /><br />
+        /// Endpoint:<br />
+        /// WS /v2/cancel_all_orders_after
+        /// </para>
         /// </summary>
         /// <param name="timeout"></param>
         /// <param name="ct">Cancellation token</param>

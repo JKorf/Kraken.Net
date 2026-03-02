@@ -16,7 +16,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Subscribe to account updates
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/websocket/account_log" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/websocket/account_log" /><br />
+        /// Endpoint:<br />
+        /// WS /ws/v1/account_log
+        /// </para>
         /// </summary>
         /// <param name="snapshotHandler">Handler for the initial snapshot data received when (re)connecting the stream</param>
         /// <param name="updateHandler">Update handler</param>
@@ -26,7 +31,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Subscribe to balance updates
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/websocket/balances" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/websocket/balances" /><br />
+        /// Endpoint:<br />
+        /// WS /ws/v1/balances
+        /// </para>
         /// </summary>
         /// <param name="handler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
@@ -35,7 +45,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Subscribe to heartbeat updates
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/websocket/heartbeat" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/websocket/heartbeat" /><br />
+        /// Endpoint:<br />
+        /// WS /ws/v1/heartbeat
+        /// </para>
         /// </summary>
         /// <param name="handler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
@@ -44,7 +59,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Subscribe to mini ticker updates
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/websocket/ticker_lite" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/websocket/ticker_lite" /><br />
+        /// Endpoint:<br />
+        /// WS /ws/v1/ticker_lite
+        /// </para>
         /// </summary>
         /// <param name="symbol">The symbol to subscribe, for example `PF_ETHUSD`</param>
         /// <param name="handler">Update handler</param>
@@ -54,7 +74,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Subscribe to mini ticker updates
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/websocket/ticker_lite" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/websocket/ticker_lite" /><br />
+        /// Endpoint:<br />
+        /// WS /ws/v1/ticker_lite
+        /// </para>
         /// </summary>
         /// <param name="symbols">The symbols to subscribe, for example `PF_ETHUSD`</param>
         /// <param name="handler">Update handler</param>
@@ -64,7 +89,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Subscribe to notification updates
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/websocket/notifications" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/websocket/notifications" /><br />
+        /// Endpoint:<br />
+        /// WS /ws/v1/notifications
+        /// </para>
         /// </summary>
         /// <param name="handler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
@@ -73,8 +103,14 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Subscribe to open order updates
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/websocket/open_orders" /></para>
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/websocket/open_orders_verbose" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/websocket/open_orders" /><br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/websocket/open_orders_verbose" /><br />
+        /// Endpoint:<br />
+        /// WS /ws/v1/open_orders<br />
+        /// WS /ws/v1/open_orders_verbose
+        /// </para>
         /// </summary>
         /// <param name="verbose">Whether to connect to the verbose stream or not. The verbose feed adds extra information about all the post-only orders that failed to cross the book.</param>
         /// <param name="snapshotHandler">Handler for the initial snapshot data received when (re)connecting the stream</param>
@@ -85,7 +121,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Subscribe to open position updates
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/websocket/open_position" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/websocket/open_position" /><br />
+        /// Endpoint:<br />
+        /// WS /ws/v1/open_position
+        /// </para>
         /// </summary>
         /// <param name="handler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
@@ -94,7 +135,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Subscribe to order book updates
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/websocket/book" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/websocket/book" /><br />
+        /// Endpoint:<br />
+        /// WS /ws/v1/book
+        /// </para>
         /// </summary>
         /// <param name="symbols">The symbols to subscribe, for example `PF_ETHUSD`</param>
         /// <param name="snapshotHandler">Handler for the initial snapshot data received when (re)connecting the stream</param>
@@ -105,7 +151,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Subscribe to order book updates
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/websocket/book" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/websocket/book" /><br />
+        /// Endpoint:<br />
+        /// WS /ws/v1/book
+        /// </para>
         /// </summary>
         /// <param name="symbol">The symbol to subscribe, for example `PF_ETHUSD`</param>
         /// <param name="snapshotHandler">Handler for the initial snapshot data received when (re)connecting the stream</param>
@@ -116,7 +167,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Subscribe to ticker updates
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/websocket/ticker" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/websocket/ticker" /><br />
+        /// Endpoint:<br />
+        /// WS /ws/v1/ticker
+        /// </para>
         /// </summary>
         /// <param name="symbol">The symbol to subscribe, for example `PF_ETHUSD`</param>
         /// <param name="handler">Update handler</param>
@@ -126,7 +182,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Subscribe to ticker updates
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/websocket/ticker" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/websocket/ticker" /><br />
+        /// Endpoint:<br />
+        /// WS /ws/v1/ticker
+        /// </para>
         /// </summary>
         /// <param name="symbols">The symbols to subscribe, for example `PF_ETHUSD`</param>
         /// <param name="handler">Update handler</param>
@@ -136,7 +197,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Subscribe to public trade updates
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/websocket/trade" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/websocket/trade" /><br />
+        /// Endpoint:<br />
+        /// WS /ws/v1/trade
+        /// </para>
         /// </summary>
         /// <param name="symbol">The symbol to subscribe, for example `PF_ETHUSD`</param>
         /// <param name="updateHandler">Update handler</param>
@@ -146,7 +212,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Subscribe to public trade updates
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/websocket/trade" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/websocket/trade" /><br />
+        /// Endpoint:<br />
+        /// WS /ws/v1/trade
+        /// </para>
         /// </summary>
         /// <param name="symbols">The symbols to subscribe, for example `PF_ETHUSD`</param>
         /// <param name="updateHandler">Update handler</param>
@@ -156,7 +227,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Subscribe to user trades updates
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/websocket/fills" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/websocket/fills" /><br />
+        /// Endpoint:<br />
+        /// WS /ws/v1/fills
+        /// </para>
         /// </summary>
         /// <param name="handler">Handler for the initial snapshot data received when (re)connecting the stream</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>

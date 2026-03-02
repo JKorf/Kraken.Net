@@ -11,7 +11,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
     {
         /// <summary>
         /// Get the server time
-        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-server-time" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/rest-api/get-server-time" /><br />
+        /// Endpoint:<br />
+        /// GET /0/public/Time
+        /// </para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Server time</returns>
@@ -19,7 +24,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get the system status
-        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-system-status" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/rest-api/get-system-status" /><br />
+        /// Endpoint:<br />
+        /// GET /0/public/SystemStatus
+        /// </para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns>System status</returns>
@@ -27,7 +37,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get a list of assets and info about them
-        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-asset-info" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/rest-api/get-asset-info" /><br />
+        /// Endpoint:<br />
+        /// GET /0/public/Assets
+        /// </para>
         /// </summary>
         /// <param name="assets">Filter list for specific assets, for example `ETH`</param>
         /// <param name="aClass">Filter by asset class</param>
@@ -38,7 +53,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get a list of symbols and info about them
-        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-tradable-asset-pairs" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/rest-api/get-tradable-asset-pairs" /><br />
+        /// Endpoint:<br />
+        /// GET /0/public/AssetPairs
+        /// </para>
         /// </summary>
         /// <param name="countryCode">Filter what's available for a specific country/region</param>
         /// <param name="symbols">Filter list for specific symbols, for example `ETHUSDT`</param>
@@ -50,7 +70,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get tickers for symbol
-        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-ticker-information" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/rest-api/get-ticker-information" /><br />
+        /// Endpoint:<br />
+        /// GET /0/public/Ticker
+        /// </para>
         /// </summary>
         /// <param name="symbol">Symbol to get tickers for, for example `ETHUSDT`</param>
         /// <param name="ct">Cancellation token</param>
@@ -59,7 +84,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get tickers for symbols
-        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-ticker-information" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/rest-api/get-ticker-information" /><br />
+        /// Endpoint:<br />
+        /// GET /0/public/Ticker
+        /// </para>
         /// </summary>
         /// <param name="symbols">Symbols to get tickers for, for example `ETHUSDT`</param>
         /// <param name="assetClass">Filter by asset class</param>
@@ -69,7 +99,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Gets kline data for a symbol
-        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-ohlc-data" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/rest-api/get-ohlc-data" /><br />
+        /// Endpoint:<br />
+        /// GET /0/public/OHLC
+        /// </para>
         /// </summary>
         /// <param name="symbol">The symbol to get data for, for example `ETHUSDT`</param>
         /// <param name="interval">The interval of the klines</param>
@@ -81,7 +116,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get the order book for a symbol
-        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-order-book" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/rest-api/get-order-book" /><br />
+        /// Endpoint:<br />
+        /// GET /0/public/Depth
+        /// </para>
         /// </summary>
         /// <param name="symbol">Symbol to get the book for, for example `ETHUSDT`</param>
         /// <param name="limit">Limit to book to the best x bids/asks</param>
@@ -92,7 +132,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get a list of recent trades for a symbol
-        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-recent-trades" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/rest-api/get-recent-trades" /><br />
+        /// Endpoint:<br />
+        /// GET /0/public/Trades
+        /// </para>
         /// </summary>
         /// <param name="symbol">Symbol to get trades for, for example `ETHUSDT`</param>
         /// <param name="since">Return trades since a specific time</param>
@@ -104,7 +149,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
 
         /// <summary>
         /// Get spread data for a symbol
-        /// <para><a href="https://docs.kraken.com/api/docs/rest-api/get-recent-spreads" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/rest-api/get-recent-spreads" /><br />
+        /// Endpoint:<br />
+        /// GET /0/public/Spread
+        /// </para>
         /// </summary>
         /// <param name="symbol">Symbol to get spread data for, for example `ETHUSDT`</param>
         /// <param name="since">Return spread data since a specific time</param>

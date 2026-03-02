@@ -10,7 +10,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
     {
         /// <summary>
         /// Get fee schedules
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-fee-schedules-v-3" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/trading/get-fee-schedules-v-3" /><br />
+        /// Endpoint:<br />
+        /// GET /derivatives/api/v3/feeschedules
+        /// </para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -18,7 +23,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get historical funding rates
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/historical-funding-rates" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/trading/historical-funding-rates" /><br />
+        /// Endpoint:<br />
+        /// GET /derivatives/api/v4/historicalfundingrates
+        /// </para>
         /// </summary>
         /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
         /// <param name="ct">Cancellation token</param>
@@ -27,7 +37,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get klines/candle data
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/charts/candles" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/charts/candles" /><br />
+        /// Endpoint:<br />
+        /// GET /api/charts/v1/{tickType}/{symbol}/{interval}
+        /// </para>
         /// </summary>
         /// <param name="tickType">Type of price tick</param>
         /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
@@ -41,7 +56,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get the orderbook
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-orderbook" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/trading/get-orderbook" /><br />
+        /// Endpoint:<br />
+        /// GET /derivatives/api/v3/orderbook
+        /// </para>
         /// </summary>
         /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
         /// <param name="ct">Cancellation token</param>
@@ -50,7 +70,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get platform notifications
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-notifications" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/trading/get-notifications" /><br />
+        /// Endpoint:<br />
+        /// GET /derivatives/api/v3/notifications
+        /// </para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -58,7 +83,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get a list of symbols
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-instruments" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/trading/get-instruments" /><br />
+        /// Endpoint:<br />
+        /// GET /derivatives/api/v3/instruments
+        /// </para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -66,7 +96,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get a list of symbols statuses
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/instruments-status" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/trading/instruments-status" /><br />
+        /// Endpoint:<br />
+        /// GET /derivatives/api/v3/instruments/status
+        /// </para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -74,7 +109,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get ticker
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-ticker" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/trading/get-ticker" /><br />
+        /// Endpoint:<br />
+        /// GET /derivatives/api/v3/tickers/{symbol}
+        /// </para>
         /// </summary>
         /// <param name="symbol">Symbol to get ticker for</param>
         /// <param name="ct">Cancellation token</param>
@@ -83,7 +123,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get tickers
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-tickers" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/trading/get-tickers" /><br />
+        /// Endpoint:<br />
+        /// GET /derivatives/api/v3/tickers
+        /// </para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
@@ -91,7 +136,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
 
         /// <summary>
         /// Get list of recent trades
-        /// <para><a href="https://docs.kraken.com/api/docs/futures-api/trading/get-history" /></para>
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/futures-api/trading/get-history" /><br />
+        /// Endpoint:<br />
+        /// GET /derivatives/api/v3/history
+        /// </para>
         /// </summary>
         /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
         /// <param name="startTime">Filter by start time</param>
