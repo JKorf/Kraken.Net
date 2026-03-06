@@ -174,6 +174,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 7.8.0 - 06 Mar 2026
+    * Updated CryptoExchange.Net to version 10.8.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+    * Improved method XML comments
+
 * Version 7.7.0 - 24 Feb 2026
     * Updated CryptoExchange.Net to version 10.7.0
     * Added limit parameter to restClient.FuturesApi.ExchangeData.GetKlinesAsync endpoint
