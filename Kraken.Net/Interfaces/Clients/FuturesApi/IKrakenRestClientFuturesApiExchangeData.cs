@@ -30,7 +30,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// GET /derivatives/api/v4/historicalfundingrates
         /// </para>
         /// </summary>
-        /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
+        /// <param name="symbol">["<c>symbol</c>"] The symbol, for example `PF_ETHUSD`</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenFundingRate[]>> GetHistoricalFundingRatesAsync(string symbol, CancellationToken ct = default);
@@ -44,12 +44,12 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// GET /api/charts/v1/{tickType}/{symbol}/{interval}
         /// </para>
         /// </summary>
-        /// <param name="tickType">Type of price tick</param>
-        /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
-        /// <param name="interval">Interval of the klines</param>
-        /// <param name="startTime">Start time</param>
-        /// <param name="endTime">End time</param>
-        /// <param name="limit">Max number of results</param>
+        /// <param name="tickType">["<c>tickType</c>"] Type of price tick</param>
+        /// <param name="symbol">["<c>symbol</c>"] The symbol, for example `PF_ETHUSD`</param>
+        /// <param name="interval">["<c>interval</c>"] Interval of the klines</param>
+        /// <param name="startTime">["<c>from</c>"] Start time</param>
+        /// <param name="endTime">["<c>to</c>"] End time</param>
+        /// <param name="limit">["<c>count</c>"] Max number of results</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenFuturesKlines>> GetKlinesAsync(TickType tickType, string symbol, FuturesKlineInterval interval, DateTime? startTime = null, DateTime? endTime = null, int? limit = null, CancellationToken ct = default);
@@ -63,7 +63,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// GET /derivatives/api/v3/orderbook
         /// </para>
         /// </summary>
-        /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
+        /// <param name="symbol">["<c>symbol</c>"] The symbol, for example `PF_ETHUSD`</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenFuturesOrderBook>> GetOrderBookAsync(string symbol, CancellationToken ct = default);
@@ -116,7 +116,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// GET /derivatives/api/v3/tickers/{symbol}
         /// </para>
         /// </summary>
-        /// <param name="symbol">Symbol to get ticker for</param>
+        /// <param name="symbol">["<c>symbol</c>"] Symbol to get ticker for</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenFuturesTicker>> GetTickerAsync(string symbol, CancellationToken ct = default);
@@ -143,8 +143,8 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// GET /derivatives/api/v3/history
         /// </para>
         /// </summary>
-        /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
-        /// <param name="startTime">Filter by start time</param>
+        /// <param name="symbol">["<c>symbol</c>"] The symbol, for example `PF_ETHUSD`</param>
+        /// <param name="startTime">["<c>lastTime</c>"] Filter by start time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenFuturesTrade[]>> GetTradesAsync(string symbol, DateTime? startTime = null, CancellationToken ct = default);

@@ -17,13 +17,13 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// GET /api/history/v3/account-log
         /// </para>
         /// </summary>
-        /// <param name="startTime">Return results after this time</param>
-        /// <param name="endTime">Return results before this time</param>
-        /// <param name="fromId">Return results after this id</param>
-        /// <param name="toId">Return results before this id</param>
-        /// <param name="sort">Sort asc or desc</param>
-        /// <param name="type">Type of entry to filter by.</param>
-        /// <param name="limit">Amount of entries to be returned.</param>
+        /// <param name="startTime">["<c>since</c>"] Return results after this time</param>
+        /// <param name="endTime">["<c>before</c>"] Return results before this time</param>
+        /// <param name="fromId">["<c>from</c>"] Return results after this id</param>
+        /// <param name="toId">["<c>to</c>"] Return results before this id</param>
+        /// <param name="sort">["<c>sort</c>"] Sort asc or desc</param>
+        /// <param name="type">["<c>info</c>"] Type of entry to filter by.</param>
+        /// <param name="limit">["<c>count</c>"] Amount of entries to be returned.</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenAccountLogResult>> GetAccountLogAsync(DateTime? startTime = null, DateTime? endTime = null, int? fromId = null, int? toId = null, string? sort = null, string? type = null, int? limit = null, CancellationToken ct = default);
@@ -63,8 +63,8 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// PUT /derivatives/api/v3/pnlpreferences
         /// </para>
         /// </summary>
-        /// <param name="symbol">Symbol to update, for example `PF_ETHUSD`</param>
-        /// <param name="pnlCurrency">Currency to use</param>
+        /// <param name="symbol">["<c>symbol</c>"] Symbol to update, for example `PF_ETHUSD`</param>
+        /// <param name="pnlCurrency">["<c>pnlPreference</c>"] Currency to use</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult> SetPnlCurrencyAsync(string symbol, string pnlCurrency, CancellationToken ct = default);
@@ -78,10 +78,10 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// POST /derivatives/api/v3/transfer
         /// </para>
         /// </summary>
-        /// <param name="asset">The asset to transfer, for example `USDT`</param>
-        /// <param name="quantity">The amount to transfer</param>
-        /// <param name="fromAccount">The wallet (cash or margin account) to which funds should be credited</param>
-        /// <param name="toAccount">The wallet (cash or margin account) from which funds should be debited</param>
+        /// <param name="asset">["<c>unit</c>"] The asset to transfer, for example `USDT`</param>
+        /// <param name="quantity">["<c>amount</c>"] The amount to transfer</param>
+        /// <param name="fromAccount">["<c>fromAccount</c>"] The wallet (cash or margin account) to which funds should be credited</param>
+        /// <param name="toAccount">["<c>toAccount</c>"] The wallet (cash or margin account) from which funds should be debited</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult> TransferAsync(string asset, decimal quantity, string fromAccount, string toAccount, CancellationToken ct = default);

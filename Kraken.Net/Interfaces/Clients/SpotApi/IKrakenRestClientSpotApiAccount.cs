@@ -18,8 +18,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/Balance
         /// </para>
         /// </summary>
-        /// <param name="newAssetNameResponse">When set to true the asset names will be in the new format, for example `BTC` instead of `XBT`. Default is false.</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="newAssetNameResponse">["<c>assetVersion</c>"] When set to true the asset names will be in the new format, for example `BTC` instead of `XBT`. Default is false.</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with balances for assets</returns>
         Task<WebCallResult<Dictionary<string, decimal>>> GetBalancesAsync(bool? newAssetNameResponse = null, string? twoFactorPassword = null, CancellationToken ct = default);
@@ -33,7 +33,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/BalanceEx
         /// </para>
         /// </summary>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with balances for assets</returns>
         Task<WebCallResult<Dictionary<string, KrakenBalanceAvailable>>> GetAvailableBalancesAsync(string? twoFactorPassword = null, CancellationToken ct = default);
@@ -47,8 +47,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/TradeBalance
         /// </para>
         /// </summary>
-        /// <param name="baseAsset">Base asset to get trade balance for, for example `USDT`</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="baseAsset">["<c>asset</c>"] Base asset to get trade balance for, for example `USDT`</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade balance data</returns>
         Task<WebCallResult<KrakenTradeBalance>> GetTradeBalanceAsync(string? baseAsset = null, string? twoFactorPassword = null, CancellationToken ct = default);
@@ -63,8 +63,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/OpenPositions
         /// </para>
         /// </summary>
-        /// <param name="transactionIds">Filter by transaction ids</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="transactionIds">["<c>txid</c>"] Filter by transaction ids</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with position info</returns>
         Task<WebCallResult<Dictionary<string, KrakenPosition>>> GetOpenPositionsAsync(IEnumerable<string>? transactionIds = null, string? twoFactorPassword = null, CancellationToken ct = default);
@@ -78,13 +78,13 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/Ledgers
         /// </para>
         /// </summary>
-        /// <param name="assets">Filter list by asset names, for example `USDT`</param>
-        /// <param name="entryTypes">Filter list by entry types</param>
-        /// <param name="assetClass">Filter by asset class</param>
-        /// <param name="startTime">Return data after this time</param>
-        /// <param name="endTime">Return data before this time</param>
-        /// <param name="resultOffset">Offset the results by</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="assets">["<c>asset</c>"] Filter list by asset names, for example `USDT`</param>
+        /// <param name="entryTypes">["<c>type</c>"] Filter list by entry types</param>
+        /// <param name="assetClass">["<c>aClass</c>"] Filter by asset class</param>
+        /// <param name="startTime">["<c>start</c>"] Return data after this time</param>
+        /// <param name="endTime">["<c>end</c>"] Return data before this time</param>
+        /// <param name="resultOffset">["<c>ofs</c>"] Offset the results by</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Ledger entries page</returns>
         Task<WebCallResult<KrakenLedgerPage>> GetLedgerInfoAsync(
@@ -106,8 +106,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/QueryLedgers
         /// </para>
         /// </summary>
-        /// <param name="ledgerIds">The ids to get info for</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="ledgerIds">["<c>id</c>"] The ids to get info for</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with ledger entry info</returns>
         Task<WebCallResult<Dictionary<string, KrakenLedgerEntry>>> GetLedgersEntryAsync(IEnumerable<string>? ledgerIds = null, string? twoFactorPassword = null, CancellationToken ct = default);
@@ -121,8 +121,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/TradeVolume
         /// </para>
         /// </summary>
-        /// <param name="symbols">Symbols to get data for, for example `ETHUSDT`</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="symbols">["<c>pair</c>"] Symbols to get data for, for example `ETHUSDT`</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade fee info</returns>
         Task<WebCallResult<KrakenTradeVolume>> GetTradeVolumeAsync(IEnumerable<string>? symbols = null, string? twoFactorPassword = null, CancellationToken ct = default);
@@ -136,9 +136,9 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/DepositMethods
         /// </para>
         /// </summary>
-        /// <param name="asset">Asset to get methods for, for example `ETH`</param>
-        /// <param name="assetClass">Filter by asset class</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="asset">["<c>asset</c>"] Asset to get methods for, for example `ETH`</param>
+        /// <param name="assetClass">["<c>aclass</c>"] Filter by asset class</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Array with methods for deposit</returns>
         Task<WebCallResult<KrakenDepositMethod[]>> GetDepositMethodsAsync(
@@ -156,12 +156,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/DepositAddresses
         /// </para>
         /// </summary>
-        /// <param name="asset">The asset to get the deposit address for, for example `ETH`</param>
-        /// <param name="depositMethod">The method of deposit</param>
-        /// <param name="generateNew">Whether to generate a new address</param>
-        /// <param name="quantity">Amount you wish to deposit (only required for depositMethod=Bitcoin Lightning)</param>
-        /// <param name="assetClass">Filter by asset class</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="asset">["<c>asset</c>"] The asset to get the deposit address for, for example `ETH`</param>
+        /// <param name="depositMethod">["<c>method</c>"] The method of deposit</param>
+        /// <param name="generateNew">["<c>new</c>"] Whether to generate a new address</param>
+        /// <param name="quantity">["<c>amount</c>"] Amount you wish to deposit (only required for depositMethod=Bitcoin Lightning)</param>
+        /// <param name="assetClass">["<c>aclass</c>"] Filter by asset class</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenDepositAddress[]>> GetDepositAddressesAsync(
@@ -182,10 +182,10 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/DepositStatus
         /// </para>
         /// </summary>
-        /// <param name="asset">Asset to get deposit info for, for example `ETH`</param>
-        /// <param name="depositMethod">The deposit method</param>
-        /// <param name="assetClass">Filter by asset class</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="asset">["<c>asset</c>"] Asset to get deposit info for, for example `ETH`</param>
+        /// <param name="depositMethod">["<c>method</c>"] The deposit method</param>
+        /// <param name="assetClass">["<c>aclass</c>"] Filter by asset class</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Deposit status list</returns>
         Task<WebCallResult<KrakenMovementStatus[]>> GetDepositStatusAsync(
@@ -204,14 +204,14 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/DepositStatus
         /// </para>
         /// </summary>
-        /// <param name="asset">Asset filter, for example `ETH`</param>
-        /// <param name="depositMethod">Deposit method</param>
-        /// <param name="assetClass">Filter by asset class</param>
-        /// <param name="startTime">Filter by start time</param>
-        /// <param name="endTime">Filter by end time</param>
-        /// <param name="limit">Max number of results</param>
-        /// <param name="cursor">Pagination cursor</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="asset">["<c>asset</c>"] Asset filter, for example `ETH`</param>
+        /// <param name="depositMethod">["<c>method</c>"] Deposit method</param>
+        /// <param name="assetClass">["<c>aclass</c>"] Filter by asset class</param>
+        /// <param name="startTime">["<c>start</c>"] Filter by start time</param>
+        /// <param name="endTime">["<c>end</c>"] Filter by end time</param>
+        /// <param name="limit">["<c>limit</c>"] Max number of results</param>
+        /// <param name="cursor">["<c>cursor</c>"] Pagination cursor</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenCursorPage<KrakenMovementStatus>>> GetDepositHistoryAsync(
@@ -234,10 +234,10 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/WithdrawInfo
         /// </para>
         /// </summary>
-        /// <param name="asset">The asset, for example `ETH`</param>
-        /// <param name="key">The withdrawal key name</param>
-        /// <param name="quantity">The quantity to withdraw</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="asset">["<c>asset</c>"] The asset, for example `ETH`</param>
+        /// <param name="key">["<c>key</c>"] The withdrawal key name</param>
+        /// <param name="quantity">["<c>amount</c>"] The quantity to withdraw</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenWithdrawInfo>> GetWithdrawInfoAsync(string asset, string key, decimal quantity,
@@ -252,12 +252,12 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/Withdraw
         /// </para>
         /// </summary>
-        /// <param name="asset">The asset being withdrawn, for example `ETH`</param>
-        /// <param name="key">The withdrawal key name, as set up on your account</param>
-        /// <param name="quantity">The quantity to withdraw, including fees</param>
-        /// <param name="address">Crypto address that can be used to confirm address matches key(will return Invalid withdrawal address error if different)</param>
-        /// <param name="assetClass">Asset class</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="asset">["<c>asset</c>"] The asset being withdrawn, for example `ETH`</param>
+        /// <param name="key">["<c>key</c>"] The withdrawal key name, as set up on your account</param>
+        /// <param name="quantity">["<c>amount</c>"] The quantity to withdraw, including fees</param>
+        /// <param name="address">["<c>address</c>"] Crypto address that can be used to confirm address matches key(will return Invalid withdrawal address error if different)</param>
+        /// <param name="assetClass">["<c>aclass</c>"] Asset class</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Withdraw reference id</returns>
         Task<WebCallResult<KrakenWithdraw>> WithdrawAsync(string asset, string key, decimal quantity, string? address = null, AClass? assetClass = null, string? twoFactorPassword = null, CancellationToken ct = default);
@@ -271,11 +271,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/WithdrawAddresses
         /// </para>
         /// </summary>
-        /// <param name="asset">The asset to get the deposit address for, for example `ETH`</param>
-        /// <param name="assetClass">Filter addresses for specific asset class</param>
-        /// <param name="method">Filter addresses for specific method</param>
-        /// <param name="key">Find address for by withdrawal key name, as set up on your account</param>
-        /// <param name="verified">Filter by verification status of the withdrawal address. Withdrawal addresses successfully completing email confirmation will have a verification status of true</param>
+        /// <param name="asset">["<c>asset</c>"] The asset to get the deposit address for, for example `ETH`</param>
+        /// <param name="assetClass">["<c>aclass</c>"] Filter addresses for specific asset class</param>
+        /// <param name="method">["<c>method</c>"] Filter addresses for specific method</param>
+        /// <param name="key">["<c>key</c>"] Find address for by withdrawal key name, as set up on your account</param>
+        /// <param name="verified">["<c>verified</c>"] Filter by verification status of the withdrawal address. Withdrawal addresses successfully completing email confirmation will have a verification status of true</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of withdraw addresses</returns>
         Task<WebCallResult<KrakenWithdrawAddress[]>> GetWithdrawAddressesAsync(string? asset = null, AClass? assetClass = null, string? method = null, string? key = null, bool? verified = null, CancellationToken ct = default);
@@ -289,9 +289,9 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/WithdrawMethods
         /// </para>
         /// </summary>
-        /// <param name="asset">The asset to get the deposit address for, for example `ETH`</param>
-        /// <param name="assetClass">Filter addresses for specific asset class</param>
-        /// <param name="network">Filter methods for specific network</param>
+        /// <param name="asset">["<c>asset</c>"] The asset to get the deposit address for, for example `ETH`</param>
+        /// <param name="assetClass">["<c>aclass</c>"] Filter addresses for specific asset class</param>
+        /// <param name="network">["<c>network</c>"] Filter methods for specific network</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of withdraw addresses</returns>
         Task<WebCallResult<KrakenWithdrawMethod[]>> GetWithdrawMethodsAsync(string? asset = null, AClass? assetClass = null, string? network = null, CancellationToken ct = default);
@@ -318,10 +318,10 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/WithdrawStatus
         /// </para>
         /// </summary>
-        /// <param name="asset">Filter by asset, for example `ETH`</param>
-        /// <param name="assetClass">Filter addresses for specific asset class</param>
-        /// <param name="withdrawalMethod">Filter by method</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="asset">["<c>asset</c>"] Filter by asset, for example `ETH`</param>
+        /// <param name="assetClass">["<c>aclass</c>"] Filter addresses for specific asset class</param>
+        /// <param name="withdrawalMethod">["<c>method</c>"] Filter by method</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenMovementStatus[]>> GetWithdrawalStatusAsync(string? asset = null, string? withdrawalMethod = null, AClass? assetClass = null, string? twoFactorPassword = null, CancellationToken ct = default);
@@ -335,13 +335,13 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/WithdrawStatus
         /// </para>
         /// </summary>
-        /// <param name="asset">Asset filter, for example `ETH`</param>
-        /// <param name="withdrawalMethod">Withdrawal method</param>
-        /// <param name="startTime">Filter by start time</param>
-        /// <param name="endTime">Filter by end time</param>
-        /// <param name="limit">Max number of results</param>
-        /// <param name="cursor">Pagination cursor</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="asset">["<c>asset</c>"] Asset filter, for example `ETH`</param>
+        /// <param name="withdrawalMethod">["<c>method</c>"] Withdrawal method</param>
+        /// <param name="startTime">["<c>start</c>"] Filter by start time</param>
+        /// <param name="endTime">["<c>end</c>"] Filter by end time</param>
+        /// <param name="limit">["<c>limit</c>"] Max number of results</param>
+        /// <param name="cursor">["<c>cursor</c>"] Pagination cursor</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenCursorPage<KrakenMovementStatus>>> GetWithdrawalHistoryAsync(
@@ -363,9 +363,9 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/WithdrawCancel
         /// </para>
         /// </summary>
-        /// <param name="asset">Asset, for example `ETH`</param>
-        /// <param name="referenceId">Reference id</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="asset">["<c>asset</c>"] Asset, for example `ETH`</param>
+        /// <param name="referenceId">["<c>refid</c>"] Reference id</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<bool>> CancelWithdrawalAsync(string asset, string referenceId, string? twoFactorPassword = null, CancellationToken ct = default);
@@ -379,11 +379,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/WalletTransfer
         /// </para>
         /// </summary>
-        /// <param name="asset">Asset, for example `ETH`</param>
-        /// <param name="quantity">Quantity</param>
-        /// <param name="fromWallet">Source wallet</param>
-        /// <param name="toWallet">Target wallet</param>
-        /// <param name="twoFactorPassword">Password or authentication app code if enabled</param>
+        /// <param name="asset">["<c>asset</c>"] Asset, for example `ETH`</param>
+        /// <param name="quantity">["<c>amount</c>"] Quantity</param>
+        /// <param name="fromWallet">["<c>from</c>"] Source wallet</param>
+        /// <param name="toWallet">["<c>to</c>"] Target wallet</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenReferenceId>> TransferAsync(string asset, decimal quantity, string fromWallet, string toWallet, string? twoFactorPassword = null, CancellationToken ct = default);
