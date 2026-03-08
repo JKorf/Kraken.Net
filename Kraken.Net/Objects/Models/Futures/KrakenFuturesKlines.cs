@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     /// <summary>
     /// Kline info
@@ -7,12 +7,12 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFuturesKlines
     {
         /// <summary>
-        /// True if there are more candles in the time range
+        /// ["<c>more_candles</c>"] True if there are more candles in the time range
         /// </summary>
         [JsonPropertyName("more_candles")]
         public bool MoreKlines { get; set; }
         /// <summary>
-        /// Candles
+        /// ["<c>candles</c>"] Candles
         /// </summary>
         [JsonPropertyName("candles")]
         public KrakenFuturesKline[] Klines { get; set; } = Array.Empty<KrakenFuturesKline>();
@@ -25,32 +25,32 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFuturesKline
     {
         /// <summary>
-        /// High price
+        /// ["<c>high</c>"] High price
         /// </summary>
         [JsonPropertyName("high")]
         public decimal HighPrice { get; set; }
         /// <summary>
-        /// Low price
+        /// ["<c>low</c>"] Low price
         /// </summary>
         [JsonPropertyName("low")]
         public decimal LowPrice { get; set; }
         /// <summary>
-        /// Close price
+        /// ["<c>close</c>"] Close price
         /// </summary>
         [JsonPropertyName("close")]
         public decimal ClosePrice { get; set; }
         /// <summary>
-        /// Open price
+        /// ["<c>open</c>"] Open price
         /// </summary>
         [JsonPropertyName("open")]
         public decimal OpenPrice { get; set; }
         /// <summary>
-        /// Volume
+        /// ["<c>volume</c>"] Volume
         /// </summary>
         [JsonPropertyName("volume")]
         public decimal Volume { get; set; }
         /// <summary>
-        /// Timestamp
+        /// ["<c>time</c>"] Timestamp
         /// </summary>
         [JsonPropertyName("time")]
         [JsonConverter(typeof(DateTimeConverter))]

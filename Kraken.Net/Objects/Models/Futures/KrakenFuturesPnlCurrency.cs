@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     [SerializationModel]
     internal record KrakenFuturesPnlCurrencyResult : KrakenFuturesResult<KrakenFuturesPnlCurrency[]>
@@ -14,12 +14,12 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFuturesPnlCurrency
     {
         /// <summary>
-        /// Profit and loss currency
+        /// ["<c>pnlCurrency</c>"] Profit and loss currency
         /// </summary>
         [JsonPropertyName("pnlCurrency")]
         public string PnlCurrency { get; set; } = string.Empty;
         /// <summary>
-        /// Symbol
+        /// ["<c>symbol</c>"] Symbol
         /// </summary>
         [JsonPropertyName("symbol")]
         public string Symbol { get; set; } = string.Empty;

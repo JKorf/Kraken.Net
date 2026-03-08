@@ -1,4 +1,4 @@
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket
 {
@@ -9,37 +9,37 @@ namespace Kraken.Net.Objects.Models.Socket
     public record KrakenTradeUpdate
     {
         /// <summary>
-        /// Symbol
+        /// ["<c>symbol</c>"] Symbol
         /// </summary>
         [JsonPropertyName("symbol")]
         public string Symbol { get; set; } = string.Empty;
         /// <summary>
-        /// Side
+        /// ["<c>side</c>"] Side
         /// </summary>
         [JsonPropertyName("side")]
         public OrderSide Side { get; set; }
         /// <summary>
-        /// Price
+        /// ["<c>price</c>"] Price
         /// </summary>
         [JsonPropertyName("price")]
         public decimal Price { get; set; }
         /// <summary>
-        /// Quantity
+        /// ["<c>qty</c>"] Quantity
         /// </summary>
         [JsonPropertyName("qty")]
         public decimal Quantity { get; set; }
         /// <summary>
-        /// Order type
+        /// ["<c>ord_type</c>"] Order type
         /// </summary>
         [JsonPropertyName("ord_type")]
         public OrderType OrderType { get; set; }
         /// <summary>
-        /// Trade id
+        /// ["<c>trade_id</c>"] Trade id
         /// </summary>
         [JsonPropertyName("trade_id")]
         public long TradeId { get; set; }
         /// <summary>
-        /// Timestamp
+        /// ["<c>timestamp</c>"] Timestamp
         /// </summary>
         [JsonPropertyName("timestamp")]
         public DateTime Timestamp { get; set; }

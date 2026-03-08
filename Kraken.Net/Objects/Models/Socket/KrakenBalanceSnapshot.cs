@@ -1,4 +1,4 @@
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket
 {
@@ -9,22 +9,22 @@ namespace Kraken.Net.Objects.Models.Socket
     public record KrakenBalanceSnapshot
     {
         /// <summary>
-        /// Asset
+        /// ["<c>asset</c>"] Asset
         /// </summary>
         [JsonPropertyName("asset")]
         public string Asset { get; set; } = string.Empty;
         /// <summary>
-        /// Asset class
+        /// ["<c>asset_class</c>"] Asset class
         /// </summary>
         [JsonPropertyName("asset_class")]
         public string AssetClass { get; set; } = string.Empty;
         /// <summary>
-        /// Balance
+        /// ["<c>balance</c>"] Balance
         /// </summary>
         [JsonPropertyName("balance")]
         public decimal Balance { get; set; }
         /// <summary>
-        /// Wallets
+        /// ["<c>wallets</c>"] Wallets
         /// </summary>
         [JsonPropertyName("wallets")]
         public KrakenBalanceSnapshotWallet[] Wallets { get; set; } = Array.Empty<KrakenBalanceSnapshotWallet>();
@@ -37,17 +37,17 @@ namespace Kraken.Net.Objects.Models.Socket
     public record KrakenBalanceSnapshotWallet
     {
         /// <summary>
-        /// Type
+        /// ["<c>type</c>"] Type
         /// </summary>
         [JsonPropertyName("type")]
         public WalletType WalletType { get; set; }
         /// <summary>
-        /// Id
+        /// ["<c>id</c>"] Id
         /// </summary>
         [JsonPropertyName("id")]
         public string Id { get; set; } = string.Empty;
         /// <summary>
-        /// Balance
+        /// ["<c>balance</c>"] Balance
         /// </summary>
         [JsonPropertyName("balance")]
         public decimal Balance { get; set; }

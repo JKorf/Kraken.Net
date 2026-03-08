@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Earn status
@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models
     public record KrakenEarnStatus
     {
         /// <summary>
-        /// Is pending
+        /// ["<c>pending</c>"] Is pending
         /// </summary>
         [JsonPropertyName("pending")]
         public bool Pending { get; set; }

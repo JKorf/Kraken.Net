@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Batch order result
@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models
     public record KrakenBatchOrderResult
     {
         /// <summary>
-        /// Orders
+        /// ["<c>orders</c>"] Orders
         /// </summary>
         [JsonPropertyName("orders")]
         public KrakenPlacedBatchOrder[] Orders { get; set; } = Array.Empty<KrakenPlacedBatchOrder>();
@@ -20,22 +20,22 @@ namespace Kraken.Net.Objects.Models
     public record KrakenPlacedBatchOrder
     {
         /// <summary>
-        /// Order id
+        /// ["<c>txid</c>"] Order id
         /// </summary>
         [JsonPropertyName("txid")]
         public string OrderId { get; set; } = null!;
         /// <summary>
-        /// Error message
+        /// ["<c>error</c>"] Error message
         /// </summary>
         [JsonPropertyName("error")]
         public string? Error { get; set; }
         /// <summary>
-        /// Description
+        /// ["<c>descr</c>"] Description
         /// </summary>
         [JsonPropertyName("descr")]
         public KrakenPlacedOrderDescription Description { get; set; } = null!;
         /// <summary>
-        /// Close order description
+        /// ["<c>close</c>"] Close order description
         /// </summary>
         [JsonPropertyName("close")]
         public string? CloseOrderInfo { get; set; }

@@ -1,4 +1,4 @@
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models
 {
@@ -9,22 +9,22 @@ namespace Kraken.Net.Objects.Models
     public record KrakenPosition
     {
         /// <summary>
-        /// The position id
+        /// ["<c>id</c>"] The position id
         /// </summary>
         [JsonPropertyName("id")]
         public string Id { get; set; } = string.Empty;
         /// <summary>
-        /// Order id
+        /// ["<c>ordertxid</c>"] Order id
         /// </summary>
         [JsonPropertyName("ordertxid")]
         public string OrderId { get; set; } = string.Empty;
         /// <summary>
-        /// Status
+        /// ["<c>posstatus</c>"] Status
         /// </summary>
         [JsonPropertyName("posstatus")]
         public string Status { get; set; } = string.Empty;
         /// <summary>
-        /// Symbol
+        /// ["<c>pair</c>"] Symbol
         /// </summary>
         [JsonPropertyName("pair")]
         public string Symbol { get; set; } = string.Empty;
@@ -39,62 +39,62 @@ namespace Kraken.Net.Objects.Models
         [JsonPropertyName("rollovertm"), JsonConverter(typeof(DateTimeConverter))]
         public DateTime? RollOverTime { get; set; }
         /// <summary>
-        /// Side
+        /// ["<c>type</c>"] Side
         /// </summary>
         [JsonPropertyName("type")]
         public OrderSide Side { get; set; }
         /// <summary>
-        /// Type
+        /// ["<c>ordertype</c>"] Type
         /// </summary>
         [JsonPropertyName("ordertype")]
         public OrderType Type { get; set; }
         /// <summary>
-        /// Cost
+        /// ["<c>cost</c>"] Cost
         /// </summary>
         [JsonPropertyName("cost")]
         public decimal Cost { get; set; }
         /// <summary>
-        /// Fee
+        /// ["<c>fee</c>"] Fee
         /// </summary>
         [JsonPropertyName("fee")]
         public decimal Fee { get; set; }
         /// <summary>
-        /// Quantity
+        /// ["<c>vol</c>"] Quantity
         /// </summary>
         [JsonPropertyName("vol")]
         public decimal Quantity { get; set; }
         /// <summary>
-        /// Closed quantity 
+        /// ["<c>vol_closed</c>"] Closed quantity 
         /// </summary>
         [JsonPropertyName("vol_closed")]
         public decimal QuantityClosed { get; set; }
         /// <summary>
-        /// Margin
+        /// ["<c>margin</c>"] Margin
         /// </summary>
         [JsonPropertyName("margin")]
         public decimal Margin { get; set; }
         /// <summary>
-        /// Value
+        /// ["<c>value</c>"] Value
         /// </summary>
         [JsonPropertyName("value")]
         public decimal? Value { get; set; }
         /// <summary>
-        /// Net profit/loss
+        /// ["<c>net</c>"] Net profit/loss
         /// </summary>
         [JsonPropertyName("net")]
         public decimal? ProfitLoss { get; set; }
         /// <summary>
-        /// Misc info
+        /// ["<c>misc</c>"] Misc info
         /// </summary>
         [JsonPropertyName("misc")]
         public string Misc { get; set; } = string.Empty;
         /// <summary>
-        /// Flags
+        /// ["<c>oflags</c>"] Flags
         /// </summary>
         [JsonPropertyName("oflags")]
         public string OFlags { get; set; } = string.Empty;
         /// <summary>
-        /// Terms
+        /// ["<c>terms</c>"] Terms
         /// </summary>
         [JsonPropertyName("terms")]
         public string Terms { get; set; } = string.Empty;

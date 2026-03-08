@@ -1,4 +1,4 @@
-using CryptoExchange.Net.Converters;
+﻿using CryptoExchange.Net.Converters;
 
 namespace Kraken.Net.Objects.Models
 {
@@ -9,42 +9,42 @@ namespace Kraken.Net.Objects.Models
     public record KrakenTick
     {
         /// <summary>
-        /// High price info
+        /// ["<c>h</c>"] High price info
         /// </summary>
         [JsonPropertyName("h")]
         public KrakenTickInfo High { get; set; } = default!;
         /// <summary>
-        /// Low price info
+        /// ["<c>l</c>"] Low price info
         /// </summary>
         [JsonPropertyName("l")]
         public KrakenTickInfo Low { get; set; } = default!;
         /// <summary>
-        /// Last trade info
+        /// ["<c>c</c>"] Last trade info
         /// </summary>
         [JsonPropertyName("c")]
         public KrakenLastTrade LastTrade { get; set; } = default!;
         /// <summary>
-        /// Best ask info
+        /// ["<c>a</c>"] Best ask info
         /// </summary>
         [JsonPropertyName("a")]
         public KrakenBestEntry BestAsks { get; set; } = default!;
         /// <summary>
-        /// Best bid info
+        /// ["<c>b</c>"] Best bid info
         /// </summary>
         [JsonPropertyName("b")]
         public KrakenBestEntry BestBids { get; set; } = default!;
         /// <summary>
-        /// Trade count info
+        /// ["<c>t</c>"] Trade count info
         /// </summary>
         [JsonPropertyName("t")]
         public KrakenTickInfo Trades { get; set; } = default!;
         /// <summary>
-        /// Volume weighted average price info
+        /// ["<c>p</c>"] Volume weighted average price info
         /// </summary>
         [JsonPropertyName("p")]
         public KrakenTickInfo VolumeWeightedAveragePrice { get; set; } = default!;
         /// <summary>
-        /// Volume info
+        /// ["<c>v</c>"] Volume info
         /// </summary>
         [JsonPropertyName("v")]
         public KrakenTickInfo Volume { get; set; } = default!;
@@ -57,12 +57,12 @@ namespace Kraken.Net.Objects.Models
     public record KrakenRestTick: KrakenTick
     {
         /// <summary>
-        /// Symbol
+        /// ["<c>symbol</c>"] Symbol
         /// </summary>
         [JsonPropertyName("symbol")]
         public string Symbol { get; set; } = string.Empty;
         /// <summary>
-        /// Open price
+        /// ["<c>o</c>"] Open price
         /// </summary>
         [JsonPropertyName("o")]
         public decimal OpenPrice { get; set; }
@@ -75,7 +75,7 @@ namespace Kraken.Net.Objects.Models
     public record KrakenStreamTick : KrakenTick
     {
         /// <summary>
-        /// Open price info
+        /// ["<c>o</c>"] Open price info
         /// </summary>
         [JsonPropertyName("o")]
         public KrakenTickInfo Open { get; set; } = default!;

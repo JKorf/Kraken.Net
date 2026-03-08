@@ -1,4 +1,4 @@
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models
 {
@@ -19,12 +19,12 @@ namespace Kraken.Net.Objects.Models
         [JsonPropertyName("cl_ord_id"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? ClientOrderId { get; set; }
         /// <summary>
-        /// Order type
+        /// ["<c>ordertype</c>"] Order type
         /// </summary>
         [JsonPropertyName("ordertype")]
         public OrderType OrderType { get; set; }
         /// <summary>
-        /// Order side
+        /// ["<c>type</c>"] Order side
         /// </summary>
         [JsonPropertyName("type")]
         public OrderSide Side { get; set; }

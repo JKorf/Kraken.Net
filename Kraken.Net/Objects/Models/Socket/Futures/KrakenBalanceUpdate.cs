@@ -1,4 +1,4 @@
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
@@ -9,62 +9,62 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenBalanceUpdate
     {
         /// <summary>
-        /// Ledger id
+        /// ["<c>ledger_id</c>"] Ledger id
         /// </summary>
         [JsonPropertyName("ledger_id")]
         public string LedgerId { get; set; } = string.Empty;
         /// <summary>
-        /// Reference id
+        /// ["<c>ref_id</c>"] Reference id
         /// </summary>
         [JsonPropertyName("ref_id")]
         public string ReferenceId { get; set; } = string.Empty;
         /// <summary>
-        /// Timestamp
+        /// ["<c>timestamp</c>"] Timestamp
         /// </summary>
         [JsonPropertyName("timestamp")]
         public DateTime Timestamp { get; set; }
         /// <summary>
-        /// Type
+        /// ["<c>type</c>"] Type
         /// </summary>
         [JsonPropertyName("type")]
         public BalanceUpdateType BalanceUpdateType { get; set; }
         /// <summary>
-        /// Asset
+        /// ["<c>asset</c>"] Asset
         /// </summary>
         [JsonPropertyName("asset")]
         public string Asset { get; set; } = string.Empty;
         /// <summary>
-        /// Asset class
+        /// ["<c>asset_class</c>"] Asset class
         /// </summary>
         [JsonPropertyName("asset_class")]
         public string AssetClass { get; set; } = string.Empty;
         /// <summary>
-        /// Category
+        /// ["<c>category</c>"] Category
         /// </summary>
         [JsonPropertyName("category")]
         public BalanceUpdateCategory Category { get; set; }
         /// <summary>
-        /// Wallet type
+        /// ["<c>wallet_type</c>"] Wallet type
         /// </summary>
         [JsonPropertyName("wallet_type")]
         public WalletType WalletType { get; set; }
         /// <summary>
-        /// Wallet id
+        /// ["<c>wallet_id</c>"] Wallet id
         /// </summary>
         [JsonPropertyName("wallet_id")]
         public string WalletId { get; set; } = string.Empty;
         /// <summary>
-        /// Quantity
+        /// ["<c>amount</c>"] Quantity
         /// </summary>
         [JsonPropertyName("amount")]
         public decimal Quantity { get; set; }
         /// <summary>
-        /// Fee
+        /// ["<c>fee</c>"] Fee
         /// </summary>
         [JsonPropertyName("fee")]
         public decimal Fee { get; set; }
         /// <summary>
-        /// Balance
+        /// ["<c>balance</c>"] Balance
         /// </summary>
         [JsonPropertyName("balance")]
         public decimal Balance { get; set; }

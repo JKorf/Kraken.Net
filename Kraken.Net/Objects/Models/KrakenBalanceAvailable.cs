@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Balance info
@@ -7,18 +7,18 @@ namespace Kraken.Net.Objects.Models
     public record KrakenBalanceAvailable
     {
         /// <summary>
-        /// Asset
+        /// ["<c>asset</c>"] Asset
         /// </summary>
         [JsonPropertyName("asset")]
         public string Asset { get; set; } = string.Empty;
         /// <summary>
-        /// Balance
+        /// ["<c>balance</c>"] Balance
         /// </summary>
         [JsonPropertyName("balance")]
         public decimal Total { get; set; }
 
         /// <summary>
-        /// The quantity currently locked into a trade
+        /// ["<c>hold_trade</c>"] The quantity currently locked into a trade
         /// </summary>
         [JsonPropertyName("hold_trade")]
         public decimal Locked { get; set; }

@@ -1,4 +1,4 @@
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 using Kraken.Net.Objects.Internal;
 
 namespace Kraken.Net.Objects.Models.Socket
@@ -10,13 +10,13 @@ namespace Kraken.Net.Objects.Models.Socket
     public record KrakenSocketOrderRequest
     {
         /// <summary>
-        /// Order type
+        /// ["<c>order_type</c>"] Order type
         /// </summary>
         [JsonPropertyName("order_type")]
 
         public OrderType OrderType { get; set; }
         /// <summary>
-        /// Order side
+        /// ["<c>side</c>"] Order side
         /// </summary>
         [JsonPropertyName("side")]
 

@@ -1,4 +1,4 @@
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
@@ -9,12 +9,12 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFuturesUserTradesUpdate : KrakenFuturesSocketMessage
     {
         /// <summary>
-        /// Account
+        /// ["<c>account</c>"] Account
         /// </summary>
         [JsonPropertyName("account")]
         public string Account { get; set; } = string.Empty;
         /// <summary>
-        /// Trades
+        /// ["<c>fills</c>"] Trades
         /// </summary>
         [JsonPropertyName("fills")]
         public KrakenFuturesStreamUserTrade[] Trades { get; set; } = Array.Empty<KrakenFuturesStreamUserTrade>();
@@ -27,74 +27,74 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFuturesStreamUserTrade
     {
         /// <summary>
-        /// Symbol
+        /// ["<c>instrument</c>"] Symbol
         /// </summary>
         [JsonPropertyName("instrument")]
         public string Symbol { get; set; } = string.Empty;
         /// <summary>
-        /// Timestamp
+        /// ["<c>time</c>"] Timestamp
         /// </summary>
         [JsonPropertyName("time")]
         [JsonConverter(typeof(DateTimeConverter))]
         public DateTime Timestamp { get; set; }
         /// <summary>
-        /// Price
+        /// ["<c>price</c>"] Price
         /// </summary>
         [JsonPropertyName("price")]
         public decimal Price { get; set; }
         /// <summary>
-        /// Quantity
+        /// ["<c>qty</c>"] Quantity
         /// </summary>
         [JsonPropertyName("qty")]
         public decimal Quantity { get; set; }
         /// <summary>
-        /// Sequence number
+        /// ["<c>seq</c>"] Sequence number
         /// </summary>
         [JsonPropertyName("seq")]
         public long Sequence { get; set; }
         /// <summary>
-        /// Is buy
+        /// ["<c>buy</c>"] Is buy
         /// </summary>
         [JsonPropertyName("buy")]
         public bool Buy { get; set; }
         /// <summary>
-        /// Order id
+        /// ["<c>order_id</c>"] Order id
         /// </summary>
         [JsonPropertyName("order_id")]
         public string OrderId { get; set; } = string.Empty;
         /// <summary>
-        /// Client order id
+        /// ["<c>cli_ord_id</c>"] Client order id
         /// </summary>
         [JsonPropertyName("cli_ord_id")]
         public string? ClientOrderId { get; set; }
         /// <summary>
-        /// Trade id
+        /// ["<c>fill_id</c>"] Trade id
         /// </summary>
         [JsonPropertyName("fill_id")]
         public string TradeId { get; set; } = string.Empty;
         /// <summary>
-        /// Trade type
+        /// ["<c>fill_type</c>"] Trade type
         /// </summary>
 
         [JsonPropertyName("fill_type")]
         public TradeType TradeType { get; set; }
         /// <summary>
-        /// Fee paid on trade
+        /// ["<c>fee_paid</c>"] Fee paid on trade
         /// </summary>
         [JsonPropertyName("fee_paid")]
         public decimal FeePaid { get; set; }
         /// <summary>
-        /// Fee currency
+        /// ["<c>fee_currency</c>"] Fee currency
         /// </summary>
         [JsonPropertyName("fee_currency")]
         public string FeeCurrency { get; set; } = string.Empty;
         /// <summary>
-        /// Order type of the taker
+        /// ["<c>taker_order_type</c>"] Order type of the taker
         /// </summary>
         [JsonPropertyName("taker_order_type")]
         public string TakerOrderType { get; set; } = string.Empty;
         /// <summary>
-        /// Order type
+        /// ["<c>order_type</c>"] Order type
         /// </summary>
         [JsonPropertyName("order_type")]
         public string OrderType { get; set; } = string.Empty;

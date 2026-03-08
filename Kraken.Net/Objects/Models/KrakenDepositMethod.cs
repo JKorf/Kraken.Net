@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Info about a deposit method
@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models
     public record KrakenDepositMethod
     {
         /// <summary>
-        /// Name of the method
+        /// ["<c>method</c>"] Name of the method
         /// </summary>
         [JsonPropertyName("method")]
         public string Method { get; set; } = string.Empty;
@@ -17,22 +17,22 @@ namespace Kraken.Net.Objects.Models
         [JsonPropertyName("limit"), JsonConverter(typeof(NumberStringConverter))]
         public string Limit { get; set; } = string.Empty;
         /// <summary>
-        /// The deposit fee for the method
+        /// ["<c>fee</c>"] The deposit fee for the method
         /// </summary>
         [JsonPropertyName("fee")]
         public decimal Fee { get; set; }
         /// <summary>
-        /// The fee for setting up an address
+        /// ["<c>address-setup-fee</c>"] The fee for setting up an address
         /// </summary>
         [JsonPropertyName("address-setup-fee")]
         public decimal? AddressSetupFee { get; set; }
         /// <summary>
-        /// Generate address
+        /// ["<c>gen-address</c>"] Generate address
         /// </summary>
         [JsonPropertyName("gen-address")]
         public bool? GenerateAddress { get; set; }
         /// <summary>
-        /// Minimum deposit amount
+        /// ["<c>minimum</c>"] Minimum deposit amount
         /// </summary>
         [JsonPropertyName("minimum")]
         public decimal? MinimumDepositAmount { get; set; }

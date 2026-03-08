@@ -6,7 +6,7 @@
     public record KrakenBatchCancelResult
     {
         /// <summary>
-        /// Canceled count
+        /// ["<c>count</c>"] Canceled count
         /// </summary>
         [JsonPropertyName("count")]
         public int Count { get; set; }

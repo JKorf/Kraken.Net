@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Deposit status info
@@ -7,42 +7,42 @@ namespace Kraken.Net.Objects.Models
     public record KrakenMovementStatus
     {
         /// <summary>
-        /// The name of the deposit method
+        /// ["<c>method</c>"] The name of the deposit method
         /// </summary>
         [JsonPropertyName("method")]
         public string Method { get; set; } = string.Empty;
         /// <summary>
-        /// The record of the asset
+        /// ["<c>aclass</c>"] The record of the asset
         /// </summary>
         [JsonPropertyName("aclass")]
         public string AssetClass { get; set; } = string.Empty;
         /// <summary>
-        /// The asset name
+        /// ["<c>asset</c>"] The asset name
         /// </summary>
         [JsonPropertyName("asset")]
         public string Asset { get; set; } = string.Empty;
         /// <summary>
-        /// Reference id
+        /// ["<c>refid</c>"] Reference id
         /// </summary>
         [JsonPropertyName("refid")]
         public string ReferenceId { get; set; } = string.Empty;
         /// <summary>
-        /// Transaction id
+        /// ["<c>txid</c>"] Transaction id
         /// </summary>
         [JsonPropertyName("txid")]
         public string TransactionId { get; set; } = string.Empty;
         /// <summary>
-        /// Info about the transaction
+        /// ["<c>info</c>"] Info about the transaction
         /// </summary>
         [JsonPropertyName("info")]
         public string TransactionInfo { get; set; } = string.Empty;
         /// <summary>
-        /// The quantity involved in the deposit
+        /// ["<c>amount</c>"] The quantity involved in the deposit
         /// </summary>
         [JsonPropertyName("amount")]
         public decimal Quantity { get; set; }
         /// <summary>
-        /// The fee paid for the deposit
+        /// ["<c>fee</c>"] The fee paid for the deposit
         /// </summary>
         [JsonPropertyName("fee")]
         public decimal Fee { get; set; }
@@ -53,22 +53,22 @@ namespace Kraken.Net.Objects.Models
         [JsonPropertyName("time")]
         public DateTime Timestamp { get; set; }
         /// <summary>
-        /// Status of the transaction
+        /// ["<c>status</c>"] Status of the transaction
         /// </summary>
         [JsonPropertyName("status")]
         public string Status { get; set; } = string.Empty;
         /// <summary>
-        /// Additional status info
+        /// ["<c>status-prop</c>"] Additional status info
         /// </summary>
         [JsonPropertyName("status-prop")]
         public string? AdditionalStatus { get; set; } = string.Empty;
         /// <summary>
-        /// Withdrawal key name, as set up on your account
+        /// ["<c>key</c>"] Withdrawal key name, as set up on your account
         /// </summary>
         [JsonPropertyName("key")]
         public string? Key { get; set; }
         /// <summary>
-        /// Originators
+        /// ["<c>originators</c>"] Originators
         /// </summary>
         [JsonPropertyName("originators")]
         public string[]? Originators { get; set; } = Array.Empty<string>();

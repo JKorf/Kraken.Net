@@ -1,4 +1,4 @@
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 using Kraken.Net.Objects.Sockets;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
@@ -10,7 +10,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFuturesTradesSnapshotUpdate : KrakenFuturesEvent
     {
         /// <summary>
-        /// Trades
+        /// ["<c>trades</c>"] Trades
         /// </summary>
         [JsonPropertyName("trades")]
         public KrakenFuturesTradeUpdate[] Trades { get; set; } = Array.Empty<KrakenFuturesTradeUpdate>();
@@ -23,39 +23,39 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFuturesTradeUpdate : KrakenFuturesUpdateMessage
     {
         /// <summary>
-        /// Uid
+        /// ["<c>uid</c>"] Uid
         /// </summary>
         [JsonPropertyName("uid")]
         public string Uid { get; set; } = string.Empty;
         /// <summary>
-        /// Order side
+        /// ["<c>side</c>"] Order side
         /// </summary>
 
         [JsonPropertyName("side")]
         public OrderSide Side { get; set; }
         /// <summary>
-        /// Trade type
+        /// ["<c>type</c>"] Trade type
         /// </summary>
         [JsonPropertyName("type")]
         public string Type { get; set; } = string.Empty;
         /// <summary>
-        /// Sequence number
+        /// ["<c>seq</c>"] Sequence number
         /// </summary>
         [JsonPropertyName("seq")]
         public long Sequence { get; set; }
         /// <summary>
-        /// Timestamp
+        /// ["<c>time</c>"] Timestamp
         /// </summary>
         [JsonPropertyName("time")]
         [JsonConverter(typeof(DateTimeConverter))]
         public DateTime Timestamp { get; set; }
         /// <summary>
-        /// Quantity
+        /// ["<c>qty</c>"] Quantity
         /// </summary>
         [JsonPropertyName("qty")]
         public decimal Quantity { get; set; }
         /// <summary>
-        /// Trade price
+        /// ["<c>price</c>"] Trade price
         /// </summary>
         [JsonPropertyName("price")]
         public decimal Price { get; set; }

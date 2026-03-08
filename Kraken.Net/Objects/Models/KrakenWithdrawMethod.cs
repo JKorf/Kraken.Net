@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Info about a withdraw method
@@ -7,22 +7,22 @@ namespace Kraken.Net.Objects.Models
     public record KrakenWithdrawMethod
     {
         /// <summary>
-        /// Name of the asset
+        /// ["<c>asset</c>"] Name of the asset
         /// </summary>
         [JsonPropertyName("asset")]
         public string Asset { get; set; } = string.Empty;
         /// <summary>
-        /// Name of the method
+        /// ["<c>method</c>"] Name of the method
         /// </summary>
         [JsonPropertyName("method")]
         public string Method { get; set; } = string.Empty;
         /// <summary>
-        /// Name of the Network
+        /// ["<c>network</c>"] Name of the Network
         /// </summary>
         [JsonPropertyName("network")]
         public string Network { get; set; } = string.Empty;
         /// <summary>
-        /// Minimum amount
+        /// ["<c>minimum</c>"] Minimum amount
         /// </summary>
         [JsonPropertyName("minimum")]
         public decimal Minimum { get; set; }

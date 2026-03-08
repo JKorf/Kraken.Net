@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     [SerializationModel]
     internal record KrakenFeeScheduleVolumeResult : KrakenFuturesResult<Dictionary<string, decimal>>
@@ -21,17 +21,17 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFeeSchedule
     {
         /// <summary>
-        /// Name
+        /// ["<c>name</c>"] Name
         /// </summary>
         [JsonPropertyName("name")]
         public string Name { get; set; } = string.Empty;
         /// <summary>
-        /// Id
+        /// ["<c>uid</c>"] Id
         /// </summary>
         [JsonPropertyName("uid")]
         public string Uid { get; set; } = string.Empty;
         /// <summary>
-        /// Fee tiers
+        /// ["<c>tiers</c>"] Fee tiers
         /// </summary>
         [JsonPropertyName("tiers")]
         public KrakenFee[] Tiers { get; set; } = [];
@@ -44,17 +44,17 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFee
     {
         /// <summary>
-        /// Fee for maker orders
+        /// ["<c>makerFee</c>"] Fee for maker orders
         /// </summary>
         [JsonPropertyName("makerFee")]
         public decimal MakerFee { get; set; }
         /// <summary>
-        /// Fee for taker orders
+        /// ["<c>takerFee</c>"] Fee for taker orders
         /// </summary>
         [JsonPropertyName("takerFee")]
         public decimal TakerFee { get; set; }
         /// <summary>
-        /// Usd trade volume threshold
+        /// ["<c>usdVolume</c>"] Usd trade volume threshold
         /// </summary>
         [JsonPropertyName("usdVolume")]
         public decimal UsdVolume { get; set; }

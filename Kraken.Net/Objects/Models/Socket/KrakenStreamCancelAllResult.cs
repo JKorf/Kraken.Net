@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models.Socket
+﻿namespace Kraken.Net.Objects.Models.Socket
 {
     /// <summary>
     /// Cancel all result
@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models.Socket
     public record KrakenStreamCancelAllResult
     {
         /// <summary>
-        /// Number of orders canceled
+        /// ["<c>count</c>"] Number of orders canceled
         /// </summary>
         [JsonPropertyName("count")]
         public int Count { get; set; }

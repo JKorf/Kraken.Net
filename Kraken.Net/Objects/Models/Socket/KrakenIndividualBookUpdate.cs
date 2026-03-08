@@ -1,4 +1,4 @@
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket
 {
@@ -9,17 +9,17 @@ namespace Kraken.Net.Objects.Models.Socket
     public record KrakenIndividualBookUpdate
     {
         /// <summary>
-        /// The symbol
+        /// ["<c>symbol</c>"] The symbol
         /// </summary>
         [JsonPropertyName("symbol")]
         public string Symbol { get; set; } = string.Empty;
         /// <summary>
-        /// Asks in the book
+        /// ["<c>asks</c>"] Asks in the book
         /// </summary>
         [JsonPropertyName("asks")]
         public KrakenIndividualBookUpdateEntry[] Asks { get; set; } = Array.Empty<KrakenIndividualBookUpdateEntry>();
         /// <summary>
-        /// Bids in the book
+        /// ["<c>bids</c>"] Bids in the book
         /// </summary>
         [JsonPropertyName("bids")]
         public KrakenIndividualBookUpdateEntry[] Bids { get; set; } = Array.Empty<KrakenIndividualBookUpdateEntry>();
@@ -32,27 +32,27 @@ namespace Kraken.Net.Objects.Models.Socket
     public record KrakenIndividualBookUpdateEntry : ISymbolOrderBookEntry
     {
         /// <summary>
-        /// The order id
+        /// ["<c>order_id</c>"] The order id
         /// </summary>
         [JsonPropertyName("order_id")]
         public string OrderId { get; set; } = string.Empty;
         /// <summary>
-        /// Price
+        /// ["<c>limit_price</c>"] Price
         /// </summary>
         [JsonPropertyName("limit_price")]
         public decimal Price { get; set; }
         /// <summary>
-        /// Quantity
+        /// ["<c>order_qty</c>"] Quantity
         /// </summary>
         [JsonPropertyName("order_qty")]
         public decimal Quantity { get; set; }
         /// <summary>
-        /// Timestamp
+        /// ["<c>timestamp</c>"] Timestamp
         /// </summary>
         [JsonPropertyName("timestamp")]
         public DateTime Timestamp { get; set; }
         /// <summary>
-        /// Event
+        /// ["<c>event</c>"] Event
         /// </summary>
         [JsonPropertyName("event")]
         public OrderBookChange Event { get; set; }

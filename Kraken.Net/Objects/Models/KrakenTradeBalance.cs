@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Trade balance info
@@ -7,47 +7,47 @@ namespace Kraken.Net.Objects.Models
     public record KrakenTradeBalance
     {
         /// <summary>
-        /// Combined balance
+        /// ["<c>eb</c>"] Combined balance
         /// </summary>
         [JsonPropertyName("eb")]
         public decimal CombinedBalance { get; set; }
         /// <summary>
-        /// Trade balance
+        /// ["<c>tb</c>"] Trade balance
         /// </summary>
         [JsonPropertyName("tb")]
         public decimal TradeBalance { get; set; }
         /// <summary>
-        /// Margin open positions
+        /// ["<c>m</c>"] Margin open positions
         /// </summary>
         [JsonPropertyName("m")]
         public decimal MarginOpenPositions { get; set; }
         /// <summary>
-        /// Unrealized net profit in open positions
+        /// ["<c>n</c>"] Unrealized net profit in open positions
         /// </summary>
         [JsonPropertyName("n")]
         public decimal OpenPositionsUnrealizedNetProfit { get; set; }
         /// <summary>
-        /// Cost basis for open positions
+        /// ["<c>c</c>"] Cost basis for open positions
         /// </summary>
         [JsonPropertyName("c")]
         public decimal OpenPositionsCostBasis { get; set; }
         /// <summary>
-        /// Open positions valuation
+        /// ["<c>v</c>"] Open positions valuation
         /// </summary>
         [JsonPropertyName("v")]
         public decimal OpenPositionsValuation { get; set; }
         /// <summary>
-        /// Equity
+        /// ["<c>e</c>"] Equity
         /// </summary>
         [JsonPropertyName("e")]
         public decimal Equity { get; set; }
         /// <summary>
-        /// Free margin
+        /// ["<c>mf</c>"] Free margin
         /// </summary>
         [JsonPropertyName("mf")]
         public decimal FreeMargin { get; set; }
         /// <summary>
-        /// Margin level
+        /// ["<c>ml</c>"] Margin level
         /// </summary>
         [JsonPropertyName("ml")]
         public decimal MarginLevel { get; set; }

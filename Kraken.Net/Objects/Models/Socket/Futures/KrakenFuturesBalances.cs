@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models.Socket.Futures
+﻿namespace Kraken.Net.Objects.Models.Socket.Futures
 {
     /// <summary>
     /// Balance update
@@ -7,12 +7,12 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFuturesBalancesUpdate : KrakenFuturesSocketMessage
     {
         /// <summary>
-        /// Account id
+        /// ["<c>account</c>"] Account id
         /// </summary>
         [JsonPropertyName("account")]
         public string Account { get; set; } = string.Empty;
         /// <summary>
-        /// Sequence
+        /// ["<c>seq</c>"] Sequence
         /// </summary>
         [JsonPropertyName("seq")]
         public long Sequence { get; set; }
@@ -23,17 +23,17 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         [JsonPropertyName("timestamp")]
         public DateTime Timestamp { get; set; }
         /// <summary>
-        /// Holdings
+        /// ["<c>holding</c>"] Holdings
         /// </summary>
         [JsonPropertyName("holding")]
         public Dictionary<string, decimal>? Holdings { get; set; }
         /// <summary>
-        /// Futures balances
+        /// ["<c>futures</c>"] Futures balances
         /// </summary>
         [JsonPropertyName("futures")]
         public Dictionary<string, KrakenFutureBalance>? Futures { get; set; }
         /// <summary>
-        /// Flex futures
+        /// ["<c>flex_futures</c>"] Flex futures
         /// </summary>
         [JsonPropertyName("flex_futures")]
         public KrakenFlexFutures? FlexFutures { get; set; }
@@ -46,77 +46,77 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFlexFutures
     {
         /// <summary>
-        /// A map from collateral wallet names to collateral wallet structure
+        /// ["<c>currencies</c>"] A map from collateral wallet names to collateral wallet structure
         /// </summary>
         [JsonPropertyName("currencies")]
         public Dictionary<string, KrakenFlexFuturesCurrency>? Currencies { get; set; }
         /// <summary>
-        /// The current margin information for isolated position(s)
+        /// ["<c>isolated</c>"] The current margin information for isolated position(s)
         /// </summary>
         [JsonPropertyName("isolated")]
         public Dictionary<string, KrakenFlexIsolatedBalance>? Isolated { get; set; }
         /// <summary>
-        /// The current margin information for cross position(s)
+        /// ["<c>cross</c>"] The current margin information for cross position(s)
         /// </summary>
         [JsonPropertyName("cross")]
         public KrakenFlexCrossBalance? Cross { get; set; }
         /// <summary>
-        /// The current USD balance of the account
+        /// ["<c>balance_value</c>"] The current USD balance of the account
         /// </summary>
         [JsonPropertyName("balance_value")]
         public decimal BalanceValue { get; set; }
         /// <summary>
-        /// The current collateral value with unrealized margin from any open positions
+        /// ["<c>portfolio_value</c>"] The current collateral value with unrealized margin from any open positions
         /// </summary>
         [JsonPropertyName("portfolio_value")]
         public decimal PortfolioValue { get; set; }
         /// <summary>
-        /// The current USD balance with haircuts
+        /// ["<c>collateral_value</c>"] The current USD balance with haircuts
         /// </summary>
         [JsonPropertyName("collateral_value")]
         public decimal CollateralValue { get; set; }
         /// <summary>
-        /// The total initial margin for open positions and open orders
+        /// ["<c>initial_margin</c>"] The total initial margin for open positions and open orders
         /// </summary>
         [JsonPropertyName("initial_margin")]
         public decimal InitialMargin { get; set; }
         /// <summary>
-        /// The total initial margin for open positions
+        /// ["<c>initial_margin_without_orders</c>"] The total initial margin for open positions
         /// </summary>
         [JsonPropertyName("initial_margin_without_orders")]
         public decimal InitialMarginWithoutOrders { get; set; }
         /// <summary>
-        /// The total maintenance margin for open positions
+        /// ["<c>maintenance_margin</c>"] The total maintenance margin for open positions
         /// </summary>
         [JsonPropertyName("maintenance_margin")]
         public decimal MaintenanceMargin { get; set; }
         /// <summary>
-        ///	The total profit and loss for open positions
+        ///	["<c>pnl</c>"] The total profit and loss for open positions
         /// </summary>
         [JsonPropertyName("pnl")]
         public decimal ProfitAndLoss { get; set; }
         /// <summary>
-        ///	The total unrealized funding for open positions
+        ///	["<c>unrealized_funding</c>"] The total unrealized funding for open positions
         /// </summary>
         [JsonPropertyName("unrealized_funding")]
         public decimal UnrealizedFunding { get; set; }
         /// <summary>
-        ///	The total unrealized funding and pnl
+        ///	["<c>total_unrealized</c>"] The total unrealized funding and pnl
         /// </summary>
         [JsonPropertyName("total_unrealized")]
         public decimal TotalUnrealized { get; set; }
         /// <summary>
-        ///	The total unrealized in USD
+        ///	["<c>total_unrealized_as_margin</c>"] The total unrealized in USD
         /// </summary>
         [JsonPropertyName("total_unrealized_as_margin")]
         public decimal TotalUnrealizedAsMargin { get; set; }
         /// <summary>
-        ///	The current collateral value and unrealized margin
+        ///	["<c>margin_equity</c>"] The current collateral value and unrealized margin
         /// </summary>
         [JsonPropertyName("margin_equity")]
         public decimal MarginEquity { get; set; }
         /// <summary>
-        ///	The margin equity minus initial margin
+        ///	["<c>available_margin</c>"] The margin equity minus initial margin
         /// </summary>
         [JsonPropertyName("available_margin")]
         public decimal AvailableMargin { get; set; }
@@ -129,67 +129,67 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFlexCrossBalance
     {
         /// <summary>
-        /// The total initial margin for open positions and open orders
+        /// ["<c>initial_margin</c>"] The total initial margin for open positions and open orders
         /// </summary>
         [JsonPropertyName("initial_margin")]
         public decimal InitialMargin { get; set; }
         /// <summary>
-        /// The total initial margin for open positions
+        /// ["<c>initial_margin_without_orders</c>"] The total initial margin for open positions
         /// </summary>
         [JsonPropertyName("initial_margin_without_orders")]
         public decimal InitialMarginWithoutOrders { get; set; }
         /// <summary>
-        /// The total maintenance margin for open positions
+        /// ["<c>maintenance_margin</c>"] The total maintenance margin for open positions
         /// </summary>
         [JsonPropertyName("maintenance_margin")]
         public decimal MaintenanceMargin { get; set; }
         /// <summary>
-        ///	The total profit and loss for open positions
+        ///	["<c>pnl</c>"] The total profit and loss for open positions
         /// </summary>
         [JsonPropertyName("pnl")]
         public decimal ProfitAndLoss { get; set; }
         /// <summary>
-        ///	The total unrealized funding for open positions
+        ///	["<c>unrealized_funding</c>"] The total unrealized funding for open positions
         /// </summary>
         [JsonPropertyName("unrealized_funding")]
         public decimal UnrealizedFunding { get; set; }
         /// <summary>
-        ///	The total unrealized funding and pnl
+        ///	["<c>total_unrealized</c>"] The total unrealized funding and pnl
         /// </summary>
         [JsonPropertyName("total_unrealized")]
         public decimal TotalUnrealized { get; set; }
         /// <summary>
-        ///	The total unrealized in USD
+        ///	["<c>total_unrealized_as_margin</c>"] The total unrealized in USD
         /// </summary>
         [JsonPropertyName("total_unrealized_as_margin")]
         public decimal TotalUnrealizedAsMargin { get; set; }
         /// <summary>
-        /// The current USD balance of the account
+        /// ["<c>balance_value</c>"] The current USD balance of the account
         /// </summary>
         [JsonPropertyName("balance_value")]
         public decimal BalanceValue { get; set; }
         /// <summary>
-        /// The current collateral value with unrealized margin from any open positions
+        /// ["<c>portfolio_value</c>"] The current collateral value with unrealized margin from any open positions
         /// </summary>
         [JsonPropertyName("portfolio_value")]
         public decimal PortfolioValue { get; set; }
         /// <summary>
-        /// The current USD balance with haircuts
+        /// ["<c>collateral_value</c>"] The current USD balance with haircuts
         /// </summary>
         [JsonPropertyName("collateral_value")]
         public decimal CollateralValue { get; set; }
         /// <summary>
-        ///	The current collateral value and unrealized margin
+        ///	["<c>margin_equity</c>"] The current collateral value and unrealized margin
         /// </summary>
         [JsonPropertyName("margin_equity")]
         public decimal MarginEquity { get; set; }
         /// <summary>
-        ///	The margin equity minus initial margin
+        ///	["<c>available_margin</c>"] The margin equity minus initial margin
         /// </summary>
         [JsonPropertyName("available_margin")]
         public decimal AvailableMargin { get; set; }
         /// <summary>
-        ///	Ratio of position size to margin equity
+        ///	["<c>effective_leverage</c>"] Ratio of position size to margin equity
         /// </summary>
         [JsonPropertyName("effective_leverage")]
         public decimal EffectiveLeverage { get; set; }
@@ -202,37 +202,37 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFlexIsolatedBalance
     {
         /// <summary>
-        /// The total initial margin for open positions and open orders
+        /// ["<c>initial_margin</c>"] The total initial margin for open positions and open orders
         /// </summary>
         [JsonPropertyName("initial_margin")]
         public decimal InitialMargin { get; set; }
         /// <summary>
-        /// The total initial margin for open positions
+        /// ["<c>initial_margin_without_orders</c>"] The total initial margin for open positions
         /// </summary>
         [JsonPropertyName("initial_margin_without_orders")]
         public decimal InitialMarginWithoutOrders { get; set; }
         /// <summary>
-        /// The total maintenance margin for open positions
+        /// ["<c>maintenance_margin</c>"] The total maintenance margin for open positions
         /// </summary>
         [JsonPropertyName("maintenance_margin")]
         public decimal MaintenanceMargin { get; set; }
         /// <summary>
-        ///	The total profit and loss for open positions
+        ///	["<c>pnl</c>"] The total profit and loss for open positions
         /// </summary>
         [JsonPropertyName("pnl")]
         public decimal ProfitAndLoss { get; set; }
         /// <summary>
-        ///	The total unrealized funding for open positions
+        ///	["<c>unrealized_funding</c>"] The total unrealized funding for open positions
         /// </summary>
         [JsonPropertyName("unrealized_funding")]
         public decimal UnrealizedFunding { get; set; }
         /// <summary>
-        ///	The total unrealized funding and pnl
+        ///	["<c>total_unrealized</c>"] The total unrealized funding and pnl
         /// </summary>
         [JsonPropertyName("total_unrealized")]
         public decimal TotalUnrealized { get; set; }
         /// <summary>
-        ///	The total unrealized in USD
+        ///	["<c>total_unrealized_as_margin</c>"] The total unrealized in USD
         /// </summary>
         [JsonPropertyName("total_unrealized_as_margin")]
         public decimal TotalUnrealizedAsMargin { get; set; }
@@ -245,32 +245,32 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFlexFuturesCurrency
     {
         /// <summary>
-        /// The currency quantity
+        /// ["<c>quantity</c>"] The currency quantity
         /// </summary>
         [JsonPropertyName("quantity")]
         public decimal Quantity { get; set; }
         /// <summary>
-        /// The USD value of the currency balance
+        /// ["<c>value</c>"] The USD value of the currency balance
         /// </summary>
         [JsonPropertyName("value")]
         public decimal Value { get; set; }
         /// <summary>
-        /// The current USD balance with haircuts
+        /// ["<c>collateral_value</c>"] The current USD balance with haircuts
         /// </summary>
         [JsonPropertyName("collateral_value")]
         public decimal CollateralValue { get; set; }
         /// <summary>
-        /// The total available margin valued in the wallet currency
+        /// ["<c>available</c>"] The total available margin valued in the wallet currency
         /// </summary>
         [JsonPropertyName("available")]
         public decimal Available { get; set; }
         /// <summary>
-        /// The rate of reduction in the value of a collateral asset that may be used as margin
+        /// ["<c>haircut</c>"] The rate of reduction in the value of a collateral asset that may be used as margin
         /// </summary>
         [JsonPropertyName("haircut")]
         public decimal Haircut { get; set; }
         /// <summary>
-        /// The conversion spread is used to calculate conversion fee for multi-collateral wallets
+        /// ["<c>conversion_spread</c>"] The conversion spread is used to calculate conversion fee for multi-collateral wallets
         /// </summary>
         [JsonPropertyName("conversion_spread")]
         public decimal ConversionSpread { get; set; }
@@ -283,52 +283,52 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFutureBalance
     {
         /// <summary>
-        /// The name of the account
+        /// ["<c>name</c>"] The name of the account
         /// </summary>
         [JsonPropertyName("name")]
         public string Name { get; set; } = string.Empty;
         /// <summary>
-        /// The wallet currency pair
+        /// ["<c>pair</c>"] The wallet currency pair
         /// </summary>
         [JsonPropertyName("pair")]
         public string Pair { get; set; } = string.Empty;
         /// <summary>
-        /// The wallet settlement unit
+        /// ["<c>unit</c>"] The wallet settlement unit
         /// </summary>
         [JsonPropertyName("unit")]
         public string Unit { get; set; } = string.Empty;
         /// <summary>
-        /// The current balance with haircuts and any unrealized margin from open positions in settlement units
+        /// ["<c>portfolio_value</c>"] The current balance with haircuts and any unrealized margin from open positions in settlement units
         /// </summary>
         [JsonPropertyName("portfolio_value")]
         public decimal PortfolioValue { get; set; }
         /// <summary>
-        /// The current balance in settlement units
+        /// ["<c>balance</c>"] The current balance in settlement units
         /// </summary>
         [JsonPropertyName("balance")]
         public decimal Balance { get; set; }
         /// <summary>
-        /// The maintenance margin for open positions
+        /// ["<c>maintenance_margin</c>"] The maintenance margin for open positions
         /// </summary>
         [JsonPropertyName("maintenance_margin")]
         public decimal MaintenanceMargin { get; set; }
         /// <summary>
-        /// The initial margin for open positions and open orders
+        /// ["<c>initial_margin</c>"] The initial margin for open positions and open orders
         /// </summary>
         [JsonPropertyName("initial_margin")]
         public decimal InitialMargin { get; set; }
         /// <summary>
-        /// The current portfolio value minus initial margin
+        /// ["<c>available</c>"] The current portfolio value minus initial margin
         /// </summary>
         [JsonPropertyName("available")]
         public decimal Available { get; set; }
         /// <summary>
-        /// The total unrealized funding for open positions
+        /// ["<c>unrealized_funding</c>"] The total unrealized funding for open positions
         /// </summary>
         [JsonPropertyName("unrealized_funding")]
         public decimal UnrealizedFunding { get; set; }
         /// <summary>
-        /// The total profit and loss for open positions
+        /// ["<c>pnl</c>"] The total profit and loss for open positions
         /// </summary>
         [JsonPropertyName("pnl")]
         public decimal ProfitAndLoss { get; set; }

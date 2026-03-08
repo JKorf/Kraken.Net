@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     [SerializationModel]
     internal record KrakenFuturesPlatfromNotificationInternalResult : KrakenFuturesResult
@@ -14,12 +14,12 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFuturesPlatfromNotificationResult
     {
         /// <summary>
-        /// Notifications
+        /// ["<c>notifications</c>"] Notifications
         /// </summary>
         [JsonPropertyName("notifications")]
         public KrakenFuturesPlatfromNotification[] Notifications { get; set; } = Array.Empty<KrakenFuturesPlatfromNotification>();
         /// <summary>
-        /// Server time
+        /// ["<c>serverTime</c>"] Server time
         /// </summary>
         [JsonPropertyName("serverTime")]
         public DateTime ServerTime { get; set; }
@@ -38,17 +38,17 @@ namespace Kraken.Net.Objects.Models.Futures
         [JsonPropertyName("effectiveTime")]
         public DateTime? EffectiveTime { get; set; }
         /// <summary>
-        /// The notification note. A short description about the specific notification.
+        /// ["<c>note</c>"] The notification note. A short description about the specific notification.
         /// </summary>
         [JsonPropertyName("note")]
         public string? Note { get; set; }
         /// <summary>
-        /// The notification priorities: low / medium / high. If priority == "high" then it implies downtime will occur at EffectiveTime when Type == "maintenance".
+        /// ["<c>priority</c>"] The notification priorities: low / medium / high. If priority == "high" then it implies downtime will occur at EffectiveTime when Type == "maintenance".
         /// </summary>
         [JsonPropertyName("priority")]
         public string Priority { get; set; } = string.Empty;
         /// <summary>
-        /// If type == "maintenance" then it implies downtime will occur at EffectiveTime if Priority == "high".
+        /// ["<c>type</c>"] If type == "maintenance" then it implies downtime will occur at EffectiveTime if Priority == "high".
         /// </summary>
         [JsonPropertyName("type")]
         public string Type { get; set; } = string.Empty;

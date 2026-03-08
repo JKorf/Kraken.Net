@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     /// <summary>
     /// Order id info
@@ -7,12 +7,12 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFuturesOrderId
     {
         /// <summary>
-        /// Client order id
+        /// ["<c>cliOrdId</c>"] Client order id
         /// </summary>
         [JsonPropertyName("cliOrdId")]
         public string? ClientOrderId { get; set; }
         /// <summary>
-        /// Order id
+        /// ["<c>order_id</c>"] Order id
         /// </summary>
         [JsonPropertyName("order_id")]
         public string OrderId { get; set; } = string.Empty;

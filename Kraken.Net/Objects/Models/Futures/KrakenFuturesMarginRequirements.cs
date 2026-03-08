@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     [SerializationModel]
     internal record KrakenFuturesMarginRequirementsInternal : KrakenFuturesResult
@@ -16,12 +16,12 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFuturesMarginRequirements
     {
         /// <summary>
-        /// Initial margin
+        /// ["<c>initialMargin</c>"] Initial margin
         /// </summary>
         [JsonPropertyName("initialMargin")]
         public decimal? InitialMargin { get; set; }
         /// <summary>
-        /// Price
+        /// ["<c>price</c>"] Price
         /// </summary>
         [JsonPropertyName("price")]
         public decimal? Price { get; set; }

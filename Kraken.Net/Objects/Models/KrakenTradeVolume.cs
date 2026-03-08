@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Trade volume info
@@ -7,23 +7,23 @@ namespace Kraken.Net.Objects.Models
     public record KrakenTradeVolume
     {
         /// <summary>
-        /// Asset
+        /// ["<c>currency</c>"] Asset
         /// </summary>
         [JsonPropertyName("currency")]
         public string Asset { get; set; } = string.Empty;
         /// <summary>
-        /// Volume
+        /// ["<c>volume</c>"] Volume
         /// </summary>
         [JsonPropertyName("volume")]
         public decimal Volume { get; set; }
 
         /// <summary>
-        /// Fees structure
+        /// ["<c>fees</c>"] Fees structure
         /// </summary>
         [JsonPropertyName("fees")]
         public Dictionary<string, KrakenFeeStruct> Fees { get; set; } = new Dictionary<string, KrakenFeeStruct>();
         /// <summary>
-        /// Maker fees structure
+        /// ["<c>fees_maker</c>"] Maker fees structure
         /// </summary>
         [JsonPropertyName("fees_maker")]
         public Dictionary<string, KrakenFeeStruct> MakerFees { get; set; } = new Dictionary<string, KrakenFeeStruct>();
@@ -36,32 +36,32 @@ namespace Kraken.Net.Objects.Models
     public record KrakenFeeStruct
     {
         /// <summary>
-        /// Fee
+        /// ["<c>fee</c>"] Fee
         /// </summary>
         [JsonPropertyName("fee")]
         public decimal Fee { get; set; }
         /// <summary>
-        /// Minimal fee
+        /// ["<c>minfee</c>"] Minimal fee
         /// </summary>
         [JsonPropertyName("minfee")]
         public decimal MinimalFee { get; set; }
         /// <summary>
-        /// Maximal fee
+        /// ["<c>maxfee</c>"] Maximal fee
         /// </summary>
         [JsonPropertyName("maxfee")]
         public decimal MaximumFee { get; set; }
         /// <summary>
-        /// Next fee
+        /// ["<c>nextfee</c>"] Next fee
         /// </summary>
         [JsonPropertyName("nextfee")]
         public decimal? NextFee { get; set; }
         /// <summary>
-        /// Next volume
+        /// ["<c>nextvolume</c>"] Next volume
         /// </summary>
         [JsonPropertyName("nextvolume")]
         public decimal? NextVolume { get; set; }
         /// <summary>
-        /// Tier volume
+        /// ["<c>tiervolume</c>"] Tier volume
         /// </summary>
         [JsonPropertyName("tiervolume")]
         public decimal TierVolume { get; set; }

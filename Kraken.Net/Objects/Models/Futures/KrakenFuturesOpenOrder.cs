@@ -1,4 +1,4 @@
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 using Kraken.Net.Interfaces;
 
 namespace Kraken.Net.Objects.Models.Futures
@@ -17,12 +17,12 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFuturesOpenOrder : IKrakenFuturesOrder
     {
         /// <summary>
-        /// Client order id
+        /// ["<c>cliOrdId</c>"] Client order id
         /// </summary>
         [JsonPropertyName("cliOrdId")]
         public string? ClientOrderId { get; set; }
         /// <summary>
-        /// Quantity filled
+        /// ["<c>filledSize</c>"] Quantity filled
         /// </summary>
         [JsonPropertyName("filledSize")]
         public decimal QuantityFilled { get; set; }
@@ -33,12 +33,12 @@ namespace Kraken.Net.Objects.Models.Futures
         [JsonPropertyName("lastUpdateTime")]
         public DateTime? LastUpdateTime { get; set; }
         /// <summary>
-        /// Price
+        /// ["<c>limitPrice</c>"] Price
         /// </summary>
         [JsonPropertyName("limitPrice")]
         public decimal? Price { get; set; }
         /// <summary>
-        /// Order id
+        /// ["<c>order_id</c>"] Order id
         /// </summary>
         [JsonPropertyName("order_id")]
         public string OrderId { get; set; } = string.Empty;
@@ -51,23 +51,23 @@ namespace Kraken.Net.Objects.Models.Futures
             set { }
         }
         /// <summary>
-        /// Quantity
+        /// ["<c>unfilledSize</c>"] Quantity
         /// </summary>
         [JsonPropertyName("unfilledSize")]
         public decimal QuantityRemaining { get; set; }
         /// <summary>
-        /// Reduce only
+        /// ["<c>reduceOnly</c>"] Reduce only
         /// </summary>
         [JsonPropertyName("reduceOnly")]
         public bool ReduceOnly { get; set; }
         /// <summary>
-        /// Order side
+        /// ["<c>side</c>"] Order side
         /// </summary>
 
         [JsonPropertyName("side")]
         public OrderSide Side { get; set; }
         /// <summary>
-        /// Symbol
+        /// ["<c>symbol</c>"] Symbol
         /// </summary>
         [JsonPropertyName("symbol")]
         public string Symbol { get; set; } = string.Empty;
@@ -78,25 +78,25 @@ namespace Kraken.Net.Objects.Models.Futures
         [JsonPropertyName("receivedTime")]
         public DateTime Timestamp { get; set; }
         /// <summary>
-        /// Order type
+        /// ["<c>orderType</c>"] Order type
         /// </summary>
         [JsonPropertyName("orderType")]
 
         public FuturesOrderType Type { get; set; }
         /// <summary>
-        /// Order status
+        /// ["<c>status</c>"] Order status
         /// </summary>
 
         [JsonPropertyName("status")]
         public OpenOrderStatus Status { get; set; }
         /// <summary>
-        /// Trigger signal
+        /// ["<c>triggerSignal</c>"] Trigger signal
         /// </summary>
 
         [JsonPropertyName("triggerSignal")]
         public TriggerSignal? TriggerSignal { get; set; }
         /// <summary>
-        /// Stop price
+        /// ["<c>stopPrice</c>"] Stop price
         /// </summary>
         [JsonPropertyName("stopPrice")]
         public decimal? StopPrice { get; set; }

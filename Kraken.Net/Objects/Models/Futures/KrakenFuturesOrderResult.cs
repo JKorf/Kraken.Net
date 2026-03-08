@@ -1,4 +1,4 @@
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
@@ -30,7 +30,7 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFuturesOrderResult
     {
         /// <summary>
-        /// Order id
+        /// ["<c>order_id</c>"] Order id
         /// </summary>
         [JsonPropertyName("order_id")]
         public string OrderId { get; set; } = string.Empty;
@@ -49,13 +49,13 @@ namespace Kraken.Net.Objects.Models.Futures
         [JsonPropertyName("receivedTime")]
         public DateTime ReceivedTime { get; set; }
         /// <summary>
-        /// Order status
+        /// ["<c>status</c>"] Order status
         /// </summary>
 
         [JsonPropertyName("status")]
         public KrakenFuturesOrderActionStatus Status { get; set; }
         /// <summary>
-        /// Order events
+        /// ["<c>orderEvents</c>"] Order events
         /// </summary>
         [JsonPropertyName("orderEvents")]
         public KrakenFuturesOrderEvent[] OrderEvents { get; set; } = Array.Empty<KrakenFuturesOrderEvent>();
@@ -68,58 +68,58 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFuturesOrderEvent
     {
         /// <summary>
-        /// Event type
+        /// ["<c>type</c>"] Event type
         /// </summary>
         [JsonPropertyName("type")]
         public string Type { get; set; } = string.Empty;
         /// <summary>
-        /// Reduced quantity
+        /// ["<c>reducedQuantity</c>"] Reduced quantity
         /// </summary>
         [JsonPropertyName("reducedQuantity")]
         public decimal? ReducedQuantity { get; set; }
         /// <summary>
-        /// Uid
+        /// ["<c>uid</c>"] Uid
         /// </summary>
         [JsonPropertyName("uid")]
         public string? Uid { get; set; }
         /// <summary>
-        /// Execution id
+        /// ["<c>executionId</c>"] Execution id
         /// </summary>
         [JsonPropertyName("executionId")]
         public string? ExecutionId { get; set; }
         /// <summary>
-        /// Quantity
+        /// ["<c>amount</c>"] Quantity
         /// </summary>
         [JsonPropertyName("amount")]
         public decimal? Quantity { get; set; }
         /// <summary>
-        /// Quantity
+        /// ["<c>price</c>"] Quantity
         /// </summary>
         [JsonPropertyName("price")]
         public decimal? Price { get; set; }
 
         /// <summary>
-        /// Order info
+        /// ["<c>order</c>"] Order info
         /// </summary>
         [JsonPropertyName("order")]
         public KrakenFuturesOrder? Order { get; set; }
         /// <summary>
-        /// New order info for edit event
+        /// ["<c>new</c>"] New order info for edit event
         /// </summary>
         [JsonPropertyName("new")]
         public KrakenFuturesOrder? New { get; set; }
         /// <summary>
-        /// Old order info for edit event
+        /// ["<c>old</c>"] Old order info for edit event
         /// </summary>
         [JsonPropertyName("old")]
         public KrakenFuturesOrder? Old { get; set; }
         /// <summary>
-        /// Order before execution
+        /// ["<c>orderPriorExecution</c>"] Order before execution
         /// </summary>
         [JsonPropertyName("orderPriorExecution")]
         public KrakenFuturesOrder? OrderBeforeExecution { get; set; }
         /// <summary>
-        /// Order before edit
+        /// ["<c>orderPriorEdit</c>"] Order before edit
         /// </summary>
         [JsonPropertyName("orderPriorEdit")]
         public KrakenFuturesOrder? OrderBeforeEdit { get; set; }

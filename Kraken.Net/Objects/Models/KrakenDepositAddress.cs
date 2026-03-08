@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Deposit address
@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models
     public record KrakenDepositAddress
     {
         /// <summary>
-        /// The actual address
+        /// ["<c>address</c>"] The actual address
         /// </summary>
         [JsonPropertyName("address")]
         public string Address { get; set; } = string.Empty;
@@ -17,17 +17,17 @@ namespace Kraken.Net.Objects.Models
         [JsonPropertyName("expiretm"), JsonConverter(typeof(DateTimeConverter))]
         public DateTime ExpireTime { get; set; }
         /// <summary>
-        /// If the address has been used before
+        /// ["<c>new</c>"] If the address has been used before
         /// </summary>
         [JsonPropertyName("new")]
         public bool IsNew { get; set; }
         /// <summary>
-        /// Tag
+        /// ["<c>tag</c>"] Tag
         /// </summary>
         [JsonPropertyName("tag")]
         public string? Tag { get; set; }
         /// <summary>
-        /// Memo
+        /// ["<c>memo</c>"] Memo
         /// </summary>
         [JsonPropertyName("memo")]
         public string? Memo { get; set; }

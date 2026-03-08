@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     [SerializationModel]
     internal record KrakenFuturesLeverageResult : KrakenFuturesResult<KrakenFuturesLeverage[]>
@@ -14,12 +14,12 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFuturesLeverage
     {
         /// <summary>
-        /// Symbol
+        /// ["<c>symbol</c>"] Symbol
         /// </summary>
         [JsonPropertyName("symbol")]
         public string Symbol { get; set; } = string.Empty;
         /// <summary>
-        /// Max leverage
+        /// ["<c>maxLeverage</c>"] Max leverage
         /// </summary>
         [JsonPropertyName("maxLeverage")]
         public decimal MaxLeverage { get; set; }

@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models.Socket
+﻿namespace Kraken.Net.Objects.Models.Socket
 {
     /// <summary>
     /// Replace order result
@@ -7,12 +7,12 @@ namespace Kraken.Net.Objects.Models.Socket
     public record KrakenSocketReplaceOrderResult
     {
         /// <summary>
-        /// Order id
+        /// ["<c>order_id</c>"] Order id
         /// </summary>
         [JsonPropertyName("order_id")]
         public string OrderId { get; set; } = string.Empty;
         /// <summary>
-        /// The original order id
+        /// ["<c>original_order_id</c>"] The original order id
         /// </summary>
         [JsonPropertyName("original_order_id")]
         public string OriginalOrderId { get; set; } = string.Empty;

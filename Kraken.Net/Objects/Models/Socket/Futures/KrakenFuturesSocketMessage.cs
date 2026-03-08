@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models.Socket.Futures
+﻿namespace Kraken.Net.Objects.Models.Socket.Futures
 {
     /// <summary>
     /// Socket update
@@ -7,17 +7,17 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFuturesSocketMessage
     {
         /// <summary>
-        /// The event type
+        /// ["<c>event</c>"] The event type
         /// </summary>
         [JsonPropertyName("event")]
         public string Event { get; set; } = string.Empty;
         /// <summary>
-        /// The feed
+        /// ["<c>feed</c>"] The feed
         /// </summary>
         [JsonPropertyName("feed")]
         public string Feed { get; set; } = string.Empty;
         /// <summary>
-        /// Error if any
+        /// ["<c>error</c>"] Error if any
         /// </summary>
         [JsonPropertyName("error")]
         public string? Error { get; set; }
@@ -48,7 +48,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFuturesUpdateMessage : KrakenFuturesSocketMessage
     {
         /// <summary>
-        /// The symbol
+        /// ["<c>product_id</c>"] The symbol
         /// </summary>
         [JsonPropertyName("product_id")]
         public string Symbol { get; set; } = string.Empty;

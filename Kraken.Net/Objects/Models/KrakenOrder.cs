@@ -1,4 +1,4 @@
-using Kraken.Net.Clients.SpotApi;
+﻿using Kraken.Net.Clients.SpotApi;
 using Kraken.Net.Converters;
 using Kraken.Net.Enums;
 
@@ -17,22 +17,22 @@ namespace Kraken.Net.Objects.Models
         [JsonPropertyName("id")]
         public string Id { get; set; } = string.Empty;
         /// <summary>
-        /// Reference id
+        /// ["<c>refid</c>"] Reference id
         /// </summary>
         [JsonPropertyName("refid")]
         public string ReferenceId { get; set; } = string.Empty;
         /// <summary>
-        /// Client reference id
+        /// ["<c>userref</c>"] Client reference id
         /// </summary>
         [JsonPropertyName("userref")]
         public uint? UserReference { get; set; }
         /// <summary>
-        /// Client reference id
+        /// ["<c>cl_ord_id</c>"] Client reference id
         /// </summary>
         [JsonPropertyName("cl_ord_id")]
         public string? ClientOrderId { get; set; }
         /// <summary>
-        /// Status of the order
+        /// ["<c>status</c>"] Status of the order
         /// </summary>
 
         [JsonPropertyName("status")]
@@ -59,33 +59,33 @@ namespace Kraken.Net.Objects.Models
         public DateTime? CloseTime { get; set; }
 
         /// <summary>
-        /// Order details
+        /// ["<c>descr</c>"] Order details
         /// </summary>
         [JsonPropertyName("descr")]
         [JsonConverter(typeof(KrakenOrderDescriptionConverter))]
         public KrakenOrderInfo OrderDetails { get; set; } = default!;
         /// <summary>
-        /// Quantity of the order
+        /// ["<c>vol</c>"] Quantity of the order
         /// </summary>
         [JsonPropertyName("vol")]
         public decimal Quantity { get; set; }
         /// <summary>
-        /// Filled quantity
+        /// ["<c>vol_exec</c>"] Filled quantity
         /// </summary>
         [JsonPropertyName("vol_exec")]
         public decimal QuantityFilled { get; set; }
         /// <summary>
-        /// Cost of the order
+        /// ["<c>cost</c>"] Cost of the order
         /// </summary>
         [JsonPropertyName("cost")]
         public decimal QuoteQuantityFilled { get; set; }
         /// <summary>
-        /// Fee
+        /// ["<c>fee</c>"] Fee
         /// </summary>
         [JsonPropertyName("fee")]
         public decimal Fee { get; set; }
         /// <summary>
-        /// Average price of the order
+        /// ["<c>price</c>"] Average price of the order
         /// </summary>
         [JsonPropertyName("price")]
         public decimal AveragePrice { get; set; }
@@ -93,7 +93,7 @@ namespace Kraken.Net.Objects.Models
         [JsonInclude]
         internal decimal AveragePrice2 { get => AveragePrice; set => AveragePrice = value; }
         /// <summary>
-        /// Stop price
+        /// ["<c>stopPrice</c>"] Stop price
         /// </summary>
         [JsonPropertyName("stopPrice")]
         public decimal StopPrice { get; set; }
@@ -101,32 +101,32 @@ namespace Kraken.Net.Objects.Models
         [JsonInclude]
         internal decimal StopPrice2 { get => StopPrice; set => StopPrice = value; }
         /// <summary>
-        /// Limit price
+        /// ["<c>limitprice</c>"] Limit price
         /// </summary>
         [JsonPropertyName("limitprice")]
         public decimal Price { get; set; }
         /// <summary>
-        /// Miscellaneous info
+        /// ["<c>misc</c>"] Miscellaneous info
         /// </summary>
         [JsonPropertyName("misc")]
         public string Misc { get; set; } = string.Empty;
         /// <summary>
-        /// Order flags
+        /// ["<c>oflags</c>"] Order flags
         /// </summary>
         [JsonPropertyName("oflags")]
         public string Oflags { get; set; } = string.Empty;
         /// <summary>
-        /// Reason of failure
+        /// ["<c>reason</c>"] Reason of failure
         /// </summary>
         [JsonPropertyName("reason")]
         public string Reason { get; set; } = string.Empty;
         /// <summary>
-        /// Indicates if the order is funded on margin.
+        /// ["<c>margin</c>"] Indicates if the order is funded on margin.
         /// </summary>
         [JsonPropertyName("margin")]
         public bool? Margin { get; set; }
         /// <summary>
-        /// Trade ids
+        /// ["<c>trades</c>"] Trade ids
         /// </summary>
         [JsonPropertyName("trades")]
         public string[] TradeIds { get; set; } = Array.Empty<string>();
@@ -139,17 +139,17 @@ namespace Kraken.Net.Objects.Models
     public record KrakenOrderInfo
     {
         /// <summary>
-        /// The symbol of the order
+        /// ["<c>pair</c>"] The symbol of the order
         /// </summary>
         [JsonPropertyName("pair")]
         public string Symbol { get; set; } = string.Empty;
         /// <summary>
-        /// Side of the order
+        /// ["<c>type</c>"] Side of the order
         /// </summary>
         [JsonPropertyName("type")]
         public OrderSide Side { get; set; }
         /// <summary>
-        /// Type of the order
+        /// ["<c>ordertype</c>"] Type of the order
         /// </summary>
         [JsonPropertyName("ordertype")]
         public OrderType Type { get; set; }
@@ -169,22 +169,22 @@ namespace Kraken.Net.Objects.Models
         [JsonIgnore]
         public decimal Price { get; set; }
         /// <summary>
-        /// Secondary price of the order (<see cref="KrakenRestClientSpotApiTrading.PlaceOrderAsync"/> for details)
+        /// ["<c>price2</c>"] Secondary price of the order (<see cref="KrakenRestClientSpotApiTrading.PlaceOrderAsync"/> for details)
         /// </summary>
         [JsonPropertyName("price2")]
         public decimal SecondaryPrice { get; set; }
         /// <summary>
-        /// Amount of leverage
+        /// ["<c>leverage</c>"] Amount of leverage
         /// </summary>
         [JsonPropertyName("leverage")]
         public string Leverage { get; set; } = string.Empty;
         /// <summary>
-        /// Order description
+        /// ["<c>order</c>"] Order description
         /// </summary>
         [JsonPropertyName("order")]
         public string Order { get; set; } = string.Empty;
         /// <summary>
-        /// Conditional close order description
+        /// ["<c>close</c>"] Conditional close order description
         /// </summary>
         [JsonPropertyName("close")]
         public string Close { get; set; } = string.Empty;
@@ -197,7 +197,7 @@ namespace Kraken.Net.Objects.Models
     public record KrakenStreamOrder: KrakenOrder
     {
         /// <summary>
-        /// The update sequence number
+        /// ["<c>sequenceNumber</c>"] The update sequence number
         /// </summary>
         [JsonPropertyName("sequenceNumber")]
         public int SequenceNumber { get; set; }

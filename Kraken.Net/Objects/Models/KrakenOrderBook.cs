@@ -1,4 +1,4 @@
-using CryptoExchange.Net.Converters;
+﻿using CryptoExchange.Net.Converters;
 
 namespace Kraken.Net.Objects.Models
 {
@@ -9,12 +9,12 @@ namespace Kraken.Net.Objects.Models
     public record KrakenOrderBook
     {
         /// <summary>
-        /// Asks in the book
+        /// ["<c>asks</c>"] Asks in the book
         /// </summary>
         [JsonPropertyName("asks")]
         public KrakenOrderBookEntry[] Asks { get; set; } = Array.Empty<KrakenOrderBookEntry>();
         /// <summary>
-        /// Bids in the book
+        /// ["<c>bids</c>"] Bids in the book
         /// </summary>
         [JsonPropertyName("bids")]
         public KrakenOrderBookEntry[] Bids { get; set; } = Array.Empty<KrakenOrderBookEntry>();
@@ -62,24 +62,24 @@ namespace Kraken.Net.Objects.Models
     public record KrakenStreamOrderBook
     {
         /// <summary>
-        /// Asks
+        /// ["<c>as</c>"] Asks
         /// </summary>
         [JsonPropertyName("as")]
         public KrakenStreamOrderBookEntry[] Asks { get; set; } = Array.Empty<KrakenStreamOrderBookEntry>();
         /// <summary>
-        /// Bids
+        /// ["<c>bs</c>"] Bids
         /// </summary>
         [JsonPropertyName("bs")]
         public KrakenStreamOrderBookEntry[] Bids { get; set; } = Array.Empty<KrakenStreamOrderBookEntry>();
 
         /// <summary>
-        /// Checksum
+        /// ["<c>checksum</c>"] Checksum
         /// </summary>
         [JsonPropertyName("checksum")]
         public uint? Checksum { get; set; }
 
         /// <summary>
-        /// Is this a snapshot?
+        /// ["<c>snapshot</c>"] Is this a snapshot?
         /// </summary>
         [JsonPropertyName("snapshot")]
         internal bool Snapshot { get; set; }

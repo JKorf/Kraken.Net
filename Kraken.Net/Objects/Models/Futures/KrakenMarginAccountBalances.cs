@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     /// <summary>
     /// Margin account balances
@@ -11,27 +11,27 @@ namespace Kraken.Net.Objects.Models.Futures
         /// </summary>
         public string Symbol { get; set; } = string.Empty;
         /// <summary>
-        /// Balances
+        /// ["<c>balances</c>"] Balances
         /// </summary>
         [JsonPropertyName("balances")]
         public Dictionary<string, decimal> Balances { get; set; } = new Dictionary<string, decimal>();
         /// <summary>
-        /// Currency
+        /// ["<c>currency</c>"] Currency
         /// </summary>
         [JsonPropertyName("currency")]
         public string Currency { get; set; } = string.Empty;
         /// <summary>
-        /// Auxiliary account info
+        /// ["<c>auxiliary</c>"] Auxiliary account info
         /// </summary>
         [JsonPropertyName("auxiliary")]
         public KrakenAuxiliaryAccountInfo? Auxiliary { get; set; }
         /// <summary>
-        /// Account's margin requirements.
+        /// ["<c>marginRequirements</c>"] Account's margin requirements.
         /// </summary>
         [JsonPropertyName("marginRequirements")]
         public KrakenMarginRequirements? MarginRequirements { get; set; }
         /// <summary>
-        /// Account's margin trigger estimates.
+        /// ["<c>triggerEstimates</c>"] Account's margin trigger estimates.
         /// </summary>
         [JsonPropertyName("triggerEstimates")]
         public KrakenMarginRequirements? TriggerEstimates { get; set; }
@@ -44,22 +44,22 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenMarginRequirements
     {
         /// <summary>
-        /// The initial margin requirement of the account.
+        /// ["<c>im</c>"] The initial margin requirement of the account.
         /// </summary>
         [JsonPropertyName("im")]
         public decimal? InitialMargin { get; set; }
         /// <summary>
-        /// The liquidation threshold of the account.
+        /// ["<c>lt</c>"] The liquidation threshold of the account.
         /// </summary>
         [JsonPropertyName("lt")]
         public decimal? LiquidationThreshold { get; set; }
         /// <summary>
-        /// The maintenance margin requirement of the account.
+        /// ["<c>mm</c>"] The maintenance margin requirement of the account.
         /// </summary>
         [JsonPropertyName("mm")]
         public decimal? MaintenanceMargin { get; set; }
         /// <summary>
-        /// The termination threshold of the account
+        /// ["<c>tt</c>"] The termination threshold of the account
         /// </summary>
         [JsonPropertyName("tt")]
         public decimal? TerminationThreshold { get; set; }
@@ -73,27 +73,27 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenAuxiliaryAccountInfo
     {
         /// <summary>
-        /// The available funds of the account, in currency.
+        /// ["<c>af</c>"] The available funds of the account, in currency.
         /// </summary>
         [JsonPropertyName("af")]
         public decimal? AvailableFunds { get; set; }
         /// <summary>
-        /// Funding
+        /// ["<c>funding</c>"] Funding
         /// </summary>
         [JsonPropertyName("funding")]
         public decimal? Funding { get; set; }
         /// <summary>
-        /// The PnL of current open positions of the account, in currency.
+        /// ["<c>pnl</c>"] The PnL of current open positions of the account, in currency.
         /// </summary>
         [JsonPropertyName("pnl")]
         public decimal? ProfitAndLoss { get; set; }
         /// <summary>
-        /// The portfolio value of the account, in currency.
+        /// ["<c>pv</c>"] The portfolio value of the account, in currency.
         /// </summary>
         [JsonPropertyName("pv")]
         public decimal? PortfolioValue { get; set; }
         /// <summary>
-        /// Usd
+        /// ["<c>usd</c>"] Usd
         /// </summary>
         [JsonPropertyName("usd")]
         public decimal? Usd { get; set; }

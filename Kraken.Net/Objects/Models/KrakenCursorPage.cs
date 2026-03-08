@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Data page with a cursor for pagination
@@ -7,13 +7,13 @@ namespace Kraken.Net.Objects.Models
     public record KrakenCursorPage<T>
     {
         /// <summary>
-        /// Cursor for the next page
+        /// ["<c>next_cursor</c>"] Cursor for the next page
         /// </summary>
         [JsonPropertyName("next_cursor")]
         public string? NextCursor { get; set; }
 
         /// <summary>
-        /// Page data
+        /// ["<c>items</c>"] Page data
         /// </summary>
         [JsonPropertyName("items")]
         public T[] Items { get; set; } = Array.Empty<T>();

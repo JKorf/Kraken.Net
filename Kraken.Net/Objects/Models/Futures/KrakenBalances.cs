@@ -1,4 +1,4 @@
-using Kraken.Net.Converters;
+﻿using Kraken.Net.Converters;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
@@ -17,7 +17,7 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenBalances
     {
         /// <summary>
-        /// Type of the balance info
+        /// ["<c>type</c>"] Type of the balance info
         /// </summary>
         [JsonPropertyName("type")]
         public string Type { get; set; } = string.Empty;

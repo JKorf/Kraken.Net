@@ -1,4 +1,4 @@
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
@@ -9,18 +9,18 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenTriggerOptions
     {
         /// <summary>
-        /// Trigger price
+        /// ["<c>triggerPrice</c>"] Trigger price
         /// </summary>
         [JsonPropertyName("triggerPrice")]
         public decimal TriggerPrice { get; set; }
         /// <summary>
-        /// Trigger side
+        /// ["<c>triggerSide</c>"] Trigger side
         /// </summary>
 
         [JsonPropertyName("triggerSide")]
         public TriggerSide TriggerSide { get; set; }
         /// <summary>
-        /// Trigger signal
+        /// ["<c>triggerSignal</c>"] Trigger signal
         /// </summary>
 
         [JsonPropertyName("triggerSignal")]

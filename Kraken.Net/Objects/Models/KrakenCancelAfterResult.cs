@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Cancel after result
@@ -7,12 +7,12 @@ namespace Kraken.Net.Objects.Models
     public record KrakenCancelAfterResult
     {
         /// <summary>
-        /// Current time
+        /// ["<c>currentTime</c>"] Current time
         /// </summary>
         [JsonPropertyName("currentTime")]
         public DateTime CurrentTime { get; set; }
         /// <summary>
-        /// Trigger time
+        /// ["<c>triggerTime</c>"] Trigger time
         /// </summary>
         [JsonPropertyName("triggerTime")]
         public DateTime? TriggerTime { get; set; }

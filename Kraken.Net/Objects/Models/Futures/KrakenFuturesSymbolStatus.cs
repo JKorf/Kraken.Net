@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     [SerializationModel]
     internal record KrakenFuturesSymbolStatusResult : KrakenFuturesResult<KrakenFuturesSymbolStatus[]>
@@ -14,27 +14,27 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFuturesSymbolStatus
     {
         /// <summary>
-        /// Extreme volatility initial margin multiplier
+        /// ["<c>extremeVolatilityInitialMarginMultiplier</c>"] Extreme volatility initial margin multiplier
         /// </summary>
         [JsonPropertyName("extremeVolatilityInitialMarginMultiplier")]
         public int ExtremeVolatilityInitialMarginMultiplier { get; set; }
         /// <summary>
-        /// Is experiencing dislocation
+        /// ["<c>isExperiencingDislocation</c>"] Is experiencing dislocation
         /// </summary>
         [JsonPropertyName("isExperiencingDislocation")]
         public bool IsExperiencingDislocation { get; set; }
         /// <summary>
-        /// Is experiencing exterme volatility
+        /// ["<c>isExperiencingExtremeVolatility</c>"] Is experiencing exterme volatility
         /// </summary>
         [JsonPropertyName("isExperiencingExtremeVolatility")]
         public bool IsExperiencingExtremeVolatility { get; set; }
         /// <summary>
-        /// Price dislocation direction
+        /// ["<c>priceDislocationDirection</c>"] Price dislocation direction
         /// </summary>
         [JsonPropertyName("priceDislocationDirection")]
         public string? PriceDislocationDirection { get; set; }
         /// <summary>
-        /// Tradeable
+        /// ["<c>tradeable</c>"] Tradeable
         /// </summary>
         [JsonPropertyName("tradeable")]
         public string Tradeable { get; set; } = string.Empty;

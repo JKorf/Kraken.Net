@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Allocations page
@@ -7,17 +7,17 @@ namespace Kraken.Net.Objects.Models
     public record KrakenAllocationsCursorPage : KrakenCursorPage<KrakenAllocation>
     {
         /// <summary>
-        /// Converted asset
+        /// ["<c>converted_asset</c>"] Converted asset
         /// </summary>
         [JsonPropertyName("converted_asset")]
         public string ConvertedAsset { get; set; } = string.Empty;
         /// <summary>
-        /// Total allocated
+        /// ["<c>total_allocated</c>"] Total allocated
         /// </summary>
         [JsonPropertyName("total_allocated")]
         public decimal TotalAllocated { get; set; }
         /// <summary>
-        /// Total rewarded
+        /// ["<c>total_rewarded</c>"] Total rewarded
         /// </summary>
         [JsonPropertyName("total_rewarded")]
         public decimal TotalRewarded { get; set; }
@@ -30,29 +30,29 @@ namespace Kraken.Net.Objects.Models
     public record KrakenAllocation
     {
         /// <summary>
-        /// Strategy id
+        /// ["<c>strategy_id</c>"] Strategy id
         /// </summary>
         [JsonPropertyName("strategy_id")]
         public string StrategyId { get; set; } = string.Empty;
         /// <summary>
-        /// Native asset
+        /// ["<c>native_asset</c>"] Native asset
         /// </summary>
         [JsonPropertyName("native_asset")]
         public string Asset { get; set; } = string.Empty;
 
         /// <summary>
-        /// Allocated amounts
+        /// ["<c>amount_allocated</c>"] Allocated amounts
         /// </summary>
         [JsonPropertyName("amount_allocated")]
         public KrakenAllocatedAmount AmountAllocated { get; set; } = null!;
         /// <summary>
-        /// Total rewarded
+        /// ["<c>total_rewarded</c>"] Total rewarded
         /// </summary>
         [JsonPropertyName("total_rewarded")]
         public KrakenAllocationRewarded TotalRewarded { get; set; } = null!;
 
         /// <summary>
-        /// Information about the current payout period, absent if when there is no current payout period.
+        /// ["<c>payout</c>"] Information about the current payout period, absent if when there is no current payout period.
         /// </summary>
         [JsonPropertyName("payout")]
         public KrakenAllocationPayout Payout { get; set; } = null!;
@@ -65,17 +65,17 @@ namespace Kraken.Net.Objects.Models
     public record KrakenAllocatedAmount
     {
         /// <summary>
-        /// Bonding allocations
+        /// ["<c>bonding</c>"] Bonding allocations
         /// </summary>
         [JsonPropertyName("bonding")]
         public KrakenBondingAwarded Bonding { get; set; } = null!;
         /// <summary>
-        /// Unbonding allocations
+        /// ["<c>unbonding</c>"] Unbonding allocations
         /// </summary>
         [JsonPropertyName("unbonding")]
         public KrakenBondingAwarded Unbonding { get; set; } = null!;
         /// <summary>
-        /// Total allocations
+        /// ["<c>total</c>"] Total allocations
         /// </summary>
         [JsonPropertyName("total")]
         public KrakenAllocationRewarded Total { get; set; } = null!;
@@ -88,12 +88,12 @@ namespace Kraken.Net.Objects.Models
     public record KrakenBondingAwarded : KrakenAllocationRewarded
     {
         /// <summary>
-        /// Allocation count
+        /// ["<c>allocation_count</c>"] Allocation count
         /// </summary>
         [JsonPropertyName("allocation_count")]
         public int AllocationCount { get; set; }
         /// <summary>
-        /// Allocations
+        /// ["<c>allocations</c>"] Allocations
         /// </summary>
         [JsonPropertyName("allocations")]
         public KrakenBondingAllocation[] Allocations { get; set; } = Array.Empty<KrakenBondingAllocation>();
@@ -106,12 +106,12 @@ namespace Kraken.Net.Objects.Models
     public record KrakenBondingAllocation : KrakenAllocationRewarded
     {
         /// <summary>
-        /// Create time
+        /// ["<c>created_at</c>"] Create time
         /// </summary>
         [JsonPropertyName("created_at")]
         public DateTime CreateTime { get; set; }
         /// <summary>
-        /// Expire time
+        /// ["<c>expires</c>"] Expire time
         /// </summary>
         [JsonPropertyName("expires")]
         public DateTime ExpireTime { get; set; }
@@ -124,12 +124,12 @@ namespace Kraken.Net.Objects.Models
     public record KrakenAllocationRewarded
     {
         /// <summary>
-        /// Rewarded in native
+        /// ["<c>native</c>"] Rewarded in native
         /// </summary>
         [JsonPropertyName("native")]
         public decimal Native { get; set; }
         /// <summary>
-        /// Rewarded in converted
+        /// ["<c>converted</c>"] Rewarded in converted
         /// </summary>
         [JsonPropertyName("converted")]
         public decimal Converted { get; set; }
@@ -142,25 +142,25 @@ namespace Kraken.Net.Objects.Models
     public record KrakenAllocationPayout
     {
         /// <summary>
-        /// Reward accumulated in the payout period until now
+        /// ["<c>accumulated_reward</c>"] Reward accumulated in the payout period until now
         /// </summary>
         [JsonPropertyName("accumulated_reward")]
         public KrakenAllocationRewarded AccumulatedReward { get; set; } = default!;
 
         /// <summary>
-        /// Estimated reward from now until the payout
+        /// ["<c>estimated_reward</c>"] Estimated reward from now until the payout
         /// </summary>
         [JsonPropertyName("estimated_reward")]
         public KrakenAllocationRewarded EstimatedReward { get; set; } = default!;
 
         /// <summary>
-        /// Tentative date of the next reward payout.
+        /// ["<c>period_end</c>"] Tentative date of the next reward payout.
         /// </summary>
         [JsonPropertyName("period_end")]
         public DateTime PeriodEnd { get; set; }
 
         /// <summary>
-        /// When the current payout period started. Either the date of the last payout or when it was enabled.
+        /// ["<c>period_start</c>"] When the current payout period started. Either the date of the last payout or when it was enabled.
         /// </summary>
         [JsonPropertyName("period_start")]
         public DateTime PeriodStart { get; set; }

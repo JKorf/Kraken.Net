@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
 	/// <summary>
 	/// Order info
@@ -7,7 +7,7 @@ namespace Kraken.Net.Objects.Models
 	public record KrakenWithdraw
 	{
 		/// <summary>
-		/// Reference id
+		/// ["<c>refid</c>"] Reference id
 		/// </summary>
 		[JsonPropertyName("refid")]
 		public string ReferenceId { get; set; } = string.Empty;

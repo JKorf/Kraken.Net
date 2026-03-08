@@ -1,4 +1,4 @@
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models
 {
@@ -9,32 +9,32 @@ namespace Kraken.Net.Objects.Models
     public record KrakenAssetInfo
     {
         /// <summary>
-        /// Alternative name
+        /// ["<c>altname</c>"] Alternative name
         /// </summary>
         [JsonPropertyName("altname")]
         public string AlternateName { get; set; } = string.Empty;
         /// <summary>
-        /// Class of the asset
+        /// ["<c>aclass</c>"] Class of the asset
         /// </summary>
         [JsonPropertyName("aclass")]
         public string AssetClass { get; set; } = string.Empty;
         /// <summary>
-        /// Decimal precision of the asset
+        /// ["<c>decimals</c>"] Decimal precision of the asset
         /// </summary>
         [JsonPropertyName("decimals")]
         public int Decimals { get; set; }
         /// <summary>
-        /// Decimals to display
+        /// ["<c>display_decimals</c>"] Decimals to display
         /// </summary>
         [JsonPropertyName("display_decimals")]
         public int DisplayDecimals { get; set; }
         /// <summary>
-        /// Collateral value
+        /// ["<c>collateral_value</c>"] Collateral value
         /// </summary>
         [JsonPropertyName("collateral_value")]
         public decimal? CollateralValue { get; set; }
         /// <summary>
-        /// Status
+        /// ["<c>status</c>"] Status
         /// </summary>
 
         [JsonPropertyName("status")]

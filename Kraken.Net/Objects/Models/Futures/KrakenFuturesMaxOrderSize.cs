@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     [SerializationModel]
     internal record KrakenFuturesMaxOrderSizeInternal : KrakenFuturesResult
@@ -20,22 +20,22 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFuturesMaxOrderSize
     {
         /// <summary>
-        /// Buy price
+        /// ["<c>buyPrice</c>"] Buy price
         /// </summary>
         [JsonPropertyName("buyPrice")]
         public decimal? BuyPrice { get; set; }
         /// <summary>
-        /// Max buy quantity
+        /// ["<c>maxBuySize</c>"] Max buy quantity
         /// </summary>
         [JsonPropertyName("maxBuySize")]
         public decimal? MaxBuyQuantity { get; set; }
         /// <summary>
-        /// Max sell quantity
+        /// ["<c>maxSellSize</c>"] Max sell quantity
         /// </summary>
         [JsonPropertyName("maxSellSize")]
         public decimal? MaxSellQuantity { get; set; }
         /// <summary>
-        /// Sell price
+        /// ["<c>sellPrice</c>"] Sell price
         /// </summary>
         [JsonPropertyName("sellPrice")]
         public decimal? SellPrice { get; set; }

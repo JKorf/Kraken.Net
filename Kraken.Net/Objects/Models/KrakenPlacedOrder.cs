@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Placed order info
@@ -7,12 +7,12 @@ namespace Kraken.Net.Objects.Models
     public record KrakenPlacedOrder
     {
         /// <summary>
-        /// Order ids
+        /// ["<c>txid</c>"] Order ids
         /// </summary>
         [JsonPropertyName("txid")]
         public string[] OrderIds { get; set; } = Array.Empty<string>();
         /// <summary>
-        /// Descriptions
+        /// ["<c>descr</c>"] Descriptions
         /// </summary>
         [JsonPropertyName("descr")]
         public KrakenPlacedOrderDescription Descriptions { get; set; } = default!;
@@ -25,12 +25,12 @@ namespace Kraken.Net.Objects.Models
     public record KrakenPlacedOrderDescription
     {
         /// <summary>
-        /// Order description
+        /// ["<c>order</c>"] Order description
         /// </summary>
         [JsonPropertyName("order")]
         public string OrderDescription { get; set; } = string.Empty;
         /// <summary>
-        /// Close order description
+        /// ["<c>close</c>"] Close order description
         /// </summary>
         [JsonPropertyName("close")]
         public string CloseOrderDescription { get; set; } = string.Empty;

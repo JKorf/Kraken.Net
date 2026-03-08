@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models.Futures
+﻿namespace Kraken.Net.Objects.Models.Futures
 {
     [SerializationModel]
     internal record KrakenFundingRatesResult : KrakenFuturesResult<KrakenFundingRate[]>
@@ -14,12 +14,12 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFundingRate
     {
         /// <summary>
-        /// Funding rate
+        /// ["<c>fundingRate</c>"] Funding rate
         /// </summary>
         [JsonPropertyName("fundingRate")]
         public decimal FundingRate { get; set; }
         /// <summary>
-        /// Relative funding rate
+        /// ["<c>relativeFundingRate</c>"] Relative funding rate
         /// </summary>
         [JsonPropertyName("relativeFundingRate")]
         public decimal RelativeFundingRate { get; set; }

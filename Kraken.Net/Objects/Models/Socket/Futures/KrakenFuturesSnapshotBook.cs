@@ -1,4 +1,4 @@
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
@@ -15,18 +15,18 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         [JsonPropertyName("timestamp")]
         public DateTime Timestamp { get; set; }
         /// <summary>
-        /// Sequence number
+        /// ["<c>seq</c>"] Sequence number
         /// </summary>
         [JsonPropertyName("seq")]
         public long Sequence { get; set; }
 
         /// <summary>
-        /// List of asks
+        /// ["<c>asks</c>"] List of asks
         /// </summary>
         [JsonPropertyName("asks")]
         public KrakenFuturesStreamOrderBookEntry[] Asks { get; set; } = Array.Empty<KrakenFuturesStreamOrderBookEntry>();
         /// <summary>
-        /// List of bids
+        /// ["<c>bids</c>"] List of bids
         /// </summary>
         [JsonPropertyName("bids")]
         public KrakenFuturesStreamOrderBookEntry[] Bids { get; set; } = Array.Empty<KrakenFuturesStreamOrderBookEntry>();
@@ -39,12 +39,12 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFuturesStreamOrderBookEntry : ISymbolOrderBookEntry
     {
         /// <summary>
-        /// Quantity
+        /// ["<c>qty</c>"] Quantity
         /// </summary>
         [JsonPropertyName("qty")]
         public decimal Quantity { get; set; }
         /// <summary>
-        /// Price
+        /// ["<c>price</c>"] Price
         /// </summary>
         [JsonPropertyName("price")]
         public decimal Price { get; set; }
@@ -63,23 +63,23 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         [JsonPropertyName("timestamp")]
         public DateTime Timestamp { get; set; }
         /// <summary>
-        /// Sequence number
+        /// ["<c>seq</c>"] Sequence number
         /// </summary>
         [JsonPropertyName("seq")]
         public long Sequence { get; set; }
         /// <summary>
-        /// Side
+        /// ["<c>side</c>"] Side
         /// </summary>
 
         [JsonPropertyName("side")]
         public OrderSide Side { get; set; }
         /// <summary>
-        /// Quantity
+        /// ["<c>qty</c>"] Quantity
         /// </summary>
         [JsonPropertyName("qty")]
         public decimal Quantity { get; set; }
         /// <summary>
-        /// Price
+        /// ["<c>price</c>"] Price
         /// </summary>
         [JsonPropertyName("price")]
         public decimal Price { get; set; }

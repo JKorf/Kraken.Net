@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models.Socket
+﻿namespace Kraken.Net.Objects.Models.Socket
 {
     /// <summary>
     /// Socket token
@@ -7,12 +7,12 @@ namespace Kraken.Net.Objects.Models.Socket
     public record KrakenWebSocketToken
     {
         /// <summary>
-        /// Token to use for connecting to private websockets
+        /// ["<c>token</c>"] Token to use for connecting to private websockets
         /// </summary>
         [JsonPropertyName("token")]
         public string Token { get; set; } = string.Empty;
         /// <summary>
-        /// Expires after x seconds
+        /// ["<c>expires</c>"] Expires after x seconds
         /// </summary>
         [JsonPropertyName("expires")]
         public int Expires { get; set; }

@@ -1,4 +1,4 @@
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
@@ -16,7 +16,7 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFuturesUserTrade
     {
         /// <summary>
-        /// Client order id
+        /// ["<c>cliOrdId</c>"] Client order id
         /// </summary>
         [JsonPropertyName("cliOrdId")]
         public string? ClientOrderId { get; set; }
@@ -27,39 +27,39 @@ namespace Kraken.Net.Objects.Models.Futures
         [JsonPropertyName("fillTime")]
         public DateTime FillTime { get; set; }
         /// <summary>
-        /// Type of trade
+        /// ["<c>fillType</c>"] Type of trade
         /// </summary>
         [JsonPropertyName("fillType")]
 
         public TradeType Type { get; set; }
         /// <summary>
-        /// Trade id
+        /// ["<c>fill_id</c>"] Trade id
         /// </summary>
         [JsonPropertyName("fill_id")]
         public string Id { get; set; } = string.Empty;
         /// <summary>
-        /// Order id
+        /// ["<c>order_id</c>"] Order id
         /// </summary>
         [JsonPropertyName("order_id")]
         public string OrderId { get; set; } = string.Empty;
         /// <summary>
-        /// Price
+        /// ["<c>price</c>"] Price
         /// </summary>
         [JsonPropertyName("price")]
         public decimal Price { get; set; }
         /// <summary>
-        /// Side
+        /// ["<c>side</c>"] Side
         /// </summary>
 
         [JsonPropertyName("side")]
         public OrderSide Side { get; set; }
         /// <summary>
-        /// Quantity
+        /// ["<c>size</c>"] Quantity
         /// </summary>
         [JsonPropertyName("size")]
         public decimal Quantity { get; set; }
         /// <summary>
-        /// Symbol
+        /// ["<c>symbol</c>"] Symbol
         /// </summary>
         [JsonPropertyName("symbol")]
         public string Symbol { get; set; } = string.Empty;

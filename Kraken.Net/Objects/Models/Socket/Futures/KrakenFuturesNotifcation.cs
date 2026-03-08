@@ -1,4 +1,4 @@
-using Kraken.Net.Objects.Models.Futures;
+﻿using Kraken.Net.Objects.Models.Futures;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
@@ -9,7 +9,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFuturesNotificationUpdate : KrakenFuturesSocketMessage
     {
         /// <summary>
-        /// Notifications
+        /// ["<c>notifications</c>"] Notifications
         /// </summary>
         [JsonPropertyName("notifications")]
         public KrakenFuturesNotifcation[] Notifications { get; set; } = Array.Empty<KrakenFuturesNotifcation>();
@@ -22,7 +22,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFuturesNotifcation : KrakenFuturesPlatfromNotification
     {
         /// <summary>
-        /// Notification id
+        /// ["<c>id</c>"] Notification id
         /// </summary>
         [JsonPropertyName("id")]
         public int Id { get; set; }

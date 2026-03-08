@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models
+﻿namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Info about a withdraw address
@@ -7,27 +7,27 @@ namespace Kraken.Net.Objects.Models
     public record KrakenWithdrawAddress
     {
         /// <summary>
-        /// The actual address
+        /// ["<c>address</c>"] The actual address
         /// </summary>
         [JsonPropertyName("address")]
         public string Address { get; set; } = string.Empty;
         /// <summary>
-        /// Name of the asset
+        /// ["<c>asset</c>"] Name of the asset
         /// </summary>
         [JsonPropertyName("asset")]
         public string Asset { get; set; } = string.Empty;
         /// <summary>
-        /// Name of the method
+        /// ["<c>method</c>"] Name of the method
         /// </summary>
         [JsonPropertyName("method")]
         public string Method { get; set; } = string.Empty;
         /// <summary>
-        /// Key
+        /// ["<c>key</c>"] Key
         /// </summary>
         [JsonPropertyName("key")]
         public string Key { get; set; } = string.Empty;
         /// <summary>
-        /// Verified indicator
+        /// ["<c>verified</c>"] Verified indicator
         /// </summary>
         [JsonPropertyName("verified")]
         public bool Verified { get; set; }

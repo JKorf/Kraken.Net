@@ -1,4 +1,4 @@
-using Kraken.Net.Objects.Models.Futures;
+﻿using Kraken.Net.Objects.Models.Futures;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
@@ -9,7 +9,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFuturesAccountLogsSnapshotUpdate : KrakenFuturesSocketMessage
     {
         /// <summary>
-        /// Account logs
+        /// ["<c>logs</c>"] Account logs
         /// </summary>
         [JsonPropertyName("logs")]
         public KrakenAccountLog[] Logs { get; set; } = Array.Empty<KrakenAccountLog>();
@@ -22,7 +22,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFuturesAccountLogsUpdate : KrakenFuturesSocketMessage
     {
         /// <summary>
-        /// New entry
+        /// ["<c>new_entry</c>"] New entry
         /// </summary>
         [JsonPropertyName("new_entry")]
         public KrakenAccountLog NewEntry { get; set; } = null!;

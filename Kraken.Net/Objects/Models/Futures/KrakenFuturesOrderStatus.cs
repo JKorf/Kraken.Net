@@ -1,4 +1,4 @@
-using Kraken.Net.Enums;
+﻿using Kraken.Net.Enums;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
@@ -16,23 +16,23 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFuturesOrderStatus
     {
         /// <summary>
-        /// Order error
+        /// ["<c>error</c>"] Order error
         /// </summary>
         [JsonPropertyName("error")]
         public string? Error { get; set; }
         /// <summary>
-        /// Order details
+        /// ["<c>order</c>"] Order details
         /// </summary>
         [JsonPropertyName("order")]
         public KrakenFuturesCachedOrder Order { get; set; } = null!;
         /// <summary>
-        /// Order status
+        /// ["<c>status</c>"] Order status
         /// </summary>
 
         [JsonPropertyName("status")]
         public KrakenFuturesOrderActiveStatus Status { get; set; }
         /// <summary>
-        /// Update reason
+        /// ["<c>updateReason</c>"] Update reason
         /// </summary>
         [JsonPropertyName("updateReason")]
         public string? UpdateReason { get; set; }

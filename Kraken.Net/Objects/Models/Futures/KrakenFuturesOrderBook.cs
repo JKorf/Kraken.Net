@@ -1,4 +1,4 @@
-using CryptoExchange.Net.Converters;
+﻿using CryptoExchange.Net.Converters;
 
 namespace Kraken.Net.Objects.Models.Futures
 {
@@ -16,12 +16,12 @@ namespace Kraken.Net.Objects.Models.Futures
     public record KrakenFuturesOrderBook
     {
         /// <summary>
-        /// List of asks
+        /// ["<c>asks</c>"] List of asks
         /// </summary>
         [JsonPropertyName("asks")]
         public KrakenFuturesOrderBookEntry[] Asks { get; set; } = Array.Empty<KrakenFuturesOrderBookEntry>();
         /// <summary>
-        /// List of bids
+        /// ["<c>bids</c>"] List of bids
         /// </summary>
         [JsonPropertyName("bids")]
         public KrakenFuturesOrderBookEntry[] Bids { get; set; } = Array.Empty<KrakenFuturesOrderBookEntry>();

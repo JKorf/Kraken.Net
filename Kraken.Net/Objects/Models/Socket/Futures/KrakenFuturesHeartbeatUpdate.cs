@@ -1,4 +1,4 @@
-using Kraken.Net.Objects.Sockets;
+﻿using Kraken.Net.Objects.Sockets;
 
 namespace Kraken.Net.Objects.Models.Socket.Futures
 {
@@ -9,7 +9,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
     public record KrakenFuturesHeartbeatUpdate : KrakenFuturesEvent
     {
         /// <summary>
-        /// Timestamp
+        /// ["<c>time</c>"] Timestamp
         /// </summary>
         [JsonPropertyName("time")]
         [JsonConverter(typeof(DateTimeConverter))]

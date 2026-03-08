@@ -1,4 +1,4 @@
-namespace Kraken.Net.Objects.Models.Socket
+﻿namespace Kraken.Net.Objects.Models.Socket
 {
     /// <summary>
     /// Order result
@@ -7,27 +7,27 @@ namespace Kraken.Net.Objects.Models.Socket
     public record KrakenOrderResult
     {
         /// <summary>
-        /// Order id
+        /// ["<c>order_id</c>"] Order id
         /// </summary>
         [JsonPropertyName("order_id")]
         public string OrderId { get; set; } = string.Empty;
         /// <summary>
-        /// Order id
+        /// ["<c>cl_ord_id</c>"] Order id
         /// </summary>
         [JsonPropertyName("cl_ord_id")]
         public string? ClientOrderId { get; set; }
         /// <summary>
-        /// User reference id
+        /// ["<c>order_userref</c>"] User reference id
         /// </summary>
         [JsonPropertyName("order_userref")]
         public long? UserReference { get; set; }
         /// <summary>
-        /// Error
+        /// ["<c>error</c>"] Error
         /// </summary>
         [JsonPropertyName("error")]
         public string? Error { get; set; }
         /// <summary>
-        /// Status
+        /// ["<c>status</c>"] Status
         /// </summary>
         [JsonPropertyName("status")]
         public string? Status { get; set; }
