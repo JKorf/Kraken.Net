@@ -10,37 +10,37 @@ namespace Kraken.Net.Enums
     public enum FuturesOrderType
     {
         /// <summary>
-        /// Limit order
+        /// ["<c>lmt</c>"] Limit order
         /// </summary>
         [Map("lmt", "limit")]
         Limit,
         /// <summary>
-        /// Post only limit order
+        /// ["<c>post</c>"] Post only limit order
         /// </summary>
         [Map("post")]
         PostOnlyLimit,
         /// <summary>
-        /// Immediate or cancel order
+        /// ["<c>ioc</c>"] Immediate or cancel order
         /// </summary>
         [Map("ioc")]
         ImmediateOrCancel,
         /// <summary>
-        /// Market order with 1% price protection
+        /// ["<c>mkt</c>"] Market order with 1% price protection
         /// </summary>
         [Map("mkt")]
         Market,
         /// <summary>
-        /// Stop order
+        /// ["<c>stp</c>"] Stop order
         /// </summary>
         [Map("stp", "stop")]
         Stop,
         /// <summary>
-        /// Take profit order
+        /// ["<c>take_profit</c>"] Take profit order
         /// </summary>
         [Map("take_profit")]
         TakeProfit,
         /// <summary>
-        /// Trailing stop order
+        /// ["<c>trailing_stop</c>"] Trailing stop order
         /// </summary>
         [Map("trailing_stop")]
         TrailingStop

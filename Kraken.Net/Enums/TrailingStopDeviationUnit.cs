@@ -9,12 +9,12 @@ namespace Kraken.Net.Enums
     public enum TrailingStopDeviationUnit
     {
         /// <summary>
-        /// Percentage
+        /// ["<c>PERCENT</c>"] Percentage
         /// </summary>
         [Map("PERCENT")]
         Percent,
         /// <summary>
-        /// Quote currency
+        /// ["<c>QUOTE_CURRENCY</c>"] Quote currency
         /// </summary>
         [Map("QUOTE_CURRENCY")]
         QuoteCurrency

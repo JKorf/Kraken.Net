@@ -9,47 +9,47 @@ namespace Kraken.Net.Enums
     public enum KlineInterval
     {
         /// <summary>
-        /// 1m
+        /// ["<c>1</c>"] 1m
         /// </summary>
         [Map("1")]
         OneMinute = 60,
         /// <summary>
-        /// 5m
+        /// ["<c>5</c>"] 5m
         /// </summary>
         [Map("5")]
         FiveMinutes = 60 * 5,
         /// <summary>
-        /// 15m
+        /// ["<c>15</c>"] 15m
         /// </summary>
         [Map("15")]
         FifteenMinutes = 60 * 15,
         /// <summary>
-        /// 30m
+        /// ["<c>30</c>"] 30m
         /// </summary>
         [Map("30")]
         ThirtyMinutes = 60 * 30,
         /// <summary>
-        /// 1h
+        /// ["<c>60</c>"] 1h
         /// </summary>
         [Map("60")]
         OneHour = 60 * 60,
         /// <summary>
-        /// 4h
+        /// ["<c>240</c>"] 4h
         /// </summary>
         [Map("240")]
         FourHour = 60 * 60 * 4,
         /// <summary>
-        /// 1d
+        /// ["<c>1440</c>"] 1d
         /// </summary>
         [Map("1440")]
         OneDay = 60 * 60 * 24,
         /// <summary>
-        /// 1w
+        /// ["<c>10080</c>"] 1w
         /// </summary>
         [Map("10080")]
         OneWeek = 60 * 60 * 24 * 7,
         /// <summary>
-        /// 15d
+        /// ["<c>21600</c>"] 15d
         /// </summary>
         [Map("21600")]
         FifteenDays = 60 * 60 * 24 * 15

@@ -9,87 +9,87 @@ namespace Kraken.Net.Enums
     public enum BalanceUpdateCategory
     {
         /// <summary>
-        /// Deposit
+        /// ["<c>deposit</c>"] Deposit
         /// </summary>
         [Map("deposit")]
         Deposit,
         /// <summary>
-        /// Withdrawal
+        /// ["<c>withdrawal</c>"] Withdrawal
         /// </summary>
         [Map("withdrawal")]
         Withdrawal,
         /// <summary>
-        /// Trade
+        /// ["<c>trade</c>"] Trade
         /// </summary>
         [Map("trade")]
         Trade,
         /// <summary>
-        /// Margin trade
+        /// ["<c>margin-trade</c>"] Margin trade
         /// </summary>
         [Map("margin-trade")]
         MarginTrade,
         /// <summary>
-        /// Margin settle
+        /// ["<c>margin-settle</c>"] Margin settle
         /// </summary>
         [Map("margin-settle")]
         MarginSettle,
         /// <summary>
-        /// Margin conversion
+        /// ["<c>margin-conversion</c>"] Margin conversion
         /// </summary>
         [Map("margin-conversion")]
         MarginConversion,
         /// <summary>
-        /// Conversion
+        /// ["<c>conversion</c>"] Conversion
         /// </summary>
         [Map("conversion")]
         Conversion,
         /// <summary>
-        /// Credit
+        /// ["<c>credit</c>"] Credit
         /// </summary>
         [Map("credit")]
         Credit,
         /// <summary>
-        /// Marginrollover
+        /// ["<c>marginrollover</c>"] Marginrollover
         /// </summary>
         [Map("marginrollover")]
         Marginrollover,
         /// <summary>
-        /// Staking rewards
+        /// ["<c>staking-rewards</c>"] Staking rewards
         /// </summary>
         [Map("staking-rewards")]
         StakingRewards,
         /// <summary>
-        /// Instant
+        /// ["<c>instant</c>"] Instant
         /// </summary>
         [Map("instant")]
         Instant,
         /// <summary>
-        /// Equity trade
+        /// ["<c>equity-trade</c>"] Equity trade
         /// </summary>
         [Map("equity-trade")]
         EquityTrade,
         /// <summary>
-        /// Airdrop
+        /// ["<c>airdrop</c>"] Airdrop
         /// </summary>
         [Map("airdrop")]
         Airdrop,
         /// <summary>
-        /// Equity dividend
+        /// ["<c>equity-dividend</c>"] Equity dividend
         /// </summary>
         [Map("equity-dividend")]
         EquityDividend,
         /// <summary>
-        /// Reward bonus
+        /// ["<c>reward-bonus</c>"] Reward bonus
         /// </summary>
         [Map("reward-bonus")]
         RewardBonus,
         /// <summary>
-        /// Nft
+        /// ["<c>nft</c>"] Nft
         /// </summary>
         [Map("nft")]
         Nft,
         /// <summary>
-        /// Block trade
+        /// ["<c>block-trade</c>"] Block trade
         /// </summary>
         [Map("block-trade")]
         BlockTrade,

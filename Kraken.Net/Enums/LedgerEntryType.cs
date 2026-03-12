@@ -9,107 +9,107 @@ namespace Kraken.Net.Enums
     public enum LedgerEntryType
     {
         /// <summary>
-        /// Deposit
+        /// ["<c>deposit</c>"] Deposit
         /// </summary>
         [Map("deposit")]
         Deposit,
         /// <summary>
-        /// Withdrawal
+        /// ["<c>withdrawal</c>"] Withdrawal
         /// </summary>
         [Map("withdrawal")]
         Withdrawal,
         /// <summary>
-        /// Trade change
+        /// ["<c>trade</c>"] Trade change
         /// </summary>
         [Map("trade")]
         Trade,
         /// <summary>
-        /// Margin
+        /// ["<c>margin</c>"] Margin
         /// </summary>
         [Map("margin")]
         Margin,
         /// <summary>
-        /// Adjustment
+        /// ["<c>adjustment</c>"] Adjustment
         /// </summary>
         [Map("adjustment")]
         Adjustment,
         /// <summary>
-        /// Transfer
+        /// ["<c>transfer</c>"] Transfer
         /// </summary>
         [Map("transfer")]
         Transfer,
         /// <summary>
-        /// Rollover
+        /// ["<c>rollover</c>"] Rollover
         /// </summary>
         [Map("rollover")]
         Rollover,
         /// <summary>
-        /// Spend
+        /// ["<c>spend</c>"] Spend
         /// </summary>
         [Map("spend")]
         Spend,
         /// <summary>
-        /// Receive
+        /// ["<c>receive</c>"] Receive
         /// </summary>
         [Map("receive")]
         Receive,
         /// <summary>
-        /// Settled
+        /// ["<c>settled</c>"] Settled
         /// </summary>
         [Map("settled")]
         Settled,
         /// <summary>
-        /// Staking
+        /// ["<c>staking</c>"] Staking
         /// </summary>
         [Map("staking")]
         Staking,
         /// <summary>
-        /// None
+        /// ["<c>none</c>"] None
         /// </summary>
         [Map("none")]
         None,
         /// <summary>
-        /// Credit
+        /// ["<c>credit</c>"] Credit
         /// </summary>
         [Map("credit")]
         Credit,
         /// <summary>
-        /// Dividend
+        /// ["<c>dividend</c>"] Dividend
         /// </summary>
         [Map("dividend")]
         Dividend,
         /// <summary>
-        /// Sale
+        /// ["<c>sale</c>"] Sale
         /// </summary>
         [Map("sale")]
         Sale,
         /// <summary>
-        /// Reward
+        /// ["<c>reward</c>"] Reward
         /// </summary>
         [Map("reward")]
         Reward,
         /// <summary>
-        /// Conversion
+        /// ["<c>conversion</c>"] Conversion
         /// </summary>
         [Map("conversion")]
         Conversion,
         /// <summary>
-        /// NFT Trade
+        /// ["<c>nfttrade</c>"] NFT Trade
         /// </summary>
         [Map("nfttrade")]
         NftTrade,
         /// <summary>
-        /// NFT Creator fee
+        /// ["<c>nftcreatorfee</c>"] NFT Creator fee
         /// </summary>
         [Map("nftcreatorfee")]
         NftCreatorFee,
         /// <summary>
-        /// NFT rebate
+        /// ["<c>nftrebate</c>"] NFT rebate
         /// </summary>
         [Map("nftrebate")]
         NftRebate,
         /// <summary>
-        /// Custody transfer
+        /// ["<c>custodytransfer</c>"] Custody transfer
         /// </summary>
         [Map("custodytransfer")]
         CustodyTransfer

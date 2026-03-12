@@ -9,17 +9,17 @@ namespace Kraken.Net.Enums
     public enum OrderBookChange
     {
         /// <summary>
-        /// Add
+        /// ["<c>add</c>"] Add
         /// </summary>
         [Map("add")]
         Add,
         /// <summary>
-        /// Modify
+        /// ["<c>modify</c>"] Modify
         /// </summary>
         [Map("modify")]
         Modify,
         /// <summary>
-        /// Delete
+        /// ["<c>delete</c>"] Delete
         /// </summary>
         [Map("delete")]
         Delete

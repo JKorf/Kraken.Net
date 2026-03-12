@@ -9,82 +9,82 @@ namespace Kraken.Net.Enums
     public enum BalanceUpdateType
     {
         /// <summary>
-        /// Deposit
+        /// ["<c>deposit</c>"] Deposit
         /// </summary>
         [Map("deposit")]
         Deposit,
         /// <summary>
-        /// Withdrawal
+        /// ["<c>withdrawal</c>"] Withdrawal
         /// </summary>
         [Map("withdrawal")]
         Withdrawal,
         /// <summary>
-        /// Trade
+        /// ["<c>trade</c>"] Trade
         /// </summary>
         [Map("trade")]
         Trade,
         /// <summary>
-        /// Margin
+        /// ["<c>margin</c>"] Margin
         /// </summary>
         [Map("margin")]
         Margin,
         /// <summary>
-        /// Adjustment
+        /// ["<c>adjustment</c>"] Adjustment
         /// </summary>
         [Map("adjustment")]
         Adjustment,
         /// <summary>
-        /// Rollover
+        /// ["<c>rollover</c>"] Rollover
         /// </summary>
         [Map("rollover")]
         Rollover,
         /// <summary>
-        /// Credit
+        /// ["<c>credit</c>"] Credit
         /// </summary>
         [Map("credit")]
         Credit,
         /// <summary>
-        /// Transfer
+        /// ["<c>transfer</c>"] Transfer
         /// </summary>
         [Map("transfer")]
         Transfer,
         /// <summary>
-        /// Settled
+        /// ["<c>settled</c>"] Settled
         /// </summary>
         [Map("settled")]
         Settled,
         /// <summary>
-        /// Staking
+        /// ["<c>staking</c>"] Staking
         /// </summary>
         [Map("staking")]
         Staking,
         /// <summary>
-        /// Sale
+        /// ["<c>sale</c>"] Sale
         /// </summary>
         [Map("sale")]
         Sale,
         /// <summary>
-        /// Reserve
+        /// ["<c>reserve</c>"] Reserve
         /// </summary>
         [Map("reserve")]
         Reserve,
         /// <summary>
-        /// Conversion
+        /// ["<c>conversion</c>"] Conversion
         /// </summary>
         [Map("conversion")]
         Conversion,
         /// <summary>
-        /// Dividend
+        /// ["<c>dividend</c>"] Dividend
         /// </summary>
         [Map("dividend")]
         Dividend,
         /// <summary>
-        /// Reward
+        /// ["<c>reward</c>"] Reward
         /// </summary>
         [Map("reward")]
         Reward,
         /// <summary>
-        /// Creator fee
+        /// ["<c>creator_fee</c>"] Creator fee
         /// </summary>
         [Map("creator_fee")]
         CreatorFee,

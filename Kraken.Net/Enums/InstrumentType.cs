@@ -9,22 +9,22 @@ namespace Kraken.Net.Enums
     public enum SymbolType
     {
         /// <summary>
-        /// Flexible futures
+        /// ["<c>flexible_futures</c>"] Flexible futures
         /// </summary>
         [Map("flexible_futures")]
         FlexibleFutures,
         /// <summary>
-        /// Inverse futures
+        /// ["<c>futures_inverse</c>"] Inverse futures
         /// </summary>
         [Map("futures_inverse")]
         InverseFutures,
         /// <summary>
-        /// Vanilla futures
+        /// ["<c>futures_vanilla</c>"] Vanilla futures
         /// </summary>
         [Map("futures_vanilla")]
         VanillaFutures,
         /// <summary>
-        /// Spot index
+        /// ["<c>spot index</c>"] Spot index
         /// </summary>
         [Map("spot index")]
         SpotIndex

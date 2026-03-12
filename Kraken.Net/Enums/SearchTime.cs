@@ -9,17 +9,17 @@ namespace Kraken.Net.Enums
     public enum SearchTime
     {
         /// <summary>
-        /// Open time
+        /// ["<c>open</c>"] Open time
         /// </summary>
         [Map("open")]
         Open,
         /// <summary>
-        /// Close time
+        /// ["<c>close</c>"] Close time
         /// </summary>
         [Map("close")]
         Close,
         /// <summary>
-        /// Both open and close time
+        /// ["<c>both</c>"] Both open and close time
         /// </summary>
         [Map("both")]
         Both

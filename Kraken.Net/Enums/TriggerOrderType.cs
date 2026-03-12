@@ -9,12 +9,12 @@ namespace Kraken.Net.Enums
     public enum TriggerOrderType
     {
         /// <summary>
-        /// Trigger order
+        /// ["<c>TRIGGER_ORDER</c>"] Trigger order
         /// </summary>
         [Map("TRIGGER_ORDER")]
         TriggerOrder,
         /// <summary>
-        /// Normal order
+        /// ["<c>ORDER</c>"] Normal order
         /// </summary>
         [Map("ORDER")]
         Order

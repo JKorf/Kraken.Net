@@ -9,17 +9,17 @@ namespace Kraken.Net.Enums
     public enum YieldSource
     {
         /// <summary>
-        /// Staking
+        /// ["<c>staking</c>"] Staking
         /// </summary>
         [Map("staking")]
         Staking,
         /// <summary>
-        /// Off chain
+        /// ["<c>staking</c>"] Off chain
         /// </summary>
         [Map("staking")]
         OffChain,
         /// <summary>
-        /// Opt in rewards
+        /// ["<c>opt_in_rewards</c>"] Opt in rewards
         /// </summary>
         [Map("opt_in_rewards")]
         OptInRewards

@@ -9,17 +9,17 @@ namespace Kraken.Net.Enums
     public enum TimeInForce
     {
         /// <summary>
-        /// Good 'Til Cancelled
+        /// ["<c>GTC</c>"] Good 'Til Cancelled
         /// </summary>
         [Map("GTC")]
         GTC,
         /// <summary>
-        /// Immediate Or Cancel
+        /// ["<c>IOC</c>"] Immediate Or Cancel
         /// </summary>
         [Map("IOC")]
         IOC,
         /// <summary>
-        /// Good 'Til Date
+        /// ["<c>GTD</c>"] Good 'Til Date
         /// </summary>
         [Map("GTD")]
         GTD

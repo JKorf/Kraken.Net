@@ -9,17 +9,17 @@ namespace Kraken.Net.Enums
     public enum TickType
     {
         /// <summary>
-        /// Spot price
+        /// ["<c>spot</c>"] Spot price
         /// </summary>
         [Map("spot")]
         Spot,
         /// <summary>
-        /// Mark price
+        /// ["<c>mark</c>"] Mark price
         /// </summary>
         [Map("mark")]
         Mark,
         /// <summary>
-        /// Trade price
+        /// ["<c>trade</c>"] Trade price
         /// </summary>
         [Map("trade")]
         Trade

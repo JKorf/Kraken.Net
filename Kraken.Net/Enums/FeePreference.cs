@@ -9,12 +9,12 @@ namespace Kraken.Net.Enums
     public enum FeePreference
     {
         /// <summary>
-        /// In base asset, default for buy orders
+        /// ["<c>base</c>"] In base asset, default for buy orders
         /// </summary>
         [Map("base")]
         Static,
         /// <summary>
-        /// In quote asset, default for sell orders
+        /// ["<c>quote</c>"] In quote asset, default for sell orders
         /// </summary>
         [Map("quote")]
         Quote

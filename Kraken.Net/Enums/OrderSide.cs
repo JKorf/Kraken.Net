@@ -9,12 +9,12 @@ namespace Kraken.Net.Enums
     public enum OrderSide
     {
         /// <summary>
-        /// Buy
+        /// ["<c>buy</c>"] Buy
         /// </summary>
         [Map("buy", "0", "b")]
         Buy,
         /// <summary>
-        /// Sell
+        /// ["<c>sell</c>"] Sell
         /// </summary>
         [Map("sell", "1", "s")]
         Sell

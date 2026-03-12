@@ -9,12 +9,12 @@ namespace Kraken.Net.Enums
     public enum OrderTypeMinimal
     {
         /// <summary>
-        /// Limit order
+        /// ["<c>l</c>"] Limit order
         /// </summary>
         [Map("l")]
         Limit,
         /// <summary>
-        /// Symbol order
+        /// ["<c>m</c>"] Symbol order
         /// </summary>
         [Map("m")]
         Market

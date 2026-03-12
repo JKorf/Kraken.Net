@@ -9,12 +9,12 @@ namespace Kraken.Net.Enums
     public enum Trigger
     {
         /// <summary>
-        /// Last price
+        /// ["<c>last</c>"] Last price
         /// </summary>
         [Map("last")]
         Last,
         /// <summary>
-        /// Index price
+        /// ["<c>index</c>"] Index price
         /// </summary>
         [Map("index")]
         Index

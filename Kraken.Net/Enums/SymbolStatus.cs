@@ -9,42 +9,42 @@ namespace Kraken.Net.Enums
     public enum SymbolStatus
     {
         /// <summary>
-        /// Online
+        /// ["<c>online</c>"] Online
         /// </summary>
         [Map("online")]
         Online,
         /// <summary>
-        /// Only cancellation allowed
+        /// ["<c>cancel_only</c>"] Only cancellation allowed
         /// </summary>
         [Map("cancel_only")]
         CancelOnly,
         /// <summary>
-        /// Only maker orders allowed
+        /// ["<c>post_only</c>"] Only maker orders allowed
         /// </summary>
         [Map("post_only")]
         PostOnly,
         /// <summary>
-        /// Only limit orders allowed
+        /// ["<c>limit_only</c>"] Only limit orders allowed
         /// </summary>
         [Map("limit_only")]
         LimitOnly,
         /// <summary>
-        /// Only allowed to reduce position
+        /// ["<c>reduce_only</c>"] Only allowed to reduce position
         /// </summary>
         [Map("reduce_only")]
         ReduceOnly,
         /// <summary>
-        /// Delisted
+        /// ["<c>delisted</c>"] Delisted
         /// </summary>
         [Map("delisted")]
         Delisted,
         /// <summary>
-        /// Maintenance
+        /// ["<c>maintenance</c>"] Maintenance
         /// </summary>
         [Map("maintenance")]
         Maintenance,
         /// <summary>
-        /// Work in process
+        /// ["<c>work_in_progress</c>"] Work in process
         /// </summary>
         [Map("work_in_progress")]
         WorkInProcess

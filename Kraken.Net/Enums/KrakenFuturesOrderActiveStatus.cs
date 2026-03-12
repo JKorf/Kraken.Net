@@ -9,32 +9,32 @@ namespace Kraken.Net.Enums
     public enum KrakenFuturesOrderActiveStatus
     {
         /// <summary>
-        /// Entered the order book
+        /// ["<c>ENTERED_BOOK</c>"] Entered the order book
         /// </summary>
         [Map("ENTERED_BOOK")]
         EnteredBook,
         /// <summary>
-        /// Fully executed
+        /// ["<c>FULLY_EXECUTED</c>"] Fully executed
         /// </summary>
         [Map("FULLY_EXECUTED")]
         FullyExecuted,
         /// <summary>
-        /// Rejected
+        /// ["<c>REJECTED</c>"] Rejected
         /// </summary>
         [Map("REJECTED")]
         Rejected,
         /// <summary>
-        /// Cancelled
+        /// ["<c>CANCELLED</c>"] Cancelled
         /// </summary>
         [Map("CANCELLED")]
         Cancelled,
         /// <summary>
-        /// Trigger placed
+        /// ["<c>TRIGGER_PLACED</c>"] Trigger placed
         /// </summary>
         [Map("TRIGGER_PLACED")]
         TriggerPlaced,
         /// <summary>
-        /// Failed to activate trigger
+        /// ["<c>TRIGGER_ACTIVATION_FAILURE</c>"] Failed to activate trigger
         /// </summary>
         [Map("TRIGGER_ACTIVATION_FAILURE")]
         TriggerActivationFailure

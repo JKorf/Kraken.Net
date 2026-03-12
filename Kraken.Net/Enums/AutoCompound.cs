@@ -9,17 +9,17 @@ namespace Kraken.Net.Enums
     public enum AutoCompound
     {
         /// <summary>
-        /// Disabled
+        /// ["<c>disabled</c>"] Disabled
         /// </summary>
         [Map("disabled")]
         Disabled,
         /// <summary>
-        /// Enabled
+        /// ["<c>enabled</c>"] Enabled
         /// </summary>
         [Map("enabled")]
         Enabled,
         /// <summary>
-        /// Optional
+        /// ["<c>optional</c>"] Optional
         /// </summary>
         [Map("optional")]
         Optional

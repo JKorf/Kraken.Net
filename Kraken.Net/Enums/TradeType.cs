@@ -9,42 +9,42 @@ namespace Kraken.Net.Enums
     public enum TradeType
     {
         /// <summary>
-        /// Maker
+        /// ["<c>maker</c>"] Maker
         /// </summary>
         [Map("maker", "m")]
         Maker,
         /// <summary>
-        /// Taker
+        /// ["<c>taker</c>"] Taker
         /// </summary>
         [Map("taker", "t")]
         Taker,
         /// <summary>
-        /// Liquidation
+        /// ["<c>liquidation</c>"] Liquidation
         /// </summary>
         [Map("liquidation")]
         Liquidation,
         /// <summary>
-        /// Assignee
+        /// ["<c>assignee</c>"] Assignee
         /// </summary>
         [Map("assignee")]
         Assignee,
         /// <summary>
-        /// Assignor
+        /// ["<c>assignor</c>"] Assignor
         /// </summary>
         [Map("assignor")]
         Assignor,
         /// <summary>
-        /// Taker after edit
+        /// ["<c>takerAfterEdit</c>"] Taker after edit
         /// </summary>
         [Map("takerAfterEdit")]
         TakerAfterEdit,
         /// <summary>
-        /// Unwinding bankrupt
+        /// ["<c>unwindBankrupt</c>"] Unwinding bankrupt
         /// </summary>
         [Map("unwindBankrupt")]
         UnwindBankrupt,
         /// <summary>
-        /// Unwinding country party
+        /// ["<c>unwindCounterparty</c>"] Unwinding country party
         /// </summary>
         [Map("unwindCounterparty")]
         UnwindCounterParty

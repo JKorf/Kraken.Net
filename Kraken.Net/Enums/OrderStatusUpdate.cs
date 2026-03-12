@@ -9,32 +9,32 @@ namespace Kraken.Net.Enums
     public enum OrderStatusUpdate
     {
         /// <summary>
-        /// Pending
+        /// ["<c>pending_new</c>"] Pending
         /// </summary>
         [Map("pending_new")]
         Pending,
         /// <summary>
-        /// Active, not filled
+        /// ["<c>new</c>"] Active, not filled
         /// </summary>
         [Map("new")]
         New,
         /// <summary>
-        /// Active, partially filled
+        /// ["<c>partially_filled</c>"] Active, partially filled
         /// </summary>
         [Map("partially_filled")]
         PartiallyFilled,
         /// <summary>
-        /// Fully filled
+        /// ["<c>filled</c>"] Fully filled
         /// </summary>
         [Map("filled")]
         Filled,
         /// <summary>
-        /// Canceled
+        /// ["<c>canceled</c>"] Canceled
         /// </summary>
         [Map("canceled")]
         Canceled,
         /// <summary>
-        /// Expired
+        /// ["<c>expired</c>"] Expired
         /// </summary>
         [Map("expired")]
         Expired

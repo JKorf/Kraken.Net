@@ -9,17 +9,17 @@ namespace Kraken.Net.Enums
     public enum SelfTradePreventionType
     {
         /// <summary>
-        /// Cancel newest order
+        /// ["<c>cancel-newest</c>"] Cancel newest order
         /// </summary>
         [Map("cancel-newest")]
         CancelNewest,
         /// <summary>
-        /// Cancel oldest order
+        /// ["<c>cancel-oldest</c>"] Cancel oldest order
         /// </summary>
         [Map("cancel-oldest")]
         CancelOldest,
         /// <summary>
-        /// Cancel both orders
+        /// ["<c>cancel-both</c>"] Cancel both orders
         /// </summary>
         [Map("cancel-both")]
         CancelBoth

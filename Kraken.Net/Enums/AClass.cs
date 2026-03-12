@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.Attributes;
+using CryptoExchange.Net.Attributes;
 
 namespace Kraken.Net.Enums
 {
@@ -9,12 +9,12 @@ namespace Kraken.Net.Enums
     public enum AClass
     {
         /// <summary>
-        /// Tokenized asset (xstocks)
+        /// ["<c>tokenized_asset</c>"] Tokenized asset (xstocks)
         /// </summary>
         [Map("tokenized_asset")]
         TokenizedAsset,
         /// <summary>
-        /// Spot currency pairs
+        /// ["<c>currency</c>"] Spot currency pairs
         /// </summary>
         [Map("currency")]
         Currency

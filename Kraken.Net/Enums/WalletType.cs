@@ -9,12 +9,12 @@ namespace Kraken.Net.Enums
     public enum WalletType
     {
         /// <summary>
-        /// Spot
+        /// ["<c>spot</c>"] Spot
         /// </summary>
         [Map("spot")]
         Spot,
         /// <summary>
-        /// Earn
+        /// ["<c>earn</c>"] Earn
         /// </summary>
         [Map("earn")]
         Earn

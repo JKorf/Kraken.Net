@@ -9,12 +9,12 @@ namespace Kraken.Net.Enums
     public enum OpenOrderStatus
     {
         /// <summary>
-        /// The entire size of the order is unfilled
+        /// ["<c>untouched</c>"] The entire size of the order is unfilled
         /// </summary>
         [Map("untouched")]
         Untouched,
         /// <summary>
-        /// The size of the order is partially but not entirely filled
+        /// ["<c>partiallyFilled</c>"] The size of the order is partially but not entirely filled
         /// </summary>
         [Map("partiallyFilled")]
         PartiallyFilled

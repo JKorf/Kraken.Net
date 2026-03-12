@@ -9,32 +9,32 @@ namespace Kraken.Net.Enums
     public enum AssetStatus
     {
         /// <summary>
-        /// Enabled
+        /// ["<c>enabled</c>"] Enabled
         /// </summary>
         [Map("enabled")]
         Enabled,
         /// <summary>
-        /// Only deposits available
+        /// ["<c>deposit_only</c>"] Only deposits available
         /// </summary>
         [Map("deposit_only", "depositonly")]
         DepositOnly,
         /// <summary>
-        /// Only withdrawals available
+        /// ["<c>withdrawal_only</c>"] Only withdrawals available
         /// </summary>
         [Map("withdrawal_only", "withdrawalonly")]
         WithdrawalOnly,
         /// <summary>
-        /// Funding temp disabled
+        /// ["<c>funding_temporarily_disabled</c>"] Funding temp disabled
         /// </summary>
         [Map("funding_temporarily_disabled", "fundingtemporarilydisabled")]
         FundingTemporarilyDisabled,
         /// <summary>
-        /// Disabled
+        /// ["<c>disabled</c>"] Disabled
         /// </summary>
         [Map("disabled")]
         Disabled,
         /// <summary>
-        /// Work in process
+        /// ["<c>work_in_progress</c>"] Work in process
         /// </summary>
         [Map("work_in_progress")]
         WorkInProcess
