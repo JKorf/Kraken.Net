@@ -9,11 +9,15 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
     internal class KrakenFuturesAccountLogSubscription : Subscription
     {
-        private readonly SocketApiClient _client;
+        private readonly SocketApiClient<KrakenEnvironment, KrakenFuturesAuthenticationProvider, KrakenCredentials> _client;
         protected readonly Action<DataEvent<KrakenFuturesAccountLogsSnapshotUpdate>> _snapshotHandler;
         protected readonly Action<DataEvent<KrakenFuturesAccountLogsUpdate>> _updateHandler;
 
-        public KrakenFuturesAccountLogSubscription(ILogger logger, SocketApiClient client, Action<DataEvent<KrakenFuturesAccountLogsSnapshotUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesAccountLogsUpdate>> updateHandler) : base(logger, true)
+        public KrakenFuturesAccountLogSubscription(
+            ILogger logger,
+            SocketApiClient<KrakenEnvironment, KrakenFuturesAuthenticationProvider, KrakenCredentials> client, 
+            Action<DataEvent<KrakenFuturesAccountLogsSnapshotUpdate>> snapshotHandler, 
+            Action<DataEvent<KrakenFuturesAccountLogsUpdate>> updateHandler) : base(logger, true)
         {
             _client = client;
             _snapshotHandler = snapshotHandler;
@@ -35,7 +39,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     Feed = "account_log",
                     OriginalChallenge = (string)connection.Properties["OriginalChallenge"],
                     SignedChallenge = (string)connection.Properties["SignedChallenge"],
-                    ApiKey = ((KrakenFuturesAuthenticationProvider)connection.ApiClient.AuthenticationProvider!).GetApiKey(),
+                    ApiKey = _client.AuthenticationProvider!.PublicKey,
                 },
                 Authenticated);
         }

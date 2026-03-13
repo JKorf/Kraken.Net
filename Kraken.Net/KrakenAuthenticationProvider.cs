@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kraken.Net
 {
-    internal class KrakenAuthenticationProvider : AuthenticationProvider
+    internal class KrakenAuthenticationProvider : AuthenticationProvider<KrakenCredentials, HMACCredential>
     {
         private static readonly IMessageSerializer _serializer = new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
         private readonly INonceProvider _nonceProvider;
@@ -13,16 +13,13 @@ namespace Kraken.Net
 
         public override ApiCredentialsType[] SupportedCredentialTypes => [ApiCredentialsType.Hmac];
 
-        public KrakenAuthenticationProvider(ApiCredentials credentials, INonceProvider? nonceProvider) : base(credentials)
+        public KrakenAuthenticationProvider(KrakenCredentials credentials, INonceProvider? nonceProvider) : base(credentials)
         {
-            if (credentials.CredentialType != ApiCredentialsType.Hmac)
-                throw new Exception("Only Hmac authentication is supported");
-
             _nonceProvider = nonceProvider ?? new KrakenNonceProvider();
 
             try
             {
-                _hmacSecret = Convert.FromBase64String(credentials.Secret);
+                _hmacSecret = Convert.FromBase64String(Credential.Secret);
             }
             catch (Exception ex)
             {
@@ -36,7 +33,7 @@ namespace Kraken.Net
                 return;
 
             request.Headers ??= new Dictionary<string, string>();
-            request.Headers.Add("API-Key", _credentials.Key);
+            request.Headers.Add("API-Key", Credential.PublicKey);
             var nonce = _nonceProvider.GetNonce();
             var parameters = request.GetPositionParameters();
             parameters.Add("nonce", nonce);

@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CryptoExchange.Net.Objects;
 using Kraken.Net.Interfaces.Clients;
+using Kraken.Net.Clients.SpotApi;
 
 namespace Kraken.Net.UnitTests
 {
@@ -24,7 +25,7 @@ namespace Kraken.Net.UnitTests
         public void CheckSignatureExample()
         {
             var authProvider = new KrakenAuthenticationProvider(
-                new ApiCredentials("XX", "kQH5HW/8p1uGOVjbgWA7FunAmGO8lsSUXNsu3eow76sz84Q18fWxnyRzBHCd3pd5nE9qa99HAZtuZuj6F1huXg=="),
+                new KrakenCredentials("XX", "kQH5HW/8p1uGOVjbgWA7FunAmGO8lsSUXNsu3eow76sz84Q18fWxnyRzBHCd3pd5nE9qa99HAZtuZuj6F1huXg=="),
                 new TestNonceProvider(1616492376594)
                 );
             var client = (RestApiClient)new KrakenRestClient().SpotApi;
@@ -146,8 +147,8 @@ namespace Kraken.Net.UnitTests
 
             Assert.That(((BaseApiClient)restClient.SpotApi).OutputOriginalData, Is.True);
             Assert.That(((BaseApiClient)socketClient.SpotApi).OutputOriginalData, Is.False);
-            Assert.That(((BaseApiClient)restClient.SpotApi).AuthenticationProvider.ApiKey, Is.EqualTo("123"));
-            Assert.That(((BaseApiClient)socketClient.SpotApi).AuthenticationProvider.ApiKey, Is.EqualTo("456"));
+            Assert.That(((KrakenRestClientSpotApi)restClient.SpotApi).AuthenticationProvider.PublicKey, Is.EqualTo("123"));
+            Assert.That(((KrakenSocketClientSpotApi)socketClient.SpotApi).AuthenticationProvider.PublicKey, Is.EqualTo("456"));
             Assert.That(((BaseApiClient)restClient.SpotApi).ClientOptions.Proxy.Host, Is.EqualTo("host"));
             Assert.That(((BaseApiClient)restClient.SpotApi).ClientOptions.Proxy.Port, Is.EqualTo(80));
             Assert.That(((BaseApiClient)socketClient.SpotApi).ClientOptions.Proxy.Host, Is.EqualTo("host2"));

@@ -11,7 +11,7 @@ using Microsoft.Extensions.Options;
 namespace Kraken.Net.Clients
 {
     /// <inheritdoc cref="IKrakenRestClient" />
-    public class KrakenRestClient : BaseRestClient, IKrakenRestClient
+    public class KrakenRestClient : BaseRestClient<KrakenEnvironment, KrakenCredentials>, IKrakenRestClient
     {
         #region fields
         #endregion
@@ -49,15 +49,6 @@ namespace Kraken.Net.Clients
         }
         #endregion
 
-        #region methods
-
-        /// <inheritdoc />
-        public void SetOptions(UpdateOptions options)
-        {
-            SpotApi.SetOptions(options);
-            FuturesApi.SetOptions(options);
-        }
-
         /// <summary>
         /// Set the default options to be used when creating new clients
         /// </summary>
@@ -66,14 +57,6 @@ namespace Kraken.Net.Clients
         {
             KrakenRestOptions.Default = ApplyOptionsDelegate(optionsDelegate);
         }
-
-        /// <inheritdoc />
-        public void SetApiCredentials(ApiCredentials apiCredentials)
-        {
-            SpotApi.SetApiCredentials(apiCredentials);
-            FuturesApi.SetApiCredentials(apiCredentials);
-        }
-        #endregion
 
     }
 }

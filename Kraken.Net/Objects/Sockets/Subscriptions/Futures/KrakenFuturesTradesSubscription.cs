@@ -9,11 +9,15 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
     internal class KrakenFuturesTradesSubscription : Subscription
     {
-        private readonly SocketApiClient _client;
+        private readonly SocketApiClient<KrakenEnvironment, KrakenFuturesAuthenticationProvider, KrakenCredentials> _client;
         private List<string> _symbols;
         protected readonly Action<DataEvent<KrakenFuturesTradeUpdate[]>> _handler;
 
-        public KrakenFuturesTradesSubscription(ILogger logger, SocketApiClient client, List<string> symbols, Action<DataEvent<KrakenFuturesTradeUpdate[]>> handler) : base(logger, false)
+        public KrakenFuturesTradesSubscription(
+            ILogger logger, 
+            SocketApiClient<KrakenEnvironment, KrakenFuturesAuthenticationProvider, KrakenCredentials> client,
+            List<string> symbols,
+            Action<DataEvent<KrakenFuturesTradeUpdate[]>> handler) : base(logger, false)
         {
             _client = client;
             _symbols = symbols;

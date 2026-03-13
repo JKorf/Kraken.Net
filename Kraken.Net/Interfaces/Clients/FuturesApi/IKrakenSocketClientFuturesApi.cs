@@ -7,7 +7,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
     /// <summary>
     /// Futures API
     /// </summary>
-    public interface IKrakenSocketClientFuturesApi : ISocketApiClient, IDisposable
+    public interface IKrakenSocketClientFuturesApi : ISocketApiClient<KrakenCredentials>, IDisposable
     {
         /// <summary>
         /// Get the shared socket subscription client. This interface is shared with other exchanges to allow for a common implementation for different exchanges.

@@ -9,12 +9,17 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
     internal class KrakenFuturesOrdersSubscription : Subscription
     {
-        private readonly SocketApiClient _client;
+        private readonly SocketApiClient<KrakenEnvironment, KrakenFuturesAuthenticationProvider, KrakenCredentials> _client;
         protected readonly Action<DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate>> _snapshotHandler;
         protected readonly Action<DataEvent<KrakenFuturesOpenOrdersUpdate>> _updateHandler;
         private bool _verbose;
 
-        public KrakenFuturesOrdersSubscription(ILogger logger, SocketApiClient client, bool verbose, Action<DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesOpenOrdersUpdate>> updateHandler) : base(logger, true)
+        public KrakenFuturesOrdersSubscription(
+            ILogger logger, 
+            SocketApiClient<KrakenEnvironment, KrakenFuturesAuthenticationProvider, KrakenCredentials> client,
+            bool verbose,
+            Action<DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate>> snapshotHandler, 
+            Action<DataEvent<KrakenFuturesOpenOrdersUpdate>> updateHandler) : base(logger, true)
         {
             _client = client;
             _snapshotHandler = snapshotHandler;
@@ -47,7 +52,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     Feed = _verbose ? "open_orders_verbose" : "open_orders",
                     OriginalChallenge = (string)connection.Properties["OriginalChallenge"],
                     SignedChallenge = (string)connection.Properties["SignedChallenge"],
-                    ApiKey = ((KrakenFuturesAuthenticationProvider)connection.ApiClient.AuthenticationProvider!).GetApiKey(),
+                    ApiKey = _client.AuthenticationProvider!.PublicKey,
                 },
                 Authenticated);
         }

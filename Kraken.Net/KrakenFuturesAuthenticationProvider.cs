@@ -10,18 +10,17 @@ using System.Text;
 
 namespace Kraken.Net
 {
-    internal class KrakenFuturesAuthenticationProvider : AuthenticationProvider
+    internal class KrakenFuturesAuthenticationProvider : AuthenticationProvider<KrakenCredentials, HMACCredential>
     {
         private readonly byte[] _hmacSecret;
 
-        public string GetApiKey() => _credentials.Key;
         public override ApiCredentialsType[] SupportedCredentialTypes => [ApiCredentialsType.Hmac];
 
-        public KrakenFuturesAuthenticationProvider(ApiCredentials credentials, INonceProvider? nonceProvider) : base(credentials)
+        public KrakenFuturesAuthenticationProvider(KrakenCredentials credentials, INonceProvider? nonceProvider) : base(credentials)
         {
             try
             {
-                _hmacSecret = Convert.FromBase64String(credentials.Secret);
+                _hmacSecret = Convert.FromBase64String(Credential.Secret);
             }
             catch (Exception ex)
             {
@@ -35,7 +34,7 @@ namespace Kraken.Net
                 return;
 
             request.Headers ??= new Dictionary<string, string>();
-            request.Headers.Add("APIKey", _credentials.Key);
+            request.Headers.Add("APIKey", Credential.PublicKey);
 
             var queryString = request.GetQueryString();
             var body = (request.ParameterPosition == HttpMethodParameterPosition.InBody && request.BodyParameters?.Count > 0) ? request.BodyParameters.ToFormData() : string.Empty;
@@ -53,7 +52,7 @@ namespace Kraken.Net
             if (apiClient is not KrakenSocketClientFuturesApi)
                 return null;
 
-            return new KrakenFuturesAuthQuery(ApiKey);
+            return new KrakenFuturesAuthQuery(this, Credential.PublicKey);
         }
 
         public string AuthenticateWebsocketChallenge(string challenge)

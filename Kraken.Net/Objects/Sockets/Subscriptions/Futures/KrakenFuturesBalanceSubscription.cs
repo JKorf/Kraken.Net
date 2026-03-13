@@ -9,10 +9,13 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
 {
     internal class KrakenFuturesBalanceSubscription : Subscription
     {
-        private readonly SocketApiClient _client;
+        private readonly SocketApiClient<KrakenEnvironment, KrakenFuturesAuthenticationProvider, KrakenCredentials> _client;
         protected readonly Action<DataEvent<KrakenFuturesBalancesUpdate>> _handler;
 
-        public KrakenFuturesBalanceSubscription(ILogger logger, SocketApiClient client, Action<DataEvent<KrakenFuturesBalancesUpdate>> handler) : base(logger, true)
+        public KrakenFuturesBalanceSubscription(
+            ILogger logger, 
+            SocketApiClient<KrakenEnvironment, KrakenFuturesAuthenticationProvider, KrakenCredentials> client, 
+            Action<DataEvent<KrakenFuturesBalancesUpdate>> handler) : base(logger, true)
         {
             _client = client;
             _handler = handler;
@@ -30,7 +33,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     Feed = "balances",
                     OriginalChallenge = (string)connection.Properties["OriginalChallenge"],
                     SignedChallenge = (string)connection.Properties["SignedChallenge"],
-                    ApiKey = ((KrakenFuturesAuthenticationProvider)connection.ApiClient.AuthenticationProvider!).GetApiKey(),
+                    ApiKey = _client.AuthenticationProvider!.PublicKey,
                 },
                 Authenticated);
         }
