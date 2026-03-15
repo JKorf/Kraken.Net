@@ -52,7 +52,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     Feed = _verbose ? "open_orders_verbose" : "open_orders",
                     OriginalChallenge = (string)connection.Properties["OriginalChallenge"],
                     SignedChallenge = (string)connection.Properties["SignedChallenge"],
-                    ApiKey = _client.AuthenticationProvider!.PublicKey,
+                    ApiKey = _client.AuthenticationProvider!.Key,
                 },
                 Authenticated);
         }

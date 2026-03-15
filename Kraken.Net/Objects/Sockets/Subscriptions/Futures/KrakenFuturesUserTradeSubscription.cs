@@ -33,7 +33,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     Feed = "fills",
                     OriginalChallenge = (string)connection.Properties["OriginalChallenge"],
                     SignedChallenge = (string)connection.Properties["SignedChallenge"],
-                    ApiKey = _client.AuthenticationProvider!.PublicKey,
+                    ApiKey = _client.AuthenticationProvider!.Key,
                 },
                 Authenticated);
         }

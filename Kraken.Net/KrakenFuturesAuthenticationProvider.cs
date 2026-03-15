@@ -34,7 +34,7 @@ namespace Kraken.Net
                 return;
 
             request.Headers ??= new Dictionary<string, string>();
-            request.Headers.Add("APIKey", Credential.PublicKey);
+            request.Headers.Add("APIKey", Credential.Key);
 
             var queryString = request.GetQueryString();
             var body = (request.ParameterPosition == HttpMethodParameterPosition.InBody && request.BodyParameters?.Count > 0) ? request.BodyParameters.ToFormData() : string.Empty;
@@ -52,7 +52,7 @@ namespace Kraken.Net
             if (apiClient is not KrakenSocketClientFuturesApi)
                 return null;
 
-            return new KrakenFuturesAuthQuery(this, Credential.PublicKey);
+            return new KrakenFuturesAuthQuery(this, Credential.Key);
         }
 
         public string AuthenticateWebsocketChallenge(string challenge)

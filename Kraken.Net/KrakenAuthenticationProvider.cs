@@ -33,7 +33,7 @@ namespace Kraken.Net
                 return;
 
             request.Headers ??= new Dictionary<string, string>();
-            request.Headers.Add("API-Key", Credential.PublicKey);
+            request.Headers.Add("API-Key", Credential.Key);
             var nonce = _nonceProvider.GetNonce();
             var parameters = request.GetPositionParameters();
             parameters.Add("nonce", nonce);
