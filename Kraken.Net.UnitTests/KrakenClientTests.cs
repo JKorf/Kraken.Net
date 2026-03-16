@@ -126,10 +126,10 @@ namespace Kraken.Net.UnitTests
             var configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    { "ApiCredentials:Hmac:Key", "123" },
-                    { "ApiCredentials:Hmac:Secret", "4/dpxb3iT4tp/ZCVEwSnEsLxx0bqyhLpdfOpc6fn7OR8+UClSV5n9E6aSS8MPtnRfp32bAb0nmbRn6H8ndwLUQ==" },
-                    { "Socket:ApiCredentials:Hmac:Key", "456" },
-                    { "Socket:ApiCredentials:Hmac:Secret", "4/dpxb3iT4tp/ZCVEwSnEsLxx0bqyhLpdfOpc6fn7OR8+UClSV5n9E6aSS8MPtnRfp32bAb0nmbRn6H8ndwLUQ==" },
+                    { "ApiCredentials:HMAC:Key", "123" },
+                    { "ApiCredentials:HMAC:Secret", "4/dpxb3iT4tp/ZCVEwSnEsLxx0bqyhLpdfOpc6fn7OR8+UClSV5n9E6aSS8MPtnRfp32bAb0nmbRn6H8ndwLUQ==" },
+                    { "Socket:ApiCredentials:HMAC:Key", "456" },
+                    { "Socket:ApiCredentials:HMAC:Secret", "4/dpxb3iT4tp/ZCVEwSnEsLxx0bqyhLpdfOpc6fn7OR8+UClSV5n9E6aSS8MPtnRfp32bAb0nmbRn6H8ndwLUQ==" },
                     { "Rest:OutputOriginalData", "true" },
                     { "Socket:OutputOriginalData", "false" },
                     { "Rest:Proxy:Host", "host" },

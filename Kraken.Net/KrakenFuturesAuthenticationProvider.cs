@@ -14,7 +14,7 @@ namespace Kraken.Net
     {
         private readonly byte[] _hmacSecret;
 
-        public override ApiCredentialsType[] SupportedCredentialTypes => [ApiCredentialsType.Hmac];
+        public override ApiCredentialsType[] SupportedCredentialTypes => [ApiCredentialsType.HMAC];
 
         public KrakenFuturesAuthenticationProvider(KrakenCredentials credentials, INonceProvider? nonceProvider) : base(credentials)
         {
