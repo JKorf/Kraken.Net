@@ -558,11 +558,13 @@ namespace Kraken.Net.Clients.SpotApi
             return order.AsExchangeResult(Exchange, request.TradingMode, new SharedId(order.Data.ToString()));
         }
 
-        private SharedOrderStatus ParseOrderStatus(OrderStatus status)
+        private SharedOrderStatus ParseStatus(OrderStatusUpdate orderStatus)
         {
-            if (status == OrderStatus.Open || status == OrderStatus.Pending) return SharedOrderStatus.Open;
-            if (status == OrderStatus.Canceled || status == OrderStatus.Expired) return SharedOrderStatus.Canceled;
-            return SharedOrderStatus.Filled;
+            if (orderStatus == OrderStatusUpdate.New || orderStatus == OrderStatusUpdate.Pending || orderStatus == OrderStatusUpdate.PartiallyFilled) return SharedOrderStatus.Open;
+            if (orderStatus == OrderStatusUpdate.Canceled || orderStatus == OrderStatusUpdate.Expired) return SharedOrderStatus.Canceled;
+            if (orderStatus == OrderStatusUpdate.Filled) return SharedOrderStatus.Filled;
+
+            return SharedOrderStatus.Unknown;
         }
 
         private SharedOrderType ParseOrderType(OrderType type, string? flags)
@@ -799,7 +801,7 @@ namespace Kraken.Net.Clients.SpotApi
                             x.Timestamp,
                             x.Status == "SUCCESS" ? SharedTransferStatus.Completed
                             : x.Status == "FAILURE" ? SharedTransferStatus.Failed
-                            : SharedTransferStatus.InProgress)
+                            : SharedTransferStatus.Unknown)
                         {
                             Id = x.ReferenceId,
                             TransactionId = x.TransactionId,
