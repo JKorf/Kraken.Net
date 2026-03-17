@@ -349,7 +349,7 @@ namespace Kraken.Net.Clients.SpotApi
                 orderData.Value.Id.ToString(),
                 ParseOrderType(orderData.Value.OrderDetails.Type, orderData.Value.Oflags),
                 orderData.Value.OrderDetails.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
-                ParseOrderStatus(orderData.Value.Status),
+                ParseStatus(orderData.Value.Status),
                 orderData.Value.CreateTime)
             {
                 ClientOrderId = orderData.Value.ClientOrderId,
@@ -384,7 +384,7 @@ namespace Kraken.Net.Clients.SpotApi
                 x.Id.ToString(),
                 ParseOrderType(x.OrderDetails.Type, x.Oflags),
                 x.OrderDetails.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
-                ParseOrderStatus(x.Status),
+                ParseStatus(x.Status),
                 x.CreateTime)
             {
                 ClientOrderId = x.ClientOrderId,
@@ -439,7 +439,7 @@ namespace Kraken.Net.Clients.SpotApi
                             x.Id.ToString(),
                             ParseOrderType(x.OrderDetails.Type, x.Oflags),
                             x.OrderDetails.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
-                            ParseOrderStatus(x.Status),
+                            ParseStatus(x.Status),
                             x.CreateTime)
                         {
                             ClientOrderId = x.ClientOrderId,
@@ -558,11 +558,11 @@ namespace Kraken.Net.Clients.SpotApi
             return order.AsExchangeResult(Exchange, request.TradingMode, new SharedId(order.Data.ToString()));
         }
 
-        private SharedOrderStatus ParseStatus(OrderStatusUpdate orderStatus)
+        private SharedOrderStatus ParseStatus(OrderStatus orderStatus)
         {
-            if (orderStatus == OrderStatusUpdate.New || orderStatus == OrderStatusUpdate.Pending || orderStatus == OrderStatusUpdate.PartiallyFilled) return SharedOrderStatus.Open;
-            if (orderStatus == OrderStatusUpdate.Canceled || orderStatus == OrderStatusUpdate.Expired) return SharedOrderStatus.Canceled;
-            if (orderStatus == OrderStatusUpdate.Filled) return SharedOrderStatus.Filled;
+            if (orderStatus == OrderStatus.Open || orderStatus == OrderStatus.Pending) return SharedOrderStatus.Open;
+            if (orderStatus == OrderStatus.Canceled || orderStatus == OrderStatus.Expired) return SharedOrderStatus.Canceled;
+            if (orderStatus == OrderStatus.Closed) return SharedOrderStatus.Filled;
 
             return SharedOrderStatus.Unknown;
         }
@@ -638,7 +638,7 @@ namespace Kraken.Net.Clients.SpotApi
                 orderData.Id.ToString(),
                 ParseOrderType(orderData.OrderDetails.Type, orderData.Oflags),
                 orderData.OrderDetails.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
-                ParseOrderStatus(orderData.Status),
+                ParseStatus(orderData.Status),
                 orderData.CreateTime)
             {
                 ClientOrderId = orderData.ClientOrderId,
