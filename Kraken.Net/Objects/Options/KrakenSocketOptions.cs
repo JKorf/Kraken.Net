@@ -32,14 +32,14 @@ namespace Kraken.Net.Objects.Options
         /// <summary>
         /// Options for the Spot API
         /// </summary>
-        public SocketApiOptions<KrakenCredentials> SpotOptions { get; private set; } = new SocketApiOptions<KrakenCredentials>()
+        public SocketApiOptions SpotOptions { get; private set; } = new SocketApiOptions()
         {
         };
 
         /// <summary>
         /// Options for the Futures API
         /// </summary>
-        public SocketApiOptions<KrakenCredentials> FuturesOptions { get; private set; } = new SocketApiOptions<KrakenCredentials>() { MaxSocketConnections = 100 };
+        public SocketApiOptions FuturesOptions { get; private set; } = new SocketApiOptions() { MaxSocketConnections = 100 };
 
         internal KrakenSocketOptions Set(KrakenSocketOptions targetOptions)
         {

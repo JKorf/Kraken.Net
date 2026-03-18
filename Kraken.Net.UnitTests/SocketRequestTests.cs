@@ -26,7 +26,7 @@ namespace Kraken.Net.UnitTests
             {
                 OutputOriginalData = true,
                 RequestTimeout = TimeSpan.FromSeconds(5),
-                ApiCredentials = new KrakenCredentials("MTIz", "MTIz"),
+                ApiCredentials = new KrakenCredentials().WithSpot("MTIz", "MTIz"),
                 Environment = new KrakenEnvironment("UnitTest", "https://localhost", "wss://localhost", "wss://localhost", "http://localhost", "wss://localhost")
             }), fact);
             return client;

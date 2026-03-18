@@ -7,27 +7,26 @@ namespace Kraken.Net
     /// </summary>
     public class KrakenCredentials : ApiCredentials
     {
-        /// <summary>
-        /// </summary>
-        [Obsolete("Parameterless constructor is only for deserialization purposes and should not be used directly. Use parameterized constructor instead.")]
-        public KrakenCredentials() { }
+        public HMACCredential? Spot { get; set; }
+        public HMACCredential? Futures { get; set; }
 
-        /// <summary>
-        /// Create credentials using an HMAC key and secret
-        /// </summary>
-        /// <param name="apiKey">The API key</param>
-        /// <param name="secret">The API secret</param>
-        public KrakenCredentials(string apiKey, string secret) : this(new HMACCredential(apiKey, secret)) { }
+        public KrakenCredentials WithSpot(string key, string secret)
+        {
+            if (Spot != null) throw new InvalidOperationException("Spot credentials already set");
 
-        /// <summary>
-        /// Create Kraken credentials using HMAC credentials
-        /// </summary>
-        /// <param name="credential">The HMAC credentials</param>
-        public KrakenCredentials(HMACCredential credential) : base(credential) { }
+            Spot = new HMACCredential(key, secret);
+            return this;
+        }
+
+        public KrakenCredentials WithFutures(string key, string secret)
+        {
+            if (Futures != null) throw new InvalidOperationException("Futures credentials already set");
+
+            Futures = new HMACCredential(key, secret);
+            return this;
+        }
 
         /// <inheritdoc />
-#pragma warning disable CS0618 // Type or member is obsolete
-        public override ApiCredentials Copy() => new KrakenCredentials { CredentialPairs = CredentialPairs };
-#pragma warning restore CS0618 // Type or member is obsolete
+        public override ApiCredentials Copy() => new KrakenCredentials { Spot = Spot, Futures = Futures };
     }
 }

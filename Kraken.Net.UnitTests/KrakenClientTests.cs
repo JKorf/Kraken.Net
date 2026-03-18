@@ -25,7 +25,7 @@ namespace Kraken.Net.UnitTests
         public void CheckSignatureExample()
         {
             var authProvider = new KrakenAuthenticationProvider(
-                new KrakenCredentials("XX", "kQH5HW/8p1uGOVjbgWA7FunAmGO8lsSUXNsu3eow76sz84Q18fWxnyRzBHCd3pd5nE9qa99HAZtuZuj6F1huXg=="),
+                new KrakenCredentials().WithSpot("XX", "kQH5HW/8p1uGOVjbgWA7FunAmGO8lsSUXNsu3eow76sz84Q18fWxnyRzBHCd3pd5nE9qa99HAZtuZuj6F1huXg=="),
                 new TestNonceProvider(1616492376594)
                 );
             var client = (RestApiClient)new KrakenRestClient().SpotApi;
@@ -126,10 +126,10 @@ namespace Kraken.Net.UnitTests
             var configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    { "ApiCredentials:HMAC:Key", "123" },
-                    { "ApiCredentials:HMAC:Secret", "4/dpxb3iT4tp/ZCVEwSnEsLxx0bqyhLpdfOpc6fn7OR8+UClSV5n9E6aSS8MPtnRfp32bAb0nmbRn6H8ndwLUQ==" },
-                    { "Socket:ApiCredentials:HMAC:Key", "456" },
-                    { "Socket:ApiCredentials:HMAC:Secret", "4/dpxb3iT4tp/ZCVEwSnEsLxx0bqyhLpdfOpc6fn7OR8+UClSV5n9E6aSS8MPtnRfp32bAb0nmbRn6H8ndwLUQ==" },
+                    { "ApiCredentials:Spot:Key", "123" },
+                    { "ApiCredentials:Spot:Secret", "4/dpxb3iT4tp/ZCVEwSnEsLxx0bqyhLpdfOpc6fn7OR8+UClSV5n9E6aSS8MPtnRfp32bAb0nmbRn6H8ndwLUQ==" },
+                    { "Socket:ApiCredentials:Spot:Key", "456" },
+                    { "Socket:ApiCredentials:Spot:Secret", "4/dpxb3iT4tp/ZCVEwSnEsLxx0bqyhLpdfOpc6fn7OR8+UClSV5n9E6aSS8MPtnRfp32bAb0nmbRn6H8ndwLUQ==" },
                     { "Rest:OutputOriginalData", "true" },
                     { "Socket:OutputOriginalData", "false" },
                     { "Rest:Proxy:Host", "host" },

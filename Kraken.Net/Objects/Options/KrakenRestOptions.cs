@@ -36,12 +36,12 @@ namespace Kraken.Net.Objects.Options
         /// <summary>
         /// Options for the Spot API
         /// </summary>
-        public RestApiOptions<KrakenCredentials> SpotOptions { get; private set; } = new RestApiOptions<KrakenCredentials>();
+        public RestApiOptions SpotOptions { get; private set; } = new RestApiOptions();
 
         /// <summary>
         /// Options for the Futures API
         /// </summary>
-        public RestApiOptions<KrakenCredentials> FuturesOptions { get; private set; } = new RestApiOptions<KrakenCredentials>();
+        public RestApiOptions FuturesOptions { get; private set; } = new RestApiOptions();
 
         internal KrakenRestOptions Set(KrakenRestOptions targetOptions)
         {
