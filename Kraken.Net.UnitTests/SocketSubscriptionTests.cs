@@ -41,7 +41,7 @@ namespace Kraken.Net.UnitTests
             var client = new KrakenSocketClient(Options.Create(new KrakenSocketOptions 
             {
                 OutputOriginalData = true,
-                ApiCredentials = new KrakenCredentials().WithSpot("MTIz", "MTIz")
+                ApiCredentials = new KrakenCredentials().WithSpotHMAC("MTIz", "MTIz")
             }), loggerFactory);
             var tester = new SocketSubscriptionValidator<KrakenSocketClient>(client, "Subscriptions/Spot", "wss://ws-auth.kraken.com", "data");
             await tester.ValidateAsync<KrakenTickerUpdate>((client, handler) => client.SpotApi.SubscribeToTickerUpdatesAsync("ETH/USDT", handler), "Ticker");

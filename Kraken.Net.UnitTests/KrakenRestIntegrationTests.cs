@@ -30,7 +30,7 @@ namespace Kraken.Net.UnitTests
             return new KrakenRestClient(null, loggerFactory, Options.Create(new KrakenRestOptions
             {
                 OutputOriginalData = true,
-                ApiCredentials = Authenticated ? new KrakenCredentials().WithSpot(key, sec) : null
+                ApiCredentials = Authenticated ? new KrakenCredentials().WithSpotHMAC(key, sec) : null
             }));
         }
 
