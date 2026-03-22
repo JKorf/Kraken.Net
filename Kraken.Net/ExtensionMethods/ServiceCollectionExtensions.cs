@@ -103,8 +103,6 @@ namespace Microsoft.Extensions.DependencyInjection
             }).SetHandlerLifetime(Timeout.InfiniteTimeSpan);
             services.Add(new ServiceDescriptor(typeof(IKrakenSocketClient), x => { return new KrakenSocketClient(x.GetRequiredService<IOptions<KrakenSocketOptions>>(), x.GetRequiredService<ILoggerFactory>()); }, socketClientLifeTime ?? ServiceLifetime.Singleton));
 
-            services.AddTransient<ICryptoRestClient, CryptoRestClient>();
-            services.AddTransient<ICryptoSocketClient, CryptoSocketClient>();
             services.AddTransient<IKrakenOrderBookFactory, KrakenOrderBookFactory>();
             services.AddTransient<IKrakenTrackerFactory, KrakenTrackerFactory>();
             services.AddTransient<ITrackerFactory, KrakenTrackerFactory>();

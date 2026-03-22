@@ -735,7 +735,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (ApiCredentials == null)
                 return new CallResult<string>(new NoApiCredentialsError());
 
-            if (_tokenCache.TryGetValue(ApiCredentials.Spot.Key, out var token) && token.Expire > DateTime.UtcNow)
+            if (_tokenCache.TryGetValue(ApiCredentials.Spot!.Key, out var token) && token.Expire > DateTime.UtcNow)
                 return new CallResult<string>(token.Token);
 
             if (ClientOptions.Environment.Name == "UnitTest")
