@@ -45,7 +45,7 @@ Kraken.Net is available on [GitHub packages](https://github.com/JKorf/Kraken.Net
 The NuGet package files are added along side the source with the latest GitHub release which can found [here](https://github.com/JKorf/Kraken.Net/releases).
 
 ## How to use
-*REST Endpoints*  
+*Basic request:*  
 
 ```csharp
 // Get the ETH/USD ticker via rest request
@@ -54,7 +54,26 @@ var tickerResult = await restClient.SpotApi.ExchangeData.GetTickerAsync("ETHUSD"
 var lastPrice = tickerResult.Data.First().Value.LastTrade.Price;
 ```
 
-*Websocket streams*  
+*Place order:*
+```csharp
+var restClient = new KrakenRestClient(opts => {
+	opts.ApiCredentials = new KrakenCredentials(
+		new HMACCredential("SPOTKEY", "SPOTSECRET"),
+		new HMACCredential("FUTURESKEY", "FUTURESSECRET")
+	);
+});
+
+// Place Limit order to go long for 0.1 ETH at 2000
+var orderResult = await restClient.FuturesApi.Trading.PlaceOrderAsync(
+    "PF_ETHUSD",
+    OrderSide.Buy,
+    FuturesOrderType.Limit,
+    0.1m,
+    2000
+    );
+```
+
+*WebSocket subscription:*
 
 ```csharp
 // Subscribe to ETH/USD ticker updates via the websocket API
