@@ -1,4 +1,33 @@
 POST
 /0/private/GetApiKeyInfo
 true
-{}
+{
+  "error": [],
+  "result": 
+	{
+		"api_key_name":"TestKey",
+		"api_key":"123",
+		"nonce":"123",
+		"nonce_window":"15",
+		"permissions":[
+			"query-funds",
+			"add-funds",
+			"withdraw-funds",
+			"query-open-trades",
+			"query-closed-trades",
+			"modify-trades",
+			"close-trades",
+			"query-ledger",
+			"create-ws-token"
+		],
+		"iban":"123",
+		"valid_until":"0",
+		"query_from":"0",
+		"query_to":"0",
+		"created_time":"1522132642",
+		"modified_time":"1618230358",
+		"ip_allowlist":[""
+		],
+		"last_used":"1774350056"
+	}
+}
