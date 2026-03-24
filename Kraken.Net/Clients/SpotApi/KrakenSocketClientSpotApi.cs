@@ -22,7 +22,7 @@ using System.Net.WebSockets;
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc />
-    internal partial class KrakenSocketClientSpotApi : SocketApiClient, IKrakenSocketClientSpotApi
+    internal partial class KrakenSocketClientSpotApi : SocketApiClient<KrakenEnvironment, KrakenAuthenticationProvider, KrakenCredentials>, IKrakenSocketClientSpotApi
     {
         private static readonly ConcurrentDictionary<string, CachedToken> _tokenCache = new();
 
@@ -93,7 +93,7 @@ namespace Kraken.Net.Clients.SpotApi
         public IKrakenSocketClientSpotApiShared SharedClient => this;
 
         /// <inheritdoc />
-        protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
+        protected override KrakenAuthenticationProvider CreateAuthenticationProvider(KrakenCredentials credentials)
             => new KrakenAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new KrakenNonceProvider());
 
         #region Streams
@@ -735,7 +735,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (ApiCredentials == null)
                 return new CallResult<string>(new NoApiCredentialsError());
 
-            if (_tokenCache.TryGetValue(ApiCredentials.Key, out var token) && token.Expire > DateTime.UtcNow)
+            if (_tokenCache.TryGetValue(ApiCredentials.Spot!.Key, out var token) && token.Expire > DateTime.UtcNow)
                 return new CallResult<string>(token.Token);
 
             if (ClientOptions.Environment.Name == "UnitTest")
@@ -753,7 +753,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             var result = await restClient.SpotApi.Account.GetWebsocketTokenAsync().ConfigureAwait(false);
             if (result)
-                _tokenCache[ApiCredentials.Key] = new CachedToken { Token = result.Data.Token, Expire = DateTime.UtcNow.AddSeconds(result.Data.Expires - 5) };
+                _tokenCache[ApiCredentials.Spot.Key] = new CachedToken { Token = result.Data.Token, Expire = DateTime.UtcNow.AddSeconds(result.Data.Expires - 5) };
             else
                 _logger.LogWarning("Failed to retrieve websocket token: {Error}", result.Error);
 

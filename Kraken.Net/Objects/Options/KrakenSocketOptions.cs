@@ -5,7 +5,7 @@ namespace Kraken.Net.Objects.Options
     /// <summary>
     /// Options for the KrakenSocketClient
     /// </summary>
-    public class KrakenSocketOptions : SocketExchangeOptions<KrakenEnvironment>
+    public class KrakenSocketOptions : SocketExchangeOptions<KrakenEnvironment, KrakenCredentials>
     {
         /// <summary>
         /// Default options for new KrakenRestClients

@@ -5,7 +5,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
     /// <summary>
     /// Futures API endpoints
     /// </summary>
-    public interface IKrakenRestClientFuturesApi : IRestApiClient, IDisposable
+    public interface IKrakenRestClientFuturesApi : IRestApiClient<KrakenCredentials>, IDisposable
     {
         /// <summary>
         /// Endpoints related to account settings, info or actions

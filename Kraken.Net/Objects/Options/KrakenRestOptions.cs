@@ -5,7 +5,7 @@ namespace Kraken.Net.Objects.Options
     /// <summary>
     /// Options for the KrakenRestClient
     /// </summary>
-    public class KrakenRestOptions : RestExchangeOptions<KrakenEnvironment>
+    public class KrakenRestOptions : RestExchangeOptions<KrakenEnvironment, KrakenCredentials>
     {
         /// <summary>
         /// Default options for new KrakenRestClients

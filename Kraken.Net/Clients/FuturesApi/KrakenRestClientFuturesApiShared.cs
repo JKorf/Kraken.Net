@@ -714,12 +714,18 @@ namespace Kraken.Net.Clients.FuturesApi
             return result.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedId(result.Data.OrderId.ToString()));
         }
 
-
         private SharedOrderStatus ParseOrderStatus(KrakenFuturesOrderActiveStatus status)
         {
             if (status == KrakenFuturesOrderActiveStatus.EnteredBook) return SharedOrderStatus.Open;
             if (status == KrakenFuturesOrderActiveStatus.FullyExecuted) return SharedOrderStatus.Filled;
-            return SharedOrderStatus.Canceled;
+            if (status == KrakenFuturesOrderActiveStatus.Cancelled
+                || status == KrakenFuturesOrderActiveStatus.Rejected
+                || status == KrakenFuturesOrderActiveStatus.TriggerActivationFailure)
+            {
+                return SharedOrderStatus.Canceled;
+            }
+
+            return SharedOrderStatus.Unknown;
         }
 
         private FuturesOrderType GetOrderType(SharedOrderType orderType, SharedTimeInForce? timeInForce)

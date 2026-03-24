@@ -12,7 +12,7 @@ using System.Net.Http.Headers;
 namespace Kraken.Net.Clients.FuturesApi
 {
     /// <inheritdoc />
-    internal partial class KrakenRestClientFuturesApi : RestApiClient, IKrakenRestClientFuturesApi
+    internal partial class KrakenRestClientFuturesApi : RestApiClient<KrakenEnvironment, KrakenFuturesAuthenticationProvider, KrakenCredentials>, IKrakenRestClientFuturesApi
     {
         #region fields
 
@@ -92,7 +92,7 @@ namespace Kraken.Net.Clients.FuturesApi
             => await base.SendAsync<T>(BaseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
 
         /// <inheritdoc />
-        protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
+        protected override KrakenFuturesAuthenticationProvider CreateAuthenticationProvider(KrakenCredentials credentials)
             => new KrakenFuturesAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new KrakenNonceProvider());
 
         /// <inheritdoc />

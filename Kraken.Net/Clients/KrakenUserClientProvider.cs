@@ -45,7 +45,7 @@ namespace Kraken.Net.Clients
         }
 
         /// <inheritdoc />
-        public void InitializeUserClient(string userIdentifier, ApiCredentials credentials, KrakenEnvironment? environment = null)
+        public void InitializeUserClient(string userIdentifier, KrakenCredentials credentials, KrakenEnvironment? environment = null)
         {
             CreateRestClient(userIdentifier, credentials, environment);
             CreateSocketClient(userIdentifier, credentials, environment);
@@ -59,7 +59,7 @@ namespace Kraken.Net.Clients
         }
 
         /// <inheritdoc />
-        public IKrakenRestClient GetRestClient(string userIdentifier, ApiCredentials? credentials = null, KrakenEnvironment? environment = null)
+        public IKrakenRestClient GetRestClient(string userIdentifier, KrakenCredentials? credentials = null, KrakenEnvironment? environment = null)
         {
             if (!_restClients.TryGetValue(userIdentifier, out var client) || client.Disposed)
                 client = CreateRestClient(userIdentifier, credentials, environment);
@@ -68,7 +68,7 @@ namespace Kraken.Net.Clients
         }
 
         /// <inheritdoc />
-        public IKrakenSocketClient GetSocketClient(string userIdentifier, ApiCredentials? credentials = null, KrakenEnvironment? environment = null)
+        public IKrakenSocketClient GetSocketClient(string userIdentifier, KrakenCredentials? credentials = null, KrakenEnvironment? environment = null)
         {
             if (!_socketClients.TryGetValue(userIdentifier, out var client) || client.Disposed)
                 client = CreateSocketClient(userIdentifier, credentials, environment);
@@ -76,7 +76,7 @@ namespace Kraken.Net.Clients
             return client;
         }
 
-        private IKrakenRestClient CreateRestClient(string userIdentifier, ApiCredentials? credentials, KrakenEnvironment? environment)
+        private IKrakenRestClient CreateRestClient(string userIdentifier, KrakenCredentials? credentials, KrakenEnvironment? environment)
         {
             var clientRestOptions = SetRestEnvironment(environment);
             var client = new KrakenRestClient(_httpClient, _loggerFactory, clientRestOptions);
@@ -88,7 +88,7 @@ namespace Kraken.Net.Clients
             return client;
         }
 
-        private IKrakenSocketClient CreateSocketClient(string userIdentifier, ApiCredentials? credentials, KrakenEnvironment? environment)
+        private IKrakenSocketClient CreateSocketClient(string userIdentifier, KrakenCredentials? credentials, KrakenEnvironment? environment)
         {
             var clientSocketOptions = SetSocketEnvironment(environment);
             var client = new KrakenSocketClient(clientSocketOptions!, _loggerFactory);

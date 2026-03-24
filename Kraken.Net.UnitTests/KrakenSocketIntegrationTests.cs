@@ -30,7 +30,7 @@ namespace Kraken.Net.UnitTests
             return new KrakenSocketClient(Options.Create(new KrakenSocketOptions
             {
                 OutputOriginalData = true,
-                ApiCredentials = Authenticated ? new CryptoExchange.Net.Authentication.ApiCredentials(key, sec) : null
+                ApiCredentials = Authenticated ? new KrakenCredentials().WithSpotHMAC(key, sec) : null
             }), loggerFactory);
         }
 

@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CryptoExchange.Net.Objects;
 using Kraken.Net.Interfaces.Clients;
+using Kraken.Net.Clients.SpotApi;
 
 namespace Kraken.Net.UnitTests
 {
@@ -24,7 +25,7 @@ namespace Kraken.Net.UnitTests
         public void CheckSignatureExample()
         {
             var authProvider = new KrakenAuthenticationProvider(
-                new ApiCredentials("XX", "kQH5HW/8p1uGOVjbgWA7FunAmGO8lsSUXNsu3eow76sz84Q18fWxnyRzBHCd3pd5nE9qa99HAZtuZuj6F1huXg=="),
+                new KrakenCredentials().WithSpotHMAC("XX", "kQH5HW/8p1uGOVjbgWA7FunAmGO8lsSUXNsu3eow76sz84Q18fWxnyRzBHCd3pd5nE9qa99HAZtuZuj6F1huXg=="),
                 new TestNonceProvider(1616492376594)
                 );
             var client = (RestApiClient)new KrakenRestClient().SpotApi;
@@ -125,10 +126,10 @@ namespace Kraken.Net.UnitTests
             var configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    { "ApiCredentials:Key", "123" },
-                    { "ApiCredentials:Secret", "4/dpxb3iT4tp/ZCVEwSnEsLxx0bqyhLpdfOpc6fn7OR8+UClSV5n9E6aSS8MPtnRfp32bAb0nmbRn6H8ndwLUQ==" },
-                    { "Socket:ApiCredentials:Key", "456" },
-                    { "Socket:ApiCredentials:Secret", "4/dpxb3iT4tp/ZCVEwSnEsLxx0bqyhLpdfOpc6fn7OR8+UClSV5n9E6aSS8MPtnRfp32bAb0nmbRn6H8ndwLUQ==" },
+                    { "ApiCredentials:Spot:Key", "123" },
+                    { "ApiCredentials:Spot:Secret", "4/dpxb3iT4tp/ZCVEwSnEsLxx0bqyhLpdfOpc6fn7OR8+UClSV5n9E6aSS8MPtnRfp32bAb0nmbRn6H8ndwLUQ==" },
+                    { "Socket:ApiCredentials:Spot:Key", "456" },
+                    { "Socket:ApiCredentials:Spot:Secret", "4/dpxb3iT4tp/ZCVEwSnEsLxx0bqyhLpdfOpc6fn7OR8+UClSV5n9E6aSS8MPtnRfp32bAb0nmbRn6H8ndwLUQ==" },
                     { "Rest:OutputOriginalData", "true" },
                     { "Socket:OutputOriginalData", "false" },
                     { "Rest:Proxy:Host", "host" },
@@ -146,8 +147,8 @@ namespace Kraken.Net.UnitTests
 
             Assert.That(((BaseApiClient)restClient.SpotApi).OutputOriginalData, Is.True);
             Assert.That(((BaseApiClient)socketClient.SpotApi).OutputOriginalData, Is.False);
-            Assert.That(((BaseApiClient)restClient.SpotApi).AuthenticationProvider.ApiKey, Is.EqualTo("123"));
-            Assert.That(((BaseApiClient)socketClient.SpotApi).AuthenticationProvider.ApiKey, Is.EqualTo("456"));
+            Assert.That(((KrakenRestClientSpotApi)restClient.SpotApi).AuthenticationProvider.Key, Is.EqualTo("123"));
+            Assert.That(((KrakenSocketClientSpotApi)socketClient.SpotApi).AuthenticationProvider.Key, Is.EqualTo("456"));
             Assert.That(((BaseApiClient)restClient.SpotApi).ClientOptions.Proxy.Host, Is.EqualTo("host"));
             Assert.That(((BaseApiClient)restClient.SpotApi).ClientOptions.Proxy.Port, Is.EqualTo(80));
             Assert.That(((BaseApiClient)socketClient.SpotApi).ClientOptions.Proxy.Host, Is.EqualTo("host2"));

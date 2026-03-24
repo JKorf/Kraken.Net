@@ -20,7 +20,7 @@ namespace Kraken.Net.UnitTests
             var client = new KrakenRestClient(opts =>
             {
                 opts.AutoTimestamp = false;
-                opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
+                opts.ApiCredentials = new KrakenCredentials().WithSpotHMAC("MTIz", "MTIz");
                 opts.RateLimiterEnabled = false;
             });
             var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Spot/Account", "https://api.kraken.com", IsAuthenticatedSpot, "result");
@@ -67,7 +67,7 @@ namespace Kraken.Net.UnitTests
             var client = new KrakenRestClient(opts =>
             {
                 opts.AutoTimestamp = false;
-                opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
+                opts.ApiCredentials = new KrakenCredentials().WithSpotHMAC("MTIz", "MTIz");
                 opts.RateLimiterEnabled = false;
             });
             var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Spot/Trading", "https://api.kraken.com", IsAuthenticatedSpot, "result");
@@ -92,7 +92,7 @@ namespace Kraken.Net.UnitTests
             var client = new KrakenRestClient(opts =>
             {
                 opts.AutoTimestamp = false;
-                opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
+                opts.ApiCredentials = new KrakenCredentials().WithSpotHMAC("MTIz", "MTIz");
                 opts.RateLimiterEnabled = false;
             });
             var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Spot/Earn", "https://api.kraken.com", IsAuthenticatedSpot, "result");
@@ -111,7 +111,7 @@ namespace Kraken.Net.UnitTests
             {
                 opts.AutoTimestamp = false;
                 opts.RateLimiterEnabled = false;
-                opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
+                opts.ApiCredentials = new KrakenCredentials().WithFuturesHMAC("MTIz", "MTIz");
             });
             var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Futures/Account", "https://futures.kraken.com", IsAuthenticatedFutures);
             await tester.ValidateAsync(client => client.FuturesApi.Account.GetBalancesAsync(), "GetBalances", "result", skipResponseValidation: true);
@@ -131,7 +131,7 @@ namespace Kraken.Net.UnitTests
             {
                 opts.AutoTimestamp = false;
                 opts.RateLimiterEnabled = false;
-                opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
+                opts.ApiCredentials = new KrakenCredentials().WithFuturesHMAC("MTIz", "MTIz");
             });
             var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Futures/Trading", "https://futures.kraken.com", IsAuthenticatedFutures);
             await tester.ValidateAsync(client => client.FuturesApi.Trading.GetUserTradesAsync(), "GetUserTrades", "result");
@@ -157,7 +157,7 @@ namespace Kraken.Net.UnitTests
             {
                 opts.RateLimiterEnabled = false;
                 opts.AutoTimestamp = false;
-                opts.ApiCredentials = new ApiCredentials("MTIz", "MTIz");
+                opts.ApiCredentials = new KrakenCredentials().WithFuturesHMAC("MTIz", "MTIz");
             });
             var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Futures/ExchangeData", "https://futures.kraken.com", IsAuthenticatedFutures);
             await tester.ValidateAsync(client => client.FuturesApi.ExchangeData.GetPlatformNotificationsAsync(), "GetPlatformNotifications", "result");

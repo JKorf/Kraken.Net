@@ -10,7 +10,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
     /// <summary>
     /// Spot V2 websocket API
     /// </summary>
-    public interface IKrakenSocketClientSpotApi : ISocketApiClient, IDisposable
+    public interface IKrakenSocketClientSpotApi : ISocketApiClient<KrakenCredentials>, IDisposable
     {
         /// <summary>
         /// Get the shared socket subscription client. This interface is shared with other exchanges to allow for a common implementation for different exchanges.

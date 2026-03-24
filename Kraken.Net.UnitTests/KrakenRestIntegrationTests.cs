@@ -30,7 +30,7 @@ namespace Kraken.Net.UnitTests
             return new KrakenRestClient(null, loggerFactory, Options.Create(new KrakenRestOptions
             {
                 OutputOriginalData = true,
-                ApiCredentials = Authenticated ? new ApiCredentials(key, sec) : null
+                ApiCredentials = Authenticated ? new KrakenCredentials().WithSpotHMAC(key, sec) : null
             }));
         }
 
@@ -108,7 +108,7 @@ namespace Kraken.Net.UnitTests
             await RunAndCheckResult(client => client.FuturesApi.ExchangeData.GetTradesAsync("PF_ETHUSD", default, default), false);
             await RunAndCheckResult(client => client.FuturesApi.ExchangeData.GetOrderBookAsync("PF_ETHUSD", default), false);
             await RunAndCheckResult(client => client.FuturesApi.ExchangeData.GetTickersAsync(default), false);
-            await RunAndCheckResult(client => client.FuturesApi.ExchangeData.GetKlinesAsync(Enums.TickType.Trade, "PF_ETHUSD", Enums.FuturesKlineInterval.OneDay, default, default, default), false);
+            await RunAndCheckResult(client => client.FuturesApi.ExchangeData.GetKlinesAsync(Enums.TickType.Trade, "PF_ETHUSD", Enums.FuturesKlineInterval.OneDay, default, default, default, default), false);
         }
 
         [Test]

@@ -6,7 +6,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
     /// <summary>
     /// Spot API endpoints
     /// </summary>
-    public interface IKrakenRestClientSpotApi : IRestApiClient, IDisposable
+    public interface IKrakenRestClientSpotApi : IRestApiClient<KrakenCredentials>, IDisposable
     {
         /// <summary>
         /// Endpoints related to account settings, info or actions

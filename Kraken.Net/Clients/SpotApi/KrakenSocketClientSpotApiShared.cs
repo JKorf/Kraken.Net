@@ -224,7 +224,9 @@ namespace Kraken.Net.Clients.SpotApi
         {
             if (orderStatus == OrderStatusUpdate.New || orderStatus == OrderStatusUpdate.Pending || orderStatus == OrderStatusUpdate.PartiallyFilled) return SharedOrderStatus.Open;
             if (orderStatus == OrderStatusUpdate.Canceled || orderStatus == OrderStatusUpdate.Expired) return SharedOrderStatus.Canceled;
-            return SharedOrderStatus.Filled;
+            if (orderStatus == OrderStatusUpdate.Filled) return SharedOrderStatus.Filled;
+
+            return SharedOrderStatus.Unknown;
         }
         #endregion
 

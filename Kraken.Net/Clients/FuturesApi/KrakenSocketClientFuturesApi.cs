@@ -18,7 +18,7 @@ using System.Net.WebSockets;
 namespace Kraken.Net.Clients.FuturesApi
 {
     /// <inheritdoc />
-    internal partial class KrakenSocketClientFuturesApi : SocketApiClient, IKrakenSocketClientFuturesApi
+    internal partial class KrakenSocketClientFuturesApi : SocketApiClient<KrakenEnvironment, KrakenFuturesAuthenticationProvider, KrakenCredentials>, IKrakenSocketClientFuturesApi
     {
         #region fields                
         /// <inheritdoc />
@@ -49,7 +49,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 => KrakenExchange.FormatSymbol(baseAsset, quoteAsset, tradingMode, deliverTime);
 
         /// <inheritdoc />
-        protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
+        protected override KrakenFuturesAuthenticationProvider CreateAuthenticationProvider(KrakenCredentials credentials)
             => new KrakenFuturesAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new KrakenNonceProvider());
 
         #region Heartbeat

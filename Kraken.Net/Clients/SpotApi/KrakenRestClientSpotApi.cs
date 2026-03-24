@@ -14,7 +14,7 @@ using System.Net.Http.Headers;
 namespace Kraken.Net.Clients.SpotApi
 {
     /// <inheritdoc cref="IKrakenRestClientSpotApi" />
-    internal partial class KrakenRestClientSpotApi : RestApiClient, IKrakenRestClientSpotApi
+    internal partial class KrakenRestClientSpotApi : RestApiClient<KrakenEnvironment, KrakenAuthenticationProvider, KrakenCredentials>, IKrakenRestClientSpotApi
     {
         #region fields
 
@@ -58,7 +58,7 @@ namespace Kraken.Net.Clients.SpotApi
                 => KrakenExchange.FormatSymbol(baseAsset, quoteAsset, tradingMode, deliverTime);
 
         /// <inheritdoc />
-        protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
+        protected override KrakenAuthenticationProvider CreateAuthenticationProvider(KrakenCredentials credentials)
             => new KrakenAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new KrakenNonceProvider());
 
         protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange._serializerContext));

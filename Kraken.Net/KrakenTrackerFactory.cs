@@ -106,7 +106,7 @@ namespace Kraken.Net
         }
 
         /// <inheritdoc />
-        public IUserSpotDataTracker CreateUserSpotDataTracker(string userIdentifier, ApiCredentials credentials, SpotUserDataTrackerConfig? config = null, KrakenEnvironment? environment = null)
+        public IUserSpotDataTracker CreateUserSpotDataTracker(string userIdentifier, KrakenCredentials credentials, SpotUserDataTrackerConfig? config = null, KrakenEnvironment? environment = null)
         {
             var clientProvider = _serviceProvider?.GetRequiredService<IKrakenUserClientProvider>() ?? new KrakenUserClientProvider();
             var restClient = clientProvider.GetRestClient(userIdentifier, credentials, environment);
@@ -135,7 +135,7 @@ namespace Kraken.Net
         }
 
         /// <inheritdoc />
-        public IUserFuturesDataTracker CreateUserFuturesDataTracker(string userIdentifier, ApiCredentials credentials, FuturesUserDataTrackerConfig? config = null, KrakenEnvironment? environment = null)
+        public IUserFuturesDataTracker CreateUserFuturesDataTracker(string userIdentifier, KrakenCredentials credentials, FuturesUserDataTrackerConfig? config = null, KrakenEnvironment? environment = null)
         {
             var clientProvider = _serviceProvider?.GetRequiredService<IKrakenUserClientProvider>() ?? new KrakenUserClientProvider();
             var restClient = clientProvider.GetRestClient(userIdentifier, credentials, environment);
