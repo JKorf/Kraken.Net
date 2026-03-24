@@ -25,7 +25,7 @@ namespace Kraken.Net.UnitTests
         public void CheckSignatureExample()
         {
             var authProvider = new KrakenAuthenticationProvider(
-                new KrakenCredentials().WithSpotHMAC("XX", "kQH5HW/8p1uGOVjbgWA7FunAmGO8lsSUXNsu3eow76sz84Q18fWxnyRzBHCd3pd5nE9qa99HAZtuZuj6F1huXg=="),
+                new KrakenCredentials().WithSpot("XX", "kQH5HW/8p1uGOVjbgWA7FunAmGO8lsSUXNsu3eow76sz84Q18fWxnyRzBHCd3pd5nE9qa99HAZtuZuj6F1huXg=="),
                 new TestNonceProvider(1616492376594)
                 );
             var client = (RestApiClient)new KrakenRestClient().SpotApi;
