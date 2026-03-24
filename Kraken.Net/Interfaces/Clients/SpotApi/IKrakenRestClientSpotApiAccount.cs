@@ -387,5 +387,18 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<KrakenReferenceId>> TransferAsync(string asset, decimal quantity, string fromWallet, string toWallet, string? twoFactorPassword = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get API key info
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/rest-api/get-api-key-info" /><br />
+        /// Endpoint:<br />
+        /// GET /0/private/GetApiKeyInfo<br />
+        /// </para>
+        /// </summary>
+        /// <param name="ct">Cancellation token</param>
+        Task<WebCallResult<KrakenApiKey>> GetApiKeyInfoAsync(CancellationToken ct = default);
+
     }
 }

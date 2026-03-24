@@ -423,6 +423,18 @@ namespace Kraken.Net.Clients.SpotApi
 
         #endregion
 
+        #region Get Api Key Info
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<KrakenApiKey>> GetApiKeyInfoAsync(CancellationToken ct = default)
+        {
+            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/GetApiKeyInfo", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var result = await _baseClient.SendAsync<KrakenApiKey>(request, null, ct).ConfigureAwait(false);
+            return result;
+        }
+
+        #endregion
+
         #region Get Websocket Token
 
         /// <inheritdoc />

@@ -41,6 +41,7 @@ namespace Kraken.Net.UnitTests
             await tester.ValidateAsync(client => client.SpotApi.Account.GetWithdrawalStatusAsync("ETH", "123"), "GetWithdrawalStatus");
             await tester.ValidateAsync(client => client.SpotApi.Account.CancelWithdrawalAsync("ETH", "123"), "CancelWithdrawal");
             await tester.ValidateAsync(client => client.SpotApi.Account.TransferAsync("ETH", 1, "123", "123"), "Transfer");
+            await tester.ValidateAsync(client => client.SpotApi.Account.GetApiKeyInfoAsync(), "GetApiKeyInfo");
         }
 
         [Test]

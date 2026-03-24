@@ -48,7 +48,7 @@ namespace Kraken.Net
         /// </summary>
         /// <param name="key">API key</param>
         /// <param name="secret">API secret</param>
-        public KrakenCredentials WithSpotHMAC(string key, string secret)
+        public KrakenCredentials WithSpot(string key, string secret)
         {
             if (Spot != null) throw new InvalidOperationException("Spot credentials already set");
 
@@ -61,7 +61,7 @@ namespace Kraken.Net
         /// </summary>
         /// <param name="key">API key</param>
         /// <param name="secret">API secret</param>
-        public KrakenCredentials WithFuturesHMAC(string key, string secret)
+        public KrakenCredentials WithFutures(string key, string secret)
         {
             if (Futures != null) throw new InvalidOperationException("Futures credentials already set");
 
