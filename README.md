@@ -194,6 +194,17 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 7.9.0 - 24 Mar 2026
+    * Updated CryptoExchange.Net to version 11.0.1, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+    * Updated class for supplying API credentials from ApiCredentials to KrakenCredentials, supporting providing both Spot and Futures credentials
+    * Updated Shared order status parsing to default to Unknown value if not parsable
+    * Added restClient.SpotApi.Account.GetApiKeyInfoAsync endpoint
+
+    * Notes for updating:
+        * Update ApiCredentials to KrakenCredentials for authentication, i.e. `ApiCredentials = new ApiCredentials(..)` => `ApiCredentials = new KrakenCredentials(..)`
+        * Since Kraken requires different credentials for Spot and Futures the credentials reflect this split. To provide credentials for spot only: `new KrakenCredentials(new HMACCredential("KEY", "SEC"), null)`, to provide both spot and futures: `new KrakenCredentials(new HMACCredential("SPOTKEY", "SPOTSEC"), new HMACCredential("FUTURESKEY", "FUTURESSEC"))`
+        * When using AddKraken with the Configuration overload (loading config from appsettings), the API credentials path has been changed from ApiCredentials:Key to ApiCredentials:Spot:Key (and secret), and similarly for Futures
+
 * Version 7.8.0 - 06 Mar 2026
     * Updated CryptoExchange.Net to version 10.8.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
     * Improved method XML comments
