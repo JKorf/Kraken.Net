@@ -1,5 +1,6 @@
 ﻿using CryptoExchange.Net.Sockets;
 using CryptoExchange.Net.Sockets.Default;
+using CryptoExchange.Net.Sockets.Default.Routing;
 using Kraken.Net.Objects.Models.Socket;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot

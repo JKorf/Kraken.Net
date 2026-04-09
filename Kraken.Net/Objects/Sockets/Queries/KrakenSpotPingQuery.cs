@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.Default.Routing;
 using Kraken.Net.Objects.Internal;
 
 namespace Kraken.Net.Objects.Sockets.Queries

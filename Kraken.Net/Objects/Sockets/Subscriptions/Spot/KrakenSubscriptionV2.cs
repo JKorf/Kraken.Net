@@ -1,6 +1,7 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Sockets;
 using CryptoExchange.Net.Sockets.Default;
+using CryptoExchange.Net.Sockets.Default.Routing;
 using Kraken.Net.Enums;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Sockets.Queries;

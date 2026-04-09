@@ -1,6 +1,7 @@
 ﻿using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
 using CryptoExchange.Net.Sockets.Default;
+using CryptoExchange.Net.Sockets.Default.Routing;
 using Kraken.Net.Clients.SpotApi;
 using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models.Socket;
