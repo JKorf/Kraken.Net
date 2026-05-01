@@ -39,6 +39,11 @@ namespace Kraken.Net.Objects.Models
         [JsonPropertyName("quote")]
         public string QuoteAsset { get; set; } = string.Empty;
         /// <summary>
+        /// ["<c>execution_venue</c>"] Execution venue where the order book for this pair is listed
+        /// </summary>
+        [JsonPropertyName("execution_venue")]
+        public string ExecutionVenue { get; set; } = string.Empty;
+        /// <summary>
         /// ["<c>lot</c>"] Lot size
         /// </summary>
         [JsonPropertyName("lot")]

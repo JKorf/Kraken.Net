@@ -61,12 +61,13 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Symbols
 
         /// <inheritdoc />
-        public async Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, string? countryCode = null, AClass? assetClass = null, bool? newAssetNameResponse = null, CancellationToken ct = default)
+        public async Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, string? countryCode = null, AClass? assetClass = null, bool? newAssetNameResponse = null, string? executionVenue = null, CancellationToken ct = default)
         {
             var parameters = new ParameterCollection();
             parameters.AddOptionalParameter("country_code", countryCode);
             parameters.AddOptionalEnum("aclass_base", assetClass);
             parameters.AddOptional("assetVersion", newAssetNameResponse);
+            parameters.AddOptional("execution_venue", executionVenue);
             if (symbols?.Any() == true)
                 parameters.AddOptionalParameter("pair", string.Join(",", symbols));
 

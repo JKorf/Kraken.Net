@@ -64,9 +64,10 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="symbols">["<c>pair</c>"] Filter list for specific symbols, for example `ETHUSDT`</param>
         /// <param name="aClass">["<c>aclass_base</c>"] Filter by asset class</param>
         /// <param name="newAssetNameResponse">["<c>assetVersion</c>"] When set to true the asset names will be in the new format, for example `BTC` instead of `XBT`. Default is false.</param>
+        /// <param name="executionVenue">["<c>execution_venue</c>"] Comma-separated list of execution venues to filter by</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary of symbol info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, string? countryCode = null, AClass? aClass = null, bool? newAssetNameResponse = null, CancellationToken ct = default);
+        Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, string? countryCode = null, AClass? aClass = null, bool? newAssetNameResponse = null, string? executionVenue = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get tickers for symbol
