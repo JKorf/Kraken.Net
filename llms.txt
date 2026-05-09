@@ -1,0 +1,39 @@
+# Kraken.Net
+
+> Strongly typed .NET client library for the Kraken Spot and Futures REST and WebSocket APIs. Part of the CryptoExchange.Net ecosystem, with shared API abstractions for exchange-agnostic code.
+
+Kraken.Net provides typed REST and WebSocket clients, automatic WebSocket reconnection, client-side rate limiting, local order book support, dependency injection, and the standard `WebCallResult<T>` / `CallResult<T>` result model. Current repository package version: 7.10.0. NuGet package id: `KrakenExchange.Net`. Targets netstandard2.0, netstandard2.1, net8.0, net9.0, net10.0.
+
+## Documentation
+
+- [README](https://github.com/JKorf/Kraken.Net/blob/master/README.md): Overview, installation, supported frameworks, usage examples, release notes
+- [Documentation Site](https://cryptoexchange.jkorf.dev/Kraken.Net/): Full client documentation
+- [AI API Quick Map](https://github.com/JKorf/Kraken.Net/blob/master/docs/ai-api-map.md): Table-style intent-to-method map
+- [Full LLM Context](https://github.com/JKorf/Kraken.Net/blob/master/llms-full.txt): Detailed AI/LLM guide with code patterns, endpoint map, pitfalls, and anti-hallucination checks
+- [Assistant Skill](https://github.com/JKorf/Kraken.Net/blob/master/CLAUDE.md): Compact skill instructions for code-generation assistants
+
+## Examples
+
+- [AI-friendly examples directory](https://github.com/JKorf/Kraken.Net/tree/master/Examples/ai-friendly): Compact, fully compilable single-file examples
+- [Spot Quickstart](https://github.com/JKorf/Kraken.Net/blob/master/Examples/ai-friendly/01-spot-quickstart.cs): Client setup, ticker, balances, validate-only spot order, order query
+- [Futures Trading](https://github.com/JKorf/Kraken.Net/blob/master/Examples/ai-friendly/02-futures.cs): Futures ticker, balances, leverage, validate-style order patterns, positions
+- [WebSocket Streams](https://github.com/JKorf/Kraken.Net/blob/master/Examples/ai-friendly/03-websocket.cs): Spot and Futures subscriptions with proper teardown
+- [Multi-Exchange Pattern](https://github.com/JKorf/Kraken.Net/blob/master/Examples/ai-friendly/04-multi-exchange.cs): CryptoExchange.Net SharedApis
+- [Error Handling](https://github.com/JKorf/Kraken.Net/blob/master/Examples/ai-friendly/05-error-handling.cs): Result handling, retry pattern, symbol-name safety
+
+## Critical Usage Rules
+
+- Use `KrakenRestClient` for REST and `KrakenSocketClient` for WebSocket.
+- Install with `dotnet add package KrakenExchange.Net`.
+- Use `KrakenCredentials` with separate Spot/Futures `HMACCredential` values for authenticated code.
+- Always check `.Success` before reading `.Data`.
+- Spot REST symbols such as `ETHUSDT` differ from Spot WebSocket names such as `ETH/USDT`; use `GetSymbolsAsync` and `KrakenSymbol.WebsocketName`.
+- Built-in environment is `KrakenEnvironment.Live`; custom endpoints use `KrakenEnvironment.CreateCustom(...)`.
+- For multi-exchange code, use `.SharedClient` and `CryptoExchange.Net.SharedApis`.
+
+## Reference
+
+- [CryptoExchange.Net base library](https://github.com/JKorf/CryptoExchange.Net)
+- [CryptoClients.Net](https://github.com/JKorf/CryptoClients.Net)
+- [NuGet Package](https://www.nuget.org/packages/KrakenExchange.Net)
+- [Discord Community](https://discord.gg/MSpeEtSY8t)

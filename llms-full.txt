@@ -1,0 +1,496 @@
+# Kraken.Net Full LLM Context
+
+> Detailed AI/LLM reference for generating correct C#/.NET code with Kraken.Net. Use this file when `llms.txt` is too brief and the task needs concrete examples, endpoint routing, or anti-hallucination rules.
+
+Kraken.Net is a strongly typed .NET client library for the Kraken Spot and Futures REST and WebSocket APIs. It is part of the CryptoExchange.Net ecosystem and uses the same result, shared API, logging, rate limiting, and socket subscription patterns as the other JKorf exchange libraries.
+
+Current package version in this repository: 7.10.0.
+NuGet package id: `KrakenExchange.Net`.
+CryptoExchange.Net dependency: 11.1.0.
+Target frameworks: netstandard2.0, netstandard2.1, net8.0, net9.0, net10.0.
+Native AOT: supported on compatible .NET targets.
+
+Primary documentation:
+- README.md: overview, install, feature list, release notes, basic examples
+- docs site: https://cryptoexchange.jkorf.dev/Kraken.Net/
+- API quick map: `docs/ai-api-map.md`
+- source interfaces: `Kraken.Net/Interfaces/Clients/**`
+- AI examples: `Examples/ai-friendly/`
+- assistant skill: `CLAUDE.md`
+
+## Golden Rules For AI Code Generation
+
+- Use `KrakenRestClient` for REST and `KrakenSocketClient` for WebSocket.
+- Do not generate raw `HttpClient` calls to Kraken endpoints.
+- Use `KrakenCredentials`, not generic `ApiCredentials`, for authenticated examples.
+- Kraken credentials can be split between Spot and Futures: `new KrakenCredentials(spotCredential, futuresCredential)`.
+- Include `using CryptoExchange.Net.Authentication;` when constructing `HMACCredential`.
+- Always check `.Success` before reading `.Data`.
+- REST methods return `WebCallResult<T>` or `WebCallResult`.
+- WebSocket subscriptions and socket API requests return `CallResult<T>` or `CallResult`.
+- Reuse clients; do not instantiate a REST or socket client per request in production.
+- Prefer dependency injection for long-running services.
+- Store WebSocket subscriptions and unsubscribe during shutdown.
+- Do not call `.Result` or `.Wait()` on async methods.
+- Do not invent endpoint names. If unsure, inspect `Kraken.Net/Interfaces/Clients/**`.
+- Spot REST pair names and Spot WebSocket pair names can differ. Use `KrakenSymbol.WebsocketName` from `GetSymbolsAsync`.
+- For multi-exchange code, use `CryptoExchange.Net.SharedApis` from each API's `.SharedClient`.
+
+## Installation
+
+```bash
+dotnet add package KrakenExchange.Net
+```
+
+## Required Usings
+
+Typical REST/trading code:
+
+```csharp
+using CryptoExchange.Net.Authentication;
+using Kraken.Net;
+using Kraken.Net.Clients;
+using Kraken.Net.Enums;
+```
+
+Shared API code:
+
+```csharp
+using CryptoExchange.Net.SharedApis;
+using Kraken.Net.Clients;
+```
+
+Retry/error helper code may also need:
+
+```csharp
+using CryptoExchange.Net.Objects;
+```
+
+Dependency injection setup:
+
+```csharp
+using CryptoExchange.Net.Authentication;
+using Kraken.Net;
+using Microsoft.Extensions.DependencyInjection;
+```
+
+## Client Setup
+
+Public market data does not require credentials:
+
+```csharp
+var client = new KrakenRestClient();
+
+var ticker = await client.SpotApi.ExchangeData.GetTickerAsync("ETHUSDT");
+if (!ticker.Success)
+{
+    Console.WriteLine(ticker.Error);
+    return;
+}
+
+Console.WriteLine(ticker.Data.Values.First().LastTrade.Price);
+```
+
+Private Spot endpoints require Spot credentials:
+
+```csharp
+var client = new KrakenRestClient(options =>
+{
+    options.ApiCredentials = new KrakenCredentials(
+        new HMACCredential("SPOT_KEY", "SPOT_SECRET"),
+        null);
+});
+```
+
+Private Futures endpoints require Futures credentials:
+
+```csharp
+var client = new KrakenRestClient(options =>
+{
+    options.ApiCredentials = new KrakenCredentials(
+        null,
+        new HMACCredential("FUTURES_KEY", "FUTURES_SECRET"));
+});
+```
+
+Both:
+
+```csharp
+var client = new KrakenRestClient(options =>
+{
+    options.ApiCredentials = new KrakenCredentials(
+        new HMACCredential("SPOT_KEY", "SPOT_SECRET"),
+        new HMACCredential("FUTURES_KEY", "FUTURES_SECRET"));
+});
+```
+
+Environment:
+
+```csharp
+var live = new KrakenRestClient(options => options.Environment = KrakenEnvironment.Live);
+```
+
+Only `KrakenEnvironment.Live` is built in. Use `KrakenEnvironment.CreateCustom(...)` for custom endpoints.
+
+## Dependency Injection
+
+```csharp
+services.AddKraken(options =>
+{
+    options.ApiCredentials = new KrakenCredentials(
+        new HMACCredential("SPOT_KEY", "SPOT_SECRET"),
+        new HMACCredential("FUTURES_KEY", "FUTURES_SECRET"));
+});
+```
+
+Inject:
+
+```csharp
+using Kraken.Net.Interfaces.Clients;
+
+public class MyService
+{
+    private readonly IKrakenRestClient _restClient;
+    private readonly IKrakenSocketClient _socketClient;
+
+    public MyService(IKrakenRestClient restClient, IKrakenSocketClient socketClient)
+    {
+        _restClient = restClient;
+        _socketClient = socketClient;
+    }
+}
+```
+
+## Result Handling Pattern
+
+Always branch on `.Success`.
+
+```csharp
+var result = await client.SpotApi.ExchangeData.GetTickerAsync("ETHUSDT");
+if (!result.Success)
+{
+    Console.WriteLine($"Code: {result.Error?.Code}");
+    Console.WriteLine($"Message: {result.Error?.Message}");
+    return;
+}
+
+var price = result.Data.Values.First().LastTrade.Price;
+```
+
+For retry logic, retry only transient errors:
+
+```csharp
+async Task<WebCallResult<T>> WithRetry<T>(Func<Task<WebCallResult<T>>> call, int maxAttempts = 3)
+{
+    WebCallResult<T> last = default!;
+
+    for (var attempt = 1; attempt <= maxAttempts; attempt++)
+    {
+        last = await call();
+        if (last.Success)
+            return last;
+
+        if (last.Error?.IsTransient != true)
+            return last;
+
+        await Task.Delay(TimeSpan.FromMilliseconds(250 * Math.Pow(2, attempt)));
+    }
+
+    return last;
+}
+```
+
+## Main API Surface
+
+REST:
+
+```text
+KrakenRestClient
+  .SpotApi
+    .ExchangeData
+    .Account
+    .Trading
+    .Earn
+    .SharedClient
+  .FuturesApi
+    .ExchangeData
+    .Account
+    .Trading
+    .SharedClient
+```
+
+WebSocket:
+
+```text
+KrakenSocketClient
+  .SpotApi
+    .SharedClient
+    public subscriptions
+    private subscriptions
+    socket order requests
+  .FuturesApi
+    .SharedClient
+    public subscriptions
+    private subscriptions
+```
+
+## Intent To Method Map
+
+For a broader quick reference, see `docs/ai-api-map.md`.
+
+Common Spot REST tasks:
+
+```text
+Get server time -> client.SpotApi.ExchangeData.GetServerTimeAsync()
+Get system status -> client.SpotApi.ExchangeData.GetSystemStatusAsync()
+Get assets -> client.SpotApi.ExchangeData.GetAssetsAsync()
+Get spot symbols -> client.SpotApi.ExchangeData.GetSymbolsAsync()
+Get spot ticker -> client.SpotApi.ExchangeData.GetTickerAsync("ETHUSDT")
+Get spot tickers -> client.SpotApi.ExchangeData.GetTickersAsync()
+Get spot klines -> client.SpotApi.ExchangeData.GetKlinesAsync("ETHUSDT", KlineInterval.OneMinute)
+Get spot order book -> client.SpotApi.ExchangeData.GetOrderBookAsync("ETHUSDT")
+Get spot trades -> client.SpotApi.ExchangeData.GetTradeHistoryAsync("ETHUSDT")
+Get balances -> client.SpotApi.Account.GetBalancesAsync()
+Get available balances -> client.SpotApi.Account.GetAvailableBalancesAsync()
+Get open spot orders -> client.SpotApi.Trading.GetOpenOrdersAsync()
+Place spot order -> client.SpotApi.Trading.PlaceOrderAsync(...)
+Edit spot order -> client.SpotApi.Trading.EditOrderAsync(...)
+Cancel spot order -> client.SpotApi.Trading.CancelOrderAsync(...)
+Kraken Earn strategies -> client.SpotApi.Earn.GetStrategiesAsync()
+```
+
+Common Futures REST tasks:
+
+```text
+Get futures symbols -> client.FuturesApi.ExchangeData.GetSymbolsAsync()
+Get futures ticker -> client.FuturesApi.ExchangeData.GetTickerAsync("PF_ETHUSD")
+Get futures tickers -> client.FuturesApi.ExchangeData.GetTickersAsync()
+Get futures klines -> client.FuturesApi.ExchangeData.GetKlinesAsync(TickType.Trade, "PF_ETHUSD", FuturesKlineInterval.OneMinute)
+Get futures order book -> client.FuturesApi.ExchangeData.GetOrderBookAsync("PF_ETHUSD")
+Get futures balances -> client.FuturesApi.Account.GetBalancesAsync()
+Get open futures orders -> client.FuturesApi.Trading.GetOpenOrdersAsync()
+Get open futures positions -> client.FuturesApi.Trading.GetOpenPositionsAsync()
+Set futures leverage -> client.FuturesApi.Trading.SetLeverageAsync("PF_ETHUSD", 5)
+Place futures order -> client.FuturesApi.Trading.PlaceOrderAsync(...)
+Cancel futures order -> client.FuturesApi.Trading.CancelOrderAsync(...)
+```
+
+Common WebSocket tasks:
+
+```text
+Subscribe spot ticker -> socketClient.SpotApi.SubscribeToTickerUpdatesAsync("ETH/USDT", handler)
+Subscribe spot klines -> socketClient.SpotApi.SubscribeToKlineUpdatesAsync("ETH/USDT", KlineInterval.OneMinute, handler)
+Subscribe spot trades -> socketClient.SpotApi.SubscribeToTradeUpdatesAsync("ETH/USDT", handler)
+Subscribe spot order book -> socketClient.SpotApi.SubscribeToAggregatedOrderBookUpdatesAsync("ETH/USDT", 10, handler)
+Subscribe spot balances -> socketClient.SpotApi.SubscribeToBalanceUpdatesAsync(snapshotHandler, updateHandler)
+Subscribe spot order updates -> socketClient.SpotApi.SubscribeToOrderUpdatesAsync(handler)
+Socket API place spot order -> socketClient.SpotApi.PlaceOrderAsync(...)
+Subscribe futures ticker -> socketClient.FuturesApi.SubscribeToTickerUpdatesAsync("PF_ETHUSD", handler)
+Subscribe futures order book -> socketClient.FuturesApi.SubscribeToOrderBookUpdatesAsync("PF_ETHUSD", snapshotHandler, updateHandler)
+Subscribe futures balances -> socketClient.FuturesApi.SubscribeToBalanceUpdatesAsync(handler)
+Subscribe futures open orders -> socketClient.FuturesApi.SubscribeToOpenOrdersUpdatesAsync(...)
+Subscribe futures open positions -> socketClient.FuturesApi.SubscribeToOpenPositionUpdatesAsync(handler)
+```
+
+## Spot Order Example
+
+```csharp
+using CryptoExchange.Net.Authentication;
+using Kraken.Net;
+using Kraken.Net.Clients;
+using Kraken.Net.Enums;
+
+var client = new KrakenRestClient(options =>
+{
+    options.ApiCredentials = new KrakenCredentials(
+        new HMACCredential("SPOT_KEY", "SPOT_SECRET"),
+        null);
+});
+
+var order = await client.SpotApi.Trading.PlaceOrderAsync(
+    symbol: "ETHUSDT",
+    side: OrderSide.Buy,
+    type: OrderType.Limit,
+    quantity: 0.1m,
+    price: 2000m,
+    validateOnly: true);
+
+if (!order.Success)
+{
+    Console.WriteLine(order.Error);
+    return;
+}
+```
+
+## Futures Order Example
+
+```csharp
+using CryptoExchange.Net.Authentication;
+using Kraken.Net;
+using Kraken.Net.Clients;
+using Kraken.Net.Enums;
+
+var client = new KrakenRestClient(options =>
+{
+    options.ApiCredentials = new KrakenCredentials(
+        null,
+        new HMACCredential("FUTURES_KEY", "FUTURES_SECRET"));
+});
+
+var leverage = await client.FuturesApi.Trading.SetLeverageAsync("PF_ETHUSD", 5);
+if (!leverage.Success)
+{
+    Console.WriteLine(leverage.Error);
+    return;
+}
+
+var order = await client.FuturesApi.Trading.PlaceOrderAsync(
+    symbol: "PF_ETHUSD",
+    side: OrderSide.Buy,
+    type: FuturesOrderType.Limit,
+    quantity: 0.1m,
+    price: 2000m);
+```
+
+## WebSocket Subscription Example
+
+```csharp
+using Kraken.Net.Clients;
+
+var socketClient = new KrakenSocketClient();
+
+var tickerSub = await socketClient.SpotApi.SubscribeToTickerUpdatesAsync(
+    "ETH/USDT",
+    update => Console.WriteLine(update.Data.LastPrice));
+
+if (!tickerSub.Success)
+{
+    Console.WriteLine(tickerSub.Error);
+    return;
+}
+
+Console.ReadLine();
+await socketClient.UnsubscribeAsync(tickerSub.Data);
+```
+
+## SharedApis Multi-Exchange Pattern
+
+```csharp
+using CryptoExchange.Net.SharedApis;
+using Kraken.Net.Clients;
+
+ISpotTickerRestClient tickerClient = new KrakenRestClient().SpotApi.SharedClient;
+var symbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
+
+var ticker = await tickerClient.GetSpotTickerAsync(new GetTickerRequest(symbol));
+if (!ticker.Success)
+{
+    Console.WriteLine(ticker.Error);
+    return;
+}
+
+Console.WriteLine(ticker.Data.LastPrice);
+```
+
+Shared socket subscriptions return an `UpdateSubscription` in `.Data`. Keep the concrete socket client and unsubscribe through it:
+
+```csharp
+var socketClient = new KrakenSocketClient();
+ITickerSocketClient tickerSocket = socketClient.SpotApi.SharedClient;
+
+var sub = await tickerSocket.SubscribeToTickerUpdatesAsync(
+    new SubscribeTickerRequest(new SharedSymbol(TradingMode.Spot, "ETH", "USDT")),
+    update => Console.WriteLine(update.Data.LastPrice));
+
+if (!sub.Success)
+{
+    Console.WriteLine(sub.Error);
+    return;
+}
+
+await socketClient.UnsubscribeAsync(sub.Data);
+```
+
+## Symbol Handling
+
+Do not assume Spot REST and WebSocket symbols are identical. Inspect `GetSymbolsAsync`:
+
+```csharp
+var symbols = await client.SpotApi.ExchangeData.GetSymbolsAsync(new[] { "ETHUSDT" });
+if (!symbols.Success || symbols.Data.Count == 0)
+{
+    Console.WriteLine(symbols.Error);
+    return;
+}
+
+var websocketName = symbols.Data.Values.First().WebsocketName;
+```
+
+Futures examples in the repository use symbols such as `PF_ETHUSD`.
+
+## Error Handling Notes
+
+Kraken.Net returns API, network, and rate-limit failures through `.Error` on result objects. It generally does not throw for normal API failures. Exceptions are for misconfiguration, disposal, cancellation, or programming errors.
+
+Common categories:
+
+```text
+Authentication failure -> credentials, permissions, nonce, OTP/two-factor settings.
+Invalid order -> price, quantity, order type, symbol, leverage, or margin rules.
+Unknown order -> order id/client order id does not exist or is already closed/canceled.
+Rate limit/network/transient -> retry only when result.Error?.IsTransient == true.
+Symbol mismatch -> Spot REST pair name used where Spot WebSocket name is required.
+```
+
+## AI-Friendly Examples
+
+Use these examples when generating code:
+
+```text
+Examples/ai-friendly/01-spot-quickstart.cs
+  Client setup, public ticker, authenticated balance, validate-only spot order, order lookup.
+
+Examples/ai-friendly/02-futures.cs
+  Futures market data, account balances, leverage, order and position patterns.
+
+Examples/ai-friendly/03-websocket.cs
+  Spot and Futures subscriptions, success checks, teardown.
+
+Examples/ai-friendly/04-multi-exchange.cs
+  CryptoExchange.Net SharedApis REST and socket patterns.
+
+Examples/ai-friendly/05-error-handling.cs
+  WebCallResult pattern, transient retry, symbol-name checks.
+```
+
+## Anti-Hallucination Checklist
+
+Before finalizing generated code:
+
+- Does it compile with the current package?
+- Does it install `KrakenExchange.Net`, not a guessed package id?
+- Does it use `KrakenRestClient` / `KrakenSocketClient`?
+- Does it include `using CryptoExchange.Net.Authentication;` when constructing credentials?
+- Does every REST/socket result check `.Success` before `.Data`?
+- Does it use the correct API branch: `SpotApi` or `FuturesApi`?
+- Does it avoid raw Kraken URLs and manual signing?
+- Does it avoid generic `ApiCredentials` in new examples?
+- Does it avoid `.Result` and `.Wait()`?
+- Are WebSocket subscriptions unsubscribed on shutdown?
+- For Spot WebSocket code, does it use names like `ETH/USDT` or derive `WebsocketName`?
+- For shared socket interfaces, does it keep the concrete socket client for `UnsubscribeAsync(sub.Data)`?
+
+## Source Of Truth For Method Names
+
+When unsure, inspect these files instead of guessing:
+
+```text
+Kraken.Net/Interfaces/Clients/IKrakenRestClient.cs
+Kraken.Net/Interfaces/Clients/IKrakenSocketClient.cs
+Kraken.Net/Interfaces/Clients/SpotApi/IKrakenRestClientSpotApi*.cs
+Kraken.Net/Interfaces/Clients/SpotApi/IKrakenSocketClientSpotApi*.cs
+Kraken.Net/Interfaces/Clients/FuturesApi/IKrakenRestClientFuturesApi*.cs
+Kraken.Net/Interfaces/Clients/FuturesApi/IKrakenSocketClientFuturesApi*.cs
+```
+
+Prefer interface files over memory when generating endpoint names, parameters, callback shapes, and return types.

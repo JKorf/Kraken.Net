@@ -1,0 +1,84 @@
+---
+description: Conventions for using Kraken.Net when working with Kraken Spot and Futures cryptocurrency exchange APIs in C#/.NET. Apply when generating code that interacts with Kraken API.
+globs:
+  - "**/*.cs"
+  - "**/*.csproj"
+alwaysApply: false
+---
+
+# Kraken.Net Conventions
+
+This codebase uses **Kraken.Net** for Kraken Spot and Futures exchange access. Do not write raw `HttpClient` calls to Kraken endpoints.
+
+## Client setup pattern
+
+```csharp
+using CryptoExchange.Net.Authentication;
+using Kraken.Net;
+using Kraken.Net.Clients;
+
+var restClient = new KrakenRestClient(options =>
+{
+    options.ApiCredentials = new KrakenCredentials(
+        new HMACCredential("SPOT_KEY", "SPOT_SECRET"),
+        new HMACCredential("FUTURES_KEY", "FUTURES_SECRET"));
+});
+```
+
+For public market data only, no credentials are needed: `new KrakenRestClient()`.
+
+## Result pattern
+
+All methods return `WebCallResult<T>` or `CallResult<T>`. Always check `.Success` before reading `.Data`:
+
+```csharp
+var ticker = await restClient.SpotApi.ExchangeData.GetTickerAsync("ETHUSDT");
+if (!ticker.Success) { Console.WriteLine(ticker.Error); return; }
+var price = ticker.Data.Values.First().LastTrade.Price;
+```
+
+## API surface
+
+- `restClient.SpotApi.{ExchangeData|Account|Trading|Earn}`
+- `restClient.FuturesApi.{ExchangeData|Account|Trading}`
+- `socketClient.SpotApi` for Spot WebSocket v2 subscriptions and socket order requests
+- `socketClient.FuturesApi` for Futures WebSocket subscriptions
+- `.SharedClient` on Spot/Futures REST and socket APIs for `CryptoExchange.Net.SharedApis`
+
+## Kraken-specific details
+
+- Spot REST symbol examples use `ETHUSDT`; Spot WebSocket v2 uses names such as `ETH/USDT`.
+- Futures symbols use names such as `PF_ETHUSD`.
+- Credentials can differ for Spot and Futures. Prefer `new KrakenCredentials(new HMACCredential(...), new HMACCredential(...))`.
+- `KrakenEnvironment.Live` is the built-in environment. Use `KrakenEnvironment.CreateCustom(...)` for custom addresses.
+- Spot private endpoints can use `twoFactorPassword`; `KrakenRestOptions.StaticTwoFactorAuthenticationPassword` can provide a static OTP value for private REST requests.
+
+## WebSocket pattern
+
+```csharp
+var socketClient = new KrakenSocketClient();
+var sub = await socketClient.SpotApi.SubscribeToTickerUpdatesAsync(
+    "ETH/USDT",
+    update => Console.WriteLine(update.Data.LastPrice));
+if (!sub.Success) { Console.WriteLine(sub.Error); return; }
+
+await socketClient.UnsubscribeAsync(sub.Data);
+```
+
+## Hard rules
+
+- Never use raw HTTP for Kraken endpoints.
+- Never use `.Result` or `.Wait()`.
+- Never instantiate clients per request in production; use DI.
+- Never skip checking `WebCallResult.Success` / `CallResult.Success`.
+- Never guess method names; inspect `Kraken.Net/Interfaces/Clients/**`.
+- Always use Spot/Futures credential separation when writing authenticated examples.
+- Always keep the concrete socket client for `UnsubscribeAsync(subscription.Data)`.
+
+## Reference
+
+- Skill: `CLAUDE.md` in repo root has fuller examples
+- LLM index: `llms.txt` in repo root
+- Full LLM context: `llms-full.txt` in repo root
+- API map: `docs/ai-api-map.md`
+- Examples: `Examples/ai-friendly/`
