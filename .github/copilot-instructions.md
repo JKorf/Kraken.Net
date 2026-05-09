@@ -63,4 +63,4 @@ For code that needs to work across multiple exchanges, use `CryptoExchange.Net.S
 
 ## Reference
 
-For detailed patterns and pitfalls see `CLAUDE.md`, `llms.txt`, and `llms-full.txt` in the repository root, plus `docs/ai-api-map.md` and `Examples/ai-friendly/` for compilable examples.
+For detailed patterns and pitfalls see `AGENTS.md`, `llms.txt`, and `llms-full.txt` in the repository root, plus `docs/ai-api-map.md` and `Examples/ai-friendly/` for compilable examples.
