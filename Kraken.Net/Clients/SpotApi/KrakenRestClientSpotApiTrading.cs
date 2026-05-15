@@ -24,7 +24,7 @@ namespace Kraken.Net.Clients.SpotApi
             var parameters = new ParameterCollection();
             parameters.AddOptionalParameter("trades", true);
             parameters.AddOptionalParameter("userref", userReference);
-            parameters.AddOptional("cl_ord_id", clientOrderId);
+            parameters.AddOptionalParameter("cl_ord_id", clientOrderId);
             parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/OpenOrders", KrakenExchange.RateLimiter.SpotRest, 1, true);
