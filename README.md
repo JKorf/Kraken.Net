@@ -209,6 +209,11 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 7.11.0 - 26 May 2026
+    * Updated CryptoExchange.Net to version 11.2.0
+    * Added clientOrderId parameter to client.SpotApi.Trading.GetOpenOrdersAsync endpoint
+    * Added FOK value to TimeInForce enum
+
 * Version 7.10.0 - 01 May 2026
     * Added executionVenue parameter and response property to spot GetSymbolsAsync
 
