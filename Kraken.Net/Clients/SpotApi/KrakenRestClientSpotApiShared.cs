@@ -603,6 +603,7 @@ namespace Kraken.Net.Clients.SpotApi
         {
             if (tif == SharedTimeInForce.ImmediateOrCancel) return TimeInForce.IOC;
             if (tif == SharedTimeInForce.GoodTillCanceled) return TimeInForce.GTC;
+            if (tif == SharedTimeInForce.FillOrKill) return TimeInForce.FOK;
 
             return null;
         }

@@ -22,6 +22,11 @@ namespace Kraken.Net.Enums
         /// ["<c>GTD</c>"] Good 'Til Date
         /// </summary>
         [Map("GTD")]
-        GTD
+        GTD,
+        /// <summary>
+        /// ["<c>FOK</c>"] Fill or kill
+        /// </summary>
+        [Map("FOK")]
+        FOK
     }
 }
