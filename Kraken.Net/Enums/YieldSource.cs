@@ -14,9 +14,9 @@ namespace Kraken.Net.Enums
         [Map("staking")]
         Staking,
         /// <summary>
-        /// ["<c>staking</c>"] Off chain
+        /// ["<c>offchain</c>"] Off chain
         /// </summary>
-        [Map("staking")]
+        [Map("offchain")]
         OffChain,
         /// <summary>
         /// ["<c>opt_in_rewards</c>"] Opt in rewards
