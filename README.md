@@ -1,6 +1,7 @@
 # ![.Kraken.Net](https://github.com/JKorf/Kraken.Net/blob/master/Kraken.Net/Icon/icon.png?raw=true) Kraken.Net
 
 [![.NET](https://img.shields.io/github/actions/workflow/status/JKorf/Kraken.Net/dotnet.yml?style=for-the-badge)](https://github.com/JKorf/Kraken.Net/actions/workflows/dotnet.yml) ![License](https://img.shields.io/github/license/JKorf/Kraken.Net?style=for-the-badge)
+![Since](https://img.shields.io/badge/since-2019-brightgreen?style=for-the-badge)
 
 Kraken.Net is a strongly typed client library for accessing the [Kraken REST and Websocket API](https://www.kraken.com/features/api).
 ## Features
