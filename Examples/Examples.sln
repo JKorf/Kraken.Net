@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kraken.Examples.OrderBook",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kraken.Examples.Tracker", "Kraken.Examples.Tracker\Kraken.Examples.Tracker.csproj", "{494D13E5-964C-4C0B-A44F-9B22584E78E6}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kraken.Examples.OrderPlacement", "Kraken.Examples.OrderPlacement\Kraken.Examples.OrderPlacement.csproj", "{E205A523-6081-4E61-B51E-40F9B7598E24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{494D13E5-964C-4C0B-A44F-9B22584E78E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{494D13E5-964C-4C0B-A44F-9B22584E78E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{494D13E5-964C-4C0B-A44F-9B22584E78E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E205A523-6081-4E61-B51E-40F9B7598E24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E205A523-6081-4E61-B51E-40F9B7598E24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E205A523-6081-4E61-B51E-40F9B7598E24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E205A523-6081-4E61-B51E-40F9B7598E24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

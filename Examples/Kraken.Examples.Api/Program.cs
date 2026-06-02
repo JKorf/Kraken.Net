@@ -1,3 +1,4 @@
+using Kraken.Net;
 using Kraken.Net.Interfaces.Clients;
 using CryptoExchange.Net.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,9 @@ builder.Services.AddKraken();
 /*
 builder.Services.AddKraken(options =>
 {    
-   options.ApiCredentials = new ApiCredentials("<APIKEY>", "<APISECRET>");
+   options.ApiCredentials = new KrakenCredentials(
+       new HMACCredential("SPOT_API_KEY", "SPOT_API_SECRET"),
+       new HMACCredential("FUTURES_API_KEY", "FUTURES_API_SECRET"));
    options.Rest.RequestTimeout = TimeSpan.FromSeconds(5);
 });
 */
@@ -28,14 +31,18 @@ app.UseHttpsRedirection();
 app.MapGet("/{Symbol}", async ([FromServices] IKrakenRestClient client, string symbol) =>
 {
     var result = await client.SpotApi.ExchangeData.GetTickerAsync(symbol);
-    return (object)(result.Success ? result.Data : result.Error!);
+    return result.Success
+        ? Results.Ok(result.Data)
+        : Results.Problem(result.Error?.Message, statusCode: 502);
 })
 .WithOpenApi();
 
 app.MapGet("/Balances", async ([FromServices] IKrakenRestClient client) =>
 {
     var result = await client.SpotApi.Account.GetBalancesAsync();
-    return (object)(result.Success ? result.Data : result.Error!);
+    return result.Success
+        ? Results.Ok(result.Data)
+        : Results.Problem(result.Error?.Message, statusCode: 502);
 })
 .WithOpenApi();
 

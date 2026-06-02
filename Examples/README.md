@@ -1,13 +1,11 @@
 # Examples
 
-### Kraken.Examples.Api
-A minimal API showing how to integrate Kraken.Net in a web API project
+| Project | Topic |
+|---|---|
+| `Kraken.Examples.Api` | Minimal ASP.NET Core API integration, dependency injection, public ticker endpoint, private balances endpoint |
+| `Kraken.Examples.Console` | Basic REST ticker request and WebSocket ticker subscription |
+| `Kraken.Examples.OrderPlacement` | Spot and futures order placement, order status lookup, and cancellation |
+| `Kraken.Examples.OrderBook` | Client-side order book implementation with live console display |
+| `Kraken.Examples.Tracker` | Trade tracker with rolling market statistics |
 
-### Kraken.Examples.Console
-A simple console client demonstrating basic usage
-
-### Kraken.Examples.OrderBook
-Example of using the client side order book implementation
-
-### Kraken.Examples.Tracker
-Example of using the trade tracker
+The `ai-friendly` folder contains standalone copy/paste examples intended for quick onboarding and AI coding assistant context.
