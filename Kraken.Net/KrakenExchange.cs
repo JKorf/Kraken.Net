@@ -74,6 +74,11 @@ namespace Kraken.Net
         };
 
         internal static JsonSerializerContext _serializerContext = JsonSerializerContextCache.GetOrCreate<KrakenSourceGenerationContext>();
+        internal static ParameterSerializationSettings _parameterSerializationSettings = new ParameterSerializationSettings
+        {
+            Array = ArrayParametersSerialization.MultipleValues,
+            Decimal = DecimalSerialization.String,
+        };
 
         /// <summary>
         /// Format a base and quote asset to a Kraken recognized symbol 

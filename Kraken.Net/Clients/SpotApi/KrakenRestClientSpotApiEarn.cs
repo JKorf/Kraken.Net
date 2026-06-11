@@ -18,17 +18,17 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Strategies
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenCursorPage<KrakenEarnStrategy>>> GetStrategiesAsync(string? asset = null, LockType? lockType = null, string? cursor = null, int? limit = null, bool? asc = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<KrakenCursorPage<KrakenEarnStrategy>>> GetStrategiesAsync(string? asset = null, LockType? lockType = null, string? cursor = null, int? limit = null, bool? asc = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection();
-            parameters.AddOptional("asset", asset);
-            parameters.AddOptional("cursor", cursor);
-            parameters.AddOptionalEnum("lock_type", lockType);
-            parameters.AddOptional("limit", limit);
-            parameters.AddOptional("asc", asc.HasValue ? asc == true : null);
-            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            parameters.Add("asset", asset);
+            parameters.Add("cursor", cursor);
+            parameters.Add("lock_type", lockType);
+            parameters.Add("limit", limit);
+            parameters.Add("asc", asc.HasValue ? asc == true : null);
+            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/Earn/Strategies", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/Earn/Strategies", KrakenExchange.RateLimiter.SpotRest, 1, true);
             return await _baseClient.SendAsync<KrakenCursorPage<KrakenEarnStrategy>>(request, parameters, ct).ConfigureAwait(false);
         }
 
@@ -37,15 +37,15 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Allocations
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenAllocationsCursorPage>> GetAllocationsAsync(string? convertAsset = null, bool? hideZeroAllocations = null, bool? asc = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<KrakenAllocationsCursorPage>> GetAllocationsAsync(string? convertAsset = null, bool? hideZeroAllocations = null, bool? asc = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection();
-            parameters.AddOptional("converted_asset", convertAsset);
-            parameters.AddOptional("hide_zero_allocations", hideZeroAllocations);
-            parameters.AddOptional("asc", asc.HasValue ? asc == true : null);
-            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            parameters.Add("converted_asset", convertAsset);
+            parameters.Add("hide_zero_allocations", hideZeroAllocations);
+            parameters.Add("asc", asc.HasValue ? asc == true : null);
+            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/Earn/Allocations", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/Earn/Allocations", KrakenExchange.RateLimiter.SpotRest, 1, true);
             return await _baseClient.SendAsync<KrakenAllocationsCursorPage>(request, parameters, ct).ConfigureAwait(false);
         }
 
@@ -54,15 +54,15 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Allocation Status
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenEarnStatus>> GetAllocationStatusAsync(string strategyId, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<KrakenEarnStatus>> GetAllocationStatusAsync(string strategyId, string? twoFactorPassword = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection()
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings)
             {
                 { "strategy_id", strategyId }
             };
-            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/Earn/AllocateStatus", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/Earn/AllocateStatus", KrakenExchange.RateLimiter.SpotRest, 1, true);
             return await _baseClient.SendAsync<KrakenEarnStatus>(request, parameters, ct).ConfigureAwait(false);
         }
 
@@ -71,15 +71,15 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Deallocation Status
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenEarnStatus>> GetDeallocationStatusAsync(string strategyId, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<KrakenEarnStatus>> GetDeallocationStatusAsync(string strategyId, string? twoFactorPassword = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection()
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings)
             {
                 { "strategy_id", strategyId }
             };
-            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/Earn/DeallocateStatus", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/Earn/DeallocateStatus", KrakenExchange.RateLimiter.SpotRest, 1, true);
             return await _baseClient.SendAsync<KrakenEarnStatus>(request, parameters, ct).ConfigureAwait(false);
         }
 
@@ -88,16 +88,16 @@ namespace Kraken.Net.Clients.SpotApi
         #region Allocate Earn Funds
 
         /// <inheritdoc />
-        public async Task<WebCallResult> AllocateEarnFundsAsync(string strategyId, decimal quantity, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult> AllocateEarnFundsAsync(string strategyId, decimal quantity, string? twoFactorPassword = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection()
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings)
             {
                 { "strategy_id", strategyId },
                 { "amount", quantity.ToString(CultureInfo.InvariantCulture) }
             };
-            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/Earn/Allocate", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/Earn/Allocate", KrakenExchange.RateLimiter.SpotRest, 1, true);
             return await _baseClient.SendAsync(request, parameters, ct).ConfigureAwait(false);
         }
 
@@ -106,16 +106,16 @@ namespace Kraken.Net.Clients.SpotApi
         #region Deallocate Earn Funds
 
         /// <inheritdoc />
-        public async Task<WebCallResult> DeallocateEarnFundsAsync(string strategyId, decimal quantity, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult> DeallocateEarnFundsAsync(string strategyId, decimal quantity, string? twoFactorPassword = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection()
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings)
             {
                 { "strategy_id", strategyId },
                 { "amount", quantity.ToString(CultureInfo.InvariantCulture) }
             };
-            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/Earn/Deallocate", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/Earn/Deallocate", KrakenExchange.RateLimiter.SpotRest, 1, true);
             return await _baseClient.SendAsync(request, parameters, ct).ConfigureAwait(false);
         }
 

@@ -29,7 +29,7 @@ namespace Kraken.Net.Clients.FuturesApi
         #region ctor
 
         internal KrakenSocketClientFuturesApi(ILogger logger, KrakenSocketOptions options) :
-            base(logger, options.Environment.FuturesSocketBaseAddress, options, options.FuturesOptions)
+            base(logger, KrakenExchange.Metadata.Id, options.Environment.FuturesSocketBaseAddress, options, options.FuturesOptions)
         {
             RateLimiter = KrakenExchange.RateLimiter.FuturesSocket;
 
@@ -55,7 +55,7 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Heartbeat
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToHeartbeatUpdatesAsync(Action<DataEvent<KrakenFuturesHeartbeatUpdate>> handler, CancellationToken ct = default)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToHeartbeatUpdatesAsync(Action<DataEvent<KrakenFuturesHeartbeatUpdate>> handler, CancellationToken ct = default)
         {
             var internalHandler = new Action<DateTime, string?, KrakenFuturesHeartbeatUpdate>((receiveTime, originalData, data) =>
             {
@@ -78,11 +78,11 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Ticker
 
         /// <inheritdoc />
-        public Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesTickerUpdate>> handler, CancellationToken ct = default)
+        public Task<WebSocketResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesTickerUpdate>> handler, CancellationToken ct = default)
             => SubscribeToTickerUpdatesAsync(new List<string> { symbol }, handler, ct);
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesTickerUpdate>> handler, CancellationToken ct = default)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesTickerUpdate>> handler, CancellationToken ct = default)
         {
             var internalHandler = new Action<DateTime, string?, KrakenFuturesTickerUpdate>((receiveTime, originalData, data) =>
             {
@@ -106,11 +106,11 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Trade
 
         /// <inheritdoc />
-        public Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesTradeUpdate[]>> handler, CancellationToken ct = default)
+        public Task<WebSocketResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesTradeUpdate[]>> handler, CancellationToken ct = default)
             => SubscribeToTradeUpdatesAsync(new List<string> { symbol }, handler, ct);
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(
             IEnumerable<string> symbols,
             Action<DataEvent<KrakenFuturesTradeUpdate[]>> handler,
             CancellationToken ct = default)
@@ -124,11 +124,11 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Mini Ticker
 
         /// <inheritdoc />
-        public Task<CallResult<UpdateSubscription>> SubscribeToMiniTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesMiniTickerUpdate>> handler, CancellationToken ct = default)
+        public Task<WebSocketResult<UpdateSubscription>> SubscribeToMiniTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesMiniTickerUpdate>> handler, CancellationToken ct = default)
             => SubscribeToMiniTickerUpdatesAsync(new List<string> { symbol }, handler, ct);
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToMiniTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesMiniTickerUpdate>> handler, CancellationToken ct = default)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToMiniTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesMiniTickerUpdate>> handler, CancellationToken ct = default)
         {
             var internalHandler = new Action<DateTime, string?, KrakenFuturesMiniTickerUpdate>((receiveTime, originalData, data) =>
             {
@@ -149,7 +149,7 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Order Book
 
         /// <inheritdoc />
-        public Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(
+        public Task<WebSocketResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(
             string symbol,
             Action<DataEvent<KrakenFuturesBookSnapshotUpdate>> snapshotHandler,
             Action<DataEvent<KrakenFuturesBookUpdate>> updateHandler,
@@ -157,7 +157,7 @@ namespace Kraken.Net.Clients.FuturesApi
             => SubscribeToOrderBookUpdatesAsync(new[] { symbol }, snapshotHandler, updateHandler, ct);
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(
             IEnumerable<string> symbols,
             Action<DataEvent<KrakenFuturesBookSnapshotUpdate>> snapshotHandler,
             Action<DataEvent<KrakenFuturesBookUpdate>> updateHandler,
@@ -172,7 +172,7 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Open Orders
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToOpenOrdersUpdatesAsync(
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToOpenOrdersUpdatesAsync(
             bool verbose,
             Action<DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate>> snapshotHandler,
             Action<DataEvent<KrakenFuturesOpenOrdersUpdate>> updateHandler,
@@ -187,7 +187,7 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Account Log
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToAccountLogUpdatesAsync(
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToAccountLogUpdatesAsync(
             Action<DataEvent<KrakenFuturesAccountLogsSnapshotUpdate>> snapshotHandler,
             Action<DataEvent<KrakenFuturesAccountLogsUpdate>> updateHandler,
             CancellationToken ct = default)
@@ -201,7 +201,7 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Open Position
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToOpenPositionUpdatesAsync(
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToOpenPositionUpdatesAsync(
             Action<DataEvent<KrakenFuturesOpenPositionUpdate>> handler,
             CancellationToken ct = default)
         {
@@ -214,7 +214,7 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Balances
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsync(
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsync(
             Action<DataEvent<KrakenFuturesBalancesUpdate>> handler,
             CancellationToken ct = default)
         {
@@ -227,7 +227,7 @@ namespace Kraken.Net.Clients.FuturesApi
         #region User Trade
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(
             Action<DataEvent<KrakenFuturesUserTradesUpdate>> handler,
             CancellationToken ct = default)
         {
@@ -240,7 +240,7 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Notification
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToNotificationUpdatesAsync(
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToNotificationUpdatesAsync(
             Action<DataEvent<KrakenFuturesNotificationUpdate>> handler,
             CancellationToken ct = default)
         {

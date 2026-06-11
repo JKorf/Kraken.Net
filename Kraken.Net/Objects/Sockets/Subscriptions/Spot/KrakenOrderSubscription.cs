@@ -26,7 +26,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 
             _updateHandler = updateHandler;
 
-            MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenSocketUpdateV2<KrakenOrderUpdate[]>>("executions", DoHandleMessage);
+            MessageRouter = MessageRouter.CreateForEvent<KrakenSocketUpdateV2<KrakenOrderUpdate[]>>("executions", DoHandleMessage);
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)
@@ -74,7 +74,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                     .WithUpdateType(message.Type == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                     .WithDataTimestamp(message.Timestamp, _client.GetTimeOffset())
                 );
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
     }
 }

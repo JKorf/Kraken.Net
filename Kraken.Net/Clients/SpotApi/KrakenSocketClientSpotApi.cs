@@ -48,7 +48,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region ctor
 
         internal KrakenSocketClientSpotApi(ILogger logger, KrakenSocketOptions options) :
-            base(logger, options.Environment.SpotSocketPublicAddress, options, options.SpotOptions)
+            base(logger, KrakenExchange.Metadata.Id, options.Environment.SpotSocketPublicAddress, options, options.SpotOptions)
         {
             _privateBaseAddress = options.Environment.SpotSocketPrivateAddress;
 
@@ -101,7 +101,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region System Status
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToSystemStatusUpdatesAsync(Action<DataEvent<KrakenStreamSystemStatus>> handler, CancellationToken ct = default)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToSystemStatusUpdatesAsync(Action<DataEvent<KrakenStreamSystemStatus>> handler, CancellationToken ct = default)
         {
             var subscription = new KrakenSystemStatusSubscription(_logger, this, handler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
@@ -112,7 +112,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region Ticker
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenTickerUpdate>> handler, TriggerEvent? eventTrigger = null, bool? snapshot = null, CancellationToken ct = default)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenTickerUpdate>> handler, TriggerEvent? eventTrigger = null, bool? snapshot = null, CancellationToken ct = default)
         {
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenTickerUpdate[]>>((receiveTime, originalData, data) =>
             {
@@ -133,7 +133,7 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenTickerUpdate>> handler, TriggerEvent? eventTrigger = null, bool? snapshot = null, CancellationToken ct = default)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenTickerUpdate>> handler, TriggerEvent? eventTrigger = null, bool? snapshot = null, CancellationToken ct = default)
         {
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenTickerUpdate[]>>((receiveTime, originalData, data) =>
             {
@@ -158,11 +158,11 @@ namespace Kraken.Net.Clients.SpotApi
         #region Kline
 
         /// <inheritdoc />
-        public Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, KlineInterval interval, Action<DataEvent<KrakenKlineUpdate[]>> handler, bool? snapshot = null, CancellationToken ct = default)
+        public Task<WebSocketResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, KlineInterval interval, Action<DataEvent<KrakenKlineUpdate[]>> handler, bool? snapshot = null, CancellationToken ct = default)
             => SubscribeToKlineUpdatesAsync([symbol], interval, handler, snapshot, ct);
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(IEnumerable<string> symbols, KlineInterval interval, Action<DataEvent<KrakenKlineUpdate[]>> handler, bool? snapshot = null, CancellationToken ct = default)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(IEnumerable<string> symbols, KlineInterval interval, Action<DataEvent<KrakenKlineUpdate[]>> handler, bool? snapshot = null, CancellationToken ct = default)
         {
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenKlineUpdate[]>>((receiveTime, originalData, data) =>
             {
@@ -187,11 +187,11 @@ namespace Kraken.Net.Clients.SpotApi
         #region Trade
 
         /// <inheritdoc />
-        public Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<KrakenTradeUpdate[]>> handler, bool? snapshot = null, CancellationToken ct = default)
+        public Task<WebSocketResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<KrakenTradeUpdate[]>> handler, bool? snapshot = null, CancellationToken ct = default)
             => SubscribeToTradeUpdatesAsync([symbol], handler, snapshot, ct);
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenTradeUpdate[]>> handler, bool? snapshot = null, CancellationToken ct = default)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenTradeUpdate[]>> handler, bool? snapshot = null, CancellationToken ct = default)
         {
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenTradeUpdate[]>>((receiveTime, originalData, data) =>
             {
@@ -216,11 +216,11 @@ namespace Kraken.Net.Clients.SpotApi
         #region Aggregated Order Book
 
         /// <inheritdoc />
-        public Task<CallResult<UpdateSubscription>> SubscribeToAggregatedOrderBookUpdatesAsync(string symbol, int depth, Action<DataEvent<KrakenBookUpdate>> handler, bool? snapshot = null, CancellationToken ct = default)
+        public Task<WebSocketResult<UpdateSubscription>> SubscribeToAggregatedOrderBookUpdatesAsync(string symbol, int depth, Action<DataEvent<KrakenBookUpdate>> handler, bool? snapshot = null, CancellationToken ct = default)
             => SubscribeToAggregatedOrderBookUpdatesAsync([symbol], depth, handler, snapshot, ct);
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToAggregatedOrderBookUpdatesAsync(IEnumerable<string> symbols, int depth, Action<DataEvent<KrakenBookUpdate>> handler, bool? snapshot = null, CancellationToken ct = default)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToAggregatedOrderBookUpdatesAsync(IEnumerable<string> symbols, int depth, Action<DataEvent<KrakenBookUpdate>> handler, bool? snapshot = null, CancellationToken ct = default)
         {
             depth.ValidateIntValues(nameof(depth), 10, 25, 100, 500, 1000);
 
@@ -246,17 +246,17 @@ namespace Kraken.Net.Clients.SpotApi
         #region Order Book
 
         /// <inheritdoc />
-        public Task<CallResult<UpdateSubscription>> SubscribeToIndividualOrderBookUpdatesAsync(string symbol, int depth, Action<DataEvent<KrakenIndividualBookUpdate>> handler, bool? snapshot = null, CancellationToken ct = default)
+        public Task<WebSocketResult<UpdateSubscription>> SubscribeToIndividualOrderBookUpdatesAsync(string symbol, int depth, Action<DataEvent<KrakenIndividualBookUpdate>> handler, bool? snapshot = null, CancellationToken ct = default)
             => SubscribeToIndividualOrderBookUpdatesAsync([symbol], depth, handler, snapshot, ct);
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToIndividualOrderBookUpdatesAsync(IEnumerable<string> symbols, int depth, Action<DataEvent<KrakenIndividualBookUpdate>> handler, bool? snapshot = null, CancellationToken ct = default)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToIndividualOrderBookUpdatesAsync(IEnumerable<string> symbols, int depth, Action<DataEvent<KrakenIndividualBookUpdate>> handler, bool? snapshot = null, CancellationToken ct = default)
         {
             depth.ValidateIntValues(nameof(depth), 10, 100, 1000);
 
             var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token)
-                return new CallResult<UpdateSubscription>(token.Error!);
+            if (!token.Success)
+                return WebSocketResult.Fail<UpdateSubscription>(Exchange, token.Error!);
 
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenIndividualBookUpdate[]>>((receiveTime, originalData, data) =>
             {
@@ -281,7 +281,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region Instrument
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToInstrumentUpdatesAsync(Action<DataEvent<KrakenInstrumentUpdate>> handler, bool? snapshot = null, CancellationToken ct = default)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToInstrumentUpdatesAsync(Action<DataEvent<KrakenInstrumentUpdate>> handler, bool? snapshot = null, CancellationToken ct = default)
         {
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenInstrumentUpdate>>((receiveTime, originalData, data) =>
             {
@@ -306,11 +306,11 @@ namespace Kraken.Net.Clients.SpotApi
         #region Balance
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsync(Action<DataEvent<KrakenBalanceSnapshot[]>>? snapshotHandler, Action<DataEvent<KrakenBalanceUpdate[]>> updateHandler, bool? snapshot = null, CancellationToken ct = default)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsync(Action<DataEvent<KrakenBalanceSnapshot[]>>? snapshotHandler, Action<DataEvent<KrakenBalanceUpdate[]>> updateHandler, bool? snapshot = null, CancellationToken ct = default)
         {
             var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token)
-                return new CallResult<UpdateSubscription>(token.Error!);
+            if (!token.Success)
+                return WebSocketResult.Fail<UpdateSubscription>(Exchange, token.Error!);
 
             var subscription = new KrakenBalanceSubscription(_logger, this, snapshot, token.Data, snapshotHandler, updateHandler);
             return await SubscribeAsync(_privateBaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
@@ -321,15 +321,15 @@ namespace Kraken.Net.Clients.SpotApi
         #region Order
 
         /// <inheritdoc />
-        public async Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(
             Action<DataEvent<KrakenOrderUpdate[]>> updateHandler,
             bool? snapshotOrder = null,
             bool? snapshotTrades = null,
             CancellationToken ct = default)
         {
             var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token)
-                return new CallResult<UpdateSubscription>(token.Error!);
+            if (!token.Success)
+                return WebSocketResult.Fail<UpdateSubscription>(Exchange, token.Error!);
 
             var subscription = new KrakenOrderSubscription(_logger, this, snapshotOrder, snapshotTrades, token.Data, updateHandler);
             return await SubscribeAsync(_privateBaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
@@ -344,7 +344,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region Place Order
 
         /// <inheritdoc />
-        public async Task<CallResult<KrakenOrderResult>> PlaceOrderAsync(
+        public async Task<QueryResult<KrakenOrderResult>> PlaceOrderAsync(
             string symbol,
             OrderSide side,
             OrderType type,
@@ -381,8 +381,8 @@ namespace Kraken.Net.Clients.SpotApi
         {
 
             var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token)
-                return new CallResult<KrakenOrderResult>(token.Error!);
+            if (!token.Success)
+                return QueryResult.Fail<KrakenOrderResult>(Exchange, token.Error!);
 
             var request = new KrakenSocketPlaceOrderRequestV2
             {
@@ -441,7 +441,10 @@ namespace Kraken.Net.Clients.SpotApi
 
             var query = new KrakenSpotQueryV2<KrakenOrderResult, KrakenSocketPlaceOrderRequestV2>(this, requestMessage, false);
             var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
-            return result.As<KrakenOrderResult>(result.Data?.Result);
+            if (!result.Success)
+                return QueryResult.Fail<KrakenOrderResult>(result);
+
+            return QueryResult.Ok(result, result.Data.Result);
         }
 
         #endregion
@@ -449,7 +452,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region Place Multiple Orders
 
         /// <inheritdoc />
-        public async Task<CallResult<CallResult<KrakenOrderResult>[]>> PlaceMultipleOrdersAsync(
+        public async Task<QueryResult<CallResult<KrakenOrderResult>[]>> PlaceMultipleOrdersAsync(
             string symbol,
             IEnumerable<KrakenSocketOrderRequest> orders,
             DateTime? deadline = null,
@@ -457,8 +460,8 @@ namespace Kraken.Net.Clients.SpotApi
             CancellationToken ct = default)
         {
             var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token)
-                return new CallResult<CallResult<KrakenOrderResult>[]>(token.Error!);
+            if (!token.Success)
+                return QueryResult.Fail<CallResult<KrakenOrderResult>[]>(Exchange, token.Error!);
 
             var request = new KrakenSocketPlaceMultipleOrderRequestV2
             {
@@ -478,11 +481,11 @@ namespace Kraken.Net.Clients.SpotApi
 
             var query = new KrakenSpotQueryV2<KrakenOrderResult[], KrakenSocketPlaceMultipleOrderRequestV2>(this, requestMessage, false);
             var resultData = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
-            if (!resultData)
-                return resultData.As<CallResult<KrakenOrderResult>[]>(default);
+            if (!resultData.Success)
+                return QueryResult.Fail<CallResult<KrakenOrderResult>[]>(resultData);
 
             if (!resultData.Data.Success && resultData.Data.Result.Any() != true)
-                return resultData.AsError<CallResult<KrakenOrderResult>[]>(new ServerError(resultData.Data.Error!, GetErrorInfo(resultData.Data.Error!, resultData.Data.Error)));
+                return QueryResult.Fail<CallResult<KrakenOrderResult>[]>(resultData, new ServerError(resultData.Data.Error!, GetErrorInfo(resultData.Data.Error!, resultData.Data.Error)));
 
             var result = new List<CallResult<KrakenOrderResult>>();
             foreach (var item in resultData.Data.Result)
@@ -490,17 +493,17 @@ namespace Kraken.Net.Clients.SpotApi
                 if (!string.IsNullOrEmpty(item.Error) || !string.IsNullOrEmpty(item.Status))
                 {
                     var error = item.Error ?? item.Status!;
-                    result.Add(new CallResult<KrakenOrderResult>(item, null, new ServerError(error, GetErrorInfo(error, error))));
+                    result.Add(CallResult.Fail<KrakenOrderResult>(new ServerError(error, GetErrorInfo(error, error))));
                 }
                 else {
-                    result.Add(new CallResult<KrakenOrderResult>(item));
+                    result.Add(CallResult.Ok(item));
                 }
             }
 
             if (result.All(x => !x.Success))
-                return resultData.AsErrorWithData(new ServerError(new ErrorInfo(ErrorType.AllOrdersFailed, "All orders failed")), result.ToArray());
+                return QueryResult.Fail<CallResult<KrakenOrderResult>[]>(resultData, new ServerError(new ErrorInfo(ErrorType.AllOrdersFailed, "All orders failed")), result.ToArray());
 
-            return resultData.As(result.ToArray());
+            return QueryResult.Ok(resultData, result.ToArray());
         }
 
         #endregion
@@ -508,7 +511,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region Edit Order
 
         /// <inheritdoc />
-        public async Task<CallResult<KrakenSocketAmendOrderResult>> EditOrderAsync(
+        public async Task<QueryResult<KrakenSocketAmendOrderResult>> EditOrderAsync(
             string? orderId = null,
             string? clientOrderId = null,
             decimal? limitPrice = null,
@@ -522,8 +525,8 @@ namespace Kraken.Net.Clients.SpotApi
             CancellationToken ct = default)
         {
             var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token)
-                return new CallResult<KrakenSocketAmendOrderResult>(token.Error!);
+            if (!token.Success)
+                return QueryResult.Fail<KrakenSocketAmendOrderResult>(Exchange, token.Error!);
 
             var request = new KrakenSocketEditOrderRequest
             {
@@ -548,7 +551,10 @@ namespace Kraken.Net.Clients.SpotApi
 
             var query = new KrakenSpotQueryV2<KrakenSocketAmendOrderResult, KrakenSocketEditOrderRequest>(this, requestMessage, false);
             var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
-            return result.As<KrakenSocketAmendOrderResult>(result.Data?.Result);
+            if (!result.Success)
+                return QueryResult.Fail<KrakenSocketAmendOrderResult>(result);
+
+            return QueryResult.Ok(result, result.Data.Result);
         }
 
         #endregion
@@ -556,7 +562,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region Replace Order
 
         /// <inheritdoc />
-        public async Task<CallResult<KrakenSocketReplaceOrderResult>> ReplaceOrderAsync(
+        public async Task<QueryResult<KrakenSocketReplaceOrderResult>> ReplaceOrderAsync(
             string symbol,
             string? orderId = null,
             string? clientOrderId = null,
@@ -577,8 +583,8 @@ namespace Kraken.Net.Clients.SpotApi
             CancellationToken ct = default)
         {
             var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token)
-                return new CallResult<KrakenSocketReplaceOrderResult>(token.Error!);
+            if (!token.Success)
+                return QueryResult.Fail<KrakenSocketReplaceOrderResult>(Exchange, token.Error!);
 
             var request = new KrakenSocketReplaceOrderRequest
             {
@@ -616,7 +622,10 @@ namespace Kraken.Net.Clients.SpotApi
 
             var query = new KrakenSpotQueryV2<KrakenSocketReplaceOrderResult, KrakenSocketReplaceOrderRequest>(this, requestMessage, false);
             var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
-            return result.As<KrakenSocketReplaceOrderResult>(result.Data?.Result);
+            if (!result.Success)
+                return QueryResult.Fail<KrakenSocketReplaceOrderResult>(result);
+
+            return QueryResult.Ok(result, result.Data.Result);
         }
 
         #endregion
@@ -624,15 +633,15 @@ namespace Kraken.Net.Clients.SpotApi
         #region Cancel Order
 
         /// <inheritdoc />
-        public Task<CallResult<KrakenOrderResult>> CancelOrderAsync(string orderId, CancellationToken ct = default)
+        public Task<QueryResult<KrakenOrderResult>> CancelOrderAsync(string orderId, CancellationToken ct = default)
             => CancelOrdersAsync(new[] { orderId }, ct);
 
         /// <inheritdoc />
-        public async Task<CallResult<KrakenOrderResult>> CancelOrdersAsync(IEnumerable<string> orderIds, CancellationToken ct = default)
+        public async Task<QueryResult<KrakenOrderResult>> CancelOrdersAsync(IEnumerable<string> orderIds, CancellationToken ct = default)
         {
             var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token)
-                return new CallResult<KrakenOrderResult>(token.Error!);
+            if (!token.Success)
+                return QueryResult.Fail<KrakenOrderResult>(Exchange, token.Error!);
 
             var request = new KrakenSocketCancelOrdersRequestV2
             {
@@ -648,7 +657,10 @@ namespace Kraken.Net.Clients.SpotApi
 
             var query = new KrakenSpotQueryV2<KrakenOrderResult, KrakenSocketCancelOrdersRequestV2>(this, requestMessage, false);
             var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
-            return result.As<KrakenOrderResult>(result.Data?.Result);
+            if (!result.Success)
+                return QueryResult.Fail<KrakenOrderResult>(result);
+
+            return QueryResult.Ok(result, result.Data.Result);
         }
 
         #endregion
@@ -656,11 +668,11 @@ namespace Kraken.Net.Clients.SpotApi
         #region Cancel All Orders
 
         /// <inheritdoc />
-        public async Task<CallResult<KrakenStreamCancelAllResult>> CancelAllOrdersAsync(CancellationToken ct = default)
+        public async Task<QueryResult<KrakenStreamCancelAllResult>> CancelAllOrdersAsync(CancellationToken ct = default)
         {
             var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token)
-                return new CallResult<KrakenStreamCancelAllResult>(token.Error!);
+            if (!token.Success)
+                return QueryResult.Fail<KrakenStreamCancelAllResult>(Exchange, token.Error!);
 
             var request = new KrakenSocketAuthRequestV2
             {
@@ -675,7 +687,10 @@ namespace Kraken.Net.Clients.SpotApi
 
             var query = new KrakenSpotQueryV2<KrakenStreamCancelAllResult, KrakenSocketAuthRequestV2>(this, requestMessage, false);
             var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
-            return result.As<KrakenStreamCancelAllResult>(result.Data?.Result);
+            if (!result.Success)
+                return QueryResult.Fail<KrakenStreamCancelAllResult>(result);
+
+            return QueryResult.Ok(result, result.Data.Result);
         }
 
         #endregion
@@ -683,11 +698,11 @@ namespace Kraken.Net.Clients.SpotApi
         #region Cancel All Orders After
 
         /// <inheritdoc />
-        public async Task<CallResult<KrakenCancelAfterResult>> CancelAllOrdersAfterAsync(TimeSpan timeout, CancellationToken ct = default)
+        public async Task<QueryResult<KrakenCancelAfterResult>> CancelAllOrdersAfterAsync(TimeSpan timeout, CancellationToken ct = default)
         {
             var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token)
-                return new CallResult<KrakenCancelAfterResult>(token.Error!);
+            if (!token.Success)
+                return QueryResult.Fail<KrakenCancelAfterResult>(Exchange, token.Error);
 
             var request = new KrakenSocketCancelAfterRequest
             {
@@ -703,7 +718,10 @@ namespace Kraken.Net.Clients.SpotApi
 
             var query = new KrakenSpotQueryV2<KrakenCancelAfterResult, KrakenSocketCancelAfterRequest>(this, requestMessage, false);
             var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
-            return result.As<KrakenCancelAfterResult>(result.Data?.Result);
+            if (!result.Success)
+                return QueryResult.Fail<KrakenCancelAfterResult>(result);
+
+            return QueryResult.Ok(result, result.Data.Result);
         }
 
         #endregion
@@ -716,30 +734,30 @@ namespace Kraken.Net.Clients.SpotApi
             if (subscription is not KrakenSubscription krakenSubscription)
             {
                 // Heartbeat subscription
-                return CallResult.SuccessResult;
+                return CallResult.Ok();
             }
 
             if (!krakenSubscription.TokenRequired)
-                return CallResult.SuccessResult;
+                return CallResult.Ok();
 
             var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token)
-                return token.AsDataless();
+            if (!token.Success)
+                return CallResult.Fail(token.Error);
 
             krakenSubscription.Token = token.Data;
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
 
         private async Task<CallResult<string>> GetTokenAsync()
         {
             if (ApiCredentials == null)
-                return new CallResult<string>(new NoApiCredentialsError());
+                return CallResult.Fail<string>(new NoApiCredentialsError());
 
             if (_tokenCache.TryGetValue(ApiCredentials.Spot!.Key, out var token) && token.Expire > DateTime.UtcNow)
-                return new CallResult<string>(token.Token);
+                return CallResult.Ok(token.Token);
 
             if (ClientOptions.Environment.Name == "UnitTest")
-                return new CallResult<string>("123");
+                return CallResult.Ok("123");
 
             _logger.LogDebug("Requesting websocket token");
             var restClient = new KrakenRestClient(x =>
@@ -752,12 +770,14 @@ namespace Kraken.Net.Clients.SpotApi
             });
 
             var result = await restClient.SpotApi.Account.GetWebsocketTokenAsync().ConfigureAwait(false);
-            if (result)
-                _tokenCache[ApiCredentials.Spot.Key] = new CachedToken { Token = result.Data.Token, Expire = DateTime.UtcNow.AddSeconds(result.Data.Expires - 5) };
-            else
+            if (!result.Success)
+            {
                 _logger.LogWarning("Failed to retrieve websocket token: {Error}", result.Error);
+                return CallResult.Fail<string>(result.Error);
+            }
 
-            return result.As<string>(result.Data?.Token);
+            _tokenCache[ApiCredentials.Spot.Key] = new CachedToken { Token = result.Data.Token, Expire = DateTime.UtcNow.AddSeconds(result.Data.Expires - 5) };
+            return CallResult.Ok(result.Data.Token);
         }
 
         private class CachedToken

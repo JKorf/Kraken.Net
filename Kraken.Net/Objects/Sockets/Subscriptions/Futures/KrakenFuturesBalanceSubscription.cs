@@ -21,7 +21,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _client = client;
             _handler = handler;
 
-            MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenFuturesBalancesUpdate>(["balances_snapshot", "balances"], DoHandleMessage);
+            MessageRouter = MessageRouter.CreateForEvent<KrakenFuturesBalancesUpdate>(["balances_snapshot", "balances"], DoHandleMessage);
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)
@@ -62,7 +62,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     .WithUpdateType(string.Equals(message.Feed, "balances_snapshot", StringComparison.Ordinal) ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                 );
 
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
     }
 }

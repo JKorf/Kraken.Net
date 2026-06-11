@@ -27,8 +27,8 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             var routes = new List<MessageRoute>();
             foreach (var symbol in symbols)
             {
-                routes.Add(MessageRoute<KrakenFuturesBookUpdate>.CreateWithoutTopicFilter("book-" + symbol.ToLowerInvariant(), DoHandleMessage));
-                routes.Add(MessageRoute<KrakenFuturesBookSnapshotUpdate>.CreateWithoutTopicFilter("book_snapshot-" + symbol.ToLowerInvariant(), DoHandleMessage));
+                routes.Add(MessageRoute.CreateForEvent<KrakenFuturesBookUpdate>("book-" + symbol.ToLowerInvariant(), DoHandleMessage));
+                routes.Add(MessageRoute.CreateForEvent<KrakenFuturesBookSnapshotUpdate>("book_snapshot-" + symbol.ToLowerInvariant(), DoHandleMessage));
             }    
 
             MessageRouter = MessageRouter.Create(routes.ToArray());
@@ -78,7 +78,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     .WithDataTimestamp(message.Timestamp, _client.GetTimeOffset())
                     .WithSequenceNumber(message.Sequence)
                 );
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
 
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesBookUpdate message)
@@ -93,7 +93,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     .WithDataTimestamp(message.Timestamp, _client.GetTimeOffset())
                     .WithSequenceNumber(message.Sequence)
                 );
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
     }
 }

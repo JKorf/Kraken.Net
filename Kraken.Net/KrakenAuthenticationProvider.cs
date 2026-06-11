@@ -27,7 +27,7 @@ namespace Kraken.Net
 
         public override void ProcessRequest(RestApiClient apiClient, RestRequestConfiguration request)
         {
-            if (!request.Authenticated)
+            if (!request.RequestDefinition.Authenticated)
                 return;
 
             request.Headers ??= new Dictionary<string, string>();
@@ -40,7 +40,7 @@ namespace Kraken.Net
             var queryString = request.GetQueryString();
             var parameterString = nonce + body + queryString;
            
-            var pathBytes = Encoding.UTF8.GetBytes(request.Path);
+            var pathBytes = Encoding.UTF8.GetBytes(request.RequestDefinition.Path);
             var allBytes = pathBytes.Concat(SignSHA256Bytes(parameterString)).ToArray();
 
             string signature;

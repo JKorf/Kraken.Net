@@ -43,7 +43,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 
             IndividualSubscriptionCount = symbols?.Length ?? 1;
 
-            MessageRouter = MessageRouter.CreateWithOptionalTopicFilters<KrakenSocketUpdateV2<T>>(topic, symbols?.Select(x => x + interval).ToArray(), DoHandleMessage);
+            var topicFilters = symbols?.Select(x => x + interval).ToArray();
+            if (topicFilters != null)
+                MessageRouter = MessageRouter.CreateForEvent<KrakenSocketUpdateV2<T>>(topic, topicFilters, DoHandleMessage);
+            else
+                MessageRouter = MessageRouter.CreateForEvent<KrakenSocketUpdateV2<T>>(topic, DoHandleMessage);
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)
@@ -97,7 +101,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketUpdateV2<T> message)
         {
             _handler?.Invoke(receiveTime, originalData, message);
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
 
     }

@@ -42,7 +42,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region ctor
         internal KrakenRestClientSpotApi(ILogger logger, HttpClient? httpClient, KrakenRestOptions options)
-            : base(logger, httpClient, options.Environment.SpotRestBaseAddress, options, options.SpotOptions)
+            : base(logger, KrakenExchange.Metadata.Id, httpClient, options.Environment.SpotRestBaseAddress, options, options.SpotOptions)
         {
             Account = new KrakenRestClientSpotApiAccount(this);
             ExchangeData = new KrakenRestClientSpotApiExchangeData(this); 
@@ -64,7 +64,7 @@ namespace Kraken.Net.Clients.SpotApi
         protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
 
         /// <inheritdoc />
-        protected override async ValueTask<bool> ShouldRetryRequestAsync<T>(IRateLimitGate? gate, WebCallResult<T> callResult, int tries)
+        protected override async ValueTask<bool> ShouldRetryRequestAsync<T>(IRateLimitGate? gate, HttpResult<T> callResult, int tries)
         {
             if (await base.ShouldRetryRequestAsync(gate, callResult, tries).ConfigureAwait(false))
                 return true;
@@ -82,25 +82,22 @@ namespace Kraken.Net.Clients.SpotApi
             return false;
         }
 
-        internal async Task<WebCallResult> SendAsync(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null)
+        internal async Task<HttpResult> SendAsync(RequestDefinition definition, Parameters? parameters, CancellationToken cancellationToken, int? weight = null)
         {
-            var result = await base.SendAsync<KrakenResult>(BaseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
-            if (!result)
-                return result.AsDatalessError(result.Error!);
+            var result = await base.SendAsync<KrakenResult>(definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
+            if (!result.Success)
+                return HttpResult.Fail(result);
 
-            return result.AsDataless();
+            return HttpResult.Ok(result);
         }
 
-        internal Task<WebCallResult<T>> SendAsync<T>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) 
-            => SendToAddressAsync<T>(BaseAddress, definition, parameters, cancellationToken, weight);
-
-        internal async Task<WebCallResult<T>> SendToAddressAsync<T>(string baseAddress, RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) 
+        internal async Task<HttpResult<T>> SendAsync<T>(RequestDefinition definition, Parameters? parameters, CancellationToken cancellationToken, int? weight = null) 
         {
-            var result = await base.SendAsync<KrakenResult<T>>(baseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
-            if (!result)
-                return result.AsError<T>(result.Error!);
+            var result = await base.SendAsync<KrakenResult<T>>(definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
+            if (!result.Success)
+                return HttpResult.Fail<T>(result);
 
-            return result.As(result.Data.Result);
+            return HttpResult.Ok(result, result.Data.Result);
         }
 
         /// <summary>
@@ -112,7 +109,7 @@ namespace Kraken.Net.Clients.SpotApi
         public string GetSymbolName(string baseAsset, string quoteAsset) => (baseAsset + quoteAsset).ToUpperInvariant();
 
         /// <inheritdoc />
-        protected override Task<WebCallResult<DateTime>> GetServerTimestampAsync()
+        protected override Task<HttpResult<DateTime>> GetServerTimestampAsync()
             => ExchangeData.GetServerTimeAsync();
 
         public IKrakenRestClientSpotApiShared SharedClient => this;

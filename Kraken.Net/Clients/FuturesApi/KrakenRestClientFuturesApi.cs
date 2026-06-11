@@ -32,12 +32,9 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #endregion
 
-        /// <inheritdoc />
-        public string ExchangeName => "Kraken";
-
         #region ctor
         internal KrakenRestClientFuturesApi(ILogger logger, HttpClient? httpClient, KrakenRestOptions options)
-            : base(logger, httpClient, options.Environment.FuturesRestBaseAddress, options, options.FuturesOptions)
+            : base(logger, KrakenExchange.Metadata.Id, httpClient, options.Environment.FuturesRestBaseAddress, options, options.FuturesOptions)
         {
             Account = new KrakenRestClientFuturesApiAccount(this);
             ExchangeData = new KrakenRestClientFuturesApiExchangeData(this);
@@ -45,7 +42,6 @@ namespace Kraken.Net.Clients.FuturesApi
 
             RequestBodyFormat = RequestBodyFormat.FormData;
             ParameterPositions[HttpMethod.Put] = HttpMethodParameterPosition.InUri;
-            ArraySerialization = ArrayParametersSerialization.MultipleValues;
             RequestBodyEmptyContent = "";
         }
         #endregion
@@ -58,48 +54,48 @@ namespace Kraken.Net.Clients.FuturesApi
         public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
                 => KrakenExchange.FormatSymbol(baseAsset, quoteAsset, tradingMode, deliverTime);
 
-        internal async Task<WebCallResult<U>> SendToAddressAsync<T,U>(string baseAddress, RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T : KrakenFuturesResult<U>
+        internal async Task<HttpResult<U>> SendAsync<T,U>(RequestDefinition definition, Parameters? parameters, CancellationToken cancellationToken, int? weight = null) where T : KrakenFuturesResult<U>
         {
-            var result = await base.SendAsync<T>(baseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
-            if (!result)
-                return result.AsError<U>(result.Error!);
+            var result = await base.SendAsync<T>(definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
+            if (!result.Success)
+                return HttpResult.Fail<U>(result);
 
-            return result.As(result.Data.Data);
+            return HttpResult.Ok(result, result.Data.Data);
         }
 
-        internal async Task<WebCallResult> SendAsync(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null)
+        internal async Task<HttpResult> SendAsync(RequestDefinition definition, Parameters? parameters, CancellationToken cancellationToken, int? weight = null)
         {
-            var result = await base.SendAsync<KrakenFuturesResult>(BaseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
-            if (!result)
-                return result.AsDatalessError(result.Error!);
+            var result = await base.SendAsync<KrakenFuturesResult>(definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
+            if (!result.Success)
+                return HttpResult.Fail(result);
 
-            return result.AsDataless();
+            return HttpResult.Ok(result);
         }
 
-        internal async Task<WebCallResult<T>> SendAsync<T>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T : class
+        internal async Task<HttpResult<T>> SendAsync<T>(RequestDefinition definition, Parameters? parameters, CancellationToken cancellationToken, int? weight = null) where T : class
         {
-            var result = await base.SendAsync<KrakenFuturesResult<T>>(BaseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
-            if (!result)
-                return result.AsError<T>(result.Error!);
+            var result = await base.SendAsync<KrakenFuturesResult<T>>(definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
+            if (!result.Success)
+                return HttpResult.Fail<T>(result);
 
-            return result.As(result.Data.Data);
+            return HttpResult.Ok(result, result.Data.Data);
         }
 
-        internal Task<WebCallResult<U>> SendAsync<T,U>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T : KrakenFuturesResult<U>
-            => SendToAddressAsync<T,U>(BaseAddress, definition, parameters, cancellationToken, weight);
-
-        internal async Task<WebCallResult<T>> SendRawAsync<T>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null) where T: class
-            => await base.SendAsync<T>(BaseAddress, definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
+        internal async Task<HttpResult<T>> SendRawAsync<T>(RequestDefinition definition, Parameters? parameters, CancellationToken cancellationToken, int? weight = null) where T: class
+            => await base.SendAsync<T>(definition, parameters, cancellationToken, null, weight).ConfigureAwait(false);
 
         /// <inheritdoc />
         protected override KrakenFuturesAuthenticationProvider CreateAuthenticationProvider(KrakenCredentials credentials)
             => new KrakenFuturesAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new KrakenNonceProvider());
 
         /// <inheritdoc />
-        protected override async Task<WebCallResult<DateTime>> GetServerTimestampAsync()
+        protected override async Task<HttpResult<DateTime>> GetServerTimestampAsync()
         {
             var result = await ExchangeData.GetPlatformNotificationsAsync().ConfigureAwait(false);
-            return result.As(result.Data?.ServerTime ?? default);
+            if (!result.Success)
+                return HttpResult.Fail<DateTime>(result);
+
+            return HttpResult.Ok(result, result.Data.ServerTime);
         }
     }
 }

@@ -28,8 +28,8 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _updateHandler = updateHandler;
 
             MessageRouter = MessageRouter.Create([
-                MessageRoute<KrakenSocketUpdateV2<KrakenBalanceSnapshot[]>>.CreateWithoutTopicFilter("balancessnapshot",DoHandleMessage),
-                MessageRoute<KrakenSocketUpdateV2<KrakenBalanceUpdate[]>>.CreateWithoutTopicFilter("balances", DoHandleMessage)
+                MessageRoute.CreateForEvent<KrakenSocketUpdateV2<KrakenBalanceSnapshot[]>>("balancessnapshot",DoHandleMessage),
+                MessageRoute.CreateForEvent<KrakenSocketUpdateV2<KrakenBalanceUpdate[]>>("balances", DoHandleMessage)
                 ]);
         }
 
@@ -78,7 +78,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                     .WithUpdateType(SocketUpdateType.Snapshot)
                     .WithDataTimestamp(message.Timestamp, _client.GetTimeOffset())
                 );
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
 
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketUpdateV2<KrakenBalanceUpdate[]> message)
@@ -92,7 +92,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                     .WithUpdateType(SocketUpdateType.Update)
                     .WithDataTimestamp(message.Timestamp, _client.GetTimeOffset())
                 );
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
     }
 }

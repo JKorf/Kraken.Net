@@ -18,7 +18,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _client = client;
             _handler = handler;
 
-            MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenSocketUpdateV2<KrakenStreamSystemStatus[]>>("status", DoHandleMessage);
+            MessageRouter = MessageRouter.CreateForEvent<KrakenSocketUpdateV2<KrakenStreamSystemStatus[]>>("status", DoHandleMessage);
         }
 
         protected override Query? GetSubQuery(SocketConnection connection) => null;
@@ -36,7 +36,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                     .WithUpdateType(SocketUpdateType.Update)
                     .WithDataTimestamp(message.Timestamp, _client.GetTimeOffset())
                 );
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
     }
 }

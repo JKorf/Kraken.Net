@@ -19,13 +19,13 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Server Time
 
         /// <inheritdoc />
-        public async Task<WebCallResult<DateTime>> GetServerTimeAsync(CancellationToken ct = default)
+        public async Task<HttpResult<DateTime>> GetServerTimeAsync(CancellationToken ct = default)
         {
-            var request = _definitions.GetOrCreate(HttpMethod.Get, "0/public/Time", KrakenExchange.RateLimiter.SpotRest, 1, false);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "0/public/Time", KrakenExchange.RateLimiter.SpotRest, 1, false);
             var result = await _baseClient.SendAsync<KrakenServerTime>(request, null, ct).ConfigureAwait(false);
-            if (!result)
-                return result.AsError<DateTime>(result.Error!);
-            return result.As(result.Data.UnixTime);
+            if (!result.Success)
+                return HttpResult.Fail<DateTime>(result);
+            return HttpResult.Ok(result, result.Data.UnixTime);
         }
 
         #endregion
@@ -33,9 +33,9 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get System Status
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenSystemStatus>> GetSystemStatusAsync(CancellationToken ct = default)
+        public async Task<HttpResult<KrakenSystemStatus>> GetSystemStatusAsync(CancellationToken ct = default)
         {
-            var request = _definitions.GetOrCreate(HttpMethod.Get, "0/public/SystemStatus", KrakenExchange.RateLimiter.SpotRest, 1, false);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "0/public/SystemStatus", KrakenExchange.RateLimiter.SpotRest, 1, false);
             return await _baseClient.SendAsync<KrakenSystemStatus>(request, null, ct).ConfigureAwait(false);
         }
 
@@ -44,15 +44,15 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Assets
 
         /// <inheritdoc />
-        public async Task<WebCallResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(IEnumerable<string>? assets = null, AClass? assetClass = null, bool? newAssetNameResponse = null, CancellationToken ct = default)
+        public async Task<HttpResult<Dictionary<string, KrakenAssetInfo>>> GetAssetsAsync(IEnumerable<string>? assets = null, AClass? assetClass = null, bool? newAssetNameResponse = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection();
-            parameters.AddOptional("assetVersion", newAssetNameResponse);
-            parameters.AddOptionalEnum("aclass", assetClass);
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            parameters.Add("assetVersion", newAssetNameResponse);
+            parameters.Add("aclass", assetClass);
             if (assets?.Any() == true)
-                parameters.AddOptionalParameter("asset", string.Join(",", assets));
+                parameters.Add("asset", string.Join(",", assets));
 
-            var request = _definitions.GetOrCreate(HttpMethod.Get, "0/public/Assets", KrakenExchange.RateLimiter.SpotRest, 1, false);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "0/public/Assets", KrakenExchange.RateLimiter.SpotRest, 1, false);
             return await _baseClient.SendAsync<Dictionary<string, KrakenAssetInfo>>(request, parameters, ct).ConfigureAwait(false);
         }
 
@@ -61,17 +61,17 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Symbols
 
         /// <inheritdoc />
-        public async Task<WebCallResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, string? countryCode = null, AClass? assetClass = null, bool? newAssetNameResponse = null, string? executionVenue = null, CancellationToken ct = default)
+        public async Task<HttpResult<Dictionary<string, KrakenSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, string? countryCode = null, AClass? assetClass = null, bool? newAssetNameResponse = null, string? executionVenue = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection();
-            parameters.AddOptionalParameter("country_code", countryCode);
-            parameters.AddOptionalEnum("aclass_base", assetClass);
-            parameters.AddOptional("assetVersion", newAssetNameResponse);
-            parameters.AddOptional("execution_venue", executionVenue);
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            parameters.Add("country_code", countryCode);
+            parameters.Add("aclass_base", assetClass);
+            parameters.Add("assetVersion", newAssetNameResponse);
+            parameters.Add("execution_venue", executionVenue);
             if (symbols?.Any() == true)
-                parameters.AddOptionalParameter("pair", string.Join(",", symbols));
+                parameters.Add("pair", string.Join(",", symbols));
 
-            var request = _definitions.GetOrCreate(HttpMethod.Get, "0/public/AssetPairs", KrakenExchange.RateLimiter.SpotRest, 1, false);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "0/public/AssetPairs", KrakenExchange.RateLimiter.SpotRest, 1, false);
             return await _baseClient.SendAsync<Dictionary<string, KrakenSymbol>>(request, parameters, ct).ConfigureAwait(false);
         }
 
@@ -80,7 +80,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Ticker
 
         /// <inheritdoc />
-        public Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickerAsync(string symbol, CancellationToken ct = default)
+        public Task<HttpResult<Dictionary<string, KrakenRestTick>>> GetTickerAsync(string symbol, CancellationToken ct = default)
             => GetTickersAsync(new[] { symbol }, null, ct);
 
         #endregion
@@ -88,16 +88,16 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Tickers
 
         /// <inheritdoc />
-        public async Task<WebCallResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(IEnumerable<string>? symbols = null, AssetClass? assetClass = null, CancellationToken ct = default)
+        public async Task<HttpResult<Dictionary<string, KrakenRestTick>>> GetTickersAsync(IEnumerable<string>? symbols = null, AssetClass? assetClass = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection();
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
             if (symbols?.Any() == true)
                 parameters.AddParameter("pair", string.Join(",", symbols));
 
-            parameters.AddOptionalEnum("asset_class", assetClass);
-            var request = _definitions.GetOrCreate(HttpMethod.Get, "0/public/Ticker", KrakenExchange.RateLimiter.SpotRest, 1, false);
+            parameters.Add("asset_class", assetClass);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "0/public/Ticker", KrakenExchange.RateLimiter.SpotRest, 1, false);
             var result = await _baseClient.SendAsync<Dictionary<string, KrakenRestTick>>(request, parameters, ct).ConfigureAwait(false);
-            if (!result)
+            if (!result.Success)
                 return result;
 
             foreach (var item in result.Data)
@@ -111,17 +111,17 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Klines
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenKlinesResult>> GetKlinesAsync(string symbol, KlineInterval interval, DateTime? since = null, AClass? assetClass = null, CancellationToken ct = default)
+        public async Task<HttpResult<KrakenKlinesResult>> GetKlinesAsync(string symbol, KlineInterval interval, DateTime? since = null, AClass? assetClass = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection()
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings)
             {
                 {"pair", symbol},
             };
-            parameters.AddEnum("interval", interval);
-            parameters.AddOptionalEnum("asset_class", assetClass);
-            parameters.AddOptionalParameter("since", DateTimeConverter.ConvertToSeconds(since));
+            parameters.Add("interval", interval);
+            parameters.Add("asset_class", assetClass);
+            parameters.Add("since", DateTimeConverter.ConvertToSeconds(since));
 
-            var request = _definitions.GetOrCreate(HttpMethod.Get, "0/public/OHLC", KrakenExchange.RateLimiter.SpotRest, 1, false);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "0/public/OHLC", KrakenExchange.RateLimiter.SpotRest, 1, false);
             return await _baseClient.SendAsync<KrakenKlinesResult>(request, parameters, ct).ConfigureAwait(false);
         }
 
@@ -130,20 +130,21 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Order Book
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenOrderBook>> GetOrderBookAsync(string symbol, int? limit = null, AClass? assetClass = null, CancellationToken ct = default)
+        public async Task<HttpResult<KrakenOrderBook>> GetOrderBookAsync(string symbol, int? limit = null, AClass? assetClass = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection()
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings)
             {
                 {"pair", symbol},
             };
-            parameters.AddOptionalEnum("asset_class", assetClass);
-            parameters.AddOptionalParameter("count", limit);
+            parameters.Add("asset_class", assetClass);
+            parameters.Add("count", limit);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Get, "0/public/Depth", KrakenExchange.RateLimiter.SpotRest, 1, false);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "0/public/Depth", KrakenExchange.RateLimiter.SpotRest, 1, false);
             var result = await _baseClient.SendAsync<Dictionary<string, KrakenOrderBook>>(request, parameters, ct).ConfigureAwait(false);
-            if (!result)
-                return result.AsError<KrakenOrderBook>(result.Error!);
-            return result.As(result.Data.First().Value);
+            if (!result.Success)
+                return HttpResult.Fail<KrakenOrderBook>(result);
+
+            return HttpResult.Ok(result, result.Data.First().Value);
         }
 
         #endregion
@@ -151,17 +152,17 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Trade History
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenTradesResult>> GetTradeHistoryAsync(string symbol, DateTime? since = null, int? limit = null, AClass? assetClass = null, CancellationToken ct = default)
+        public async Task<HttpResult<KrakenTradesResult>> GetTradeHistoryAsync(string symbol, DateTime? since = null, int? limit = null, AClass? assetClass = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection()
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings)
             {
                 {"pair", symbol},
             };
-            parameters.AddOptionalEnum("asset_class", assetClass);
-            parameters.AddOptionalParameter("since", DateTimeConverter.ConvertToNanoseconds(since));
-            parameters.AddOptionalParameter("count", limit);
+            parameters.Add("asset_class", assetClass);
+            parameters.Add("since", DateTimeConverter.ConvertToNanoseconds(since));
+            parameters.Add("count", limit);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Get, "0/public/Trades", KrakenExchange.RateLimiter.SpotRest, 1, false);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "0/public/Trades", KrakenExchange.RateLimiter.SpotRest, 1, false);
             return await _baseClient.SendAsync<KrakenTradesResult>(request, parameters, ct).ConfigureAwait(false);
         }
 
@@ -170,16 +171,16 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Recent Spread
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenSpreadsResult>> GetRecentSpreadAsync(string symbol, DateTime? since = null, AClass? assetClass = null, CancellationToken ct = default)
+        public async Task<HttpResult<KrakenSpreadsResult>> GetRecentSpreadAsync(string symbol, DateTime? since = null, AClass? assetClass = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection()
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings)
             {
                 {"pair", symbol},
             };
-            parameters.AddOptionalEnum("asset_class", assetClass);
-            parameters.AddOptionalParameter("since", DateTimeConverter.ConvertToSeconds(since));
+            parameters.Add("asset_class", assetClass);
+            parameters.Add("since", DateTimeConverter.ConvertToSeconds(since));
 
-            var request = _definitions.GetOrCreate(HttpMethod.Get, "0/public/Spread", KrakenExchange.RateLimiter.SpotRest, 1, false);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "0/public/Spread", KrakenExchange.RateLimiter.SpotRest, 1, false);
             return await _baseClient.SendAsync<KrakenSpreadsResult>(request, parameters, ct).ConfigureAwait(false);
         }
 
