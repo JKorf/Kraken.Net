@@ -33,8 +33,8 @@ namespace Kraken.Net.Clients.FuturesApi
         #endregion
 
         #region ctor
-        internal KrakenRestClientFuturesApi(ILogger logger, HttpClient? httpClient, KrakenRestOptions options)
-            : base(logger, KrakenExchange.Metadata.Id, httpClient, options.Environment.FuturesRestBaseAddress, options, options.FuturesOptions)
+        internal KrakenRestClientFuturesApi(ILoggerFactory? loggerFactory, HttpClient? httpClient, KrakenRestOptions options)
+            : base(loggerFactory, KrakenExchange.Metadata.Id, httpClient, options.Environment.FuturesRestBaseAddress, options, options.FuturesOptions)
         {
             Account = new KrakenRestClientFuturesApiAccount(this);
             ExchangeData = new KrakenRestClientFuturesApiExchangeData(this);

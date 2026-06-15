@@ -41,8 +41,8 @@ namespace Kraken.Net.Clients
         {
             Initialize(options.Value);
 
-            SpotApi = AddApiClient(new KrakenSocketClientSpotApi(_logger, options.Value));
-            FuturesApi = AddApiClient(new KrakenSocketClientFuturesApi(_logger, options.Value));
+            SpotApi = AddApiClient(new KrakenSocketClientSpotApi(loggerFactory, options.Value));
+            FuturesApi = AddApiClient(new KrakenSocketClientFuturesApi(loggerFactory, options.Value));
         }
         #endregion
 

@@ -28,8 +28,8 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #region ctor
 
-        internal KrakenSocketClientFuturesApi(ILogger logger, KrakenSocketOptions options) :
-            base(logger, KrakenExchange.Metadata.Id, options.Environment.FuturesSocketBaseAddress, options, options.FuturesOptions)
+        internal KrakenSocketClientFuturesApi(ILoggerFactory? loggerFactory, KrakenSocketOptions options) :
+            base(loggerFactory, KrakenExchange.Metadata.Id, options.Environment.FuturesSocketBaseAddress, options, options.FuturesOptions)
         {
             RateLimiter = KrakenExchange.RateLimiter.FuturesSocket;
 

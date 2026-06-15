@@ -41,8 +41,8 @@ namespace Kraken.Net.Clients.SpotApi
         #endregion
 
         #region ctor
-        internal KrakenRestClientSpotApi(ILogger logger, HttpClient? httpClient, KrakenRestOptions options)
-            : base(logger, KrakenExchange.Metadata.Id, httpClient, options.Environment.SpotRestBaseAddress, options, options.SpotOptions)
+        internal KrakenRestClientSpotApi(ILoggerFactory? loggerFactory, HttpClient? httpClient, KrakenRestOptions options)
+            : base(loggerFactory, KrakenExchange.Metadata.Id, httpClient, options.Environment.SpotRestBaseAddress, options, options.SpotOptions)
         {
             Account = new KrakenRestClientSpotApiAccount(this);
             ExchangeData = new KrakenRestClientSpotApiExchangeData(this); 

@@ -47,8 +47,8 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region ctor
 
-        internal KrakenSocketClientSpotApi(ILogger logger, KrakenSocketOptions options) :
-            base(logger, KrakenExchange.Metadata.Id, options.Environment.SpotSocketPublicAddress, options, options.SpotOptions)
+        internal KrakenSocketClientSpotApi(ILoggerFactory? loggerFactory, KrakenSocketOptions options) :
+            base(loggerFactory, KrakenExchange.Metadata.Id, options.Environment.SpotSocketPublicAddress, options, options.SpotOptions)
         {
             _privateBaseAddress = options.Environment.SpotSocketPrivateAddress;
 
