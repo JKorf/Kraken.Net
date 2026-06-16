@@ -27,14 +27,16 @@ Primary documentation:
 - Include `using CryptoExchange.Net.Authentication;` when constructing `HMACCredential`.
 - Always check `.Success` before reading `.Data`.
 - REST methods return `HttpResult<T>` or `HttpResult`.
-- WebSocket subscriptions and socket API requests return `WebSocketResult<T>` or `WebSocketResult`.
+- WebSocket subscriptions return `WebSocketResult<UpdateSubscription>`.
+- Spot WebSocket request/response methods return `QueryResult<T>`.
+- Shared non-I/O symbol/cache helper methods can return `ExchangeCallResult<T>`.
 - Reuse clients; do not instantiate a REST or socket client per request in production.
 - Prefer dependency injection for long-running services.
 - Store WebSocket subscriptions and unsubscribe during shutdown.
 - Do not call `.Result` or `.Wait()` on async methods.
 - Do not invent endpoint names. If unsure, inspect `Kraken.Net/Interfaces/Clients/**`.
 - Spot REST pair names and Spot WebSocket pair names can differ. Use `KrakenSymbol.WebsocketName` from `GetSymbolsAsync`.
-- For multi-exchange code, use `CryptoExchange.Net.SharedApis` from each API's `.SharedClient`.
+- For multi-exchange code, use `CryptoExchange.Net.SharedApis` from each API's `.SharedClient` and call `.SharedClient.Discover()` to inspect supported features.
 
 ## Installation
 
@@ -379,8 +381,11 @@ await socketClient.UnsubscribeAsync(tickerSub.Data);
 using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Clients;
 
-ISpotTickerRestClient tickerClient = new KrakenRestClient().SpotApi.SharedClient;
+var restClient = new KrakenRestClient();
+ISpotTickerRestClient tickerClient = restClient.SpotApi.SharedClient;
 var symbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
+var info = restClient.SpotApi.SharedClient.Discover();
+var supportedFeatures = info.Features.Where(x => x.Supported).Select(x => x.EndpointName);
 
 var ticker = await tickerClient.GetSpotTickerAsync(new GetTickerRequest(symbol));
 if (!ticker.Success)
@@ -392,7 +397,9 @@ if (!ticker.Success)
 Console.WriteLine(ticker.Data.LastPrice);
 ```
 
-Shared socket subscriptions return an `UpdateSubscription` in `.Data`. Keep the concrete socket client and unsubscribe through it:
+Shared REST methods return `HttpResult<T>` / `HttpResult`. Shared socket subscriptions return `WebSocketResult<UpdateSubscription>` with an `UpdateSubscription` in `.Data`. Shared symbol helpers can return `ExchangeCallResult<T>`.
+
+Keep the concrete socket client and unsubscribe through it:
 
 ```csharp
 var socketClient = new KrakenSocketClient();
@@ -457,10 +464,10 @@ Examples/ai-friendly/03-websocket.cs
   Spot and Futures subscriptions, success checks, teardown.
 
 Examples/ai-friendly/04-multi-exchange.cs
-  CryptoExchange.Net SharedApis REST and socket patterns.
+  CryptoExchange.Net SharedApis REST/socket patterns and capability discovery.
 
 Examples/ai-friendly/05-error-handling.cs
-  HttpResult pattern, transient retry, symbol-name checks.
+  HttpResult, WebSocketResult, QueryResult, ExchangeCallResult patterns; transient retry; symbol-name checks.
 ```
 
 ## Anti-Hallucination Checklist

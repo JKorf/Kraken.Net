@@ -4,6 +4,10 @@ using Kraken.Net.Enums;
 
 var client = new KrakenRestClient();
 
+// REST methods return HttpResult<T> / HttpResult.
+// WebSocket subscriptions return WebSocketResult<UpdateSubscription>.
+// Spot WebSocket request/response methods return QueryResult<T>.
+// Some SharedApis symbol helper methods return ExchangeCallResult<T>.
 var symbols = await client.SpotApi.ExchangeData.GetSymbolsAsync(new[] { "ETHUSDT" });
 if (!symbols.Success || symbols.Data.Count == 0)
 {

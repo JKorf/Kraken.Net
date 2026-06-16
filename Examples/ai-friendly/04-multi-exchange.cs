@@ -6,6 +6,9 @@ using Kraken.Net.Clients;
 var restClient = new KrakenRestClient();
 
 ISpotTickerRestClient spotTickerClient = restClient.SpotApi.SharedClient;
+var capabilities = restClient.SpotApi.SharedClient.Discover();
+Console.WriteLine($"Shared REST features: {capabilities.Features.Count(x => x.Supported)}");
+
 var spotSymbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
 
 var ticker = await spotTickerClient.GetSpotTickerAsync(new GetTickerRequest(spotSymbol));
