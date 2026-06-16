@@ -2,7 +2,7 @@
 
 > Strongly typed .NET client library for the Kraken Spot and Futures REST and WebSocket APIs. Part of the CryptoExchange.Net ecosystem, with shared API abstractions for exchange-agnostic code.
 
-Kraken.Net provides typed REST and WebSocket clients, automatic WebSocket reconnection, client-side rate limiting, local order book support, dependency injection, and the standard `WebCallResult<T>` / `CallResult<T>` result model. Current repository package version: 7.10.0. NuGet package id: `KrakenExchange.Net`. Targets netstandard2.0, netstandard2.1, net8.0, net9.0, net10.0.
+Kraken.Net provides typed REST and WebSocket clients, automatic WebSocket reconnection, client-side rate limiting, local order book support, dependency injection, and the standard `HttpResult<T>` / `WebSocketResult<T>` result model. Current repository package version: 7.10.0. NuGet package id: `KrakenExchange.Net`. Targets netstandard2.0, netstandard2.1, net8.0, net9.0, net10.0.
 
 ## Documentation
 

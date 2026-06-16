@@ -42,7 +42,7 @@ var publicClient = new KrakenRestClient();
 
 ## Core Pattern: Result Handling
 
-Every REST method returns `WebCallResult<T>` or `WebCallResult`; WebSocket subscriptions and socket requests return `CallResult<T>` or `CallResult`. Always check `.Success` before accessing `.Data`.
+Every REST method returns `HttpResult<T>` or `HttpResult`; WebSocket subscriptions and socket requests return `WebSocketResult<T>` or `CallResult`. Always check `.Success` before accessing `.Data`.
 
 ```csharp
 var ticker = await restClient.SpotApi.ExchangeData.GetTickerAsync("ETHUSDT");

@@ -86,14 +86,19 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Spot Symbol client
 
-        GetSpotSymbolsOptions ISpotSymbolRestClient.GetSpotSymbolsOptions { get; } = new GetSpotSymbolsOptions(_exchangeName, false);
+        GetSpotSymbolsOptions ISpotSymbolRestClient.GetSpotSymbolsOptions { get; } = new GetSpotSymbolsOptions(_exchangeName, false)
+        {
+            OptionalExchangeParameters = [            
+                new ParameterDescription(["NewAssetNames", "assetVersion"], typeof(bool), "If true, the response will use the new asset names (e.g. instead of XBT, BTC will be used)", false)
+            ]
+        };
         async Task<HttpResult<SharedSpotSymbol[]>> ISpotSymbolRestClient.GetSpotSymbolsAsync(GetSymbolsRequest request, CancellationToken ct)
         {
             var validationError = SharedClient.GetSpotSymbolsOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedSpotSymbol[]>(Exchange, validationError);
 
-            var useNewAssetResponse = ExchangeParameters.GetValue<bool?>(request.ExchangeParameters, Exchange, "NewAssetNames");
+            var useNewAssetResponse = request.GetParamValue<bool?>(Exchange, "NewAssetNames", "assetVersion");
             var result = await ExchangeData.GetSymbolsAsync(newAssetNameResponse: useNewAssetResponse, ct: ct).ConfigureAwait(false);
             if (!result.Success)
                 return HttpResult.Fail<SharedSpotSymbol[]>(result);
@@ -680,7 +685,11 @@ namespace Kraken.Net.Clients.SpotApi
 
         GetAssetsOptions IAssetsRestClient.GetAssetsOptions { get; } = new GetAssetsOptions(_exchangeName, false)
         {
-            RequestNotes = "If API credentials are set and the NewAssetNames Exchange Parameter is not set to true then withdrawal networks will also be returned"
+            RequestNotes = "If API credentials are set and the NewAssetNames Exchange Parameter is not set to true then withdrawal networks will also be returned",
+            OptionalExchangeParameters = new List<ParameterDescription>
+            {
+                new ParameterDescription(["NewAssetNames", "assetVersion"], typeof(bool), "If true, the response will use the new asset names (e.g. instead of XBT, BTC will be used)", false)
+            }
         };
         async Task<HttpResult<SharedAsset[]>> IAssetsRestClient.GetAssetsAsync(GetAssetsRequest request, CancellationToken ct)
         {
@@ -688,7 +697,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (validationError != null)
                 return HttpResult.Fail<SharedAsset[]>(Exchange, validationError);
 
-            var useNewAssetResponse = ExchangeParameters.GetValue<bool?>(request.ExchangeParameters, Exchange, "NewAssetNames");
+            var useNewAssetResponse = request.GetParamValue<bool?>(Exchange, "NewAssetNames", "assetVersion");
 
             if (Authenticated && useNewAssetResponse != true)
             {
@@ -871,7 +880,7 @@ namespace Kraken.Net.Clients.SpotApi
         {
             RequiredExchangeParameters = new List<ParameterDescription>
             {
-                new ParameterDescription("keyName", typeof(string), "The name of the withdrawal address as defined in the web UI", "KucoinBitcoinAddress1")
+                new ParameterDescription(["KeyName", "key"], typeof(string), "The name of the withdrawal address as defined in the web UI", "KucoinBitcoinAddress1")
             }
         };
 
@@ -881,7 +890,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (validationError != null)
                 return HttpResult.Fail<SharedId>(Exchange, validationError);
 
-            var keyName = ExchangeParameters.GetValue<string>(request.ExchangeParameters, Exchange, "keyName");
+            var keyName = request.GetParamValue<string>(Exchange, "keyName", "key");
 
             // Get data
             var withdrawal = await Account.WithdrawAsync(

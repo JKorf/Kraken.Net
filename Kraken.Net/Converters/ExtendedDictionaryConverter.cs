@@ -15,7 +15,7 @@ namespace Kraken.Net.Converters
             result.Data = data!;
             if (doc.RootElement.TryGetProperty("last", out var lastElement))
             {
-                DateTime last = default;
+                DateTime? last = default;
                 if (lastElement.ValueKind == JsonValueKind.Number)
                 {
                     var intVal = lastElement.GetInt32();
@@ -26,7 +26,7 @@ namespace Kraken.Net.Converters
                     var strVal = lastElement.GetString();
                     last = DateTimeConverter.ParseFromString(strVal!, null);
                 }
-                result.LastUpdateTime = last;
+                result.LastUpdateTime = last ?? default;
             }
 
             return (T)Convert.ChangeType(result, typeToConvert);

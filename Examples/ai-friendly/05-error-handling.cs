@@ -36,11 +36,11 @@ if (!futuresOrderBook.Success)
 
 Console.WriteLine($"Futures order book returned: {futuresOrderBook.Data}");
 
-static async Task<WebCallResult<T>> WithRetryAsync<T>(
-    Func<Task<WebCallResult<T>>> call,
+static async Task<HttpResult<T>> WithRetryAsync<T>(
+    Func<Task<HttpResult<T>>> call,
     int maxAttempts = 3)
 {
-    WebCallResult<T> last = default!;
+    HttpResult<T> last = default!;
 
     for (var attempt = 1; attempt <= maxAttempts; attempt++)
     {
