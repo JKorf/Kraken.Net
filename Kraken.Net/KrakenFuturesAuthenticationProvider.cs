@@ -35,7 +35,7 @@ namespace Kraken.Net
             request.Headers.Add("APIKey", Credential.Key);
 
             var queryString = request.GetQueryString();
-            var body = (request.ParameterPosition == HttpMethodParameterPosition.InBody && request.BodyParameters?.Count > 0) ? request.BodyParameters.ToFormData() : string.Empty;
+            var body = (request.ParameterPosition == HttpMethodParameterPosition.InBody && request.BodyParameters != null && !request.BodyParameters.Empty) ? request.BodyParameters.ToFormData() : string.Empty;
             var signData = $"{queryString}{body}{request.RequestDefinition.Path.Replace("/derivatives", "")}";
 
             var hash = SignSHA256Bytes(signData);
