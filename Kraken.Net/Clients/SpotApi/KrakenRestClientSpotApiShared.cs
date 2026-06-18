@@ -862,7 +862,13 @@ namespace Kraken.Net.Clients.SpotApi
 
             return HttpResult.Ok(result, ExchangeHelpers.ApplyFilter(result.Data.Items, x => x.Timestamp, request.StartTime, request.EndTime, direction)
                     .Select(x =>
-                        new SharedWithdrawal(KrakenExchange.AssetAliases.ExchangeToCommonName(x.Asset), x.Key ?? string.Empty, x.Quantity, x.Status == "Success", x.Timestamp)
+                        new SharedWithdrawal(
+                            KrakenExchange.AssetAliases.ExchangeToCommonName(x.Asset),
+                            x.Key ?? string.Empty, 
+                            x.Quantity,
+                            x.Status == "Success", 
+                            x.Timestamp,
+                            GetWithdrawalStatus(x))
                         {
                             Id = x.ReferenceId,
                             TransactionId = x.TransactionId,
@@ -872,6 +878,19 @@ namespace Kraken.Net.Clients.SpotApi
                     .ToArray(), nextPageRequest);
         }
 
+        private SharedTransferStatus GetWithdrawalStatus(KrakenMovementStatus x)
+        {
+            if (x.Status == "Failure")
+                return SharedTransferStatus.Failed;
+
+            if (x.Status == "Success")
+                return SharedTransferStatus.Completed;
+
+            if (x.Status == "Initial" || x.Status == "Pending" || x.Status == "Settled")
+                return SharedTransferStatus.InProgress;
+
+            return SharedTransferStatus.Unknown;
+        }
         #endregion
 
         #region Withdraw client

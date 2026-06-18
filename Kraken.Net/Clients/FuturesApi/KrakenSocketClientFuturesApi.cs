@@ -52,6 +52,23 @@ namespace Kraken.Net.Clients.FuturesApi
         protected override KrakenFuturesAuthenticationProvider CreateAuthenticationProvider(KrakenCredentials credentials)
             => new KrakenFuturesAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new KrakenNonceProvider());
 
+        public override KrakenFuturesAuthenticationProvider? AuthenticationProvider
+        {
+            get
+            {
+                if (!_authProviderInitialized)
+                {
+                    if (ApiCredentials?.Futures != null)
+                        _authenticationProvider = CreateAuthenticationProvider(ApiCredentials);
+
+                    _authProviderInitialized = true;
+                }
+
+                return _authenticationProvider;
+            }
+            protected set => base.AuthenticationProvider = value;
+        }
+
         #region Heartbeat
 
         /// <inheritdoc />

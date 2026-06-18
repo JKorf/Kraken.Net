@@ -96,6 +96,23 @@ namespace Kraken.Net.Clients.SpotApi
         protected override KrakenAuthenticationProvider CreateAuthenticationProvider(KrakenCredentials credentials)
             => new KrakenAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new KrakenNonceProvider());
 
+        public override KrakenAuthenticationProvider? AuthenticationProvider
+        {
+            get
+            {
+                if (!_authProviderInitialized)
+                {
+                    if (ApiCredentials?.Spot != null)
+                        _authenticationProvider = CreateAuthenticationProvider(ApiCredentials);
+
+                    _authProviderInitialized = true;
+                }
+
+                return _authenticationProvider;
+            }
+            protected set => base.AuthenticationProvider = value;
+        }
+
         #region Streams
 
         #region System Status

@@ -100,6 +100,23 @@ namespace Kraken.Net.Clients.SpotApi
             return HttpResult.Ok(result, result.Data.Result);
         }
 
+        public override KrakenAuthenticationProvider? AuthenticationProvider
+        {
+            get
+            {
+                if (!_authProviderInitialized)
+                {
+                    if (ApiCredentials?.Spot != null)
+                        _authenticationProvider = CreateAuthenticationProvider(ApiCredentials);
+
+                    _authProviderInitialized = true;
+                }
+
+                return _authenticationProvider;
+            }
+            protected set => base.AuthenticationProvider = value;
+        }
+
         /// <summary>
         /// Get the name of a symbol for Kraken based on the base and quote asset
         /// </summary>
