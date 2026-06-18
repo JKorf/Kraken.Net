@@ -56,6 +56,15 @@ namespace Kraken.Net.Clients
         {
             KrakenSocketOptions.Default = ApplyOptionsDelegate(optionsDelegate);
         }
+
+        /// <inheritdoc />
+        public override void SetApiCredentials(KrakenCredentials credentials)
+        {
+            if (credentials.Spot != null)
+                SpotApi.SetApiCredentials(credentials);
+            if (credentials.Futures != null)
+                FuturesApi.SetApiCredentials(credentials);
+        }
         #endregion
 
     }

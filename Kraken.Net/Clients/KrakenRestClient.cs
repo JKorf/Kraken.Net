@@ -58,5 +58,13 @@ namespace Kraken.Net.Clients
             KrakenRestOptions.Default = ApplyOptionsDelegate(optionsDelegate);
         }
 
+        /// <inheritdoc />
+        public override void SetApiCredentials(KrakenCredentials credentials)
+        {
+            if (credentials.Spot != null)
+                SpotApi.SetApiCredentials(credentials);
+            if (credentials.Futures != null)
+                FuturesApi.SetApiCredentials(credentials);
+        }
     }
 }
