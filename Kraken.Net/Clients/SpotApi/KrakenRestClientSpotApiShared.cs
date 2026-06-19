@@ -16,7 +16,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         public void SetDefaultExchangeParameter(string key, object value) => ExchangeParameters.SetStaticParameter(Exchange, key, value);
         public void ResetDefaultExchangeParameters() => ExchangeParameters.ResetStaticParameters();
-        public SharedClientInfo Discover() => SharedUtils.GetClientInfo(this);
+        public SharedClientInfo Discover() => SharedUtils.GetClientInfo(KrakenExchange.Metadata, this);
 
         #region Kline client
 
@@ -122,7 +122,7 @@ namespace Kraken.Net.Clients.SpotApi
             foreach (var symbol in response.Data!.Where(x => x.Name != x.BaseAsset + x.QuoteAsset))
                 symbolRegistrations.Add(new SharedSpotSymbol(symbol.BaseAsset, symbol.QuoteAsset, symbol.BaseAsset + symbol.QuoteAsset, symbol.Trading));
 
-            ExchangeSymbolCache.UpdateSymbolInfo(_topicId, symbolRegistrations.ToArray());
+            ExchangeSymbolCache.UpdateSymbolInfo(_topicId, EnvironmentName, null, symbolRegistrations.ToArray());
             return response;
         }
 
@@ -134,14 +134,14 @@ namespace Kraken.Net.Clients.SpotApi
 
         async Task<ExchangeCallResult<SharedSymbol[]>> ISpotSymbolRestClient.GetSpotSymbolsForBaseAssetAsync(string baseAsset)
         {
-            if (!ExchangeSymbolCache.HasCached(_topicId))
+            if (!ExchangeSymbolCache.HasCached(_topicId, EnvironmentName, null))
             {
                 var symbols = await ((ISpotSymbolRestClient)this).GetSpotSymbolsAsync(new GetSymbolsRequest()).ConfigureAwait(false);
                 if (!symbols.Success)
                     return ExchangeCallResult<SharedSymbol[]>.Fail(Exchange, symbols.Error!);
             }
 
-            return ExchangeCallResult<SharedSymbol[]>.Ok(Exchange, ExchangeSymbolCache.GetSymbolsForBaseAsset(_topicId, baseAsset));
+            return ExchangeCallResult<SharedSymbol[]>.Ok(Exchange, ExchangeSymbolCache.GetSymbolsForBaseAsset(_topicId, EnvironmentName, null, baseAsset));
         }
 
         async Task<ExchangeCallResult<bool>> ISpotSymbolRestClient.SupportsSpotSymbolAsync(SharedSymbol symbol)
@@ -149,26 +149,26 @@ namespace Kraken.Net.Clients.SpotApi
             if (symbol.TradingMode != TradingMode.Spot)
                 throw new ArgumentException(nameof(symbol), "Only Spot symbols allowed");
 
-            if (!ExchangeSymbolCache.HasCached(_topicId))
+            if (!ExchangeSymbolCache.HasCached(_topicId, EnvironmentName, null))
             {
                 var symbols = await ((ISpotSymbolRestClient)this).GetSpotSymbolsAsync(new GetSymbolsRequest()).ConfigureAwait(false);
                 if (!symbols.Success)
                     return ExchangeCallResult<bool>.Fail(Exchange, symbols.Error!);
             }
 
-            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicId, symbol));
+            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicId, EnvironmentName, null, symbol));
         }
 
         async Task<ExchangeCallResult<bool>> ISpotSymbolRestClient.SupportsSpotSymbolAsync(string symbolName)
         {
-            if (!ExchangeSymbolCache.HasCached(_topicId))
+            if (!ExchangeSymbolCache.HasCached(_topicId, EnvironmentName, null))
             {
                 var symbols = await ((ISpotSymbolRestClient)this).GetSpotSymbolsAsync(new GetSymbolsRequest()).ConfigureAwait(false);
                 if (!symbols.Success)
                     return ExchangeCallResult<bool>.Fail(Exchange, symbols.Error!);
             }
 
-            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicId, symbolName));
+            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicId, EnvironmentName, null, symbolName));
         }
         #endregion
 
@@ -188,7 +188,7 @@ namespace Kraken.Net.Clients.SpotApi
                 return HttpResult.Fail<SharedSpotTicker>(result);
 
             var ticker = result.Data.Single();
-            return HttpResult.Ok(result, new SharedSpotTicker(ExchangeSymbolCache.ParseSymbol(_topicId, ticker.Value.Symbol), ticker.Value.Symbol, ticker.Value.LastTrade.Price, ticker.Value.High.Value24H, ticker.Value.Low.Value24H, ticker.Value.Volume.Value24H, ticker.Value.OpenPrice == 0 ? null : Math.Round(ticker.Value.LastTrade.Price / ticker.Value.OpenPrice * 100 - 100, 2))
+            return HttpResult.Ok(result, new SharedSpotTicker(ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, ticker.Value.Symbol), ticker.Value.Symbol, ticker.Value.LastTrade.Price, ticker.Value.High.Value24H, ticker.Value.Low.Value24H, ticker.Value.Volume.Value24H, ticker.Value.OpenPrice == 0 ? null : Math.Round(ticker.Value.LastTrade.Price / ticker.Value.OpenPrice * 100 - 100, 2))
             {
                 QuoteVolume = ticker.Value.VolumeWeightedAveragePrice.Value24H * ticker.Value.Volume.Value24H
             });
@@ -205,7 +205,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!result.Success)
                 return HttpResult.Fail<SharedSpotTicker[]>(result);
 
-            return HttpResult.Ok(result, result.Data.Select(x => new SharedSpotTicker(ExchangeSymbolCache.ParseSymbol(_topicId, x.Value.Symbol), x.Value.Symbol, x.Value.LastTrade.Price, x.Value.High.Value24H, x.Value.Low.Value24H, x.Value.Volume.Value24H, x.Value.OpenPrice == 0 ? null : Math.Round(x.Value.LastTrade.Price / x.Value.OpenPrice * 100 - 100, 2))
+            return HttpResult.Ok(result, result.Data.Select(x => new SharedSpotTicker(ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Value.Symbol), x.Value.Symbol, x.Value.LastTrade.Price, x.Value.High.Value24H, x.Value.Low.Value24H, x.Value.Volume.Value24H, x.Value.OpenPrice == 0 ? null : Math.Round(x.Value.LastTrade.Price / x.Value.OpenPrice * 100 - 100, 2))
             {
                 QuoteVolume = x.Value.VolumeWeightedAveragePrice.Value24H * x.Value.Volume.Value24H
             }).ToArray());
@@ -228,7 +228,7 @@ namespace Kraken.Net.Clients.SpotApi
                 return HttpResult.Fail<SharedBookTicker>(resultTicker);
 
             return HttpResult.Ok(resultTicker, new SharedBookTicker(
-                ExchangeSymbolCache.ParseSymbol(_topicId, symbol),
+                ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, symbol),
                 symbol,
                 resultTicker.Data.First().Value.BestAsks.Price,
                 resultTicker.Data.First().Value.BestAsks.Quantity,
@@ -338,7 +338,7 @@ namespace Kraken.Net.Clients.SpotApi
                 return HttpResult.Fail<SharedSpotOrder>(Exchange, new ServerError(new ErrorInfo(ErrorType.UnknownOrder, "Order not found")));
 
             return HttpResult.Ok(order, new SharedSpotOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicId, orderData.Value.OrderDetails.Symbol),
+                ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, orderData.Value.OrderDetails.Symbol),
                 orderData.Value.OrderDetails.Symbol,
                 orderData.Value.Id.ToString(),
                 ParseOrderType(orderData.Value.OrderDetails.Type, orderData.Value.Oflags),
@@ -373,7 +373,7 @@ namespace Kraken.Net.Clients.SpotApi
                 orders = orders.Where(x => x.OrderDetails.Symbol == symbol);
 
             return HttpResult.Ok(order, orders.Select(x => new SharedSpotOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicId, x.OrderDetails.Symbol),
+                ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.OrderDetails.Symbol),
                 x.OrderDetails.Symbol,
                 x.Id.ToString(),
                 ParseOrderType(x.OrderDetails.Type, x.Oflags),
@@ -425,7 +425,7 @@ namespace Kraken.Net.Clients.SpotApi
             return HttpResult.Ok(result, ExchangeHelpers.ApplyFilter(orders, x => x.CreateTime, request.StartTime, request.EndTime, direction)
                     .Select(x => 
                         new SharedSpotOrder(
-                            ExchangeSymbolCache.ParseSymbol(_topicId, x.OrderDetails.Symbol),
+                            ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.OrderDetails.Symbol),
                             x.OrderDetails.Symbol,
                             x.Id.ToString(),
                             ParseOrderType(x.OrderDetails.Type, x.Oflags),
@@ -468,7 +468,7 @@ namespace Kraken.Net.Clients.SpotApi
                 return HttpResult.Fail<SharedUserTrade[]>(tradeInfo);
 
             return HttpResult.Ok(tradeInfo, tradeInfo.Data.Select(x => new SharedUserTrade(
-                ExchangeSymbolCache.ParseSymbol(_topicId, x.Value.Symbol), 
+                ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Value.Symbol), 
                 x.Value.Symbol,
                 x.Value.OrderId.ToString(),
                 x.Value.Id.ToString(),
@@ -518,7 +518,7 @@ namespace Kraken.Net.Clients.SpotApi
                     .Where(t => t.Value.Symbol == symbol)
                     .Select(x =>
                         new SharedUserTrade(
-                            ExchangeSymbolCache.ParseSymbol(_topicId, x.Value.Symbol), 
+                            ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Value.Symbol), 
                             x.Value.Symbol,
                             x.Value.OrderId.ToString(),
                             x.Value.Id.ToString(),
@@ -625,7 +625,7 @@ namespace Kraken.Net.Clients.SpotApi
                 return HttpResult.Fail<SharedSpotOrder>(Exchange, new ServerError(new ErrorInfo(ErrorType.UnknownOrder, "Order not found")));
 
             return HttpResult.Ok(order, new SharedSpotOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicId, orderData.OrderDetails.Symbol),
+                ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, orderData.OrderDetails.Symbol),
                 orderData.OrderDetails.Symbol,
                 orderData.Id.ToString(),
                 ParseOrderType(orderData.OrderDetails.Type, orderData.Oflags),

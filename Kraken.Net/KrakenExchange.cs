@@ -24,7 +24,8 @@ namespace Kraken.Net
                 "https://www.kraken.com",
                 ["https://docs.kraken.com/api/"],
                 PlatformType.CryptoCurrencyExchange,
-                CentralizationType.Centralized
+                CentralizationType.Centralized,
+                KrakenEnvironment.All
                 );
 
         /// <summary>

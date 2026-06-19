@@ -14,7 +14,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
         public void SetDefaultExchangeParameter(string key, object value) => ExchangeParameters.SetStaticParameter(Exchange, key, value);
         public void ResetDefaultExchangeParameters() => ExchangeParameters.ResetStaticParameters();
-        public SharedClientInfo Discover() => SharedUtils.GetClientInfo(this);
+        public SharedClientInfo Discover() => SharedUtils.GetClientInfo(KrakenExchange.Metadata, this);
 
         #region Ticker client
         SubscribeTickerOptions ITickerSocketClient.SubscribeTickerOptions { get; } = new SubscribeTickerOptions(_exchangeName)
@@ -28,7 +28,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 return WebSocketResult.Fail<UpdateSubscription>(Exchange, validationError);
 
             var symbols = request.Symbols?.Length > 0 ? request.Symbols.Select(x => x.GetSymbol(FormatSymbol)).ToArray() : [request.Symbol!.GetSymbol(FormatSymbol)];
-            var result = await SubscribeToTickerUpdatesAsync(symbols, update => handler(update.ToType(new SharedSpotTicker(ExchangeSymbolCache.ParseSymbol(_topicId, update.Data.Symbol), update.Data.Symbol!, update.Data.LastPrice, null, null, update.Data.Volume, update.Data.ChangePercentage24h)
+            var result = await SubscribeToTickerUpdatesAsync(symbols, update => handler(update.ToType(new SharedSpotTicker(ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, update.Data.Symbol), update.Data.Symbol!, update.Data.LastPrice, null, null, update.Data.Volume, update.Data.ChangePercentage24h)
             {
                 QuoteVolume = update.Data.VolumeQuote
             })), ct).ConfigureAwait(false);
@@ -51,7 +51,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
             var symbols = request.Symbols?.Length > 0 ? request.Symbols.Select(x => x.GetSymbol(FormatSymbol)).ToArray() : [request.Symbol!.GetSymbol(FormatSymbol)];
             var result = await SubscribeToTradeUpdatesAsync(symbols, update => handler(update.ToType(update.Data.Select(x =>
-            new SharedTrade(ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol), x.Symbol!, x.Quantity, x.Price, x.Timestamp)
+            new SharedTrade(ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Symbol), x.Symbol!, x.Quantity, x.Price, x.Timestamp)
             {
                 Side = x.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell
             }).ToArray())), ct).ConfigureAwait(false);
@@ -73,7 +73,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 return WebSocketResult.Fail<UpdateSubscription>(Exchange, validationError);
 
             var symbols = request.Symbols?.Length > 0 ? request.Symbols.Select(x => x.GetSymbol(FormatSymbol)).ToArray() : [request.Symbol!.GetSymbol(FormatSymbol)];
-            var result = await SubscribeToTickerUpdatesAsync(symbols, update => handler(update.ToType(new SharedBookTicker(ExchangeSymbolCache.ParseSymbol(_topicId, update.Data.Symbol!), update.Data.Symbol!, update.Data.BestAskPrice, update.Data.BestAskQuantity, update.Data.BestBidPrice, update.Data.BestBidQuantity))), ct).ConfigureAwait(false);
+            var result = await SubscribeToTickerUpdatesAsync(symbols, update => handler(update.ToType(new SharedBookTicker(ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, update.Data.Symbol!), update.Data.Symbol!, update.Data.BestAskPrice, update.Data.BestAskQuantity, update.Data.BestBidPrice, update.Data.BestBidQuantity))), ct).ConfigureAwait(false);
 
             return result;
         }
@@ -116,7 +116,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 {
                     handler(update.ToType<SharedFuturesOrder[]>(new[] {
                         new SharedFuturesOrder(
-                            ExchangeSymbolCache.ParseSymbol(_topicId, update.Data.Order?.Symbol),
+                            ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, update.Data.Order?.Symbol),
                             update.Data.Order?.Symbol ?? string.Empty,
                             update.Data.OrderId.ToString(),
                             update.Data.Order == null ? default : update.Data.Order.Type == FuturesOrderType.Limit ? SharedOrderType.Limit : update.Data.Order.Type == FuturesOrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
@@ -156,7 +156,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
                     handler(update.ToType<SharedUserTrade[]>(update.Data.Trades.Select(x =>
                         new SharedUserTrade(
-                            ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol),
+                            ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Symbol),
                             x.Symbol,
                             x.OrderId.ToString(),
                             x.TradeId.ToString(),
@@ -192,7 +192,7 @@ namespace Kraken.Net.Clients.FuturesApi
                         return;
 
                     handler(update.ToType<SharedPosition[]>(update.Data.Positions.Select(
-                        x => new SharedPosition(ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol), x.Symbol, Math.Abs(x.Balance), update.DataTime ?? update.ReceiveTime)
+                        x => new SharedPosition(ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Symbol), x.Symbol, Math.Abs(x.Balance), update.DataTime ?? update.ReceiveTime)
                     {
                         AverageOpenPrice = x.EntryPrice,
                         PositionMode = SharedPositionMode.OneWay,

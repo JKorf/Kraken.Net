@@ -14,7 +14,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         public void SetDefaultExchangeParameter(string key, object value) => ExchangeParameters.SetStaticParameter(Exchange, key, value);
         public void ResetDefaultExchangeParameters() => ExchangeParameters.ResetStaticParameters();
-        public SharedClientInfo Discover() => SharedUtils.GetClientInfo(this);
+        public SharedClientInfo Discover() => SharedUtils.GetClientInfo(KrakenExchange.Metadata, this);
 
         #region Ticker client
         SubscribeTickerOptions ITickerSocketClient.SubscribeTickerOptions { get; } = new SubscribeTickerOptions(_exchangeName)
@@ -31,7 +31,7 @@ namespace Kraken.Net.Clients.SpotApi
             ClearSymbolNameIfIncorrect(request);
 
             var symbols = request.Symbols?.Length > 0 ? request.Symbols.Select(x => x.GetSymbol(FormatSymbol)).ToArray() : [request.Symbol!.GetSymbol(FormatSymbol)];
-            var result = await SubscribeToTickerUpdatesAsync(symbols, update => handler(update.ToType(new SharedSpotTicker(ExchangeSymbolCache.ParseSymbol(_topicId, update.Data.Symbol), update.Data.Symbol, update.Data.LastPrice, update.Data.HighPrice, update.Data.LowPrice, update.Data.Volume, update.Data.PriceChangePercentage)
+            var result = await SubscribeToTickerUpdatesAsync(symbols, update => handler(update.ToType(new SharedSpotTicker(ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, update.Data.Symbol), update.Data.Symbol, update.Data.LastPrice, update.Data.HighPrice, update.Data.LowPrice, update.Data.Volume, update.Data.PriceChangePercentage)
             {
                 QuoteVolume = update.Data.Volume * update.Data.Vwap
             })), ct: ct).ConfigureAwait(false);
@@ -57,7 +57,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             var symbols = request.Symbols?.Length > 0 ? request.Symbols.Select(x => x.GetSymbol(FormatSymbol)).ToArray() : [request.Symbol!.GetSymbol(FormatSymbol)];
             var result = await SubscribeToTradeUpdatesAsync(symbols, update => handler(update.ToType(update.Data.Select(x =>
-            new SharedTrade(ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol), x.Symbol!, x.Quantity, x.Price, x.Timestamp)
+            new SharedTrade(ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Symbol), x.Symbol!, x.Quantity, x.Price, x.Timestamp)
             {
                 Side = x.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell
             }).ToArray())), false, ct).ConfigureAwait(false);
@@ -82,7 +82,7 @@ namespace Kraken.Net.Clients.SpotApi
             ClearSymbolNameIfIncorrect(request);
 
             var symbols = request.Symbols?.Length > 0 ? request.Symbols.Select(x => x.GetSymbol(FormatSymbol)).ToArray() : [request.Symbol!.GetSymbol(FormatSymbol)];
-            var result = await SubscribeToTickerUpdatesAsync(symbols, update => handler(update.ToType(new SharedBookTicker(ExchangeSymbolCache.ParseSymbol(_topicId, update.Data.Symbol), update.Data.Symbol, update.Data.BestAskPrice, update.Data.BestAskQuantity, update.Data.BestBidPrice, update.Data.BestBidQuantity))), TriggerEvent.BestOfferChange, ct: ct).ConfigureAwait(false);
+            var result = await SubscribeToTickerUpdatesAsync(symbols, update => handler(update.ToType(new SharedBookTicker(ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, update.Data.Symbol), update.Data.Symbol, update.Data.BestAskPrice, update.Data.BestAskQuantity, update.Data.BestBidPrice, update.Data.BestBidQuantity))), TriggerEvent.BestOfferChange, ct: ct).ConfigureAwait(false);
 
             return result;
         }
@@ -120,7 +120,7 @@ namespace Kraken.Net.Clients.SpotApi
                     return;
 
                 foreach(var item in update.Data)
-                    handler(update.ToType(new SharedKline(ExchangeSymbolCache.ParseSymbol(_topicId, item.Symbol), item.Symbol!, item.OpenTime,  item.ClosePrice, item.HighPrice, item.LowPrice, item.OpenPrice, item.Volume)));
+                    handler(update.ToType(new SharedKline(ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, item.Symbol), item.Symbol!, item.OpenTime,  item.ClosePrice, item.HighPrice, item.LowPrice, item.OpenPrice, item.Volume)));
             }, false, ct).ConfigureAwait(false);
 
             return result;
@@ -180,7 +180,7 @@ namespace Kraken.Net.Clients.SpotApi
 
                     handler(update.ToType<SharedSpotOrder[]>(updateData.Select(
                         x => new SharedSpotOrder(
-                            ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol),
+                            ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Symbol),
                             x.Symbol ?? string.Empty,
                             x.OrderId,
                             x.OrderType == Enums.OrderType.Limit ? SharedOrderType.Limit : x.OrderType == Enums.OrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
@@ -197,7 +197,7 @@ namespace Kraken.Net.Clients.SpotApi
                             TimeInForce = x.TimeInForce == TimeInForce.IOC ? SharedTimeInForce.ImmediateOrCancel : x.TimeInForce == TimeInForce.GTC ? SharedTimeInForce.GoodTillCanceled : null,
                             LastTrade = x.LastTradeId == null ? null : 
                                 new SharedUserTrade(
-                                    ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol),
+                                    ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Symbol),
                                     x.Symbol ?? string.Empty,
                                     x.OrderId,
                                     x.LastTradeId.ToString()!,

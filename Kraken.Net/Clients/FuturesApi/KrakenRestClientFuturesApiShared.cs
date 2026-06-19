@@ -15,7 +15,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
         public void SetDefaultExchangeParameter(string key, object value) => ExchangeParameters.SetStaticParameter(Exchange, key, value);
         public void ResetDefaultExchangeParameters() => ExchangeParameters.ResetStaticParameters();
-        public SharedClientInfo Discover() => SharedUtils.GetClientInfo(this);
+        public SharedClientInfo Discover() => SharedUtils.GetClientInfo(KrakenExchange.Metadata, this);
 
         #region Balance Client
         GetBalancesOptions IBalanceRestClient.GetBalancesOptions { get; } = new GetBalancesOptions(_exchangeName, AccountTypeFilter.Futures);
@@ -222,20 +222,20 @@ namespace Kraken.Net.Clients.FuturesApi
 
             var response = HttpResult.Ok(result, resultData.ToArray());
             
-            ExchangeSymbolCache.UpdateSymbolInfo(_topicId, response.Data!);
+            ExchangeSymbolCache.UpdateSymbolInfo(_topicId, EnvironmentName, null, response.Data!);
             return response;
         }
 
         async Task<ExchangeCallResult<SharedSymbol[]>> IFuturesSymbolRestClient.GetFuturesSymbolsForBaseAssetAsync(string baseAsset)
         {
-            if (!ExchangeSymbolCache.HasCached(_topicId))
+            if (!ExchangeSymbolCache.HasCached(_topicId, EnvironmentName, null))
             {
                 var symbols = await ((IFuturesSymbolRestClient)this).GetFuturesSymbolsAsync(new GetSymbolsRequest()).ConfigureAwait(false);
                 if (!symbols.Success)
                     return ExchangeCallResult<SharedSymbol[]>.Fail(Exchange, symbols.Error!);
             }
 
-            return ExchangeCallResult<SharedSymbol[]>.Ok(Exchange, ExchangeSymbolCache.GetSymbolsForBaseAsset(_topicId, baseAsset));
+            return ExchangeCallResult<SharedSymbol[]>.Ok(Exchange, ExchangeSymbolCache.GetSymbolsForBaseAsset(_topicId, EnvironmentName, null, baseAsset));
         }
 
         async Task<ExchangeCallResult<bool>> IFuturesSymbolRestClient.SupportsFuturesSymbolAsync(SharedSymbol symbol)
@@ -243,26 +243,26 @@ namespace Kraken.Net.Clients.FuturesApi
             if (symbol.TradingMode == TradingMode.Spot)
                 throw new ArgumentException(nameof(symbol), "Spot symbols not allowed");
 
-            if (!ExchangeSymbolCache.HasCached(_topicId))
+            if (!ExchangeSymbolCache.HasCached(_topicId, EnvironmentName, null))
             {
                 var symbols = await ((IFuturesSymbolRestClient)this).GetFuturesSymbolsAsync(new GetSymbolsRequest()).ConfigureAwait(false);
                 if (!symbols.Success)
                     return ExchangeCallResult<bool>.Fail(Exchange, symbols.Error!);
             }
 
-            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicId, symbol));
+            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicId, EnvironmentName, null, symbol));
         }
 
         async Task<ExchangeCallResult<bool>> IFuturesSymbolRestClient.SupportsFuturesSymbolAsync(string symbolName)
         {
-            if (!ExchangeSymbolCache.HasCached(_topicId))
+            if (!ExchangeSymbolCache.HasCached(_topicId, EnvironmentName, null))
             {
                 var symbols = await ((IFuturesSymbolRestClient)this).GetFuturesSymbolsAsync(new GetSymbolsRequest()).ConfigureAwait(false);
                 if (!symbols.Success)
                     return ExchangeCallResult<bool>.Fail(Exchange, symbols.Error!);
             }
 
-            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicId, symbolName));
+            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicId, EnvironmentName, null, symbolName));
         }
         #endregion
 
@@ -281,7 +281,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
             var time = DateTime.UtcNow;
 
-            return HttpResult.Ok(resultTicker, new SharedFuturesTicker(ExchangeSymbolCache.ParseSymbol(_topicId, resultTicker.Data.Symbol), resultTicker.Data.Symbol, resultTicker.Data.LastPrice, null, null, resultTicker.Data.Volume24h, (resultTicker.Data.OpenPrice24h > 0 && resultTicker.Data.LastPrice > 0) ? Math.Round(resultTicker.Data.LastPrice.Value / resultTicker.Data.OpenPrice24h.Value * 100 - 100, 2) : null)
+            return HttpResult.Ok(resultTicker, new SharedFuturesTicker(ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, resultTicker.Data.Symbol), resultTicker.Data.Symbol, resultTicker.Data.LastPrice, null, null, resultTicker.Data.Volume24h, (resultTicker.Data.OpenPrice24h > 0 && resultTicker.Data.LastPrice > 0) ? Math.Round(resultTicker.Data.LastPrice.Value / resultTicker.Data.OpenPrice24h.Value * 100 - 100, 2) : null)
             {
                 MarkPrice = resultTicker.Data.MarkPrice,
                 IndexPrice = resultTicker.Data.IndexPrice,
@@ -311,7 +311,7 @@ namespace Kraken.Net.Clients.FuturesApi
             }
 
             var time = DateTime.UtcNow;
-            return HttpResult.Ok(resultTicker, data.Select(x => new SharedFuturesTicker(ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol), x.Symbol, x.LastPrice, null, null, x.Volume24h, (x.OpenPrice24h > 0 && x.LastPrice > 0) ? Math.Round(x.LastPrice.Value / x.OpenPrice24h.Value * 100 - 100, 2) : null)
+            return HttpResult.Ok(resultTicker, data.Select(x => new SharedFuturesTicker(ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Symbol), x.Symbol, x.LastPrice, null, null, x.Volume24h, (x.OpenPrice24h > 0 && x.LastPrice > 0) ? Math.Round(x.LastPrice.Value / x.OpenPrice24h.Value * 100 - 100, 2) : null)
             {
                 MarkPrice = x.MarkPrice,
                 IndexPrice = x.IndexPrice,
@@ -337,7 +337,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 return HttpResult.Fail<SharedBookTicker>(resultTicker);
 
             return HttpResult.Ok(resultTicker, new SharedBookTicker(
-                ExchangeSymbolCache.ParseSymbol(_topicId, symbol),
+                ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, symbol),
                 symbol,
                 resultTicker.Data.BestAskPrice ?? 0,
                 resultTicker.Data.BestAskQuantity ?? 0,
@@ -499,7 +499,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 return HttpResult.Fail<SharedFuturesOrder>(order);
 
             return HttpResult.Ok(order, new SharedFuturesOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicId, order.Data.Order.Symbol),
+                ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, order.Data.Order.Symbol),
                 order.Data.Order.Symbol,
                 order.Data.Order.OrderId,
                 SharedOrderType.Other,
@@ -533,7 +533,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 data = data.Where(x => x.Symbol == symbol);
 
             return HttpResult.Ok(orders, data.Select(x => new SharedFuturesOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol), 
+                ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Symbol), 
                 x.Symbol,
                 x.OrderId.ToString(),
                 x.Type == FuturesOrderType.Limit ? SharedOrderType.Limit : SharedOrderType.Other,
@@ -600,7 +600,7 @@ namespace Kraken.Net.Clients.FuturesApi
             return HttpResult.Ok(result, ExchangeHelpers.ApplyFilter(result.Data, x => x.FillTime, request.StartTime, request.EndTime, direction)
                     .Select(x =>
                         new SharedUserTrade(
-                            ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol), 
+                            ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Symbol), 
                             x.Symbol,
                             x.OrderId.ToString(),
                             x.Id.ToString(),
@@ -654,7 +654,7 @@ namespace Kraken.Net.Clients.FuturesApi
             }
 
             var resultTypes = request.Symbol == null && request.TradingMode == null ? SupportedTradingModes : request.Symbol != null ? new[] { request.Symbol.TradingMode } : new[] { request.TradingMode!.Value };
-            return HttpResult.Ok(result, data.Select(x => new SharedPosition(ExchangeSymbolCache.ParseSymbol(_topicId, x.Symbol), x.Symbol, Math.Abs(x.Quantity), x.FillTime)
+            return HttpResult.Ok(result, data.Select(x => new SharedPosition(ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Symbol), x.Symbol, Math.Abs(x.Quantity), x.FillTime)
             {
                 Leverage = x.MaxFixedLeverage,
                 AverageOpenPrice = x.Price,
@@ -733,7 +733,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 return HttpResult.Fail<SharedFuturesOrder>(order);
 
             return HttpResult.Ok(order, new SharedFuturesOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicId, order.Data.Order.Symbol),
+                ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, order.Data.Order.Symbol),
                 order.Data.Order.Symbol,
                 order.Data.Order.OrderId,
                 SharedOrderType.Other,
