@@ -5,6 +5,7 @@ using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Sockets.Default;
+using CryptoExchange.Net.TokenManagement;
 using Kraken.Net.Clients.MessageHandlers;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.SpotApi;
@@ -16,6 +17,7 @@ using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Options;
 using Kraken.Net.Objects.Sockets.Queries;
 using Kraken.Net.Objects.Sockets.Subscriptions.Spot;
+using Microsoft.Extensions.Options;
 using System.Collections.Concurrent;
 using System.Net.WebSockets;
 
@@ -24,8 +26,6 @@ namespace Kraken.Net.Clients.SpotApi
     /// <inheritdoc />
     internal partial class KrakenSocketClientSpotApi : SocketApiClient<KrakenEnvironment, KrakenAuthenticationProvider, KrakenCredentials>, IKrakenSocketClientSpotApi
     {
-        private static readonly ConcurrentDictionary<string, CachedToken> _tokenCache = new();
-
         private static readonly HashSet<string> _channelsWithoutSymbol =
         [
             "heartbeat",
@@ -35,6 +35,28 @@ namespace Kraken.Net.Clients.SpotApi
             "balances"
         ];
 
+        private readonly ILoggerFactory? _loggerFactory;
+        private KrakenRestClient? _tokenClient;
+        internal TokenManager TokenManager { get; }
+        private KrakenRestClient TokenClient
+        {
+            get
+            {
+                if (_tokenClient == null)
+                {
+                    _tokenClient = new KrakenRestClient(null, _loggerFactory, Options.Create(new KrakenRestOptions
+                    {
+                        ApiCredentials = ApiCredentials,
+                        Environment = ClientOptions.Environment,
+                        Proxy = ClientOptions.Proxy,
+                        NonceProvider = ClientOptions.NonceProvider,
+                        OutputOriginalData = ClientOptions.OutputOriginalData
+                    }));
+                }
+
+                return _tokenClient;
+            }
+        }
         protected override ErrorMapping ErrorMapping => KrakenErrors.SpotMapping;
 
         #region fields
@@ -50,6 +72,7 @@ namespace Kraken.Net.Clients.SpotApi
         internal KrakenSocketClientSpotApi(ILoggerFactory? loggerFactory, KrakenSocketOptions options) :
             base(loggerFactory, KrakenExchange.Metadata.Id, options.Environment.SpotSocketPublicAddress, options, options.SpotOptions)
         {
+            _loggerFactory = loggerFactory;
             _privateBaseAddress = options.Environment.SpotSocketPrivateAddress;
 
             AddSystemSubscription(new HeartbeatSubscription(_logger));
@@ -72,6 +95,14 @@ namespace Kraken.Net.Clients.SpotApi
                         _ = connection.TriggerReconnectAsync();
                     }
                 });
+
+            TokenManager = new TokenManager(
+                KrakenExchange.Metadata.Id,
+                loggerFactory,
+                TimeSpan.FromMinutes(15),
+                TimeSpan.FromMinutes(14),
+                startToken: StartListenKeyAsync,
+                retentionPolicy: TokenRetentionPolicy.RetainUntilExpired);
         }
         #endregion
 
@@ -145,7 +176,7 @@ namespace Kraken.Net.Clients.SpotApi
                     );
             });
 
-            var subscription = new KrakenSubscriptionV2<KrakenTickerUpdate[]>(_logger, this, "ticker", [symbol], null, snapshot, null, eventTrigger, null, internalHandler);
+            var subscription = new KrakenSubscriptionV2<KrakenTickerUpdate[]>(_logger, this, "ticker", [symbol], null, snapshot, null, eventTrigger, false, internalHandler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -166,7 +197,7 @@ namespace Kraken.Net.Clients.SpotApi
                     );
             });
 
-            var subscription = new KrakenSubscriptionV2<KrakenTickerUpdate[]>(_logger, this, "ticker", symbols.ToArray(), null, snapshot, null, eventTrigger, null, internalHandler);
+            var subscription = new KrakenSubscriptionV2<KrakenTickerUpdate[]>(_logger, this, "ticker", symbols.ToArray(), null, snapshot, null, eventTrigger, false, internalHandler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -195,7 +226,7 @@ namespace Kraken.Net.Clients.SpotApi
                     );
             });
 
-            var subscription = new KrakenSubscriptionV2<KrakenKlineUpdate[]>(_logger, this, "ohlc", symbols.ToArray(), interval, snapshot, null, null, null, internalHandler);
+            var subscription = new KrakenSubscriptionV2<KrakenKlineUpdate[]>(_logger, this, "ohlc", symbols.ToArray(), interval, snapshot, null, null, false, internalHandler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -224,7 +255,7 @@ namespace Kraken.Net.Clients.SpotApi
                     );
             });
 
-            var subscription = new KrakenSubscriptionV2<KrakenTradeUpdate[]>(_logger, this, "trade", symbols.ToArray(), null, snapshot, null, null, null, internalHandler);
+            var subscription = new KrakenSubscriptionV2<KrakenTradeUpdate[]>(_logger, this, "trade", symbols.ToArray(), null, snapshot, null, null, false, internalHandler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -254,7 +285,7 @@ namespace Kraken.Net.Clients.SpotApi
                         .WithDataTimestamp(item.Timestamp, GetTimeOffset())
                     );
             });
-            var subscription = new KrakenSubscriptionV2<KrakenBookUpdate[]>(_logger, this, "book", symbols.ToArray(), null, snapshot, depth, null, null, internalHandler);
+            var subscription = new KrakenSubscriptionV2<KrakenBookUpdate[]>(_logger, this, "book", symbols.ToArray(), null, snapshot, depth, null, false, internalHandler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -271,9 +302,13 @@ namespace Kraken.Net.Clients.SpotApi
         {
             depth.ValidateIntValues(nameof(depth), 10, 100, 1000);
 
-            var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token.Success)
-                return WebSocketResult.Fail<UpdateSubscription>(Exchange, token.Error!);
+            var leaseResult = await TokenManager.AcquireAsync(new TokenScope(
+                    KrakenExchange.Metadata.Id,
+                    EnvironmentName,
+                    "Spot",
+                    ApiCredentials!.Spot!.Key), ct).ConfigureAwait(false);
+            if (!leaseResult.Success)
+                return WebSocketResult.Fail<UpdateSubscription>(Exchange, leaseResult.Error);
 
             var internalHandler = new Action<DateTime, string?, KrakenSocketUpdateV2<KrakenIndividualBookUpdate[]>>((receiveTime, originalData, data) =>
             {
@@ -289,7 +324,10 @@ namespace Kraken.Net.Clients.SpotApi
                         .WithDataTimestamp(data.Timestamp, GetTimeOffset())
                     );
             });
-            var subscription = new KrakenSubscriptionV2<KrakenIndividualBookUpdate[]>(_logger, this, "level3", symbols.ToArray(), null, snapshot, depth, null, token.Data, internalHandler);
+            var subscription = new KrakenSubscriptionV2<KrakenIndividualBookUpdate[]>(_logger, this, "level3", symbols.ToArray(), null, snapshot, depth, null, true, internalHandler)
+            {
+                TokenLease = leaseResult.Data
+            };
             return await SubscribeAsync(_privateBaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -314,7 +352,7 @@ namespace Kraken.Net.Clients.SpotApi
                     );
             });
 
-            var subscription = new KrakenSubscriptionV2<KrakenInstrumentUpdate>(_logger, this, "instrument", null, null, snapshot, null, null, null, internalHandler);
+            var subscription = new KrakenSubscriptionV2<KrakenInstrumentUpdate>(_logger, this, "instrument", null, null, snapshot, null, null, false, internalHandler);
             return await SubscribeAsync(BaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -325,11 +363,18 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<WebSocketResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsync(Action<DataEvent<KrakenBalanceSnapshot[]>>? snapshotHandler, Action<DataEvent<KrakenBalanceUpdate[]>> updateHandler, bool? snapshot = null, CancellationToken ct = default)
         {
-            var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token.Success)
-                return WebSocketResult.Fail<UpdateSubscription>(Exchange, token.Error!);
+            var leaseResult = await TokenManager.AcquireAsync(new TokenScope(
+                    KrakenExchange.Metadata.Id,
+                    EnvironmentName,
+                    "Spot",
+                    ApiCredentials!.Spot!.Key), ct).ConfigureAwait(false);
+            if (!leaseResult.Success)
+                return WebSocketResult.Fail<UpdateSubscription>(Exchange, leaseResult.Error);
 
-            var subscription = new KrakenBalanceSubscription(_logger, this, snapshot, token.Data, snapshotHandler, updateHandler);
+            var subscription = new KrakenBalanceSubscription(_logger, this, snapshot, snapshotHandler, updateHandler)
+            {
+                TokenLease = leaseResult.Data
+            };
             return await SubscribeAsync(_privateBaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -344,11 +389,18 @@ namespace Kraken.Net.Clients.SpotApi
             bool? snapshotTrades = null,
             CancellationToken ct = default)
         {
-            var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token.Success)
-                return WebSocketResult.Fail<UpdateSubscription>(Exchange, token.Error!);
+            var leaseResult = await TokenManager.AcquireAsync(new TokenScope(
+                    KrakenExchange.Metadata.Id,
+                    EnvironmentName,
+                    "Spot",
+                    ApiCredentials!.Spot!.Key), ct).ConfigureAwait(false);
+            if (!leaseResult.Success)
+                return WebSocketResult.Fail<UpdateSubscription>(Exchange, leaseResult.Error);
 
-            var subscription = new KrakenOrderSubscription(_logger, this, snapshotOrder, snapshotTrades, token.Data, updateHandler);
+            var subscription = new KrakenOrderSubscription(_logger, this, snapshotOrder, snapshotTrades, updateHandler)
+            {
+                TokenLease = leaseResult.Data
+            };
             return await SubscribeAsync(_privateBaseAddress.AppendPath("v2"), subscription, ct).ConfigureAwait(false);
         }
 
@@ -396,14 +448,17 @@ namespace Kraken.Net.Clients.SpotApi
 
             CancellationToken ct = default)
         {
-
-            var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token.Success)
-                return QueryResult.Fail<KrakenOrderResult>(Exchange, token.Error!);
+            var leaseResult = await TokenManager.AcquireAsync(new TokenScope(
+                    KrakenExchange.Metadata.Id,
+                    EnvironmentName,
+                    "Spot",
+                    ApiCredentials!.Spot!.Key), ct).ConfigureAwait(false);
+            if (!leaseResult.Success)
+                return QueryResult.Fail<KrakenOrderResult>(Exchange, leaseResult.Error);
 
             var request = new KrakenSocketPlaceOrderRequestV2
             {
-                Token = token.Data,
+                Token = leaseResult.Data.Token.Token,
                 Symbol = symbol,
                 Side = side,
                 OrderType = type,
@@ -458,6 +513,8 @@ namespace Kraken.Net.Clients.SpotApi
 
             var query = new KrakenSpotQueryV2<KrakenOrderResult, KrakenSocketPlaceOrderRequestV2>(this, requestMessage, false);
             var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
+
+            _ = leaseResult.Data.ReleaseAsync();
             if (!result.Success)
                 return QueryResult.Fail<KrakenOrderResult>(result);
 
@@ -476,13 +533,17 @@ namespace Kraken.Net.Clients.SpotApi
             bool? validateOnly = null,
             CancellationToken ct = default)
         {
-            var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token.Success)
-                return QueryResult.Fail<CallResult<KrakenOrderResult>[]>(Exchange, token.Error!);
+            var leaseResult = await TokenManager.AcquireAsync(new TokenScope(
+                    KrakenExchange.Metadata.Id,
+                    EnvironmentName,
+                    "Spot",
+                    ApiCredentials!.Spot!.Key), ct).ConfigureAwait(false);
+            if (!leaseResult.Success)
+                return QueryResult.Fail<CallResult<KrakenOrderResult>[]> (Exchange, leaseResult.Error);
 
             var request = new KrakenSocketPlaceMultipleOrderRequestV2
             {
-                Token = token.Data,
+                Token = leaseResult.Data.Token.Token,
                 Symbol = symbol,
                 ValidateOnly = validateOnly,
                 Deadline = deadline?.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'"),
@@ -498,6 +559,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             var query = new KrakenSpotQueryV2<KrakenOrderResult[], KrakenSocketPlaceMultipleOrderRequestV2>(this, requestMessage, false);
             var resultData = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
+            _ = leaseResult.Data.ReleaseAsync();
             if (!resultData.Success)
                 return QueryResult.Fail<CallResult<KrakenOrderResult>[]>(resultData);
 
@@ -541,13 +603,17 @@ namespace Kraken.Net.Clients.SpotApi
             DateTime? deadline = null,
             CancellationToken ct = default)
         {
-            var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token.Success)
-                return QueryResult.Fail<KrakenSocketAmendOrderResult>(Exchange, token.Error!);
+            var leaseResult = await TokenManager.AcquireAsync(new TokenScope(
+                    KrakenExchange.Metadata.Id,
+                    EnvironmentName,
+                    "Spot",
+                    ApiCredentials!.Spot!.Key), ct).ConfigureAwait(false);
+            if (!leaseResult.Success)
+                return QueryResult.Fail<KrakenSocketAmendOrderResult>(Exchange, leaseResult.Error);
 
             var request = new KrakenSocketEditOrderRequest
             {
-                Token = token.Data,
+                Token = leaseResult.Data.Token.Token,
                 ClientOrderId = clientOrderId,
                 Deadline = deadline?.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'"),
                 IcebergQuantity = icebergQuantity,
@@ -568,6 +634,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             var query = new KrakenSpotQueryV2<KrakenSocketAmendOrderResult, KrakenSocketEditOrderRequest>(this, requestMessage, false);
             var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
+            _ = leaseResult.Data.ReleaseAsync();
             if (!result.Success)
                 return QueryResult.Fail<KrakenSocketAmendOrderResult>(result);
 
@@ -599,13 +666,17 @@ namespace Kraken.Net.Clients.SpotApi
             PriceType? triggerPriceType = null,
             CancellationToken ct = default)
         {
-            var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token.Success)
-                return QueryResult.Fail<KrakenSocketReplaceOrderResult>(Exchange, token.Error!);
+            var leaseResult = await TokenManager.AcquireAsync(new TokenScope(
+                    KrakenExchange.Metadata.Id,
+                    EnvironmentName,
+                    "Spot",
+                    ApiCredentials!.Spot!.Key), ct).ConfigureAwait(false);
+            if (!leaseResult.Success)
+                return QueryResult.Fail<KrakenSocketReplaceOrderResult>(Exchange, leaseResult.Error);
 
             var request = new KrakenSocketReplaceOrderRequest
             {
-                Token = token.Data,
+                Token = leaseResult.Data.Token.Token,
                 Deadline = deadline?.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'"),
                 IcebergQuantity = icebergQuantity,
                 OrderId = orderId,
@@ -639,6 +710,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             var query = new KrakenSpotQueryV2<KrakenSocketReplaceOrderResult, KrakenSocketReplaceOrderRequest>(this, requestMessage, false);
             var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
+            _ = leaseResult.Data.ReleaseAsync();
             if (!result.Success)
                 return QueryResult.Fail<KrakenSocketReplaceOrderResult>(result);
 
@@ -656,14 +728,18 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<QueryResult<KrakenOrderResult>> CancelOrdersAsync(IEnumerable<string> orderIds, CancellationToken ct = default)
         {
-            var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token.Success)
-                return QueryResult.Fail<KrakenOrderResult>(Exchange, token.Error!);
+            var leaseResult = await TokenManager.AcquireAsync(new TokenScope(
+                    KrakenExchange.Metadata.Id,
+                    EnvironmentName,
+                    "Spot",
+                    ApiCredentials!.Spot!.Key), ct).ConfigureAwait(false);
+            if (!leaseResult.Success)
+                return QueryResult.Fail<KrakenOrderResult>(Exchange, leaseResult.Error);
 
             var request = new KrakenSocketCancelOrdersRequestV2
             {
                 OrderIds = orderIds.ToArray(),
-                Token = token.Data
+                Token = leaseResult.Data.Token.Token,
             };
             var requestMessage = new KrakenSocketRequestV2<KrakenSocketCancelOrdersRequestV2>
             {
@@ -674,6 +750,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             var query = new KrakenSpotQueryV2<KrakenOrderResult, KrakenSocketCancelOrdersRequestV2>(this, requestMessage, false);
             var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
+            _ = leaseResult.Data.ReleaseAsync();
             if (!result.Success)
                 return QueryResult.Fail<KrakenOrderResult>(result);
 
@@ -687,13 +764,17 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<QueryResult<KrakenStreamCancelAllResult>> CancelAllOrdersAsync(CancellationToken ct = default)
         {
-            var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token.Success)
-                return QueryResult.Fail<KrakenStreamCancelAllResult>(Exchange, token.Error!);
+            var leaseResult = await TokenManager.AcquireAsync(new TokenScope(
+                    KrakenExchange.Metadata.Id,
+                    EnvironmentName,
+                    "Spot",
+                    ApiCredentials!.Spot!.Key), ct).ConfigureAwait(false);
+            if (!leaseResult.Success)
+                return QueryResult.Fail<KrakenStreamCancelAllResult>(Exchange, leaseResult.Error);
 
             var request = new KrakenSocketAuthRequestV2
             {
-                Token = token.Data
+                Token = leaseResult.Data.Token.Token,
             };
             var requestMessage = new KrakenSocketRequestV2<KrakenSocketAuthRequestV2>
             {
@@ -704,6 +785,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             var query = new KrakenSpotQueryV2<KrakenStreamCancelAllResult, KrakenSocketAuthRequestV2>(this, requestMessage, false);
             var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
+            _ = leaseResult.Data.ReleaseAsync();
             if (!result.Success)
                 return QueryResult.Fail<KrakenStreamCancelAllResult>(result);
 
@@ -717,13 +799,17 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<QueryResult<KrakenCancelAfterResult>> CancelAllOrdersAfterAsync(TimeSpan timeout, CancellationToken ct = default)
         {
-            var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token.Success)
-                return QueryResult.Fail<KrakenCancelAfterResult>(Exchange, token.Error);
+            var leaseResult = await TokenManager.AcquireAsync(new TokenScope(
+                    KrakenExchange.Metadata.Id,
+                    EnvironmentName,
+                    "Spot",
+                    ApiCredentials!.Spot!.Key), ct).ConfigureAwait(false);
+            if (!leaseResult.Success)
+                return QueryResult.Fail<KrakenCancelAfterResult>(Exchange, leaseResult.Error);
 
             var request = new KrakenSocketCancelAfterRequest
             {
-                Token = token.Data,
+                Token = leaseResult.Data.Token.Token,
                 Timeout = (int)timeout.TotalSeconds
             };
             var requestMessage = new KrakenSocketRequestV2<KrakenSocketCancelAfterRequest>
@@ -735,6 +821,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             var query = new KrakenSpotQueryV2<KrakenCancelAfterResult, KrakenSocketCancelAfterRequest>(this, requestMessage, false);
             var result = await QueryAsync(_privateBaseAddress.AppendPath("v2"), query, ct).ConfigureAwait(false);
+            _ = leaseResult.Data.ReleaseAsync();
             if (!result.Success)
                 return QueryResult.Fail<KrakenCancelAfterResult>(result);
 
@@ -748,59 +835,25 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         protected override async Task<CallResult> RevitalizeRequestAsync(Subscription subscription)
         {
-            if (subscription is not KrakenSubscription krakenSubscription)
-            {
-                // Heartbeat subscription
-                return CallResult.Ok();
-            }
+            if (subscription.TokenLease == null)
+                return CallResult.Ok(); // Not an authenticated subscription, no need to revitalize
 
-            if (!krakenSubscription.TokenRequired)
-                return CallResult.Ok();
+            var scope = new TokenScope(
+                    KrakenExchange.Metadata.Id,
+                    EnvironmentName,
+                    "Spot",
+                    ApiCredentials!.Spot!.Key);
 
-            var token = await GetTokenAsync().ConfigureAwait(false);
-            if (!token.Success)
-                return CallResult.Fail(token.Error);
-
-            krakenSubscription.Token = token.Data;
-            return CallResult.Ok();
+            return await TokenManager.AcquireAndReplaceAsync(subscription, scope).ConfigureAwait(false);
         }
 
-        private async Task<CallResult<string>> GetTokenAsync()
+        private async Task<CallResult<string>> StartListenKeyAsync(TokenScope tokenScope, CancellationToken ct)
         {
-            if (ApiCredentials == null)
-                return CallResult.Fail<string>(new NoApiCredentialsError());
-
-            if (_tokenCache.TryGetValue(ApiCredentials.Spot!.Key, out var token) && token.Expire > DateTime.UtcNow)
-                return CallResult.Ok(token.Token);
-
-            if (ClientOptions.Environment.Name == "UnitTest")
-                return CallResult.Ok("123");
-
-            _logger.LogDebug("Requesting websocket token");
-            var restClient = new KrakenRestClient(x =>
-            {
-                x.ApiCredentials = ApiCredentials;
-                x.Environment = ClientOptions.Environment;
-                x.NonceProvider = ClientOptions.NonceProvider;
-                x.Proxy = ClientOptions.Proxy;
-                x.RequestTimeout = ClientOptions.RequestTimeout;
-            });
-
-            var result = await restClient.SpotApi.Account.GetWebsocketTokenAsync().ConfigureAwait(false);
+            var result = await TokenClient.SpotApi.Account.GetWebsocketTokenAsync(ct).ConfigureAwait(false);
             if (!result.Success)
-            {
-                _logger.LogWarning("Failed to retrieve websocket token: {Error}", result.Error);
                 return CallResult.Fail<string>(result.Error);
-            }
 
-            _tokenCache[ApiCredentials.Spot.Key] = new CachedToken { Token = result.Data.Token, Expire = DateTime.UtcNow.AddSeconds(result.Data.Expires - 5) };
             return CallResult.Ok(result.Data.Token);
-        }
-
-        private class CachedToken
-        {
-            public string Token { get; set; } = string.Empty;
-            public DateTime Expire { get; set; }
         }
     }
 }

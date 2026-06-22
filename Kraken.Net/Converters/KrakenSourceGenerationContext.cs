@@ -361,6 +361,8 @@ namespace Kraken.Net.Converters
     [JsonSerializable(typeof(decimal))]
     [JsonSerializable(typeof(DateTime))]
     [JsonSerializable(typeof(DateTime?))]
+    [JsonSerializable(typeof(Parameters))]
+    [JsonSerializable(typeof(Parameters[]))]
     internal partial class KrakenSourceGenerationContext : JsonSerializerContext
     {
     }

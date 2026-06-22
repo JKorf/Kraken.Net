@@ -9,7 +9,7 @@ using Kraken.Net.Objects.Sockets.Queries;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
-    internal class KrakenOrderSubscription : KrakenSubscription
+    internal class KrakenOrderSubscription : Subscription
     {
         private readonly SocketApiClient _client;
         private readonly Action<DataEvent<KrakenOrderUpdate[]>> _updateHandler;
@@ -17,12 +17,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         private bool? _snapshotOrder;
         private bool? _snapshotTrades;
 
-        public KrakenOrderSubscription(ILogger logger, SocketApiClient client, bool? snapshotOrder, bool? snapshotTrades, string token, Action<DataEvent<KrakenOrderUpdate[]>> updateHandler) : base(logger, true)
+        public KrakenOrderSubscription(ILogger logger, SocketApiClient client, bool? snapshotOrder, bool? snapshotTrades, Action<DataEvent<KrakenOrderUpdate[]>> updateHandler) : base(logger, true)
         {
             _client = client;
             _snapshotOrder = snapshotOrder;
             _snapshotTrades = snapshotTrades;
-            Token = token;
 
             _updateHandler = updateHandler;
 
@@ -42,7 +41,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                         Channel = "executions",
                         SnapshotOrders = _snapshotOrder,
                         SnapshotTrades = _snapshotTrades,
-                        Token = Token
+                        Token = TokenLease!.Token.Token
                     }
                 }, false);
         }
@@ -58,7 +57,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                     Parameters = new KrakenSocketSubRequest
                     {
                         Channel = "executions",
-                        Token = Token
+                        Token = TokenLease!.Token.Token
                     }
                 }, false);
         }

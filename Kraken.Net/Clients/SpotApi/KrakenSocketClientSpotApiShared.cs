@@ -137,7 +137,11 @@ namespace Kraken.Net.Clients.SpotApi
             var result = await SubscribeToBalanceUpdatesAsync(
                 null,
                 update => handler(update.ToType<SharedBalance[]>(update.Data.Select(x =>
-                new SharedBalance(KrakenExchange.AssetAliases.ExchangeToCommonName(x.Asset), x.Balance, x.Balance)).ToArray())),
+                    new SharedBalance(
+                        SupportedTradingModes, 
+                        KrakenExchange.AssetAliases.ExchangeToCommonName(x.Asset), 
+                        x.Balance, 
+                        x.Balance)).ToArray())),
                 false,
                 ct: ct).ConfigureAwait(false);
 

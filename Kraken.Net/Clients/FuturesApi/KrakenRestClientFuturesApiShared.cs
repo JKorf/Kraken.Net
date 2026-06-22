@@ -30,11 +30,20 @@ namespace Kraken.Net.Clients.FuturesApi
             if (!result.Success)
                 return HttpResult.Fail<SharedBalance[]>(result);
                         
-            var balances = result.Data.MultiCollateralMarginAccount.Currencies.Select(x => new SharedBalance(x.Key, x.Value.Available, x.Value.Quantity)).ToList();
+            var balances = result.Data.MultiCollateralMarginAccount.Currencies.Select(x => 
+                new SharedBalance(
+                    SupportedTradingModes, 
+                    x.Key, 
+                    x.Value.Available,
+                    x.Value.Quantity)).ToList();
             foreach (var balance in result.Data.MarginAccounts)
             {
                 foreach (var currency in balance.Balances)
-                    balances.Add(new SharedBalance(currency.Key, currency.Value, currency.Value) { IsolatedMarginSymbol = balance.Symbol });
+                    balances.Add(new SharedBalance(
+                        SupportedTradingModes,
+                        currency.Key,
+                        currency.Value,
+                        currency.Value) { IsolatedMarginSymbol = balance.Symbol });
             }
 
             return HttpResult.Ok(result, balances.ToArray());            

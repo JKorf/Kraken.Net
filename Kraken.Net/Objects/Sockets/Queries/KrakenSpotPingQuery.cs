@@ -9,7 +9,7 @@ namespace Kraken.Net.Objects.Sockets.Queries
         public KrakenSpotPingQuery() : base(new KrakenSocketRequestV2 { Method = "ping", RequestId = ExchangeHelpers.NextId() }, false)
         {
             RequestTimeout = TimeSpan.FromSeconds(5);
-            MessageRouter = MessageRouter.CreateVoid<object>(((KrakenSocketRequestV2)Request).RequestId.ToString());
+            MessageRouter = MessageRouter.CreateVoid<KrakenSocketResponseV2<object>>(((KrakenSocketRequestV2)Request).RequestId.ToString());
         }
     }
 }

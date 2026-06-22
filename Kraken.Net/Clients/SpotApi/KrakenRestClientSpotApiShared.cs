@@ -278,7 +278,12 @@ namespace Kraken.Net.Clients.SpotApi
             if (!result.Success)
                 return HttpResult.Fail<SharedBalance[]>(result);
 
-            return HttpResult.Ok(result, result.Data.Select(x => new SharedBalance(KrakenExchange.AssetAliases.ExchangeToCommonName(x.Key), x.Value.Available, x.Value.Total)).ToArray());
+            return HttpResult.Ok(result, result.Data.Select(x => 
+                new SharedBalance(
+                    SupportedTradingModes, 
+                    KrakenExchange.AssetAliases.ExchangeToCommonName(x.Key), 
+                    x.Value.Available, 
+                    x.Value.Total)).ToArray());
         }
 
         #endregion

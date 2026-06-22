@@ -8,7 +8,7 @@ using Kraken.Net.Objects.Sockets.Queries;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 {
-    internal class KrakenSubscriptionV2<T> : KrakenSubscription
+    internal class KrakenSubscriptionV2<T> : Subscription
     {
         private readonly SocketApiClient _client;
         private string _topic;
@@ -28,8 +28,8 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             bool? snapshot,
             int? depth,
             TriggerEvent? eventTrigger,
-            string? token,
-            Action<DateTime, string?, KrakenSocketUpdateV2<T>> handler) : base(logger, token != null)
+            bool auth,
+            Action<DateTime, string?, KrakenSocketUpdateV2<T>> handler) : base(logger, auth)
         {
             _client = client;
             _topic = topic;
@@ -39,7 +39,6 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
             _depth = depth;
             _interval = interval;
             _eventTrigger = eventTrigger == TriggerEvent.BestOfferChange ? "bbo" : eventTrigger == TriggerEvent.Trade ? "trades" : null;
-            Token = token;
 
             IndividualSubscriptionCount = symbols?.Length ?? 1;
 
@@ -66,7 +65,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                         Depth = _depth,
                         Snapshot = _snapshot,
                         EventTrigger = _eventTrigger,
-                        Token = Token
+                        Token = TokenLease!.Token.Token
                     }
                 }, Authenticated)
                 {
@@ -90,7 +89,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                         Depth = _depth,
                         Snapshot = _snapshot,
                         EventTrigger = _eventTrigger,
-                        Token = Token
+                        Token = TokenLease!.Token.Token
                     }
                 }, Authenticated)
             {

@@ -93,7 +93,7 @@ namespace Kraken.Net.Clients.FuturesApi
                         return;
 
                     handler(update.ToType<SharedBalance[]>(update.Data.FlexFutures.Currencies!.Select(x =>
-                    new SharedBalance(x.Key, x.Value.Available, x.Value.Quantity)).ToArray()));
+                        new SharedBalance(SupportedTradingModes, x.Key, x.Value.Available, x.Value.Quantity)).ToArray()));
                 },
                 ct: ct).ConfigureAwait(false);
 
