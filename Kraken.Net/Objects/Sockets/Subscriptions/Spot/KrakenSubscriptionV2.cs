@@ -65,7 +65,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                         Depth = _depth,
                         Snapshot = _snapshot,
                         EventTrigger = _eventTrigger,
-                        Token = TokenLease!.Token.Token
+                        Token = TokenLease?.Token.Token
                     }
                 }, Authenticated)
                 {
@@ -89,7 +89,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
                         Depth = _depth,
                         Snapshot = _snapshot,
                         EventTrigger = _eventTrigger,
-                        Token = TokenLease!.Token.Token
+                        Token = TokenLease?.Token.Token
                     }
                 }, Authenticated)
             {

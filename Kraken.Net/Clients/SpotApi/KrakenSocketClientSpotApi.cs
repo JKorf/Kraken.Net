@@ -849,6 +849,9 @@ namespace Kraken.Net.Clients.SpotApi
 
         private async Task<CallResult<string>> StartListenKeyAsync(TokenScope tokenScope, CancellationToken ct)
         {
+            if (EnvironmentName == "UnitTest")
+                return CallResult.Ok("123");
+
             var result = await TokenClient.SpotApi.Account.GetWebsocketTokenAsync(ct).ConfigureAwait(false);
             if (!result.Success)
                 return CallResult.Fail<string>(result.Error);
