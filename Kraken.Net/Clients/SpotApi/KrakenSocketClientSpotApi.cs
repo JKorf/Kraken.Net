@@ -102,7 +102,7 @@ namespace Kraken.Net.Clients.SpotApi
                 TimeSpan.FromMinutes(15),
                 TimeSpan.FromMinutes(14),
                 startToken: StartListenKeyAsync,
-                retentionPolicy: TokenRetentionPolicy.RetainUntilExpired);
+                managementType: TokenManagementType.Cached);
         }
         #endregion
 
