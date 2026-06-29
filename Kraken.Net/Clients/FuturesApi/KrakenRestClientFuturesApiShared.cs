@@ -668,7 +668,8 @@ namespace Kraken.Net.Clients.FuturesApi
                 Leverage = x.MaxFixedLeverage,
                 AverageOpenPrice = x.Price,
                 PositionMode = SharedPositionMode.OneWay,
-                PositionSide = x.Side == PositionSide.Short ? SharedPositionSide.Short : SharedPositionSide.Long
+                PositionSide = x.Side == PositionSide.Short ? SharedPositionSide.Short : SharedPositionSide.Long,
+                UnrealizedPnl = x.UnrealizedPnl
             }).ToArray());
         }
 

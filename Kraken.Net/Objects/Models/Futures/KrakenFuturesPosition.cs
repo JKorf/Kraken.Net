@@ -57,5 +57,10 @@ namespace Kraken.Net.Objects.Models.Futures
         /// </summary>
         [JsonPropertyName("unrealizedFunding")]
         public decimal? UnrealizedFunding { get; set; }
+        /// <summary>
+        /// ["<c>unrealizedPnl</c>"] Unrealized profit and loss
+        /// </summary>
+        [JsonPropertyName("unrealizedPnl")]
+        public decimal? UnrealizedPnl { get; set; }
     }
 }
