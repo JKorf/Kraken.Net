@@ -4,9 +4,9 @@ namespace Kraken.Net.Objects.Internal
 {
     internal class KrakenSocketEditOrderRequest : KrakenSocketAuthRequestV2
     {
-        [JsonPropertyName("order_id")]
+        [JsonPropertyName("order_id"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? OrderId { get; set; }
-        [JsonPropertyName("cl_ord_id")]
+        [JsonPropertyName("cl_ord_id"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? ClientOrderId { get; set; }
         [JsonPropertyName("order_qty"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public decimal? Quantity { get; set; }

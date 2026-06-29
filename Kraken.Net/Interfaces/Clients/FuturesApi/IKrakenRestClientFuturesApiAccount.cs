@@ -26,7 +26,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="limit">["<c>count</c>"] Amount of entries to be returned.</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenAccountLogResult>> GetAccountLogAsync(DateTime? startTime = null, DateTime? endTime = null, int? fromId = null, int? toId = null, string? sort = null, string? type = null, int? limit = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenAccountLogResult>> GetAccountLogAsync(DateTime? startTime = null, DateTime? endTime = null, int? fromId = null, int? toId = null, string? sort = null, string? type = null, int? limit = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get asset balances and margin info
@@ -39,7 +39,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesBalances>> GetBalancesAsync(CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesBalances>> GetBalancesAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get the PNL currency preference is used to determine which currency to pay out when realizing PNL gains.
@@ -52,7 +52,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesPnlCurrency[]>> GetPnlCurrencyAsync(CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesPnlCurrency[]>> GetPnlCurrencyAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Set the PNL currency preference is used to determine which currency to pay out when realizing PNL gains.
@@ -67,7 +67,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="pnlCurrency">["<c>pnlPreference</c>"] Currency to use</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult> SetPnlCurrencyAsync(string symbol, string pnlCurrency, CancellationToken ct = default);
+        Task<HttpResult> SetPnlCurrencyAsync(string symbol, string pnlCurrency, CancellationToken ct = default);
 
         /// <summary>
         /// Transfer between 2 margin accounts or between margin and cash account
@@ -84,7 +84,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="toAccount">["<c>toAccount</c>"] The wallet (cash or margin account) from which funds should be debited</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult> TransferAsync(string asset, decimal quantity, string fromAccount, string toAccount, CancellationToken ct = default);
+        Task<HttpResult> TransferAsync(string asset, decimal quantity, string fromAccount, string toAccount, CancellationToken ct = default);
 
         /// <summary>
         /// Get fee schedule volume
@@ -97,7 +97,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<Dictionary<string, decimal>>> GetFeeScheduleVolumeAsync(CancellationToken ct = default);
+        Task<HttpResult<Dictionary<string, decimal>>> GetFeeScheduleVolumeAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get the initial margin requirements for the provided parameters
@@ -115,7 +115,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="price">Limit price</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesMarginRequirements>> GetInitialMarginRequirementsAsync(string symbol, FuturesOrderType orderType, OrderSide side, decimal quantity, decimal? price = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesMarginRequirements>> GetInitialMarginRequirementsAsync(string symbol, FuturesOrderType orderType, OrderSide side, decimal quantity, decimal? price = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get the max order quantity
@@ -131,6 +131,6 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="price">Limit price</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesMaxOrderSize>> GetMaxOrderQuantityAsync(string symbol, FuturesOrderType orderType, decimal? price = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesMaxOrderSize>> GetMaxOrderQuantityAsync(string symbol, FuturesOrderType orderType, decimal? price = null, CancellationToken ct = default);
     }
 }

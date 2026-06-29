@@ -22,7 +22,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of open orders</returns>
-        Task<WebCallResult<OpenOrdersPage>> GetOpenOrdersAsync(uint? userReference = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<OpenOrdersPage>> GetOpenOrdersAsync(uint? userReference = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get a list of closed orders
@@ -43,7 +43,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Closed orders page</returns>
-        Task<WebCallResult<KrakenClosedOrdersPage>> GetClosedOrdersAsync(uint? userRef = null, DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? clientOrderId = null, SearchTime? searchTime = null, bool? consolidateTaker = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenClosedOrdersPage>> GetClosedOrdersAsync(uint? userRef = null, DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? clientOrderId = null, SearchTime? searchTime = null, bool? consolidateTaker = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get info on specific order
@@ -61,7 +61,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with order info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? orderId = null, uint? clientOrderId = null, bool? consolidateTaker = null, bool? trades = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? orderId = null, uint? clientOrderId = null, bool? consolidateTaker = null, bool? trades = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get info on specific orders
@@ -79,7 +79,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with order info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, uint? clientOrderId = null, bool? consolidateTaker = null, bool? trades = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, uint? clientOrderId = null, bool? consolidateTaker = null, bool? trades = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get trade history
@@ -97,7 +97,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade history page</returns>
-        Task<WebCallResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, bool? consolidateTaker = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, bool? consolidateTaker = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get info on specific trades
@@ -112,7 +112,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with trade info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsync(string tradeId, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsync(string tradeId, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get info on specific trades
@@ -127,7 +127,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with trade info</returns>
-        Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsync(IEnumerable<string> tradeIds, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsync(IEnumerable<string> tradeIds, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Place multiple new orders
@@ -145,7 +145,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="aClass">["<c>asset_class</c>"] Asset class, required to be `TokenizedAsset` when targeting xstocks</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<CallResult<KrakenPlacedBatchOrder>[]>> PlaceMultipleOrdersAsync(
+        Task<HttpResult<CallResult<KrakenPlacedBatchOrder>[]>> PlaceMultipleOrdersAsync(
             string symbol, 
             IEnumerable<KrakenOrderRequest> orders,
             DateTime? deadline = null,
@@ -206,7 +206,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="aClass">["<c>asset_class</c>"] Asset class, required to be `TokenizedAsset` when targeting xstocks</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Placed order info</returns>
-        Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(
+        Task<HttpResult<KrakenPlacedOrder>> PlaceOrderAsync(
             string symbol,
             OrderSide side,
             OrderType type,
@@ -264,7 +264,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenEditOrder>> EditOrderAsync(
+        Task<HttpResult<KrakenEditOrder>> EditOrderAsync(
             string symbol,
             string orderId,
             decimal? quantity = null,
@@ -298,7 +298,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Cancel result</returns>
-        Task<WebCallResult<KrakenCancelResult>> CancelOrderAsync(string? orderId = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenCancelResult>> CancelOrderAsync(string? orderId = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel all orders
@@ -312,7 +312,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Cancel result</returns>
-        Task<WebCallResult<KrakenCancelResult>> CancelAllOrdersAsync(string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenCancelResult>> CancelAllOrdersAsync(string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel all orders after the timeout expires. Can be called at an interval to keep extending the timeout and word as a dead-man switch. Timeout can be disabled by setting timeout to 0.
@@ -327,7 +327,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenCancelAfterResult>> CancelAllOrdersAfterAsync(TimeSpan cancelAfter, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenCancelAfterResult>> CancelAllOrdersAfterAsync(TimeSpan cancelAfter, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel multiple orders by id or clientOrderId
@@ -343,6 +343,6 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenBatchCancelResult>> CancelMultipleOrdersAsync(IEnumerable<string>? orderIds = null, IEnumerable<string>? clientOrderIds = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenBatchCancelResult>> CancelMultipleOrdersAsync(IEnumerable<string>? orderIds = null, IEnumerable<string>? clientOrderIds = null, string? twoFactorPassword = null, CancellationToken ct = default);
     }
 }

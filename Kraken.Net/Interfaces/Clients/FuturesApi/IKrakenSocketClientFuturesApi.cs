@@ -27,7 +27,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="updateHandler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToAccountLogUpdatesAsync(Action<DataEvent<KrakenFuturesAccountLogsSnapshotUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesAccountLogsUpdate>> updateHandler, CancellationToken ct = default);
+        Task<WebSocketResult<UpdateSubscription>> SubscribeToAccountLogUpdatesAsync(Action<DataEvent<KrakenFuturesAccountLogsSnapshotUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesAccountLogsUpdate>> updateHandler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to balance updates
@@ -41,7 +41,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="handler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsync(Action<DataEvent<KrakenFuturesBalancesUpdate>> handler, CancellationToken ct = default);
+        Task<WebSocketResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsync(Action<DataEvent<KrakenFuturesBalancesUpdate>> handler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to heartbeat updates
@@ -55,7 +55,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="handler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToHeartbeatUpdatesAsync(Action<DataEvent<KrakenFuturesHeartbeatUpdate>> handler, CancellationToken ct = default);
+        Task<WebSocketResult<UpdateSubscription>> SubscribeToHeartbeatUpdatesAsync(Action<DataEvent<KrakenFuturesHeartbeatUpdate>> handler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to mini ticker updates
@@ -70,7 +70,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="handler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToMiniTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesMiniTickerUpdate>> handler, CancellationToken ct = default);
+        Task<WebSocketResult<UpdateSubscription>> SubscribeToMiniTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesMiniTickerUpdate>> handler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to mini ticker updates
@@ -85,7 +85,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="handler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToMiniTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesMiniTickerUpdate>> handler, CancellationToken ct = default);
+        Task<WebSocketResult<UpdateSubscription>> SubscribeToMiniTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesMiniTickerUpdate>> handler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to notification updates
@@ -99,7 +99,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="handler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToNotificationUpdatesAsync(Action<DataEvent<KrakenFuturesNotificationUpdate>> handler, CancellationToken ct = default);
+        Task<WebSocketResult<UpdateSubscription>> SubscribeToNotificationUpdatesAsync(Action<DataEvent<KrakenFuturesNotificationUpdate>> handler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to open order updates
@@ -117,7 +117,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="updateHandler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToOpenOrdersUpdatesAsync(bool verbose, Action<DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesOpenOrdersUpdate>> updateHandler, CancellationToken ct = default);
+        Task<WebSocketResult<UpdateSubscription>> SubscribeToOpenOrdersUpdatesAsync(bool verbose, Action<DataEvent<KrakenFuturesOpenOrdersSnapshotUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesOpenOrdersUpdate>> updateHandler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to open position updates
@@ -131,7 +131,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="handler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToOpenPositionUpdatesAsync(Action<DataEvent<KrakenFuturesOpenPositionUpdate>> handler, CancellationToken ct = default);
+        Task<WebSocketResult<UpdateSubscription>> SubscribeToOpenPositionUpdatesAsync(Action<DataEvent<KrakenFuturesOpenPositionUpdate>> handler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to order book updates
@@ -147,7 +147,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="updateHandler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesBookSnapshotUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesBookUpdate>> updateHandler, CancellationToken ct = default);
+        Task<WebSocketResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesBookSnapshotUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesBookUpdate>> updateHandler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to order book updates
@@ -163,7 +163,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="updateHandler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesBookSnapshotUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesBookUpdate>> updateHandler, CancellationToken ct = default);
+        Task<WebSocketResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesBookSnapshotUpdate>> snapshotHandler, Action<DataEvent<KrakenFuturesBookUpdate>> updateHandler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to ticker updates
@@ -178,7 +178,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="handler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesTickerUpdate>> handler, CancellationToken ct = default);
+        Task<WebSocketResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesTickerUpdate>> handler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to ticker updates
@@ -193,7 +193,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="handler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesTickerUpdate>> handler, CancellationToken ct = default);
+        Task<WebSocketResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesTickerUpdate>> handler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to public trade updates
@@ -208,7 +208,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="updateHandler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesTradeUpdate[]>> updateHandler, CancellationToken ct = default);
+        Task<WebSocketResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<KrakenFuturesTradeUpdate[]>> updateHandler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to public trade updates
@@ -223,7 +223,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="updateHandler">Update handler</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesTradeUpdate[]>> updateHandler, CancellationToken ct = default);
+        Task<WebSocketResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<KrakenFuturesTradeUpdate[]>> updateHandler, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to user trades updates
@@ -237,6 +237,6 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="handler">Handler for the initial snapshot data received when (re)connecting the stream</param>
         /// <param name="ct">Cancellation token for closing this subscription</param>
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected</returns>
-        Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(Action<DataEvent<KrakenFuturesUserTradesUpdate>> handler, CancellationToken ct = default);
+        Task<WebSocketResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(Action<DataEvent<KrakenFuturesUserTradesUpdate>> handler, CancellationToken ct = default);
     }
 }

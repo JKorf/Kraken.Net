@@ -24,11 +24,11 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
 
             if (symbols?.Count > 0)
             {
-                MessageRouter = MessageRouter.Create(symbols.Select(x => MessageRoute<T>.CreateWithoutTopicFilter(_feed + "-" + x.ToLowerInvariant(), DoHandleMessage)).ToArray());
+                MessageRouter = MessageRouter.Create(symbols.Select(x => MessageRoute.CreateForEvent<T>(_feed + "-" + x.ToLowerInvariant(), DoHandleMessage)).ToArray());
             }
             else
             {
-                MessageRouter = MessageRouter.CreateWithoutTopicFilter<T>(_feed, DoHandleMessage);
+                MessageRouter = MessageRouter.CreateForEvent<T>(_feed, DoHandleMessage);
             }
         }
 
@@ -67,7 +67,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, T message)
         {
             _handler.Invoke(receiveTime, originalData, message);
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
     }
 }

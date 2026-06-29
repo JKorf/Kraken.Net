@@ -21,7 +21,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _client = client;
             _handler = handler;
 
-            MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenFuturesUserTradesUpdate>(["fills_snapshot", "fills"], DoHandleMessage);
+            MessageRouter = MessageRouter.CreateForEvent<KrakenFuturesUserTradesUpdate>(["fills_snapshot", "fills"], DoHandleMessage);
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)
@@ -64,7 +64,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     .WithUpdateType(type)
                     .WithDataTimestamp(timestamp, _client.GetTimeOffset())
                 );
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
     }
 }

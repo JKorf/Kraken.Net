@@ -172,12 +172,12 @@ namespace Kraken.Net.UnitTests
             await tester.ValidateAsync(client => client.FuturesApi.ExchangeData.GetKlinesAsync(Enums.TickType.Mark, "ETHUSDT", Enums.FuturesKlineInterval.TwelfHours), "GetKlines");
         }
 
-        private bool IsAuthenticatedSpot(WebCallResult result)
+        private bool IsAuthenticatedSpot(IHttpResult result)
         {
             return result.RequestHeaders.Any(h => h.Key == "API-Sign");
         }
 
-        private bool IsAuthenticatedFutures(WebCallResult result)
+        private bool IsAuthenticatedFutures(IHttpResult result)
         {
             return result.RequestHeaders.Any(h => h.Key == "Authent");
         }

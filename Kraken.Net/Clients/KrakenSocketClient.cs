@@ -41,8 +41,8 @@ namespace Kraken.Net.Clients
         {
             Initialize(options.Value);
 
-            SpotApi = AddApiClient(new KrakenSocketClientSpotApi(_logger, options.Value));
-            FuturesApi = AddApiClient(new KrakenSocketClientFuturesApi(_logger, options.Value));
+            SpotApi = AddApiClient(new KrakenSocketClientSpotApi(loggerFactory, options.Value));
+            FuturesApi = AddApiClient(new KrakenSocketClientFuturesApi(loggerFactory, options.Value));
         }
         #endregion
 
@@ -55,6 +55,15 @@ namespace Kraken.Net.Clients
         public static void SetDefaultOptions(Action<KrakenSocketOptions> optionsDelegate)
         {
             KrakenSocketOptions.Default = ApplyOptionsDelegate(optionsDelegate);
+        }
+
+        /// <inheritdoc />
+        public override void SetApiCredentials(KrakenCredentials credentials)
+        {
+            if (credentials.Spot != null)
+                SpotApi.SetApiCredentials(credentials);
+            if (credentials.Futures != null)
+                FuturesApi.SetApiCredentials(credentials);
         }
         #endregion
 

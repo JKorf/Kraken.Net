@@ -44,8 +44,8 @@ namespace Kraken.Net.Clients
         {
             Initialize(options.Value);
 
-            SpotApi = AddApiClient(new KrakenRestClientSpotApi(_logger, httpClient, options.Value));
-            FuturesApi = AddApiClient(new KrakenRestClientFuturesApi(_logger, httpClient, options.Value));
+            SpotApi = AddApiClient(new KrakenRestClientSpotApi(loggerFactory, httpClient, options.Value));
+            FuturesApi = AddApiClient(new KrakenRestClientFuturesApi(loggerFactory, httpClient, options.Value));
         }
         #endregion
 
@@ -58,5 +58,13 @@ namespace Kraken.Net.Clients
             KrakenRestOptions.Default = ApplyOptionsDelegate(optionsDelegate);
         }
 
+        /// <inheritdoc />
+        public override void SetApiCredentials(KrakenCredentials credentials)
+        {
+            if (credentials.Spot != null)
+                SpotApi.SetApiCredentials(credentials);
+            if (credentials.Futures != null)
+                FuturesApi.SetApiCredentials(credentials);
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
     {
         public HeartbeatSubscription(ILogger logger) : base(logger, false)
         {
-            MessageRouter = MessageRouter.CreateWithoutHandler<KrakenEvent>("heartbeat");
+            MessageRouter = MessageRouter.CreateVoid<KrakenEvent>("heartbeat");
         }
     }
 }

@@ -9,7 +9,7 @@ description: Use Kraken.Net when generating C#/.NET code that interacts with the
 
 If the user asks for Kraken API access in C#/.NET, **use Kraken.Net**. Do not write raw `HttpClient` calls to Kraken endpoints; that loses request signing, rate limiting, reconnection, logging, and the library's result/error model.
 
-For multi-exchange code, use `CryptoExchange.Net.SharedApis` via the `.SharedClient` properties.
+For multi-exchange code, use `CryptoExchange.Net.SharedApis` via the `.SharedClient` properties. Call `.SharedClient.Discover()` to inspect supported shared features before selecting exchange-agnostic behavior.
 
 ## Installation
 
@@ -42,7 +42,7 @@ var publicClient = new KrakenRestClient();
 
 ## Core Pattern: Result Handling
 
-Every REST method returns `WebCallResult<T>` or `WebCallResult`; WebSocket subscriptions and socket requests return `CallResult<T>` or `CallResult`. Always check `.Success` before accessing `.Data`.
+Every REST method returns `HttpResult<T>` or `HttpResult`; WebSocket subscriptions return `WebSocketResult<UpdateSubscription>`; Spot WebSocket request/response methods return `QueryResult<T>`; shared symbol/cache helpers can return `ExchangeCallResult<T>`. Always check `.Success` before accessing `.Data`.
 
 ```csharp
 var ticker = await restClient.SpotApi.ExchangeData.GetTickerAsync("ETHUSDT");
@@ -173,6 +173,7 @@ using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Clients;
 
 var shared = new KrakenRestClient().SpotApi.SharedClient;
+var info = shared.Discover();
 var ticker = await shared.GetSpotTickerAsync(
     new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "ETH", "USDT")));
 ```

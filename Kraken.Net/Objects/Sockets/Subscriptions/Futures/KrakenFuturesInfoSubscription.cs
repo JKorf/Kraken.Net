@@ -9,7 +9,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
     {
         public KrakenFuturesInfoSubscription(ILogger logger) : base(logger, false)
         {
-            MessageRouter = MessageRouter.CreateWithoutHandler<KrakenInfoEvent>("info");
+            MessageRouter = MessageRouter.CreateVoid<KrakenInfoEvent>("info");
         }
     }
 }

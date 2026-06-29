@@ -24,7 +24,8 @@ namespace Kraken.Net
                 "https://www.kraken.com",
                 ["https://docs.kraken.com/api/"],
                 PlatformType.CryptoCurrencyExchange,
-                CentralizationType.Centralized
+                CentralizationType.Centralized,
+                KrakenEnvironment.All
                 );
 
         /// <summary>
@@ -74,6 +75,11 @@ namespace Kraken.Net
         };
 
         internal static JsonSerializerContext _serializerContext = JsonSerializerContextCache.GetOrCreate<KrakenSourceGenerationContext>();
+        internal static ParameterSerializationSettings _parameterSerializationSettings = new ParameterSerializationSettings
+        {
+            Array = ArrayParametersSerialization.MultipleValues,
+            Decimal = DecimalSerialization.String,
+        };
 
         /// <summary>
         /// Format a base and quote asset to a Kraken recognized symbol 
@@ -97,7 +103,7 @@ namespace Kraken.Net
         /// <summary>
         /// Rate limiter configuration for the Kraken API
         /// </summary>
-        public static KrakenRateLimiters RateLimiter { get; } = new KrakenRateLimiters();
+        public static KrakenRateLimiters RateLimiter { get; set; } = new KrakenRateLimiters();
     }
 
     /// <summary>
@@ -126,7 +132,10 @@ namespace Kraken.Net
         public RateLimitTier Tier { get; private set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        internal KrakenRateLimiters()
+        /// <summary>
+        /// ctor
+        /// </summary>
+        public KrakenRateLimiters()
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             Initialize();
@@ -142,7 +151,10 @@ namespace Kraken.Net
             Initialize();
         }
 
-        private void Initialize()
+        /// <summary>
+        /// Initialize the rate limits
+        /// </summary>
+        protected virtual void Initialize()
         {
             int limit = 15;
             double decay = 0.33;

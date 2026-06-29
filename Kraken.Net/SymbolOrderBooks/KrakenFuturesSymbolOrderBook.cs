@@ -57,22 +57,22 @@ namespace Kraken.Net.SymbolOrderBooks
         protected override async Task<CallResult<UpdateSubscription>> DoStartAsync(CancellationToken ct)
         {
             var result = await _socketClient.FuturesApi.SubscribeToOrderBookUpdatesAsync(new[] { Symbol }, ProcessSnapshot, ProcessUpdate).ConfigureAwait(false);
-            if (!result)
-                return result;
+            if (!result.Success)
+                return CallResult.Fail<UpdateSubscription>(result.Error);
 
             if (ct.IsCancellationRequested)
             {
                 await result.Data.CloseAsync().ConfigureAwait(false);
-                return result.AsError<UpdateSubscription>(new CancellationRequestedError());
+                return CallResult.Fail<UpdateSubscription>(new CancellationRequestedError());
             }
 
             Status = OrderBookStatus.Syncing;
 
             var setResult = await WaitForSetOrderBookAsync(_initialDataTimeout, ct).ConfigureAwait(false);
-            if (!setResult)
+            if (!setResult.Success)
                 await result.Data.CloseAsync().ConfigureAwait(false);
 
-            return setResult ? result : new CallResult<UpdateSubscription>(setResult.Error!);
+            return setResult.Success ? CallResult.Ok(result.Data) : CallResult.Fail<UpdateSubscription>(setResult.Error!);
         }
 
         private void ProcessSnapshot(DataEvent<KrakenFuturesBookSnapshotUpdate> data)
@@ -89,7 +89,7 @@ namespace Kraken.Net.SymbolOrderBooks
         }
 
         /// <inheritdoc />
-        protected override async Task<CallResult<bool>> DoResyncAsync(CancellationToken ct)
+        protected override async Task<CallResult> DoResyncAsync(CancellationToken ct)
         {
             return await WaitForSetOrderBookAsync(_initialDataTimeout, ct).ConfigureAwait(false);
         }

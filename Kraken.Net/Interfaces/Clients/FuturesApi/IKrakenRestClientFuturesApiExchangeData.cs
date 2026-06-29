@@ -19,7 +19,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFeeSchedule[]>> GetFeeSchedulesAsync(CancellationToken ct = default);
+        Task<HttpResult<KrakenFeeSchedule[]>> GetFeeSchedulesAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get historical funding rates
@@ -33,7 +33,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="symbol">["<c>symbol</c>"] The symbol, for example `PF_ETHUSD`</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFundingRate[]>> GetHistoricalFundingRatesAsync(string symbol, CancellationToken ct = default);
+        Task<HttpResult<KrakenFundingRate[]>> GetHistoricalFundingRatesAsync(string symbol, CancellationToken ct = default);
 
         /// <summary>
         /// Get klines/candle data
@@ -52,7 +52,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="limit">["<c>count</c>"] Max number of results</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesKlines>> GetKlinesAsync(TickType tickType, string symbol, FuturesKlineInterval interval, DateTime? startTime = null, DateTime? endTime = null, int? limit = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesKlines>> GetKlinesAsync(TickType tickType, string symbol, FuturesKlineInterval interval, DateTime? startTime = null, DateTime? endTime = null, int? limit = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get the orderbook
@@ -66,7 +66,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="symbol">["<c>symbol</c>"] The symbol, for example `PF_ETHUSD`</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesOrderBook>> GetOrderBookAsync(string symbol, CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesOrderBook>> GetOrderBookAsync(string symbol, CancellationToken ct = default);
 
         /// <summary>
         /// Get platform notifications
@@ -79,7 +79,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesPlatfromNotificationResult>> GetPlatformNotificationsAsync(CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesPlatfromNotificationResult>> GetPlatformNotificationsAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get a list of symbols
@@ -92,7 +92,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesSymbol[]>> GetSymbolsAsync(CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesSymbol[]>> GetSymbolsAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get a list of symbols statuses
@@ -105,7 +105,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesSymbolStatus[]>> GetSymbolStatusAsync(CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesSymbolStatus[]>> GetSymbolStatusAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get ticker
@@ -119,7 +119,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="symbol">["<c>symbol</c>"] Symbol to get ticker for</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesTicker>> GetTickerAsync(string symbol, CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesTicker>> GetTickerAsync(string symbol, CancellationToken ct = default);
 
         /// <summary>
         /// Get tickers
@@ -132,7 +132,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesTicker[]>> GetTickersAsync(CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesTicker[]>> GetTickersAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get list of recent trades
@@ -147,6 +147,6 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="startTime">["<c>lastTime</c>"] Filter by start time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesTrade[]>> GetTradesAsync(string symbol, DateTime? startTime = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesTrade[]>> GetTradesAsync(string symbol, DateTime? startTime = null, CancellationToken ct = default);
     }
 }

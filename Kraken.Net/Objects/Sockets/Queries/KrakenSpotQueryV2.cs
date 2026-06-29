@@ -14,23 +14,23 @@ namespace Kraken.Net.Objects.Sockets.Queries
         public KrakenSpotQueryV2(SocketApiClient client, KrakenSocketRequestV2<TRequest> request, bool authenticated) : base(request, authenticated)
         {
             _client = client;
-            MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenSocketResponseV2<TResponse>>(request.RequestId.ToString(), HandleMessage);
+            MessageRouter = MessageRouter.CreateForQuery<KrakenSocketResponseV2<TResponse>>(request.RequestId.ToString(), HandleMessage);
         }
 
         public CallResult<KrakenSocketResponseV2<TResponse>> HandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenSocketResponseV2<TResponse> message)
         {
             if (message.Success)
             {
-                return new CallResult<KrakenSocketResponseV2<TResponse>>(message, originalData, null);
+                return CallResult.Ok(message, originalData);
             }
             else if (message is KrakenSocketResponseV2<KrakenOrderResult[]> response // We'll want to return the actual response data, so return as no error and handle it in the method itself
                 || message.Error == "Already subscribed") // Duplicate subscription shouldn't be treated as an error
             {
-                return new CallResult<KrakenSocketResponseV2<TResponse>>(message, originalData, null);
+                return CallResult.Ok<KrakenSocketResponseV2<TResponse>>(message, originalData);
             }
             else
             {
-                return new CallResult<KrakenSocketResponseV2<TResponse>>(new ServerError(message.Error!, _client.GetErrorInfo("Subscription", message.Error!)));
+                return CallResult.Fail<KrakenSocketResponseV2<TResponse>>(new ServerError(message.Error!, _client.GetErrorInfo("Subscription", message.Error!)), originalData);
             }
         }
     }

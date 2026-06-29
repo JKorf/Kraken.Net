@@ -26,7 +26,7 @@ namespace Kraken.Net.UnitTests
                 OutputOriginalData = true
             }), logger);
 
-            var tester = new SocketSubscriptionValidator<KrakenSocketClient>(client, "Subscriptions/Spot", "wss://ws-auth.kraken.com", "data");
+            var tester = new SocketSubscriptionValidator<KrakenSocketClient>(client, "Subscriptions/Spot", "wss://ws.kraken.com/v2", "data");
             await tester.ValidateConcurrentAsync<KrakenKlineUpdate[]>(
                 (client, handler) => client.SpotApi.SubscribeToKlineUpdatesAsync("ETH/USDT", Enums.KlineInterval.OneDay, handler),
                 (client, handler) => client.SpotApi.SubscribeToKlineUpdatesAsync("ETH/USDT", Enums.KlineInterval.OneHour, handler),

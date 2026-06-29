@@ -9,7 +9,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
     {
         public SystemStatusSubscription(ILogger logger) : base(logger, false)
         {
-            MessageRouter = MessageRouter.CreateWithoutHandler<KrakenStreamSystemStatus>("status");
+            MessageRouter = MessageRouter.CreateVoid<KrakenStreamSystemStatus>("status");
         }
     }
 }

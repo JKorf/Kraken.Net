@@ -15,18 +15,18 @@ namespace Kraken.Net.Objects.Sockets.Queries
             string apiKey) : base(new KrakenChallengeRequest { ApiKey = apiKey, Event = "challenge" }, false)
         {
             _authProvider = authProvider;
-            MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenChallengeResponse>(["challenge", "alert"], HandleMessage);
+            MessageRouter = MessageRouter.CreateForQuery<KrakenChallengeResponse>(["challenge", "alert"], HandleMessage);
         }
 
         public CallResult<KrakenChallengeResponse> HandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenChallengeResponse message)
         {
             if (message.Event == "alert")
-                return new CallResult<KrakenChallengeResponse>(default, originalData, new ServerError(ErrorInfo.Unknown with { Message = message.Message }));
+                return CallResult.Fail<KrakenChallengeResponse>(new ServerError(ErrorInfo.Unknown with { Message = message.Message }), originalData);
 
             var sign = _authProvider.AuthenticateWebsocketChallenge(message.Message);
             connection.Properties["OriginalChallenge"] = message.Message;
             connection.Properties["SignedChallenge"] = sign;
-            return new CallResult<KrakenChallengeResponse>(message, originalData, null);
+            return CallResult.Ok(message, originalData);
         }
     }
 }

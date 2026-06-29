@@ -30,15 +30,15 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             if (verbose)
             {
                 MessageRouter = MessageRouter.Create([
-                    MessageRoute<KrakenFuturesOpenOrdersSnapshotUpdate>.CreateWithoutTopicFilter("open_orders_verbose_snapshot", DoHandleMessage),
-                    MessageRoute<KrakenFuturesOpenOrdersUpdate>.CreateWithoutTopicFilter("open_orders_verbose", DoHandleMessage)
+                    MessageRoute.CreateForEvent<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_verbose_snapshot", DoHandleMessage),
+                    MessageRoute.CreateForEvent<KrakenFuturesOpenOrdersUpdate>("open_orders_verbose", DoHandleMessage)
                     ]);
             }
             else
             {
                 MessageRouter = MessageRouter.Create([
-                    MessageRoute<KrakenFuturesOpenOrdersSnapshotUpdate>.CreateWithoutTopicFilter("open_orders_snapshot",DoHandleMessage),
-                    MessageRoute<KrakenFuturesOpenOrdersUpdate>.CreateWithoutTopicFilter("open_orders", DoHandleMessage)
+                    MessageRoute.CreateForEvent<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_snapshot",DoHandleMessage),
+                    MessageRoute.CreateForEvent<KrakenFuturesOpenOrdersUpdate>("open_orders", DoHandleMessage)
                     ]);
             }
         }
@@ -84,7 +84,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     .WithDataTimestamp(timestamp, _client.GetTimeOffset())
                 );
             
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
 
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesOpenOrdersUpdate message)
@@ -99,7 +99,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     .WithSymbol(message.Symbol)
                     .WithDataTimestamp(message.Order?.LastUpdateTime, _client.GetTimeOffset())
                 );
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
     }
 }

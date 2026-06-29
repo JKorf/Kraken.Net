@@ -21,7 +21,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="cancelAfter">["<c>timeout</c>"] Cancel after this time. TimeSpan.Zero to cancel a previous cancel after.</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesCancelAfter>> CancelAllOrderAfterAsync(TimeSpan cancelAfter, CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesCancelAfter>> CancelAllOrderAfterAsync(TimeSpan cancelAfter, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel all orders
@@ -35,7 +35,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="symbol">["<c>symbol</c>"] Only cancel on this symbol, for example `PF_ETHUSD`</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesCancelledOrders>> CancelAllOrdersAsync(string? symbol = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesCancelledOrders>> CancelAllOrdersAsync(string? symbol = null, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel an order
@@ -50,7 +50,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="clientOrderId">["<c>cliOrdId</c>"] Filter by client order id</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesOrderResult>> CancelOrderAsync(string? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesOrderResult>> CancelOrderAsync(string? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
 
         /// <summary>
         /// Edit an existing order
@@ -70,7 +70,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="trailingStopMaxDeviation">["<c>trailingStopMaxDeviation</c>"] New trailing stop max deviation</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesOrderResult>> EditOrderAsync(string? orderId = null, string? clientOrderId = null, decimal? quantity = null, decimal? price = null, decimal? stopPrice = null, TrailingStopDeviationUnit? trailingStopDeviationUnit = null, decimal? trailingStopMaxDeviation = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesOrderResult>> EditOrderAsync(string? orderId = null, string? clientOrderId = null, decimal? quantity = null, decimal? price = null, decimal? stopPrice = null, TrailingStopDeviationUnit? trailingStopDeviationUnit = null, decimal? trailingStopMaxDeviation = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get execution events
@@ -88,7 +88,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="continuationToken">["<c>continuationToken</c>"] Opaque token from the Next-Continuation-Token header used to continue listing events. The sort parameter must be the same as in the previous request to continue listing in the same direction.</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesUserExecutionEvents>> GetExecutionEventsAsync(DateTime? startTime = null, DateTime? endTime = null, string? sort = null, string? tradeable = null, string? continuationToken = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesUserExecutionEvents>> GetExecutionEventsAsync(DateTime? startTime = null, DateTime? endTime = null, string? sort = null, string? tradeable = null, string? continuationToken = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get the leverage settings
@@ -101,7 +101,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesLeverage[]>> GetLeverageAsync(CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesLeverage[]>> GetLeverageAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get open orders
@@ -114,7 +114,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesOpenOrder[]>> GetOpenOrdersAsync(CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesOpenOrder[]>> GetOpenOrdersAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get open positions
@@ -127,7 +127,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesPosition[]>> GetOpenPositionsAsync(CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesPosition[]>> GetOpenPositionsAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get order by id
@@ -142,7 +142,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="clientOrderId">["<c>cliOrdIds</c>"] Client order id, either this or orderId should be provided</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesOrderStatus>> GetOrderAsync(string? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesOrderStatus>> GetOrderAsync(string? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get orders by ids
@@ -157,7 +157,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="clientOrderIds">["<c>cliOrdIds</c>"] Client order ids list</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesOrderStatus[]>> GetOrdersAsync(IEnumerable<string>? orderIds = null, IEnumerable<string>? clientOrderIds = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesOrderStatus[]>> GetOrdersAsync(IEnumerable<string>? orderIds = null, IEnumerable<string>? clientOrderIds = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get current self trade strategy
@@ -170,7 +170,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<SelfTradeStrategy>> GetSelfTradeStrategyAsync(CancellationToken ct = default);
+        Task<HttpResult<SelfTradeStrategy>> GetSelfTradeStrategyAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get list of user trades
@@ -184,7 +184,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="startTime">["<c>lastFillTime</c>"] Filter by start time</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesUserTrade[]>> GetUserTradesAsync(DateTime? startTime = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesUserTrade[]>> GetUserTradesAsync(DateTime? startTime = null, CancellationToken ct = default);
 
         /// <summary>
         /// Place a new order
@@ -208,7 +208,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="clientOrderId">["<c>cliOrdId</c>"] Client order id</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenFuturesOrderResult>> PlaceOrderAsync(string symbol, OrderSide side, FuturesOrderType type, decimal quantity, decimal? price = null, decimal? stopPrice = null, bool? reduceOnly = null, TrailingStopDeviationUnit? trailingStopDeviationUnit = null, decimal? trailingStopMaxDeviation = null, TriggerSignal? triggerSignal = null, string? clientOrderId = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesOrderResult>> PlaceOrderAsync(string symbol, OrderSide side, FuturesOrderType type, decimal quantity, decimal? price = null, decimal? stopPrice = null, bool? reduceOnly = null, TrailingStopDeviationUnit? trailingStopDeviationUnit = null, decimal? trailingStopMaxDeviation = null, TriggerSignal? triggerSignal = null, string? clientOrderId = null, CancellationToken ct = default);
 
         /// <summary>
         /// Set max leverage for a symbol
@@ -223,7 +223,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="maxLeverage">["<c>maxLeverage</c>"] Max leverage</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult> SetLeverageAsync(string symbol, decimal maxLeverage, CancellationToken ct = default);
+        Task<HttpResult> SetLeverageAsync(string symbol, decimal maxLeverage, CancellationToken ct = default);
 
         /// <summary>
         /// Set self trading strategy
@@ -237,7 +237,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="strategy">["<c>strategy</c>"] The strategy</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<SelfTradeStrategy>> SetSelfTradeStrategyAsync(SelfTradeStrategy strategy, CancellationToken ct = default);
+        Task<HttpResult<SelfTradeStrategy>> SetSelfTradeStrategyAsync(SelfTradeStrategy strategy, CancellationToken ct = default);
 
         /// <summary>
         /// Get order history
@@ -257,7 +257,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="limit">Max number of results</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<WebCallResult<KrakenOrderHistory[]>> GetOrderHistoryAsync(
+        Task<HttpResult<KrakenOrderHistory[]>> GetOrderHistoryAsync(
             bool? open = null,
             bool? close = null,
             DateTime? startTime = null,

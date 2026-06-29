@@ -21,7 +21,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _client = client;
             _handler = handler;
 
-            MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenFuturesOpenPositionUpdate>("open_positions", DoHandleMessage);
+            MessageRouter = MessageRouter.CreateForEvent<KrakenFuturesOpenPositionUpdate>("open_positions", DoHandleMessage);
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)
@@ -58,7 +58,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     .WithStreamId(message.Feed)
                     .WithUpdateType(ConnectionInvocations == 1 ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                 );
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
     }
 }

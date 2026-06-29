@@ -19,17 +19,17 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Open Orders
 
         /// <inheritdoc />
-        public async Task<WebCallResult<OpenOrdersPage>> GetOpenOrdersAsync(uint? userReference = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<OpenOrdersPage>> GetOpenOrdersAsync(uint? userReference = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection();
-            parameters.AddOptionalParameter("trades", true);
-            parameters.AddOptionalParameter("userref", userReference);
-            parameters.AddOptionalParameter("cl_ord_id", clientOrderId);
-            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            parameters.Add("trades", true);
+            parameters.Add("userref", userReference);
+            parameters.Add("cl_ord_id", clientOrderId);
+            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/OpenOrders", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/OpenOrders", KrakenExchange.RateLimiter.SpotRest, 1, true);
             var result = await _baseClient.SendAsync<OpenOrdersPage>(request, parameters, ct).ConfigureAwait(false);
-            if (result)
+            if (result.Success)
             {
                 foreach (var item in result.Data.Open)
                     item.Value.Id = item.Key;
@@ -42,7 +42,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Closed Orders
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenClosedOrdersPage>> GetClosedOrdersAsync(
+        public async Task<HttpResult<KrakenClosedOrdersPage>> GetClosedOrdersAsync(
             uint? userRef = null,
             DateTime? startTime = null,
             DateTime? endTime = null,
@@ -53,20 +53,20 @@ namespace Kraken.Net.Clients.SpotApi
             string? twoFactorPassword = null,
             CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection();
-            parameters.AddOptionalParameter("trades", true);
-            parameters.AddOptionalParameter("userref", userRef);
-            parameters.AddOptionalParameter("cl_ord_id", clientOrderId);
-            parameters.AddOptionalParameter("start", DateTimeConverter.ConvertToSeconds(startTime));
-            parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToSeconds(endTime));
-            parameters.AddOptionalParameter("ofs", resultOffset);
-            parameters.AddOptionalEnum("closetime", searchTime);
-            parameters.AddOptional("consolidate_taker", consolidateTaker);
-            parameters.AddOptionalParameter("otp", twoFactorPassword);
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            parameters.Add("trades", true);
+            parameters.Add("userref", userRef);
+            parameters.Add("cl_ord_id", clientOrderId);
+            parameters.Add("start", DateTimeConverter.ConvertToSeconds(startTime));
+            parameters.Add("end", DateTimeConverter.ConvertToSeconds(endTime));
+            parameters.Add("ofs", resultOffset);
+            parameters.Add("closetime", searchTime);
+            parameters.Add("consolidate_taker", consolidateTaker);
+            parameters.Add("otp", twoFactorPassword);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/ClosedOrders", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/ClosedOrders", KrakenExchange.RateLimiter.SpotRest, 1, true);
             var result = await _baseClient.SendAsync<KrakenClosedOrdersPage>(request, parameters, ct).ConfigureAwait(false);
-            if (result)
+            if (result.Success)
             {
                 foreach (var item in result.Data.Closed)
                     item.Value.Id = item.Key;
@@ -79,7 +79,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Order
 
         /// <inheritdoc />
-        public Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? orderId = null, uint? clientOrderId = null, bool? consolidateTaker = null, bool? trades = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public Task<HttpResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? orderId = null, uint? clientOrderId = null, bool? consolidateTaker = null, bool? trades = null, string? twoFactorPassword = null, CancellationToken ct = default)
             => GetOrdersAsync(orderId == null ? null : new[] { orderId }, clientOrderId, consolidateTaker, trades, twoFactorPassword, ct);
 
         #endregion
@@ -87,19 +87,19 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Orders
 
         /// <inheritdoc />
-        public async Task<WebCallResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, uint? clientOrderId = null, bool? consolidateTaker = null, bool? trades = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, uint? clientOrderId = null, bool? consolidateTaker = null, bool? trades = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection();
-            parameters.AddOptionalParameter("userref", clientOrderId);
-            parameters.AddOptionalParameter("txid", orderIds?.Any() == true ? string.Join(",", orderIds) : null);
-            parameters.AddOptionalParameter("consolidate_taker", consolidateTaker);
-            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
-            parameters.AddOptionalParameter("trades", trades);
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            parameters.Add("userref", clientOrderId);
+            parameters.Add("txid", orderIds?.Any() == true ? string.Join(",", orderIds) : null);
+            parameters.Add("consolidate_taker", consolidateTaker);
+            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            parameters.Add("trades", trades);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/QueryOrders", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/QueryOrders", KrakenExchange.RateLimiter.SpotRest, 1, true);
             var result = await _baseClient.SendAsync<Dictionary<string, KrakenOrder>>(request, parameters, ct).ConfigureAwait(false);
             
-            if (result)
+            if (result.Success)
             {
                 foreach (var item in result.Data)
                     item.Value.Id = item.Key;
@@ -112,19 +112,19 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get User Trades
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, bool? consolidateTaker = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, bool? consolidateTaker = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection();
-            parameters.AddOptionalParameter("trades", true);
-            parameters.AddOptionalParameter("start", DateTimeConverter.ConvertToSeconds(startTime));
-            parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToSeconds(endTime));
-            parameters.AddOptionalParameter("ofs", resultOffset);
-            parameters.AddOptionalParameter("consolidate_taker", consolidateTaker);
-            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            parameters.Add("trades", true);
+            parameters.Add("start", DateTimeConverter.ConvertToSeconds(startTime));
+            parameters.Add("end", DateTimeConverter.ConvertToSeconds(endTime));
+            parameters.Add("ofs", resultOffset);
+            parameters.Add("consolidate_taker", consolidateTaker);
+            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/TradesHistory", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/TradesHistory", KrakenExchange.RateLimiter.SpotRest, 1, true);
             var result = await _baseClient.SendAsync<KrakenUserTradesPage>(request, parameters, ct).ConfigureAwait(false);
-            if (result)
+            if (result.Success)
             {
                 foreach (var item in result.Data.Trades)
                     item.Value.Id = item.Key;
@@ -138,7 +138,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get User Trade Details
 
         /// <inheritdoc />
-        public Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsync(string tradeId, string? twoFactorPassword = null, CancellationToken ct = default)
+        public Task<HttpResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsync(string tradeId, string? twoFactorPassword = null, CancellationToken ct = default)
             => GetUserTradeDetailsAsync(new[] { tradeId }, twoFactorPassword, ct);
 
 
@@ -147,16 +147,16 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get User Trade Details
 
         /// <inheritdoc />
-        public async Task<WebCallResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsync(IEnumerable<string> tradeIds, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<Dictionary<string, KrakenUserTrade>>> GetUserTradeDetailsAsync(IEnumerable<string> tradeIds, string? twoFactorPassword = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection();
-            parameters.AddOptionalParameter("trades", true);
-            parameters.AddOptionalParameter("txid", tradeIds?.Any() == true ? string.Join(",", tradeIds) : null);
-            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            parameters.Add("trades", true);
+            parameters.Add("txid", tradeIds?.Any() == true ? string.Join(",", tradeIds) : null);
+            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
            
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/QueryTrades", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/QueryTrades", KrakenExchange.RateLimiter.SpotRest, 1, true);
             var result = await _baseClient.SendAsync<Dictionary<string, KrakenUserTrade>>(request, parameters, ct).ConfigureAwait(false);
-            if (result)
+            if (result.Success)
             {
                 foreach (var item in result.Data)
                     item.Value.Id = item.Key;
@@ -169,7 +169,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region Place Multiple Orders
 
         /// <inheritdoc />
-        public async Task<WebCallResult<CallResult<KrakenPlacedBatchOrder>[]>> PlaceMultipleOrdersAsync(
+        public async Task<HttpResult<CallResult<KrakenPlacedBatchOrder>[]>> PlaceMultipleOrdersAsync(
             string symbol,
             IEnumerable<KrakenOrderRequest> orders,
             DateTime? deadline = null, 
@@ -177,40 +177,40 @@ namespace Kraken.Net.Clients.SpotApi
             AClass? assetClass = null,
             CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings)
             {
                 { "pair", symbol },
                 { "trading_agreement", "agree" },
                 { "orders", orders.ToArray() }
             };
-            parameters.AddOptional("deadline", deadline);
-            parameters.AddOptionalEnum("asset_class", assetClass);
+            parameters.Add("deadline", deadline);
+            parameters.Add("asset_class", assetClass);
 
             if (validateOnly == true)
-                parameters.AddOptionalParameter("validate", true);
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/AddOrderBatch", KrakenExchange.RateLimiter.SpotRest, 0, true, requestBodyFormat: RequestBodyFormat.Json);
+                parameters.Add("validate", true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/AddOrderBatch", KrakenExchange.RateLimiter.SpotRest, 0, true, requestBodyFormat: RequestBodyFormat.Json);
             var response = await _baseClient.SendAsync<KrakenBatchOrderResult>(request, parameters, ct).ConfigureAwait(false);
             if (!response.Success)
-                return response.As<CallResult<KrakenPlacedBatchOrder>[]>(default);
+                return HttpResult.Fail<CallResult<KrakenPlacedBatchOrder>[]>(response);
 
             var result = new List<CallResult<KrakenPlacedBatchOrder>>();
             foreach (var item in response.Data.Orders)
             {
                 if (string.IsNullOrEmpty(item.Error))
                 {
-                    result.Add(new CallResult<KrakenPlacedBatchOrder>(item));
+                    result.Add(CallResult.Ok(item));
                 }
                 else
                 {
                     var error = item.Error!.Split(':');
-                    result.Add(new CallResult<KrakenPlacedBatchOrder>(item, null, new ServerError(error[0], _baseClient.GetErrorInfo(error[0]!, string.Join(", ", error.Skip(1))))));
+                    result.Add(CallResult.Fail<KrakenPlacedBatchOrder>(new ServerError(error[0], _baseClient.GetErrorInfo(error[0]!, string.Join(", ", error.Skip(1))))));
                 }
             }
 
             if (result.All(x => !x.Success))
-                return response.AsErrorWithData(new ServerError(new ErrorInfo(ErrorType.AllOrdersFailed, false, "All orders failed")), result.ToArray());
+                return HttpResult.Fail<CallResult<KrakenPlacedBatchOrder>[]>(response, new ServerError(new ErrorInfo(ErrorType.AllOrdersFailed, false, "All orders failed")), result.ToArray());
 
-            return response.As(result.ToArray());
+            return HttpResult.Ok(response, result.ToArray());
         }
 
         #endregion
@@ -218,7 +218,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region Place Order
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenPlacedOrder>> PlaceOrderAsync(
+        public async Task<HttpResult<KrakenPlacedOrder>> PlaceOrderAsync(
             string symbol,
             OrderSide side,
             OrderType type,
@@ -248,38 +248,38 @@ namespace Kraken.Net.Clients.SpotApi
             AClass? assetClass = null,
             CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection()
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings)
             {
                 { "pair", symbol },
                 { "volume", quantity.ToString(CultureInfo.InvariantCulture) },
                 { "trading_agreement", "agree" }
             };
-            parameters.AddEnum("type", side);
-            parameters.AddEnum("ordertype", type);
-            parameters.AddOptionalParameter("oflags", flags == null ? null: string.Join(",", flags.Select(EnumConverter.GetString)));
+            parameters.Add("type", side);
+            parameters.Add("ordertype", type);
+            parameters.Add("oflags", flags == null ? null: string.Join(",", flags.Select(EnumConverter.GetString)));
             if (price != null)
-                parameters.AddOptionalParameter("price", $"{pricePrefixOperator}{price.Value.ToString(CultureInfo.InvariantCulture)}{priceSuffixOperator}");
+                parameters.Add("price", $"{pricePrefixOperator}{price.Value.ToString(CultureInfo.InvariantCulture)}{priceSuffixOperator}");
             if (secondaryPrice != null)
-                parameters.AddOptionalParameter("price2", $"{secondaryPricePrefixOperator}{secondaryPrice.Value.ToString(CultureInfo.InvariantCulture)}{secondaryPriceSuffixOperator}");
-            parameters.AddOptionalParameter("userref", userReference);
-            parameters.AddOptional("cl_ord_id", clientOrderId);
-            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
-            parameters.AddOptionalParameter("leverage", leverage?.ToString(CultureInfo.InvariantCulture));
-            parameters.AddOptionalParameter("starttm", DateTimeConverter.ConvertToSeconds(startTime));
-            parameters.AddOptionalParameter("expiretm", DateTimeConverter.ConvertToSeconds(expireTime));
-            parameters.AddOptionalParameter("timeinforce", timeInForce?.ToString());
-            parameters.AddOptionalParameter("reduce_only", reduceOnly);
-            parameters.AddOptionalParameter("trigger", EnumConverter.GetString(trigger));
-            parameters.AddOptionalParameter("displayvol", icebergQuantity?.ToString(CultureInfo.InvariantCulture));
-            parameters.AddOptionalParameter("stptype", EnumConverter.GetString(selfTradePreventionType));
-            parameters.AddOptionalEnum("close[ordertype]", closeOrderType);
-            parameters.AddOptionalParameter("close[price]", closePrice?.ToString(CultureInfo.InvariantCulture));
-            parameters.AddOptionalParameter("close[price2]", secondaryClosePrice?.ToString(CultureInfo.InvariantCulture));
+                parameters.Add("price2", $"{secondaryPricePrefixOperator}{secondaryPrice.Value.ToString(CultureInfo.InvariantCulture)}{secondaryPriceSuffixOperator}");
+            parameters.Add("userref", userReference);
+            parameters.Add("cl_ord_id", clientOrderId);
+            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            parameters.Add("leverage", leverage?.ToString(CultureInfo.InvariantCulture));
+            parameters.Add("starttm", DateTimeConverter.ConvertToSeconds(startTime));
+            parameters.Add("expiretm", DateTimeConverter.ConvertToSeconds(expireTime));
+            parameters.Add("timeinforce", timeInForce?.ToString());
+            parameters.Add("reduce_only", reduceOnly);
+            parameters.Add("trigger", EnumConverter.GetString(trigger));
+            parameters.Add("displayvol", icebergQuantity?.ToString(CultureInfo.InvariantCulture));
+            parameters.Add("stptype", EnumConverter.GetString(selfTradePreventionType));
+            parameters.Add("close[ordertype]", closeOrderType);
+            parameters.Add("close[price]", closePrice?.ToString(CultureInfo.InvariantCulture));
+            parameters.Add("close[price2]", secondaryClosePrice?.ToString(CultureInfo.InvariantCulture));
             if (validateOnly == true)
-                parameters.AddOptionalParameter("validate", true);
-            parameters.AddOptionalEnum("asset_class", assetClass);
+                parameters.Add("validate", true);
+            parameters.Add("asset_class", assetClass);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/AddOrder", KrakenExchange.RateLimiter.SpotRest, 0, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/AddOrder", KrakenExchange.RateLimiter.SpotRest, 0, true);
             var result = await _baseClient.SendAsync<KrakenPlacedOrder>(request, parameters, ct).ConfigureAwait(false);
             return result;
         }
@@ -289,7 +289,7 @@ namespace Kraken.Net.Clients.SpotApi
         #region Edit Order
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenEditOrder>> EditOrderAsync(
+        public async Task<HttpResult<KrakenEditOrder>> EditOrderAsync(
             string symbol,
             string orderId,
             decimal? quantity = null,
@@ -309,27 +309,27 @@ namespace Kraken.Net.Clients.SpotApi
             AClass? assetClass = null,
             CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection()
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings)
             {
                 { "pair", symbol },
                 { "txid", orderId },
             };
-            parameters.AddOptionalParameter("oflags", flags == null ? null : string.Join(",", flags.Select(EnumConverter.GetString)));
-            parameters.AddOptionalParameter("volume", quantity?.ToString(CultureInfo.InvariantCulture));
+            parameters.Add("oflags", flags == null ? null : string.Join(",", flags.Select(EnumConverter.GetString)));
+            parameters.Add("volume", quantity?.ToString(CultureInfo.InvariantCulture));
             if (price != null)
-                parameters.AddOptionalParameter("price", $"{pricePrefixOperator}{price.Value.ToString(CultureInfo.InvariantCulture)}{priceSuffixOperator}");
+                parameters.Add("price", $"{pricePrefixOperator}{price.Value.ToString(CultureInfo.InvariantCulture)}{priceSuffixOperator}");
             if (secondaryPrice != null)
-                parameters.AddOptionalParameter("price2", $"{secondaryPricePrefixOperator}{secondaryPrice.Value.ToString(CultureInfo.InvariantCulture)}{secondaryPriceSuffixOperator}");
-            parameters.AddOptionalParameter("cancel_response", cancelResponse);
-            parameters.AddOptionalParameter("deadline", deadline);
-            parameters.AddOptionalParameter("userref", newClientOrderId);
-            parameters.AddOptionalParameter("displayvol", icebergQuantity?.ToString(CultureInfo.InvariantCulture));
-            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+                parameters.Add("price2", $"{secondaryPricePrefixOperator}{secondaryPrice.Value.ToString(CultureInfo.InvariantCulture)}{secondaryPriceSuffixOperator}");
+            parameters.Add("cancel_response", cancelResponse);
+            parameters.Add("deadline", deadline);
+            parameters.Add("userref", newClientOrderId);
+            parameters.Add("displayvol", icebergQuantity?.ToString(CultureInfo.InvariantCulture));
+            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
             if (validateOnly == true)
-                parameters.AddOptionalParameter("validate", true);
-            parameters.AddOptionalEnum("asset_class", assetClass);
+                parameters.Add("validate", true);
+            parameters.Add("asset_class", assetClass);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/EditOrder", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/EditOrder", KrakenExchange.RateLimiter.SpotRest, 1, true);
             return await _baseClient.SendAsync<KrakenEditOrder>(request, parameters, ct).ConfigureAwait(false);
         }
 
@@ -338,17 +338,17 @@ namespace Kraken.Net.Clients.SpotApi
         #region Cancel Order
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenCancelResult>> CancelOrderAsync(string? orderId = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<KrakenCancelResult>> CancelOrderAsync(string? orderId = null, string? clientOrderId = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             if (orderId == null && clientOrderId == null)
                 throw new ArgumentException("Either orderId or clientOrderId should be provided");
 
-            var parameters = new ParameterCollection();
-            parameters.AddOptional("txid", orderId);
-            parameters.AddOptional("cl_ord_id", clientOrderId);
-            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            parameters.Add("txid", orderId);
+            parameters.Add("cl_ord_id", clientOrderId);
+            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/CancelOrder", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/CancelOrder", KrakenExchange.RateLimiter.SpotRest, 1, true);
             var result = await _baseClient.SendAsync<KrakenCancelResult>(request, parameters, ct).ConfigureAwait(false);
             return result;
         }
@@ -358,12 +358,12 @@ namespace Kraken.Net.Clients.SpotApi
         #region Cancel All Orders
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenCancelResult>> CancelAllOrdersAsync(string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<KrakenCancelResult>> CancelAllOrdersAsync(string? twoFactorPassword = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection();
-            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/CancelAll", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/CancelAll", KrakenExchange.RateLimiter.SpotRest, 1, true);
             var result = await _baseClient.SendAsync<KrakenCancelResult>(request, parameters, ct).ConfigureAwait(false);
             return result;
         }
@@ -373,13 +373,13 @@ namespace Kraken.Net.Clients.SpotApi
         #region Cancel All Orders After
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenCancelAfterResult>> CancelAllOrdersAfterAsync(TimeSpan cancelAfter, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<KrakenCancelAfterResult>> CancelAllOrdersAfterAsync(TimeSpan cancelAfter, string? twoFactorPassword = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection();
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
             parameters.Add("timeout", (int)cancelAfter.TotalSeconds);
-            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/CancelAllOrdersAfter", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/CancelAllOrdersAfter", KrakenExchange.RateLimiter.SpotRest, 1, true);
             return await _baseClient.SendAsync<KrakenCancelAfterResult>(request, parameters, ct).ConfigureAwait(false);
         }
 
@@ -388,13 +388,13 @@ namespace Kraken.Net.Clients.SpotApi
         #region Cancel Multiple Orders
 
         /// <inheritdoc />
-        public async Task<WebCallResult<KrakenBatchCancelResult>> CancelMultipleOrdersAsync(IEnumerable<string>? orderIds = null, IEnumerable<string>? clientOrderIds = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<KrakenBatchCancelResult>> CancelMultipleOrdersAsync(IEnumerable<string>? orderIds = null, IEnumerable<string>? clientOrderIds = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
-            var parameters = new ParameterCollection();
-            parameters.AddOptional("orders", orderIds?.ToArray());
-            parameters.AddOptional("cl_ord_ids", clientOrderIds?.ToArray());
-            parameters.AddOptionalParameter("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "0/private/CancelOrderBatch", KrakenExchange.RateLimiter.SpotRest, 0, true, requestBodyFormat: RequestBodyFormat.Json);
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            parameters.AddArray("orders", orderIds?.ToArray());
+            parameters.AddArray("cl_ord_ids", clientOrderIds?.ToArray());
+            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/CancelOrderBatch", KrakenExchange.RateLimiter.SpotRest, 0, true, requestBodyFormat: RequestBodyFormat.Json);
             return await _baseClient.SendAsync<KrakenBatchCancelResult>(request, parameters, ct).ConfigureAwait(false);
         }
 

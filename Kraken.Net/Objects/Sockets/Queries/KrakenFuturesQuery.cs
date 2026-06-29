@@ -21,14 +21,14 @@ namespace Kraken.Net.Objects.Sockets.Queries
 
             if (request.Symbols?.Any() == true)
             {
-                var routes = request.Symbols.Select(x => MessageRoute<T>.CreateWithoutTopicFilter(evnt + "-" + request.Feed.ToLowerInvariant() + "-" + x.ToLowerInvariant(), HandleMessage)).ToList();
-                routes.Add(MessageRoute<T>.CreateWithoutTopicFilter("alert", HandleMessage));
+                var routes = request.Symbols.Select(x => MessageRoute.CreateForQuery<T>(evnt + "-" + request.Feed.ToLowerInvariant() + "-" + x.ToLowerInvariant(), HandleMessage)).ToList();
+                routes.Add(MessageRoute.CreateForQuery<T>("alert", HandleMessage));
                 MessageRouter = MessageRouter.Create(routes.ToArray());
 
             }
             else
             {
-                MessageRouter = MessageRouter.CreateWithoutTopicFilter<T>([evnt + "-" + request.Feed.ToLowerInvariant(), "alert"], HandleMessage);
+                MessageRouter = MessageRouter.CreateForQuery<T>([evnt + "-" + request.Feed.ToLowerInvariant(), "alert"], HandleMessage);
             }
         }
 
@@ -38,13 +38,13 @@ namespace Kraken.Net.Objects.Sockets.Queries
             {
                 if (message.Message == "Already subscribed to feed, re-requesting")
                     // Duplicate subscriptions are not an error
-                    return new CallResult<T>(message, originalData, null);
+                    return CallResult.Ok<T>(message, originalData);
 
-                return new CallResult<T>(new ServerError(message.Message!, _client.GetErrorInfo(message.Message!, message.Message!)), originalData);
+                return CallResult.Fail<T>(new ServerError(message.Message!, _client.GetErrorInfo(message.Message!, message.Message!)), originalData);
             }
             else
             {
-                return new CallResult<T>(message, originalData, null);
+                return CallResult.Ok<T>(message, originalData);
             }
         }
     }

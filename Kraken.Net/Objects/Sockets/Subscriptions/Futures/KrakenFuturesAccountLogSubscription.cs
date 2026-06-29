@@ -25,8 +25,8 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _updateHandler = updateHandler;
 
             MessageRouter = MessageRouter.Create([
-                MessageRoute<KrakenFuturesAccountLogsSnapshotUpdate>.CreateWithoutTopicFilter("account_log_snapshot", DoHandleMessage),
-                MessageRoute<KrakenFuturesAccountLogsUpdate>.CreateWithoutTopicFilter("account_log", DoHandleMessage)
+                MessageRoute.CreateForEvent<KrakenFuturesAccountLogsSnapshotUpdate>("account_log_snapshot", DoHandleMessage),
+                MessageRoute.CreateForEvent<KrakenFuturesAccountLogsUpdate>("account_log", DoHandleMessage)
                 ]);
         }
 
@@ -67,7 +67,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     .WithDataTimestamp(message.NewEntry.Timestamp, _client.GetTimeOffset())
                 );
 
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
 
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesAccountLogsSnapshotUpdate message)
@@ -79,7 +79,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     .WithDataTimestamp(message.Logs.Any() ? message.Logs.Max(x => x.Timestamp) : null, _client.GetTimeOffset())
                 );
             
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
     }
 }

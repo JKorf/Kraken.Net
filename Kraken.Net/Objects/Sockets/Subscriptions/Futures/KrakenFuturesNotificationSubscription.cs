@@ -21,7 +21,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _client = client;
             _handler = handler;
 
-            MessageRouter = MessageRouter.CreateWithoutTopicFilter<KrakenFuturesNotificationUpdate>("notifications_auth", DoHandleMessage);
+            MessageRouter = MessageRouter.CreateForEvent<KrakenFuturesNotificationUpdate>("notifications_auth", DoHandleMessage);
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)
@@ -59,7 +59,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
                     .WithUpdateType(SocketUpdateType.Update)
                 );
 
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
     }
 }
