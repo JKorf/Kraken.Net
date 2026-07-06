@@ -47,6 +47,11 @@ namespace Kraken.Net.Objects.Models
         [JsonPropertyName("ordertype")]
         public OrderType Type { get; set; }
         /// <summary>
+        /// ["<c>tradeordertype</c>"] Order type of the trade. May differ from Type when the order type was converted on execution.
+        /// </summary>
+        [JsonPropertyName("tradeordertype")]
+        public OrderType TradeOrderType { get; set; }
+        /// <summary>
         /// ["<c>price</c>"] Price of the trade
         /// </summary>
         [JsonPropertyName("price")]
@@ -123,6 +128,21 @@ namespace Kraken.Net.Objects.Models
         /// </summary>
         [JsonPropertyName("trades")]
         public string[] Trades { get; set; } = Array.Empty<string>();
+        /// <summary>
+        /// ["<c>aclass</c>"] Asset class
+        /// </summary>
+        [JsonPropertyName("aclass")]
+        public AssetClassExtended? AssetClass { get; set; }
+        /// <summary>
+        /// ["<c>leverage</c>"] Leverage used
+        /// </summary>
+        [JsonPropertyName("leverage")]
+        public decimal? Leverage { get; set; }
+        /// <summary>
+        /// ["<c>trade_id</c>"] Trade id
+        /// </summary>
+        [JsonPropertyName("trade_id")]
+        public long TradeId { get; set; }
     }
 
     /// <summary>
