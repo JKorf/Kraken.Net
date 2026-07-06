@@ -11,22 +11,22 @@ namespace Kraken.Net.Enums
         /// <summary>
         /// ["<c>GTC</c>"] Good 'Til Cancelled
         /// </summary>
-        [Map("GTC")]
+        [Map("GTC", "gtc")]
         GTC,
         /// <summary>
         /// ["<c>IOC</c>"] Immediate Or Cancel
         /// </summary>
-        [Map("IOC")]
+        [Map("IOC", "ioc")]
         IOC,
         /// <summary>
         /// ["<c>GTD</c>"] Good 'Til Date
         /// </summary>
-        [Map("GTD")]
+        [Map("GTD", "gtd")]
         GTD,
         /// <summary>
         /// ["<c>FOK</c>"] Fill or kill
         /// </summary>
-        [Map("FOK")]
+        [Map("FOK", "fok")]
         FOK
     }
 }
