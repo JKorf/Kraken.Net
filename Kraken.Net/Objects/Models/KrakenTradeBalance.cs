@@ -51,5 +51,15 @@
         /// </summary>
         [JsonPropertyName("ml")]
         public decimal MarginLevel { get; set; }
+        /// <summary>
+        /// ["<c>mfo</c>"] Margin free for orders
+        /// </summary>
+        [JsonPropertyName("mfo")]
+        public decimal MarginFreeForOrders { get; set; }
+        /// <summary>
+        /// ["<c>uv</c>"] Unexecuted value
+        /// </summary>
+        [JsonPropertyName("uv")]
+        public decimal UnexecutedValue { get; set; }
     }
 }
