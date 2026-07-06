@@ -1,4 +1,6 @@
-﻿namespace Kraken.Net.Objects.Models
+﻿using Kraken.Net.Enums;
+
+namespace Kraken.Net.Objects.Models
 {
     /// <summary>
     /// Trade volume info
@@ -12,11 +14,21 @@
         [JsonPropertyName("currency")]
         public string Asset { get; set; } = string.Empty;
         /// <summary>
+        /// ["<c>asset_class</c>"] Asset class
+        /// </summary>
+        [JsonPropertyName("asset_class")]
+        public AssetClassExtended AssetClass { get; set; }
+        /// <summary>
         /// ["<c>volume</c>"] Volume
         /// </summary>
         [JsonPropertyName("volume")]
         public decimal Volume { get; set; }
 
+        /// <summary>
+        /// ["<c>inputs</c>"] Inputs for the fee calculation
+        /// </summary>
+        [JsonPropertyName("inputs")]
+        public KrakenFeeInputs? Inputs { get; set; }
         /// <summary>
         /// ["<c>fees</c>"] Fees structure
         /// </summary>
@@ -27,6 +39,28 @@
         /// </summary>
         [JsonPropertyName("fees_maker")]
         public Dictionary<string, KrakenFeeStruct> MakerFees { get; set; } = new Dictionary<string, KrakenFeeStruct>();
+    }
+
+    /// <summary>
+    /// Fee input
+    /// </summary>
+    public record KrakenFeeInputs
+    {
+        /// <summary>
+        /// ["<c>domain_spot_volume_30d</c>"] Spot trading volume
+        /// </summary>
+        [JsonPropertyName("domain_spot_volume_30d")]
+        public decimal SpotVolume30d { get; set; }
+        /// <summary>
+        /// ["<c>domain_futures_volume_30d</c>"] Futures trading volume
+        /// </summary>
+        [JsonPropertyName("domain_futures_volume_30d")]
+        public decimal FuturesVolume30d { get; set; }
+        /// <summary>
+        /// ["<c>domain_assets_on_platform</c>"] Assets on platform
+        /// </summary>
+        [JsonPropertyName("domain_assets_on_platform")]
+        public decimal AssetsOnPlatform { get; set; }
     }
 
     /// <summary>
