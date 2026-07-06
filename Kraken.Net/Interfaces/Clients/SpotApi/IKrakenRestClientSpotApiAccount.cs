@@ -42,7 +42,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Get trade balance
         /// <para>
         /// Docs:<br />
-        /// <a href="https://docs.kraken.com/api/docs/rest-api/get-extended-balance" /><br />
+        /// <a href="https://docs.kraken.com/api-reference/account-data/get-trade-balance" /><br />
         /// Endpoint:<br />
         /// POST /0/private/TradeBalance
         /// </para>

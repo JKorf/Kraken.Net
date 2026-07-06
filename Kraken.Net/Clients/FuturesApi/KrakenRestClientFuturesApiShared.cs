@@ -40,11 +40,14 @@ namespace Kraken.Net.Clients.FuturesApi
             foreach (var balance in result.Data.MarginAccounts)
             {
                 foreach (var currency in balance.Balances)
+                {
                     balances.Add(new SharedBalance(
                         SupportedTradingModes,
                         currency.Key,
                         currency.Value,
-                        currency.Value) { IsolatedMarginSymbol = balance.Symbol });
+                        currency.Value)
+                    { IsolatedMarginSymbol = balance.Symbol });
+                }
             }
 
             return HttpResult.Ok(result, balances.ToArray());            

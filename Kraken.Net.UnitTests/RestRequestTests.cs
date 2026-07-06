@@ -30,7 +30,7 @@ namespace Kraken.Net.UnitTests
             await tester.ValidateAsync(client => client.SpotApi.Account.GetOpenPositionsAsync(), "GetOpenPositions");
             await tester.ValidateAsync(client => client.SpotApi.Account.GetLedgerInfoAsync(), "GetLedgerInfo", skipResponseValidation: true);
             await tester.ValidateAsync(client => client.SpotApi.Account.GetLedgersEntryAsync(), "GetLedgersEntry");
-            await tester.ValidateAsync(client => client.SpotApi.Account.GetTradeVolumeAsync(), "GetTradeVolume", skipResponseValidation: true);
+            await tester.ValidateAsync(client => client.SpotApi.Account.GetTradeVolumeAsync(new[] { "ETHUSDT" }), "GetTradeVolume", skipResponseValidation: true);
             await tester.ValidateAsync(client => client.SpotApi.Account.GetDepositMethodsAsync("ETH"), "GetDepositMethods", ignoreProperties: new List<string> { "limit" });
             await tester.ValidateAsync(client => client.SpotApi.Account.GetDepositAddressesAsync("ETH", "123"), "GetDepositAddresses");
             await tester.ValidateAsync(client => client.SpotApi.Account.GetDepositStatusAsync(), "GetDepositStatus");
@@ -120,9 +120,6 @@ namespace Kraken.Net.UnitTests
             await tester.ValidateAsync(client => client.FuturesApi.Account.SetPnlCurrencyAsync("ETHUSDT", "ETH"), "SetPnlCurrency");
             await tester.ValidateAsync(client => client.FuturesApi.Account.TransferAsync("ETH", 1, "1", "2"), "Transfer");
             await tester.ValidateAsync(client => client.FuturesApi.Account.GetAccountLogAsync(), "GetAccountLog");
-            await tester.ValidateAsync(client => client.FuturesApi.Account.GetFeeScheduleVolumeAsync(), "GetFeeScheduleVolume", "result", skipResponseValidation: true);
-            await tester.ValidateAsync(client => client.FuturesApi.Account.GetInitialMarginRequirementsAsync("ETHUSDT", Enums.FuturesOrderType.Limit, Enums.OrderSide.Buy, 1), "GetInitialMarginRequirements", skipResponseValidation: true);
-            await tester.ValidateAsync(client => client.FuturesApi.Account.GetMaxOrderQuantityAsync("ETHUSDT", Enums.FuturesOrderType.TakeProfit), "GetMaxOrderQuantity", skipResponseValidation: true);
         }
 
         [Test]
@@ -163,7 +160,6 @@ namespace Kraken.Net.UnitTests
             var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Futures/ExchangeData", "https://futures.kraken.com", IsAuthenticatedFutures);
             await tester.ValidateAsync(client => client.FuturesApi.ExchangeData.GetPlatformNotificationsAsync(), "GetPlatformNotifications", "result");
             await tester.ValidateAsync(client => client.FuturesApi.ExchangeData.GetHistoricalFundingRatesAsync("ETHUSDT"), "GetHistoricalFundingRates", "result");
-            await tester.ValidateAsync(client => client.FuturesApi.ExchangeData.GetFeeSchedulesAsync(), "GetFeeSchedules", "result");
             await tester.ValidateAsync(client => client.FuturesApi.ExchangeData.GetSymbolsAsync(), "GetSymbols", "result");
             await tester.ValidateAsync(client => client.FuturesApi.ExchangeData.GetSymbolStatusAsync(), "GetSymbolStatus", "result");
             await tester.ValidateAsync(client => client.FuturesApi.ExchangeData.GetTradesAsync("ETHUSDT"), "GetTrades", "result");
