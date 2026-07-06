@@ -130,6 +130,11 @@ namespace Kraken.Net.Objects.Models
         /// </summary>
         [JsonPropertyName("trades")]
         public string[] TradeIds { get; set; } = Array.Empty<string>();
+        /// <summary>
+        /// ["<c>time_in_force</c>"] Time in force
+        /// </summary>
+        [JsonPropertyName("time_in_force")]
+        public TimeInForce? TimeInForce { get; set; }
     }
 
     /// <summary>
@@ -188,6 +193,11 @@ namespace Kraken.Net.Objects.Models
         /// </summary>
         [JsonPropertyName("close")]
         public string Close { get; set; } = string.Empty;
+        /// <summary>
+        /// ["<c>aclass</c>"] Asset class
+        /// </summary>
+        [JsonPropertyName("aclass")]
+        public AssetClassExtended? AssetClass { get; set; }
     }
 
     /// <summary>
