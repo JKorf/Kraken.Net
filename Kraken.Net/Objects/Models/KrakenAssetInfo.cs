@@ -34,6 +34,11 @@ namespace Kraken.Net.Objects.Models
         [JsonPropertyName("collateral_value")]
         public decimal? CollateralValue { get; set; }
         /// <summary>
+        /// ["<c>margin_rate</c>"] Margin rate
+        /// </summary>
+        [JsonPropertyName("margin_rate")]
+        public decimal? MarginRate { get; set; }
+        /// <summary>
         /// ["<c>status</c>"] Status
         /// </summary>
 
