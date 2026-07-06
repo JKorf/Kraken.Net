@@ -128,6 +128,21 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         Task<HttpResult<KrakenTradeVolume>> GetTradeVolumeAsync(IEnumerable<string>? symbols = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
+        /// Get trade volume
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api/docs/rest-api/get-trade-volume" /><br />
+        /// Endpoint:<br />
+        /// POST /0/private/TradeVolume
+        /// </para>
+        /// </summary>
+        /// <param name="symbols">["<c>pair</c>"] Symbols to get data for, including asset type which is required for non-spot symbols</param>
+        /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Trade fee info</returns>
+        Task<HttpResult<KrakenTradeVolume>> GetTradeVolumeAsync(IEnumerable<TradeVolumeRequest>? symbols = null, string? twoFactorPassword = null, CancellationToken ct = default);
+
+        /// <summary>
         /// Get deposit methods
         /// <para>
         /// Docs:<br />

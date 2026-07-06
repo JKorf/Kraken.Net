@@ -49,17 +49,6 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #endregion
 
-        #region Get Fee Schedules
-
-        /// <inheritdoc />
-        public async Task<HttpResult<KrakenFeeSchedule[]>> GetFeeSchedulesAsync(CancellationToken ct = default)
-        {
-            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "derivatives/api/v3/feeschedules", KrakenExchange.RateLimiter.FuturesApi, 1, false);
-            return await _baseClient.SendAsync<KrakenFeeSchedulesResult, KrakenFeeSchedule[]>(request, null, ct).ConfigureAwait(false);
-        }
-
-        #endregion
-
         #region Get Symbols
 
         /// <inheritdoc />

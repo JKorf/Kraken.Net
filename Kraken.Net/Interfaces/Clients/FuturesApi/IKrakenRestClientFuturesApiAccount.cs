@@ -84,53 +84,5 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="toAccount">["<c>toAccount</c>"] The wallet (cash or margin account) from which funds should be debited</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<HttpResult> TransferAsync(string asset, decimal quantity, string fromAccount, string toAccount, CancellationToken ct = default);
-
-        /// <summary>
-        /// Get fee schedule volume
-        /// <para>
-        /// Docs:<br />
-        /// <a href="https://docs.kraken.com/api/docs/futures-api/trading/get-user-fee-schedule-volumes-v-3" /><br />
-        /// Endpoint:<br />
-        /// GET /derivatives/api/v3/feeschedules/volumes
-        /// </para>
-        /// </summary>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns></returns>
-        Task<HttpResult<Dictionary<string, decimal>>> GetFeeScheduleVolumeAsync(CancellationToken ct = default);
-
-        /// <summary>
-        /// Get the initial margin requirements for the provided parameters
-        /// <para>
-        /// Docs:<br />
-        /// <a href="https://docs.kraken.com/api/docs/futures-api/trading/get-initial-margin" /><br />
-        /// Endpoint:<br />
-        /// GET /derivatives/api/v3/initialmargin
-        /// </para>
-        /// </summary>
-        /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
-        /// <param name="orderType">Order type</param>
-        /// <param name="side">Side</param>
-        /// <param name="quantity">Quantity</param>
-        /// <param name="price">Limit price</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns></returns>
-        Task<HttpResult<KrakenFuturesMarginRequirements>> GetInitialMarginRequirementsAsync(string symbol, FuturesOrderType orderType, OrderSide side, decimal quantity, decimal? price = null, CancellationToken ct = default);
-
-        /// <summary>
-        /// Get the max order quantity
-        /// <para>
-        /// Docs:<br />
-        /// <a href="https://docs.kraken.com/api/docs/futures-api/trading/get-max-order-size" /><br />
-        /// Endpoint:<br />
-        /// GET /derivatives/api/v3/initialmargin/maxordersize
-        /// </para>
-        /// </summary>
-        /// <param name="symbol">The symbol, for example `PF_ETHUSD`</param>
-        /// <param name="orderType">Order type</param>
-        /// <param name="price">Limit price</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns></returns>
-        Task<HttpResult<KrakenFuturesMaxOrderSize>> GetMaxOrderQuantityAsync(string symbol, FuturesOrderType orderType, decimal? price = null, CancellationToken ct = default);
-    }
+        Task<HttpResult> TransferAsync(string asset, decimal quantity, string fromAccount, string toAccount, CancellationToken ct = default);    }
 }

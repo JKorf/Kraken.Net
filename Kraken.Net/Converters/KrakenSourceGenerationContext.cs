@@ -8,6 +8,7 @@ using Kraken.Net.Objects.Sockets;
 
 namespace Kraken.Net.Converters
 {
+    [JsonSerializable(typeof(TradeVolumeRequest[]))]
     [JsonSerializable(typeof(KrakenResult<KrakenApiKey>))]
     [JsonSerializable(typeof(KrakenOrderHistoryResult))]
     [JsonSerializable(typeof(KrakenSocketRequestV2<KrakenSocketSubRequest>))]

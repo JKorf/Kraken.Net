@@ -9,19 +9,6 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
     public interface IKrakenRestClientFuturesApiExchangeData
     {
         /// <summary>
-        /// Get fee schedules
-        /// <para>
-        /// Docs:<br />
-        /// <a href="https://docs.kraken.com/api/docs/futures-api/trading/get-fee-schedules-v-3" /><br />
-        /// Endpoint:<br />
-        /// GET /derivatives/api/v3/feeschedules
-        /// </para>
-        /// </summary>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns></returns>
-        Task<HttpResult<KrakenFeeSchedule[]>> GetFeeSchedulesAsync(CancellationToken ct = default);
-
-        /// <summary>
         /// Get historical funding rates
         /// <para>
         /// Docs:<br />

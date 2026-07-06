@@ -2,6 +2,7 @@ using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
+using Kraken.Net.Objects.Models;
 using Kraken.Net.Objects.Models.Futures;
 
 namespace Kraken.Net.Clients.FuturesApi
@@ -785,31 +786,22 @@ namespace Kraken.Net.Clients.FuturesApi
                 return HttpResult.Fail<SharedFee>(Exchange, validationError);
 
             // Get data
-            var result = await Account.GetFeeScheduleVolumeAsync(ct: ct).ConfigureAwait(false);
+            var symbol = request.Symbol!.GetSymbol(FormatSymbol);
+            var result = await _baseClient.SpotApi.Account.GetTradeVolumeAsync([new TradeVolumeRequest {
+                Symbol = symbol,
+                AssetClass = request.Symbol.TradingMode.IsPerpetual() ?  AssetClassExtended.Derivatives : AssetClassExtended.FuturesContract
+            }], ct: ct).ConfigureAwait(false);
             if (!result.Success)
                 return HttpResult.Fail<SharedFee>(result);
 
-            var result2 = await ExchangeData.GetFeeSchedulesAsync(ct).ConfigureAwait(false);
-            if (!result2.Success)
-                return HttpResult.Fail<SharedFee>(result2);
+            if (result.Data.Fees.Count != 1 || result.Data.MakerFees.Count != 1)
+                return HttpResult.Fail<SharedFee>(result, new ServerError(new ErrorInfo(ErrorType.Unknown, "Unexpected fee data returned")));
 
-            decimal? makerFee = null;
-            decimal? takerFee = null;
-            var volume = result.Data[result2.Data.First().Uid];
-            foreach(var level in result2.Data.First().Tiers)
-            {
-                if (volume < level.UsdVolume)
-                    break;
-
-                makerFee = level.MakerFee;
-                takerFee = level.TakerFee;
-            }
-
-            if (makerFee == null)
-                return HttpResult.Fail<SharedFee>(result, new ServerError(ErrorInfo.Unknown with { Message = "Failed to retrieve" }));
+            var takerFee = result.Data.Fees.First().Value.Fee;
+            var makerFee = result.Data.MakerFees.First().Value.Fee;
 
             // Return
-            return HttpResult.Ok(result, new SharedFee(makerFee.Value, takerFee!.Value));
+            return HttpResult.Ok(result, new SharedFee(makerFee, takerFee));
         }
         #endregion
 

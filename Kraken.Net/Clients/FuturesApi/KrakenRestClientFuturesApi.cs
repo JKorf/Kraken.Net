@@ -15,7 +15,7 @@ namespace Kraken.Net.Clients.FuturesApi
     internal partial class KrakenRestClientFuturesApi : RestApiClient<KrakenEnvironment, KrakenFuturesAuthenticationProvider, KrakenCredentials>, IKrakenRestClientFuturesApi
     {
         #region fields
-
+        internal KrakenRestClient _baseClient;
         /// <inheritdoc />
         public new KrakenRestOptions ClientOptions => (KrakenRestOptions)base.ClientOptions;
         protected override ErrorMapping ErrorMapping => KrakenErrors.FuturesMapping;
@@ -50,9 +50,11 @@ namespace Kraken.Net.Clients.FuturesApi
         #endregion
 
         #region ctor
-        internal KrakenRestClientFuturesApi(ILoggerFactory? loggerFactory, HttpClient? httpClient, KrakenRestOptions options)
+        internal KrakenRestClientFuturesApi(KrakenRestClient baseClient, ILoggerFactory? loggerFactory, HttpClient? httpClient, KrakenRestOptions options)
             : base(loggerFactory, KrakenExchange.Metadata.Id, httpClient, options.Environment.FuturesRestBaseAddress, options, options.FuturesOptions)
         {
+            _baseClient = baseClient;
+
             Account = new KrakenRestClientFuturesApiAccount(this);
             ExchangeData = new KrakenRestClientFuturesApiExchangeData(this);
             Trading = new KrakenRestClientFuturesApiTrading(this);

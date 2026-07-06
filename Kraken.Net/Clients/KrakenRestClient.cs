@@ -45,7 +45,7 @@ namespace Kraken.Net.Clients
             Initialize(options.Value);
 
             SpotApi = AddApiClient(new KrakenRestClientSpotApi(loggerFactory, httpClient, options.Value));
-            FuturesApi = AddApiClient(new KrakenRestClientFuturesApi(loggerFactory, httpClient, options.Value));
+            FuturesApi = AddApiClient(new KrakenRestClientFuturesApi(this, loggerFactory, httpClient, options.Value));
         }
         #endregion
 

@@ -146,14 +146,19 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Trade Volume
 
         /// <inheritdoc />
-        public async Task<HttpResult<KrakenTradeVolume>> GetTradeVolumeAsync(IEnumerable<string>? symbols = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public Task<HttpResult<KrakenTradeVolume>> GetTradeVolumeAsync(IEnumerable<string>? symbols = null, string? twoFactorPassword = null, CancellationToken ct = default)
+            => GetTradeVolumeAsync(symbols?.Select(x => new TradeVolumeRequest { Symbol = x, AssetClass = AssetClassExtended.Forex }));
+
+
+        /// <inheritdoc />
+        public async Task<HttpResult<KrakenTradeVolume>> GetTradeVolumeAsync(IEnumerable<TradeVolumeRequest>? symbols = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
             parameters.Add("fee-info", true);
-            parameters.Add("pair", symbols?.Any() == true ? string.Join(",", symbols) : null);
+            parameters.AddArray("pair", symbols);
             parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
 
-            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/TradeVolume", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/TradeVolume", KrakenExchange.RateLimiter.SpotRest, 1, true, requestBodyFormat: RequestBodyFormat.Json);
             return await _baseClient.SendAsync<KrakenTradeVolume>(request, parameters, ct).ConfigureAwait(false);
         }
 
