@@ -46,7 +46,7 @@ namespace Kraken.Net
         public bool CanCreateTradeTracker(SharedSymbol symbol) => true;
 
         /// <inheritdoc />
-        public IKlineTracker CreateKlineTracker(SharedSymbol symbol, SharedKlineInterval interval, int? limit = null, TimeSpan? period = null)
+        public IKlineTracker CreateKlineTracker(SharedSymbol symbol, SharedKlineInterval interval, int? limit = null, TimeSpan? period = null, ExchangeParameters? exchangeParameters = null)
         {
             var restClient = (_serviceProvider?.GetRequiredService<IKrakenRestClient>() ?? new KrakenRestClient()).SpotApi.SharedClient;
             var socketClient = (_serviceProvider?.GetRequiredService<IKrakenSocketClient>() ?? new KrakenSocketClient()).SpotApi.SharedClient;
@@ -58,11 +58,12 @@ namespace Kraken.Net
                 symbol,
                 interval,
                 limit,
-                period
+                period,
+                exchangeParameters
                 );
         }
         /// <inheritdoc />
-        public ITradeTracker CreateTradeTracker(SharedSymbol symbol, int? limit = null, TimeSpan? period = null)
+        public ITradeTracker CreateTradeTracker(SharedSymbol symbol, int? limit = null, TimeSpan? period = null, ExchangeParameters? exchangeParameters = null)
         {
             var restClient = _serviceProvider?.GetRequiredService<IKrakenRestClient>() ?? new KrakenRestClient();
             var socketClient = _serviceProvider?.GetRequiredService<IKrakenSocketClient>() ?? new KrakenSocketClient();
@@ -87,7 +88,8 @@ namespace Kraken.Net
                 sharedSocketClient,
                 symbol,
                 limit,
-                period
+                period,
+                exchangeParameters
                 );
         }
 
