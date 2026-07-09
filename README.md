@@ -211,6 +211,27 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 8.1.0 - 09 Jul 2026
+    * Updated CryptoExchange.Net to v12.1.0
+    * Added MethodId, NetworkId, Fee to KrakenWithdrawMethod model
+    * Added TradeOrderType, AssetClass, Leverage and TradeId to KrakenUserTrade
+    * Added AssetClass, Inputs to KrakenTradeVolume model
+    * Added MarginFreeForOrders,UnexecutedValue to KrakenTradeBalance model
+    * Added TimeInForce to KrakenOrder model, added AssetClass to KrakenOrderInfo model
+    * Added MarginRate to KrakenAssetInfo model
+    * Added OpenPrice, HighPrice, LowPrice to KrakenFuturesTickerUpdate model
+    * Added HighPrice and LowPrice mapping to Shared Futures SubscribeToTickerUpdatesAsync events
+    * Added QuantityRemaining property to KrakenFuturesUserTradesUpdate model
+    * Updated KrakenFuturesSnapshotOpenOrders.Reason to enum
+    * Updated TimeInForce mapping
+    * Updated SpotApi.Account.GetTradeVolumeAsync endpoint
+    * Updated futures GetFeesAsync implementation
+    * Fixed OrderId not set on Shared Futures SubscribeToFuturesOrderUpdatesAsync updates
+    * Fixed incorrect order status mapping Shared Futures SubscribeToFuturesOrderUpdatesAsync updates
+    * Fixed Premium deserialization on KrakenFuturesTickerUpdate model
+    * Fixed futures orders/user trades subscription missing updates
+    * Removed deprecated FuturesApi GetFeeScheduleVolumeAsync, GetInitialMarginRequirementsAsync, GetFeeSchedulesAsync and GetMaxOrderQuantityAsync endpoints
+
 * Version 8.0.0 - 29 Jun 2026
     * Result types:
       * (Web)CallResult types are replaced by HttpResult, WebSocketResult and QueryResult with the same logic
