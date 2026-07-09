@@ -81,15 +81,30 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         [JsonPropertyName("index")]
         public decimal Index { get; set; }
         /// <summary>
-        /// ["<c>permium</c>"] The premium associated with the symbol
+        /// ["<c>premium</c>"] The premium associated with the symbol
         /// </summary>
-        [JsonPropertyName("permium")]
+        [JsonPropertyName("premium")]
         public decimal Premium { get; set; }
         /// <summary>
-        /// ["<c>last</c>"] The premium associated with the symbol
+        /// ["<c>last</c>"] The last trade price
         /// </summary>
         [JsonPropertyName("last")]
         public decimal LastPrice { get; set; }
+        /// <summary>
+        /// ["<c>open</c>"] Open price 24h ago
+        /// </summary>
+        [JsonPropertyName("open")]
+        public decimal OpenPrice { get; set; }
+        /// <summary>
+        /// ["<c>high</c>"] High price last 24h
+        /// </summary>
+        [JsonPropertyName("high")]
+        public decimal HighPrice { get; set; }
+        /// <summary>
+        /// ["<c>low</c>"] Low price last 24h
+        /// </summary>
+        [JsonPropertyName("low")]
+        public decimal LowPrice { get; set; }
         /// <summary>
         /// ["<c>change</c>"] The 24h change in price
         /// </summary>

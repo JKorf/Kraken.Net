@@ -35,12 +35,12 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         /// ["<c>reason</c>"] Reason
         /// </summary>
         [JsonPropertyName("reason")]
-        public string Reason { get; set; } = string.Empty;
+        public KrakenFuturesOrderUpdateReason Reason { get; set; }
         /// <summary>
         /// ["<c>order_id</c>"] Reason
         /// </summary>
         [JsonPropertyName("order_id")]
-        public string OrderId { get; set; } = string.Empty;
+        public string? OrderId { get; set; }
         /// <summary>
         /// ["<c>order</c>"] Order info
         /// </summary>
@@ -72,7 +72,7 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         [JsonConverter(typeof(DateTimeConverter))]
         public DateTime LastUpdateTime { get; set; }
         /// <summary>
-        /// ["<c>qty</c>"] Quantitiy
+        /// ["<c>qty</c>"] Quantity
         /// </summary>
         [JsonPropertyName("qty")]
         public decimal Quantity { get; set; }

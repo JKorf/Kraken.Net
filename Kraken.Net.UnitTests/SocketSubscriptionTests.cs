@@ -3,6 +3,7 @@ using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Testing;
 using Kraken.Net.Clients;
 using Kraken.Net.Objects.Models.Socket;
+using Kraken.Net.Objects.Models.Socket.Futures;
 using Kraken.Net.Objects.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -48,6 +49,24 @@ namespace Kraken.Net.UnitTests
             await tester.ValidateAsync<KrakenKlineUpdate[]>((client, handler) => client.SpotApi.SubscribeToKlineUpdatesAsync("ETH/USDT", Enums.KlineInterval.FiveMinutes, handler), "Kline", ignoreProperties: new List<string> { "timestamp" });
             await tester.ValidateAsync<KrakenTradeUpdate[]>((client, handler) => client.SpotApi.SubscribeToTradeUpdatesAsync("ETH/USDT", handler), "Trades");
             await tester.ValidateAsync<KrakenBookUpdate>((client, handler) => client.SpotApi.SubscribeToAggregatedOrderBookUpdatesAsync("ETH/USDT", 10, handler), "AggBook");
+        }
+
+        [Test]
+        public async Task ValidateFuturesSubscriptions()
+        {
+            var loggerFactory = new LoggerFactory();
+            loggerFactory.AddProvider(new TraceLoggerProvider());
+            var client = new KrakenSocketClient(Options.Create(new KrakenSocketOptions
+            {
+                OutputOriginalData = true,
+                ApiCredentials = new KrakenCredentials().WithFutures("MTIz", "MTIz")
+            }), loggerFactory);
+            var tester = new SocketSubscriptionValidator<KrakenSocketClient>(client, "Subscriptions/Futures", "wss://futures.kraken.com");
+            await tester.ValidateAsync<KrakenFuturesTickerUpdate>((client, handler) => client.FuturesApi.SubscribeToTickerUpdatesAsync("PF_ETHUSD", handler), "Ticker");
+
+            await tester.ValidateAsync<KrakenFuturesOpenOrdersUpdate>((client, handler) => client.FuturesApi.SubscribeToOpenOrdersUpdatesAsync(false, null, handler), "OrderUpdate");
+            await tester.ValidateAsync<KrakenFuturesUserTradesUpdate>((client, handler) => client.FuturesApi.SubscribeToUserTradeUpdatesAsync(handler), "UserTrade");
+
         }
     }
 }

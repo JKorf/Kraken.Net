@@ -2,6 +2,7 @@ using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Enums;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
+using Kraken.Net.Objects.Models.Socket.Futures;
 
 namespace Kraken.Net.Clients.FuturesApi
 {
@@ -28,7 +29,15 @@ namespace Kraken.Net.Clients.FuturesApi
                 return WebSocketResult.Fail<UpdateSubscription>(Exchange, validationError);
 
             var symbols = request.Symbols?.Length > 0 ? request.Symbols.Select(x => x.GetSymbol(FormatSymbol)).ToArray() : [request.Symbol!.GetSymbol(FormatSymbol)];
-            var result = await SubscribeToTickerUpdatesAsync(symbols, update => handler(update.ToType(new SharedSpotTicker(ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, update.Data.Symbol), update.Data.Symbol!, update.Data.LastPrice, null, null, update.Data.Volume, update.Data.ChangePercentage24h)
+            var result = await SubscribeToTickerUpdatesAsync(symbols, update => handler(update.ToType(
+                new SharedSpotTicker(
+                    ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, update.Data.Symbol),
+                    update.Data.Symbol!,
+                    update.Data.LastPrice,
+                    update.Data.HighPrice,
+                    update.Data.LowPrice, 
+                    update.Data.Volume,
+                    update.Data.ChangePercentage24h)
             {
                 QuoteVolume = update.Data.VolumeQuote
             })), ct).ConfigureAwait(false);
@@ -114,14 +123,14 @@ namespace Kraken.Net.Clients.FuturesApi
                 update => { },
                 update =>
                 {
-                    handler(update.ToType<SharedFuturesOrder[]>(new[] {
+                    handler(update.ToType(new[] {
                         new SharedFuturesOrder(
                             ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, update.Data.Order?.Symbol),
                             update.Data.Order?.Symbol ?? string.Empty,
-                            update.Data.OrderId.ToString(),
+                            update.Data.Order?.OrderId ?? update.Data.OrderId!,
                             update.Data.Order == null ? default : update.Data.Order.Type == FuturesOrderType.Limit ? SharedOrderType.Limit : update.Data.Order.Type == FuturesOrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
                             update.Data.Order?.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
-                            update.Data.IsCancel ? SharedOrderStatus.Canceled : update.Data.Order!.QuantityFilled == update.Data.Order.Quantity ? SharedOrderStatus.Filled : SharedOrderStatus.Open,
+                            GetOrderStatus(update.Data),
                             update.Data.Order?.Timestamp)
                         {
                             ClientOrderId = update.Data.Order?.ClientOrderId,
@@ -137,6 +146,30 @@ namespace Kraken.Net.Clients.FuturesApi
 
             return result;
         }
+
+        private SharedOrderStatus GetOrderStatus(KrakenFuturesOpenOrdersUpdate data)
+            => data.Reason switch 
+            { 
+                KrakenFuturesOrderUpdateReason.NewPlacedOrderByUser => SharedOrderStatus.Open,
+                KrakenFuturesOrderUpdateReason.Liquidation => SharedOrderStatus.Canceled,
+                KrakenFuturesOrderUpdateReason.StopOrderTriggered => SharedOrderStatus.Canceled,
+                KrakenFuturesOrderUpdateReason.LimitOrderFromStop => SharedOrderStatus.Open,
+                KrakenFuturesOrderUpdateReason.PartialFill => SharedOrderStatus.Open,
+                KrakenFuturesOrderUpdateReason.FullFill => SharedOrderStatus.Filled,
+                KrakenFuturesOrderUpdateReason.CancelledByUser => SharedOrderStatus.Canceled,
+                KrakenFuturesOrderUpdateReason.ContractExpired => SharedOrderStatus.Canceled,
+                KrakenFuturesOrderUpdateReason.NotEnoughMargin => SharedOrderStatus.Canceled,
+                KrakenFuturesOrderUpdateReason.MarketInactive => SharedOrderStatus.Canceled,
+                KrakenFuturesOrderUpdateReason.CancelledByAdmin => SharedOrderStatus.Canceled,
+                KrakenFuturesOrderUpdateReason.DeadManSwitch => SharedOrderStatus.Canceled,
+                KrakenFuturesOrderUpdateReason.IocOrderFailedBecauseItWouldNotBeExecuted => SharedOrderStatus.Canceled,
+                KrakenFuturesOrderUpdateReason.PostOrderFailedBecauseItWouldFilled => SharedOrderStatus.Canceled,
+                KrakenFuturesOrderUpdateReason.WouldExecuteSelf => SharedOrderStatus.Canceled,
+                KrakenFuturesOrderUpdateReason.WouldNotReducePosition => SharedOrderStatus.Canceled,
+                KrakenFuturesOrderUpdateReason.OrderForEditNotFound => SharedOrderStatus.Canceled,
+                _ => SharedOrderStatus.Unknown
+            };
+
         #endregion
 
         #region User Trade client

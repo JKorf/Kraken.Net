@@ -48,6 +48,11 @@ namespace Kraken.Net.Objects.Models.Socket.Futures
         [JsonPropertyName("qty")]
         public decimal Quantity { get; set; }
         /// <summary>
+        /// ["<c>remaining_order_qty</c>"] Order quantity remaining
+        /// </summary>
+        [JsonPropertyName("remaining_order_qty")]
+        public decimal? QuantityRemaining { get; set; }
+        /// <summary>
         /// ["<c>seq</c>"] Sequence number
         /// </summary>
         [JsonPropertyName("seq")]

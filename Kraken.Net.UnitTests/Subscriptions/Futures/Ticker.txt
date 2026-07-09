@@ -1,0 +1,4 @@
+> { "event": "subscribe", "feed": "ticker", "product_ids": ["PF_ETHUSD"]}
+< { "event": "subscribed", "feed": "ticker", "product_ids": ["PF_ETHUSD"]}
+= 
+{"time":1783587648112,"product_id":"PF_ETHUSD","funding_rate":0.032725177043125,"funding_rate_prediction":0.031251669645,"relative_funding_rate":0.0000186711875,"relative_funding_rate_prediction":0.00001783425,"next_funding_rate_time":1783591200000,"leverage":"100x","premium":-0.0,"feed":"ticker","bid":1751.6,"ask":1751.7,"bid_size":1.459,"ask_size":2.886,"volume":57204.177,"dtm":0,"index":1751.75,"last":1751.7,"change":0.97,"suspended":false,"tag":"perpetual","pair":"ETH:USD","openInterest":24085.822,"markPrice":1751.97553924942,"maturityTime":0,"post_only":false,"volumeQuote":99424431.8132,"open":1734.8,"high":1765.4,"low":1708.8}

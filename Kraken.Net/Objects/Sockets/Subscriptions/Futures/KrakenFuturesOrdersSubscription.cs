@@ -27,20 +27,13 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
             _updateHandler = updateHandler;
             _verbose = verbose;
 
-            if (verbose)
-            {
-                MessageRouter = MessageRouter.Create([
-                    MessageRoute.CreateForEvent<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_verbose_snapshot", DoHandleMessage),
-                    MessageRoute.CreateForEvent<KrakenFuturesOpenOrdersUpdate>("open_orders_verbose", DoHandleMessage)
-                    ]);
-            }
-            else
-            {
-                MessageRouter = MessageRouter.Create([
-                    MessageRoute.CreateForEvent<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_snapshot",DoHandleMessage),
-                    MessageRoute.CreateForEvent<KrakenFuturesOpenOrdersUpdate>("open_orders", DoHandleMessage)
-                    ]);
-            }
+            MessageRouter = MessageRouter.Create([
+                MessageRoute.CreateForEvent<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_verbose_snapshot", DoHandleMessage),
+                MessageRoute.CreateForEvent<KrakenFuturesOpenOrdersUpdate>("open_orders_verbose", DoHandleMessage),
+                MessageRoute.CreateForEvent<KrakenFuturesOpenOrdersSnapshotUpdate>("open_orders_snapshot",DoHandleMessage),
+                MessageRoute.CreateForEvent<KrakenFuturesOpenOrdersUpdate>("open_orders", DoHandleMessage)
+                ]);
+            
         }
 
         protected override Query? GetSubQuery(SocketConnection connection)

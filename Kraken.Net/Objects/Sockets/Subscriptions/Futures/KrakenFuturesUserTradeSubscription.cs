@@ -54,7 +54,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Futures
         public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, KrakenFuturesUserTradesUpdate message)
         {
             DateTime? timestamp = message.Trades.Any() ? message.Trades.Max(x => x.Timestamp) : null;
-            var type = string.Equals(message.Feed, "fills_snapshot", StringComparison.Ordinal) ? SocketUpdateType.Snapshot : SocketUpdateType.Update;
+            var type = ConnectionInvocations == 1 ? SocketUpdateType.Snapshot : SocketUpdateType.Update;
             if (timestamp != null && type != SocketUpdateType.Update)
                 _client.UpdateTimeOffset(timestamp.Value);
 
