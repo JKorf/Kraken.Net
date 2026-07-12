@@ -13,8 +13,10 @@ using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CryptoExchange.Net.Objects;
+using CryptoExchange.Net.Interfaces;
 using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Clients.SpotApi;
+using Moq;
 
 namespace Kraken.Net.UnitTests
 {
@@ -48,6 +50,38 @@ namespace Kraken.Net.UnitTests
                     { "type", "buy" },
                     { "volume", "1.25" },
                 });
+        }
+
+        [Test]
+        public void ProcessRequest_ReusedParameters_ReplacesNonce()
+        {
+            var nonceProvider = new Mock<INonceProvider>();
+            nonceProvider.SetupSequence(x => x.GetNonce())
+                .Returns(1)
+                .Returns(2);
+            var authProvider = new KrakenAuthenticationProvider(
+                new KrakenCredentials().WithSpot("key", "kQH5HW/8p1uGOVjbgWA7FunAmGO8lsSUXNsu3eow76sz84Q18fWxnyRzBHCd3pd5nE9qa99HAZtuZuj6F1huXg=="),
+                nonceProvider.Object);
+            var client = (RestApiClient)new KrakenRestClient().SpotApi;
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            var requestDefinition = new RequestDefinition("https://api.kraken.com", "/0/private/QueryOrders", HttpMethod.Post)
+            {
+                Authenticated = true
+            };
+
+            RestRequestConfiguration CreateRequest() => new(
+                requestDefinition,
+                null,
+                parameters,
+                new Dictionary<string, string>(),
+                HttpMethodParameterPosition.InBody,
+                RequestBodyFormat.FormData);
+
+            authProvider.ProcessRequest(client, CreateRequest());
+
+            Assert.That(parameters["nonce"], Is.EqualTo(1));
+            Assert.DoesNotThrow(() => authProvider.ProcessRequest(client, CreateRequest()));
+            Assert.That(parameters["nonce"], Is.EqualTo(2));
         }
 
         [Test]
