@@ -34,7 +34,9 @@ namespace Kraken.Net
             request.Headers.Add("API-Key", Credential.Key);
             var nonce = _nonceProvider.GetNonce();
             var parameters = request.GetPositionParameters();
-            parameters.Add("nonce", nonce);
+            
+            // Add or replace the nonce to ensure it is overwritten when parameters are reused for retries.
+            parameters["nonce"] = nonce;
 
             var body = request.ParameterPosition == HttpMethodParameterPosition.InUri ? string.Empty : request.BodyFormat == RequestBodyFormat.Json ? GetSerializedBody(_serializer, parameters) : (request.BodyParameters?.ToFormData() ?? string.Empty);
             var queryString = request.GetQueryString();
