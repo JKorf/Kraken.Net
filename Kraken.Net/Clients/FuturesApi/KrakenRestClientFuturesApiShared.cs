@@ -196,6 +196,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #region Futures Symbol client
 
+        SharedSymbolCatalog? IFuturesSymbolRestClient.FuturesSymbolCatalog => ExchangeSymbolCache.GetSymbolCatalog(_topicId, EnvironmentName, null);
         GetFuturesSymbolsOptions IFuturesSymbolRestClient.GetFuturesSymbolsOptions { get; } = new GetFuturesSymbolsOptions(_exchangeName, false);
         async Task<HttpResult<SharedFuturesSymbol[]>> IFuturesSymbolRestClient.GetFuturesSymbolsAsync(GetSymbolsRequest request, CancellationToken ct)
         {
@@ -207,36 +208,40 @@ namespace Kraken.Net.Clients.FuturesApi
             if (!result.Success)
                 return HttpResult.Fail<SharedFuturesSymbol[]>(result);
 
-            var data = result.Data.Where(x => x.Type != Enums.SymbolType.SpotIndex && !x.Symbol.StartsWith("rr"));
-            var resultData = data.Select(s =>
+            var data = result.Data
+               .Where(x => x.Type != Enums.SymbolType.SpotIndex && !x.Symbol.StartsWith("rr"))
+               .Select(x => ParseSymbol(x))
+               .ToArray();
+
+            ExchangeSymbolCache.UpdateSymbolInfo(_topicId, EnvironmentName, null, data);
+            return HttpResult.Ok(result, SharedUtils.ApplySymbolFilter(data, request));
+        }
+
+        private SharedFuturesSymbol ParseSymbol(KrakenFuturesSymbol s)
+        {
+            var split = s.Symbol.Split('_');
+            var assets = split[1];
+
+            var result = new SharedFuturesSymbol(
+                s.Type == Enums.SymbolType.FlexibleFutures && split.Count() == 2 ? TradingMode.PerpetualLinear :
+                s.Type == Enums.SymbolType.FlexibleFutures && split.Count() > 2 ? TradingMode.DeliveryLinear :
+                s.Type == Enums.SymbolType.InverseFutures && split.Count() == 2 ? TradingMode.PerpetualInverse :
+                TradingMode.DeliveryInverse,
+                s.BaseAsset,
+                s.QuoteAsset,
+                s.Symbol,
+                s.Tradeable)
             {
-                var split = s.Symbol.Split('_');
-                var assets = split[1];
+                QuantityDecimals = (int?)s.ContractValueTradePrecision,
+                PriceStep = s.TickSize,
+                ContractSize = s.ContractSize,
+                DeliveryTime = split.Count() > 2 ? DateTime.ParseExact(split[2], "yyMMdd", CultureInfo.InvariantCulture) : null,
+                DisplayName = s.Symbol,
+                QuoteAssetType = SharedAssetType.Fiat,
+                BaseAssetType = SharedAssetType.Crypto
+            };
 
-                return new SharedFuturesSymbol(
-                    s.Type == Enums.SymbolType.FlexibleFutures && split.Count() == 2 ? TradingMode.PerpetualLinear :
-                    s.Type == Enums.SymbolType.FlexibleFutures && split.Count() > 2 ? TradingMode.DeliveryLinear :
-                    s.Type == Enums.SymbolType.InverseFutures && split.Count() == 2 ? TradingMode.PerpetualInverse :
-                    TradingMode.DeliveryInverse,
-                    s.BaseAsset,
-                    s.QuoteAsset,
-                    s.Symbol,
-                    s.Tradeable)
-                {
-                    QuantityDecimals = (int?)s.ContractValueTradePrecision,
-                    PriceStep = s.TickSize,
-                    ContractSize = s.ContractSize,
-                    DeliveryTime = split.Count() > 2 ? DateTime.ParseExact(split[2], "yyMMdd", CultureInfo.InvariantCulture) : null
-                };
-            });
-
-            if (request.TradingMode != null)
-                resultData = resultData.Where(x => request.TradingMode == x.TradingMode);
-
-            var response = HttpResult.Ok(result, resultData.ToArray());
-            
-            ExchangeSymbolCache.UpdateSymbolInfo(_topicId, EnvironmentName, null, response.Data!);
-            return response;
+            return result;
         }
 
         async Task<ExchangeCallResult<SharedSymbol[]>> IFuturesSymbolRestClient.GetFuturesSymbolsForBaseAssetAsync(string baseAsset)
