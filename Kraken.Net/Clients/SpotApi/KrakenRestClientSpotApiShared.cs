@@ -138,6 +138,7 @@ namespace Kraken.Net.Clients.SpotApi
                 MinTradeQuantity = s.Value.OrderMin,
                 PriceStep = s.Value.TickSize,
                 MinNotionalValue = s.Value.MinValue,
+                DisplayName = s.Key,
                 BaseAssetType = isTokenized ? SharedAssetType.TradFi : SharedAssetType.Crypto
             };
 
