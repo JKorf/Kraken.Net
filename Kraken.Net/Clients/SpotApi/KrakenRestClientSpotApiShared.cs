@@ -18,6 +18,8 @@ namespace Kraken.Net.Clients.SpotApi
         public void ResetDefaultExchangeParameters() => ExchangeParameters.ResetStaticParameters();
         public SharedClientInfo Discover() => SharedUtils.GetClientInfo(KrakenExchange.Metadata, this);
 
+        private static readonly HashSet<string> _exchangeFiat = ["USD", "EUR", "GBP", "CHF", "AUD", "CAD", "JPY"];
+
         #region Kline client
 
         GetKlinesOptions IKlineRestClient.GetKlinesOptions { get; } = new GetKlinesOptions(_exchangeName, true, false, true, 720, false,
@@ -86,6 +88,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Spot Symbol client
 
+        SharedSymbolCatalog? ISpotSymbolRestClient.SpotSymbolCatalog => ExchangeSymbolCache.GetSymbolCatalog(_exchangeName, _topicId, EnvironmentName, null);
         GetSpotSymbolsOptions ISpotSymbolRestClient.GetSpotSymbolsOptions { get; } = new GetSpotSymbolsOptions(_exchangeName, false)
         {
             OptionalExchangeParameters = [            
@@ -99,31 +102,71 @@ namespace Kraken.Net.Clients.SpotApi
                 return HttpResult.Fail<SharedSpotSymbol[]>(Exchange, validationError);
 
             var useNewAssetResponse = request.GetParamValue<bool?>(Exchange, "NewAssetNames", "assetVersion");
-            var result = await ExchangeData.GetSymbolsAsync(newAssetNameResponse: useNewAssetResponse, ct: ct).ConfigureAwait(false);
-            if (!result.Success)
-                return HttpResult.Fail<SharedSpotSymbol[]>(result);
+            var currencyTask = ExchangeData.GetSymbolsAsync(newAssetNameResponse: useNewAssetResponse, aClass: AClass.Currency, ct: ct);
+            var tokenTask = ExchangeData.GetSymbolsAsync(newAssetNameResponse: useNewAssetResponse, aClass: AClass.TokenizedAsset, ct: ct);
+            await Task.WhenAll(currencyTask, tokenTask).ConfigureAwait(false);
+            var currencyResult = currencyTask.Result;
+            var tokenResult = tokenTask.Result;
+            if (!currencyResult.Success)
+                return HttpResult.Fail<SharedSpotSymbol[]>(currencyResult);
+            if (!tokenResult.Success)
+                return HttpResult.Fail<SharedSpotSymbol[]>(tokenResult);
 
-            var response = HttpResult.Ok(result, result.Data.Select(s =>
+            var currencyResultData = currencyResult.Data
+               .Select(x => ParseSymbol(x, false));
+            var tokenResultData = tokenResult.Data.Where(x => !x.Key.EndsWith("SPVUSD"))
+               .Select(x => ParseSymbol(x, true));
+            var resultData = currencyResultData.Concat(tokenResultData)
+               .ToArray();
+
+            // Also register [BaseAsset]/[QuoteAsset] and [BaseAsset][QuoteAsset] as names
+            var symbolRegistrations = resultData
+                .Concat(resultData.Select(x => new SharedSpotSymbol(x.BaseAsset, x.QuoteAsset, x.BaseAsset + "/" + x.QuoteAsset, x.Trading, x.TradingMode)))
+                .Concat(resultData.Where(x => x.Name != x.BaseAsset + x.QuoteAsset).Select(x => new SharedSpotSymbol(x.BaseAsset, x.QuoteAsset, x.BaseAsset + x.QuoteAsset, x.Trading, x.TradingMode)))
+                .ToArray();
+            ExchangeSymbolCache.UpdateSymbolInfo(_topicId, EnvironmentName, null, symbolRegistrations);
+            return HttpResult.Ok(currencyResult, SharedUtils.ApplySymbolFilter(resultData, request));
+        }
+
+        private SharedSpotSymbol ParseSymbol(KeyValuePair<string, KrakenSymbol> s, bool isTokenized)
+        {
+            var assets = GetAssets(s.Value.WebsocketName);
+            var result = new SharedSpotSymbol(assets.BaseAsset, assets.QuoteAsset, s.Key, s.Value.Status == SymbolStatus.Online)
             {
-                var assets = GetAssets(s.Value.WebsocketName);
-                return new SharedSpotSymbol(assets.BaseAsset, assets.QuoteAsset, s.Key, s.Value.Status == SymbolStatus.Online)
-                {
-                    PriceDecimals = s.Value.PriceDecimals,
-                    QuantityDecimals = s.Value.LotDecimals,
-                    MinTradeQuantity = s.Value.OrderMin,
-                    PriceStep = s.Value.TickSize,
-                    MinNotionalValue = s.Value.MinValue
-                };
-            }).ToArray());
+                PriceDecimals = s.Value.PriceDecimals,
+                QuantityDecimals = s.Value.LotDecimals,
+                MinTradeQuantity = s.Value.OrderMin,
+                PriceStep = s.Value.TickSize,
+                MinNotionalValue = s.Value.MinValue,
+                DisplayName = s.Key,
+                BaseAssetType = isTokenized ? SharedAssetType.TradFi : SharedAssetType.Crypto
+            };
 
-            // Also register [BaseAsset]/[QuoteAsset] as names for websocket and [BaseAsset][QuoteAsset]
-            var symbolRegistrations = response.Data!
-                .Concat(response.Data!.Select(x => new SharedSpotSymbol(x.BaseAsset, x.QuoteAsset, x.BaseAsset + "/" + x.QuoteAsset, x.Trading, x.TradingMode))).ToList();
-            foreach (var symbol in response.Data!.Where(x => x.Name != x.BaseAsset + x.QuoteAsset))
-                symbolRegistrations.Add(new SharedSpotSymbol(symbol.BaseAsset, symbol.QuoteAsset, symbol.BaseAsset + symbol.QuoteAsset, symbol.Trading));
+            if (LibraryHelpers.IsStableCoin(result.QuoteAsset))
+            {
+                result.QuoteAssetType = SharedAssetType.Crypto;
+                result.QuoteAssetSubType = SharedAssetSubType.StableCoin;
+            }
+            else if (_exchangeFiat.Contains(result.QuoteAsset))
+            {
+                result.QuoteAssetType = SharedAssetType.Fiat;
+            }
+            else
+            {
+                result.QuoteAssetType = SharedAssetType.Crypto;
+            }
 
-            ExchangeSymbolCache.UpdateSymbolInfo(_topicId, EnvironmentName, null, symbolRegistrations.ToArray());
-            return response;
+            if (isTokenized)
+            {
+                result.BaseAssetSubType = SharedAssetSubType.Equity;
+            }
+            else
+            {
+                if (LibraryHelpers.IsStableCoin(result.BaseAsset))
+                    result.BaseAssetSubType = SharedAssetSubType.StableCoin;
+            }
+
+            return result;
         }
 
         private (string BaseAsset, string QuoteAsset) GetAssets(string name)
