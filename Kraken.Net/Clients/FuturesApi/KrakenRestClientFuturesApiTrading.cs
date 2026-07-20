@@ -174,7 +174,7 @@ namespace Kraken.Net.Clients.FuturesApi
             if (!result.Success)
                 return HttpResult.Fail<KrakenFuturesOrderStatus>(result);
 
-            if (result.Data == null)
+            if (result.Data == null || result.Data.Length == 0)
                 return HttpResult.Fail<KrakenFuturesOrderStatus>(result, new ServerError(new ErrorInfo(ErrorType.UnknownOrder, "Order not found")));
 
             return HttpResult.Ok(result, result.Data.Single());
