@@ -49,7 +49,7 @@ Futures examples use symbols such as `PF_ETHUSD`.
 
 ## Cross-exchange
 
-For code that needs to work across multiple exchanges, use `CryptoExchange.Net.SharedApis` from `.SharedClient` properties. Kraken exposes shared clients on Spot and Futures REST and socket APIs.
+For code that needs to work across multiple exchanges, use `CryptoExchange.Net.SharedApis` from `.SharedClient` properties. Kraken exposes shared clients on Spot and Futures REST and socket APIs. Shared Spot/Futures symbol clients expose symbol catalogs and asset-type metadata; Spot shared symbol discovery includes Kraken tokenized assets.
 
 ## Avoid
 

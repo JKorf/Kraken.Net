@@ -4,9 +4,9 @@
 
 Kraken.Net is a strongly typed .NET client library for the Kraken Spot and Futures REST and WebSocket APIs. It is part of the CryptoExchange.Net ecosystem and uses the same result, shared API, logging, rate limiting, and socket subscription patterns as the other JKorf exchange libraries.
 
-Current package version in this repository: 7.10.0.
+Current package version in this repository: 8.2.0.
 NuGet package id: `KrakenExchange.Net`.
-CryptoExchange.Net dependency: 11.1.0.
+CryptoExchange.Net dependency: 12.2.0.
 Target frameworks: netstandard2.0, netstandard2.1, net8.0, net9.0, net10.0.
 Native AOT: supported on compatible .NET targets.
 
@@ -396,6 +396,22 @@ if (!ticker.Success)
 
 Console.WriteLine(ticker.Data.LastPrice);
 ```
+
+Shared Spot and Futures symbol clients provide catalogs after symbol data has been loaded:
+
+```csharp
+ISpotSymbolRestClient symbolClient = restClient.SpotApi.SharedClient;
+var symbols = await symbolClient.GetSpotSymbolsAsync(new GetSymbolsRequest());
+if (!symbols.Success)
+{
+    Console.WriteLine(symbols.Error);
+    return;
+}
+
+var catalog = symbolClient.SpotSymbolCatalog;
+```
+
+`SharedSpotSymbol` and `SharedFuturesSymbol` results include asset-type metadata. Kraken Spot shared symbols include tokenized assets, classified as `SharedAssetType.TradFi` with the equity subtype; crypto, stablecoin, and fiat classifications are also populated. The Futures equivalent is `IFuturesSymbolRestClient.FuturesSymbolCatalog`.
 
 Shared REST methods return `HttpResult<T>` / `HttpResult`. Shared socket subscriptions return `WebSocketResult<UpdateSubscription>` with an `UpdateSubscription` in `.Data`. Shared symbol helpers can return `ExchangeCallResult<T>`.
 

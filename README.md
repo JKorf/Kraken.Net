@@ -211,6 +211,16 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 8.2.0 - 21 Jul 2026
+    * Updated CryptoExchange.Net to v12.2.0 
+    * Added SpotSymbolCatalog to Shared ISpotSymbolRestClient interface
+    * Added FuturesSymbolCatalog to Shared IFuturesSymbolRestClient interface
+    * Added BaseAssetType, BaseAssetSubType, QuoteAssetType and QuoteAssetSubType to GetSymbolsRequest model
+    * Added DisplayName to SharedSpotSymbol and SharedFuturesSymbol models
+    * Added BaseAssetType, BaseAssetSubType, QuoteAssetType and QuoteAssetSubType to SharedSpotSymbol and SharedFuturesSymbol models
+    * Added DebuggerDisplay attributes to Shared models
+    * Fixed restClient.FuturesApi.Trading.GetOrderAsync exception if not order returned
+
 * Version 8.1.1 - 13 Jul 2026
     * Fixed exception during authentication when retrying requests
 

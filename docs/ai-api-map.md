@@ -164,6 +164,9 @@ Use this file to route common user intents to the correct Kraken.Net client memb
 | Shared spot socket client | `new KrakenSocketClient().SpotApi.SharedClient` |
 | Shared futures socket client | `new KrakenSocketClient().FuturesApi.SharedClient` |
 | Discover shared capabilities | `client.SpotApi.SharedClient.Discover()` |
+| Load shared Spot symbols, including tokenized assets | `ISpotSymbolRestClient.GetSpotSymbolsAsync(new GetSymbolsRequest())` |
+| Read loaded Spot symbol catalog | `ISpotSymbolRestClient.SpotSymbolCatalog` |
+| Read loaded Futures symbol catalog | `IFuturesSymbolRestClient.FuturesSymbolCatalog` |
 | Shared spot ticker REST | `ISpotTickerRestClient.GetSpotTickerAsync(new GetTickerRequest(symbol))` |
 | Shared spot order REST | `ISpotOrderRestClient.PlaceSpotOrderAsync(...)` |
 | Shared futures order REST | `IFuturesOrderRestClient.PlaceFuturesOrderAsync(...)` |
@@ -171,7 +174,7 @@ Use this file to route common user intents to the correct Kraken.Net client memb
 | Shared ticker socket | `ITickerSocketClient.SubscribeToTickerUpdatesAsync(...)` |
 | Shared order book socket | `IOrderBookSocketClient.SubscribeToOrderBookUpdatesAsync(...)` |
 
-Shared REST methods return `HttpResult<T>` / `HttpResult`; shared socket subscriptions return `WebSocketResult<UpdateSubscription>`; shared symbol/cache helper methods such as `SupportsSpotSymbolAsync` can return `ExchangeCallResult<T>`.
+Shared REST methods return `HttpResult<T>` / `HttpResult`; shared socket subscriptions return `WebSocketResult<UpdateSubscription>`; shared symbol/cache helper methods such as `SupportsSpotSymbolAsync` can return `ExchangeCallResult<T>`. Shared symbol results include asset-type metadata for crypto, stablecoins, fiat, and tokenized TradFi assets.
 
 For shared socket subscriptions, keep the concrete socket client and unsubscribe with `await socketClient.UnsubscribeAsync(subscription.Data)`.
 
