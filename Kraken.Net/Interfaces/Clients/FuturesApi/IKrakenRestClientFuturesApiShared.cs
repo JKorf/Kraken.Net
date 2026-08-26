@@ -23,4 +23,38 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         IBookTickerRestClient
     {
     }
+
+    /// <summary>
+    /// Shared API interface. Shared APIs provide a common,
+    /// exchange-independent contract for accessing functionality across different
+    /// exchange client libraries.
+    /// </summary>
+    public interface IKrakenRestClientFuturesSharedApi :
+        IGetBalancesEndpoint,
+        IGetKlinesEndpoint,
+        IGetOrderBookEndpoint,
+        IGetRecentTradesEndpoint,
+        IGetBookTickerEndpoint,
+        IGetFundingRateHistoryEndpoint,
+        IGetFuturesSymbolsEndpoint,
+        IGetFuturesTickerEndpoint,
+        IGetAllFuturesTickersEndpoint,
+        IGetMarkPriceKlinesEndpoint,
+        IGetOpenInterestEndpoint,
+        IGetLeverageEndpoint,
+        ISetLeverageEndpoint,
+        IPlaceFuturesOrderEndpoint,
+        IGetFuturesOrderEndpoint,
+        IGetOpenFuturesOrdersEndpoint,
+        IGetFuturesUserTradeHistoryEndpoint,
+        ICancelFuturesOrderEndpoint,
+        IGetPositionsEndpoint,
+        IClosePositionEndpoint,
+        IGetFeesEndpoint,
+        IGetFuturesOrderByClientOrderIdEndpoint,
+        ICancelFuturesOrderByClientOrderIdEndpoint,
+        ISetFuturesTpSlEndpoint,
+        ICancelFuturesTpSlEndpoint
+    {
+    }
 }

@@ -26,14 +26,7 @@ namespace Kraken.Net.Clients.SpotApi
     /// <inheritdoc />
     internal partial class KrakenSocketClientSpotApi : SocketApiClient<KrakenEnvironment, KrakenAuthenticationProvider, KrakenCredentials>, IKrakenSocketClientSpotApi
     {
-        private static readonly HashSet<string> _channelsWithoutSymbol =
-        [
-            "heartbeat",
-            "status",
-            "instrument",
-            "executions",
-            "balances"
-        ];
+        private readonly KrakenSocketClientSpotSharedApi _sharedApi;
 
         private readonly ILoggerFactory? _loggerFactory;
         private KrakenRestClient? _tokenClient;
@@ -73,6 +66,8 @@ namespace Kraken.Net.Clients.SpotApi
             base(loggerFactory, KrakenExchange.Metadata.Id, options.Environment.SpotSocketPublicAddress, options, options.SpotOptions)
         {
             _loggerFactory = loggerFactory;
+            _sharedApi = new KrakenSocketClientSpotSharedApi(this);
+
             _privateBaseAddress = options.Environment.SpotSocketPrivateAddress;
 
             AddSystemSubscription(new HeartbeatSubscription(_logger));
@@ -121,7 +116,10 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         /// <inheritdoc />
-        public IKrakenSocketClientSpotApiShared SharedClient => this;
+        public IKrakenSocketClientSpotApiShared SharedClient => _sharedApi;
+
+        /// <inheritdoc />
+        public IKrakenSocketClientSpotSharedApi SharedApi => _sharedApi;
 
         /// <inheritdoc />
         protected override KrakenAuthenticationProvider CreateAuthenticationProvider(KrakenCredentials credentials)

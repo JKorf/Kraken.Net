@@ -3,6 +3,7 @@ using CryptoExchange.Net.Converters.MessageParsing.DynamicConverters;
 using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Clients.MessageHandlers;
+using Kraken.Net.Clients.SpotApi;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Models.Futures;
@@ -15,6 +16,8 @@ namespace Kraken.Net.Clients.FuturesApi
     internal partial class KrakenRestClientFuturesApi : RestApiClient<KrakenEnvironment, KrakenFuturesAuthenticationProvider, KrakenCredentials>, IKrakenRestClientFuturesApi
     {
         #region fields
+        private readonly KrakenRestClientFuturesSharedApi _sharedApi;
+
         internal KrakenRestClient _baseClient;
         /// <inheritdoc />
         public new KrakenRestOptions ClientOptions => (KrakenRestOptions)base.ClientOptions;
@@ -59,6 +62,8 @@ namespace Kraken.Net.Clients.FuturesApi
             ExchangeData = new KrakenRestClientFuturesApiExchangeData(this);
             Trading = new KrakenRestClientFuturesApiTrading(this);
 
+            _sharedApi = new KrakenRestClientFuturesSharedApi(this);
+
             RequestBodyFormat = RequestBodyFormat.FormData;
             ParameterPositions[HttpMethod.Put] = HttpMethodParameterPosition.InUri;
             RequestBodyEmptyContent = "";
@@ -67,7 +72,8 @@ namespace Kraken.Net.Clients.FuturesApi
 
         protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(KrakenExchange._serializerContext));
 
-        public IKrakenRestClientFuturesApiShared SharedClient => this;
+        public IKrakenRestClientFuturesApiShared SharedClient => _sharedApi;
+        public IKrakenRestClientFuturesSharedApi SharedApi => _sharedApi;
 
         /// <inheritdoc />
         public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)

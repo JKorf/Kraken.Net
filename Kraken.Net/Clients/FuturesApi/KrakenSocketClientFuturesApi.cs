@@ -6,6 +6,7 @@ using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Sockets;
 using CryptoExchange.Net.Sockets.Default;
 using Kraken.Net.Clients.MessageHandlers;
+using Kraken.Net.Clients.SpotApi;
 using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Objects;
 using Kraken.Net.Objects.Models.Socket.Futures;
@@ -18,9 +19,12 @@ using System.Net.WebSockets;
 namespace Kraken.Net.Clients.FuturesApi
 {
     /// <inheritdoc />
-    internal partial class KrakenSocketClientFuturesApi : SocketApiClient<KrakenEnvironment, KrakenFuturesAuthenticationProvider, KrakenCredentials>, IKrakenSocketClientFuturesApi
+    internal partial class KrakenSocketClientFuturesApi : SocketApiClient<KrakenEnvironment, KrakenFuturesAuthenticationProvider, KrakenCredentials>, 
+        IKrakenSocketClientFuturesApi
     {
-        #region fields                
+        #region fields     
+        private readonly KrakenSocketClientFuturesSharedApi _sharedApi;
+
         /// <inheritdoc />
         public new KrakenSocketOptions ClientOptions => (KrakenSocketOptions)base.ClientOptions;
 
@@ -31,6 +35,8 @@ namespace Kraken.Net.Clients.FuturesApi
         internal KrakenSocketClientFuturesApi(ILoggerFactory? loggerFactory, KrakenSocketOptions options) :
             base(loggerFactory, KrakenExchange.Metadata.Id, options.Environment.FuturesSocketBaseAddress, options, options.FuturesOptions)
         {
+            _sharedApi = new KrakenSocketClientFuturesSharedApi(this);
+
             RateLimiter = KrakenExchange.RateLimiter.FuturesSocket;
 
             AddSystemSubscription(new KrakenFuturesInfoSubscription(_logger));                
@@ -42,7 +48,9 @@ namespace Kraken.Net.Clients.FuturesApi
         public override ISocketMessageHandler CreateMessageConverter(WebSocketMessageType messageType) => new KrakenSocketFuturesMessageHandler();
 
         /// <inheritdoc />
-        public IKrakenSocketClientFuturesApiShared SharedClient => this;
+        public IKrakenSocketClientFuturesApiShared SharedClient => _sharedApi;
+        /// <inheritdoc />
+        public IKrakenSocketClientFuturesSharedApi SharedApi => _sharedApi;
 
         /// <inheritdoc />
         public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)

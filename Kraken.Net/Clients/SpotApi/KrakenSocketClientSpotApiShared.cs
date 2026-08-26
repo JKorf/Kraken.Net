@@ -5,35 +5,59 @@ using Kraken.Net.Enums;
 
 namespace Kraken.Net.Clients.SpotApi
 {
-    internal partial class KrakenSocketClientSpotApi : IKrakenSocketClientSpotApiShared
+    internal class KrakenSocketClientSpotSharedApi :
+        SharedApiBase,
+        IKrakenSocketClientSpotApiShared,
+        IKrakenSocketClientSpotSharedApi
     {
+        private readonly KrakenSocketClientSpotApi _api;
+
         private const string _topicId = "KrakenSpot";
         private const string _exchangeName = "Kraken";
 
-        public TradingMode[] SupportedTradingModes { get; } = new [] { TradingMode.Spot };
+        public override SharedClientInfo Discover() => SharedUtils.GetClientInfo(KrakenExchange.Metadata, this);
 
-        public void SetDefaultExchangeParameter(string key, object value) => ExchangeParameters.SetStaticParameter(Exchange, key, value);
-        public void ResetDefaultExchangeParameters() => ExchangeParameters.ResetStaticParameters();
-        public SharedClientInfo Discover() => SharedUtils.GetClientInfo(KrakenExchange.Metadata, this);
+        public KrakenSocketClientSpotSharedApi(KrakenSocketClientSpotApi api)
+            : base(
+                  api.Exchange, 
+                  new[] { TradingMode.Spot },
+                  () => api.Authenticated,
+                  api.FormatSymbol)
+        {
+            _api = api;
+
+            SetCapabilities(
+                SubscribeTickerOptions,
+                SubscribeTradeOptions,
+                SubscribeBookTickerOptions,
+                SubscribeBalanceOptions,
+                SubscribeKlineOptions,
+                SubscribeSpotOrderOptions,
+                PlaceSpotOrderOptions
+            );
+        }
 
         #region Ticker client
-        SubscribeTickerOptions ITickerSocketClient.SubscribeTickerOptions { get; } = new SubscribeTickerOptions(_exchangeName)
+        async Task<WebSocketResult<UpdateSubscription>> ISubscribeTickerOperation.SubscribeToTickerUpdatesAsync(SubscribeTickerRequest request, Action<DataEvent<SharedTicker>> handler, CancellationToken ct)
+            => await SubscribeToTickerUpdatesAsync(request, x => handler(x.ToType<SharedTicker>(x.Data)), ct).ConfigureAwait(false);
+
+        public SubscribeTickerOptions SubscribeTickerOptions { get; } = new SubscribeTickerOptions(_exchangeName)
         {
             SupportsMultipleSymbols = true,
             MaxSymbolCount = 500
         };
-        async Task<WebSocketResult<UpdateSubscription>> ITickerSocketClient.SubscribeToTickerUpdatesAsync(SubscribeTickerRequest request, Action<DataEvent<SharedSpotTicker>> handler, CancellationToken ct)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(SubscribeTickerRequest request, Action<DataEvent<SharedSpotTicker>> handler, CancellationToken ct)
         {
-            var validationError = SharedClient.SubscribeTickerOptions.ValidateRequest(request, this);
+            var validationError = SubscribeTickerOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return WebSocketResult.Fail<UpdateSubscription>(Exchange, validationError);
 
             ClearSymbolNameIfIncorrect(request);
 
             var symbols = request.Symbols?.Length > 0 ? request.Symbols.Select(x => x.GetSymbol(FormatSymbol)).ToArray() : [request.Symbol!.GetSymbol(FormatSymbol)];
-            var result = await SubscribeToTickerUpdatesAsync(symbols, update => handler(update.ToType(
+            var result = await _api.SubscribeToTickerUpdatesAsync(symbols, update => handler(update.ToType(
                 new SharedSpotTicker(
-                    ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, update.Data.Symbol),
+                    ExchangeSymbolCache.ParseSymbol(_topicId, _api.EnvironmentName, null, update.Data.Symbol),
                     update.Data.Symbol, 
                     update.Data.LastPrice,
                     update.Data.HighPrice,
@@ -49,22 +73,22 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Trade client
 
-        SubscribeTradeOptions ITradeSocketClient.SubscribeTradeOptions { get; } = new SubscribeTradeOptions(_exchangeName, false)
+        public SubscribeTradeOptions SubscribeTradeOptions { get; } = new SubscribeTradeOptions(_exchangeName, false)
         {
             SupportsMultipleSymbols = true,
             MaxSymbolCount = 500
         };
-        async Task<WebSocketResult<UpdateSubscription>> ITradeSocketClient.SubscribeToTradeUpdatesAsync(SubscribeTradeRequest request, Action<DataEvent<SharedTrade[]>> handler, CancellationToken ct)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(SubscribeTradeRequest request, Action<DataEvent<SharedTrade[]>> handler, CancellationToken ct)
         {
-            var validationError = SharedClient.SubscribeTradeOptions.ValidateRequest(request, this);
+            var validationError = SubscribeTradeOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return WebSocketResult.Fail<UpdateSubscription>(Exchange, validationError);
 
             ClearSymbolNameIfIncorrect(request);
 
             var symbols = request.Symbols?.Length > 0 ? request.Symbols.Select(x => x.GetSymbol(FormatSymbol)).ToArray() : [request.Symbol!.GetSymbol(FormatSymbol)];
-            var result = await SubscribeToTradeUpdatesAsync(symbols, update => handler(update.ToType(update.Data.Select(x =>
-            new SharedTrade(ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Symbol), x.Symbol!, new SharedOrderQuantity(x.Quantity), x.Price, x.Timestamp)
+            var result = await _api.SubscribeToTradeUpdatesAsync(symbols, update => handler(update.ToType(update.Data.Select(x =>
+            new SharedTrade(ExchangeSymbolCache.ParseSymbol(_topicId, _api.EnvironmentName, null, x.Symbol), x.Symbol!, new SharedOrderQuantity(x.Quantity), x.Price, x.Timestamp)
             {
                 Side = x.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell
             }).ToArray())), false, ct).ConfigureAwait(false);
@@ -75,24 +99,24 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Book Ticker client
 
-        SubscribeBookTickerOptions IBookTickerSocketClient.SubscribeBookTickerOptions { get; } = new SubscribeBookTickerOptions(_exchangeName, false)
+        public SubscribeBookTickerOptions SubscribeBookTickerOptions { get; } = new SubscribeBookTickerOptions(_exchangeName, false)
         {
             SupportsMultipleSymbols = true,
             MaxSymbolCount = 500
         };
-        async Task<WebSocketResult<UpdateSubscription>> IBookTickerSocketClient.SubscribeToBookTickerUpdatesAsync(SubscribeBookTickerRequest request, Action<DataEvent<SharedBookTicker>> handler, CancellationToken ct)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToBookTickerUpdatesAsync(SubscribeBookTickerRequest request, Action<DataEvent<SharedBookTicker>> handler, CancellationToken ct)
         {
-            var validationError = SharedClient.SubscribeBookTickerOptions.ValidateRequest(request, this);
+            var validationError = SubscribeBookTickerOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return WebSocketResult.Fail<UpdateSubscription>(Exchange, validationError);
 
             ClearSymbolNameIfIncorrect(request);
 
             var symbols = request.Symbols?.Length > 0 ? request.Symbols.Select(x => x.GetSymbol(FormatSymbol)).ToArray() : [request.Symbol!.GetSymbol(FormatSymbol)];
-            var result = await SubscribeToTickerUpdatesAsync(symbols, update => handler(
+            var result = await _api.SubscribeToTickerUpdatesAsync(symbols, update => handler(
                 update.ToType(
                     new SharedBookTicker(
-                        ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, update.Data.Symbol),
+                        ExchangeSymbolCache.ParseSymbol(_topicId, _api.EnvironmentName, null, update.Data.Symbol),
                         update.Data.Symbol,
                         update.Data.BestAskPrice,
                         new SharedOrderQuantity(update.Data.BestAskQuantity),
@@ -104,7 +128,7 @@ namespace Kraken.Net.Clients.SpotApi
         #endregion
 
         #region Kline client
-        SubscribeKlineOptions IKlineSocketClient.SubscribeKlineOptions { get; } = new SubscribeKlineOptions(_exchangeName, false,
+        public SubscribeKlineOptions SubscribeKlineOptions { get; } = new SubscribeKlineOptions(_exchangeName, false,
             SharedKlineInterval.OneMinute,
             SharedKlineInterval.ThreeMinutes,
             SharedKlineInterval.FiveMinutes,
@@ -118,18 +142,18 @@ namespace Kraken.Net.Clients.SpotApi
             SupportsMultipleSymbols = true,
             MaxSymbolCount = 500
         };
-        async Task<WebSocketResult<UpdateSubscription>> IKlineSocketClient.SubscribeToKlineUpdatesAsync(SubscribeKlineRequest request, Action<DataEvent<SharedKline>> handler, CancellationToken ct)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(SubscribeKlineRequest request, Action<DataEvent<SharedKline>> handler, CancellationToken ct)
         {
             var interval = (Enums.KlineInterval)request.Interval;
 
-            var validationError = SharedClient.SubscribeKlineOptions.ValidateRequest(request, this);
+            var validationError = SubscribeKlineOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return WebSocketResult.Fail<UpdateSubscription>(Exchange, validationError);
 
             ClearSymbolNameIfIncorrect(request);
 
             var symbols = request.Symbols?.Length > 0 ? request.Symbols.Select(x => x.GetSymbol(FormatSymbol)).ToArray() : [request.Symbol!.GetSymbol(FormatSymbol)];
-            var result = await SubscribeToKlineUpdatesAsync(symbols, interval, update =>
+            var result = await _api.SubscribeToKlineUpdatesAsync(symbols, interval, update =>
             {
                 if (update.UpdateType == SocketUpdateType.Snapshot)
                     return;
@@ -138,7 +162,7 @@ namespace Kraken.Net.Clients.SpotApi
                 {
                     handler(update.ToType(
                         new SharedKline(
-                            ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, item.Symbol),
+                            ExchangeSymbolCache.ParseSymbol(_topicId, _api.EnvironmentName, null, item.Symbol),
                             item.Symbol!, 
                             item.OpenTime, 
                             item.ClosePrice, 
@@ -154,13 +178,13 @@ namespace Kraken.Net.Clients.SpotApi
         #endregion
 
         #region Balance client
-        SubscribeBalanceOptions IBalanceSocketClient.SubscribeBalanceOptions { get; } = new SubscribeBalanceOptions(_exchangeName, false);
-        async Task<WebSocketResult<UpdateSubscription>> IBalanceSocketClient.SubscribeToBalanceUpdatesAsync(SubscribeBalancesRequest request, Action<DataEvent<SharedBalance[]>> handler, CancellationToken ct)
+        public SubscribeBalanceOptions SubscribeBalanceOptions { get; } = new SubscribeBalanceOptions(_exchangeName, false);
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsync(SubscribeBalancesRequest request, Action<DataEvent<SharedBalance[]>> handler, CancellationToken ct)
         {
-            var validationError = SharedClient.SubscribeBalanceOptions.ValidateRequest(request, this);
+            var validationError = SubscribeBalanceOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return WebSocketResult.Fail<UpdateSubscription>(Exchange, validationError);
-            var result = await SubscribeToBalanceUpdatesAsync(
+            var result = await _api.SubscribeToBalanceUpdatesAsync(
                 null,
                 update => handler(update.ToType<SharedBalance[]>(update.Data.Select(x =>
                     new SharedBalance(
@@ -178,14 +202,14 @@ namespace Kraken.Net.Clients.SpotApi
         #region Spot Order client
 
         private readonly Dictionary<string, string> _idSymbolMap = new Dictionary<string, string>();
-        SubscribeSpotOrderOptions ISpotOrderSocketClient.SubscribeSpotOrderOptions { get; } = new SubscribeSpotOrderOptions(_exchangeName, false);
-        async Task<WebSocketResult<UpdateSubscription>> ISpotOrderSocketClient.SubscribeToSpotOrderUpdatesAsync(SubscribeSpotOrderRequest request, Action<DataEvent<SharedSpotOrder[]>> handler, CancellationToken ct)
+        public SubscribeSpotOrderOptions SubscribeSpotOrderOptions { get; } = new SubscribeSpotOrderOptions(_exchangeName, false);
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToSpotOrderUpdatesAsync(SubscribeSpotOrderRequest request, Action<DataEvent<SharedSpotOrder[]>> handler, CancellationToken ct)
         {
-            var validationError = SharedClient.SubscribeSpotOrderOptions.ValidateRequest(request, this);
+            var validationError = SubscribeSpotOrderOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return WebSocketResult.Fail<UpdateSubscription>(Exchange, validationError);
 
-            var result = await SubscribeToOrderUpdatesAsync(
+            var result = await _api.SubscribeToOrderUpdatesAsync(
                 update =>
                 {
                     // Not all updates contain the symbol, but symbol is required for us to give proper updates
@@ -210,7 +234,7 @@ namespace Kraken.Net.Clients.SpotApi
 
                     handler(update.ToType<SharedSpotOrder[]>(updateData.Select(
                         x => new SharedSpotOrder(
-                            ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Symbol),
+                            ExchangeSymbolCache.ParseSymbol(_topicId, _api.EnvironmentName, null, x.Symbol),
                             x.Symbol ?? string.Empty,
                             x.OrderId,
                             x.OrderType == Enums.OrderType.Limit ? SharedOrderType.Limit : x.OrderType == Enums.OrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
@@ -227,7 +251,7 @@ namespace Kraken.Net.Clients.SpotApi
                             TimeInForce = x.TimeInForce == TimeInForce.IOC ? SharedTimeInForce.ImmediateOrCancel : x.TimeInForce == TimeInForce.GTC ? SharedTimeInForce.GoodTillCanceled : null,
                             LastTrade = x.LastTradeId == null ? null : 
                                 new SharedUserTrade(
-                                    ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Symbol),
+                                    ExchangeSymbolCache.ParseSymbol(_topicId, _api.EnvironmentName, null, x.Symbol),
                                     x.Symbol ?? string.Empty,
                                     x.OrderId,
                                     x.LastTradeId.ToString()!,
@@ -259,30 +283,29 @@ namespace Kraken.Net.Clients.SpotApi
         }
         #endregion
 
-
         #region Spot Order client
 
-        SharedFeeDeductionType ISpotOrderManagementSocketClient.SpotFeeDeductionType => SharedFeeDeductionType.DeductFromOutput;
-        SharedFeeAssetType ISpotOrderManagementSocketClient.SpotFeeAssetType => SharedFeeAssetType.QuoteAsset;
-        SharedOrderType[] ISpotOrderManagementSocketClient.SpotSupportedOrderTypes { get; } = new[] { SharedOrderType.Limit, SharedOrderType.Market, SharedOrderType.LimitMaker };
-        SharedTimeInForce[] ISpotOrderManagementSocketClient.SpotSupportedTimeInForce { get; } = new[] { SharedTimeInForce.GoodTillCanceled, SharedTimeInForce.ImmediateOrCancel, SharedTimeInForce.FillOrKill };
+        public SharedFeeDeductionType SpotFeeDeductionType => SharedFeeDeductionType.DeductFromOutput;
+        public SharedFeeAssetType SpotFeeAssetType => SharedFeeAssetType.QuoteAsset;
+        public SharedOrderType[] SpotSupportedOrderTypes { get; } = new[] { SharedOrderType.Limit, SharedOrderType.Market, SharedOrderType.LimitMaker };
+        public SharedTimeInForce[] SpotSupportedTimeInForce { get; } = new[] { SharedTimeInForce.GoodTillCanceled, SharedTimeInForce.ImmediateOrCancel, SharedTimeInForce.FillOrKill };
 
-        SharedQuantitySupport ISpotOrderManagementSocketClient.SpotSupportedOrderQuantity { get; } = new SharedQuantitySupport(
+        public SharedQuantitySupport SpotSupportedOrderQuantity { get; } = new SharedQuantitySupport(
                 SharedQuantityType.BaseAsset,
                 SharedQuantityType.BaseAsset,
                 SharedQuantityType.BaseAndQuoteAsset,
                 SharedQuantityType.BaseAsset);
 
-        string ISpotOrderManagementSocketClient.GenerateClientOrderId() => ExchangeHelpers.RandomString(18);
+        public string GenerateClientOrderId() => ExchangeHelpers.RandomString(18);
 
-        PlaceSpotOrderSocketOptions ISpotOrderManagementSocketClient.PlaceSpotOrderOptions { get; } = new PlaceSpotOrderSocketOptions(_exchangeName);
-        async Task<QueryResult<SharedId>> ISpotOrderManagementSocketClient.PlaceSpotOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
+        public PlaceSpotOrderSocketOptions PlaceSpotOrderOptions { get; } = new PlaceSpotOrderSocketOptions(_exchangeName);
+        public async Task<QueryResult<SharedId>> PlaceSpotOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.PlaceSpotOrderOptions.ValidateRequest(request, this);
+            var validationError = PlaceSpotOrderOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return QueryResult.Fail<SharedId>(Exchange, validationError);
 
-            var result = await PlaceOrderAsync(
+            var result = await _api.PlaceOrderAsync(
                 request.Symbol!.GetSymbol(FormatSymbol),
                 request.Side == SharedOrderSide.Buy ? Enums.OrderSide.Buy : Enums.OrderSide.Sell,
                 GetPlaceOrderType(request.OrderType),
@@ -300,14 +323,14 @@ namespace Kraken.Net.Clients.SpotApi
             return QueryResult.Ok(result, new SharedId(result.Data.OrderId));
         }
 
-        CancelSpotOrderSocketOptions ISpotOrderManagementSocketClient.CancelSpotOrderOptions { get; } = new CancelSpotOrderSocketOptions(_exchangeName, true);
-        async Task<QueryResult<SharedId>> ISpotOrderManagementSocketClient.CancelSpotOrderAsync(CancelOrderRequest request, CancellationToken ct)
+        public CancelSpotOrderSocketOptions CancelSpotOrderOptions { get; } = new CancelSpotOrderSocketOptions(_exchangeName, true);
+        public async Task<QueryResult<SharedId>> CancelSpotOrderAsync(CancelOrderRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.CancelSpotOrderOptions.ValidateRequest(request, this);
+            var validationError = CancelSpotOrderOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return QueryResult.Fail<SharedId>(Exchange, validationError);
 
-            var order = await CancelOrderAsync(request.OrderId, ct: ct).ConfigureAwait(false);
+            var order = await _api.CancelOrderAsync(request.OrderId, ct: ct).ConfigureAwait(false);
             if (!order.Success)
                 return QueryResult.Fail<SharedId>(order);
 

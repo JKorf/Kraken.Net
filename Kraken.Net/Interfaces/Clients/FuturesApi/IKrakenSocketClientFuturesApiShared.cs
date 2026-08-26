@@ -15,4 +15,20 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         IPositionSocketClient
     {
     }
+
+    /// <summary>
+    /// Shared API interface. Shared APIs provide a common,
+    /// exchange-independent contract for accessing functionality across different
+    /// exchange client libraries.
+    /// </summary>
+    public interface IKrakenSocketClientFuturesSharedApi
+        : ISubscribeTickerOperation,
+        ISubscribeTradesOperation,
+        ISubscribeBookTickerOperation,
+        ISubscribeBalancesOperation,
+        ISubscribeFuturesOrdersOperation,
+        ISubscribeUserTradesOperation,
+        ISubscribePositionsOperation
+    {
+    }
 }

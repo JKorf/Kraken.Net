@@ -8,22 +8,60 @@ using System.Timers;
 
 namespace Kraken.Net.Clients.SpotApi
 {
-    internal partial class KrakenRestClientSpotApi : IKrakenRestClientSpotApiShared
+    internal class KrakenRestClientSpotSharedApi : 
+        SharedApiBase,
+        IKrakenRestClientSpotApiShared,
+        IKrakenRestClientSpotSharedApi
     {
+        private readonly KrakenRestClientSpotApi _api;
+
         private const string _topicId = "KrakenSpot";
         private const string _exchangeName = "Kraken";
 
-        public TradingMode[] SupportedTradingModes { get; } = new[] { TradingMode.Spot };
-
-        public void SetDefaultExchangeParameter(string key, object value) => ExchangeParameters.SetStaticParameter(Exchange, key, value);
-        public void ResetDefaultExchangeParameters() => ExchangeParameters.ResetStaticParameters();
-        public SharedClientInfo Discover() => SharedUtils.GetClientInfo(KrakenExchange.Metadata, this);
+        public override SharedClientInfo Discover() => SharedUtils.GetClientInfo(KrakenExchange.Metadata, this);
 
         private static readonly HashSet<string> _exchangeFiat = ["USD", "EUR", "GBP", "CHF", "AUD", "CAD", "JPY"];
 
+        public KrakenRestClientSpotSharedApi(KrakenRestClientSpotApi api)
+            : base(
+                  api.Exchange,
+                  [TradingMode.Spot],
+                  () => api.Authenticated,
+                  api.FormatSymbol)
+        {
+            _api = api;
+
+            SetCapabilities(
+                GetKlinesOptions,
+                GetSpotSymbolsOptions,
+                GetSpotTickerOptions,
+                GetAllSpotTickersOptions,
+                GetBookTickerOptions,
+                GetRecentTradesOptions,
+                GetBalancesOptions,
+                PlaceSpotOrderOptions,
+                GetSpotOrderOptions,
+                GetOpenSpotOrdersOptions,
+                GetClosedSpotOrdersOptions,
+                GetSpotUserTradeHistoryOptions,
+                GetSpotOrderTradesOptions,
+                CancelSpotOrderOptions,
+                GetSpotOrderByClientOrderIdOptions,
+                CancelSpotOrderByClientOrderIdOptions,
+                GetAssetOptions,
+                GetAssetsOptions,
+                GetDepositAddressesOptions,
+                GetDepositHistoryOptions,
+                GetOrderBookOptions,
+                GetWithdrawalHistoryOptions,
+                WithdrawOptions,
+                GetFeeOptions
+                );
+        }
+
         #region Kline client
 
-        GetKlinesOptions IKlineRestClient.GetKlinesOptions { get; } = new GetKlinesOptions(_exchangeName, true, false, true, 720, false,
+        public GetKlinesOptions GetKlinesOptions { get; } = new GetKlinesOptions(_exchangeName, true, false, true, 720, false,
             SharedKlineInterval.OneMinute,
             SharedKlineInterval.FiveMinutes,
             SharedKlineInterval.FifteenMinutes,
@@ -36,11 +74,11 @@ namespace Kraken.Net.Clients.SpotApi
             MaxTotalDataPoints = 720
         };
 
-        async Task<HttpResult<SharedKline[]>> IKlineRestClient.GetKlinesAsync(GetKlinesRequest request, PageRequest? pageRequest, CancellationToken ct)
+        public async Task<HttpResult<SharedKline[]>> GetKlinesAsync(GetKlinesRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
             var interval = (Enums.KlineInterval)request.Interval;
 
-            var validationError = SharedClient.GetKlinesOptions.ValidateRequest(request, this);
+            var validationError = GetKlinesOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedKline[]>(Exchange, validationError);
 
@@ -61,7 +99,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             // Get data
             var symbol = request.Symbol!.GetSymbol(FormatSymbol);
-            var result = await ExchangeData.GetKlinesAsync(
+            var result = await _api.ExchangeData.GetKlinesAsync(
                 symbol,
                 interval,
                 since: pageParams.StartTime,
@@ -97,22 +135,26 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Spot Symbol client
 
-        SharedSymbolCatalog? ISpotSymbolRestClient.SpotSymbolCatalog => ExchangeSymbolCache.GetSymbolCatalog(_exchangeName, _topicId, EnvironmentName, null);
-        GetSpotSymbolsOptions ISpotSymbolRestClient.GetSpotSymbolsOptions { get; } = new GetSpotSymbolsOptions(_exchangeName, false)
+        public SharedSymbolCatalog? SpotSymbolCatalog => ExchangeSymbolCache.GetSymbolCatalog(_exchangeName, _topicId, _api.EnvironmentName, null);
+        public GetSpotSymbolsOptions GetSpotSymbolsOptions { get; } = new GetSpotSymbolsOptions(_exchangeName, false)
         {
-            OptionalExchangeParameters = [            
-                new ParameterDescription(["NewAssetNames", "assetVersion"], typeof(bool), "If true, the response will use the new asset names (e.g. instead of XBT, BTC will be used)", false)
-            ]
+            OptionalExchangeParameters = [
+                ExchangeParameterDescription.Optional<bool>(
+                    "NewAssetNames",
+                    aliases: ["assetVersion"],
+                    description: "If true, the response will use the new asset names (e.g. instead of XBT, BTC will be used)",
+                    exampleValue: false)
+                ]
         };
-        async Task<HttpResult<SharedSpotSymbol[]>> ISpotSymbolRestClient.GetSpotSymbolsAsync(GetSymbolsRequest request, CancellationToken ct)
+        public async Task<HttpResult<SharedSpotSymbol[]>> GetSpotSymbolsAsync(GetSymbolsRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.GetSpotSymbolsOptions.ValidateRequest(request, this);
+            var validationError = GetSpotSymbolsOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedSpotSymbol[]>(Exchange, validationError);
 
             var useNewAssetResponse = request.GetParamValue<bool?>(Exchange, "NewAssetNames", "assetVersion");
-            var currencyTask = ExchangeData.GetSymbolsAsync(newAssetNameResponse: useNewAssetResponse, aClass: AClass.Currency, ct: ct);
-            var tokenTask = ExchangeData.GetSymbolsAsync(newAssetNameResponse: useNewAssetResponse, aClass: AClass.TokenizedAsset, ct: ct);
+            var currencyTask = _api.ExchangeData.GetSymbolsAsync(newAssetNameResponse: useNewAssetResponse, aClass: AClass.Currency, ct: ct);
+            var tokenTask = _api.ExchangeData.GetSymbolsAsync(newAssetNameResponse: useNewAssetResponse, aClass: AClass.TokenizedAsset, ct: ct);
             await Task.WhenAll(currencyTask, tokenTask).ConfigureAwait(false);
             var currencyResult = currencyTask.Result;
             var tokenResult = tokenTask.Result;
@@ -133,7 +175,7 @@ namespace Kraken.Net.Clients.SpotApi
                 .Concat(resultData.Select(x => new SharedSpotSymbol(x.BaseAsset, x.QuoteAsset, x.BaseAsset + "/" + x.QuoteAsset, x.Trading, x.TradingMode)))
                 .Concat(resultData.Where(x => x.Name != x.BaseAsset + x.QuoteAsset).Select(x => new SharedSpotSymbol(x.BaseAsset, x.QuoteAsset, x.BaseAsset + x.QuoteAsset, x.Trading, x.TradingMode)))
                 .ToArray();
-            ExchangeSymbolCache.UpdateSymbolInfo(_topicId, EnvironmentName, null, symbolRegistrations);
+            ExchangeSymbolCache.UpdateSymbolInfo(_topicId, _api.EnvironmentName, null, symbolRegistrations);
             return HttpResult.Ok(currencyResult, SharedUtils.ApplySymbolFilter(resultData, request));
         }
 
@@ -186,56 +228,56 @@ namespace Kraken.Net.Clients.SpotApi
             return (KrakenExchange.AssetAliases.ExchangeToCommonName(split[0]), KrakenExchange.AssetAliases.ExchangeToCommonName(split[1]));
         }
 
-        async Task<ExchangeCallResult<SharedSymbol[]>> ISpotSymbolRestClient.GetSpotSymbolsForBaseAssetAsync(string baseAsset)
+        public async Task<ExchangeCallResult<SharedSymbol[]>> GetSpotSymbolsForBaseAssetAsync(string baseAsset)
         {
-            if (!ExchangeSymbolCache.HasCached(_topicId, EnvironmentName, null))
+            if (!ExchangeSymbolCache.HasCached(_topicId, _api.EnvironmentName, null))
             {
-                var symbols = await ((ISpotSymbolRestClient)this).GetSpotSymbolsAsync(new GetSymbolsRequest()).ConfigureAwait(false);
+                var symbols = await GetSpotSymbolsAsync(new GetSymbolsRequest(), default).ConfigureAwait(false);
                 if (!symbols.Success)
                     return ExchangeCallResult<SharedSymbol[]>.Fail(Exchange, symbols.Error!);
             }
 
-            return ExchangeCallResult<SharedSymbol[]>.Ok(Exchange, ExchangeSymbolCache.GetSymbolsForBaseAsset(_topicId, EnvironmentName, null, baseAsset));
+            return ExchangeCallResult<SharedSymbol[]>.Ok(Exchange, ExchangeSymbolCache.GetSymbolsForBaseAsset(_topicId, _api.EnvironmentName, null, baseAsset));
         }
 
-        async Task<ExchangeCallResult<bool>> ISpotSymbolRestClient.SupportsSpotSymbolAsync(SharedSymbol symbol)
+        public async Task<ExchangeCallResult<bool>> SupportsSpotSymbolAsync(SharedSymbol symbol)
         {
             if (symbol.TradingMode != TradingMode.Spot)
                 throw new ArgumentException(nameof(symbol), "Only Spot symbols allowed");
 
-            if (!ExchangeSymbolCache.HasCached(_topicId, EnvironmentName, null))
+            if (!ExchangeSymbolCache.HasCached(_topicId, _api.EnvironmentName, null))
             {
-                var symbols = await ((ISpotSymbolRestClient)this).GetSpotSymbolsAsync(new GetSymbolsRequest()).ConfigureAwait(false);
+                var symbols = await GetSpotSymbolsAsync(new GetSymbolsRequest(), default).ConfigureAwait(false);
                 if (!symbols.Success)
                     return ExchangeCallResult<bool>.Fail(Exchange, symbols.Error!);
             }
 
-            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicId, EnvironmentName, null, symbol));
+            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicId, _api.EnvironmentName, null, symbol));
         }
 
-        async Task<ExchangeCallResult<bool>> ISpotSymbolRestClient.SupportsSpotSymbolAsync(string symbolName)
+        public async Task<ExchangeCallResult<bool>> SupportsSpotSymbolAsync(string symbolName)
         {
-            if (!ExchangeSymbolCache.HasCached(_topicId, EnvironmentName, null))
+            if (!ExchangeSymbolCache.HasCached(_topicId, _api.EnvironmentName, null))
             {
-                var symbols = await ((ISpotSymbolRestClient)this).GetSpotSymbolsAsync(new GetSymbolsRequest()).ConfigureAwait(false);
+                var symbols = await GetSpotSymbolsAsync(new GetSymbolsRequest(), default).ConfigureAwait(false);
                 if (!symbols.Success)
                     return ExchangeCallResult<bool>.Fail(Exchange, symbols.Error!);
             }
 
-            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicId, EnvironmentName, null, symbolName));
+            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicId, _api.EnvironmentName, null, symbolName));
         }
         #endregion
 
         #region Ticker client
 
-        GetSpotTickerOptions ISpotTickerRestClient.GetSpotTickerOptions { get; } = new GetSpotTickerOptions(_exchangeName, SharedTickerType.Other);
-        async Task<HttpResult<SharedSpotTicker>> ISpotTickerRestClient.GetSpotTickerAsync(GetTickerRequest request, CancellationToken ct)
+        public GetSpotTickerOptions GetSpotTickerOptions { get; } = new GetSpotTickerOptions(_exchangeName, SharedTickerType.Other);
+        public async Task<HttpResult<SharedSpotTicker>> GetSpotTickerAsync(GetTickerRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.GetSpotTickerOptions.ValidateRequest(request, this);
+            var validationError = GetSpotTickerOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedSpotTicker>(Exchange, validationError);
 
-            var result = await ExchangeData.GetTickerAsync(
+            var result = await _api.ExchangeData.GetTickerAsync(
                 request.Symbol!.GetSymbol(FormatSymbol),
                 ct).ConfigureAwait(false);
             if (!result.Success)
@@ -244,7 +286,7 @@ namespace Kraken.Net.Clients.SpotApi
             var ticker = result.Data.Single();
             return HttpResult.Ok(result, 
                 new SharedSpotTicker(
-                    ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, ticker.Value.Symbol), 
+                    ExchangeSymbolCache.ParseSymbol(_topicId, _api.EnvironmentName, null, ticker.Value.Symbol), 
                     ticker.Value.Symbol, 
                     ticker.Value.LastTrade.Price,
                     ticker.Value.High.Value24H,
@@ -255,20 +297,25 @@ namespace Kraken.Net.Clients.SpotApi
             });
         }
 
-        GetSpotTickersOptions ISpotTickerRestClient.GetSpotTickersOptions { get; } = new GetSpotTickersOptions(_exchangeName, SharedTickerType.Other);
-        async Task<HttpResult<SharedSpotTicker[]>> ISpotTickerRestClient.GetSpotTickersAsync(GetTickersRequest request, CancellationToken ct)
+
+        Task<HttpResult<SharedSpotTicker[]>> ISpotTickerRestClient.GetSpotTickersAsync(GetTickersRequest request, CancellationToken ct)
+            => GetAllSpotTickersAsync(request, ct);
+        GetAllSpotTickersOptions ISpotTickerRestClient.GetSpotTickersOptions => GetAllSpotTickersOptions;
+
+        public GetAllSpotTickersOptions GetAllSpotTickersOptions { get; } = new GetAllSpotTickersOptions(_exchangeName, SharedTickerType.Other);
+        public async Task<HttpResult<SharedSpotTicker[]>> GetAllSpotTickersAsync(GetTickersRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.GetSpotTickersOptions.ValidateRequest(request, this);
+            var validationError = GetAllSpotTickersOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedSpotTicker[]>(Exchange, validationError);
 
-            var result = await ExchangeData.GetTickersAsync(ct: ct).ConfigureAwait(false);
+            var result = await _api.ExchangeData.GetTickersAsync(ct: ct).ConfigureAwait(false);
             if (!result.Success)
                 return HttpResult.Fail<SharedSpotTicker[]>(result);
 
             return HttpResult.Ok(result, result.Data.Select(x => 
             new SharedSpotTicker(
-                ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Value.Symbol), 
+                ExchangeSymbolCache.ParseSymbol(_topicId, _api.EnvironmentName, null, x.Value.Symbol), 
                 x.Value.Symbol, 
                 x.Value.LastTrade.Price, 
                 x.Value.High.Value24H,
@@ -283,20 +330,20 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Book Ticker client
 
-        GetBookTickerOptions IBookTickerRestClient.GetBookTickerOptions { get; } = new GetBookTickerOptions(_exchangeName, false);
-        async Task<HttpResult<SharedBookTicker>> IBookTickerRestClient.GetBookTickerAsync(GetBookTickerRequest request, CancellationToken ct)
+        public GetBookTickerOptions GetBookTickerOptions { get; } = new GetBookTickerOptions(_exchangeName, false);
+        public async Task<HttpResult<SharedBookTicker>> GetBookTickerAsync(GetBookTickerRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.GetBookTickerOptions.ValidateRequest(request, this);
+            var validationError = GetBookTickerOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedBookTicker>(Exchange, validationError);
 
             var symbol = request.Symbol!.GetSymbol(FormatSymbol);
-            var resultTicker = await ExchangeData.GetTickerAsync(symbol, ct: ct).ConfigureAwait(false);
+            var resultTicker = await _api.ExchangeData.GetTickerAsync(symbol, ct: ct).ConfigureAwait(false);
             if (!resultTicker.Success)
                 return HttpResult.Fail<SharedBookTicker>(resultTicker);
 
             return HttpResult.Ok(resultTicker, new SharedBookTicker(
-                ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, symbol),
+                ExchangeSymbolCache.ParseSymbol(_topicId, _api.EnvironmentName, null, symbol),
                 symbol,
                 resultTicker.Data.First().Value.BestAsks.Price,
                 new SharedOrderQuantity(resultTicker.Data.First().Value.BestAsks.Quantity),
@@ -308,16 +355,16 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Recent Trade client
 
-        GetRecentTradesOptions IRecentTradeRestClient.GetRecentTradesOptions { get; } = new GetRecentTradesOptions(_exchangeName, 1000, false);
+        public GetRecentTradesOptions GetRecentTradesOptions { get; } = new GetRecentTradesOptions(_exchangeName, 1000, false);
 
-        async Task<HttpResult<SharedTrade[]>> IRecentTradeRestClient.GetRecentTradesAsync(GetRecentTradesRequest request, CancellationToken ct)
+        public async Task<HttpResult<SharedTrade[]>> GetRecentTradesAsync(GetRecentTradesRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.GetRecentTradesOptions.ValidateRequest(request, this);
+            var validationError = GetRecentTradesOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedTrade[]>(Exchange, validationError);
 
             var symbol = request.Symbol!.GetSymbol(FormatSymbol);
-            var result = await ExchangeData.GetTradeHistoryAsync(
+            var result = await _api.ExchangeData.GetTradeHistoryAsync(
                 symbol,
                 limit: request.Limit,
                 ct: ct).ConfigureAwait(false);
@@ -334,15 +381,15 @@ namespace Kraken.Net.Clients.SpotApi
         #endregion
 
         #region Balance client
-        GetBalancesOptions IBalanceRestClient.GetBalancesOptions { get; } = new GetBalancesOptions(_exchangeName, AccountTypeFilter.Spot);
+        public GetBalancesOptions GetBalancesOptions { get; } = new GetBalancesOptions(_exchangeName, AccountTypeFilter.Spot);
 
-        async Task<HttpResult<SharedBalance[]>> IBalanceRestClient.GetBalancesAsync(GetBalancesRequest request, CancellationToken ct)
+        public async Task<HttpResult<SharedBalance[]>> GetBalancesAsync(GetBalancesRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.GetBalancesOptions.ValidateRequest(request, this);
+            var validationError = GetBalancesOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedBalance[]>(Exchange, validationError);
 
-            var result = await Account.GetAvailableBalancesAsync(ct: ct).ConfigureAwait(false);
+            var result = await _api.Account.GetAvailableBalancesAsync(ct: ct).ConfigureAwait(false);
             if (!result.Success)
                 return HttpResult.Fail<SharedBalance[]>(result);
 
@@ -358,27 +405,27 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Spot Order client
 
-        SharedFeeDeductionType ISpotOrderRestClient.SpotFeeDeductionType => SharedFeeDeductionType.DeductFromOutput;
-        SharedFeeAssetType ISpotOrderRestClient.SpotFeeAssetType => SharedFeeAssetType.QuoteAsset;
-        SharedOrderType[] ISpotOrderRestClient.SpotSupportedOrderTypes { get; } = new[] { SharedOrderType.Limit, SharedOrderType.Market, SharedOrderType.LimitMaker };
-        SharedTimeInForce[] ISpotOrderRestClient.SpotSupportedTimeInForce { get; } = new[] { SharedTimeInForce.GoodTillCanceled, SharedTimeInForce.ImmediateOrCancel, SharedTimeInForce.FillOrKill };
+        public SharedFeeDeductionType SpotFeeDeductionType => SharedFeeDeductionType.DeductFromOutput;
+        public SharedFeeAssetType SpotFeeAssetType => SharedFeeAssetType.QuoteAsset;
+        public SharedOrderType[] SpotSupportedOrderTypes { get; } = new[] { SharedOrderType.Limit, SharedOrderType.Market, SharedOrderType.LimitMaker };
+        public SharedTimeInForce[] SpotSupportedTimeInForce { get; } = new[] { SharedTimeInForce.GoodTillCanceled, SharedTimeInForce.ImmediateOrCancel, SharedTimeInForce.FillOrKill };
 
-        SharedQuantitySupport ISpotOrderRestClient.SpotSupportedOrderQuantity { get; } = new SharedQuantitySupport(
+        public SharedQuantitySupport SpotSupportedOrderQuantity { get; } = new SharedQuantitySupport(
                 SharedQuantityType.BaseAsset,
                 SharedQuantityType.BaseAsset,
                 SharedQuantityType.BaseAndQuoteAsset,
                 SharedQuantityType.BaseAsset);
 
-        string ISpotOrderRestClient.GenerateClientOrderId() => ExchangeHelpers.RandomString(18);
+        public string GenerateClientOrderId() => ExchangeHelpers.RandomString(18);
 
-        PlaceSpotOrderOptions ISpotOrderRestClient.PlaceSpotOrderOptions { get; } = new PlaceSpotOrderOptions(_exchangeName);
-        async Task<HttpResult<SharedId>> ISpotOrderRestClient.PlaceSpotOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
+        public PlaceSpotOrderOptions PlaceSpotOrderOptions { get; } = new PlaceSpotOrderOptions(_exchangeName);
+        public async Task<HttpResult<SharedId>> PlaceSpotOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.PlaceSpotOrderOptions.ValidateRequest(request, this);
+            var validationError = PlaceSpotOrderOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedId>(Exchange, validationError);
 
-            var result = await Trading.PlaceOrderAsync(
+            var result = await _api.Trading.PlaceOrderAsync(
                 request.Symbol!.GetSymbol(FormatSymbol),
                 request.Side == SharedOrderSide.Buy ? Enums.OrderSide.Buy : Enums.OrderSide.Sell,
                 GetPlaceOrderType(request.OrderType),
@@ -395,14 +442,14 @@ namespace Kraken.Net.Clients.SpotApi
             return HttpResult.Ok(result, new SharedId(result.Data.OrderIds.Single().ToString()));
         }
 
-        GetSpotOrderOptions ISpotOrderRestClient.GetSpotOrderOptions { get; } = new GetSpotOrderOptions(_exchangeName, true);
-        async Task<HttpResult<SharedSpotOrder>> ISpotOrderRestClient.GetSpotOrderAsync(GetOrderRequest request, CancellationToken ct)
+        public GetSpotOrderOptions GetSpotOrderOptions { get; } = new GetSpotOrderOptions(_exchangeName, true);
+        public async Task<HttpResult<SharedSpotOrder>> GetSpotOrderAsync(GetOrderRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.GetSpotOrderOptions.ValidateRequest(request, this);
+            var validationError = GetSpotOrderOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedSpotOrder>(Exchange, validationError);
 
-            var order = await Trading.GetOrderAsync(request.OrderId, ct: ct).ConfigureAwait(false);
+            var order = await _api.Trading.GetOrderAsync(request.OrderId, ct: ct).ConfigureAwait(false);
             if (!order.Success)
                 return HttpResult.Fail<SharedSpotOrder>(order);
 
@@ -411,7 +458,7 @@ namespace Kraken.Net.Clients.SpotApi
                 return HttpResult.Fail<SharedSpotOrder>(Exchange, new ServerError(new ErrorInfo(ErrorType.UnknownOrder, "Order not found")));
 
             return HttpResult.Ok(order, new SharedSpotOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, orderData.Value.OrderDetails.Symbol),
+                ExchangeSymbolCache.ParseSymbol(_topicId, _api.EnvironmentName, null, orderData.Value.OrderDetails.Symbol),
                 orderData.Value.OrderDetails.Symbol,
                 orderData.Value.Id.ToString(),
                 ParseOrderType(orderData.Value.OrderDetails.Type, orderData.Value.Oflags),
@@ -429,15 +476,15 @@ namespace Kraken.Net.Clients.SpotApi
             });
         }
 
-        GetOpenSpotOrdersOptions ISpotOrderRestClient.GetOpenSpotOrdersOptions { get; } = new GetOpenSpotOrdersOptions(_exchangeName, true);
-        async Task<HttpResult<SharedSpotOrder[]>> ISpotOrderRestClient.GetOpenSpotOrdersAsync(GetOpenOrdersRequest request, CancellationToken ct)
+        public GetOpenSpotOrdersOptions GetOpenSpotOrdersOptions { get; } = new GetOpenSpotOrdersOptions(_exchangeName, true);
+        public async Task<HttpResult<SharedSpotOrder[]>> GetOpenSpotOrdersAsync(GetOpenOrdersRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.GetOpenSpotOrdersOptions.ValidateRequest(request, this);
+            var validationError = GetOpenSpotOrdersOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedSpotOrder[]>(Exchange, validationError);
 
             var symbol = request.Symbol?.GetSymbol(FormatSymbol);
-            var order = await Trading.GetOpenOrdersAsync(ct: ct).ConfigureAwait(false);
+            var order = await _api.Trading.GetOpenOrdersAsync(ct: ct).ConfigureAwait(false);
             if (!order.Success)
                 return HttpResult.Fail<SharedSpotOrder[]>(order);
 
@@ -446,7 +493,7 @@ namespace Kraken.Net.Clients.SpotApi
                 orders = orders.Where(x => x.OrderDetails.Symbol == symbol);
 
             return HttpResult.Ok(order, orders.Select(x => new SharedSpotOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.OrderDetails.Symbol),
+                ExchangeSymbolCache.ParseSymbol(_topicId, _api.EnvironmentName, null, x.OrderDetails.Symbol),
                 x.OrderDetails.Symbol,
                 x.Id.ToString(),
                 ParseOrderType(x.OrderDetails.Type, x.Oflags),
@@ -464,13 +511,13 @@ namespace Kraken.Net.Clients.SpotApi
             }).ToArray());
         }
 
-        GetSpotClosedOrdersOptions ISpotOrderRestClient.GetClosedSpotOrdersOptions { get; } = new GetSpotClosedOrdersOptions(_exchangeName, false, true, true, 50)
+        public GetSpotClosedOrdersOptions GetClosedSpotOrdersOptions { get; } = new GetSpotClosedOrdersOptions(_exchangeName, false, true, true, 50)
         {
             RequestNotes = "Request always returns up to 50 results"
         };
-        async Task<HttpResult<SharedSpotOrder[]>> ISpotOrderRestClient.GetClosedSpotOrdersAsync(GetClosedOrdersRequest request, PageRequest? pageRequest, CancellationToken ct)
+        public async Task<HttpResult<SharedSpotOrder[]>> GetClosedSpotOrdersAsync(GetClosedOrdersRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
-            var validationError = SharedClient.GetClosedSpotOrdersOptions.ValidateRequest(request, this);
+            var validationError = GetClosedSpotOrdersOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedSpotOrder[]>(Exchange, validationError);
 
@@ -478,7 +525,7 @@ namespace Kraken.Net.Clients.SpotApi
             var direction = DataDirection.Descending;
             var pageParams = Pagination.GetPaginationParameters(direction, limit, request.StartTime, request.EndTime ?? DateTime.UtcNow, pageRequest);
 
-            var result = await Trading.GetClosedOrdersAsync(
+            var result = await _api.Trading.GetClosedOrdersAsync(
                 startTime: pageParams.StartTime,
                 endTime: pageParams.EndTime,
                 resultOffset: pageParams.Offset,
@@ -498,7 +545,7 @@ namespace Kraken.Net.Clients.SpotApi
             return HttpResult.Ok(result, ExchangeHelpers.ApplyFilter(orders, x => x.CreateTime, request.StartTime, request.EndTime, direction)
                     .Select(x => 
                         new SharedSpotOrder(
-                            ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.OrderDetails.Symbol),
+                            ExchangeSymbolCache.ParseSymbol(_topicId, _api.EnvironmentName, null, x.OrderDetails.Symbol),
                             x.OrderDetails.Symbol,
                             x.Id.ToString(),
                             ParseOrderType(x.OrderDetails.Type, x.Oflags),
@@ -517,14 +564,14 @@ namespace Kraken.Net.Clients.SpotApi
                     .ToArray(), nextPageRequest);
         }
 
-        GetSpotOrderTradesOptions ISpotOrderRestClient.GetSpotOrderTradesOptions { get; } = new GetSpotOrderTradesOptions(_exchangeName, true);
-        async Task<HttpResult<SharedUserTrade[]>> ISpotOrderRestClient.GetSpotOrderTradesAsync(GetOrderTradesRequest request, CancellationToken ct)
+        public GetSpotOrderTradesOptions GetSpotOrderTradesOptions { get; } = new GetSpotOrderTradesOptions(_exchangeName, true);
+        public async Task<HttpResult<SharedUserTrade[]>> GetSpotOrderTradesAsync(GetOrderTradesRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.GetSpotOrderTradesOptions.ValidateRequest(request, this);
+            var validationError = GetSpotOrderTradesOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedUserTrade[]>(Exchange, validationError);
 
-            var order = await Trading.GetOrderAsync(request.OrderId, trades: true).ConfigureAwait(false);
+            var order = await _api.Trading.GetOrderAsync(request.OrderId, trades: true).ConfigureAwait(false);
             if (!order.Success)
                 return HttpResult.Fail<SharedUserTrade[]>(order);
 
@@ -536,12 +583,12 @@ namespace Kraken.Net.Clients.SpotApi
             if (!trades.Any())
                 return HttpResult.Ok(order, new SharedUserTrade[] { });
 
-            var tradeInfo = await Trading.GetUserTradeDetailsAsync(trades.Take(20), ct: ct).ConfigureAwait(false);
+            var tradeInfo = await _api.Trading.GetUserTradeDetailsAsync(trades.Take(20), ct: ct).ConfigureAwait(false);
             if (!tradeInfo.Success)
                 return HttpResult.Fail<SharedUserTrade[]>(tradeInfo);
 
             return HttpResult.Ok(tradeInfo, tradeInfo.Data.Select(x => new SharedUserTrade(
-                ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Value.Symbol), 
+                ExchangeSymbolCache.ParseSymbol(_topicId, _api.EnvironmentName, null, x.Value.Symbol), 
                 x.Value.Symbol,
                 x.Value.OrderId.ToString(),
                 x.Value.Id.ToString(),
@@ -555,13 +602,18 @@ namespace Kraken.Net.Clients.SpotApi
             }).ToArray());
         }
 
-        GetSpotUserTradesOptions ISpotOrderRestClient.GetSpotUserTradesOptions { get; } = new GetSpotUserTradesOptions(_exchangeName, false, true, true, 50)
+
+        Task<HttpResult<SharedUserTrade[]>> ISpotOrderRestClient.GetSpotUserTradesAsync(GetUserTradesRequest request, PageRequest? nextPageToken, CancellationToken ct)
+            => GetSpotUserTradeHistoryAsync(request, nextPageToken, ct);
+        GetSpotUserTradeHistoryOptions ISpotOrderRestClient.GetSpotUserTradesOptions => GetSpotUserTradeHistoryOptions;
+
+        public GetSpotUserTradeHistoryOptions GetSpotUserTradeHistoryOptions { get; } = new GetSpotUserTradeHistoryOptions(_exchangeName, false, true, true, 50)
         {
             RequestNotes = "Request always returns up to 50 results"
         };
-        async Task<HttpResult<SharedUserTrade[]>> ISpotOrderRestClient.GetSpotUserTradesAsync(GetUserTradesRequest request, PageRequest? pageRequest, CancellationToken ct)
+        public async Task<HttpResult<SharedUserTrade[]>> GetSpotUserTradeHistoryAsync(GetUserTradesRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
-            var validationError = SharedClient.GetSpotUserTradesOptions.ValidateRequest(request, this);
+            var validationError = GetSpotUserTradeHistoryOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedUserTrade[]>(Exchange, validationError);
 
@@ -570,7 +622,7 @@ namespace Kraken.Net.Clients.SpotApi
             var pageParams = Pagination.GetPaginationParameters(direction, limit, request.StartTime, request.EndTime ?? DateTime.UtcNow, pageRequest);
 
             // Get data
-            var result = await Trading.GetUserTradesAsync(
+            var result = await _api.Trading.GetUserTradesAsync(
                 startTime: pageParams.StartTime,
                 endTime: pageParams.EndTime,
                 resultOffset: pageParams.Offset,
@@ -591,7 +643,7 @@ namespace Kraken.Net.Clients.SpotApi
                     .Where(t => t.Value.Symbol == symbol)
                     .Select(x =>
                         new SharedUserTrade(
-                            ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, x.Value.Symbol), 
+                            ExchangeSymbolCache.ParseSymbol(_topicId, _api.EnvironmentName, null, x.Value.Symbol), 
                             x.Value.Symbol,
                             x.Value.OrderId.ToString(),
                             x.Value.Id.ToString(),
@@ -605,14 +657,14 @@ namespace Kraken.Net.Clients.SpotApi
                         }).ToArray(), nextPageRequest);
         }
 
-        CancelSpotOrderOptions ISpotOrderRestClient.CancelSpotOrderOptions { get; } = new CancelSpotOrderOptions(_exchangeName, true);
-        async Task<HttpResult<SharedId>> ISpotOrderRestClient.CancelSpotOrderAsync(CancelOrderRequest request, CancellationToken ct)
+        public CancelSpotOrderOptions CancelSpotOrderOptions { get; } = new CancelSpotOrderOptions(_exchangeName, true);
+        public async Task<HttpResult<SharedId>> CancelSpotOrderAsync(CancelOrderRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.CancelSpotOrderOptions.ValidateRequest(request, this);
+            var validationError = CancelSpotOrderOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedId>(Exchange, validationError);
 
-            var order = await Trading.CancelOrderAsync(request.OrderId, ct: ct).ConfigureAwait(false);
+            var order = await _api.Trading.CancelOrderAsync(request.OrderId, ct: ct).ConfigureAwait(false);
             if (!order.Success)
                 return HttpResult.Fail<SharedId>(order);
 
@@ -673,21 +725,21 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Spot Client Id Order Client
 
-        GetSpotOrderByClientOrderIdOptions ISpotOrderClientIdRestClient.GetSpotOrderByClientOrderIdOptions { get; } = new GetSpotOrderByClientOrderIdOptions(_exchangeName, true);
-        async Task<HttpResult<SharedSpotOrder>> ISpotOrderClientIdRestClient.GetSpotOrderByClientOrderIdAsync(GetOrderRequest request, CancellationToken ct)
+        public GetSpotOrderByClientOrderIdOptions GetSpotOrderByClientOrderIdOptions { get; } = new GetSpotOrderByClientOrderIdOptions(_exchangeName, true);
+        public async Task<HttpResult<SharedSpotOrder>> GetSpotOrderByClientOrderIdAsync(GetOrderRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.GetSpotOrderOptions.ValidateRequest(request, this);
+            var validationError = GetSpotOrderByClientOrderIdOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedSpotOrder>(Exchange, validationError);
 
-            var order = await Trading.GetOpenOrdersAsync(clientOrderId: request.OrderId, ct: ct).ConfigureAwait(false);
+            var order = await _api.Trading.GetOpenOrdersAsync(clientOrderId: request.OrderId, ct: ct).ConfigureAwait(false);
             if (!order.Success)
                 return HttpResult.Fail<SharedSpotOrder>(order);
 
             var orderData = order.Data.Open.SingleOrDefault().Value;
             if (orderData == null)
             {
-                var pageOrder = await Trading.GetClosedOrdersAsync(clientOrderId: request.OrderId, ct: ct).ConfigureAwait(false);
+                var pageOrder = await _api.Trading.GetClosedOrdersAsync(clientOrderId: request.OrderId, ct: ct).ConfigureAwait(false);
                 if (!pageOrder.Success)
                     return HttpResult.Fail<SharedSpotOrder>(pageOrder);
 
@@ -698,7 +750,7 @@ namespace Kraken.Net.Clients.SpotApi
                 return HttpResult.Fail<SharedSpotOrder>(Exchange, new ServerError(new ErrorInfo(ErrorType.UnknownOrder, "Order not found")));
 
             return HttpResult.Ok(order, new SharedSpotOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicId, EnvironmentName, null, orderData.OrderDetails.Symbol),
+                ExchangeSymbolCache.ParseSymbol(_topicId, _api.EnvironmentName, null, orderData.OrderDetails.Symbol),
                 orderData.OrderDetails.Symbol,
                 orderData.Id.ToString(),
                 ParseOrderType(orderData.OrderDetails.Type, orderData.Oflags),
@@ -716,14 +768,14 @@ namespace Kraken.Net.Clients.SpotApi
             });
         }
 
-        CancelSpotOrderByClientOrderIdOptions ISpotOrderClientIdRestClient.CancelSpotOrderByClientOrderIdOptions { get; } = new CancelSpotOrderByClientOrderIdOptions(_exchangeName, true);
-        async Task<HttpResult<SharedId>> ISpotOrderClientIdRestClient.CancelSpotOrderByClientOrderIdAsync(CancelOrderRequest request, CancellationToken ct)
+        public CancelSpotOrderByClientOrderIdOptions CancelSpotOrderByClientOrderIdOptions { get; } = new CancelSpotOrderByClientOrderIdOptions(_exchangeName, true);
+        public async Task<HttpResult<SharedId>> CancelSpotOrderByClientOrderIdAsync(CancelOrderRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.CancelSpotOrderOptions.ValidateRequest(request, this);
+            var validationError = CancelSpotOrderByClientOrderIdOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedId>(Exchange, validationError);
 
-            var order = await Trading.CancelOrderAsync(clientOrderId: request.OrderId, ct: ct).ConfigureAwait(false);
+            var order = await _api.Trading.CancelOrderAsync(clientOrderId: request.OrderId, ct: ct).ConfigureAwait(false);
             if (!order.Success)
                 return HttpResult.Fail<SharedId>(order);
 
@@ -732,14 +784,14 @@ namespace Kraken.Net.Clients.SpotApi
         #endregion
 
         #region Asset client
-        GetAssetOptions IAssetsRestClient.GetAssetOptions { get; } = new GetAssetOptions(_exchangeName, true);
-        async Task<HttpResult<SharedAsset>> IAssetsRestClient.GetAssetAsync(GetAssetRequest request, CancellationToken ct)
+        public GetAssetOptions GetAssetOptions { get; } = new GetAssetOptions(_exchangeName, true);
+        public async Task<HttpResult<SharedAsset>> GetAssetAsync(GetAssetRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.GetAssetOptions.ValidateRequest(request, this);
+            var validationError = GetAssetOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedAsset>(Exchange, validationError);
 
-            var assets = await Account.GetWithdrawMethodsAsync(KrakenExchange.AssetAliases.ExchangeToCommonName(request.Asset), ct: ct).ConfigureAwait(false);
+            var assets = await _api.Account.GetWithdrawMethodsAsync(KrakenExchange.AssetAliases.ExchangeToCommonName(request.Asset), ct: ct).ConfigureAwait(false);
             if (!assets.Success)
                 return HttpResult.Fail<SharedAsset>(assets);
 
@@ -756,17 +808,20 @@ namespace Kraken.Net.Clients.SpotApi
             });
         }
 
-        GetAssetsOptions IAssetsRestClient.GetAssetsOptions { get; } = new GetAssetsOptions(_exchangeName, false)
+        public GetAssetsOptions GetAssetsOptions { get; } = new GetAssetsOptions(_exchangeName, false)
         {
             RequestNotes = "If API credentials are set and the NewAssetNames Exchange Parameter is not set to true then withdrawal networks will also be returned",
-            OptionalExchangeParameters = new List<ParameterDescription>
-            {
-                new ParameterDescription(["NewAssetNames", "assetVersion"], typeof(bool), "If true, the response will use the new asset names (e.g. instead of XBT, BTC will be used)", false)
-            }
+            OptionalExchangeParameters = [
+                ExchangeParameterDescription.Optional<bool>(
+                    "NewAssetNames",
+                    aliases: ["assetVersion"],
+                    description: "If true, the response will use the new asset names (e.g. instead of XBT, BTC will be used)",
+                    exampleValue: false)
+                ]
         };
-        async Task<HttpResult<SharedAsset[]>> IAssetsRestClient.GetAssetsAsync(GetAssetsRequest request, CancellationToken ct)
+        public async Task<HttpResult<SharedAsset[]>> GetAssetsAsync(GetAssetsRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.GetAssetsOptions.ValidateRequest(request, this);
+            var validationError = GetAssetsOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedAsset[]>(Exchange, validationError);
 
@@ -774,7 +829,7 @@ namespace Kraken.Net.Clients.SpotApi
 
             if (Authenticated && useNewAssetResponse != true)
             {
-                var assets = await Account.GetWithdrawMethodsAsync(ct: ct).ConfigureAwait(false);
+                var assets = await _api.Account.GetWithdrawMethodsAsync(ct: ct).ConfigureAwait(false);
                 if (!assets.Success)
                     return HttpResult.Fail<SharedAsset[]>(assets);
 
@@ -789,7 +844,7 @@ namespace Kraken.Net.Clients.SpotApi
             }
             else
             {
-                var assets = await ExchangeData.GetAssetsAsync(newAssetNameResponse: useNewAssetResponse, ct: ct).ConfigureAwait(false);
+                var assets = await _api.ExchangeData.GetAssetsAsync(newAssetNameResponse: useNewAssetResponse, ct: ct).ConfigureAwait(false);
                 if (!assets.Success)
                     return HttpResult.Fail<SharedAsset[]>(assets);
 
@@ -804,20 +859,19 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Deposit client
 
-        GetDepositAddressesOptions IDepositRestClient.GetDepositAddressesOptions { get; } = new GetDepositAddressesOptions(_exchangeName, true)
+        public GetDepositAddressesOptions GetDepositAddressesOptions { get; } = new GetDepositAddressesOptions(_exchangeName, true)
         {
-            RequiredOptionalParameters = new List<ParameterDescription>
-            {
-                new ParameterDescription(nameof(GetDepositAddressesRequest.Network), typeof(string), "The network the deposit address should be for", "Bitcoin")
-            }
+            RequiredRequestParameters = [
+                RequestParameter<GetDepositAddressesRequest>.Required(x => x.Network, "The network the deposit address should be for", "Bitcoin")
+                ]
         };
-        async Task<HttpResult<SharedDepositAddress[]>> IDepositRestClient.GetDepositAddressesAsync(GetDepositAddressesRequest request, CancellationToken ct)
+        public async Task<HttpResult<SharedDepositAddress[]>> GetDepositAddressesAsync(GetDepositAddressesRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.GetDepositAddressesOptions.ValidateRequest(request, this);
+            var validationError = GetDepositAddressesOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedDepositAddress[]>(Exchange, validationError);
 
-            var depositAddresses = await Account.GetDepositAddressesAsync(KrakenExchange.AssetAliases.CommonToExchangeName(request.Asset), request.Network!).ConfigureAwait(false);
+            var depositAddresses = await _api.Account.GetDepositAddressesAsync(KrakenExchange.AssetAliases.CommonToExchangeName(request.Asset), request.Network!).ConfigureAwait(false);
             if (!depositAddresses.Success)
                 return HttpResult.Fail<SharedDepositAddress[]>(depositAddresses);
 
@@ -828,10 +882,14 @@ namespace Kraken.Net.Clients.SpotApi
             ).ToArray());
         }
 
-        GetDepositsOptions IDepositRestClient.GetDepositsOptions { get; } = new GetDepositsOptions(_exchangeName, false, true, true, 100);
-        async Task<HttpResult<SharedDeposit[]>> IDepositRestClient.GetDepositsAsync(GetDepositsRequest request, PageRequest? pageRequest, CancellationToken ct)
+        Task<HttpResult<SharedDeposit[]>> IDepositRestClient.GetDepositsAsync(GetDepositsRequest request, PageRequest? nextPageToken, CancellationToken ct)
+            => GetDepositHistoryAsync(request, nextPageToken, ct);
+        GetDepositHistoryOptions IDepositRestClient.GetDepositsOptions => GetDepositHistoryOptions;
+
+        public GetDepositHistoryOptions GetDepositHistoryOptions { get; } = new GetDepositHistoryOptions(_exchangeName, false, true, true, 100);
+        public async Task<HttpResult<SharedDeposit[]>> GetDepositHistoryAsync(GetDepositsRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
-            var validationError = SharedClient.GetDepositsOptions.ValidateRequest(request, this);
+            var validationError = GetDepositHistoryOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedDeposit[]>(Exchange, validationError);
 
@@ -840,7 +898,7 @@ namespace Kraken.Net.Clients.SpotApi
             var pageParams = Pagination.GetPaginationParameters(direction, limit, request.StartTime, request.EndTime ?? DateTime.UtcNow, pageRequest);
 
             // Get data
-            var result = await Account.GetDepositHistoryAsync(
+            var result = await _api.Account.GetDepositHistoryAsync(
                 asset: request.Asset != null ? KrakenExchange.AssetAliases.CommonToExchangeName(request.Asset) : null,
                 startTime: pageParams.StartTime,
                 endTime: pageParams.EndTime,
@@ -879,14 +937,14 @@ namespace Kraken.Net.Clients.SpotApi
         #endregion
 
         #region Order Book client
-        GetOrderBookOptions IOrderBookRestClient.GetOrderBookOptions { get; } = new GetOrderBookOptions(_exchangeName, 1, 500, false);
-        async Task<HttpResult<SharedOrderBook>> IOrderBookRestClient.GetOrderBookAsync(GetOrderBookRequest request, CancellationToken ct)
+        public GetOrderBookOptions GetOrderBookOptions { get; } = new GetOrderBookOptions(_exchangeName, 1, 500, false);
+        public async Task<HttpResult<SharedOrderBook>> GetOrderBookAsync(GetOrderBookRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.GetOrderBookOptions.ValidateRequest(request, this);
+            var validationError = GetOrderBookOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedOrderBook>(Exchange, validationError);
 
-            var result = await ExchangeData.GetOrderBookAsync(
+            var result = await _api.ExchangeData.GetOrderBookAsync(
                 request.Symbol!.GetSymbol(FormatSymbol),
                 limit: request.Limit,
                 ct: ct).ConfigureAwait(false);
@@ -900,13 +958,17 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Withdrawal client
 
-        GetWithdrawalsOptions IWithdrawalRestClient.GetWithdrawalsOptions { get; } = new GetWithdrawalsOptions(_exchangeName, false, true, true, 500)
+        Task<HttpResult<SharedWithdrawal[]>> IWithdrawalRestClient.GetWithdrawalsAsync(GetWithdrawalsRequest request, PageRequest? nextPageToken, CancellationToken ct)
+            => GetWithdrawalHistoryAsync(request, nextPageToken, ct);
+        GetWithdrawalHistoryOptions IWithdrawalRestClient.GetWithdrawalsOptions => GetWithdrawalHistoryOptions;
+
+        public GetWithdrawalHistoryOptions GetWithdrawalHistoryOptions { get; } = new GetWithdrawalHistoryOptions(_exchangeName, false, true, true, 500)
         {
             RequestNotes = "The Address field contains the label of the saved withdrawal address, not the actual address"
         };
-        async Task<HttpResult<SharedWithdrawal[]>> IWithdrawalRestClient.GetWithdrawalsAsync(GetWithdrawalsRequest request, PageRequest? pageRequest, CancellationToken ct)
+        public async Task<HttpResult<SharedWithdrawal[]>> GetWithdrawalHistoryAsync(GetWithdrawalsRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
-            var validationError = SharedClient.GetWithdrawalsOptions.ValidateRequest(request, this);
+            var validationError = GetWithdrawalHistoryOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedWithdrawal[]>(Exchange, validationError);
 
@@ -915,7 +977,7 @@ namespace Kraken.Net.Clients.SpotApi
             var pageParams = Pagination.GetPaginationParameters(direction, limit, request.StartTime, request.EndTime ?? DateTime.UtcNow, pageRequest);
 
             // Get data
-            var result = await Account.GetWithdrawalHistoryAsync(
+            var result = await _api.Account.GetWithdrawalHistoryAsync(
                 asset: request.Asset != null ? KrakenExchange.AssetAliases.CommonToExchangeName(request.Asset) : null,
                 startTime: pageParams.StartTime,
                 endTime: pageParams.EndTime,
@@ -968,24 +1030,27 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Withdraw client
 
-        WithdrawOptions IWithdrawRestClient.WithdrawOptions { get; } = new WithdrawOptions(_exchangeName)
+        public WithdrawOptions WithdrawOptions { get; } = new WithdrawOptions(_exchangeName)
         {
-            RequiredExchangeParameters = new List<ParameterDescription>
-            {
-                new ParameterDescription(["KeyName", "key"], typeof(string), "The name of the withdrawal address as defined in the web UI", "KucoinBitcoinAddress1")
-            }
+            RequiredExchangeParameters = [            
+                ExchangeParameterDescription.Required(
+                    "keyName",
+                    aliases: ["key"],
+                    description: "The name of the withdrawal address as defined in the web UI", 
+                    exampleValue: "KucoinBitcoinAddress1")                
+            ]
         };
 
-        async Task<HttpResult<SharedId>> IWithdrawRestClient.WithdrawAsync(WithdrawRequest request, CancellationToken ct)
+        public async Task<HttpResult<SharedId>> WithdrawAsync(WithdrawRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.WithdrawOptions.ValidateRequest(request, this);
+            var validationError = WithdrawOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedId>(Exchange, validationError);
 
             var keyName = request.GetParamValue<string>(Exchange, "keyName", "key");
 
             // Get data
-            var withdrawal = await Account.WithdrawAsync(
+            var withdrawal = await _api.Account.WithdrawAsync(
                 KrakenExchange.AssetAliases.CommonToExchangeName(request.Asset),
                 keyName!,
                 request.Quantity,
@@ -1000,16 +1065,16 @@ namespace Kraken.Net.Clients.SpotApi
         #endregion
 
         #region Fee Client
-        GetFeeOptions IFeeRestClient.GetFeeOptions { get; } = new GetFeeOptions(_exchangeName, true);
+        public GetFeeOptions GetFeeOptions { get; } = new GetFeeOptions(_exchangeName, true);
 
-        async Task<HttpResult<SharedFee>> IFeeRestClient.GetFeesAsync(GetFeeRequest request, CancellationToken ct)
+        public async Task<HttpResult<SharedFee>> GetFeesAsync(GetFeeRequest request, CancellationToken ct)
         {
-            var validationError = SharedClient.GetFeeOptions.ValidateRequest(request, this);
+            var validationError = GetFeeOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedFee>(Exchange, validationError);
 
             // Get data
-            var result = await Account.GetTradeVolumeAsync(
+            var result = await _api.Account.GetTradeVolumeAsync(
                 [request.Symbol!.GetSymbol(FormatSymbol)],
                 ct: ct).ConfigureAwait(false);
             if (!result.Success)

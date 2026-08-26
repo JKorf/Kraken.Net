@@ -18,6 +18,8 @@ namespace Kraken.Net.Clients.SpotApi
     {
         #region fields
 
+        private readonly KrakenRestClientSpotSharedApi _sharedApi;
+
         /// <inheritdoc />
         public new KrakenRestOptions ClientOptions => (KrakenRestOptions)base.ClientOptions;
         protected override ErrorMapping ErrorMapping => KrakenErrors.SpotMapping;
@@ -48,6 +50,8 @@ namespace Kraken.Net.Clients.SpotApi
             ExchangeData = new KrakenRestClientSpotApiExchangeData(this); 
             Trading = new KrakenRestClientSpotApiTrading(this);
             Earn = new KrakenRestClientSpotApiEarn(this);
+
+            _sharedApi = new KrakenRestClientSpotSharedApi(this);
 
             RequestBodyFormat = RequestBodyFormat.FormData;
         }
@@ -129,6 +133,10 @@ namespace Kraken.Net.Clients.SpotApi
         protected override Task<HttpResult<DateTime>> GetServerTimestampAsync()
             => ExchangeData.GetServerTimeAsync();
 
-        public IKrakenRestClientSpotApiShared SharedClient => this;
+        /// <inheritdoc />
+        public IKrakenRestClientSpotApiShared SharedClient => _sharedApi;
+
+        /// <inheritdoc />
+        public IKrakenRestClientSpotSharedApi SharedApi => _sharedApi;
     }
 }

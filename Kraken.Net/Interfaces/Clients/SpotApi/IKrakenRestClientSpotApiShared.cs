@@ -23,4 +23,37 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         IBookTickerRestClient
     {
     }
+
+    /// <summary>
+    /// Shared API interface. Shared APIs provide a common,
+    /// exchange-independent contract for accessing functionality across different
+    /// exchange client libraries.
+    /// </summary>
+    public interface IKrakenRestClientSpotSharedApi :
+        IGetAssetEndpoint,
+        IGetAllAssetsEndpoint,
+        IGetBalancesEndpoint,
+        IGetDepositHistoryEndpoint,
+        IGetDepositAddressesEndpoint,
+        IGetKlinesEndpoint,
+        IGetOrderBookEndpoint,
+        IGetRecentTradesEndpoint,
+        IPlaceSpotOrderEndpoint,
+        IGetSpotOrderEndpoint,
+        IGetSpotOrderByClientOrderIdEndpoint,
+        IGetOpenSpotOrdersEndpoint,
+        IGetClosedSpotOrdersEndpoint,
+        IGetSpotOrderTradesEndpoint,
+        IGetSpotUserTradeHistoryEndpoint,
+        ICancelSpotOrderEndpoint,
+        ICancelSpotOrderByClientOrderIdEndpoint,
+        IGetSpotSymbolsEndpoint,
+        IGetSpotTickerEndpoint,
+        IGetAllSpotTickersEndpoint,
+        IGetWithdrawalHistoryEndpoint,
+        IWithdrawEndpoint,
+        IGetFeesEndpoint,
+        IGetBookTickerEndpoint
+    {
+    }
 }

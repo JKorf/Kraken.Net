@@ -4,6 +4,8 @@ using Kraken.Net;
 using Kraken.Net.Clients;
 using Kraken.Net.Interfaces;
 using Kraken.Net.Interfaces.Clients;
+using Kraken.Net.Interfaces.Clients.FuturesApi;
+using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects.Options;
 using Kraken.Net.SymbolOrderBooks;
 using Microsoft.Extensions.Configuration;
@@ -117,6 +119,18 @@ namespace Microsoft.Extensions.DependencyInjection
             services.RegisterSharedSocketInterfaces(x => x.GetRequiredService<IKrakenSocketClient>().SpotApi.SharedClient);
             services.RegisterSharedRestInterfaces(x => x.GetRequiredService<IKrakenRestClient>().FuturesApi.SharedClient);
             services.RegisterSharedSocketInterfaces(x => x.GetRequiredService<IKrakenSocketClient>().FuturesApi.SharedClient);
+
+            services.RegisterSharedApi(
+                serviceProvider => serviceProvider
+                    .GetRequiredService<IKrakenRestClient>()
+                    .SpotApi
+                    .SharedApi);
+
+            services.RegisterSharedApi(
+                serviceProvider => serviceProvider
+                    .GetRequiredService<IKrakenRestClient>()
+                    .FuturesApi
+                    .SharedApi);
 
             return services;
         }
