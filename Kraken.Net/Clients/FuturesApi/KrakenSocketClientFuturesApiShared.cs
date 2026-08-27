@@ -142,8 +142,11 @@ namespace Kraken.Net.Clients.FuturesApi
         #endregion
 
         #region Futures Order client
+        async Task<WebSocketResult<UpdateSubscription>> IFuturesOrderSocketClient.SubscribeToFuturesOrderUpdatesAsync(SubscribeFuturesOrderRequest request, Action<DataEvent<SharedFuturesOrder[]>> handler, CancellationToken ct)
+            => await SubscribeToFuturesOrderUpdatesAsync(request, x => handler(x.ToType<SharedFuturesOrder[]>(x.Data)), ct).ConfigureAwait(false);
+
         public SubscribeFuturesOrderOptions SubscribeFuturesOrderOptions { get; } = new SubscribeFuturesOrderOptions(_exchangeName, true);
-        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToFuturesOrderUpdatesAsync(SubscribeFuturesOrderRequest request, Action<DataEvent<SharedFuturesOrder[]>> handler, CancellationToken ct)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToFuturesOrderUpdatesAsync(SubscribeFuturesOrderRequest request, Action<DataEvent<SharedFuturesOrderUpdate[]>> handler, CancellationToken ct)
         {
             var validationError = SubscribeFuturesOrderOptions.ValidateRequest(request, this);
             if (validationError != null)
@@ -155,7 +158,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 update =>
                 {
                     handler(update.ToType(new[] {
-                        new SharedFuturesOrder(
+                        new SharedFuturesOrderUpdate(
                             ExchangeSymbolCache.ParseSymbol(_topicId, _api.EnvironmentName, null, update.Data.Order?.Symbol),
                             update.Data.Order?.Symbol ?? string.Empty,
                             update.Data.Order?.OrderId ?? update.Data.OrderId!,

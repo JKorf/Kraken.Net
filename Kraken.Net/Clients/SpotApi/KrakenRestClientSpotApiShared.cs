@@ -467,7 +467,9 @@ namespace Kraken.Net.Clients.SpotApi
                 orderData.Value.CreateTime)
             {
                 ClientOrderId = orderData.Value.ClientOrderId,
+#pragma warning disable CS0618 // Type or member is obsolete
                 Fee = orderData.Value.Fee,
+#pragma warning restore CS0618 // Type or member is obsolete
                 OrderPrice = (orderData.Value.OrderDetails.Price == 0 || orderData.Value.OrderDetails.Type == OrderType.TrailingStop) ? null : orderData.Value.OrderDetails.Price,
                 OrderQuantity = new SharedOrderQuantity(orderData.Value.Oflags.Contains("viqc") ? null : orderData.Value.Quantity, orderData.Value.Oflags.Contains("viqc") ? orderData.Value.Quantity : null),
                 QuantityFilled = new SharedOrderQuantity(orderData.Value.QuantityFilled, orderData.Value.QuoteQuantityFilled),
@@ -502,7 +504,9 @@ namespace Kraken.Net.Clients.SpotApi
                 x.CreateTime)
             {
                 ClientOrderId = x.ClientOrderId,
+#pragma warning disable CS0618 // Type or member is obsolete
                 Fee = x.Fee,
+#pragma warning restore CS0618 // Type or member is obsolete
                 OrderPrice = (x.OrderDetails.Price == 0 || x.OrderDetails.Type == OrderType.TrailingStop) ? null : x.OrderDetails.Price,
                 OrderQuantity = new SharedOrderQuantity(x.Oflags.Contains("viqc") ? null : x.Quantity, x.Oflags.Contains("viqc") ? x.Quantity : null),
                 QuantityFilled = new SharedOrderQuantity(x.QuantityFilled, x.QuoteQuantityFilled),
@@ -554,7 +558,9 @@ namespace Kraken.Net.Clients.SpotApi
                             x.CreateTime)
                         {
                             ClientOrderId = x.ClientOrderId,
+#pragma warning disable CS0618 // Type or member is obsolete
                             Fee = x.Fee,
+#pragma warning restore CS0618 // Type or member is obsolete
                             OrderPrice = (x.OrderDetails.Price == 0 || x.OrderDetails.Type == OrderType.TrailingStop) ? null : x.OrderDetails.Price,
                             OrderQuantity = new SharedOrderQuantity(x.Oflags.Contains("viqc") ? null : x.Quantity, x.Oflags.Contains("viqc") ? x.Quantity : null),
                             QuantityFilled = new SharedOrderQuantity(x.QuantityFilled, x.QuoteQuantityFilled),
@@ -759,7 +765,9 @@ namespace Kraken.Net.Clients.SpotApi
                 orderData.CreateTime)
             {
                 ClientOrderId = orderData.ClientOrderId,
+#pragma warning disable CS0618 // Type or member is obsolete
                 Fee = orderData.Fee,
+#pragma warning restore CS0618 // Type or member is obsolete
                 OrderPrice = (orderData.OrderDetails.Price == 0 || orderData.OrderDetails.Type == OrderType.TrailingStop) ? null : orderData.OrderDetails.Price,
                 OrderQuantity = new SharedOrderQuantity(orderData.Oflags.Contains("viqc") ? null : orderData.Quantity, orderData.Oflags.Contains("viqc") ? orderData.Quantity : null),
                 QuantityFilled = new SharedOrderQuantity(orderData.QuantityFilled, orderData.QuoteQuantityFilled),
@@ -951,7 +959,7 @@ namespace Kraken.Net.Clients.SpotApi
             if (!result.Success)
                 return HttpResult.Fail<SharedOrderBook>(result);
 
-            return HttpResult.Ok(result, new SharedOrderBook(SharedQuantityType.BaseAsset, result.Data.Asks, result.Data.Bids));
+            return HttpResult.Ok(result, new SharedOrderBook(SharedQuantityType.BaseAsset, null, result.Data.Asks, result.Data.Bids));
         }
 
         #endregion

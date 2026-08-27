@@ -201,9 +201,12 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Spot Order client
 
+        async Task<WebSocketResult<UpdateSubscription>> ISpotOrderSocketClient.SubscribeToSpotOrderUpdatesAsync(SubscribeSpotOrderRequest request, Action<DataEvent<SharedSpotOrder[]>> handler, CancellationToken ct)
+            => await SubscribeToSpotOrderUpdatesAsync(request, x => handler(x.ToType<SharedSpotOrder[]>(x.Data)), ct).ConfigureAwait(false);
+
         private readonly Dictionary<string, string> _idSymbolMap = new Dictionary<string, string>();
         public SubscribeSpotOrderOptions SubscribeSpotOrderOptions { get; } = new SubscribeSpotOrderOptions(_exchangeName, false);
-        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToSpotOrderUpdatesAsync(SubscribeSpotOrderRequest request, Action<DataEvent<SharedSpotOrder[]>> handler, CancellationToken ct)
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToSpotOrderUpdatesAsync(SubscribeSpotOrderRequest request, Action<DataEvent<SharedSpotOrderUpdate[]>> handler, CancellationToken ct)
         {
             var validationError = SubscribeSpotOrderOptions.ValidateRequest(request, this);
             if (validationError != null)
@@ -232,8 +235,8 @@ namespace Kraken.Net.Clients.SpotApi
                     if (!updateData.Any())
                         return;
 
-                    handler(update.ToType<SharedSpotOrder[]>(updateData.Select(
-                        x => new SharedSpotOrder(
+                    handler(update.ToType<SharedSpotOrderUpdate[]>(updateData.Select(
+                        x => new SharedSpotOrderUpdate(
                             ExchangeSymbolCache.ParseSymbol(_topicId, _api.EnvironmentName, null, x.Symbol),
                             x.Symbol ?? string.Empty,
                             x.OrderId,

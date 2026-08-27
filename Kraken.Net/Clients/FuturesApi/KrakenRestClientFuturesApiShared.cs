@@ -178,7 +178,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 bids = bids.Take(request.Limit.Value).ToArray();
             }
 
-            return HttpResult.Ok(result, new SharedOrderBook(SharedQuantityType.BaseAsset, asks, bids));
+            return HttpResult.Ok(result, new SharedOrderBook(SharedQuantityType.BaseAsset, null, asks, bids));
         }
 
         #endregion
@@ -657,11 +657,11 @@ namespace Kraken.Net.Clients.FuturesApi
         }
 
         Task<HttpResult<SharedUserTrade[]>> IFuturesOrderRestClient.GetFuturesUserTradesAsync(GetUserTradesRequest request, PageRequest? nextPageToken, CancellationToken ct)
-            => GetFuturesUserTradesAsync(request, nextPageToken, ct);
+            => GetFuturesUserTradeHistoryAsync(request, nextPageToken, ct);
         GetFuturesUserTradeHistoryOptions IFuturesOrderRestClient.GetFuturesUserTradesOptions => GetFuturesUserTradeHistoryOptions;
 
         public GetFuturesUserTradeHistoryOptions GetFuturesUserTradeHistoryOptions { get; } = new GetFuturesUserTradeHistoryOptions(_exchangeName, false, true, true, 100);
-        public async Task<HttpResult<SharedUserTrade[]>> GetFuturesUserTradesAsync(GetUserTradesRequest request, PageRequest? pageRequest, CancellationToken ct)
+        public async Task<HttpResult<SharedUserTrade[]>> GetFuturesUserTradeHistoryAsync(GetUserTradesRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
             var validationError = GetFuturesUserTradeHistoryOptions.ValidateRequest(request, this);
             if (validationError != null)
