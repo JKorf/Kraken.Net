@@ -24,6 +24,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         public KrakenRestClientSpotSharedApi(KrakenRestClientSpotApi api)
             : base(
+                  SharedTransport.Rest,
                   api.Exchange,
                   [TradingMode.Spot],
                   () => api.Authenticated,

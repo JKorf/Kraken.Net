@@ -22,6 +22,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
         public KrakenRestClientFuturesSharedApi(KrakenRestClientFuturesApi api) 
             : base(
+                  SharedTransport.Rest,
                   api.Exchange,
                   new[] { TradingMode.PerpetualLinear, TradingMode.DeliveryLinear, TradingMode.PerpetualInverse, TradingMode.DeliveryInverse },
                   () => api.Authenticated,

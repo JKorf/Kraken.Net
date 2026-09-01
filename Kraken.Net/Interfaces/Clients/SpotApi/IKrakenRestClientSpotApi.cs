@@ -33,11 +33,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         IKrakenRestClientSpotApiEarn Earn { get; }
 
         /// <summary>
-        /// Get the shared rest requests client. For new implementations prefer using <see cref="SharedApi"/>
+        /// [V1] Get the shared rest requests client. For new implementations prefer using <see cref="SharedApi"/>
         /// </summary>
         public IKrakenRestClientSpotApiShared SharedClient { get; }
         /// <summary>
-        /// Gets the aggregate Shared API interface. Shared APIs provide a common,
+        /// [V2] Gets the aggregate Shared API interface. Shared APIs provide a common,
         /// exchange-independent contract for accessing functionality across different
         /// exchange client libraries.
         /// </summary>

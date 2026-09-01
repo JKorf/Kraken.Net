@@ -22,13 +22,13 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
     /// exchange client libraries.
     /// </summary>
     public interface IKrakenSocketClientFuturesSharedApi
-        : ISubscribeTickerOperation,
-        ISubscribeTradesOperation,
-        ISubscribeBookTickerOperation,
-        ISubscribeBalancesOperation,
-        ISubscribeFuturesOrdersOperation,
-        ISubscribeUserTradesOperation,
-        ISubscribePositionsOperation
+        : ISubscribeTickerSocket,
+        ISubscribeTradesSocket,
+        ISubscribeBookTickerSocket,
+        ISubscribeBalancesSocket,
+        ISubscribeFuturesOrdersSocket,
+        ISubscribeUserTradesSocket,
+        ISubscribePositionsSocket
     {
     }
 }

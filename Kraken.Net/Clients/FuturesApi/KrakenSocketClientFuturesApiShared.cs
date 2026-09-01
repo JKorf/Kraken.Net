@@ -21,7 +21,8 @@ namespace Kraken.Net.Clients.FuturesApi
 
         public KrakenSocketClientFuturesSharedApi(KrakenSocketClientFuturesApi api)
             : base(
-                  api.Exchange, 
+                  SharedTransport.Socket,
+                  api.Exchange,
                   new[] { TradingMode.PerpetualLinear, TradingMode.DeliveryLinear, TradingMode.PerpetualInverse, TradingMode.DeliveryInverse },
                   () => api.Authenticated,
                   api.FormatSymbol)
@@ -40,7 +41,7 @@ namespace Kraken.Net.Clients.FuturesApi
         }
 
         #region Ticker client
-        async Task<WebSocketResult<UpdateSubscription>> ISubscribeTickerOperation.SubscribeToTickerUpdatesAsync(SubscribeTickerRequest request, Action<DataEvent<SharedTicker>> handler, CancellationToken ct)
+        async Task<WebSocketResult<UpdateSubscription>> ISubscribeTickerSocket.SubscribeToTickerUpdatesAsync(SubscribeTickerRequest request, Action<DataEvent<SharedTicker>> handler, CancellationToken ct)
             => await SubscribeToTickerUpdatesAsync(request, x => handler(x.ToType<SharedTicker>(x.Data)), ct).ConfigureAwait(false);
 
         public SubscribeTickerOptions SubscribeTickerOptions { get; } = new SubscribeTickerOptions(_exchangeName)

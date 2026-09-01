@@ -22,14 +22,14 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
     /// exchange client libraries.
     /// </summary>
     public interface IKrakenSocketClientSpotSharedApi :
-        ISubscribeTickerOperation,
-        ISubscribeTradesOperation,
-        ISubscribeBookTickerOperation,
-        ISubscribeKlinesOperation,
-        ISubscribeBalancesOperation,
-        ISubscribeSpotOrdersOperation,
-        IPlaceSpotOrderOperation,
-        ICancelSpotOrderOperation
+        ISubscribeTickerSocket,
+        ISubscribeTradesSocket,
+        ISubscribeBookTickerSocket,
+        ISubscribeKlinesSocket,
+        ISubscribeBalancesSocket,
+        ISubscribeSpotOrdersSocket,
+        IPlaceSpotOrderSocket,
+        ICancelSpotOrderSocket
     {
     }
 }
