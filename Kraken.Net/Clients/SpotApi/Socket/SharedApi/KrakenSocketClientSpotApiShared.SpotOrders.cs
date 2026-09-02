@@ -116,10 +116,10 @@ namespace Kraken.Net.Clients.SpotApi
         async Task<ICallResult<SharedId>> IPlaceSpotOrder.PlaceSpotOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
             => await PlaceSpotOrderAsync(request, ct).ConfigureAwait(false);
 
-        PlaceSpotOrderSocketOptions ISpotOrderManagementSocketClient.PlaceSpotOrderOptions 
+        PlaceSpotOrderOptions IPlaceSpotOrder.PlaceSpotOrderOptions 
             => PlaceSpotOrderOptions;
 
-        public PlaceSpotOrderOptions PlaceSpotOrderOptions { get; } = new PlaceSpotOrderOptions(_exchangeName);
+        public PlaceSpotOrderSocketOptions PlaceSpotOrderOptions { get; } = new PlaceSpotOrderSocketOptions(_exchangeName);
         public async Task<QueryResult<SharedId>> PlaceSpotOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
         {
             var validationError = PlaceSpotOrderOptions.ValidateRequest(request, this);
