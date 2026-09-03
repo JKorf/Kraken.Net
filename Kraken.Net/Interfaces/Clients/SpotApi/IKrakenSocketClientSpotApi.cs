@@ -13,7 +13,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
     public interface IKrakenSocketClientSpotApi : ISocketApiClient<KrakenCredentials>, IDisposable
     {
         /// <summary>
-        /// Get the shared socket subscription client. For new implementations prefer using <see cref="SharedApi"/>
+        /// [V1] Get the shared socket subscription client. For new implementations prefer using <see cref="SharedApi"/>
         /// </summary>
         IKrakenSocketClientSpotApiShared SharedClient { get; }
 
