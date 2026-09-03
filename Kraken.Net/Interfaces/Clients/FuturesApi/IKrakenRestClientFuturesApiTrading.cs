@@ -211,7 +211,7 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         Task<HttpResult<KrakenFuturesOrderResult>> PlaceOrderAsync(string symbol, OrderSide side, FuturesOrderType type, decimal quantity, decimal? price = null, decimal? stopPrice = null, bool? reduceOnly = null, TrailingStopDeviationUnit? trailingStopDeviationUnit = null, decimal? trailingStopMaxDeviation = null, TriggerSignal? triggerSignal = null, string? clientOrderId = null, CancellationToken ct = default);
 
         /// <summary>
-        /// Set max leverage for a symbol
+        /// Set the margin mode and optional maximum leverage for a symbol
         /// <para>
         /// Docs:<br />
         /// <a href="https://docs.kraken.com/api/docs/futures-api/trading/set-leverage-setting" /><br />
@@ -220,10 +220,10 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// </para>
         /// </summary>
         /// <param name="symbol">["<c>symbol</c>"] The symbol, for example `PF_ETHUSD`</param>
-        /// <param name="maxLeverage">["<c>maxLeverage</c>"] Max leverage</param>
+        /// <param name="maxLeverage">["<c>maxLeverage</c>"] Max leverage for isolated margin, or null for cross margin</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<HttpResult> SetLeverageAsync(string symbol, decimal maxLeverage, CancellationToken ct = default);
+        Task<HttpResult> SetLeverageAsync(string symbol, decimal? maxLeverage, CancellationToken ct = default);
 
         /// <summary>
         /// Set self trading strategy

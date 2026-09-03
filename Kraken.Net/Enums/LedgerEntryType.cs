@@ -112,6 +112,16 @@ namespace Kraken.Net.Enums
         /// ["<c>custodytransfer</c>"] Custody transfer
         /// </summary>
         [Map("custodytransfer")]
-        CustodyTransfer
+        CustodyTransfer,
+        /// <summary>
+        /// ["<c>derivativesfuturestrade</c>"] Futures trade
+        /// </summary>
+        [Map("derivativesfuturestrade")]
+        DerivativesFuturesTrade,
+        /// <summary>
+        /// ["<c>derivativescrossexchangetransfer</c>"] Cross-exchange transfer
+        /// </summary>
+        [Map("derivativescrossexchangetransfer")]
+        DerivativesCrossExchangeTransfer
     }
 }

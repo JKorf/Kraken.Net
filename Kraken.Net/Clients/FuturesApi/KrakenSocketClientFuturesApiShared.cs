@@ -145,6 +145,11 @@ namespace Kraken.Net.Clients.FuturesApi
                             UpdateTime = update.Data.Order?.LastUpdateTime,
                             OrderPrice = update.Data.Order?.Price,
                             ReduceOnly = update.Data.Order?.ReduceOnly,
+                            PositionSide = update.Data.Order == null
+                                ? null
+                                : update.Data.Order.Side == OrderSide.Buy != update.Data.Order.ReduceOnly
+                                    ? SharedPositionSide.Long
+                                    : SharedPositionSide.Short,
                         }
                     }));
                 },

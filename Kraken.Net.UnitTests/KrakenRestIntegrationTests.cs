@@ -105,6 +105,7 @@ namespace Kraken.Net.UnitTests
             await RunAndCheckResult(warnings, client => client.FuturesApi.Account.GetBalancesAsync(default), true, "result");
             await RunAndCheckResult(warnings, client => client.FuturesApi.Account.GetPnlCurrencyAsync(default), true, "result");
             await RunAndCheckResult(warnings, client => client.FuturesApi.Account.GetAccountLogAsync(default, default, default, default, default, default, default, default), true, "logs");
+            await RunAndCheckResult(warnings, client => client.FuturesApi.Account.GetPositionEventsAsync(default, default, default, default, default, default, default), true, "elements");
             foreach (var warning in warnings)
                 Assert.Warn(warning.Message);
         }

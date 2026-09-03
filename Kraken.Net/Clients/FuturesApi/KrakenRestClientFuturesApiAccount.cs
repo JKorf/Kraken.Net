@@ -75,6 +75,25 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #endregion
 
+        #region Withdraw to Spot Wallet
+
+        /// <inheritdoc />
+        public async Task<HttpResult<string>> WithdrawToSpotWalletAsync(
+            string asset, decimal quantity, string sourceWallet = "cash", CancellationToken ct = default)
+        {
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings)
+            {
+                { "amount", quantity.ToString(CultureInfo.InvariantCulture) },
+                { "currency", asset },
+                { "sourceWallet", sourceWallet }
+            };
+
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "derivatives/api/v3/withdrawal", KrakenExchange.RateLimiter.FuturesApi, 100, true);
+            return await _baseClient.SendAsync<KrakenFuturesWithdrawalResult, string>(request, parameters, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
         #region Get Account Log
 
         /// <inheritdoc />
@@ -92,6 +111,32 @@ namespace Kraken.Net.Clients.FuturesApi
             var weight = limit == null ? 3 : limit <= 25 ? 1 : limit <= 50 ? 2 : limit <= 1000 ? 3 : limit <= 5000 ? 6 : 10;
             var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "api/history/v3/account-log", KrakenExchange.RateLimiter.FuturesApi, weight, true);
             return await _baseClient.SendRawAsync<KrakenAccountLogResult>(request, parameters, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Get Position Events
+
+        /// <inheritdoc />
+        public async Task<HttpResult<KrakenFuturesPositionEvents>> GetPositionEventsAsync(
+            DateTime? startTime = null,
+            DateTime? endTime = null,
+            string? sort = null,
+            string? continuationToken = null,
+            int? limit = null,
+            string? tradeable = null,
+            CancellationToken ct = default)
+        {
+            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            parameters.Add("before", DateTimeConverter.ConvertToMilliseconds(endTime));
+            parameters.Add("continuation_token", continuationToken);
+            parameters.Add("count", limit);
+            parameters.Add("since", DateTimeConverter.ConvertToMilliseconds(startTime));
+            parameters.Add("sort", sort);
+            parameters.Add("tradeable", tradeable);
+
+            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "api/history/v3/positions", KrakenExchange.RateLimiter.FuturesApi, 1, true);
+            return await _baseClient.SendRawAsync<KrakenFuturesPositionEvents>(request, parameters, ct).ConfigureAwait(false);
         }
 
         #endregion
