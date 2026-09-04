@@ -5,7 +5,12 @@ namespace Kraken.Net.Clients.FuturesApi
 {
 	internal partial class KrakenRestClientFuturesSharedApi
     {
-        #region Tp/SL Client
+
+        #region Set Futures TP/SL
+
+        async Task<ICallResult<SharedId>> ISetFuturesTpSl.SetFuturesTpSlAsync(SetTpSlRequest request, CancellationToken ct)
+            => await SetFuturesTpSlAsync(request, ct).ConfigureAwait(false);
+
         public SetFuturesTpSlOptions SetFuturesTpSlOptions { get; } = new SetFuturesTpSlOptions(_exchangeName, true)
         {
             RequiredRequestParameters = [
@@ -35,6 +40,13 @@ namespace Kraken.Net.Clients.FuturesApi
             return HttpResult.Ok(result, new SharedId(result.Data.OrderId));
         }
 
+        #endregion
+
+        #region Cancel Futures TP/SL
+
+        async Task<ICallResult<bool>> ICancelFuturesTpSl.CancelFuturesTpSlAsync(CancelTpSlRequest request, CancellationToken ct)
+            => await CancelFuturesTpSlAsync(request, ct).ConfigureAwait(false);
+
         public CancelFuturesTpSlOptions CancelFuturesTpSlOptions { get; } = new CancelFuturesTpSlOptions(_exchangeName, true)
         {
             RequiredRequestParameters = [
@@ -59,5 +71,6 @@ namespace Kraken.Net.Clients.FuturesApi
         }
 
         #endregion
+
     }
 }

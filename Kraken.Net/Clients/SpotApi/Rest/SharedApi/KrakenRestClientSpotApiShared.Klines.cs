@@ -9,7 +9,11 @@ namespace Kraken.Net.Clients.SpotApi
 {
     internal partial class KrakenRestClientSpotSharedApi
     {
-        #region Kline client
+
+        #region Get Klines
+
+        async Task<ICallResult<SharedKline[]>> IGetKlines.GetKlinesAsync(GetKlinesRequest request, PageRequest? pageRequest, CancellationToken ct)
+            => await GetKlinesAsync(request, pageRequest, ct).ConfigureAwait(false);
 
         public GetKlinesOptions GetKlinesOptions { get; } = new GetKlinesOptions(_exchangeName, true, false, true, 720, false,
             SharedKlineInterval.OneMinute,
@@ -82,5 +86,6 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         #endregion
+
     }
 }

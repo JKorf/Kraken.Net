@@ -10,7 +10,9 @@ namespace Kraken.Net.Clients.SpotApi
 {
     internal partial class KrakenSocketClientSpotSharedApi
     {
-        #region Kline client
+
+        #region Subscribe Klines
+
         public SubscribeKlineOptions SubscribeKlineOptions { get; } = new SubscribeKlineOptions(_exchangeName, false,
             SharedKlineInterval.OneMinute,
             SharedKlineInterval.ThreeMinutes,
@@ -58,6 +60,8 @@ namespace Kraken.Net.Clients.SpotApi
 
             return result;
         }
+
         #endregion
+
     }
 }

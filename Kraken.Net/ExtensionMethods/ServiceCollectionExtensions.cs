@@ -108,6 +108,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IKrakenOrderBookFactory, KrakenOrderBookFactory>();
             services.AddTransient<IKrakenTrackerFactory, KrakenTrackerFactory>();
             services.AddTransient<ITrackerFactory, KrakenTrackerFactory>();
+            services.AddTransient<IKrakenSharedApiClient, KrakenSharedApiClient>();
             services.AddSingleton<IKrakenUserClientProvider, KrakenUserClientProvider>(x =>
             new KrakenUserClientProvider(
                 x.GetRequiredService<IHttpClientFactory>().CreateClient(typeof(IKrakenRestClient).Name),
@@ -129,6 +130,18 @@ namespace Microsoft.Extensions.DependencyInjection
             services.RegisterSharedApi(
                 serviceProvider => serviceProvider
                     .GetRequiredService<IKrakenRestClient>()
+                    .FuturesApi
+                    .SharedApi);
+
+            services.RegisterSharedApi(
+                serviceProvider => serviceProvider
+                    .GetRequiredService<IKrakenSocketClient>()
+                    .SpotApi
+                    .SharedApi);
+
+            services.RegisterSharedApi(
+                serviceProvider => serviceProvider
+                    .GetRequiredService<IKrakenSocketClient>()
                     .FuturesApi
                     .SharedApi);
 

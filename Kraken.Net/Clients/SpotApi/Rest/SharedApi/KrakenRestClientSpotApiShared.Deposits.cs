@@ -9,7 +9,11 @@ namespace Kraken.Net.Clients.SpotApi
 {
     internal partial class KrakenRestClientSpotSharedApi
     {
-        #region Deposit client
+
+        #region Get Deposit Addresses
+
+        async Task<ICallResult<SharedDepositAddress[]>> IGetDepositAddresses.GetDepositAddressesAsync(GetDepositAddressesRequest request, CancellationToken ct)
+            => await GetDepositAddressesAsync(request, ct).ConfigureAwait(false);
 
         public GetDepositAddressesOptions GetDepositAddressesOptions { get; } = new GetDepositAddressesOptions(_exchangeName, true)
         {
@@ -33,6 +37,13 @@ namespace Kraken.Net.Clients.SpotApi
             }
             ).ToArray());
         }
+
+        #endregion
+
+        #region Get Deposit History
+
+        async Task<ICallResult<SharedDeposit[]>> IGetDepositHistory.GetDepositHistoryAsync(GetDepositsRequest request, PageRequest? pageRequest, CancellationToken ct)
+            => await GetDepositHistoryAsync(request, pageRequest, ct).ConfigureAwait(false);
 
         Task<HttpResult<SharedDeposit[]>> IDepositRestClient.GetDepositsAsync(GetDepositsRequest request, PageRequest? nextPageToken, CancellationToken ct)
             => GetDepositHistoryAsync(request, nextPageToken, ct);
@@ -87,5 +98,6 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         #endregion
+
     }
 }

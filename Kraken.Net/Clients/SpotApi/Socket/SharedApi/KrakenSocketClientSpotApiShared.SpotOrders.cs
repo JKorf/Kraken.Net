@@ -11,7 +11,8 @@ namespace Kraken.Net.Clients.SpotApi
 {
     internal partial class KrakenSocketClientSpotSharedApi
     {
-        #region Spot Order client
+
+        #region Subscribe Spot Orders
 
         async Task<WebSocketResult<UpdateSubscription>> ISpotOrderSocketClient.SubscribeToSpotOrderUpdatesAsync(SubscribeSpotOrderRequest request, Action<DataEvent<SharedSpotOrder[]>> handler, CancellationToken ct)
             => await SubscribeToSpotOrderUpdatesAsync(request, x => handler(x.ToType<SharedSpotOrder[]>(x.Data)), ct).ConfigureAwait(false);
@@ -88,6 +89,8 @@ namespace Kraken.Net.Clients.SpotApi
             return result;
         }
 
+        #endregion
+
         private SharedOrderStatus ParseStatus(OrderStatusUpdate orderStatus)
         {
             if (orderStatus == OrderStatusUpdate.New || orderStatus == OrderStatusUpdate.Pending || orderStatus == OrderStatusUpdate.PartiallyFilled) return SharedOrderStatus.Open;
@@ -96,9 +99,8 @@ namespace Kraken.Net.Clients.SpotApi
 
             return SharedOrderStatus.Unknown;
         }
-        #endregion
 
-        #region Spot Order client
+        #region Place Spot Order
 
         public SharedFeeDeductionType SpotFeeDeductionType => SharedFeeDeductionType.DeductFromOutput;
         public SharedFeeAssetType SpotFeeAssetType => SharedFeeAssetType.QuoteAsset;
@@ -144,6 +146,16 @@ namespace Kraken.Net.Clients.SpotApi
             return QueryResult.Ok(result, new SharedId(result.Data.OrderId));
         }
 
+        #endregion
+
+        #region Cancel Spot Order
+
+        async Task<ICallResult<SharedId>> ICancelSpotOrder.CancelSpotOrderAsync(CancelOrderRequest request, CancellationToken ct)
+            => await CancelSpotOrderAsync(request, ct).ConfigureAwait(false);
+
+        CancelSpotOrderOptions ICancelSpotOrder.CancelSpotOrderOptions
+            => CancelSpotOrderOptions;
+
         public CancelSpotOrderSocketOptions CancelSpotOrderOptions { get; } = new CancelSpotOrderSocketOptions(_exchangeName, true);
         public async Task<QueryResult<SharedId>> CancelSpotOrderAsync(CancelOrderRequest request, CancellationToken ct)
         {
@@ -157,6 +169,8 @@ namespace Kraken.Net.Clients.SpotApi
 
             return QueryResult.Ok(order, new SharedId(order.Data.ToString()));
         }
+
+        #endregion
 
         private OrderType GetPlaceOrderType(SharedOrderType type)
         {
@@ -173,6 +187,5 @@ namespace Kraken.Net.Clients.SpotApi
 
             return null;
         }
-        #endregion
     }
 }

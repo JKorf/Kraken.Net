@@ -11,7 +11,8 @@ namespace Kraken.Net.Clients.SpotApi
 {
     internal partial class KrakenSocketClientSpotSharedApi
     {
-        #region Book Ticker client
+
+        #region Subscribe Book Ticker
 
         public SubscribeBookTickerOptions SubscribeBookTickerOptions { get; } = new SubscribeBookTickerOptions(_exchangeName, false)
         {
@@ -39,6 +40,8 @@ namespace Kraken.Net.Clients.SpotApi
 
             return result;
         }
+
         #endregion
+
     }
 }

@@ -11,7 +11,8 @@ namespace Kraken.Net.Clients.FuturesApi
 {
     internal partial class KrakenSocketClientFuturesSharedApi
     {
-        #region Trade client
+
+        #region Subscribe Trades
 
         public SubscribeTradeOptions SubscribeTradeOptions { get; } = new SubscribeTradeOptions(_exchangeName, false)
         {
@@ -32,6 +33,8 @@ namespace Kraken.Net.Clients.FuturesApi
 
             return result;
         }
+
         #endregion
+
     }
 }

@@ -12,7 +12,9 @@ namespace Kraken.Net.Clients.FuturesApi
 {
     internal partial class KrakenSocketClientFuturesSharedApi
     {
-        #region Futures Order client
+
+        #region Subscribe Futures Orders
+
         async Task<WebSocketResult<UpdateSubscription>> IFuturesOrderSocketClient.SubscribeToFuturesOrderUpdatesAsync(SubscribeFuturesOrderRequest request, Action<DataEvent<SharedFuturesOrder[]>> handler, CancellationToken ct)
             => await SubscribeToFuturesOrderUpdatesAsync(request, x => handler(x.ToType<SharedFuturesOrder[]>(x.Data)), ct).ConfigureAwait(false);
 
@@ -52,6 +54,8 @@ namespace Kraken.Net.Clients.FuturesApi
             return result;
         }
 
+        #endregion
+
         private SharedOrderStatus GetOrderStatus(KrakenFuturesOpenOrdersUpdate data)
             => data.Reason switch
             {
@@ -75,6 +79,5 @@ namespace Kraken.Net.Clients.FuturesApi
                 _ => SharedOrderStatus.Unknown
             };
 
-        #endregion
     }
 }

@@ -10,7 +10,12 @@ namespace Kraken.Net.Clients.SpotApi
 {
     internal partial class KrakenRestClientSpotSharedApi
     {
-        #region Asset client
+
+        #region Get Asset
+
+        async Task<ICallResult<SharedAsset>> IGetAsset.GetAssetAsync(GetAssetRequest request, CancellationToken ct)
+            => await GetAssetAsync(request, ct).ConfigureAwait(false);
+
         public GetAssetOptions GetAssetOptions { get; } = new GetAssetOptions(_exchangeName, true);
         public async Task<HttpResult<SharedAsset>> GetAssetAsync(GetAssetRequest request, CancellationToken ct)
         {
@@ -34,6 +39,13 @@ namespace Kraken.Net.Clients.SpotApi
                 }).ToArray()
             });
         }
+
+        #endregion
+
+        #region Get All Assets
+
+        async Task<ICallResult<SharedAsset[]>> IGetAllAssets.GetAllAssetsAsync(GetAssetsRequest request, CancellationToken ct)
+            => await GetAllAssetsAsync(request, ct).ConfigureAwait(false);
 
         Task<HttpResult<SharedAsset[]>> IAssetsRestClient.GetAssetsAsync(GetAssetsRequest request, CancellationToken ct)
             => GetAllAssetsAsync(request, ct);
@@ -87,5 +99,6 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         #endregion
+
     }
 }

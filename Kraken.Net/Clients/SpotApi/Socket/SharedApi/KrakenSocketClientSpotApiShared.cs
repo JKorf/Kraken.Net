@@ -1,4 +1,4 @@
-using Kraken.Net.Interfaces.Clients.SpotApi;
+﻿using Kraken.Net.Interfaces.Clients.SpotApi;
 using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Objects.Sockets;
 using Kraken.Net.Enums;
@@ -34,7 +34,8 @@ namespace Kraken.Net.Clients.SpotApi
                 SubscribeBalanceOptions,
                 SubscribeKlineOptions,
                 SubscribeSpotOrderOptions,
-                PlaceSpotOrderOptions
+                PlaceSpotOrderOptions,
+                CancelSpotOrderOptions
             );
         }
 

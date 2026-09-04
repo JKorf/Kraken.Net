@@ -4,7 +4,11 @@ namespace Kraken.Net.Clients.FuturesApi
 {
 	internal partial class KrakenRestClientFuturesSharedApi
     {
-        #region Klines client
+
+        #region Get Klines
+
+        async Task<ICallResult<SharedKline[]>> IGetKlines.GetKlinesAsync(GetKlinesRequest request, PageRequest? pageRequest, CancellationToken ct)
+            => await GetKlinesAsync(request, pageRequest, ct).ConfigureAwait(false);
 
         public GetKlinesOptions GetKlinesOptions { get; } = new GetKlinesOptions(_exchangeName, false, true, true, 5000, false,
             SharedKlineInterval.OneMinute,
@@ -65,7 +69,10 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #endregion
 
-        #region Mark Price Klines client
+        #region Get Mark Price Klines
+
+        async Task<ICallResult<SharedFuturesKline[]>> IGetMarkPriceKlines.GetMarkPriceKlinesAsync(GetKlinesRequest request, PageRequest? pageRequest, CancellationToken ct)
+            => await GetMarkPriceKlinesAsync(request, pageRequest, ct).ConfigureAwait(false);
 
         public GetMarkPriceKlinesOptions GetMarkPriceKlinesOptions { get; } = new GetMarkPriceKlinesOptions(_exchangeName, true, false, true, 5000, false);
 
@@ -109,5 +116,6 @@ namespace Kraken.Net.Clients.FuturesApi
         }
 
         #endregion
+
     }
 }

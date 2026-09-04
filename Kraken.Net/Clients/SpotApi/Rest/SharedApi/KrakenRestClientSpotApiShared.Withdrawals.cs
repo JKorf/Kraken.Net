@@ -10,7 +10,11 @@ namespace Kraken.Net.Clients.SpotApi
 {
     internal partial class KrakenRestClientSpotSharedApi
     {
-        #region Withdrawal client
+
+        #region Get Withdrawal History
+
+        async Task<ICallResult<SharedWithdrawal[]>> IGetWithdrawalHistory.GetWithdrawalHistoryAsync(GetWithdrawalsRequest request, PageRequest? pageRequest, CancellationToken ct)
+            => await GetWithdrawalHistoryAsync(request, pageRequest, ct).ConfigureAwait(false);
 
         Task<HttpResult<SharedWithdrawal[]>> IWithdrawalRestClient.GetWithdrawalsAsync(GetWithdrawalsRequest request, PageRequest? nextPageToken, CancellationToken ct)
             => GetWithdrawalHistoryAsync(request, nextPageToken, ct);
@@ -67,6 +71,8 @@ namespace Kraken.Net.Clients.SpotApi
                     .ToArray(), nextPageRequest);
         }
 
+        #endregion
+
         private SharedTransferStatus GetWithdrawalStatus(KrakenMovementStatus x)
         {
             if (x.Status == "Failure")
@@ -80,9 +86,11 @@ namespace Kraken.Net.Clients.SpotApi
 
             return SharedTransferStatus.Unknown;
         }
-        #endregion
 
-        #region Withdraw client
+        #region Withdraw
+
+        async Task<ICallResult<SharedId>> IWithdraw.WithdrawAsync(WithdrawRequest request, CancellationToken ct)
+            => await WithdrawAsync(request, ct).ConfigureAwait(false);
 
         public WithdrawOptions WithdrawOptions { get; } = new WithdrawOptions(_exchangeName)
         {
@@ -117,5 +125,6 @@ namespace Kraken.Net.Clients.SpotApi
         }
 
         #endregion
+
     }
 }

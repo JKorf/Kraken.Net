@@ -11,9 +11,14 @@ namespace Kraken.Net.Clients.SpotApi
 {
     internal partial class KrakenRestClientSpotSharedApi
     {
-        #region Spot Symbol client
 
         public SharedSymbolCatalog? SpotSymbolCatalog => ExchangeSymbolCache.GetSymbolCatalog(_exchangeName, _topicId, _api.EnvironmentName, null);
+
+        #region Get Spot Symbols
+
+        async Task<ICallResult<SharedSpotSymbol[]>> IGetSpotSymbols.GetSpotSymbolsAsync(GetSymbolsRequest request, CancellationToken ct)
+            => await GetSpotSymbolsAsync(request, ct).ConfigureAwait(false);
+
         public GetSpotSymbolsOptions GetSpotSymbolsOptions { get; } = new GetSpotSymbolsOptions(_exchangeName, false)
         {
             OptionalExchangeParameters = [
@@ -56,6 +61,8 @@ namespace Kraken.Net.Clients.SpotApi
             ExchangeSymbolCache.UpdateSymbolInfo(_topicId, _api.EnvironmentName, null, symbolRegistrations);
             return HttpResult.Ok(currencyResult, SharedUtils.ApplySymbolFilter(resultData, request));
         }
+
+        #endregion
 
         private SharedSpotSymbol ParseSymbol(KeyValuePair<string, KrakenSymbol> s, bool isTokenized)
         {
@@ -144,6 +151,5 @@ namespace Kraken.Net.Clients.SpotApi
 
             return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicId, _api.EnvironmentName, null, symbolName));
         }
-        #endregion
     }
 }

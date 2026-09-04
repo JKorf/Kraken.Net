@@ -5,7 +5,12 @@ namespace Kraken.Net.Clients.FuturesApi
 {
 	internal partial class KrakenRestClientFuturesSharedApi
     {
-        #region Funding Rate client
+
+        #region Get Funding Rate History
+
+        async Task<ICallResult<SharedFundingRate[]>> IGetFundingRateHistory.GetFundingRateHistoryAsync(GetFundingRateHistoryRequest request, PageRequest? pageRequest, CancellationToken ct)
+            => await GetFundingRateHistoryAsync(request, pageRequest, ct).ConfigureAwait(false);
+
         public GetFundingRateHistoryOptions GetFundingRateHistoryOptions { get; } = new GetFundingRateHistoryOptions(_exchangeName, true, true, true, 10000, false);
 
         public async Task<HttpResult<SharedFundingRate[]>> GetFundingRateHistoryAsync(GetFundingRateHistoryRequest request, PageRequest? pageRequest, CancellationToken ct)
@@ -33,6 +38,8 @@ namespace Kraken.Net.Clients.FuturesApi
                     new SharedFundingRate(x.FundingRate, x.Timestamp))
                 .ToArray());
         }
+
         #endregion
+
     }
 }

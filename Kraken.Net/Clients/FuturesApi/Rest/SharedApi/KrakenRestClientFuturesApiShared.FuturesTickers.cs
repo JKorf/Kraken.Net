@@ -4,7 +4,11 @@ namespace Kraken.Net.Clients.FuturesApi
 {
 	internal partial class KrakenRestClientFuturesSharedApi
     {
-        #region Ticker client
+
+        #region Get Futures Ticker
+
+        async Task<ICallResult<SharedFuturesTicker>> IGetFuturesTicker.GetFuturesTickerAsync(GetTickerRequest request, CancellationToken ct)
+            => await GetFuturesTickerAsync(request, ct).ConfigureAwait(false);
 
         public GetFuturesTickerOptions GetFuturesTickerOptions { get; } = new GetFuturesTickerOptions(_exchangeName);
         public async Task<HttpResult<SharedFuturesTicker>> GetFuturesTickerAsync(GetTickerRequest request, CancellationToken ct)
@@ -35,6 +39,13 @@ namespace Kraken.Net.Clients.FuturesApi
                     NextFundingTime = resultTicker.Data.FundingRate == null ? null : new DateTime(time.Year, time.Month, time.Day, time.Hour, 0, 0, DateTimeKind.Utc).AddHours(1)
                 });
         }
+
+        #endregion
+
+        #region Get All Futures Tickers
+
+        async Task<ICallResult<SharedFuturesTicker[]>> IGetAllFuturesTickers.GetAllFuturesTickersAsync(GetTickersRequest request, CancellationToken ct)
+            => await GetAllFuturesTickersAsync(request, ct).ConfigureAwait(false);
 
         Task<HttpResult<SharedFuturesTicker[]>> IFuturesTickerRestClient.GetFuturesTickersAsync(GetTickersRequest request, CancellationToken ct)
             => GetAllFuturesTickersAsync(request, ct);
@@ -79,5 +90,6 @@ namespace Kraken.Net.Clients.FuturesApi
         }
 
         #endregion
+
     }
 }

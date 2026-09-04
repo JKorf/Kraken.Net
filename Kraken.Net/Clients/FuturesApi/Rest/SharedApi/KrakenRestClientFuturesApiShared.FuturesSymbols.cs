@@ -5,9 +5,14 @@ namespace Kraken.Net.Clients.FuturesApi
 {
 	internal partial class KrakenRestClientFuturesSharedApi
     {
-        #region Futures Symbol client
 
         public SharedSymbolCatalog? FuturesSymbolCatalog => ExchangeSymbolCache.GetSymbolCatalog(_exchangeName, _topicId, _api.EnvironmentName, null);
+
+        #region Get Futures Symbols
+
+        async Task<ICallResult<SharedFuturesSymbol[]>> IGetFuturesSymbols.GetFuturesSymbolsAsync(GetSymbolsRequest request, CancellationToken ct)
+            => await GetFuturesSymbolsAsync(request, ct).ConfigureAwait(false);
+
         public GetFuturesSymbolsOptions GetFuturesSymbolsOptions { get; } = new GetFuturesSymbolsOptions(_exchangeName, false);
         public async Task<HttpResult<SharedFuturesSymbol[]>> GetFuturesSymbolsAsync(GetSymbolsRequest request, CancellationToken ct)
         {
@@ -27,6 +32,8 @@ namespace Kraken.Net.Clients.FuturesApi
             ExchangeSymbolCache.UpdateSymbolInfo(_topicId, _api.EnvironmentName, null, data);
             return HttpResult.Ok(result, SharedUtils.ApplySymbolFilter(data, request));
         }
+
+        #endregion
 
         private SharedFuturesSymbol ParseSymbol(KrakenFuturesSymbol s)
         {
@@ -93,6 +100,5 @@ namespace Kraken.Net.Clients.FuturesApi
 
             return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicId, _api.EnvironmentName, null, symbolName));
         }
-        #endregion
     }
 }
