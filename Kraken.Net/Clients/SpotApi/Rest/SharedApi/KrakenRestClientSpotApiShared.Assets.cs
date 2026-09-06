@@ -55,7 +55,7 @@ namespace Kraken.Net.Clients.SpotApi
         {
             RequestNotes = "If API credentials are set and the NewAssetNames Exchange Parameter is not set to true then withdrawal networks will also be returned",
             OptionalExchangeParameters = [
-                ExchangeParameterDescription.Optional<bool>(
+                ExchangeParameterRule.Optional<bool>(
                     "NewAssetNames",
                     aliases: ["assetVersion"],
                     description: "If true, the response will use the new asset names (e.g. instead of XBT, BTC will be used)",

@@ -278,8 +278,8 @@ namespace Kraken.Net.Clients.FuturesApi
         public ClosePositionOptions ClosePositionOptions { get; } = new ClosePositionOptions(_exchangeName, true)
         {
             RequiredRequestParameters = [
-                RequestParameter<ClosePositionRequest>.Required(x => x.PositionSide, "The position side to close", SharedPositionSide.Long),
-                RequestParameter<ClosePositionRequest>.Required(x => x.Quantity, "Quantity of the position to close", 1m)
+                RequestParameterRule<ClosePositionRequest>.Required(x => x.PositionSide, "The position side to close", SharedPositionSide.Long),
+                RequestParameterRule<ClosePositionRequest>.Required(x => x.Quantity, "Quantity of the position to close", 1m)
                 ]
         };
         public async Task<HttpResult<SharedId>> ClosePositionAsync(ClosePositionRequest request, CancellationToken ct)

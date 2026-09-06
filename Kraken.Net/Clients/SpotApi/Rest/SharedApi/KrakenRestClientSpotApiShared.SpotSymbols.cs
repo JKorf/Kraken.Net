@@ -22,7 +22,7 @@ namespace Kraken.Net.Clients.SpotApi
         public GetSpotSymbolsOptions GetSpotSymbolsOptions { get; } = new GetSpotSymbolsOptions(_exchangeName, false)
         {
             OptionalExchangeParameters = [
-                ExchangeParameterDescription.Optional<bool>(
+                ExchangeParameterRule.Optional<bool>(
                     "NewAssetNames",
                     aliases: ["assetVersion"],
                     description: "If true, the response will use the new asset names (e.g. instead of XBT, BTC will be used)",

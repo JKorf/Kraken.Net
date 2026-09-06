@@ -18,7 +18,7 @@ namespace Kraken.Net.Clients.SpotApi
         public GetDepositAddressesOptions GetDepositAddressesOptions { get; } = new GetDepositAddressesOptions(_exchangeName, true)
         {
             RequiredRequestParameters = [
-                RequestParameter<GetDepositAddressesRequest>.Required(x => x.Network, "The network the deposit address should be for", "Bitcoin")
+                RequestParameterRule<GetDepositAddressesRequest>.Required(x => x.Network, "The network the deposit address should be for", "Bitcoin")
                 ]
         };
         public async Task<HttpResult<SharedDepositAddress[]>> GetDepositAddressesAsync(GetDepositAddressesRequest request, CancellationToken ct)
