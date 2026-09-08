@@ -21,7 +21,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         public GetSpotSymbolsOptions GetSpotSymbolsOptions { get; } = new GetSpotSymbolsOptions(_exchangeName, false)
         {
-            OptionalExchangeParameters = [
+            ExchangeParameterRules = [
                 ExchangeParameterRule.Optional<bool>(
                     "NewAssetNames",
                     aliases: ["assetVersion"],

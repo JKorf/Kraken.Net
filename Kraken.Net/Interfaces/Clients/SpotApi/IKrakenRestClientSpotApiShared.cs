@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.SharedApis;
+using CryptoExchange.Net.SharedApis;
 
 namespace Kraken.Net.Interfaces.Clients.SpotApi
 {
@@ -48,8 +48,8 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         ICancelSpotOrderRest,
         ICancelSpotOrderByClientOrderIdRest,
         IGetSpotSymbolsRest,
-        IGetSpotTickerRest,
-        IGetAllSpotTickersRest,
+        IGetTickerRest,
+        IGetAllTickersRest,
         IGetWithdrawalHistoryRest,
         IWithdrawRest,
         IGetFeesRest,

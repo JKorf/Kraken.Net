@@ -94,7 +94,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         public WithdrawOptions WithdrawOptions { get; } = new WithdrawOptions(_exchangeName)
         {
-            RequiredExchangeParameters = [
+            ExchangeParameterRules = [
                 ExchangeParameterRule.Required(
                     "keyName",
                     aliases: ["key"],

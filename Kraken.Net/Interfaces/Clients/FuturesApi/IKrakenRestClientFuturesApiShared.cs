@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.SharedApis;
+using CryptoExchange.Net.SharedApis;
 
 namespace Kraken.Net.Interfaces.Clients.FuturesApi
 {
@@ -37,8 +37,8 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         IGetBookTickerRest,
         IGetFundingRateHistoryRest,
         IGetFuturesSymbolsRest,
-        IGetFuturesTickerRest,
-        IGetAllFuturesTickersRest,
+        IGetTickerRest,
+        IGetAllTickersRest,
         IGetMarkPriceKlinesRest,
         IGetOpenInterestRest,
         IGetLeverageRest,
@@ -49,7 +49,6 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         IGetFuturesUserTradeHistoryRest,
         ICancelFuturesOrderRest,
         IGetPositionsRest,
-        IClosePositionRest,
         IGetFeesRest,
         IGetFuturesOrderByClientOrderIdRest,
         ICancelFuturesOrderByClientOrderIdRest,

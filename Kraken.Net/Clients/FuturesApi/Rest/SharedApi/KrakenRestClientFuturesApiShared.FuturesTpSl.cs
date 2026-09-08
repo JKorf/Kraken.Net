@@ -13,8 +13,8 @@ namespace Kraken.Net.Clients.FuturesApi
 
         public SetFuturesTpSlOptions SetFuturesTpSlOptions { get; } = new SetFuturesTpSlOptions(_exchangeName, true)
         {
-            RequiredRequestParameters = [
-                RequestParameterRule<SetTpSlRequest>.Required(x => x.Quantity, "The quantity to close", 0.123m)
+            ParameterRuleOverwrites = [
+                RequestParameterRuleOverride<SetTpSlRequest>.Required(x => x.Quantity)
                 ]
         };
 
@@ -49,8 +49,8 @@ namespace Kraken.Net.Clients.FuturesApi
 
         public CancelFuturesTpSlOptions CancelFuturesTpSlOptions { get; } = new CancelFuturesTpSlOptions(_exchangeName, true)
         {
-            RequiredRequestParameters = [
-                RequestParameterRule<CancelTpSlRequest>.Required(x => x.OrderId, "Id of the tp/sl order", "123123")
+            ParameterRuleOverwrites = [
+                RequestParameterRuleOverride<CancelTpSlRequest>.Required(x => x.OrderId)
                 ]
         };
 
