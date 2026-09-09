@@ -105,7 +105,12 @@ namespace Kraken.Net.Clients.SpotApi
         async Task<ICallResult<SharedSpotOrder[]>> IGetOpenSpotOrders.GetOpenSpotOrdersAsync(GetOpenOrdersRequest request, CancellationToken ct)
             => await GetOpenSpotOrdersAsync(request, ct).ConfigureAwait(false);
 
-        public GetOpenSpotOrdersOptions GetOpenSpotOrdersOptions { get; } = new GetOpenSpotOrdersOptions(_exchangeName, true);
+        public GetOpenSpotOrdersOptions GetOpenSpotOrdersOptions { get; } = new GetOpenSpotOrdersOptions(_exchangeName, true)
+        {
+            ParameterRuleOverwrites = [
+                RequestParameterRuleOverride<GetOpenOrdersRequest>.NotSupported(x => x.Symbol),
+                ]
+        };
         public async Task<HttpResult<SharedSpotOrder[]>> GetOpenSpotOrdersAsync(GetOpenOrdersRequest request, CancellationToken ct)
         {
             var validationError = GetOpenSpotOrdersOptions.ValidateRequest(request, this);

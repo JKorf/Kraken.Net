@@ -94,6 +94,10 @@ namespace Kraken.Net.Clients.SpotApi
 
         public WithdrawOptions WithdrawOptions { get; } = new WithdrawOptions(_exchangeName)
         {
+            ParameterRuleOverwrites = [
+                RequestParameterRuleOverride<WithdrawRequest>.NotSupported(x => x.AddressTag),
+                RequestParameterRuleOverride<WithdrawRequest>.NotSupported(x => x.Network)
+                ],
             ExchangeParameterRules = [
                 ExchangeParameterRule.Required(
                     "keyName",
