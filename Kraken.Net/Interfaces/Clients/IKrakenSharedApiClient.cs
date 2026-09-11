@@ -1,4 +1,5 @@
-﻿using Kraken.Net.Interfaces.Clients.FuturesApi;
+﻿using CryptoExchange.Net.SharedApis;
+using Kraken.Net.Interfaces.Clients.FuturesApi;
 using Kraken.Net.Interfaces.Clients.SpotApi;
 
 namespace Kraken.Net.Interfaces.Clients
@@ -6,7 +7,7 @@ namespace Kraken.Net.Interfaces.Clients
     /// <summary>
     /// Client for the shared REST and WebSocket API implementations of Kraken
     /// </summary>
-    public interface IKrakenSharedApiClient
+    public interface IKrakenSharedApiClient : ISharedApiClientBase
     {
         /// <summary>
         /// Spot REST shared API implementations

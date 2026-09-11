@@ -54,9 +54,9 @@ namespace Microsoft.Extensions.DependencyInjection
             options.Socket.Environment = KrakenEnvironment.GetEnvironmentByName(socketEnvName) ?? options.Socket.Environment!;
             options.Socket.ApiCredentials = options.Socket.ApiCredentials ?? options.ApiCredentials;
 
-
-            services.AddSingleton(x => Options.Options.Create(options.Rest));
-            services.AddSingleton(x => Options.Options.Create(options.Socket));
+            services.AddSingleton(Options.Options.Create(options.Rest));
+            services.AddSingleton(Options.Options.Create(options.Socket));
+            services.AddSingleton(Options.Options.Create(options));
 
             return AddKrakenCore(services, options.SocketClientLifeTime);
         }
@@ -84,8 +84,9 @@ namespace Microsoft.Extensions.DependencyInjection
             options.Socket.Environment = options.Socket.Environment ?? options.Environment ?? KrakenEnvironment.Live;
             options.Socket.ApiCredentials = options.Socket.ApiCredentials ?? options.ApiCredentials;
 
-            services.AddSingleton(x => Options.Options.Create(options.Rest));
-            services.AddSingleton(x => Options.Options.Create(options.Socket));
+            services.AddSingleton(Options.Options.Create(options.Rest));
+            services.AddSingleton(Options.Options.Create(options.Socket));
+            services.AddSingleton(Options.Options.Create(options));
 
             return AddKrakenCore(services, options.SocketClientLifeTime);
         }
@@ -108,7 +109,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IKrakenOrderBookFactory, KrakenOrderBookFactory>();
             services.AddTransient<IKrakenTrackerFactory, KrakenTrackerFactory>();
             services.AddTransient<ITrackerFactory, KrakenTrackerFactory>();
-            services.AddTransient<IKrakenSharedApiClient, KrakenSharedApiClient>();
             services.AddSingleton<IKrakenUserClientProvider, KrakenUserClientProvider>(x =>
             new KrakenUserClientProvider(
                 x.GetRequiredService<IHttpClientFactory>().CreateClient(typeof(IKrakenRestClient).Name),
@@ -121,6 +121,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.RegisterSharedRestInterfaces(x => x.GetRequiredService<IKrakenRestClient>().FuturesApi.SharedClient);
             services.RegisterSharedSocketInterfaces(x => x.GetRequiredService<IKrakenSocketClient>().FuturesApi.SharedClient);
 
+            services.AddTransient<IKrakenSharedApiClient, KrakenSharedApiClient>();
+
             services.RegisterSharedApi(
                 serviceProvider => serviceProvider
                     .GetRequiredService<IKrakenRestClient>()
@@ -144,6 +146,8 @@ namespace Microsoft.Extensions.DependencyInjection
                     .GetRequiredService<IKrakenSocketClient>()
                     .FuturesApi
                     .SharedApi);
+
+            services.RegisterSharedApiClientCapabilities<IKrakenSharedApiClient>();
 
             return services;
         }
