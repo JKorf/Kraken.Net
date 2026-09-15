@@ -1,5 +1,6 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Interfaces.Clients;
+using CryptoExchange.Net.SharedApis;
 using Kraken.Net;
 using Kraken.Net.Clients;
 using Kraken.Net.Interfaces;
@@ -116,38 +117,19 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.GetRequiredService<IOptions<KrakenRestOptions>>(),
                 x.GetRequiredService<IOptions<KrakenSocketOptions>>()));
 
+
             services.RegisterSharedRestInterfaces(x => x.GetRequiredService<IKrakenRestClient>().SpotApi.SharedClient);
             services.RegisterSharedSocketInterfaces(x => x.GetRequiredService<IKrakenSocketClient>().SpotApi.SharedClient);
             services.RegisterSharedRestInterfaces(x => x.GetRequiredService<IKrakenRestClient>().FuturesApi.SharedClient);
             services.RegisterSharedSocketInterfaces(x => x.GetRequiredService<IKrakenSocketClient>().FuturesApi.SharedClient);
 
-            services.AddTransient<IKrakenSharedApiClient, KrakenSharedApiClient>();
-
-            services.RegisterSharedApi(
-                serviceProvider => serviceProvider
-                    .GetRequiredService<IKrakenRestClient>()
-                    .SpotApi
-                    .SharedApi);
-
-            services.RegisterSharedApi(
-                serviceProvider => serviceProvider
-                    .GetRequiredService<IKrakenRestClient>()
-                    .FuturesApi
-                    .SharedApi);
-
-            services.RegisterSharedApi(
-                serviceProvider => serviceProvider
-                    .GetRequiredService<IKrakenSocketClient>()
-                    .SpotApi
-                    .SharedApi);
-
-            services.RegisterSharedApi(
-                serviceProvider => serviceProvider
-                    .GetRequiredService<IKrakenSocketClient>()
-                    .FuturesApi
-                    .SharedApi);
-
-            services.RegisterSharedApiClientCapabilities<IKrakenSharedApiClient>();
+            services.RegisterSharedApiClient<
+                IKrakenSharedApiClient,
+                KrakenSharedApiClient>(sharedApis => sharedApis
+                    .Add(client => client.SpotRest)
+                    .Add(client => client.FuturesRest)
+                    .Add(client => client.SpotSocket)
+                    .Add(client => client.FuturesSocket));
 
             return services;
         }
