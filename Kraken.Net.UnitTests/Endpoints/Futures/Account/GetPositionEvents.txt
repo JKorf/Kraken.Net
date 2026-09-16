@@ -1,0 +1,36 @@
+GET
+/api/history/v3/positions
+true
+{
+  "accountUid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "len": 1,
+  "serverTime": "2019-08-24T14:15:22Z",
+  "elements": [
+    {
+      "uid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "timestamp": 1566656122000,
+      "event": {
+        "PositionUpdate": {
+          "accountUid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "tradeable": "PF_ETHUSD",
+          "oldPosition": "1",
+          "oldAverageEntryPrice": "1000",
+          "newPosition": "0",
+          "newAverageEntryPrice": "0",
+          "fillTime": 1566656112000,
+          "fee": "0.1",
+          "feeCurrency": "USD",
+          "realizedPnL": "10",
+          "positionChange": "close",
+          "executionUid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "executionPrice": "1010",
+          "executionSize": "1",
+          "tradeType": "userExecution",
+          "timestamp": 1566656122000,
+          "updateReason": "trade"
+        }
+      }
+    }
+  ],
+  "continuationToken": "token"
+}

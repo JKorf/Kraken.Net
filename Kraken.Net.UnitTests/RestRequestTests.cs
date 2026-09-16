@@ -119,7 +119,9 @@ namespace Kraken.Net.UnitTests
             await tester.ValidateAsync(client => client.FuturesApi.Account.GetPnlCurrencyAsync(), "GetPnlCurrency", "result");
             await tester.ValidateAsync(client => client.FuturesApi.Account.SetPnlCurrencyAsync("ETHUSDT", "ETH"), "SetPnlCurrency");
             await tester.ValidateAsync(client => client.FuturesApi.Account.TransferAsync("ETH", 1, "1", "2"), "Transfer");
+            await tester.ValidateAsync(client => client.FuturesApi.Account.WithdrawToSpotWalletAsync("ETH", 1, "flex"), "WithdrawToSpotWallet", "uid");
             await tester.ValidateAsync(client => client.FuturesApi.Account.GetAccountLogAsync(), "GetAccountLog");
+            await tester.ValidateAsync(client => client.FuturesApi.Account.GetPositionEventsAsync(), "GetPositionEvents");
         }
 
         [Test]
@@ -138,6 +140,7 @@ namespace Kraken.Net.UnitTests
             await tester.ValidateAsync(client => client.FuturesApi.Trading.GetOpenPositionsAsync(), "GetOpenPositions", "openPositions");
             await tester.ValidateAsync(client => client.FuturesApi.Trading.GetLeverageAsync(), "GetLeverage", "leveragePreferences");
             await tester.ValidateAsync(client => client.FuturesApi.Trading.SetLeverageAsync("ETHUSDT", 1), "SetLeverage");
+            await tester.ValidateAsync(client => client.FuturesApi.Trading.SetLeverageAsync("ETHUSDT", null), "SetCrossMargin");
             await tester.ValidateAsync(client => client.FuturesApi.Trading.PlaceOrderAsync("ETHUSDT", Enums.OrderSide.Buy, Enums.FuturesOrderType.Market, 1), "PlaceOrder", "sendStatus");
             await tester.ValidateAsync(client => client.FuturesApi.Trading.GetOpenOrdersAsync(), "GetOpenOrders", "openOrders");
             await tester.ValidateAsync(client => client.FuturesApi.Trading.GetOrdersAsync(), "GetOrders", "openOrders", skipResponseValidation: true);
