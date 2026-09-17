@@ -64,6 +64,7 @@ namespace Kraken.Net.Converters
     [JsonSerializable(typeof(KrakenFundingRatesResult))]
     [JsonSerializable(typeof(KrakenFeeSchedulesResult))]
     [JsonSerializable(typeof(KrakenFuturesSymbolResult))]
+    [JsonSerializable(typeof(KrakenFuturesTradingSymbolResult))]
     [JsonSerializable(typeof(KrakenFuturesSymbolStatusResult))]
     [JsonSerializable(typeof(KrakenFuturesTradeResult))]
     [JsonSerializable(typeof(KrakenFuturesTickersResult))]

@@ -82,6 +82,18 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         Task<HttpResult<KrakenFuturesSymbol[]>> GetSymbolsAsync(CancellationToken ct = default);
 
         /// <summary>
+        /// Get account-specific instrument specifications and trading restrictions. Requires Futures credentials with at least read-only access.
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api-reference/instrument-details/get-trading-instruments" /><br />
+        /// Endpoint:<br />
+        /// GET /derivatives/api/v3/trading/instruments
+        /// </para>
+        /// </summary>
+        /// <param name="ct">Cancellation token</param>
+        Task<HttpResult<KrakenFuturesTradingSymbol[]>> GetTradingSymbolsAsync(CancellationToken ct = default);
+
+        /// <summary>
         /// Get a list of symbols statuses
         /// <para>
         /// Docs:<br />
