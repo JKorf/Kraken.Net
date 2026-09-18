@@ -12,7 +12,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Get Book Ticker
 
-        async Task<ICallResult<SharedBookTicker>> IGetBookTicker.GetBookTickerAsync(GetBookTickerRequest request, CancellationToken ct)
+        async Task<IExchangeCallResult<SharedBookTicker>> IGetBookTicker.GetBookTickerAsync(GetBookTickerRequest request, CancellationToken ct)
             => await GetBookTickerAsync(request, ct).ConfigureAwait(false);
 
         public GetBookTickerOptions GetBookTickerOptions { get; } = new GetBookTickerOptions(_exchangeName, false);

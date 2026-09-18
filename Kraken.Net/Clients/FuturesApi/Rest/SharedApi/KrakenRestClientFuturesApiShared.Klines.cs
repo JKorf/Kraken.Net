@@ -7,7 +7,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #region Get Klines
 
-        async Task<ICallResult<SharedKline[]>> IGetKlines.GetKlinesAsync(GetKlinesRequest request, PageRequest? pageRequest, CancellationToken ct)
+        async Task<IExchangeCallResult<SharedKline[]>> IGetKlines.GetKlinesAsync(GetKlinesRequest request, PageRequest? pageRequest, CancellationToken ct)
             => await GetKlinesAsync(request, pageRequest, ct).ConfigureAwait(false);
 
         public GetKlinesOptions GetKlinesOptions { get; } = new GetKlinesOptions(_exchangeName, false, true, true, 5000, false,
@@ -71,7 +71,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #region Get Mark Price Klines
 
-        async Task<ICallResult<SharedFuturesKline[]>> IGetMarkPriceKlines.GetMarkPriceKlinesAsync(GetKlinesRequest request, PageRequest? pageRequest, CancellationToken ct)
+        async Task<IExchangeCallResult<SharedFuturesKline[]>> IGetMarkPriceKlines.GetMarkPriceKlinesAsync(GetKlinesRequest request, PageRequest? pageRequest, CancellationToken ct)
             => await GetMarkPriceKlinesAsync(request, pageRequest, ct).ConfigureAwait(false);
 
         public GetMarkPriceKlinesOptions GetMarkPriceKlinesOptions { get; } = new GetMarkPriceKlinesOptions(_exchangeName, true, false, true, 5000, false);

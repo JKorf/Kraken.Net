@@ -20,7 +20,7 @@ namespace Kraken.Net.Clients.SpotApi
         public KrakenSocketClientSpotSharedApi(KrakenSocketClientSpotApi api)
             : base(
                   SharedTransport.Socket,
-                  api.Exchange,
+                  api,
                   new[] { TradingMode.Spot },
                   () => api.Authenticated,
                   api.FormatSymbol)

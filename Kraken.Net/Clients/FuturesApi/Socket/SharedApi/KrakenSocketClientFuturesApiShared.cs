@@ -22,7 +22,7 @@ namespace Kraken.Net.Clients.FuturesApi
         public KrakenSocketClientFuturesSharedApi(KrakenSocketClientFuturesApi api)
             : base(
                   SharedTransport.Socket,
-                  api.Exchange,
+                  api,
                   new[] { TradingMode.PerpetualLinear, TradingMode.DeliveryLinear, TradingMode.PerpetualInverse, TradingMode.DeliveryInverse },
                   () => api.Authenticated,
                   api.FormatSymbol)
