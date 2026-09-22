@@ -16,7 +16,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         #region Get Spot Symbols
 
-        async Task<ICallResult<SharedSpotSymbol[]>> IGetSpotSymbols.GetSpotSymbolsAsync(GetSymbolsRequest request, CancellationToken ct)
+        async Task<IExchangeCallResult<SharedSpotSymbol[]>> IGetSpotSymbols.GetSpotSymbolsAsync(GetSymbolsRequest request, CancellationToken ct)
             => await GetSpotSymbolsAsync(request, ct).ConfigureAwait(false);
 
         public GetSpotSymbolsOptions GetSpotSymbolsOptions { get; } = new GetSpotSymbolsOptions(_exchangeName, false)

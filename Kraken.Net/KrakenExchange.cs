@@ -176,7 +176,7 @@ namespace Kraken.Net
 
             SpotRest = new RateLimitGate("Spot Rest")
                                         .AddGuard(new RateLimitGuard(RateLimitGuard.PerEndpoint, new PathStartFilter("0/public"), 1, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding))
-                                        .AddGuard(new RateLimitGuard(RateLimitGuard.PerApiKey, new IGuardFilter[] { new AuthenticatedEndpointFilter(true) }, limit, TimeSpan.FromSeconds(1), RateLimitWindowType.Decay, decay));
+                                        .AddGuard(new RateLimitGuard(RateLimitGuard.PerApiKey, new IGuardFilter[] { new AuthenticatedEndpointFilter(true) }, limit, TimeSpan.FromSeconds(1), RateLimitWindowType.Decay, decayPerTimeSpan: decay));
 
             SpotSocket = new RateLimitGate("Spot Socket")
                                         .AddGuard(new RateLimitGuard(RateLimitGuard.PerHost, new LimitItemTypeFilter(RateLimitItemType.Connection), 150, TimeSpan.FromMinutes(10), RateLimitWindowType.Sliding)); // 150 connections per sliding 10 minutes
