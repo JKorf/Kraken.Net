@@ -1,6 +1,7 @@
 ﻿using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models.Futures;
+using static CryptoExchange.Net.SharedApis.SharedCapabilities;
 
 namespace Kraken.Net.Clients.FuturesApi
 {
@@ -47,7 +48,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 GetOrderType(request.OrderType, request.TimeInForce),
                 quantity: request.Quantity?.QuantityInContracts ?? 0,
                 price: request.Price,
-                reduceOnly: request.ReduceOnly,
+                reduceOnly: request.ReduceOnly ?? GetReduceOnly(request.PositionSide, request.Side),
                 clientOrderId: request.ClientOrderId,
                 ct: ct).ConfigureAwait(false);
 
@@ -89,7 +90,8 @@ namespace Kraken.Net.Clients.FuturesApi
                 OrderQuantity = new SharedOrderQuantity(contractQuantity: order.Data.Order.Quantity == 0 ? null : order.Data.Order.Quantity),
                 QuantityFilled = new SharedOrderQuantity(contractQuantity: order.Data.Order.QuantityFilled),
                 UpdateTime = order.Data.Order.LastUpdateTime,
-                ReduceOnly = order.Data.Order.ReduceOnly
+                ReduceOnly = order.Data.Order.ReduceOnly,
+                PositionSide = GetPositionSide(order.Data.Order.Side, order.Data.Order.ReduceOnly)
             });
         }
 
@@ -135,7 +137,8 @@ namespace Kraken.Net.Clients.FuturesApi
                 OrderQuantity = new SharedOrderQuantity(contractQuantity: x.Quantity),
                 QuantityFilled = new SharedOrderQuantity(contractQuantity: x.QuantityFilled),
                 UpdateTime = x.LastUpdateTime,
-                ReduceOnly = x.ReduceOnly
+                ReduceOnly = x.ReduceOnly,
+                PositionSide = GetPositionSide(x.Side, x.ReduceOnly)
             }).ToArray());
         }
 
@@ -316,6 +319,19 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #endregion
 
+        private static SharedPositionSide GetPositionSide(OrderSide side, bool reduceOnly)
+            => (side, reduceOnly) switch
+            {
+                (OrderSide.Buy, false) or (OrderSide.Sell, true) => SharedPositionSide.Long,
+                _ => SharedPositionSide.Short
+            };
+
+        private static bool GetReduceOnly(SharedPositionSide? positionSide,
+            SharedOrderSide side)
+            => (positionSide, side) is
+                (SharedPositionSide.Long, SharedOrderSide.Sell) or
+                (SharedPositionSide.Short, SharedOrderSide.Buy);
+
         private SharedOrderStatus ParseOrderStatus(KrakenFuturesOrderActiveStatus status)
         {
             if (status == KrakenFuturesOrderActiveStatus.EnteredBook) return SharedOrderStatus.Open;
@@ -371,7 +387,8 @@ namespace Kraken.Net.Clients.FuturesApi
                 OrderQuantity = new SharedOrderQuantity(contractQuantity: order.Data.Order.Quantity == 0 ? null : order.Data.Order.Quantity),
                 QuantityFilled = new SharedOrderQuantity(contractQuantity: order.Data.Order.QuantityFilled),
                 UpdateTime = order.Data.Order.LastUpdateTime,
-                ReduceOnly = order.Data.Order.ReduceOnly
+                ReduceOnly = order.Data.Order.ReduceOnly,
+                PositionSide = GetPositionSide(order.Data.Order.Side, order.Data.Order.ReduceOnly)
             });
         }
 
