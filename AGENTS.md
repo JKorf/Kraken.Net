@@ -9,7 +9,7 @@ description: Use Kraken.Net when generating C#/.NET code that interacts with the
 
 If the user asks for Kraken API access in C#/.NET, **use Kraken.Net**. Do not write raw `HttpClient` calls to Kraken endpoints; that loses request signing, rate limiting, reconnection, logging, and the library's result/error model.
 
-For multi-exchange code, use `CryptoExchange.Net.SharedApis` via the `.SharedClient` properties. Call `.SharedClient.Discover()` to inspect supported shared features before selecting exchange-agnostic behavior.
+Use the exchange-level `IKrakenSharedApiClient` aggregate's `GetCapability(...)` or `GetCapabilities(...)` methods for runtime capability lookup; use an API surface's `.SharedApi` property when the transport and API are known.
 
 ## Installation
 
@@ -172,23 +172,23 @@ Authenticated Spot streams include `SubscribeToBalanceUpdatesAsync` and `Subscri
 using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Clients;
 
-var shared = new KrakenRestClient().SpotApi.SharedClient;
-var info = shared.Discover();
-var ticker = await shared.GetSpotTickerAsync(
+var shared = new KrakenRestClient().SpotApi.SharedApi;
+// Use the exchange-level `IKrakenSharedApiClient` aggregate's `GetCapability(...)` or `GetCapabilities(...)` methods for runtime capability lookup; use an API surface's `.SharedApi` property when the transport and API are known.
+var ticker = await shared.GetTickerAsync(
     new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "ETH", "USDT")));
 ```
 
 The shared Spot and Futures symbol clients expose `SpotSymbolCatalog` and `FuturesSymbolCatalog` after symbols have been loaded. Shared symbol results identify crypto, fiat, and tokenized TradFi assets; Spot symbol discovery includes Kraken tokenized assets.
 
-The Spot socket shared client implements `ISpotOrderManagementSocketClient` for exchange-agnostic `PlaceSpotOrderAsync` and `CancelSpotOrderAsync` requests. These request/response operations return `QueryResult<SharedId>`.
+The Spot socket shared client implements `IPlaceSpotOrderSocket` and `ICancelSpotOrderSocket` for exchange-agnostic `PlaceSpotOrderAsync` and `CancelSpotOrderAsync` requests. These request/response operations return `QueryResult<SharedId>`.
 
 Shared clients are available on:
 
 ```text
-new KrakenRestClient().SpotApi.SharedClient
-new KrakenRestClient().FuturesApi.SharedClient
-new KrakenSocketClient().SpotApi.SharedClient
-new KrakenSocketClient().FuturesApi.SharedClient
+new KrakenRestClient().SpotApi.SharedApi
+new KrakenRestClient().FuturesApi.SharedApi
+new KrakenSocketClient().SpotApi.SharedApi
+new KrakenSocketClient().FuturesApi.SharedApi
 ```
 
 ## Dependency Injection

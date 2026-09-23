@@ -1,9 +1,12 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Interfaces.Clients;
+using CryptoExchange.Net.SharedApis;
 using Kraken.Net;
 using Kraken.Net.Clients;
 using Kraken.Net.Interfaces;
 using Kraken.Net.Interfaces.Clients;
+using Kraken.Net.Interfaces.Clients.FuturesApi;
+using Kraken.Net.Interfaces.Clients.SpotApi;
 using Kraken.Net.Objects.Options;
 using Kraken.Net.SymbolOrderBooks;
 using Microsoft.Extensions.Configuration;
@@ -28,33 +31,10 @@ namespace Microsoft.Extensions.DependencyInjection
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            var options = new KrakenOptions();
-            // Reset environment so we know if they're overridden
-            options.Rest.Environment = null!;
-            options.Socket.Environment = null!;
-
-            try
-            {
-                configuration.Bind(options);
-            }
-            catch (InvalidOperationException ex)
-            {
-                throw new InvalidOperationException("Invalid configuration provided", ex);
-            }
-
-            if (options.Rest == null || options.Socket == null)
-                throw new ArgumentException("Options null");
-
-            var restEnvName = options.Rest.Environment?.Name ?? options.Environment?.Name ?? KrakenEnvironment.Live.Name;
-            var socketEnvName = options.Socket.Environment?.Name ?? options.Environment?.Name ?? KrakenEnvironment.Live.Name;
-            options.Rest.Environment = KrakenEnvironment.GetEnvironmentByName(restEnvName) ?? options.Rest.Environment!;
-            options.Rest.ApiCredentials = options.Rest.ApiCredentials ?? options.ApiCredentials;
-            options.Socket.Environment = KrakenEnvironment.GetEnvironmentByName(socketEnvName) ?? options.Socket.Environment!;
-            options.Socket.ApiCredentials = options.Socket.ApiCredentials ?? options.ApiCredentials;
-
-
-            services.AddSingleton(x => Options.Options.Create(options.Rest));
-            services.AddSingleton(x => Options.Options.Create(options.Socket));
+            var options = KrakenOptions.CreateFromConfiguration(configuration);
+            services.AddSingleton(Options.Options.Create(options.Rest));
+            services.AddSingleton(Options.Options.Create(options.Socket));
+            services.AddSingleton(Options.Options.Create(options));
 
             return AddKrakenCore(services, options.SocketClientLifeTime);
         }
@@ -69,21 +49,10 @@ namespace Microsoft.Extensions.DependencyInjection
             this IServiceCollection services,
             Action<KrakenOptions>? optionsDelegate = null)
         {
-            var options = new KrakenOptions();
-            // Reset environment so we know if they're overridden
-            options.Rest.Environment = null!;
-            options.Socket.Environment = null!;
-            optionsDelegate?.Invoke(options);
-            if (options.Rest == null || options.Socket == null)
-                throw new ArgumentException("Options null");
-
-            options.Rest.Environment = options.Rest.Environment ?? options.Environment ?? KrakenEnvironment.Live;
-            options.Rest.ApiCredentials = options.Rest.ApiCredentials ?? options.ApiCredentials;
-            options.Socket.Environment = options.Socket.Environment ?? options.Environment ?? KrakenEnvironment.Live;
-            options.Socket.ApiCredentials = options.Socket.ApiCredentials ?? options.ApiCredentials;
-
-            services.AddSingleton(x => Options.Options.Create(options.Rest));
-            services.AddSingleton(x => Options.Options.Create(options.Socket));
+            var options = KrakenOptions.Create(optionsDelegate);
+            services.AddSingleton(Options.Options.Create(options.Rest));
+            services.AddSingleton(Options.Options.Create(options.Socket));
+            services.AddSingleton(Options.Options.Create(options));
 
             return AddKrakenCore(services, options.SocketClientLifeTime);
         }
@@ -113,10 +82,19 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.GetRequiredService<IOptions<KrakenRestOptions>>(),
                 x.GetRequiredService<IOptions<KrakenSocketOptions>>()));
 
+
             services.RegisterSharedRestInterfaces(x => x.GetRequiredService<IKrakenRestClient>().SpotApi.SharedClient);
             services.RegisterSharedSocketInterfaces(x => x.GetRequiredService<IKrakenSocketClient>().SpotApi.SharedClient);
             services.RegisterSharedRestInterfaces(x => x.GetRequiredService<IKrakenRestClient>().FuturesApi.SharedClient);
             services.RegisterSharedSocketInterfaces(x => x.GetRequiredService<IKrakenSocketClient>().FuturesApi.SharedClient);
+
+            services.RegisterSharedApiClient<
+                IKrakenSharedApiClient,
+                KrakenSharedApiClient>(sharedApis => sharedApis
+                    .Add(client => client.SpotRest)
+                    .Add(client => client.FuturesRest)
+                    .Add(client => client.SpotSocket)
+                    .Add(client => client.FuturesSocket));
 
             return services;
         }

@@ -1,22 +1,28 @@
-﻿using NUnit.Framework;
-using System.Threading.Tasks;
-using Kraken.Net.Objects.Internal;
-using Kraken.Net.Clients;
-using System.Collections.Generic;
-using Kraken.Net.Objects.Models.Futures;
-using NUnit.Framework.Legacy;
+﻿using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Clients;
-using CryptoExchange.Net.Authentication;
-using System.Net.Http;
+using CryptoExchange.Net.Interfaces;
+using CryptoExchange.Net.Interfaces.Clients;
+using CryptoExchange.Net.Objects;
+using CryptoExchange.Net.SharedApis;
+using CryptoExchange.Net.Testing;
 using CryptoExchange.Net.Testing.Implementations;
-using System.Text.Json;
+using Kraken.Net.Clients;
+using Kraken.Net.Clients.SpotApi;
+using Kraken.Net.Interfaces.Clients;
+using Kraken.Net.Interfaces.Clients.FuturesApi;
+using Kraken.Net.Interfaces.Clients.SpotApi;
+using Kraken.Net.Objects.Internal;
+using Kraken.Net.Objects.Models.Futures;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using CryptoExchange.Net.Objects;
-using CryptoExchange.Net.Interfaces;
-using Kraken.Net.Interfaces.Clients;
-using Kraken.Net.Clients.SpotApi;
 using Moq;
+using NUnit.Framework;
+using NUnit.Framework.Legacy;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Kraken.Net.UnitTests
 {
@@ -187,6 +193,56 @@ namespace Kraken.Net.UnitTests
             Assert.That(((BaseApiClient)restClient.SpotApi).ClientOptions.Proxy.Port, Is.EqualTo(80));
             Assert.That(((BaseApiClient)socketClient.SpotApi).ClientOptions.Proxy.Host, Is.EqualTo("host2"));
             Assert.That(((BaseApiClient)socketClient.SpotApi).ClientOptions.Proxy.Port, Is.EqualTo(81));
+        }
+
+        [Test]
+        public void TestSpotSharedApiDiscoveryMatchesAggregate()
+        {
+            var (missingOptions, missingInterfaces) = TestHelpers.ValidateSharedApi(new KrakenRestClient().SpotApi.SharedApi);
+
+            Assert.That(missingOptions, Is.Empty);
+            Assert.That(missingInterfaces, Is.Empty);
+        }
+
+        [Test]
+        public void TestFuturesSharedApiDiscoveryMatchesAggregate()
+        {
+            var (missingOptions, missingInterfaces) = TestHelpers.ValidateSharedApi(new KrakenRestClient().FuturesApi.SharedApi);
+
+            Assert.That(missingOptions, Is.Empty);
+            Assert.That(missingInterfaces, Is.Empty);
+        }
+
+        [Test]
+        public void TestSpotRestSharedApiDoesntHaveUnsupportedCapabilities()
+        {
+            var unsupported = TestHelpers.ValidateUnsupportedCapabilities(new KrakenRestClient().SpotApi.SharedApi);
+
+            Assert.That(unsupported, Is.Empty);
+        }
+
+        [Test]
+        public void TestSpotSocketSharedApiDoesntHaveUnsupportedCapabilities()
+        {
+            var unsupported = TestHelpers.ValidateUnsupportedCapabilities(new KrakenSocketClient().SpotApi.SharedApi);
+
+            Assert.That(unsupported, Is.Empty);
+        }
+
+        [Test]
+        public void TestFuturesRestSharedApiDoesntHaveUnsupportedCapabilities()
+        {
+            var unsupported = TestHelpers.ValidateUnsupportedCapabilities(new KrakenRestClient().FuturesApi.SharedApi);
+
+            Assert.That(unsupported, Is.Empty);
+        }
+
+        [Test]
+        public void TestFuturesSocketSharedApiDoesntHaveUnsupportedCapabilities()
+        {
+            var unsupported = TestHelpers.ValidateUnsupportedCapabilities(new KrakenSocketClient().FuturesApi.SharedApi);
+
+            Assert.That(unsupported, Is.Empty);
         }
     }
 }

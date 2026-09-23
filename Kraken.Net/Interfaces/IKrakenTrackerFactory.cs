@@ -22,18 +22,18 @@ namespace Kraken.Net.Interfaces
         /// <param name="config">Configuration</param>
         IUserSpotDataTracker CreateUserSpotDataTracker(SpotUserDataTrackerConfig? config = null);
 
-        /// <summary>
-        /// Create a new futures user data tracker
-        /// </summary>
-        /// <param name="userIdentifier">User identifier</param>
-        /// <param name="config">Configuration</param>
-        /// <param name="credentials">Credentials</param>
-        /// <param name="environment">Environment</param>
-        IUserFuturesDataTracker CreateUserFuturesDataTracker(string userIdentifier, KrakenCredentials credentials, FuturesUserDataTrackerConfig? config = null, KrakenEnvironment? environment = null);
-        /// <summary>
-        /// Create a new futures user data tracker
-        /// </summary>
-        /// <param name="config">Configuration</param>
-        IUserFuturesDataTracker CreateUserFuturesDataTracker(FuturesUserDataTrackerConfig? config = null);
+        ///// <summary>
+        ///// Create a new futures user data tracker
+        ///// </summary>
+        ///// <param name="userIdentifier">User identifier</param>
+        ///// <param name="config">Configuration</param>
+        ///// <param name="credentials">Credentials</param>
+        ///// <param name="environment">Environment</param>
+        //IUserFuturesDataTracker CreateUserFuturesDataTracker(string userIdentifier, KrakenCredentials credentials, FuturesUserDataTrackerConfig? config = null, KrakenEnvironment? environment = null);
+        ///// <summary>
+        ///// Create a new futures user data tracker
+        ///// </summary>
+        ///// <param name="config">Configuration</param>
+        //IUserFuturesDataTracker CreateUserFuturesDataTracker(FuturesUserDataTrackerConfig? config = null);
     }
 }

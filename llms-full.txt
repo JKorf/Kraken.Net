@@ -36,7 +36,7 @@ Primary documentation:
 - Do not call `.Result` or `.Wait()` on async methods.
 - Do not invent endpoint names. If unsure, inspect `Kraken.Net/Interfaces/Clients/**`.
 - Spot REST pair names and Spot WebSocket pair names can differ. Use `KrakenSymbol.WebsocketName` from `GetSymbolsAsync`.
-- For multi-exchange code, use `CryptoExchange.Net.SharedApis` from each API's `.SharedClient` and call `.SharedClient.Discover()` to inspect supported features.
+- Use the exchange-level `IKrakenSharedApiClient` aggregate's `GetCapability(...)` or `GetCapabilities(...)` methods for runtime capability lookup; use an API surface's `.SharedApi` property when the transport and API are known.
 
 ## Installation
 
@@ -213,12 +213,12 @@ KrakenRestClient
     .Account
     .Trading
     .Earn
-    .SharedClient
+    .SharedApi
   .FuturesApi
     .ExchangeData
     .Account
     .Trading
-    .SharedClient
+    .SharedApi
 ```
 
 WebSocket:
@@ -226,12 +226,12 @@ WebSocket:
 ```text
 KrakenSocketClient
   .SpotApi
-    .SharedClient
+    .SharedApi
     public subscriptions
     private subscriptions
     socket order requests
   .FuturesApi
-    .SharedClient
+    .SharedApi
     public subscriptions
     private subscriptions
 ```
@@ -382,12 +382,11 @@ using CryptoExchange.Net.SharedApis;
 using Kraken.Net.Clients;
 
 var restClient = new KrakenRestClient();
-ISpotTickerRestClient tickerClient = restClient.SpotApi.SharedClient;
+IGetTickerRest tickerClient = restClient.SpotApi.SharedApi;
 var symbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
-var info = restClient.SpotApi.SharedClient.Discover();
-var supportedFeatures = info.Features.Where(x => x.Supported).Select(x => x.EndpointName);
+// Use the exchange-level `IKrakenSharedApiClient` aggregate's `GetCapability(...)` or `GetCapabilities(...)` methods for runtime capability lookup; use an API surface's `.SharedApi` property when the transport and API are known.
 
-var ticker = await tickerClient.GetSpotTickerAsync(new GetTickerRequest(symbol));
+var ticker = await tickerClient.GetTickerAsync(new GetTickerRequest(symbol));
 if (!ticker.Success)
 {
     Console.WriteLine(ticker.Error);
@@ -400,7 +399,7 @@ Console.WriteLine(ticker.Data.LastPrice);
 Shared Spot and Futures symbol clients provide catalogs after symbol data has been loaded:
 
 ```csharp
-ISpotSymbolRestClient symbolClient = restClient.SpotApi.SharedClient;
+IGetSpotSymbolsRest symbolClient = restClient.SpotApi.SharedApi;
 var symbols = await symbolClient.GetSpotSymbolsAsync(new GetSymbolsRequest());
 if (!symbols.Success)
 {
@@ -411,17 +410,17 @@ if (!symbols.Success)
 var catalog = symbolClient.SpotSymbolCatalog;
 ```
 
-`SharedSpotSymbol` and `SharedFuturesSymbol` results include asset-type metadata. Kraken Spot shared symbols include tokenized assets, classified as `SharedAssetType.TradFi` with the equity subtype; crypto, stablecoin, and fiat classifications are also populated. The Futures equivalent is `IFuturesSymbolRestClient.FuturesSymbolCatalog`.
+`SharedSpotSymbol` and `SharedFuturesSymbol` results include asset-type metadata. Kraken Spot shared symbols include tokenized assets, classified as `SharedAssetType.TradFi` with the equity subtype; crypto, stablecoin, and fiat classifications are also populated. The Futures equivalent is `IGetFuturesSymbolsRest.FuturesSymbolCatalog`.
 
 Shared REST methods return `HttpResult<T>` / `HttpResult`. Shared socket subscriptions return `WebSocketResult<UpdateSubscription>` with an `UpdateSubscription` in `.Data`. Shared symbol helpers can return `ExchangeCallResult<T>`.
 
-The Spot socket shared client also implements `ISpotOrderManagementSocketClient`. Use its `PlaceSpotOrderAsync(PlaceSpotOrderRequest)` and `CancelSpotOrderAsync(CancelOrderRequest)` methods for exchange-agnostic Spot order management over WebSocket; both return `QueryResult<SharedId>`.
+The Spot socket shared client also implements `IPlaceSpotOrderSocket` and `ICancelSpotOrderSocket`. Use its `PlaceSpotOrderAsync(PlaceSpotOrderRequest)` and `CancelSpotOrderAsync(CancelOrderRequest)` methods for exchange-agnostic Spot order management over WebSocket; both return `QueryResult<SharedId>`.
 
 Keep the concrete socket client and unsubscribe through it:
 
 ```csharp
 var socketClient = new KrakenSocketClient();
-ITickerSocketClient tickerSocket = socketClient.SpotApi.SharedClient;
+ISubscribeTickerSocket tickerSocket = socketClient.SpotApi.SharedApi;
 
 var sub = await tickerSocket.SubscribeToTickerUpdatesAsync(
     new SubscribeTickerRequest(new SharedSymbol(TradingMode.Spot, "ETH", "USDT")),

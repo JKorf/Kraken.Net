@@ -160,22 +160,22 @@ Use this file to route common user intents to the correct Kraken.Net client memb
 
 | User intent | Kraken.Net member or interface |
 |---|---|
-| Shared spot REST client | `new KrakenRestClient().SpotApi.SharedClient` |
-| Shared futures REST client | `new KrakenRestClient().FuturesApi.SharedClient` |
-| Shared spot socket client | `new KrakenSocketClient().SpotApi.SharedClient` |
-| Shared futures socket client | `new KrakenSocketClient().FuturesApi.SharedClient` |
-| Discover shared capabilities | `client.SpotApi.SharedClient.Discover()` |
-| Load shared Spot symbols, including tokenized assets | `ISpotSymbolRestClient.GetSpotSymbolsAsync(new GetSymbolsRequest())` |
-| Read loaded Spot symbol catalog | `ISpotSymbolRestClient.SpotSymbolCatalog` |
-| Read loaded Futures symbol catalog | `IFuturesSymbolRestClient.FuturesSymbolCatalog` |
-| Shared spot ticker REST | `ISpotTickerRestClient.GetSpotTickerAsync(new GetTickerRequest(symbol))` |
-| Shared spot order REST | `ISpotOrderRestClient.PlaceSpotOrderAsync(...)` |
-| Shared spot order socket | `ISpotOrderManagementSocketClient.PlaceSpotOrderAsync(new PlaceSpotOrderRequest(...))` |
-| Shared spot order cancellation socket | `ISpotOrderManagementSocketClient.CancelSpotOrderAsync(new CancelOrderRequest(...))` |
-| Shared futures order REST | `IFuturesOrderRestClient.PlaceFuturesOrderAsync(...)` |
-| Shared balance REST | `IBalanceRestClient.GetBalancesAsync(...)` |
-| Shared ticker socket | `ITickerSocketClient.SubscribeToTickerUpdatesAsync(...)` |
-| Shared order book socket | `IOrderBookSocketClient.SubscribeToOrderBookUpdatesAsync(...)` |
+| Shared spot REST client | `new KrakenRestClient().SpotApi.SharedApi` |
+| Shared futures REST client | `new KrakenRestClient().FuturesApi.SharedApi` |
+| Shared spot socket client | `new KrakenSocketClient().SpotApi.SharedApi` |
+| Shared futures socket client | `new KrakenSocketClient().FuturesApi.SharedApi` |
+| Resolve a runtime-selected Shared API capability | `IKrakenSharedApiClient.GetCapability(...)` |
+| Load shared Spot symbols, including tokenized assets | `IGetSpotSymbolsRest.GetSpotSymbolsAsync(new GetSymbolsRequest())` |
+| Read loaded Spot symbol catalog | `IGetSpotSymbolsRest.SpotSymbolCatalog` |
+| Read loaded Futures symbol catalog | `IGetFuturesSymbolsRest.FuturesSymbolCatalog` |
+| Shared spot ticker REST | `IGetTickerRest.GetTickerAsync(new GetTickerRequest(symbol))` |
+| Shared spot order REST | `IPlaceSpotOrderRest.PlaceSpotOrderAsync(...)` |
+| Shared spot order socket | `IPlaceSpotOrderSocket.PlaceSpotOrderAsync(new PlaceSpotOrderRequest(...))` |
+| Shared spot order cancellation socket | `ICancelSpotOrderSocket.CancelSpotOrderAsync(new CancelOrderRequest(...))` |
+| Shared futures order REST | `IPlaceFuturesOrderRest.PlaceFuturesOrderAsync(...)` |
+| Shared balance REST | `IGetBalancesRest.GetBalancesAsync(...)` |
+| Shared ticker socket | `ISubscribeTickerSocket.SubscribeToTickerUpdatesAsync(...)` |
+| Shared order book socket | `ISubscribeOrderBookSocket.SubscribeToOrderBookUpdatesAsync(...)` |
 
 Shared REST methods return `HttpResult<T>` / `HttpResult`; shared socket subscriptions return `WebSocketResult<UpdateSubscription>`; shared symbol/cache helper methods such as `SupportsSpotSymbolAsync` can return `ExchangeCallResult<T>`. Shared symbol results include asset-type metadata for crypto, stablecoins, fiat, and tokenized TradFi assets.
 
@@ -206,4 +206,4 @@ For shared socket subscriptions, keep the concrete socket client and unsubscribe
 | `FuturesApi.Positions` | `FuturesApi.Trading.GetOpenPositionsAsync()` |
 | `FuturesApi.MarketData` | `FuturesApi.ExchangeData` |
 | `.Data` without `.Success` check | Check `.Success` first |
-| `ITickerSocketClient.UnsubscribeAsync(...)` | Keep concrete socket client and call `socketClient.UnsubscribeAsync(subscription.Data)` |
+| Unsubscribe from a shared subscription | Keep concrete socket client and call `socketClient.UnsubscribeAsync(subscription.Data)` |

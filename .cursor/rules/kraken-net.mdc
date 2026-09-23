@@ -43,8 +43,8 @@ var price = ticker.Data.Values.First().LastTrade.Price;
 - `restClient.FuturesApi.{ExchangeData|Account|Trading}`
 - `socketClient.SpotApi` for Spot WebSocket v2 subscriptions and socket order requests
 - `socketClient.FuturesApi` for Futures WebSocket subscriptions
-- `.SharedClient` on Spot/Futures REST and socket APIs for `CryptoExchange.Net.SharedApis`
-- Spot socket `.SharedClient` implements `ISpotOrderManagementSocketClient` for shared place/cancel order requests
+- `.SharedApi` on Spot/Futures REST and socket APIs for `CryptoExchange.Net.SharedApis`
+- Spot socket `.SharedApi` implements `IPlaceSpotOrderSocket` and `ICancelSpotOrderSocket` for shared place/cancel order requests
 - Shared Spot/Futures symbol clients expose symbol catalogs and typed asset metadata; Spot shared symbol discovery includes tokenized assets
 
 ## Kraken-specific details
