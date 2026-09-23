@@ -60,6 +60,17 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #endregion
 
+        #region Get Trading Symbols
+
+        /// <inheritdoc />
+        public async Task<HttpResult<KrakenFuturesTradingSymbol[]>> GetTradingSymbolsAsync(CancellationToken ct = default)
+        {
+            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "derivatives/api/v3/trading/instruments", KrakenExchange.RateLimiter.FuturesApi, 1, true);
+            return await _baseClient.SendAsync<KrakenFuturesTradingSymbolResult, KrakenFuturesTradingSymbol[]>(request, null, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
         #region Get Symbol Status
 
         /// <inheritdoc />

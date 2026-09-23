@@ -82,13 +82,13 @@ namespace Kraken.Net.Clients.FuturesApi
         #region Set Leverage
 
         /// <inheritdoc />
-        public async Task<HttpResult> SetLeverageAsync(string symbol, decimal maxLeverage, CancellationToken ct = default)
+        public async Task<HttpResult> SetLeverageAsync(string symbol, decimal? maxLeverage, CancellationToken ct = default)
         {
             var parameters = new Parameters(KrakenExchange._parameterSerializationSettings)
             {
-                { "symbol", symbol },
-                { "maxLeverage", maxLeverage.ToString(CultureInfo.InvariantCulture) }
+                { "symbol", symbol }
             };
+            parameters.Add("maxLeverage", maxLeverage?.ToString(CultureInfo.InvariantCulture));
             var request = _definitions.GetOrCreate(HttpMethod.Put, _baseClient.BaseAddress, "derivatives/api/v3/leveragepreferences", KrakenExchange.RateLimiter.FuturesApi, 1, true);
             return await _baseClient.SendAsync(request, parameters, ct).ConfigureAwait(false);
         }

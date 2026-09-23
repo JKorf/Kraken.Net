@@ -91,6 +91,7 @@ Use this file to route common user intents to the correct Kraken.Net client memb
 | Get all futures tickers | `client.FuturesApi.ExchangeData.GetTickersAsync()` |
 | Get futures trades | `client.FuturesApi.ExchangeData.GetTradesAsync("PF_ETHUSD")` |
 | Get futures account log | `client.FuturesApi.Account.GetAccountLogAsync(...)` |
+| Get futures position history | `client.FuturesApi.Account.GetPositionEventsAsync(...)` |
 | Get futures balances | `client.FuturesApi.Account.GetBalancesAsync()` |
 | Get PNL currency preference | `client.FuturesApi.Account.GetPnlCurrencyAsync()` |
 | Set PNL currency preference | `client.FuturesApi.Account.SetPnlCurrencyAsync(symbol, pnlCurrency)` |
