@@ -4,7 +4,7 @@
 
 Kraken.Net is a strongly typed .NET client library for the Kraken Spot and Futures REST and WebSocket APIs. It is part of the CryptoExchange.Net ecosystem and uses the same result, shared API, logging, rate limiting, and socket subscription patterns as the other JKorf exchange libraries.
 
-Current package version in this repository: 8.4.0.
+Current package version in this repository: 8.5.0.
 NuGet package id: `KrakenExchange.Net`.
 CryptoExchange.Net dependency: 12.5.0.
 Target frameworks: netstandard2.0, netstandard2.1, net8.0, net9.0, net10.0.
