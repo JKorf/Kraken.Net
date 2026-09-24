@@ -35,6 +35,9 @@ namespace Kraken.Net.Objects.Models.Futures
         [JsonPropertyName("order_id")]
         public string OrderId { get; set; } = string.Empty;
 
+        /// <summary>
+        /// ["<c>orderId</c>"] Order identity returned by edit confirmations.
+        /// </summary>
         [JsonPropertyName("orderId")]
         internal string OrderIdInternal
         {

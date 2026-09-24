@@ -68,9 +68,10 @@ namespace Kraken.Net.Interfaces.Clients.FuturesApi
         /// <param name="stopPrice">["<c>stopPrice</c>"] New stop price</param>
         /// <param name="trailingStopDeviationUnit">["<c>trailingStopDeviationUnit</c>"] New trailing stop deviation unit</param>
         /// <param name="trailingStopMaxDeviation">["<c>trailingStopMaxDeviation</c>"] New trailing stop max deviation</param>
+        /// <param name="quantityMode">["<c>qtyMode</c>"] Whether quantity includes past fills. When omitted, Kraken uses remaining quantity.</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
-        Task<HttpResult<KrakenFuturesOrderResult>> EditOrderAsync(string? orderId = null, string? clientOrderId = null, decimal? quantity = null, decimal? price = null, decimal? stopPrice = null, TrailingStopDeviationUnit? trailingStopDeviationUnit = null, decimal? trailingStopMaxDeviation = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenFuturesOrderResult>> EditOrderAsync(string? orderId = null, string? clientOrderId = null, decimal? quantity = null, decimal? price = null, decimal? stopPrice = null, TrailingStopDeviationUnit? trailingStopDeviationUnit = null, decimal? trailingStopMaxDeviation = null, FuturesQuantityMode? quantityMode = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get execution events
