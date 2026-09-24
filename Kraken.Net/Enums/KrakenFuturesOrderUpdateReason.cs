@@ -98,6 +98,16 @@ namespace Kraken.Net.Enums
         /// </summary>
         [Map("order_for_edit_not_found")]
         OrderForEditNotFound,
+        /// <summary>
+        /// [<c>edited_by_user</c>] The user amended an existing order
+        /// </summary>
+        [Map("edited_by_user")]
+        EditedByUser,
+        /// <summary>
+        /// [<c>fixed_leverage_update</c>] The fixed leverage configuration of an existing order changed
+        /// </summary>
+        [Map("fixed_leverage_update")]
+        FixedLeverageUpdate,
     }
 
 }
