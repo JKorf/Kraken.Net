@@ -19,11 +19,15 @@ namespace Kraken.Net
             string? userIdentifier,
             SpotUserDataTrackerConfig? config) : base(
                 logger,
-                restClient.SpotApi.SharedClient,
-                restClient.SpotApi.SharedClient,
-                socketClient.SpotApi.SharedClient,
-                restClient.SpotApi.SharedClient,
-                socketClient.SpotApi.SharedClient,
+                restClient.SpotApi.SharedApi,
+                restClient.SpotApi.SharedApi,
+                socketClient.SpotApi.SharedApi,
+
+                restClient.SpotApi.SharedApi,
+                restClient.SpotApi.SharedApi,
+                socketClient.SpotApi.SharedApi,
+
+                restClient.SpotApi.SharedApi,
                 null,
                 userIdentifier,
                 config ?? new SpotUserDataTrackerConfig())
@@ -31,31 +35,39 @@ namespace Kraken.Net
         }
     }
 
-    /// <inheritdoc/>
-    public class KrakenUserFuturesDataTracker : UserFuturesDataTracker
-    {
-        /// <inheritdoc/>
-        protected override bool WebsocketPositionUpdatesAreFullSnapshots => false;
+    ///// <inheritdoc/>
+    //public class KrakenUserFuturesDataTracker : UserFuturesDataTracker
+    //{
+    //    /// <inheritdoc/>
+    //    protected override bool WebsocketPositionUpdatesAreFullSnapshots => false;
 
-        /// <summary>
-        /// ctor
-        /// </summary>
-        public KrakenUserFuturesDataTracker(
-            ILogger<KrakenUserFuturesDataTracker> logger,
-            IKrakenRestClient restClient,
-            IKrakenSocketClient socketClient,
-            string? userIdentifier,
-            FuturesUserDataTrackerConfig? config) : base(logger,
-                restClient.FuturesApi.SharedClient,
-                restClient.FuturesApi.SharedClient,
-                socketClient.FuturesApi.SharedClient,
-                restClient.FuturesApi.SharedClient,
-                socketClient.FuturesApi.SharedClient,
-                socketClient.FuturesApi.SharedClient,
-                socketClient.FuturesApi.SharedClient,
-                userIdentifier,
-                config ?? new FuturesUserDataTrackerConfig())
-        {
-        }
-    }
+    //    /// <summary>
+    //    /// ctor
+    //    /// </summary>
+    //    public KrakenUserFuturesDataTracker(
+    //        ILogger<KrakenUserFuturesDataTracker> logger,
+    //        IKrakenRestClient restClient,
+    //        IKrakenSocketClient socketClient,
+    //        string? userIdentifier,
+    //        FuturesUserDataTrackerConfig? config) : base(logger,
+    //            restClient.FuturesApi.SharedApi,
+
+    //            restClient.FuturesApi.SharedApi,
+    //            socketClient.FuturesApi.SharedApi,
+
+    //            restClient.FuturesApi.SharedApi,
+    //            null,
+    //            socketClient.FuturesApi.SharedApi,
+
+    //            restClient.FuturesApi.SharedApi,
+    //            socketClient.FuturesApi.SharedApi,
+
+    //            restClient.FuturesApi.SharedApi,
+    //            socketClient.FuturesApi.SharedApi,
+
+    //            userIdentifier,
+    //            config ?? new FuturesUserDataTrackerConfig())
+    //    {
+    //    }
+    //}
 }

@@ -113,7 +113,7 @@ namespace Kraken.Net.Clients.FuturesApi
 
         #endregion
 
-        #region Get Tickers
+        #region Get Ticker
 
         /// <inheritdoc />
         public async Task<HttpResult<KrakenFuturesTicker>> GetTickerAsync(string symbol, CancellationToken ct = default)

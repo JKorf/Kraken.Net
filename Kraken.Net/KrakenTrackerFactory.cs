@@ -123,33 +123,33 @@ namespace Kraken.Net
                 );
         }
 
-        /// <inheritdoc />
-        public IUserFuturesDataTracker CreateUserFuturesDataTracker(FuturesUserDataTrackerConfig? config = null)
-        {
-            var restClient = _serviceProvider?.GetRequiredService<IKrakenRestClient>() ?? new KrakenRestClient();
-            var socketClient = _serviceProvider?.GetRequiredService<IKrakenSocketClient>() ?? new KrakenSocketClient();
-            return new KrakenUserFuturesDataTracker(
-                _serviceProvider?.GetRequiredService<ILogger<KrakenUserFuturesDataTracker>>() ?? new NullLogger<KrakenUserFuturesDataTracker>(),
-                restClient,
-                socketClient,
-                null,
-                config
-                );
-        }
+        ///// <inheritdoc />
+        //public IUserFuturesDataTracker CreateUserFuturesDataTracker(FuturesUserDataTrackerConfig? config = null)
+        //{
+        //    var restClient = _serviceProvider?.GetRequiredService<IKrakenRestClient>() ?? new KrakenRestClient();
+        //    var socketClient = _serviceProvider?.GetRequiredService<IKrakenSocketClient>() ?? new KrakenSocketClient();
+        //    return new KrakenUserFuturesDataTracker(
+        //        _serviceProvider?.GetRequiredService<ILogger<KrakenUserFuturesDataTracker>>() ?? new NullLogger<KrakenUserFuturesDataTracker>(),
+        //        restClient,
+        //        socketClient,
+        //        null,
+        //        config
+        //        );
+        //}
 
-        /// <inheritdoc />
-        public IUserFuturesDataTracker CreateUserFuturesDataTracker(string userIdentifier, KrakenCredentials credentials, FuturesUserDataTrackerConfig? config = null, KrakenEnvironment? environment = null)
-        {
-            var clientProvider = _serviceProvider?.GetRequiredService<IKrakenUserClientProvider>() ?? new KrakenUserClientProvider();
-            var restClient = clientProvider.GetRestClient(userIdentifier, credentials, environment);
-            var socketClient = clientProvider.GetSocketClient(userIdentifier, credentials, environment);
-            return new KrakenUserFuturesDataTracker(
-                _serviceProvider?.GetRequiredService<ILogger<KrakenUserFuturesDataTracker>>() ?? new NullLogger<KrakenUserFuturesDataTracker>(),
-                restClient,
-                socketClient,
-                userIdentifier,
-                config
-                );
-        }
+        ///// <inheritdoc />
+        //public IUserFuturesDataTracker CreateUserFuturesDataTracker(string userIdentifier, KrakenCredentials credentials, FuturesUserDataTrackerConfig? config = null, KrakenEnvironment? environment = null)
+        //{
+        //    var clientProvider = _serviceProvider?.GetRequiredService<IKrakenUserClientProvider>() ?? new KrakenUserClientProvider();
+        //    var restClient = clientProvider.GetRestClient(userIdentifier, credentials, environment);
+        //    var socketClient = clientProvider.GetSocketClient(userIdentifier, credentials, environment);
+        //    return new KrakenUserFuturesDataTracker(
+        //        _serviceProvider?.GetRequiredService<ILogger<KrakenUserFuturesDataTracker>>() ?? new NullLogger<KrakenUserFuturesDataTracker>(),
+        //        restClient,
+        //        socketClient,
+        //        userIdentifier,
+        //        config
+        //        );
+        //}
     }
 }

@@ -21,7 +21,9 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<HttpResult<DateTime>> GetServerTimeAsync(CancellationToken ct = default)
         {
-            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "0/public/Time", KrakenExchange.RateLimiter.SpotRest, 1, false);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "0/public/Time", KrakenExchange.RateLimiter.SpotRest, 1, false,
+                preventCaching: true,
+                preventRequestCoalescing: true);
             var result = await _baseClient.SendAsync<KrakenServerTime>(request, null, ct).ConfigureAwait(false);
             if (!result.Success)
                 return HttpResult.Fail<DateTime>(result);
@@ -35,7 +37,9 @@ namespace Kraken.Net.Clients.SpotApi
         /// <inheritdoc />
         public async Task<HttpResult<KrakenSystemStatus>> GetSystemStatusAsync(CancellationToken ct = default)
         {
-            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "0/public/SystemStatus", KrakenExchange.RateLimiter.SpotRest, 1, false);
+            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "0/public/SystemStatus", KrakenExchange.RateLimiter.SpotRest, 1, false,
+                preventCaching: true,
+                preventRequestCoalescing: true);
             return await _baseClient.SendAsync<KrakenSystemStatus>(request, null, ct).ConfigureAwait(false);
         }
 
