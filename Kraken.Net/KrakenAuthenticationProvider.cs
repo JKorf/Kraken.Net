@@ -39,10 +39,10 @@ namespace Kraken.Net
             parameters["nonce"] = nonce;
 
             var body = request.ParameterPosition == HttpMethodParameterPosition.InUri ? string.Empty : request.BodyFormat == RequestBodyFormat.Json ? GetSerializedBody(_serializer, parameters) : (request.BodyParameters?.ToFormData() ?? string.Empty);
-            var queryString = request.GetQueryString();
-            var parameterString = nonce + body + queryString;
+            var queryString = request.GetQueryString(true);
+            var parameterString = nonce + body;
            
-            var pathBytes = Encoding.UTF8.GetBytes(request.RequestDefinition.Path);
+            var pathBytes = Encoding.UTF8.GetBytes(request.RequestDefinition.Path + (string.IsNullOrEmpty(queryString) ? "" : "?" + queryString));
             var allBytes = pathBytes.Concat(SignSHA256Bytes(parameterString)).ToArray();
 
             string signature;

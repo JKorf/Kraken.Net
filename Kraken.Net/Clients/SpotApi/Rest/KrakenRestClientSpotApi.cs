@@ -104,6 +104,15 @@ namespace Kraken.Net.Clients.SpotApi
             return HttpResult.Ok(result, result.Data.Result);
         }
 
+        internal async Task<HttpResult<T>> SendAsync<T>(RequestDefinition definition, Parameters? queryParameters, Parameters? bodyParameters, CancellationToken cancellationToken, int? weight = null)
+        {
+            var result = await base.SendAsync<KrakenResult<T>>(definition, queryParameters, bodyParameters, cancellationToken, null, weight).ConfigureAwait(false);
+            if (!result.Success)
+                return HttpResult.Fail<T>(result);
+
+            return HttpResult.Ok(result, result.Data.Result);
+        }
+
         public override KrakenAuthenticationProvider? AuthenticationProvider
         {
             get

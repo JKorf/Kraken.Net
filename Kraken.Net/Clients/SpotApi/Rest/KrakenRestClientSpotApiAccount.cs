@@ -19,14 +19,16 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Balances
 
         /// <inheritdoc />
-        public async Task<HttpResult<Dictionary<string, decimal>>> GetBalancesAsync(bool? newAssetNameResponse = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<Dictionary<string, decimal>>> GetBalancesAsync(bool? newAssetNameResponse = null, string? accountId = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
-            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
-            parameters.Add("assetVersion", newAssetNameResponse);
-            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            var bodyParameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            bodyParameters.Add("assetVersion", newAssetNameResponse);
+            bodyParameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            var queryParameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            queryParameters.Add("account_id", accountId);
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/Balance", KrakenExchange.RateLimiter.SpotRest, 1, true);
-            return await _baseClient.SendAsync<Dictionary<string, decimal>>(request, parameters, ct).ConfigureAwait(false);
+            return await _baseClient.SendAsync<Dictionary<string, decimal>>(request, queryParameters, bodyParameters, ct).ConfigureAwait(false);
         }
 
         #endregion
@@ -100,19 +102,23 @@ namespace Kraken.Net.Clients.SpotApi
             DateTime? startTime = null,
             DateTime? endTime = null, 
             int? resultOffset = null, 
+            string? accountId = null,
             string? twoFactorPassword = null,
             CancellationToken ct = default)
         {
-            var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
-            parameters.Add("asset", assets != null ? string.Join(",", assets) : null);
-            parameters.Add("type", entryTypes != null ? string.Join(",", entryTypes.Select(EnumConverter.GetString)) : null);
-            parameters.Add("start", DateTimeConverter.ConvertToSeconds(startTime));
-            parameters.Add("end", DateTimeConverter.ConvertToSeconds(endTime));
-            parameters.Add("ofs", resultOffset);
-            parameters.Add("aClass", assetClass);
-            parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            var bodyParameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            bodyParameters.Add("asset", assets != null ? string.Join(",", assets) : null);
+            bodyParameters.Add("type", entryTypes != null ? string.Join(",", entryTypes.Select(EnumConverter.GetString)) : null);
+            bodyParameters.Add("start", DateTimeConverter.ConvertToSeconds(startTime));
+            bodyParameters.Add("end", DateTimeConverter.ConvertToSeconds(endTime));
+            bodyParameters.Add("ofs", resultOffset);
+            bodyParameters.Add("aClass", assetClass);
+            bodyParameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            var queryParameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            queryParameters.Add("account_id", accountId);
+
             var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/Ledgers", KrakenExchange.RateLimiter.SpotRest, 1, true);
-            var result = await _baseClient.SendAsync<KrakenLedgerPage>(request, parameters, ct).ConfigureAwait(false);
+            var result = await _baseClient.SendAsync<KrakenLedgerPage>(request, queryParameters, bodyParameters, ct).ConfigureAwait(false);
             if (result.Success)
             {
                 foreach (var item in result.Data.Ledger)

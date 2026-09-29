@@ -19,10 +19,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </para>
         /// </summary>
         /// <param name="newAssetNameResponse">["<c>assetVersion</c>"] When set to true the asset names will be in the new format, for example `BTC` instead of `XBT`. Default is false.</param>
+        /// <param name="accountId">["<c>account_id</c>"] Account ID to get balances for</param>
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with balances for assets</returns>
-        Task<HttpResult<Dictionary<string, decimal>>> GetBalancesAsync(bool? newAssetNameResponse = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<Dictionary<string, decimal>>> GetBalancesAsync(bool? newAssetNameResponse = null, string? accountId = null, string ? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get balances including quantity in holding
@@ -84,6 +85,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="startTime">["<c>start</c>"] Return data after this time</param>
         /// <param name="endTime">["<c>end</c>"] Return data before this time</param>
         /// <param name="resultOffset">["<c>ofs</c>"] Offset the results by</param>
+        /// <param name="accountId">["<c>account_id</c>"] Account ID to get ledger info for</param>
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Ledger entries page</returns>
@@ -94,6 +96,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
             DateTime? startTime = null,
             DateTime? endTime = null, 
             int? resultOffset = null,
+            string? accountId = null,
             string? twoFactorPassword = null,
             CancellationToken ct = default);
 
