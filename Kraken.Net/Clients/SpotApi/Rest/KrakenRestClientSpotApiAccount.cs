@@ -439,6 +439,17 @@ namespace Kraken.Net.Clients.SpotApi
 
         #endregion
 
+        #region Get Wallet Accounts
+
+        /// <inheritdoc />
+        public async Task<HttpResult<KrakenWalletAccountPage>> GetWalletAccountsAsync(CancellationToken ct = default)
+        {
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/ListWalletAccounts", KrakenExchange.RateLimiter.SpotRest, 1, true);
+            return await _baseClient.SendAsync<KrakenWalletAccountPage>(request, null, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
         #region Get Websocket Token
 
         /// <inheritdoc />

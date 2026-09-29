@@ -409,11 +409,23 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// Docs:<br />
         /// <a href="https://docs.kraken.com/api/docs/rest-api/get-api-key-info" /><br />
         /// Endpoint:<br />
-        /// GET /0/private/GetApiKeyInfo<br />
+        /// POST /0/private/GetApiKeyInfo<br />
         /// </para>
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         Task<HttpResult<KrakenApiKey>> GetApiKeyInfoAsync(CancellationToken ct = default);
+
+        /// <summary>
+        /// Get wallet accounts
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api-reference/account-data/list-wallet-accounts" /><br />
+        /// Endpoint:<br />
+        /// POST /0/private/ListWalletAccounts<br />
+        /// </para>
+        /// </summary>
+        /// <param name="ct">Cancellation token</param>
+        Task<HttpResult<KrakenWalletAccountPage>> GetWalletAccountsAsync(CancellationToken ct = default);
 
     }
 }
