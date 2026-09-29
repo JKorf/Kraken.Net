@@ -79,17 +79,6 @@ namespace Kraken.Net.Objects.Models
         [JsonPropertyName("leverage_sell")]
         public decimal[] LeverageSell { get; set; } = Array.Empty<decimal>();
         /// <summary>
-        /// ["<c>fees</c>"] Fee structure
-        /// </summary>
-        [JsonPropertyName("fees")]
-        public KrakenFeeEntry[] Fees { get; set; } = Array.Empty<KrakenFeeEntry>();
-        /// <summary>
-        /// ["<c>fees_maker</c>"] Maker fee structure
-        /// </summary>
-        [JsonPropertyName("fees_maker")]
-        public KrakenFeeEntry[] FeesMaker { get; set; } = Array.Empty<KrakenFeeEntry>();
-
-        /// <summary>
         /// ["<c>fee_volume_currency</c>"] The asset the fee is deducted from
         /// </summary>
         [JsonPropertyName("fee_volume_currency")]

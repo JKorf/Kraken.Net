@@ -75,9 +75,7 @@ namespace Kraken.Net.Clients.SpotApi
                 PriceStep = s.Value.TickSize,
                 MinNotionalValue = s.Value.MinValue,
                 DisplayName = s.Key,
-                BaseAssetType = isTokenized ? SharedAssetType.TradFi : SharedAssetType.Crypto,
-                MakerFeePercentage = s.Value.FeesMaker.FirstOrDefault()?.FeePercentage,
-                TakerFeePercentage = s.Value.Fees.FirstOrDefault()?.FeePercentage,
+                BaseAssetType = isTokenized ? SharedAssetType.TradFi : SharedAssetType.Crypto
             };
 
             if (LibraryHelpers.IsStableCoin(result.QuoteAsset))
