@@ -161,5 +161,10 @@ namespace Kraken.Net.Objects.Models.Futures
         /// </summary>
         [JsonPropertyName("numNonContractUnits")]
         public decimal NumNonContractUnits { get; set; }
+        /// <summary>
+        /// ["<c>makerProtectionMillis</c>"] Maker protection milliseconds
+        /// </summary>
+        [JsonPropertyName("makerProtectionMillis")]
+        public int? MakerProtectionMillis { get; set; }
     }
 }
