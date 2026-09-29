@@ -1,6 +1,7 @@
 ﻿using Kraken.Net.Converters;
 using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models;
+using Kraken.Net.Objects.Models.Socket;
 
 namespace Kraken.Net.Interfaces.Clients.SpotApi
 {
@@ -34,6 +35,18 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="ct">Cancellation token</param>
         /// <returns>System status</returns>
         Task<HttpResult<KrakenSystemStatus>> GetSystemStatusAsync(CancellationToken ct = default);
+
+        /// <summary>
+        /// Get the maintenance schedule for coming 7 days
+        /// <para>
+        /// Docs:<br />
+        /// <a href="https://docs.kraken.com/api-reference/market-data/get-maintenance-schedule" /><br />
+        /// Endpoint:<br />
+        /// GET /0/public/MaintenanceSchedule
+        /// </para>
+        /// </summary>
+        /// <param name="ct">Cancellation token</param>
+        Task<HttpResult<KrakenPlannedMaintenance[]>> GetMaintenanceScheduleAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Get a list of assets and info about them

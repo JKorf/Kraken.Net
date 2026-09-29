@@ -1,6 +1,7 @@
 ﻿using CryptoExchange.Net.Sockets;
 using CryptoExchange.Net.Sockets.Default;
 using CryptoExchange.Net.Sockets.Default.Routing;
+using Kraken.Net.Objects.Internal;
 using Kraken.Net.Objects.Models.Socket;
 
 namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
@@ -9,7 +10,7 @@ namespace Kraken.Net.Objects.Sockets.Subscriptions.Spot
     {
         public SystemStatusSubscription(ILogger logger) : base(logger, false)
         {
-            MessageRouter = MessageRouter.CreateVoid<KrakenStreamSystemStatus>("status");
+            MessageRouter = MessageRouter.CreateVoid<KrakenSocketUpdateV2<KrakenStreamSystemStatus[]>>("status");
         }
     }
 }

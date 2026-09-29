@@ -2,6 +2,7 @@
 using Kraken.Net.Enums;
 using Kraken.Net.Objects.Models;
 using Kraken.Net.Interfaces.Clients.SpotApi;
+using Kraken.Net.Objects.Models.Socket;
 
 namespace Kraken.Net.Clients.SpotApi
 {
@@ -41,6 +42,22 @@ namespace Kraken.Net.Clients.SpotApi
                 preventCaching: true,
                 preventRequestCoalescing: true);
             return await _baseClient.SendAsync<KrakenSystemStatus>(request, null, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Get Maintenance Schedule
+
+        /// <inheritdoc />
+        public async Task<HttpResult<KrakenPlannedMaintenance[]>> GetMaintenanceScheduleAsync(CancellationToken ct = default)
+        {
+            var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "0/public/MaintenanceSchedule", KrakenExchange.RateLimiter.SpotRest, 1, false,
+                preventCaching: true,
+                preventRequestCoalescing: true);
+            var result = await _baseClient.SendAsync<KrakenMaintenanceEvents>(request, null, ct).ConfigureAwait(false);
+            if (!result.Success)
+                return HttpResult.Fail<KrakenPlannedMaintenance[]>(result);
+            return HttpResult.Ok(result, result.Data.Events);
         }
 
         #endregion

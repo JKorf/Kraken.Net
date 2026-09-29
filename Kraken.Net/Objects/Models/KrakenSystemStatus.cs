@@ -1,4 +1,5 @@
 ﻿using Kraken.Net.Enums;
+using Kraken.Net.Objects.Models.Socket;
 
 namespace Kraken.Net.Objects.Models
 {
@@ -19,5 +20,15 @@ namespace Kraken.Net.Objects.Models
         /// </summary>
         [JsonPropertyName("timestamp")]
         public DateTime Timestamp { get; set; }
+        /// <summary>
+        /// ["<c>upcoming_maintenance</c>"] Upcoming maintenances
+        /// </summary>
+        [JsonPropertyName("upcoming_maintenance")]
+        public KrakenPlannedMaintenance[] UpcomingMaintenance { get; set; } = [];
+        /// <summary>
+        /// ["<c>emergency</c>"] Incidents
+        /// </summary>
+        [JsonPropertyName("emergency")]
+        public KrakenIncident[] Incidents { get; set; } = [];
     }
 }
