@@ -39,6 +39,9 @@ namespace Kraken.Net.Clients.SpotApi
             );
         }
 
+        /// <inheritdoc />
+        public Task UnsubscribeAllAsync() => _api.UnsubscribeAllAsync();
+
         private void ClearSymbolNameIfIncorrect(SharedSymbolRequest request)
         {
             if (request.Symbol?.SymbolName != null && !request.Symbol.SymbolName.Contains('/') && request.Symbol.BaseAsset != null)

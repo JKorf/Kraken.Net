@@ -40,11 +40,7 @@ namespace Kraken.Net.Clients.FuturesApi
                 );
         }
 
-
-
-
-
-
-
+        /// <inheritdoc />
+        public Task UnsubscribeAllAsync() => _api.UnsubscribeAllAsync();
     }
 }
