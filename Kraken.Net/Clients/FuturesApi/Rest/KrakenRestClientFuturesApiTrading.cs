@@ -233,12 +233,14 @@ namespace Kraken.Net.Clients.FuturesApi
             decimal? stopPrice = null,
             TrailingStopDeviationUnit? trailingStopDeviationUnit = null,
             decimal? trailingStopMaxDeviation = null,
+            FuturesQuantityMode? quantityMode = null,
             CancellationToken ct = default)
         {
             var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
             parameters.Add("orderId", orderId);
             parameters.Add("cliOrdId", clientOrderId);
             parameters.Add("size", quantity?.ToString(CultureInfo.InvariantCulture));
+            parameters.Add("qtyMode", EnumConverter.GetString(quantityMode));
             parameters.Add("limitPrice", price?.ToString(CultureInfo.InvariantCulture));
             parameters.Add("stopPrice", stopPrice?.ToString(CultureInfo.InvariantCulture));
             parameters.Add("trailingStopDeviationUnit", EnumConverter.GetString(trailingStopDeviationUnit));
