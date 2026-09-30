@@ -42,7 +42,7 @@ namespace Kraken.Net
             var queryString = request.GetQueryString(true);
             var parameterString = nonce + body;
            
-            var pathBytes = Encoding.UTF8.GetBytes(request.RequestDefinition.Path + (string.IsNullOrEmpty(queryString) ? "" : "?" + queryString));
+            var pathBytes = Encoding.UTF8.GetBytes(request.RequestDefinition.Path + (string.IsNullOrEmpty(queryString) ? "" : ("?" + queryString)));
             var allBytes = pathBytes.Concat(SignSHA256Bytes(parameterString)).ToArray();
 
             string signature;

@@ -41,7 +41,7 @@ namespace Kraken.Net.UnitTests
             CryptoExchange.Net.Testing.TestHelpers.CheckSignature(
                 client,
                 authProvider,
-                HttpMethod.Get,
+                HttpMethod.Post,
                 "/0/private/AddOrder",
                 (uriParams, bodyParams, headers) =>
                 {

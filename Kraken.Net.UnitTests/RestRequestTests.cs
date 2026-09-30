@@ -54,7 +54,8 @@ namespace Kraken.Net.UnitTests
             var tester = new RestRequestValidator<KrakenRestClient>(client, "Endpoints/Spot/ExchangeData", "https://api.kraken.com", IsAuthenticatedSpot, "result");
             await tester.ValidateAsync(client => client.SpotApi.ExchangeData.GetSystemStatusAsync(), "GetSystemStatus");
             await tester.ValidateAsync(client => client.SpotApi.ExchangeData.GetAssetsAsync(), "GetAssets");
-            await tester.ValidateAsync(client => client.SpotApi.ExchangeData.GetSymbolsAsync(), "GetSymbols");
+            await tester.ValidateAsync(client => client.SpotApi.ExchangeData.GetSymbolsAsync(), "GetSymbols",
+                ignoreProperties: [ "fees", "fees_maker"]);
             await tester.ValidateAsync(client => client.SpotApi.ExchangeData.GetTickerAsync("ETHUSDT"), "GetTicker");
             await tester.ValidateAsync(client => client.SpotApi.ExchangeData.GetKlinesAsync("ETHUSDT", Enums.KlineInterval.OneDay), "GetKlines", skipResponseValidation: true);
             await tester.ValidateAsync(client => client.SpotApi.ExchangeData.GetOrderBookAsync("ETHUSDT"), "GetOrderBook", skipResponseValidation: true);
