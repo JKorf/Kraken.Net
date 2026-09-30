@@ -255,6 +255,17 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 8.6.0 - 30 Sep 2026
+    * Updated CryptoExchange.Net to V13.1.0
+    * Added restClient.SpotApi.Account.GetWalletAccountsAsync endpoint
+    * Added FuturesQuantityMode parameter to FuturesApi EditOrderAsync method
+    * Added accountId parameter to restClient.SpotApi.Account.GetBalancesAsync and GetLedgerInfoAsync
+    * Added restClient.SpotApi.ExchangeData.GetMaintenanceScheduleAsync endpoint
+    * Added UpcomingMaintenance and Incidents to status endpoint and subscription
+    * Added MakerProtectionMillis to KrakenFuturesSymbol model
+    * Removed deprecated Fees and FeesMaker from KrakenSymbol model
+    * Fixed message signing for uri parameters
+
 * Version 8.5.0 - 24 Sep 2026
     * Updated CryptoExchange.Net to v13.0.0
     * Shared APIs
