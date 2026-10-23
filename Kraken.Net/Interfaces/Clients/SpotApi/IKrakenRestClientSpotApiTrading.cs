@@ -20,10 +20,23 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="userReference">["<c>userref</c>"] Filter by user reference</param>
         /// <param name="clientOrderId">Filter by client order id</param>
         /// <param name="accountId">["<c>account_id</c>"] Filter by account id</param>
+        /// <param name="limit">["<c>limit</c>"] Max number of results, max 100</param>
+        /// <param name="consolidateTaker">["<c>consolidate_taker</c>"] Whether or not to consolidate trades by individual taker trades</param>
+        /// <param name="withCursor">["<c>with_cursor</c>"] Whether to use cursor based pagination</param>
+        /// <param name="cursor">["<c>cursor</c>"] Cursor for pagination</param>
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of open orders</returns>
-        Task<HttpResult<OpenOrdersPage>> GetOpenOrdersAsync(uint? userReference = null, string? clientOrderId = null, string? accountId = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<OpenOrdersPage>> GetOpenOrdersAsync(
+            uint? userReference = null,
+            string? clientOrderId = null,
+            bool? consolidateTaker = null,
+            bool? withCursor = null,
+            int? limit = null,
+            string? cursor = null,
+            string? accountId = null,
+            string? twoFactorPassword = null,
+            CancellationToken ct = default);
 
         /// <summary>
         /// Get a list of closed orders
@@ -41,11 +54,27 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="clientOrderId">["<c>cl_ord_id</c>"] Filter by client order id</param>
         /// <param name="searchTime">["<c>closetime</c>"] Which time to use when searching</param>
         /// <param name="consolidateTaker">["<c>consolidate_taker</c>"] Whether or not to consolidate trades by individual taker trades</param>
+        /// <param name="withCursor">["<c>with_cursor</c>"] Whether to use cursor based pagination</param>
+        /// <param name="withoutCount">["<c>without_count</c>"] Whether to exclude the count from the response. Request can be noticeably faster for users with many closed orders as this avoids an extra database query.</param>
+        /// <param name="cursor">["<c>cursor</c>"] Cursor for pagination</param>
         /// <param name="accountId">["<c>account_id</c>"] Filter by account id</param>
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Closed orders page</returns>
-        Task<HttpResult<KrakenClosedOrdersPage>> GetClosedOrdersAsync(uint? userRef = null, DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, string? clientOrderId = null, SearchTime? searchTime = null, bool? consolidateTaker = null, string? accountId = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenClosedOrdersPage>> GetClosedOrdersAsync(
+            uint? userRef = null,
+            DateTime? startTime = null,
+            DateTime? endTime = null,
+            int? resultOffset = null,
+            string? clientOrderId = null,
+            SearchTime? searchTime = null,
+            bool? consolidateTaker = null,
+            bool? withoutCount = null,
+            bool? withCursor = null,
+            string? cursor = null,
+            string? accountId = null,
+            string? twoFactorPassword = null,
+            CancellationToken ct = default);
 
         /// <summary>
         /// Get info on specific order

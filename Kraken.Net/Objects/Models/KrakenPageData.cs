@@ -24,6 +24,12 @@
         /// </summary>
         [JsonPropertyName("open")]
         public Dictionary<string, KrakenOrder> Open { get; set; } = new Dictionary<string, KrakenOrder>();
+
+        /// <summary>
+        /// ["<c>cursor</c>"] Cursor
+        /// </summary>
+        [JsonPropertyName("cursor")]
+        public KrakenCursor? Cursor { get; set; }
     }
 
     /// <summary>
@@ -37,6 +43,12 @@
         /// </summary>
         [JsonPropertyName("closed")]
         public Dictionary<string, KrakenOrder> Closed { get; set; } = new Dictionary<string, KrakenOrder>();
+
+        /// <summary>
+        /// ["<c>cursor</c>"] Cursor
+        /// </summary>
+        [JsonPropertyName("cursor")]
+        public KrakenCursor? Cursor { get; set; }
     }
 
     /// <summary>

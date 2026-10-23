@@ -19,12 +19,25 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Open Orders
 
         /// <inheritdoc />
-        public async Task<HttpResult<OpenOrdersPage>> GetOpenOrdersAsync(uint? userReference = null, string? clientOrderId = null, string? accountId = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<OpenOrdersPage>> GetOpenOrdersAsync(
+            uint? userReference = null,
+            string? clientOrderId = null,
+            bool? consolidateTaker = null,
+            bool? withCursor = null,
+            int? limit = null,
+            string? cursor = null,
+            string? accountId = null,
+            string? twoFactorPassword = null,
+            CancellationToken ct = default)
         {
             var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
             parameters.Add("trades", true);
             parameters.Add("userref", userReference);
             parameters.Add("cl_ord_id", clientOrderId);
+            parameters.Add("consolidate_taker", consolidateTaker);
+            parameters.Add("limit", limit);
+            parameters.Add("with_cursor", withCursor);
+            parameters.Add("cursor", cursor);
             parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
             var queryParameters = new Parameters(KrakenExchange._parameterSerializationSettings);
             queryParameters.Add("account_id", accountId);
@@ -52,6 +65,9 @@ namespace Kraken.Net.Clients.SpotApi
             string? clientOrderId = null,
             SearchTime? searchTime = null,
             bool? consolidateTaker = null,
+            bool? withoutCount = null,
+            bool? withCursor = null,
+            string? cursor = null,
             string? accountId = null,
             string? twoFactorPassword = null,
             CancellationToken ct = default)
@@ -65,6 +81,9 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.Add("ofs", resultOffset);
             parameters.Add("closetime", searchTime);
             parameters.Add("consolidate_taker", consolidateTaker);
+            parameters.Add("with_cursor", withCursor);
+            parameters.Add("without_count", withoutCount);
+            parameters.Add("cursor", cursor);
             parameters.Add("otp", twoFactorPassword);
             var queryParameters = new Parameters(KrakenExchange._parameterSerializationSettings);
             queryParameters.Add("account_id", accountId);
