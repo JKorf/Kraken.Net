@@ -111,10 +111,19 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Orders
 
         /// <inheritdoc />
-        public async Task<HttpResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, uint? clientOrderId = null, bool? consolidateTaker = null, bool? trades = null, string? accountId = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(
+            IEnumerable<string>? orderIds = null, 
+            uint? clientOrderId = null, 
+            bool? consolidateTaker = null,
+            bool? trades = null,
+            string clientOrderIdStr = null,
+            string? accountId = null, 
+            string? twoFactorPassword = null,
+            CancellationToken ct = default)
         {
             var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
             parameters.Add("userref", clientOrderId);
+            parameters.Add("cl_ord_id", clientOrderIdStr);
             parameters.Add("txid", orderIds?.Any() == true ? string.Join(",", orderIds) : null);
             parameters.Add("consolidate_taker", consolidateTaker);
             parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);

@@ -103,15 +103,24 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/QueryOrders
         /// </para>
         /// </summary>
-        /// <param name="clientOrderId">["<c>userref</c>"] Get orders by clientOrderId</param>
+        /// <param name="clientOrderId">["<c>userref</c>"] Get orders by user ref</param>
+        /// <param name="clientOrderIdStr">["<c>cl_ord_id</c>"] Get orders by clientOrderId</param>
         /// <param name="orderIds">["<c>txid</c>"] Get orders by their order ids</param>
         /// <param name="consolidateTaker">["<c>consolidate_taker</c>"] Whether or not to consolidate trades by individual taker trades</param>
         /// <param name="trades">["<c>trades</c>"] Whether to include trades in the response</param>
-        /// <param name="accountId">["<c>account_id</c>"] Filter by account id</param>
+        /// <param name="accountId">["<c>account_id</c>"] Filter by account id</param>G
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with order info</returns>
-        Task<HttpResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(IEnumerable<string>? orderIds = null, uint? clientOrderId = null, bool? consolidateTaker = null, bool? trades = null, string? accountId = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<Dictionary<string, KrakenOrder>>> GetOrdersAsync(
+            IEnumerable<string>? orderIds = null,
+            uint? clientOrderId = null,
+            bool? consolidateTaker = null,
+            bool? trades = null,
+            string? clientOrderIdStr = null,
+            string? accountId = null,
+            string? twoFactorPassword = null,
+            CancellationToken ct = default);
 
         /// <summary>
         /// Get trade history
