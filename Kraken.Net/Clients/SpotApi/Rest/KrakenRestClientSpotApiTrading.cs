@@ -104,7 +104,7 @@ namespace Kraken.Net.Clients.SpotApi
 
         /// <inheritdoc />
         public Task<HttpResult<Dictionary<string, KrakenOrder>>> GetOrderAsync(string? orderId = null, uint? clientOrderId = null, bool? consolidateTaker = null, bool? trades = null, string? twoFactorPassword = null, CancellationToken ct = default)
-            => GetOrdersAsync(orderId == null ? null : new[] { orderId }, clientOrderId, consolidateTaker, trades, null, twoFactorPassword, ct);
+            => GetOrdersAsync(orderId == null ? null : new[] { orderId }, clientOrderId, consolidateTaker, trades, null, null, twoFactorPassword, ct);
 
         #endregion
 
