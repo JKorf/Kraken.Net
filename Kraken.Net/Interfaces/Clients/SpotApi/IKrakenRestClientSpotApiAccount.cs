@@ -23,7 +23,7 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with balances for assets</returns>
-        Task<HttpResult<Dictionary<string, decimal>>> GetBalancesAsync(bool? newAssetNameResponse = null, string? accountId = null, string ? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<Dictionary<string, decimal>>> GetBalancesAsync(bool? newAssetNameResponse = null, string? accountId = null, string ?twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get balances including quantity in holding
@@ -34,10 +34,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// POST /0/private/BalanceEx
         /// </para>
         /// </summary>
+        /// <param name="accountId">["<c>account_id</c>"] Filter by account id</param>
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with balances for assets</returns>
-        Task<HttpResult<Dictionary<string, KrakenBalanceAvailable>>> GetAvailableBalancesAsync(string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<Dictionary<string, KrakenBalanceAvailable>>> GetAvailableBalancesAsync(string? accountId = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get trade balance
@@ -49,10 +50,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </para>
         /// </summary>
         /// <param name="baseAsset">["<c>asset</c>"] Base asset to get trade balance for, for example `USDT`</param>
+        /// <param name="accountId">["<c>account_id</c>"] Filter by account id</param>
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade balance data</returns>
-        Task<HttpResult<KrakenTradeBalance>> GetTradeBalanceAsync(string? baseAsset = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenTradeBalance>> GetTradeBalanceAsync(string? baseAsset = null, string? accountId = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
 
         /// <summary>
@@ -65,10 +67,11 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// </para>
         /// </summary>
         /// <param name="transactionIds">["<c>txid</c>"] Filter by transaction ids</param>
+        /// <param name="accountId">["<c>account_id</c>"] Filter by account id</param>
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Dictionary with position info</returns>
-        Task<HttpResult<Dictionary<string, KrakenPosition>>> GetOpenPositionsAsync(IEnumerable<string>? transactionIds = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<Dictionary<string, KrakenPosition>>> GetOpenPositionsAsync(IEnumerable<string>? transactionIds = null, string? accountId = null, string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get ledger entries info

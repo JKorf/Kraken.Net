@@ -36,13 +36,15 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Available Balances
 
         /// <inheritdoc />
-        public async Task<HttpResult<Dictionary<string, KrakenBalanceAvailable>>> GetAvailableBalancesAsync(string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<Dictionary<string, KrakenBalanceAvailable>>> GetAvailableBalancesAsync(string? accountId = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
             parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            var queryParameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            queryParameters.Add("account_id", accountId);
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/BalanceEx", KrakenExchange.RateLimiter.SpotRest, 1, true);
-            var result = await _baseClient.SendAsync<Dictionary<string, KrakenBalanceAvailable>>(request, parameters, ct).ConfigureAwait(false);
+            var result = await _baseClient.SendAsync<Dictionary<string, KrakenBalanceAvailable>>(request, queryParameters, parameters, ct).ConfigureAwait(false);
             if (result.Success)
             {
                 foreach (var item in result.Data)
@@ -57,15 +59,17 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Trade Balances
 
         /// <inheritdoc />
-        public async Task<HttpResult<KrakenTradeBalance>> GetTradeBalanceAsync(string? baseAsset = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<KrakenTradeBalance>> GetTradeBalanceAsync(string? baseAsset = null, string? accountId = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
             parameters.Add("aclass", "currency");
             parameters.Add("asset", baseAsset);
             parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            var queryParameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            queryParameters.Add("account_id", accountId);
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/TradeBalance", KrakenExchange.RateLimiter.SpotRest, 1, true);
-            return await _baseClient.SendAsync<KrakenTradeBalance>(request, parameters, ct).ConfigureAwait(false);
+            return await _baseClient.SendAsync<KrakenTradeBalance>(request, queryParameters, parameters, ct).ConfigureAwait(false);
         }
 
         #endregion
@@ -73,15 +77,17 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get Open Positions
 
         /// <inheritdoc />
-        public async Task<HttpResult<Dictionary<string, KrakenPosition>>> GetOpenPositionsAsync(IEnumerable<string>? transactionIds = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<Dictionary<string, KrakenPosition>>> GetOpenPositionsAsync(IEnumerable<string>? transactionIds = null, string? accountId = null, string? twoFactorPassword = null, CancellationToken ct = default)
         {
             var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
             parameters.Add("docalcs", true);
             parameters.Add("txid", transactionIds?.Any() == true ? string.Join(",", transactionIds) : null);
             parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
+            var queryParameters = new Parameters(KrakenExchange._parameterSerializationSettings);
+            queryParameters.Add("account_id", accountId);
 
             var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "0/private/OpenPositions", KrakenExchange.RateLimiter.SpotRest, 1, true);
-            var result = await _baseClient.SendAsync<Dictionary<string, KrakenPosition>>(request, parameters, ct).ConfigureAwait(false);
+            var result = await _baseClient.SendAsync<Dictionary<string, KrakenPosition>>(request, queryParameters, parameters, ct).ConfigureAwait(false);
             if (result.Success)
             {
                 foreach (var item in result.Data)
