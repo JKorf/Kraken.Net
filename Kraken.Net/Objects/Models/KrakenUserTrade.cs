@@ -143,6 +143,11 @@ namespace Kraken.Net.Objects.Models
         /// </summary>
         [JsonPropertyName("trade_id")]
         public long TradeId { get; set; }
+        /// <summary>
+        /// ["<c>ext_exec_id</c>"] External trade id
+        /// </summary>
+        [JsonPropertyName("ext_exec_id")]
+        public string? ExternalTradeId { get; set; }
     }
 
     /// <summary>
