@@ -116,7 +116,7 @@ namespace Kraken.Net.Clients.SpotApi
             uint? clientOrderId = null, 
             bool? consolidateTaker = null,
             bool? trades = null,
-            string clientOrderIdStr = null,
+            string? clientOrderIdStr = null,
             string? accountId = null, 
             string? twoFactorPassword = null,
             CancellationToken ct = default)
