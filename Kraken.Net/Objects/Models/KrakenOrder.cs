@@ -135,6 +135,32 @@ namespace Kraken.Net.Objects.Models
         /// </summary>
         [JsonPropertyName("time_in_force")]
         public TimeInForce? TimeInForce { get; set; }
+
+        /// <summary>
+        /// ["<c>displayvol</c>"] Display quantity for iceberg orders
+        /// </summary>
+        [JsonPropertyName("displayvol")]
+        public decimal? DisplayQuantity { get; set; }
+        /// <summary>
+        /// ["<c>displayvolremain</c>"] Display quantity remaining for iceberg orders
+        /// </summary>
+        [JsonPropertyName("displayvolremain")]
+        public decimal? DisplayQuantityRemaining { get; set; }
+        /// <summary>
+        /// ["<c>ext_ord_id</c>"] External order id
+        /// </summary>
+        [JsonPropertyName("ext_ord_id")]
+        public string? ExternalOrderId { get; set; }
+        /// <summary>
+        /// ["<c>link_id</c>"] Original order ID of an edited order
+        /// </summary>
+        [JsonPropertyName("link_id")]
+        public string? LinkId { get; set; }
+        /// <summary>
+        /// ["<c>reduce_only</c>"] Reduce only flag
+        /// </summary>
+        [JsonPropertyName("reduce_only")]
+        public bool? ReduceOnly { get; set; }
     }
 
     /// <summary>
