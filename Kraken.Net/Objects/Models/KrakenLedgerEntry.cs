@@ -59,5 +59,10 @@ namespace Kraken.Net.Objects.Models
         /// </summary>
         [JsonPropertyName("balance")]
         public decimal BalanceAfter { get; set; }
+        /// <summary>
+        /// ["<c>amount_token</c>"] Transaction amount in the token's raw base units. Only present for tokenized assets.
+        /// </summary>
+        [JsonPropertyName("amount_token")]
+        public decimal? TokenizedAssetQuantity { get; set; }
     }
 }
