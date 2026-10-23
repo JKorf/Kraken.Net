@@ -253,6 +253,18 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 8.7.0 - 23 Oct 2026
+    * Updated CryptoExchange.Net to v13.2.2
+    * Added accountId parameter to various endpoints
+    * Added clientOrderIdStr parameter to restClient.SpotApi.Trading.GetOrdersAsync endpoint
+    * Added cursor to restClient.SpotApi.Trading.GetUserTradesAsync, GetOpenOrdersAsync and GetClosedOrdersAsync responses
+    * Added DisplayQuantity, DisplayQuantityRemaining, ExternalOrderId, LinkId and ReduceOnly to KrakenOrder model
+    * Added ExternalTradeId to KrakenUserTrade model
+    * Added TokenizedAssetQuantity to KrakenLedgerEntry model
+    * Updated restClient.SpotApi.Trading.GetUserTradesAsync parameters
+    * Updated restClient.SpotApi.Trading.GetOpenOrdersAsync parameters
+    * Updated restClient.SpotApi.Trading.GetClosedOrdersAsync parameters
+
 * Version 8.6.0 - 30 Sep 2026
     * Updated CryptoExchange.Net to V13.1.0
     * Added restClient.SpotApi.Account.GetWalletAccountsAsync endpoint
