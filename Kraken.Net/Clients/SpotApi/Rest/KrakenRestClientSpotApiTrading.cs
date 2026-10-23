@@ -119,7 +119,22 @@ namespace Kraken.Net.Clients.SpotApi
         #region Get User Trades
 
         /// <inheritdoc />
-        public async Task<HttpResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, bool? consolidateTaker = null, string? accountId = null, string? twoFactorPassword = null, CancellationToken ct = default)
+        public async Task<HttpResult<KrakenUserTradesPage>> GetUserTradesAsync(
+            DateTime? startTime = null,
+            DateTime? endTime = null, 
+            int? resultOffset = null, 
+            bool? consolidateTaker = null, 
+            string? accountId = null, 
+            string? type = null,
+            bool? withoutCount = null,
+            bool? ledgers = null,
+            string? aclass = null,
+            string? symbol = null,
+            int? limit = null,
+            bool? withCursor = null,
+            string? cursor = null,
+            string? twoFactorPassword = null, 
+            CancellationToken ct = default)
         {
             var parameters = new Parameters(KrakenExchange._parameterSerializationSettings);
             parameters.Add("trades", true);
@@ -127,6 +142,15 @@ namespace Kraken.Net.Clients.SpotApi
             parameters.Add("end", DateTimeConverter.ConvertToSeconds(endTime));
             parameters.Add("ofs", resultOffset);
             parameters.Add("consolidate_taker", consolidateTaker);
+
+            parameters.Add("type", type);
+            parameters.Add("without_count", withoutCount);
+            parameters.Add("ledgers", ledgers);
+            parameters.Add("aclass", aclass);
+            parameters.Add("pair", symbol);
+            parameters.Add("limit", limit);
+            parameters.Add("with_cursor", withCursor);
+            parameters.Add("cursor", cursor);
             parameters.Add("otp", twoFactorPassword ?? _baseClient.ClientOptions.StaticTwoFactorAuthenticationPassword);
             var queryParameters = new Parameters(KrakenExchange._parameterSerializationSettings);
             queryParameters.Add("account_id", accountId);

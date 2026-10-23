@@ -50,6 +50,12 @@
         /// </summary>
         [JsonPropertyName("trades")]
         public Dictionary<string, KrakenUserTrade> Trades { get; set; } = new Dictionary<string, KrakenUserTrade>();
+
+        /// <summary>
+        /// ["<c>cursor</c>"] Cursor
+        /// </summary>
+        [JsonPropertyName("cursor")]
+        public KrakenCursor? Cursor { get; set; }
     }
 
     /// <summary>
@@ -64,4 +70,17 @@
         [JsonPropertyName("ledger")]
         public Dictionary<string, KrakenLedgerEntry> Ledger { get; set; } = new Dictionary<string, KrakenLedgerEntry>();
     }
+
+    /// <summary>
+    /// Page cursor
+    /// </summary>
+    public record KrakenCursor
+    {
+        /// <summary>
+        /// ["<c>next</c>"] Next page cursor
+        /// </summary>
+        [JsonPropertyName("next")]
+        public string? Next { get; set; }
+    }
+
 }

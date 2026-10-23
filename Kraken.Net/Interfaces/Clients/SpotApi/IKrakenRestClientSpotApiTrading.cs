@@ -98,10 +98,31 @@ namespace Kraken.Net.Interfaces.Clients.SpotApi
         /// <param name="resultOffset">["<c>ofs</c>"] Offset the results by</param>
         /// <param name="consolidateTaker">["<c>consolidate_taker</c>"] Whether or not to consolidate trades by individual taker trades</param>
         /// <param name="accountId">["<c>account_id</c>"] Filter by account id</param>
+        /// <param name="type">["<c>type</c>"] Filter by trade type. Options: all, any position, closed position, closing position, no position</param>
+        /// <param name="withoutCount">["<c>without_count</c>"] If true, does not retrieve count of trades. Request can be noticeably faster for users with many trades as this avoids an extra database query.</param>
+        /// <param name="ledgers">["<c>ledgers</c>"] Whether or not to include related ledger ids for given trade.</param>
+        /// <param name="aclass">["<c>aclass</c>"] Filter by asset class. Options: forex, equity_pair, futures_contract, synthetic_pair, external_pair </param>
+        /// <param name="symbol">["<c>pair</c>"] Filter by symbol</param>
+        /// <param name="limit">["<c>limit</c>"] Max number of results, max 100</param>
+        /// <param name="withCursor">["<c>with_cursor</c>"] Whether to use cursor based pagination</param>
+        /// <param name="cursor">["<c>cursor</c>"] Cursor for pagination</param>
         /// <param name="twoFactorPassword">["<c>otp</c>"] Password or authentication app code if enabled</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Trade history page</returns>
-        Task<HttpResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime = null, DateTime? endTime = null, int? resultOffset = null, bool? consolidateTaker = null, string? accountId = null, string? twoFactorPassword = null, CancellationToken ct = default);
+        Task<HttpResult<KrakenUserTradesPage>> GetUserTradesAsync(DateTime? startTime = null,
+            DateTime? endTime = null,
+            int? resultOffset = null,
+            bool? consolidateTaker = null,
+            string? accountId = null,
+            string? type = null,
+            bool? withoutCount = null,
+            bool? ledgers = null,
+            string? aclass = null,
+            string? symbol = null,
+            int? limit = null,
+            bool? withCursor = null,
+            string? cursor = null,
+            string? twoFactorPassword = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get info on specific trades
