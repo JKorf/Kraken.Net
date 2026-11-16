@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kraken.Net"
+  short_description: "Build C# Kraken spot and futures integrations."
+  default_prompt: "Use $kraken-net to implement a Kraken.Net REST, websocket, account, or trading workflow."

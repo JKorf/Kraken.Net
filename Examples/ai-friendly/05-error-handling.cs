@@ -2,7 +2,7 @@ using CryptoExchange.Net.Objects;
 using Kraken.Net.Clients;
 using Kraken.Net.Enums;
 
-var client = new KrakenRestClient();
+using var client = new KrakenRestClient();
 
 // REST methods return HttpResult<T> / HttpResult.
 // WebSocket subscriptions return WebSocketResult<UpdateSubscription>.
@@ -40,6 +40,7 @@ if (!futuresOrderBook.Success)
 
 Console.WriteLine($"Futures order book returned: {futuresOrderBook.Data}");
 
+// Public reads only: reconcile uncertain account changes before considering resubmission.
 static async Task<HttpResult<T>> WithRetryAsync<T>(
     Func<Task<HttpResult<T>>> call,
     int maxAttempts = 3)

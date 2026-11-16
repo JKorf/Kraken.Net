@@ -3,7 +3,7 @@ using Kraken.Net;
 using Kraken.Net.Clients;
 using Kraken.Net.Enums;
 
-var publicClient = new KrakenRestClient();
+using var publicClient = new KrakenRestClient();
 
 var ticker = await publicClient.FuturesApi.ExchangeData.GetTickerAsync("PF_ETHUSD");
 if (!ticker.Success)
@@ -29,7 +29,7 @@ if (!klines.Success)
 Console.WriteLine($"Futures klines returned: {klines.Data}");
 
 // Private Futures calls need the Futures credential slot.
-var futuresClient = new KrakenRestClient(options =>
+using var futuresClient = new KrakenRestClient(options =>
 {
     options.ApiCredentials = new KrakenCredentials(
         null,

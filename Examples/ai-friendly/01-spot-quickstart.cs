@@ -4,7 +4,7 @@ using Kraken.Net.Clients;
 using Kraken.Net.Enums;
 
 // Public market data does not need API credentials.
-var publicClient = new KrakenRestClient();
+using var publicClient = new KrakenRestClient();
 
 var ticker = await publicClient.SpotApi.ExchangeData.GetTickerAsync("ETHUSDT");
 if (!ticker.Success)
@@ -17,7 +17,7 @@ var lastTrade = ticker.Data.Values.First().LastTrade.Price;
 Console.WriteLine($"ETHUSDT last trade price: {lastTrade}");
 
 // Private account and trading calls need Spot credentials.
-var tradingClient = new KrakenRestClient(options =>
+using var tradingClient = new KrakenRestClient(options =>
 {
     options.ApiCredentials = new KrakenCredentials(
         new HMACCredential("SPOT_KEY", "SPOT_SECRET"),

@@ -1,19 +1,10 @@
-# Kraken.Net AI API Quick Map
+# Kraken.Net API surfaces
 
-Use this file to route common user intents to the correct Kraken.Net client member. If a method name or parameter is not listed here, inspect `Kraken.Net/Interfaces/Clients/**` before generating code.
+## Client roots
 
-## Client Roots
+`KrakenRestClient` / `IKrakenRestClient` expose `SpotApi` with `ExchangeData`, `Account`, `Trading`, and `Earn`, and `FuturesApi` with `ExchangeData`, `Account`, and `Trading`. `KrakenSocketClient` / `IKrakenSocketClient` expose methods directly on `SpotApi` and `FuturesApi`; socket methods are not under REST-style account/trading groups. `IKrakenTrackerFactory` supplies trackers.
 
-| Intent | Use |
-|---|---|
-| REST calls | `new KrakenRestClient()` |
-| WebSocket streams and socket API requests | `new KrakenSocketClient()` |
-| API key authentication | `options.ApiCredentials = new KrakenCredentials(spotCredential, futuresCredential)` |
-| Spot credentials | `new HMACCredential("SPOT_KEY", "SPOT_SECRET")` as first `KrakenCredentials` argument |
-| Futures credentials | `new HMACCredential("FUTURES_KEY", "FUTURES_SECRET")` as second `KrakenCredentials` argument |
-| Live environment | `KrakenEnvironment.Live` |
-| Custom environment | `KrakenEnvironment.CreateCustom(...)` |
-| Dependency injection | `services.AddKraken(options => { ... })` |
+`KrakenEnvironment.Live` is the built-in environment; `KrakenEnvironment.CreateCustom(...)` configures explicit addresses. Do not invent a built-in `Testnet` property.
 
 ## Spot REST
 
@@ -80,7 +71,6 @@ Use this file to route common user intents to the correct Kraken.Net client memb
 
 | User intent | Kraken.Net member |
 |---|---|
-| Get futures fee schedules | `client.FuturesApi.ExchangeData.GetFeeSchedulesAsync()` |
 | Get historical funding rates | `client.FuturesApi.ExchangeData.GetHistoricalFundingRatesAsync("PF_ETHUSD")` |
 | Get futures klines / candles | `client.FuturesApi.ExchangeData.GetKlinesAsync(TickType.Trade, "PF_ETHUSD", FuturesKlineInterval.OneMinute)` |
 | Get futures order book | `client.FuturesApi.ExchangeData.GetOrderBookAsync("PF_ETHUSD")` |
@@ -95,10 +85,8 @@ Use this file to route common user intents to the correct Kraken.Net client memb
 | Get futures balances | `client.FuturesApi.Account.GetBalancesAsync()` |
 | Get PNL currency preference | `client.FuturesApi.Account.GetPnlCurrencyAsync()` |
 | Set PNL currency preference | `client.FuturesApi.Account.SetPnlCurrencyAsync(symbol, pnlCurrency)` |
+| Withdraw Futures funds to Spot | `client.FuturesApi.Account.WithdrawToSpotWalletAsync(asset, quantity, sourceWallet)` |
 | Transfer futures funds | `client.FuturesApi.Account.TransferAsync(asset, quantity, fromAccount, toAccount)` |
-| Get futures fee schedule volume | `client.FuturesApi.Account.GetFeeScheduleVolumeAsync()` |
-| Get initial margin requirement | `client.FuturesApi.Account.GetInitialMarginRequirementsAsync(...)` |
-| Get max order quantity | `client.FuturesApi.Account.GetMaxOrderQuantityAsync(...)` |
 | Cancel futures dead-man switch | `client.FuturesApi.Trading.CancelAllOrderAfterAsync(TimeSpan.Zero)` |
 | Set futures dead-man switch | `client.FuturesApi.Trading.CancelAllOrderAfterAsync(cancelAfter)` |
 | Cancel all futures orders | `client.FuturesApi.Trading.CancelAllOrdersAsync(symbol)` |
@@ -156,54 +144,27 @@ Use this file to route common user intents to the correct Kraken.Net client memb
 | Subscribe futures trades | `socketClient.FuturesApi.SubscribeToTradeUpdatesAsync("PF_ETHUSD", handler)` |
 | Subscribe futures user trades | `socketClient.FuturesApi.SubscribeToUserTradeUpdatesAsync(handler)` |
 
-## SharedApis
+## Shared API V2
 
-| User intent | Kraken.Net member or interface |
-|---|---|
-| Shared spot REST client | `new KrakenRestClient().SpotApi.SharedApi` |
-| Shared futures REST client | `new KrakenRestClient().FuturesApi.SharedApi` |
-| Shared spot socket client | `new KrakenSocketClient().SpotApi.SharedApi` |
-| Shared futures socket client | `new KrakenSocketClient().FuturesApi.SharedApi` |
-| Resolve a runtime-selected Shared API capability | `IKrakenSharedApiClient.GetCapability(...)` |
-| Load shared Spot symbols, including tokenized assets | `IGetSpotSymbolsRest.GetSpotSymbolsAsync(new GetSymbolsRequest())` |
-| Read loaded Spot symbol catalog | `IGetSpotSymbolsRest.SpotSymbolCatalog` |
-| Read loaded Futures symbol catalog | `IGetFuturesSymbolsRest.FuturesSymbolCatalog` |
-| Shared spot ticker REST | `IGetTickerRest.GetTickerAsync(new GetTickerRequest(symbol))` |
-| Shared spot order REST | `IPlaceSpotOrderRest.PlaceSpotOrderAsync(...)` |
-| Shared spot order socket | `IPlaceSpotOrderSocket.PlaceSpotOrderAsync(new PlaceSpotOrderRequest(...))` |
-| Shared spot order cancellation socket | `ICancelSpotOrderSocket.CancelSpotOrderAsync(new CancelOrderRequest(...))` |
-| Shared futures order REST | `IPlaceFuturesOrderRest.PlaceFuturesOrderAsync(...)` |
-| Shared balance REST | `IGetBalancesRest.GetBalancesAsync(...)` |
-| Shared ticker socket | `ISubscribeTickerSocket.SubscribeToTickerUpdatesAsync(...)` |
-| Shared order book socket | `ISubscribeOrderBookSocket.SubscribeToOrderBookUpdatesAsync(...)` |
+`IKrakenSharedApiClient` groups these properties; the corresponding native surface exposes `.SharedApi`. Listed interfaces are V2 capabilities, not legacy topic clients.
 
-Shared REST methods return `HttpResult<T>` / `HttpResult`; shared socket subscriptions return `WebSocketResult<UpdateSubscription>`; shared symbol/cache helper methods such as `SupportsSpotSymbolAsync` can return `ExchangeCallResult<T>`. Shared symbol results include asset-type metadata for crypto, stablecoins, fiat, and tokenized TradFi assets.
+- `SpotRest` (`IKrakenRestClientSpotSharedApi`): `IGetAssetRest`, `IGetAllAssetsRest`, `IGetBalancesRest`, `IGetDepositHistoryRest`, `IGetDepositAddressesRest`, `IGetKlinesRest`, `IGetOrderBookRest`, `IGetRecentTradesRest`, `IPlaceSpotOrderRest`, `IGetSpotOrderRest`, `IGetSpotOrderByClientOrderIdRest`, `IGetOpenSpotOrdersRest`, `IGetClosedSpotOrdersRest`, `IGetSpotOrderTradesRest`, `IGetSpotUserTradeHistoryRest`, `ICancelSpotOrderRest`, `ICancelSpotOrderByClientOrderIdRest`, `IGetSpotSymbolsRest`, `IGetTickerRest`, `IGetAllTickersRest`, `IGetWithdrawalHistoryRest`, `IWithdrawRest`, `IGetFeesRest`, `IGetBookTickerRest`.
+- `FuturesRest` (`IKrakenRestClientFuturesSharedApi`): `IGetBalancesRest`, `IGetKlinesRest`, `IGetOrderBookRest`, `IGetRecentTradesRest`, `IGetBookTickerRest`, `IGetFundingRateHistoryRest`, `IGetFuturesSymbolsRest`, `IGetTickerRest`, `IGetAllTickersRest`, `IGetMarkPriceKlinesRest`, `IGetOpenInterestRest`, `IGetLeverageRest`, `ISetLeverageRest`, `IPlaceFuturesOrderRest`, `IGetFuturesOrderRest`, `IGetOpenFuturesOrdersRest`, `IGetFuturesUserTradeHistoryRest`, `ICancelFuturesOrderRest`, `IGetPositionsRest`, `IGetFeesRest`, `IGetFuturesOrderByClientOrderIdRest`, `ICancelFuturesOrderByClientOrderIdRest`, `ISetFuturesTpSlRest`, `ICancelFuturesTpSlRest`.
+- `SpotSocket` (`IKrakenSocketClientSpotSharedApi`): `ISubscribeTickerSocket`, `ISubscribeTradesSocket`, `ISubscribeBookTickerSocket`, `ISubscribeKlinesSocket`, `ISubscribeBalancesSocket`, `ISubscribeSpotOrdersSocket`, `IPlaceSpotOrderSocket`, `ICancelSpotOrderSocket`.
+- `FuturesSocket` (`IKrakenSocketClientFuturesSharedApi`): `ISubscribeTickerSocket`, `ISubscribeTradesSocket`, `ISubscribeBookTickerSocket`, `ISubscribeBalancesSocket`, `ISubscribeFuturesOrdersSocket`, `ISubscribeUserTradesSocket`, `ISubscribePositionsSocket`.
 
-For shared socket subscriptions, keep the concrete socket client and unsubscribe with `await socketClient.UnsubscribeAsync(subscription.Data)`.
+For known workflows use an aggregate property or inject the narrow capability. For dynamic selection, call `aggregate.GetCapability(SharedCapabilities.Tickers.GetTicker.Rest, tradingMode: TradingMode.Spot)` and check for null before using the match's `Capability` and `Options`. Descriptors identify operations; they do not guarantee support. `GetCapabilities` enumerates all matches and `Discover` summarizes metadata. When several exchanges are registered, inject `IEnumerable<TCapability>` and select by exchange, transport, and supported trading mode.
 
-## Result Handling
+## Symbols, catalogs, and quantities
 
-| Situation | Pattern |
-|---|---|
-| REST success check | `if (!result.Success) { Console.WriteLine(result.Error); return; }` |
-| Socket subscription success check | `if (!sub.Success) { Console.WriteLine(sub.Error); return; }` where `sub` is `WebSocketResult<UpdateSubscription>` |
-| Spot socket request success check | `if (!query.Success) { Console.WriteLine(query.Error); return; }` where `query` is `QueryResult<T>` |
-| Read REST data | Read `result.Data` only after `result.Success` |
-| Read shared helper data | Read `ExchangeCallResult<T>.Data` only after `.Success` |
-| Retry decision | Retry only when `result.Error?.IsTransient == true` |
-| Cancellation | Pass `ct: cancellationToken` |
+Native Spot REST accepts pair names such as `ETHUSDT`; Spot WebSocket v2 uses `ETH/USDT`. `SpotApi.ExchangeData.GetSymbolsAsync()` returns REST pair metadata, including `WebsocketName`. Resolve the WebSocket name rather than inserting separators into arbitrary exchange aliases. Futures use instrument identifiers such as `PF_ETHUSD`; preserve the product prefix and delivery suffix when applicable. `KrakenExchange.FormatSymbol` and `SharedSymbol` support reusable formatting; choose the actual market from metadata.
 
-## Common Routing Pitfalls
+Call `IGetSpotSymbolsRest.GetSpotSymbolsAsync(new GetSymbolsRequest())` or `IGetFuturesSymbolsRest.GetFuturesSymbolsAsync(new GetSymbolsRequest())`, check success, then inspect `SpotSymbolCatalog` or `FuturesSymbolCatalog`. Symbol requests honor filters. Spot discovery includes currency and tokenized-asset pairs; metadata includes display names, crypto/fiat/TradFi asset types, stablecoin subtypes, and tokenized equity classifications where populated. Native `AClass` and execution venue filters distinguish relevant markets.
 
-| Do not use | Use instead |
-|---|---|
-| `KrakenClient` | `KrakenRestClient` |
-| raw `HttpClient` calls | `KrakenRestClient` / `KrakenSocketClient` |
-| generic `ApiCredentials` in new code | `KrakenCredentials` |
-| one key assumed for both APIs | separate Spot/Futures `HMACCredential` values |
-| Spot REST symbol for WebSocket without checking | `KrakenSymbol.WebsocketName` from `GetSymbolsAsync` |
-| `SpotApi.Margin` | Spot margin/order parameters on `SpotApi.Trading` and positions on `SpotApi.Account` |
-| `FuturesApi.Positions` | `FuturesApi.Trading.GetOpenPositionsAsync()` |
-| `FuturesApi.MarketData` | `FuturesApi.ExchangeData` |
-| `.Data` without `.Success` check | Check `.Success` first |
-| Unsubscribe from a shared subscription | Keep concrete socket client and call `socketClient.UnsubscribeAsync(subscription.Data)` |
+Futures discovery covers linear and inverse perpetuals and delivery contracts, excluding spot indices. Inspect trading mode, `ContractSize`, `QuantityDecimals`, price steps, delivery time, and tradeability. Shared Futures order quantities use `SharedQuantityType.Contracts` and `SharedOrderQuantity.QuantityInContracts`; the adapter sends this value as native `quantity` (`size`). Do not substitute base-asset quantity or assume all futures contracts have equal value. Spot order quantities normally represent base assets; inspect supported quantity options when using quote-volume features.
+
+## Checkout-only sources
+
+- [Public interfaces](../../../../Kraken.Net/Interfaces/Clients/): signatures, parameters, and cancellation tokens.
+- [Client implementations](../../../../Kraken.Net/Clients/): Shared options, symbol classification, and conversions.
+- [Complete examples](../../../../Examples/ai-friendly/): independent consumer programs.
