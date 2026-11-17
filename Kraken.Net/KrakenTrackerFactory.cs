@@ -48,8 +48,8 @@ namespace Kraken.Net
         /// <inheritdoc />
         public IKlineTracker CreateKlineTracker(SharedSymbol symbol, SharedKlineInterval interval, int? limit = null, TimeSpan? period = null, ExchangeParameters? exchangeParameters = null)
         {
-            var restClient = (_serviceProvider?.GetRequiredService<IKrakenRestClient>() ?? new KrakenRestClient()).SpotApi.SharedClient;
-            var socketClient = (_serviceProvider?.GetRequiredService<IKrakenSocketClient>() ?? new KrakenSocketClient()).SpotApi.SharedClient;
+            var restClient = (_serviceProvider?.GetRequiredService<IKrakenRestClient>() ?? new KrakenRestClient()).SpotApi.SharedApi;
+            var socketClient = (_serviceProvider?.GetRequiredService<IKrakenSocketClient>() ?? new KrakenSocketClient()).SpotApi.SharedApi;
 
             return new KlineTracker(
                 _serviceProvider?.GetRequiredService<ILoggerFactory>().CreateLogger(restClient.Exchange),
@@ -68,17 +68,17 @@ namespace Kraken.Net
             var restClient = _serviceProvider?.GetRequiredService<IKrakenRestClient>() ?? new KrakenRestClient();
             var socketClient = _serviceProvider?.GetRequiredService<IKrakenSocketClient>() ?? new KrakenSocketClient();
 
-            IRecentTradeRestClient? sharedRestClient;
-            ITradeSocketClient sharedSocketClient;
+            IGetRecentTradesRest? sharedRestClient;
+            ISubscribeTradesSocket sharedSocketClient;
             if (symbol.TradingMode == TradingMode.Spot)
             {
-                sharedRestClient = restClient.SpotApi.SharedClient;
-                sharedSocketClient = socketClient.SpotApi.SharedClient;
+                sharedRestClient = restClient.SpotApi.SharedApi;
+                sharedSocketClient = socketClient.SpotApi.SharedApi;
             }
             else
             {
-                sharedRestClient = restClient.FuturesApi.SharedClient;
-                sharedSocketClient = socketClient.FuturesApi.SharedClient;
+                sharedRestClient = restClient.FuturesApi.SharedApi;
+                sharedSocketClient = socketClient.FuturesApi.SharedApi;
             }
 
             return new TradeTracker(
