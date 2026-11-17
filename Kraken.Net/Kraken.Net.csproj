@@ -18,7 +18,7 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>Kraken;KrakenExchange.Net;Kraken.com;Kraken.Net;Kraken Client;Kraken API;CryptoCurrency;CryptoCurrency Exchange;CryptoExchange.Net;ccxt</PackageTags>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/JKorf/KrakenExchange.Net.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/JKorf/Kraken.Net.git</RepositoryUrl>
     <PackageProjectUrl>https://github.com/JKorf/Kraken.Net</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
