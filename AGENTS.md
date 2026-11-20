@@ -1,230 +1,51 @@
----
-name: kraken-net
-description: Use Kraken.Net when generating C#/.NET code that interacts with the Kraken cryptocurrency exchange, including Spot REST, Spot WebSocket v2, Futures REST, Futures WebSocket, account data, market data, order placement, Kraken Earn, local order books, dependency injection, or CryptoExchange.Net SharedApis. Triggers on requests mentioning Kraken integration in C#, .NET, dotnet, F#, or VB.NET context.
----
+# Working on Kraken.Net
 
-# Kraken.Net Skill
+For library development, use this file. For code that consumes the library, read the [Kraken.Net skill](.claude/skills/kraken-net/SKILL.md). [llms.txt](llms.txt) indexes the remaining documentation.
 
-## Quick decision
+## Repository layout
 
-If the user asks for Kraken API access in C#/.NET, **use Kraken.Net**. Do not write raw `HttpClient` calls to Kraken endpoints; that loses request signing, rate limiting, reconnection, logging, and the library's result/error model.
+- [Client interfaces](Kraken.Net/Interfaces/Clients/): public endpoint signatures and XML documentation.
+- [Clients](Kraken.Net/Clients/): REST, WebSocket, and Shared API implementations, grouped by API and transport.
+- [Models](Kraken.Net/Objects/Models/), [options](Kraken.Net/Objects/Options/), and [enums](Kraken.Net/Enums/): wire models and configuration.
+- [Unit tests](Kraken.Net.UnitTests/): request/response fixtures, subscription validation, and example compilation.
+- [AI-friendly examples](Examples/ai-friendly/): complete consumer programs.
 
-Use the exchange-level `IKrakenSharedApiClient` aggregate's `GetCapability(...)` or `GetCapabilities(...)` methods for runtime capability lookup; use an API surface's `.SharedApi` property when the transport and API are known.
+## Build and validation
 
-## Installation
+Run commands from the repository root. Use the SDK configured in the [build workflow](.github/workflows/dotnet.yml); targets and dependencies are defined in the [library project](Kraken.Net/Kraken.Net.csproj).
 
-```bash
-dotnet add package KrakenExchange.Net
+```sh
+dotnet restore Kraken.Net.sln
+dotnet build Kraken.Net.sln --no-restore
+dotnet test Kraken.Net.UnitTests/Kraken.Net.UnitTests.csproj --no-build --filter "FullyQualifiedName!~IntegrationTests"
 ```
 
-Package id: `KrakenExchange.Net`. Main namespace/client name: `Kraken.Net`. Current repository package version: 8.7.0. Targets netstandard2.0, netstandard2.1, net8.0, net9.0, and net10.0. Native AOT is supported.
+Debug builds select a subset of frameworks. To check every supported target:
 
-## Core Pattern: REST Client Setup
-
-```csharp
-using CryptoExchange.Net.Authentication;
-using Kraken.Net;
-using Kraken.Net.Clients;
-
-var restClient = new KrakenRestClient(options =>
-{
-    options.ApiCredentials = new KrakenCredentials(
-        new HMACCredential("SPOT_KEY", "SPOT_SECRET"),
-        new HMACCredential("FUTURES_KEY", "FUTURES_SECRET"));
-});
+```sh
+dotnet build Kraken.Net/Kraken.Net.csproj -p:BuildAllFrameworks=true
 ```
 
-For public market data:
+Run focused tests for the change. For edits to consumer examples:
 
-```csharp
-var publicClient = new KrakenRestClient();
+```sh
+dotnet test Kraken.Net.UnitTests/Kraken.Net.UnitTests.csproj --filter FullyQualifiedName~AiExampleCompileTests
 ```
 
-## Core Pattern: Result Handling
+That test compiles the examples; it does not execute their exchange operations or validate Markdown snippets. The normal test command above excludes integration fixtures. Native REST and socket integration fixtures have `Run = false`; Shared REST integration can be enabled with `INTEGRATION=1`. Inspect integration fixtures before running the unfiltered CI test command; they can contact the exchange. Do not enable authenticated exchange calls as part of routine validation.
 
-Every REST method returns `HttpResult<T>` or `HttpResult`; WebSocket subscriptions return `WebSocketResult<UpdateSubscription>`; Spot WebSocket request/response methods return `QueryResult<T>`; shared symbol/cache helpers can return `ExchangeCallResult<T>`. Always check `.Success` before accessing `.Data`.
+## Implementation conventions
 
-```csharp
-var ticker = await restClient.SpotApi.ExchangeData.GetTickerAsync("ETHUSDT");
-if (!ticker.Success)
-{
-    Console.WriteLine($"Error: {ticker.Error}");
-    return;
-}
+- Use the matching client interface and a neighboring endpoint implementation as the starting point. Preserve endpoint metadata, serialization, signing, rate limits, and cancellation behavior.
+- Update public interfaces and XML documentation together with implementations. Add meaningful request/response or subscription coverage when behavior changes.
+- Keep Shared API adapters consistent with native endpoint behavior; verify capability support and trading modes against the implemented surface.
+- Preserve serialization compatibility and source-generated JSON metadata when changing models.
+- Keep changes compatible with every target in the library project; gate framework-specific APIs where required.
 
-var lastPrice = ticker.Data.Values.First().LastTrade.Price;
-```
+## AI documentation ownership
 
-## Core Pattern: API Surface
-
-```csharp
-restClient.SpotApi.ExchangeData     // server time, status, assets, symbols, tickers, klines, order book, trades
-restClient.SpotApi.Account          // balances, ledgers, deposits, withdrawals, transfers, API key info
-restClient.SpotApi.Trading          // open/closed orders, order query, user trades, place/edit/cancel
-restClient.SpotApi.Earn             // Earn strategies and allocations
-
-restClient.FuturesApi.ExchangeData  // symbols, tickers, klines, order book, funding, trades
-restClient.FuturesApi.Account       // balances, logs, PNL currency, transfers, fee volume, margin requirements
-restClient.FuturesApi.Trading       // orders, positions, leverage, fills, history
-
-socketClient.SpotApi                // Spot WebSocket v2 subscriptions and socket order requests
-socketClient.FuturesApi             // Futures WebSocket subscriptions
-```
-
-## Symbol Formats
-
-Spot REST methods use Kraken REST pair names such as `ETHUSDT`.
-
-Spot WebSocket v2 methods use WebSocket names such as `ETH/USDT`. To avoid guessing, call:
-
-```csharp
-var symbols = await restClient.SpotApi.ExchangeData.GetSymbolsAsync(new[] { "ETHUSDT" });
-var wsName = symbols.Data.Values.First().WebsocketName;
-```
-
-Futures methods use symbols such as `PF_ETHUSD`.
-
-## Spot Order Example
-
-```csharp
-using CryptoExchange.Net.Authentication;
-using Kraken.Net;
-using Kraken.Net.Clients;
-using Kraken.Net.Enums;
-
-var client = new KrakenRestClient(options =>
-{
-    options.ApiCredentials = new KrakenCredentials(
-        new HMACCredential("SPOT_KEY", "SPOT_SECRET"),
-        null);
-});
-
-var order = await client.SpotApi.Trading.PlaceOrderAsync(
-    symbol: "ETHUSDT",
-    side: OrderSide.Buy,
-    type: OrderType.Limit,
-    quantity: 0.1m,
-    price: 2000m);
-
-if (!order.Success)
-{
-    Console.WriteLine(order.Error);
-    return;
-}
-```
-
-Use `validateOnly: true` when demonstrating order placement without submitting a live order.
-
-## Futures Order Example
-
-```csharp
-using CryptoExchange.Net.Authentication;
-using Kraken.Net;
-using Kraken.Net.Clients;
-using Kraken.Net.Enums;
-
-var client = new KrakenRestClient(options =>
-{
-    options.ApiCredentials = new KrakenCredentials(
-        null,
-        new HMACCredential("FUTURES_KEY", "FUTURES_SECRET"));
-});
-
-await client.FuturesApi.Trading.SetLeverageAsync("PF_ETHUSD", 5);
-
-var order = await client.FuturesApi.Trading.PlaceOrderAsync(
-    symbol: "PF_ETHUSD",
-    side: OrderSide.Buy,
-    type: FuturesOrderType.Limit,
-    quantity: 0.1m,
-    price: 2000m);
-```
-
-Use `reduceOnly: true` for closing/reducing futures exposure.
-
-## WebSocket Subscriptions
-
-Use `KrakenSocketClient`. Store the returned `UpdateSubscription` and unsubscribe on shutdown.
-
-```csharp
-using Kraken.Net.Clients;
-
-var socketClient = new KrakenSocketClient();
-
-var subscription = await socketClient.SpotApi.SubscribeToTickerUpdatesAsync(
-    "ETH/USDT",
-    update => Console.WriteLine(update.Data.LastPrice));
-
-if (!subscription.Success)
-{
-    Console.WriteLine(subscription.Error);
-    return;
-}
-
-await socketClient.UnsubscribeAsync(subscription.Data);
-```
-
-Authenticated Spot streams include `SubscribeToBalanceUpdatesAsync` and `SubscribeToOrderUpdatesAsync`. Futures authenticated streams include balance, account log, open orders, open position, and user trade subscriptions.
-
-## Multi-Exchange via CryptoExchange.Net.SharedApis
-
-```csharp
-using CryptoExchange.Net.SharedApis;
-using Kraken.Net.Clients;
-
-var shared = new KrakenRestClient().SpotApi.SharedApi;
-// Use the exchange-level `IKrakenSharedApiClient` aggregate's `GetCapability(...)` or `GetCapabilities(...)` methods for runtime capability lookup; use an API surface's `.SharedApi` property when the transport and API are known.
-var ticker = await shared.GetTickerAsync(
-    new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "ETH", "USDT")));
-```
-
-The shared Spot and Futures symbol clients expose `SpotSymbolCatalog` and `FuturesSymbolCatalog` after symbols have been loaded. Shared symbol results identify crypto, fiat, and tokenized TradFi assets; Spot symbol discovery includes Kraken tokenized assets.
-
-The Spot socket shared client implements `IPlaceSpotOrderSocket` and `ICancelSpotOrderSocket` for exchange-agnostic `PlaceSpotOrderAsync` and `CancelSpotOrderAsync` requests. These request/response operations return `QueryResult<SharedId>`.
-
-Shared clients are available on:
-
-```text
-new KrakenRestClient().SpotApi.SharedApi
-new KrakenRestClient().FuturesApi.SharedApi
-new KrakenSocketClient().SpotApi.SharedApi
-new KrakenSocketClient().FuturesApi.SharedApi
-```
-
-## Dependency Injection
-
-```csharp
-using CryptoExchange.Net.Authentication;
-using Kraken.Net;
-
-services.AddKraken(options =>
-{
-    options.ApiCredentials = new KrakenCredentials(
-        new HMACCredential("SPOT_KEY", "SPOT_SECRET"),
-        new HMACCredential("FUTURES_KEY", "FUTURES_SECRET"));
-});
-```
-
-Inject `IKrakenRestClient` and `IKrakenSocketClient`.
-
-## Common Pitfalls - AVOID
-
-- Do not use raw `HttpClient` to call Kraken endpoints.
-- Do not use generic `ApiCredentials` for new examples; use `KrakenCredentials` with Spot/Futures `HMACCredential` values.
-- Do not assume Spot and Futures credentials are interchangeable. Kraken supports separate credentials.
-- Do not assume there is a Kraken testnet environment in this library. Only `KrakenEnvironment.Live` is built in; use `CreateCustom(...)` if needed.
-- Do not use Spot REST symbols for Spot WebSocket subscriptions without checking the `WebsocketName`.
-- Do not read `.Data` without checking `.Success`.
-- Do not block async calls with `.Result` or `.Wait()`.
-- Do not instantiate clients per request in production.
-- Do not forget to unsubscribe WebSocket subscriptions.
-- Do not invent method names; inspect `Kraken.Net/Interfaces/Clients/**`.
-
-## Reference
-
-- Full client reference: https://cryptoexchange.jkorf.dev/Kraken.Net/
-- API quick map: `docs/ai-api-map.md`
-- Examples: `Examples/ai-friendly/`
-- Source: https://github.com/JKorf/Kraken.Net
-- NuGet: https://www.nuget.org/packages/KrakenExchange.Net
-- Discord: https://discord.gg/MSpeEtSY8t
+- [SKILL.md](.claude/skills/kraken-net/SKILL.md) owns consumer conventions and routes to detailed skill references.
+- [API surfaces](.claude/skills/kraken-net/references/api-surfaces.md) owns endpoint routing; [usage](.claude/skills/kraken-net/references/usage.md) owns snippets.
+- Link to those files instead of repeating API guides here or in tool-specific instructions.
+- Keep skill links relative. References outside the skill are checkout-only; packaged guidance must remain usable without repository sources.
+- The project packs [.claude/skills](.claude/skills/) into `skills/` in NuGet. After changing its layout, inspect package entries and verify referenced resources are included.

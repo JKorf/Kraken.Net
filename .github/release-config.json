@@ -1,0 +1,18 @@
+{
+  "baseBranch": "master",
+  "sdk": "11.0.100",
+  "packages": [
+    {
+      "key": "kraken",
+      "project": "Kraken.Net/Kraken.Net.csproj",
+      "testProjects": [
+        "Kraken.Net.UnitTests/Kraken.Net.UnitTests.csproj"
+      ],
+      "packageId": "KrakenExchange.Net",
+      "readme": "README.md",
+      "tagPrefix": "Kraken.Net.",
+      "releaseIntegrationTests": false,
+      "publishToGitHubPackages": true
+    }
+  ]
+}

@@ -1,39 +1,52 @@
-using CryptoExchange.Net.SharedApis;
+// Demonstrates portable REST and socket ticker capabilities through Shared API V2.
+// Setup: dotnet add package KrakenExchange.Net
+
 using Kraken.Net.Clients;
+using CryptoExchange.Net.SharedApis;
 
-// SharedApis let application code target common exchange capabilities.
-// The concrete Kraken client still owns transport, auth, rate limiting, and unsubscription.
-var restClient = new KrakenRestClient();
+using var restClient = new KrakenRestClient();
+IGetTickerRest ticker = restClient.SpotApi.SharedApi;
+var symbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
+await PrintTickerAsync(ticker, symbol);
 
-ISpotTickerRestClient spotTickerClient = restClient.SpotApi.SharedClient;
-var capabilities = restClient.SpotApi.SharedClient.Discover();
-Console.WriteLine($"Shared REST features: {capabilities.Features.Count(x => x.Supported)}");
-
-var spotSymbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
-
-var ticker = await spotTickerClient.GetSpotTickerAsync(new GetTickerRequest(spotSymbol));
-if (!ticker.Success)
+IGetSpotSymbolsRest symbolsClient = restClient.SpotApi.SharedApi;
+var symbols = await symbolsClient.GetSpotSymbolsAsync(new GetSymbolsRequest());
+if (!symbols.Success)
 {
-    Console.WriteLine($"Shared spot ticker failed: {ticker.Error}");
+    Console.WriteLine(symbols.Error);
     return;
 }
+foreach (var item in symbols.Data.Take(5))
+    Console.WriteLine($"{item.Name}: {item.BaseAsset}/{item.QuoteAsset}");
+var catalog = symbolsClient.SpotSymbolCatalog;
 
-Console.WriteLine($"Shared spot ticker last price: {ticker.Data.LastPrice}");
-
-var socketClient = new KrakenSocketClient();
-ITickerSocketClient tickerSocket = socketClient.SpotApi.SharedClient;
-
+using var socketClient = new KrakenSocketClient();
+ISubscribeTickerSocket tickerSocket = socketClient.SpotApi.SharedApi;
 var subscription = await tickerSocket.SubscribeToTickerUpdatesAsync(
-    new SubscribeTickerRequest(spotSymbol),
-    update => Console.WriteLine($"Shared ticker update: {update.Data.LastPrice}"));
-
+    new SubscribeTickerRequest(symbol),
+    update => Console.WriteLine(update.Data.LastPrice));
 if (!subscription.Success)
 {
-    Console.WriteLine($"Shared ticker subscription failed: {subscription.Error}");
+    Console.WriteLine(subscription.Error);
     return;
 }
+try
+{
+    await Task.Delay(TimeSpan.FromSeconds(30));
+}
+finally
+{
+    await socketClient.UnsubscribeAsync(subscription.Data);
+}
 
-Console.WriteLine("Shared subscription active. Press enter to unsubscribe.");
-Console.ReadLine();
-
-await socketClient.UnsubscribeAsync(subscription.Data);
+// Another exchange can supply IGetTickerRest without changing this function.
+static async Task PrintTickerAsync(IGetTickerRest client, SharedSymbol symbol)
+{
+    var result = await client.GetTickerAsync(new GetTickerRequest(symbol));
+    if (!result.Success)
+    {
+        Console.WriteLine(result.Error);
+        return;
+    }
+    Console.WriteLine($"{result.Data.Symbol}: {result.Data.LastPrice}");
+}

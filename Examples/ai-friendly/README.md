@@ -1,29 +1,15 @@
-# AI-Friendly Examples
+# Kraken.Net examples
 
-These examples are optimized for AI coding assistants and quick onboarding. Each file is:
+Each file is an independent console program. Install `KrakenExchange.Net` in a console project, then copy one program to `Program.cs`.
 
-- **Compilable** - drop into a console project with `dotnet add package KrakenExchange.Net` and it builds.
-- **Self-contained** - single file, no external setup, no shared helpers.
-- **Heavily commented** - explains why each line is there, not just what it does.
-- **Idiomatic** - follows current Kraken.Net 7.x patterns.
-
-## Files
-
-| File | What it shows |
+| Program | Workflow |
 |---|---|
-| `01-spot-quickstart.cs` | Client setup, public ticker, authenticated balances, validate-only limit order, order lookup |
-| `02-futures.cs` | Futures market data, balances, leverage, order placement shape, open positions |
-| `03-websocket.cs` | Spot and Futures WebSocket subscriptions with proper teardown |
-| `04-multi-exchange.cs` | `CryptoExchange.Net.SharedApis` pattern and shared capability discovery |
-| `05-error-handling.cs` | `HttpResult`, `WebSocketResult`, `QueryResult`, and `ExchangeCallResult` handling patterns |
+| [01-spot-quickstart.cs](01-spot-quickstart.cs) | Public ticker, Spot credentials/balances, order validation, and order query |
+| [02-futures.cs](02-futures.cs) | Futures data, credentials/balances, leverage, order submission, and positions |
+| [03-websocket.cs](03-websocket.cs) | Spot/Futures subscriptions and cleanup |
+| [04-multi-exchange.cs](04-multi-exchange.cs) | Shared API V2 ticker capabilities, symbol catalog, and subscription |
+| [05-error-handling.cs](05-error-handling.cs) | Result checks, symbol mapping, and bounded public-read retries |
 
-## Running
+Replace credential placeholders only for the intended account operations. The Futures program changes leverage and submits a live order when executed. The Spot program uses validation-only placement and later queries a placeholder live order id. Review [operational considerations](../../.claude/skills/kraken-net/references/safety.md) before executing account operations.
 
-```bash
-dotnet new console -n MyKrakenApp
-cd MyKrakenApp
-dotnet add package KrakenExchange.Net
-# Copy the example .cs file content into Program.cs
-# Replace API key placeholders for authenticated examples
-dotnet run
-```
+The repository's `AiExampleCompileTests` compiles all five programs without executing exchange calls. See the [consumer skill](../../.claude/skills/kraken-net/SKILL.md) and [usage snippets](../../.claude/skills/kraken-net/references/usage.md) for focused patterns.

@@ -1,7 +1,7 @@
 using Kraken.Net.Clients;
 using Kraken.Net.Enums;
 
-var socketClient = new KrakenSocketClient();
+using var socketClient = new KrakenSocketClient();
 
 // Subscription methods return WebSocketResult<UpdateSubscription>.
 // Spot WebSocket v2 uses WebSocket symbol names such as ETH/USDT.

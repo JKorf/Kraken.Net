@@ -1,20 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0;net10.0;netstandard2.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0;net10.0;net11.0;netstandard2.0;netstandard2.1</TargetFrameworks>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug' and '$(BuildAllFrameworks)' != 'true'">
+    <TargetFrameworks>netstandard2.0;net11.0</TargetFrameworks>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
   <PropertyGroup>
     <PackageId>KrakenExchange.Net</PackageId>
     <Authors>JKorf</Authors>
-    <PackageVersion>8.7.0</PackageVersion>
-    <AssemblyVersion>8.7.0</AssemblyVersion>
-    <FileVersion>8.7.0</FileVersion>
+    <PackageVersion>8.8.1</PackageVersion>
+    <AssemblyVersion>8.8.1</AssemblyVersion>
+    <FileVersion>8.8.1</FileVersion>
     <Description>A high-performance .NET client library for the Kraken REST and WebSocket APIs, providing strongly typed models, automatic WebSocket reconnection, client-side rate limiting, local order book support, and seamless integration with other CryptoExchange.Net based clients.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>Kraken;KrakenExchange.Net;Kraken.com;Kraken.Net;Kraken Client;Kraken API;CryptoCurrency;CryptoCurrency Exchange;CryptoExchange.Net;ccxt</PackageTags>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/JKorf/KrakenExchange.Net.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/JKorf/Kraken.Net.git</RepositoryUrl>
     <PackageProjectUrl>https://github.com/JKorf/Kraken.Net</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
@@ -47,17 +51,18 @@
   <ItemGroup>
     <None Include="Icon\icon.png" Pack="true" PackagePath="\" />
     <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\.claude\skills\**\*" Pack="true" PackagePath="skills\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Crc32.NET" Version="1.2.0" />
+    <PackageReference Include="Crc32.NET" Version="2.1.0" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ConfigureAwaitChecker.Analyzer" Version="5.0.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="CryptoExchange.Net" Version="13.2.2" />
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.101">
+    <PackageReference Include="CryptoExchange.Net" Version="13.3.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="11.0.100">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
