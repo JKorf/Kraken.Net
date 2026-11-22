@@ -127,6 +127,16 @@ namespace Kraken.Net.Enums
         /// ["<c>derivativesfundingratechange</c>"] Futures funding payment
         /// </summary>
         [Map("derivativesfundingratechange")]
-        DerivativesFundingRateChange
+        DerivativesFundingRateChange,
+        /// <summary>
+        /// ["<c>derivativesfuturesliquidation</c>"] Futures liquidation
+        /// </summary>
+        [Map("derivativesfuturesliquidation")]
+        DerivativesFuturesLiquidation,
+        /// <summary>
+        /// ["<c>derivativesfuturespartialliquidation</c>"] Futures partial liquidation
+        /// </summary>
+        [Map("derivativesfuturespartialliquidation")]
+        DerivativesFuturesPartialLiquidation
     }
 }
